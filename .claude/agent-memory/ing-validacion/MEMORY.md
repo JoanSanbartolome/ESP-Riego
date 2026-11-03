@@ -1,0 +1,1 @@
+- [Comprobaciones útiles](comprobaciones-utiles.md): herramientas MCP que escriben por defecto, kicad-cli toca el .kicad_prl, elusiones de la guardia y PostToolUse sin fallos
