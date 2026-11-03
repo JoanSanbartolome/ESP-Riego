@@ -25,6 +25,9 @@ erc_report.json
 firmware/**/secrets.yaml
 firmware/**/.esphome/
 
+# --- Python (herramientas y hooks) ---
+__pycache__/
+
 # --- Sistema ---
 Thumbs.db
 desktop.ini
