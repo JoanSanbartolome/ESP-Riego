@@ -1,1 +1,1 @@
-- [Comprobaciones útiles](comprobaciones-utiles.md): herramientas MCP que escriben por defecto, kicad-cli toca el .kicad_prl, elusiones de la guardia y PostToolUse sin fallos
+- [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros y código del servidor, falsos positivos de guardas MCP, listas negras eludibles, revisar_zonas en %TEMP%, TFG sin copia
