@@ -54,8 +54,8 @@ def objetivo(entrada, cwd):
     for clave, limite in (("command", 300), ("url", 300), ("query", 200), ("skill", 100)):
         if entrada.get(clave):
             return recortar(entrada[clave], limite)
-    compacto = {k: recortar(v, 80) for k, v in entrada.items()}
-    return recortar(json.dumps(compacto, ensure_ascii=False), 400)
+    compacto = {k: recortar(v, 80) if isinstance(v, str) else v for k, v in entrada.items()}
+    return recortar(json.dumps(compacto, ensure_ascii=False, default=str), 400)
 
 
 def exito(respuesta):

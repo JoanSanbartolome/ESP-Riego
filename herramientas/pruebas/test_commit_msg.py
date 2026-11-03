@@ -38,6 +38,7 @@ def preparar():
     git(tmp, "commit", "-q", "-m", "inicio")
     git(tmp, "switch", "-q", "-c", "spec/SPEC-0007-entrada")
     git(tmp, "commit", "-q", "--allow-empty", "-m", "trabajo")
+    (tmp / "gestion" / "logs" / "SPEC-0007" / "02-sin-versionar.md").write_text("log\n", encoding="utf-8")
     return tmp
 
 
@@ -67,6 +68,11 @@ def main():
         ("R11", f"feat(sch): entrada\n\n{t}\nLog: gestion/logs/SPEC-0007/01-ing-esquematicos.md\n", 0),
         ("R12", f"feat(sch): entrada\n\n{t}\nLog: gestion/logs/SPEC-0007/09-nadie.md\n", 1),
         ("R13", f"fixup! feat(sch): entrada\n", 0),
+        # VAL-0001-02-08
+        ("R14", f"feat(sch): entrada\n\n{t}\nLog: gestion/logs/SPEC-0007/02-sin-versionar.md\n", 1),
+        ("R15", f"feat(sch): entrada\n\n{t}\nSpec: SPEC-0009\n", 1),
+        ("R16", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-01, foo\n", 1),
+        ("R17", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-011\n", 1),
     ]
     m = "Spec: SPEC-0007\nValidacion: VAL-0007-01\nRama: spec/SPEC-0007-entrada\nAgente: coordinador"
     en_merge = [

@@ -124,8 +124,12 @@ def main():
         resumen = verificar(cli, sch, pcb, salida)
     finally:
         tocados = restaurar(carpeta, copia)
+        if not args.salida:  # sin --salida, los informes JSON son temporales y no se conservan
+            shutil.rmtree(salida, ignore_errors=True)
     if tocados:
         print(f"kicad-cli tocó el proyecto; se ha dejado como estaba: {', '.join(tocados)}", file=sys.stderr)
+    if not args.salida:
+        resumen["informes"] = None
     imprimir(resumen, args.json)
     sys.exit(0 if resumen["limpio"] else 1)
 
@@ -177,7 +181,8 @@ def imprimir(resumen, como_json):
             print(f"Paridad  {p['total']:>4}")
             for tipo, n in p["por_tipo"].items():
                 print(f"  {n:>4}  {tipo}")
-        print(f"Resultado: {'LIMPIO' if resumen['limpio'] else 'CON INCIDENCIAS'} · informes en {resumen['informes']}")
+        destino = f" · informes en {resumen['informes']}" if resumen["informes"] else ""
+        print(f"Resultado: {'LIMPIO' if resumen['limpio'] else 'CON INCIDENCIAS'}{destino}")
 
 
 if __name__ == "__main__":

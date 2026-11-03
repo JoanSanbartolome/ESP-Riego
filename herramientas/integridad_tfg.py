@@ -38,6 +38,7 @@ def huella():
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     orden = sys.argv[1] if len(sys.argv) > 1 else ""
     if orden not in ("crear", "verificar") or not TFG.is_dir():
         print(__doc__ if TFG.is_dir() else f"No existe la carpeta del TFG: {TFG}", file=sys.stderr)
