@@ -4,8 +4,10 @@ Se declara en el frontmatter de cada agente:
     python "$CLAUDE_PROJECT_DIR/.claude/hooks/auditoria.py" <agente>
 
 Añade una línea JSON por acción a gestion/logs/auditoria/AAAA-MM-DD.jsonl con
-{ts, agente, rama, spec, herramienta, objetivo, ok, sesion}. Nunca bloquea: ante
-cualquier error sale con 0.
+{ts, agente, rama, spec, herramienta, objetivo, ok, sesion}. guardia.py usa
+registrar() para anotar también las acciones bloqueadas (campo `bloqueado`), que
+no llegan a PostToolUse. AUDITORIA_DIR cambia la carpeta (solo para pruebas).
+Nunca bloquea: ante cualquier error sale con 0.
 """
 import datetime
 import json
@@ -67,24 +69,29 @@ def exito(respuesta):
     return True
 
 
-def main():
-    datos = json.loads(sys.stdin.read() or "{}")
+def registrar(agente, datos, **extra):
     rama_actual = rama()
     spec = re.search(r"SPEC-\d{4}", rama_actual)
     registro = {
         "ts": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
-        "agente": sys.argv[1] if len(sys.argv) > 1 else "?",
+        "agente": agente,
         "rama": rama_actual,
         "spec": spec.group(0) if spec else "",
         "herramienta": datos.get("tool_name", ""),
         "objetivo": objetivo(datos.get("tool_input"), datos.get("cwd") or str(RAIZ)),
         "ok": exito(datos.get("tool_response")),
         "sesion": str(datos.get("session_id", ""))[:8],
+        **extra,
     }
-    carpeta = RAIZ / "gestion" / "logs" / "auditoria"
+    carpeta = Path(os.environ.get("AUDITORIA_DIR") or RAIZ / "gestion" / "logs" / "auditoria")
     carpeta.mkdir(parents=True, exist_ok=True)
     with open(carpeta / f"{datetime.date.today().isoformat()}.jsonl", "a", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(registro, ensure_ascii=False) + "\n")
+
+
+def main():
+    datos = json.loads(sys.stdin.read() or "{}")
+    registrar(sys.argv[1] if len(sys.argv) > 1 else "?", datos)
 
 
 if __name__ == "__main__":

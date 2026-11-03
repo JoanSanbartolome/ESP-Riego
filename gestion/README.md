@@ -92,7 +92,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 
 | Hook | Cuándo | Qué hace |
 |---|---|---|
-| `.claude/hooks/guardia.py` | Antes de `Bash`, `PowerShell`, `Write`, `Edit` de un agente | Bloquea git de escritura, escrituras fuera de la zona del agente y comandos destructivos sobre la carpeta del TFG |
+| `.claude/hooks/guardia.py` | Antes de `Bash`, `PowerShell`, `Write`, `Edit` de un agente | Bloquea git de escritura, escrituras fuera de la zona del agente y comandos destructivos sobre la carpeta del TFG. Cada bloqueo queda en la auditoría con `ok: false` y el motivo en `bloqueado` |
 | `.claude/hooks/auditoria.py` | Después de cada acción relevante de un agente | Añade `{ts, agente, rama, spec, herramienta, objetivo, ok}` al JSONL del día |
 | `.githooks/commit-msg` | En cada commit | Formato del asunto y trailers obligatorios |
 | `.claude/settings.json` | `git push` | Pide confirmación al usuario |

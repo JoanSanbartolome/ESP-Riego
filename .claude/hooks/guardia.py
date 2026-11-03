@@ -9,7 +9,8 @@ al agente) cuando:
 - Write/Edit/NotebookEdit apunta fuera de la zona del agente;
 - un comando modifica la carpeta del proyecto del TFG o la configuración del sistema
   (.claude/agents, .claude/hooks, .claude/settings*, .githooks, .git).
-Si la propia guarda falla, bloquea (falla en cerrado) y lo dice.
+Cada bloqueo queda también en el registro de auditoría con `ok: false` y el motivo
+en `bloqueado`. Si la propia guarda falla, bloquea (falla en cerrado) y lo dice.
 """
 import json
 import os
@@ -198,6 +199,12 @@ def main():
         motivo = motivo_comando(entrada.get("command", ""))
         consejo = "Indica en tu respuesta lo que necesitas y el coordinador lo hará."
     if motivo:
+        try:  # los bloqueos no llegan a PostToolUse: se registran aquí
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            import auditoria
+            auditoria.registrar(agente or "?", datos, ok=False, bloqueado=motivo)
+        except Exception:
+            pass  # el bloqueo no depende de que el registro funcione
         print(f"BLOQUEADO por la guardia ({agente or 'agente desconocido'}): {motivo}. {consejo}",
               file=sys.stderr)
         sys.exit(2)
