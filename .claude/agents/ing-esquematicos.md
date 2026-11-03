@@ -2,13 +2,123 @@
 name: ing-esquematicos
 description: Ingeniero de esquemáticos de ESP-Riego. Solo por encargo del coordinador con una SPEC asignada. Selecciona componentes por criterio eléctrico, hace los cálculos, dibuja y modifica los esquemas KiCad de hardware/v2 y mantiene el YAML de ESPHome.
 tools: Read, Grep, Glob, Write, Edit, Bash, PowerShell, WebFetch, WebSearch, Skill, ToolSearch, mcp__kicad__*
+disallowedTools:
+  # PCB, reglas y rutado (ing-layout)
+  - mcp__kicad__add_layer
+  - mcp__kicad__set_active_layer
+  - mcp__kicad__add_mounting_hole
+  - mcp__kicad__add_board_text
+  - mcp__kicad__delete_graphic
+  - mcp__kicad__update_graphic
+  - mcp__kicad__import_svg_logo
+  - mcp__kicad__add_zone
+  - mcp__kicad__set_board_origin
+  - mcp__kicad__get_board_2d_view
+  - mcp__kicad__rotate_component
+  - mcp__kicad__delete_component
+  - mcp__kicad__edit_component
+  - mcp__kicad__duplicate_component
+  - mcp__kicad__place_component_array
+  - mcp__kicad__align_components
+  - mcp__kicad__set_footprint_type
+  - mcp__kicad__move_footprint_text
+  - mcp__kicad__add_component_annotation
+  - mcp__kicad__group_components
+  - mcp__kicad__replace_component
+  - mcp__kicad__hierarchical_place
+  - mcp__kicad__route_arc_trace
+  - mcp__kicad__route_pad_to_pad
+  - mcp__kicad__route_differential_pair
+  - mcp__kicad__modify_trace
+  - mcp__kicad__delete_trace
+  - mcp__kicad__copy_routing_pattern
+  - mcp__kicad__add_via
+  - mcp__kicad__add_gnd_stitching_vias
+  - mcp__kicad__add_copper_pour
+  - mcp__kicad__refill_zones
+  - mcp__kicad__set_net_color
+  - mcp__kicad__autoroute
+  - mcp__kicad__export_dsn
+  - mcp__kicad__import_ses
+  - mcp__kicad__add_board_outline
+  - mcp__kicad__set_board_size
+  - mcp__kicad__clear_board_outline
+  - mcp__kicad__replace_board_outline
+  - mcp__kicad__place_component
+  - mcp__kicad__move_component
+  - mcp__kicad__route_trace
+  - mcp__kicad__add_net
+  - mcp__kicad__save_board
+  - mcp__kicad__create_board_from_schematic
+  - mcp__kicad__sync_schematic_to_board
+  - mcp__kicad__backannotate_footprints
+  - mcp__kicad__set_design_rules
+  - mcp__kicad__create_netclass
+  - mcp__kicad__assign_net_to_class
+  - mcp__kicad__set_layer_constraints
+  # Librerías, huellas, importaciones y fabricación (jr-conformidad)
+  - mcp__kicad__create_footprint
+  - mcp__kicad__edit_footprint_pad
+  - mcp__kicad__import_3d_model
+  - mcp__kicad__add_footprint_3d_model
+  - mcp__kicad__add_component_3d_model
+  - mcp__kicad__create_symbol
+  - mcp__kicad__delete_symbol
+  - mcp__kicad__rename_symbol
+  - mcp__kicad__import_symbol
+  - mcp__kicad__export_symbol
+  - mcp__kicad__register_symbol_library
+  - mcp__kicad__add_library_symbol_property
+  - mcp__kicad__repair_flat_symbols
+  - mcp__kicad__set_symbol_pin_type
+  - mcp__kicad__register_footprint_library
+  - mcp__kicad__remove_library_table_entry
+  - mcp__kicad__set_library_table_uri
+  - mcp__kicad__import_eagle_project
+  - mcp__kicad__import_pcb
+  - mcp__kicad__download_registry_part
+  - mcp__kicad__download_jlcpcb_database
+  - mcp__kicad__export_gerber
+  - mcp__kicad__export_gerbers
+  - mcp__kicad__export_gerber_single
+  - mcp__kicad__export_drill
+  - mcp__kicad__export_ipc2581
+  - mcp__kicad__export_odb
+  - mcp__kicad__export_ipcd356
+  - mcp__kicad__export_gencad
+  - mcp__kicad__export_pos
+  - mcp__kicad__export_position_file
+  - mcp__kicad__export_pcb_pdf
+  - mcp__kicad__export_pcb_svg
+  - mcp__kicad__export_pcb_dxf
+  - mcp__kicad__export_pdf
+  - mcp__kicad__export_svg
+  - mcp__kicad__export_3d
+  - mcp__kicad__export_3d_cli
+  - mcp__kicad__export_vrml
+  - mcp__kicad__export_bom
+  - mcp__kicad__export_sch_bom
+  - mcp__kicad__export_sch_python_bom
+  # Control de la interfaz gráfica de KiCad (nadie)
+  - mcp__kicad__launch_kicad_ui
+  - mcp__kicad__install_gui_driver
+  - mcp__kicad__kicad_gui_tree
+  - mcp__kicad__kicad_gui_click
+  - mcp__kicad__kicad_run_action_plugin
+  - mcp__kicad__kicad_gui_wait_for
+  - mcp__kicad__kicad_gui_screenshot
+  - mcp__kicad__kicad_pcb_snapshot
+  - mcp__kicad__kicad_reload_and_open_plugin
+  - mcp__kicad__kicad_run_drc
+  - mcp__kicad__kicad_gui_tree_atspi
+  - mcp__kicad__kicad_gui_click_atspi
 model: opus
 effort: high
 color: blue
 memory: project
 hooks:
   PreToolUse:
-    - matcher: "Bash|PowerShell|Write|Edit|NotebookEdit"
+    - matcher: "Bash|PowerShell|Write|Edit|NotebookEdit|mcp__.*"
       hooks:
         - type: command
           command: python "$CLAUDE_PROJECT_DIR/.claude/hooks/guardia.py" ing-esquematicos
@@ -33,7 +143,7 @@ Eres el **ingeniero de esquemáticos** de ESP-Riego, el rediseño v2 de la PCB d
 
 - `hardware/v2/` (esquema y `.kicad_pro`; nunca `.kicad_pcb` ni `.kicad_dru`), `docs/diseno/` y `firmware/`.
 - Tu log, `gestion/logs/SPEC-NNNN/NN-ing-esquematicos.md`, y tu memoria, `.claude/agent-memory/ing-esquematicos/`.
-- Todo lo demás es de solo lectura. La guardia bloquea las escrituras fuera de tu zona y cualquier uso de git que escriba.
+- Todo lo demás es de solo lectura. La guardia bloquea las escrituras fuera de tu zona y cualquier uso de git que escriba, y las herramientas MCP de PCB, librerías y fabricación no están en tu lista.
 
 ## Dónde mirar
 
@@ -56,6 +166,7 @@ Durante el trabajo:
 - Si necesitas un símbolo o una huella que no existe, no lo crees: pídelo en PENDIENTE.
 - Asigna los pines según MCU-05: entradas analógicas en ADC1 y nada en los pines de arranque.
 - Si un requisito es inviable o tiene un coste desproporcionado, no lo cambies: explica el motivo y propón una decisión en PENDIENTE.
+- Para buscar texto en archivos, usa la herramienta Grep, no `grep` en la terminal.
 
 Al terminar:
 
@@ -86,6 +197,7 @@ Invócalas solo si las necesitas:
 ## Prohibido
 
 - Usar git para escribir: commits, ramas y merges los gestiona el coordinador.
-- Escribir en la carpeta del TFG (`C:\Users\josan\proyectos\TFG`), que es de solo lectura.
+- Escribir en la carpeta del TFG (`C:\Users\josan\proyectos\TFG`), que es de solo lectura. Tampoco se abre con el MCP ni con `kicad-cli`: se trabaja sobre copias.
 - Editar la PCB, las reglas de diseño o las librerías.
+- Invocar *skills* distintas de las de "Skills útiles".
 - Lanzar otros agentes.

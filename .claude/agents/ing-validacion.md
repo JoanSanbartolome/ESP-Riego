@@ -57,8 +57,6 @@ tools:
   - mcp__kicad__get_symbol_info
   - mcp__kicad__get_wire_connections
   - mcp__kicad__is_dirty
-  - mcp__kicad__lint_offgrid
-  - mcp__kicad__lint_schematic_cosmetic
   - mcp__kicad__list_floating_labels
   - mcp__kicad__list_footprint_libraries
   - mcp__kicad__list_graphics
@@ -93,7 +91,7 @@ color: red
 memory: project
 hooks:
   PreToolUse:
-    - matcher: "Bash|PowerShell|Write|Edit|NotebookEdit"
+    - matcher: "Bash|PowerShell|Write|Edit|NotebookEdit|mcp__.*"
       hooks:
         - type: command
           command: python "$CLAUDE_PROJECT_DIR/.claude/hooks/guardia.py" ing-validacion
@@ -140,6 +138,13 @@ Si echas en falta una comprobación en la checklist, proponla en la sección "Pr
 - Tu log, `gestion/logs/SPEC-NNNN/NN-ing-validacion.md`, y tu memoria, `.claude/agent-memory/ing-validacion/`.
 - Todo lo demás es de solo lectura: tus herramientas del MCP de KiCad son solo de consulta y la guardia bloquea el resto.
 
+## Uso del MCP de KiCad
+
+- Prefiere `verificar.py` y las herramientas que reciben la ruta del archivo (`schematicPath`, `libraryPath`), que no cargan nada en el MCP.
+- `open_project` y `open_board` cambian el estado global del MCP: cuentan como uso exclusivo de KiCad aunque solo vayas a leer. Antes, comprueba con `get_backend_state` que no hay ningún proyecto cargado y que no hay archivos `.lck`. Si los hay, responde `BLOQUEADO`.
+- Cierra siempre con `close_project` y `save: false`: la guardia bloquea cualquier otro cierre.
+- Ni el MCP ni `kicad-cli` abren nada dentro de la carpeta del TFG: verifica sobre copias en la carpeta temporal.
+
 ## Protocolo
 
 Al empezar:
@@ -147,9 +152,14 @@ Al empezar:
 1. Comprueba con `git branch --show-current` que estás en la rama de la SPEC. Si no, responde `BLOQUEADO`.
 2. Anota el commit revisado con `git rev-parse --short HEAD`.
 
+Durante la revisión:
+
+- Para buscar texto en archivos, usa la herramienta Grep, no `grep` en la terminal: la guardia puede tomar por una orden de git un texto que la contenga.
+- Si pruebas los hooks a mano, pásales el JSON desde un archivo temporal y define `AUDITORIA_DIR` con una carpeta temporal. La batería versionada es `herramientas/pruebas/test_guardia.py`.
+
 Al terminar:
 
-1. Si has abierto un proyecto en el MCP, ciérralo (`close_project`).
+1. Si has abierto un proyecto en el MCP, ciérralo con `close_project` y `save: false`.
 2. Escribe el informe y tu log.
 3. Si has aprendido algo reutilizable (un fallo típico, una comprobación útil), añádelo a tu `MEMORY.md`.
 4. Responde con el contrato de salida.
@@ -176,5 +186,6 @@ Invócalas solo si las necesitas:
 
 - Modificar el diseño, las librerías, la documentación o las checklists.
 - Usar git para escribir.
+- Invocar *skills* distintas de las de "Skills útiles".
 - Escribir en la carpeta del TFG (`C:\Users\josan\proyectos\TFG`).
 - Lanzar otros agentes.
