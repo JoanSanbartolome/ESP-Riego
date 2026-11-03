@@ -10,10 +10,12 @@ al agente) cuando:
 - Write/Edit/NotebookEdit o un comando de la terminal escriben fuera de la zona del
   agente. Las rutas se resuelven de verdad (relativas, ~, /c/..., siguiendo los cd), y
   la carpeta del TFG, la configuración del sistema y la auditoría quedan siempre fuera;
-- un comando o una herramienta del MCP toca la carpeta del TFG de una forma que puede
-  modificarla, incluido kicad-cli, que reescribe el .kicad_prl del proyecto que lee;
-- una herramienta MCP de escritura apunta fuera de hardware/, fabricacion/, docs/diseno/,
-  docs/validacion/, firmware/ o la carpeta temporal;
+- un comando toca la carpeta del TFG (por ruta, por cd o en una tubería) y alguna de sus
+  partes no está en la lista blanca de lectura: lo desconocido se bloquea;
+- una herramienta del MCP recibe una ruta dentro del TFG (el MCP y kicad-cli reescriben
+  archivos del proyecto que leen);
+- un argumento de destino de una herramienta MCP de escritura apunta fuera de hardware/,
+  fabricacion/, docs/diseno/, docs/validacion/, firmware/ o la carpeta temporal;
 - ing-validacion usa una herramienta MCP que guardaría o modificaría el diseño.
 
 Es una red de seguridad, no un sandbox: lo que escribe un script de Python o de
@@ -67,8 +69,34 @@ PREFIJOS = {"&", ".", "sudo", "command", "exec", "time", "env", "nohup", "call"}
 CAMBIO_DIRECTORIO = {"cd", "chdir", "set-location", "sl", "pushd", "push-location"}
 BORRA_O_CREA = {"rm", "rmdir", "del", "erase", "rd", "ri", "remove-item", "mkdir", "md", "ni",
                 "new-item", "touch", "truncate", "tee", "mv", "move", "mi", "move-item", "ren",
-                "rename", "rni", "rename-item", "clear-item", "cli", "install"}
-CONTENIDO = {"set-content", "sc", "add-content", "ac", "clear-content", "clc", "out-file"}
+                "rename", "rni", "rename-item", "clear-item", "cli", "install", "ln", "mklink",
+                "shred", "unlink", "patch"}
+CONTENIDO = {"set-content", "sc", "add-content", "ac", "clear-content", "clc", "out-file",
+             "export-csv", "epcsv", "export-clixml", "tee-object"}
+# Órdenes permitidas en un comando que toca la carpeta del TFG: solo leen, o copian desde
+# el TFG hacia fuera. Cualquier otra orden en ese comando se bloquea.
+LECTURA_TFG = {"ls", "dir", "gci", "get-childitem", "cat", "type", "gc", "get-content", "head", "tail",
+               "less", "more", "grep", "egrep", "fgrep", "rg", "findstr", "select-string", "sls", "wc",
+               "uniq", "diff", "cmp", "md5sum", "sha1sum", "sha256sum", "get-filehash", "file", "stat",
+               "du", "test-path", "resolve-path", "measure-object", "tree", "pwd", "realpath", "dirname",
+               "basename", "echo", "printf", "write-output", "write-host", "get-item", "gi", "sort",
+               "sort-object", "select-object", "select", "where-object", "where", "format-table", "ft",
+               "format-list", "fl", "find", "popd", "pop-location"}
+TFG_TEXTO = re.compile(r"(?:proyectos|proyec~\d)[\\/]+tfg(?![\w-])", re.I)
+GIT_CONFIG_PELIGROSA = re.compile(r"pager|external|textconv|editor|sshcommand|fsmonitor|hookspath|^alias\.|"
+                                  r"askpass|credential|gpg\.program|^filter\.|difftool|mergetool", re.I)
+# Scripts del repositorio que escriben fuera de las zonas de los agentes.
+SCRIPTS_REPO = {
+    "integridad_tfg.py": {"crear": "gestion/tfg-manifiesto.json"},
+    "gestion.py": {"tablero": "gestion/TABLERO.md", "trazabilidad": "gestion/TRAZABILIDAD.md",
+                   "nueva-spec": "gestion/specs/nueva.md"},
+}
+# Argumentos de las herramientas MCP que nombran el archivo o la carpeta donde escriben.
+CLAVES_DESTINO = {"schematicpath", "boardpath", "projectpath", "filename", "path", "output", "outputpath",
+                  "outputdir", "outputdirectory", "outdir", "outputfile", "destination", "destinationpath",
+                  "destpath", "destdir", "targetpath", "targetdir", "targetlibrarypath", "tablepath",
+                  "librarypath", "footprintpath", "symbolpath", "file", "filepath", "savepath", "dir",
+                  "directory", "projectdir", "newpath"}
 COPIA = {"cp", "copy", "xcopy", "cpi", "copy-item", "robocopy"}
 PERMISOS = {"chmod", "chown", "attrib", "icacls"}
 # Órdenes de cmd.exe cuyas opciones empiezan por "/".
@@ -106,7 +134,7 @@ ESCRITURA_MCP = re.compile(
     r"clear|connect|copy|create|delete|discard|download|duplicate|edit|enrich|export|generate|group|"
     r"hierarchical_place|import|install|kicad_(?:gui_click|run|reload|pcb_snapshot)|launch|modify|move|"
     r"place|refill|register|reload|remove|rename|repair|replace|rotate|route|run_|save|set_|snap|"
-    r"snapshot|sync|update|get_board_2d_view|get_schematic_view)")
+    r"snapshot|sync|update|lint_|get_board_2d_view|get_schematic_view)")
 EXTENSIONES_RUTA = (".kicad_pro", ".kicad_sch", ".kicad_pcb", ".kicad_sym", ".kicad_mod", ".kicad_dru",
                     ".kicad_prl", ".pretty", "lib-table", ".step", ".wrl", ".json", ".csv", ".pdf",
                     ".svg", ".zip", ".gbr", ".drl", ".dsn", ".ses", ".net", ".xml")
@@ -115,7 +143,8 @@ EXTENSIONES_RUTA = (".kicad_pro", ".kicad_sch", ".kicad_pcb", ".kicad_sym", ".ki
 # --- Rutas ---------------------------------------------------------------------------
 
 def normal(ruta):
-    return os.path.normcase(os.path.abspath(ruta))
+    # realpath sigue enlaces y uniones, y en Windows deshace los nombres cortos 8.3 (PROYEC~1)
+    return os.path.normcase(os.path.realpath(ruta))
 
 
 def dentro(ruta, carpeta):
@@ -294,8 +323,8 @@ def redirecciones(segmento):
 
 
 def destinos(nombre, args, segmento, cwd):
-    """Rutas absolutas en las que escribiría (o borraría) el segmento."""
-    rutas = redirecciones(segmento)
+    """Rutas absolutas en las que escribiría (o borraría) el segmento, sin contar las redirecciones."""
+    rutas = []
     posicionales, nombrados = separar(nombre, args)
     rutas_param = valores(nombrados, ("-path", "-literalpath", "-filepath", "-destination", "-name"))
     if nombre in BORRA_O_CREA:
@@ -313,6 +342,22 @@ def destinos(nombre, args, segmento, cwd):
         rutas += posicionales if "-e" in nombrados or "-f" in nombrados else posicionales[1:]
     elif nombre in PERMISOS:
         rutas += [p for p in posicionales if not re.fullmatch(r"[+-]?[0-7]{3,4}|[+-][a-zA-Z]+|[ugoa]*[+=-][rwxXst]+", p)]
+    elif nombre == "find" and any(a in ("-delete", "-exec", "-execdir", "-ok", "-okdir") for a in args):
+        for a in args:  # las carpetas de partida van antes de la expresión
+            if a.startswith(("-", "(", "!")):
+                break
+            rutas.append(a)
+    elif nombre == "rsync":
+        rutas += posicionales[-1:]
+    elif nombre in ("perl", "awk", "gawk") and any(re.fullmatch(r"-\w*i\w*", a) for a in args):
+        rutas += posicionales if nombre == "perl" else posicionales[1:]
+    elif nombre == "dd":
+        rutas += [a[3:] for a in args if a.startswith("of=")]
+    elif nombre in ("tar", "7z", "unzip", "expand-archive"):
+        lista = (nombre == "tar" and any(re.fullmatch(r"-\w*t\w*|--list", a) for a in args)) or \
+                (nombre == "7z" and args[:1] == ["l"]) or (nombre == "unzip" and "-l" in args)
+        if not lista:
+            rutas.append(destino_archivo(nombre, args, cwd))
     elif nombre not in SOLO_LECTURA:
         for i, a in enumerate(args):
             bajo = a.lower()
@@ -328,6 +373,9 @@ def destinos(nombre, args, segmento, cwd):
 def motivo_git(args):
     i = 0
     while i < len(args) and args[i].startswith("-"):
+        if args[i] in ("-c", "--config-env") and i + 1 < len(args):
+            if GIT_CONFIG_PELIGROSA.search(args[i + 1].split("=")[0]):
+                return f"`git -c {args[i + 1]}` puede ejecutar órdenes arbitrarias"
         i += 2 if args[i] in GIT_OPCIONES_CON_VALOR else 1
     if i >= len(args):
         return None
@@ -337,6 +385,8 @@ def motivo_git(args):
     if sub in GIT_LECTURA:
         if "-o" in claves or "--output" in claves:
             return f"`git {sub} --output` escribe archivos"
+        if sub == "grep" and any(a.startswith(("-O", "--open-files-in-pager")) for a in resto):
+            return "`git grep -O` ejecuta una orden arbitraria"
         return None
     if sub == "branch" and not claves & BRANCH_ESCRITURA and (not posicionales or claves & BRANCH_LISTADO):
         return None
@@ -356,12 +406,96 @@ def motivo_git(args):
 
 
 def git_en_cualquier_parte(comando):
-    """Red de seguridad: git en cualquier posición (envoltorios, comillas, $(...))."""
-    for m in re.finditer(r"(?<![\w.-])git(?:\.exe)?[\"']?(?=\s)", comando, re.I):
-        resto = re.split(r"[;&|\n)`]|\$\(", comando[m.end():], maxsplit=1)[0]
-        motivo = motivo_git(trocear(resto))
-        if motivo:
-            return motivo
+    """Red de seguridad: git en cualquier posición (envoltorios, comillas, $(...)), también
+    con las ofuscaciones simples de bash (g\\it, $'git', "git")."""
+    simplificado = re.sub(r"[\"'$]|\\(?=\w)", "", comando)
+    for texto in (comando, simplificado):
+        for m in re.finditer(r"(?<![\w.-])git(?:\.exe)?[\"']?(?=\s)", texto, re.I):
+            resto = re.split(r"[;&|\n)`]|\$\(", texto[m.end():], maxsplit=1)[0]
+            motivo = motivo_git(trocear(resto))
+            if motivo:
+                return motivo
+    return None
+
+
+def candidatas(token):
+    """Partes de un token que pueden ser rutas: el token, lo que va tras '=' y tras -o (7z -oDIR)."""
+    partes = [token]
+    if "=" in token:
+        partes.append(token.split("=", 1)[1])
+    if re.match(r"-o\S", token):
+        partes.append(token[2:])
+    return partes
+
+
+def toca_tfg(comando, segmentos, cwd):
+    """¿Alguna parte del comando apunta a la carpeta del TFG (por ruta, por cd o por redirección)?"""
+    if TFG_TEXTO.search(comando):
+        return True
+    for segmento in segmentos:
+        nombre, args = orden(trocear(segmento))
+        if dentro(cwd, TFG):
+            return True
+        for token in args + redirecciones(segmento):
+            for parte in candidatas(token):
+                ruta = resolver(parte, cwd)
+                if ruta and dentro(ruta, TFG):
+                    return True
+        if nombre in CAMBIO_DIRECTORIO:
+            posicionales, nombrados = separar(nombre, args)
+            destino = (valores(nombrados, ("-path", "-literalpath")) or posicionales or [str(Path.home())])[0]
+            cwd = resolver(destino, cwd) or cwd
+    return dentro(cwd, TFG)
+
+
+def destino_archivo(nombre, args, cwd):
+    """Carpeta de extracción de tar, 7z, unzip o Expand-Archive (o el cwd si no se indica)."""
+    posicionales, nombrados = separar(nombre, args)
+    if nombre == "tar":
+        destino = valor_de(args, ("-C", "--directory"))
+    elif nombre == "7z":
+        destino = next((a[2:] for a in args if re.match(r"-o\S", a)), None)
+    elif nombre == "unzip":
+        destino = valor_de(args, ("-d",))
+    else:
+        destino = (valores(nombrados, ("-destinationpath",)) or posicionales[1:2] or [None])[0]
+    return resolver(destino, cwd) if destino else normal(cwd)
+
+
+def motivo_tfg(segmentos, cwd):
+    """Con un comando que toca el TFG, cada parte tiene que ser de lectura o copiar hacia fuera."""
+    for segmento in segmentos:
+        nombre, args = orden(trocear(segmento))
+        if not nombre:
+            continue
+        if any(marca in segmento for marca in ("{", "$(", "`")):
+            return "un comando que toca la carpeta del TFG no puede llevar bloques de código"
+        if nombre in CAMBIO_DIRECTORIO:
+            posicionales, nombrados = separar(nombre, args)
+            destino = (valores(nombrados, ("-path", "-literalpath")) or posicionales or [str(Path.home())])[0]
+            cwd = resolver(destino, cwd) or cwd
+            continue
+        if nombre in LECTURA_TFG:
+            if nombre == "find" and any(a in ("-delete", "-exec", "-execdir", "-ok", "-okdir", "-fprint",
+                                              "-fprint0", "-fprintf", "-fls") for a in args):
+                return "`find` con acciones que modifican, en un comando que toca la carpeta del TFG"
+            if nombre in ("sort", "sort-object") and any(a.startswith(("-o", "--output")) for a in args):
+                return "`sort -o` escribe archivos, en un comando que toca la carpeta del TFG"
+            continue
+        if nombre in COPIA:
+            if nombre == "robocopy" and any(a.lower() in ("/mov", "/move", "/purge", "/mir") for a in args):
+                return "`robocopy` con /MOV, /MOVE, /PURGE o /MIR modificaría la carpeta del TFG"
+            if any(dentro(r, TFG) for r in destinos(nombre, args, segmento, cwd)):
+                return f"`{nombre}` copiaría dentro de la carpeta del TFG"
+            continue
+        if nombre in ("tar", "7z", "unzip", "expand-archive"):
+            solo_lista = (nombre == "tar" and any(re.fullmatch(r"-\w*t\w*|--list", a) for a in args)) or \
+                         (nombre == "7z" and args[:1] == ["l"]) or (nombre == "unzip" and "-l" in args)
+            if solo_lista or not dentro(destino_archivo(nombre, args, cwd), TFG):
+                continue
+            return f"`{nombre}` extraería dentro de la carpeta del TFG"
+        return (f"`{nombre}` no es una orden de lectura y el comando toca la carpeta del TFG "
+                "(solo se permite leer o copiar desde el TFG hacia fuera)")
     return None
 
 
@@ -416,10 +550,20 @@ def analizar(comando, agente, cwd, profundidad=0):
         motivo = analizar(interior, agente, cwd, profundidad + 1)
         if motivo:
             return motivo
-    for segmento in partir(comando):
+    segmentos = partir(comando)
+    if toca_tfg(comando, segmentos, cwd):
+        motivo = motivo_tfg(segmentos, cwd)
+        if motivo:
+            return motivo
+    for segmento in segmentos:
         nombre, args = orden(trocear(segmento))
         if not nombre:
             continue
+        for destino in redirecciones(segmento):  # antes que nada: valen para cualquier orden
+            ruta = resolver(destino, cwd)
+            motivo = motivo_destino(agente, ruta) if ruta else None
+            if motivo:
+                return f"la redirección escribiría donde no puedes: {motivo}"
         if nombre in CAMBIO_DIRECTORIO:
             posicionales, nombrados = separar(nombre, args)
             destino = (valores(nombrados, ("-path", "-literalpath")) or posicionales or [str(Path.home())])[0]
@@ -444,6 +588,13 @@ def analizar(comando, agente, cwd, profundidad=0):
             codigo = valor_de(args, ("-c", "-e", "--eval"))
             if codigo and ESCRITURA_CODIGO.search(codigo):
                 return f"`{nombre}` con código en línea que escribe archivos: usa Write o un script revisado"
+            posicionales = [a for a in args if not a.startswith("-")]
+            if posicionales:
+                escrituras = SCRIPTS_REPO.get(re.split(r"[\\/]", posicionales[0])[-1].lower(), {})
+                destino = escrituras.get(posicionales[1].lower()) if len(posicionales) > 1 else None
+                motivo = motivo_destino(agente, normal(RAIZ / destino)) if destino else None
+                if motivo:
+                    return f"`{posicionales[0]} {posicionales[1]}` escribe en {destino}: {motivo}"
         if nombre == "kicad-cli" or "verificar.py" in segmento:
             rutas = [r for r in (resolver(a, cwd) for a in args) if r]
             if dentro(cwd, TFG) or any(dentro(r, TFG) for r in rutas):
@@ -455,46 +606,60 @@ def analizar(comando, agente, cwd, profundidad=0):
     return None
 
 
-def cadenas(valor):
+def cadenas(valor, clave=""):
+    """Pares (clave, texto) de todos los valores de texto de la entrada, a cualquier profundidad."""
     if isinstance(valor, str):
-        yield valor
+        yield clave, valor
     elif isinstance(valor, dict):
-        for v in valor.values():
-            yield from cadenas(v)
+        for k, v in valor.items():
+            yield from cadenas(v, str(k).lower())
     elif isinstance(valor, list):
         for v in valor:
-            yield from cadenas(v)
+            yield from cadenas(v, clave)
 
 
 def parece_ruta(texto):
     t = texto.strip().lower()
-    return ("://" not in t and len(t) < 400
+    return ("://" not in t and len(t) < 400 and not t.startswith(("${", "$("))
             and ("/" in t or "\\" in t or t.startswith(("~", ".")) or t.endswith(EXTENSIONES_RUTA)))
 
 
 def motivo_mcp(agente, herramienta, entrada, cwd):
     nombre = herramienta.split("__")[-1]
-    rutas = [r for r in (resolver(v, cwd) for v in cadenas(entrada) if parece_ruta(v)) if r]
+    textos = list(cadenas(entrada))
+    if any(TFG_TEXTO.search(v) for _, v in textos):
+        return "el MCP no puede abrir ni escribir nada dentro de la carpeta del TFG: copia antes el proyecto a hardware/"
+    rutas = [r for r in (resolver(v, cwd) for _, v in textos if parece_ruta(v)) if r]
     if any(dentro(r, TFG) for r in rutas):
         return "el MCP no puede abrir ni escribir nada dentro de la carpeta del TFG: copia antes el proyecto a hardware/"
+    # La zona solo se comprueba en los argumentos que nombran el destino: los demás pueden
+    # señalar orígenes de solo lectura (librería oficial, modelos 3D, plantillas) o ser textos.
+    destinos_mcp = [r for r in (resolver(v, cwd) for k, v in textos if k in CLAVES_DESTINO and parece_ruta(v)) if r]
+    if not escribe_mcp(nombre, entrada):
+        return None
     if agente == "ing-validacion":
         if nombre == "close_project":
-            return None if entrada.get("save") is False else "close_project tiene que llevar save: false"
-        if nombre == "lint_schematic_cosmetic" and entrada.get("dryRun") is not True:
-            return "lint_schematic_cosmetic sin dryRun: true modificaría el esquema"
-        if nombre == "lint_offgrid" and entrada.get("fix"):
-            return "lint_offgrid con fix modificaría el esquema"
-        if ESCRITURA_MCP.match(nombre):
-            return f"{nombre} modifica el diseño o escribe archivos"
-    if ESCRITURA_MCP.match(nombre):
-        for ruta in rutas:
-            if dentro(ruta, TEMPORAL):
-                continue
-            if not dentro(ruta, RAIZ):
-                return f"{nombre} escribiría fuera del repositorio ({ruta})"
-            if not relativa(ruta).startswith(ZONAS_MCP):
-                return f"{nombre} escribiría en {relativa(ruta)}, fuera de {', '.join(ZONAS_MCP)}"
+            return "close_project tiene que llevar save: false"
+        return f"{nombre} modifica el diseño o escribe archivos"
+    for ruta in destinos_mcp:
+        if dentro(ruta, TEMPORAL):
+            continue
+        if not dentro(ruta, RAIZ):
+            return f"{nombre} escribiría fuera del repositorio ({ruta})"
+        if not relativa(ruta).startswith(ZONAS_MCP):
+            return f"{nombre} escribiría en {relativa(ruta)}, fuera de {', '.join(ZONAS_MCP)}"
     return None
+
+
+def escribe_mcp(nombre, entrada):
+    """¿La llamada puede modificar archivos? Algunas herramientas solo escriben con ciertos parámetros."""
+    if nombre == "lint_schematic_cosmetic":
+        return entrada.get("dryRun") is not True
+    if nombre == "lint_offgrid":
+        return bool(entrada.get("fix"))
+    if nombre == "close_project":
+        return entrada.get("save") is not False
+    return bool(ESCRITURA_MCP.match(nombre))
 
 
 def bloquear(agente, datos, motivo, consejo):
