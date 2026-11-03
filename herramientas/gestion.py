@@ -30,7 +30,7 @@ AVISO = "<!-- Generado por herramientas/gestion.py: no editar a mano. -->"
 
 def leer_front_matter(ruta):
     """Lee el front matter simple de un .md: `clave: valor` y listas `[a, b]`."""
-    texto = ruta.read_text(encoding="utf-8")
+    texto = ruta.read_text(encoding="utf-8-sig")
     if not texto.startswith("---"):
         return {}
     fin = texto.find("\n---", 3)
@@ -86,6 +86,10 @@ def enlace(datos):
     return f"[{datos['id']}]({datos['_ruta'].relative_to(GESTION).as_posix()})"
 
 
+def celda(texto):
+    return str(texto).replace("|", "\\|")
+
+
 def escribir(ruta, lineas):
     ruta.write_text("\n".join(lineas) + "\n", encoding="utf-8", newline="\n")
     print(f"Generado {ruta.relative_to(RAIZ).as_posix()}")
@@ -138,14 +142,14 @@ def tablero(_args):
             informe = ultimo_informe.get(s["id"])
             validacion = (f"{informe['id']} ({informe.get('veredicto', '?')})" if informe
                           else s.get("validacion") or "—")
-            lineas.append(f"| {enlace(s)} | {s.get('titulo', '')} | {s.get('fase', '')} | "
+            lineas.append(f"| {enlace(s)} | {celda(s.get('titulo', ''))} | {s.get('fase', '')} | "
                           f"{s.get('responsable', '')} | `{s.get('rama', '')}` | {validacion} | "
                           f"{s.get('creada', '')} | {s.get('cerrada') or '—'} |")
         lineas.append("")
 
     if decisiones:
         lineas += ["## Decisiones", "", "| Decisión | Título | Estado | Decide | Fecha |", "|---|---|---|---|---|"]
-        lineas += [f"| {enlace(d)} | {d.get('titulo', '')} | {d.get('estado', '')} | "
+        lineas += [f"| {enlace(d)} | {celda(d.get('titulo', ''))} | {d.get('estado', '')} | "
                    f"{d.get('decide', '')} | {d.get('fecha', '')} |" for d in decisiones]
         lineas.append("")
     if informes:
@@ -181,6 +185,12 @@ def trazabilidad(_args):
     specs = cargar(SPECS, "SPEC-*.md")
     informes = cargar(INFORMES, "VAL-*.md")
     commits = commits_por_requisito()
+    conocidos = {r[0] for r in requisitos}
+    for s in specs:
+        desconocidos = [r for r in s.get("requisitos", []) if r not in conocidos]
+        if desconocidos:
+            print(f"Aviso: {s['id']} cita requisitos que no existen en docs/02: {', '.join(desconocidos)}",
+                  file=sys.stderr)
     veredicto = {}
     for informe in sorted(informes, key=lambda d: d["id"]):
         veredicto[informe.get("spec")] = f"{informe['id']} ({informe.get('veredicto', '?')})"
@@ -202,7 +212,7 @@ def trazabilidad(_args):
         texto_commits = f"{len(shas)}: " + ", ".join(f"`{c}`" for c in shas[:3]) if shas else "—"
         validaciones = ", ".join(veredicto[s["id"]] for s in relacionadas if s["id"] in veredicto) or "—"
         breve = descripcion if len(descripcion) <= 70 else descripcion[:67].rstrip() + "…"
-        filas.append(f"| {req} | {prioridad} | {breve} | "
+        filas.append(f"| {req} | {prioridad} | {celda(breve)} | "
                      f"{', '.join(enlace(s) for s in relacionadas) or '—'} | {texto_commits} | "
                      f"{validaciones} | {estado} |")
 
@@ -219,6 +229,7 @@ def trazabilidad(_args):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Gestión de specs de ESP-Riego")
     sub = parser.add_subparsers(dest="orden", required=True)
     p = sub.add_parser("nueva-spec", help="Crea una spec con el siguiente ID libre")

@@ -6,6 +6,10 @@ Uso:
 Códigos de salida: 0 si no hay errores de ERC ni de DRC, elementos sin conectar ni incidencias
 de paridad; 1 si los hay; 2 si no se pudo verificar. Los informes JSON de kicad-cli se guardan
 en --salida (por defecto, una carpeta temporal fuera del repositorio).
+
+kicad-cli reescribe archivos del proyecto que lee (el .kicad_prl, por ejemplo): el script
+guarda una copia de los archivos de la carpeta del proyecto y los restaura al terminar. Se
+niega a verificar la carpeta del TFG, que se verifica sobre una copia.
 """
 import argparse
 import json
@@ -18,6 +22,7 @@ from collections import Counter
 from pathlib import Path
 
 KICAD_CLI_DEFECTO = r"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe"
+TFG = Path(r"C:\Users\josan\proyectos\TFG")
 
 
 def fallar(mensaje):
@@ -47,11 +52,41 @@ def localizar(ruta):
 
 
 def ejecutar(cli, argumentos, informe):
+    informe.unlink(missing_ok=True)  # nunca leer un informe de una ejecución anterior
     resultado = subprocess.run([cli, *argumentos], capture_output=True, text=True,
                                encoding="utf-8", errors="replace")
-    if not informe.exists():
-        fallar(f"kicad-cli no generó {informe.name}:\n{resultado.stdout}\n{resultado.stderr}")
+    if resultado.returncode != 0 or not informe.exists():
+        fallar(f"kicad-cli falló (código {resultado.returncode}) y no generó {informe.name}:\n"
+               f"{resultado.stdout}\n{resultado.stderr}")
     return json.loads(informe.read_text(encoding="utf-8"))
+
+
+def dentro(ruta, carpeta):
+    ruta, carpeta = os.path.normcase(os.path.abspath(ruta)), os.path.normcase(os.path.abspath(carpeta))
+    return ruta == carpeta or ruta.startswith(carpeta + os.sep)
+
+
+def instantanea(carpeta):
+    return {f.name: f.read_bytes() for f in carpeta.iterdir() if f.is_file()}
+
+
+def restaurar(carpeta, copia):
+    """Deja la carpeta como estaba: restaura lo que cambió y borra lo que se creó."""
+    tocados = []
+    for f in carpeta.iterdir():
+        if not f.is_file():
+            continue
+        if f.name not in copia:
+            f.unlink()
+            tocados.append(f"{f.name} (creado y borrado)")
+        elif f.read_bytes() != copia[f.name]:
+            f.write_bytes(copia[f.name])
+            tocados.append(f"{f.name} (restaurado)")
+    for nombre, contenido in copia.items():
+        if not (carpeta / nombre).exists():
+            (carpeta / nombre).write_bytes(contenido)
+            tocados.append(f"{nombre} (borrado y repuesto)")
+    return tocados
 
 
 def contar(violaciones):
@@ -66,6 +101,7 @@ def contar(violaciones):
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="ERC, DRC y paridad con kicad-cli")
     parser.add_argument("proyecto")
     parser.add_argument("--salida", help="Carpeta para los informes JSON de kicad-cli")
@@ -76,9 +112,25 @@ def main():
     sch, pcb = localizar(args.proyecto)
     if not sch and not pcb:
         fallar("No hay esquema ni PCB que verificar.")
+    carpeta = (sch or pcb).parent
+    if dentro(carpeta, TFG):
+        fallar("No se verifica la carpeta del TFG: kicad-cli reescribe archivos del proyecto que lee. "
+               "Copia el proyecto a una carpeta temporal y verifica la copia.")
     salida = Path(args.salida).resolve() if args.salida else Path(tempfile.mkdtemp(prefix="verificar_"))
     salida.mkdir(parents=True, exist_ok=True)
 
+    copia = instantanea(carpeta)
+    try:
+        resumen = verificar(cli, sch, pcb, salida)
+    finally:
+        tocados = restaurar(carpeta, copia)
+    if tocados:
+        print(f"kicad-cli tocó el proyecto; se ha dejado como estaba: {', '.join(tocados)}", file=sys.stderr)
+    imprimir(resumen, args.json)
+    sys.exit(0 if resumen["limpio"] else 1)
+
+
+def verificar(cli, sch, pcb, salida):
     resumen = {"esquema": str(sch) if sch else None, "pcb": str(pcb) if pcb else None,
                "informes": str(salida)}
     if sch:
@@ -102,8 +154,11 @@ def main():
               and resumen.get("drc", {}).get("sin_conectar", 0) == 0
               and resumen.get("paridad", {}).get("total", 0) == 0)
     resumen["limpio"] = limpio
+    return resumen
 
-    if args.json:
+
+def imprimir(resumen, como_json):
+    if como_json:
         print(json.dumps(resumen, ensure_ascii=False, indent=2))
     else:
         if "erc" in resumen:
@@ -122,8 +177,7 @@ def main():
             print(f"Paridad  {p['total']:>4}")
             for tipo, n in p["por_tipo"].items():
                 print(f"  {n:>4}  {tipo}")
-        print(f"Resultado: {'LIMPIO' if limpio else 'CON INCIDENCIAS'} · informes en {salida}")
-    sys.exit(0 if limpio else 1)
+        print(f"Resultado: {'LIMPIO' if resumen['limpio'] else 'CON INCIDENCIAS'} · informes en {resumen['informes']}")
 
 
 if __name__ == "__main__":
