@@ -46,6 +46,7 @@ disallowedTools:
   - mcp__kicad__replace_board_outline
   - mcp__kicad__place_component
   - mcp__kicad__move_component
+  - mcp__kicad__batch_move_components
   - mcp__kicad__route_trace
   - mcp__kicad__add_net
   - mcp__kicad__save_board
