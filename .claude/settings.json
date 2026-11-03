@@ -4,5 +4,18 @@
       "Bash(git push *)",
       "PowerShell(git push *)"
     ]
+  },
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "matcher": "Write|Edit|NotebookEdit|Bash|PowerShell|WebFetch|WebSearch|Skill|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/auditoria.py\""
+          }
+        ]
+      }
+    ]
   }
 }

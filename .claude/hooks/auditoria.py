@@ -1,12 +1,15 @@
-"""Registro de auditoría de los subagentes de ESP-Riego (hook PostToolUse).
+"""Registro de auditoría de los subagentes de ESP-Riego.
 
-Se declara en el frontmatter de cada agente:
-    python "$CLAUDE_PROJECT_DIR/.claude/hooks/auditoria.py" <agente>
+Se usa desde tres sitios:
+- PostToolUse, en el frontmatter de cada agente: `python .../auditoria.py <agente>`;
+- PostToolUseFailure, en .claude/settings.json, sin argumento: el agente sale del campo
+  agent_type del hook y, si no lo hay (la sesión principal), no se registra nada;
+- guardia.py, que llama a registrar() para anotar las acciones bloqueadas, que no
+  llegan a ningún hook posterior.
 
 Añade una línea JSON por acción a gestion/logs/auditoria/AAAA-MM-DD.jsonl con
-{ts, agente, rama, spec, herramienta, objetivo, ok, sesion}. guardia.py usa
-registrar() para anotar también las acciones bloqueadas (campo `bloqueado`), que
-no llegan a PostToolUse. AUDITORIA_DIR cambia la carpeta (solo para pruebas).
+{ts, agente, agent_id, rama, spec, herramienta, objetivo, ok, sesion} y, según el caso,
+`error` o `bloqueado`. AUDITORIA_DIR cambia la carpeta (solo para pruebas).
 Nunca bloquea: ante cualquier error sale con 0.
 """
 import datetime
@@ -28,7 +31,7 @@ def rama():
 
 
 def recortar(texto, limite):
-    texto = " ".join(str(texto).split())
+    texto = " ".join(str(texto).replace("\n", " ⏎ ").split())
     return texto if len(texto) <= limite else texto[:limite - 1] + "…"
 
 
@@ -75,6 +78,7 @@ def registrar(agente, datos, **extra):
     registro = {
         "ts": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "agente": agente,
+        "agent_id": str(datos.get("agent_id", "")),
         "rama": rama_actual,
         "spec": spec.group(0) if spec else "",
         "herramienta": datos.get("tool_name", ""),
@@ -91,7 +95,13 @@ def registrar(agente, datos, **extra):
 
 def main():
     datos = json.loads(sys.stdin.read() or "{}")
-    registrar(sys.argv[1] if len(sys.argv) > 1 else "?", datos)
+    agente = sys.argv[1] if len(sys.argv) > 1 else datos.get("agent_type", "")
+    if not agente or not datos.get("tool_name"):
+        return  # sesión principal o entrada sin acción: nada que registrar
+    if datos.get("hook_event_name") == "PostToolUseFailure":
+        registrar(agente, datos, ok=False, error=recortar(datos.get("error", ""), 300))
+    else:
+        registrar(agente, datos)
 
 
 if __name__ == "__main__":
