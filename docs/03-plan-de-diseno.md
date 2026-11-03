@@ -62,15 +62,13 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 - [ ] Ejecutar los criterios de aceptación de las especificaciones (§6).
 - [ ] Informe de validación en `docs/` y lista de mejoras para una v2.1.
 
-## Flujo de trabajo en git
+## Organización del trabajo
 
-- `main` siempre en un estado coherente. Si una fase lo requiere, se trabaja en una rama `feat/...`.
-- Mensajes de commit: `docs:`, `feat(hw):`, `fix(hw):`, `fw:`, `chore:`.
-- Antes de cada commit de hardware se ejecutan ERC y DRC con `kicad-cli`.
-- Cada hito se marca con una etiqueta.
+Cada fase se divide en specs atómicas (`SPEC-NNNN`) que ejecutan los agentes de Claude Code bajo la dirección del coordinador. Cada spec tiene su propia rama y solo se integra en `main` con un informe de validación aprobado. Cada hito se marca con una etiqueta. Roles, ciclo de vida, formato de los commits y consultas de auditoría: [gestion/README.md](../gestion/README.md).
 
 ## Herramientas
 
-- KiCad 10 y `kicad-cli`.
-- Servidor MCP de KiCad (análisis, DRC y búsqueda de piezas JLCPCB) usado desde Claude Code.
+- KiCad 10 y `kicad-cli` (`herramientas/verificar.py` para ERC, DRC y paridad).
+- Servidor MCP de KiCad (edición, análisis y búsqueda de piezas JLCPCB) usado por los agentes desde Claude Code.
+- `herramientas/gestion.py` para specs, tablero y trazabilidad.
 - JLCPCB / LCSC para la fabricación y los componentes.
