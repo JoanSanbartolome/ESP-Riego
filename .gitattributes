@@ -1,0 +1,10 @@
+* text=auto
+
+# Modelos 3D y documentos: sin conversión de fin de línea ni diff
+*.step binary
+*.stp binary
+*.wrl binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.zip binary

@@ -1,0 +1,31 @@
+# --- KiCad: archivos temporales, locales y copias de seguridad ---
+*-backups/
+_autosave-*
+\#auto_saved_files\#
+*.lck
+fp-info-cache
+*.kicad_prl
+*.bak
+*-bak
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*-save.kicad_pcb
+.history/
+
+# Copias de seguridad del servidor MCP de KiCad
+.mcp-backups/
+
+# Informes generados (se regeneran con kicad-cli)
+*-drc.rpt
+*-erc.rpt
+drc_report.json
+erc_report.json
+
+# --- Firmware (ESPHome) ---
+firmware/**/secrets.yaml
+firmware/**/.esphome/
+
+# --- Sistema ---
+Thumbs.db
+desktop.ini
+.DS_Store
