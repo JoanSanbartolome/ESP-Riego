@@ -8,7 +8,7 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 1 · descartada 0.
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0001](specs/SPEC-0001-orquestacion.md) | Sistema de orquestación de agentes | 0 | coordinador | `spec/SPEC-0001-orquestacion` | VAL-0001-01 (RECHAZADO) | 2026-11-03 | — |
+| [SPEC-0001](specs/SPEC-0001-orquestacion.md) | Sistema de orquestación de agentes | 0 | coordinador | `spec/SPEC-0001-orquestacion` | VAL-0001-02 (RECHAZADO) | 2026-11-03 | — |
 
 ## Cerradas (1)
 
@@ -27,4 +27,5 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 1 · descartada 0.
 | Informe | Spec | Veredicto | Commit revisado | Fecha |
 |---|---|---|---|---|
 | [VAL-0001-01](informes/VAL-0001-01.md) | SPEC-0001 | RECHAZADO | `57e8448` | 2026-11-03 |
+| [VAL-0001-02](informes/VAL-0001-02.md) | SPEC-0001 | RECHAZADO | `4621a2a` | 2026-11-03 |
 

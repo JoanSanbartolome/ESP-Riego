@@ -64,3 +64,7 @@ Poner en marcha el sistema de trabajo de [DEC-0001](../decisiones/DEC-0001-orque
 | 2026-11-03 | jr-conformidad, ing-esquematicos, ing-layout | Pruebas en vivo de carga, MCP y guardia | `gestion/logs/SPEC-0001/01-jr-conformidad.md` |
 | 2026-11-03 | ing-validacion | Primera revisión: RECHAZADO (2 A, 9 M, 8 B) | [VAL-0001-01](../informes/VAL-0001-01.md) |
 | 2026-11-03 | coordinador | Corrige los hallazgos 01–19 de VAL-0001-01 | commits `fix(...)` de la rama |
+| 2026-11-03 | jr-conformidad | Prueba en vivo con las definiciones nuevas | `gestion/logs/SPEC-0001/03-jr-conformidad.md` |
+| 2026-11-03 | ing-validacion | Segunda revisión: RECHAZADO (2 A, 2 M, 6 B) | [VAL-0001-02](../informes/VAL-0001-02.md) |
+| 2026-11-03 | usuario | Confirma que mantiene su propia copia del TFG fuera del sistema | respuesta en la sesión |
+| 2026-11-03 | coordinador | Corrige los hallazgos 01–09 de VAL-0001-02; las ofuscaciones con variables quedan como límite documentado | commits `fix(...)` posteriores a `a42e462` |

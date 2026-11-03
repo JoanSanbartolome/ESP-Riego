@@ -5,7 +5,7 @@ Rediseño (v2) de la PCB de control de riego del TFG de Joan San Bartolomé Ferr
 ## Convenciones comunes (coordinador y agentes)
 
 - Idioma: español.
-- **Proyecto del TFG** (origen de la v1): `C:\Users\josan\proyectos\TFG`. Es de solo lectura: nadie lo modifica, y ni el MCP ni `kicad-cli` lo abren, porque reescriben archivos del proyecto que leen. Se trabaja sobre copias. Su huella SHA-256 está en `gestion/tfg-manifiesto.json`.
+- **Proyecto del TFG** (origen de la v1): `C:\Users\josan\proyectos\TFG`. Es de solo lectura: nadie lo modifica, y ni el MCP ni `kicad-cli` lo abren, porque reescriben archivos del proyecto que leen. Se trabaja sobre copias: un comando que toca el TFG solo puede leer o copiar desde él hacia fuera (`cp`, `Copy-Item`, `robocopy` sin `/MOVE`, `tar -x -C <fuera>`). Su huella SHA-256 está en `gestion/tfg-manifiesto.json`.
 - **KiCad 10:** `kicad-cli` está en `C:\Program Files\KiCad\10.0\bin\kicad-cli.exe` (no está en el PATH). La verificación estándar es `python herramientas/verificar.py <proyecto o carpeta>`, que deja el proyecto como estaba y se niega a verificar la carpeta del TFG.
 - **MCP de KiCad:** tiene estado global compartido (proyecto y placa cargados), así que solo un agente lo usa a la vez para cargar un proyecto, aunque sea solo para leerlo. Al terminar hay que guardar y hacer `close_project`. Las copias `.mcp-backups/` y `*-backups/` no se versionan.
 - **Buscar texto:** con la herramienta Grep, no con `grep` en la terminal. La guarda trata como orden de git cualquier `git <palabra>` que aparezca en un comando.
