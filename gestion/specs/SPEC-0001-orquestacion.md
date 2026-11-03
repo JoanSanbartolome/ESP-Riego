@@ -37,9 +37,9 @@ Poner en marcha el sistema de trabajo de [DEC-0001](../decisiones/DEC-0001-orque
 - `.claude/agents/`: `ing-esquematicos.md`, `ing-layout.md`, `jr-conformidad.md`, `ing-validacion.md`
 - `.claude/hooks/`: `guardia.py`, `auditoria.py`; `.claude/settings.json`
 - `.githooks/`: `commit-msg`, `commit_msg.py`
-- `herramientas/`: `gestion.py`, `verificar.py`
+- `herramientas/`: `gestion.py`, `verificar.py`, `integridad_tfg.py`, `revisar_zonas.py` y las baterías `pruebas/test_guardia.py` y `pruebas/test_commit_msg.py` (añadidos tras VAL-0001-01)
 - `CLAUDE.md`
-- `gestion/`: `README.md`, `plantillas/`, `checklists/`, `TABLERO.md`, `TRAZABILIDAD.md`
+- `gestion/`: `README.md`, `plantillas/`, `checklists/` (incluida `proceso.md`), `TABLERO.md`, `TRAZABILIDAD.md` y `tfg-manifiesto.json`
 - `README.md` y `docs/03-plan-de-diseno.md` actualizados
 
 ## Criterios de aceptación
@@ -61,3 +61,6 @@ Poner en marcha el sistema de trabajo de [DEC-0001](../decisiones/DEC-0001-orque
 |---|---|---|---|
 | 2026-11-03 | usuario | Aprueba el plan de orquestación | DEC-0001 |
 | 2026-11-03 | coordinador | Abre la spec en su rama | `spec/SPEC-0001-orquestacion` |
+| 2026-11-03 | jr-conformidad, ing-esquematicos, ing-layout | Pruebas en vivo de carga, MCP y guardia | `gestion/logs/SPEC-0001/01-jr-conformidad.md` |
+| 2026-11-03 | ing-validacion | Primera revisión: RECHAZADO (2 A, 9 M, 8 B) | [VAL-0001-01](../informes/VAL-0001-01.md) |
+| 2026-11-03 | coordinador | Corrige los hallazgos 01–19 de VAL-0001-01 | commits `fix(...)` de la rama |

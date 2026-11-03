@@ -6,7 +6,7 @@ Cómo se organiza el trabajo de ESP-Riego: quién hace qué, cómo se registra y
 
 | Rol | Definición | Escribe en |
 |---|---|---|
-| **coordinador** (sesión principal) | [`CLAUDE.md`](../CLAUDE.md) | `gestion/`, `CLAUDE.md`, `README.md`, `herramientas/`, `.claude/`, `.githooks/`; único que usa git para escribir |
+| **coordinador** (sesión principal) | [`CLAUDE.md`](../CLAUDE.md) | `gestion/`, `docs/01`–`docs/03`, `CLAUDE.md`, `README.md`, `herramientas/`, `.claude/`, `.githooks/`; único que usa git para escribir |
 | `ing-esquematicos` | [`.claude/agents/ing-esquematicos.md`](../.claude/agents/ing-esquematicos.md) | `hardware/v2/` (esquema), `docs/diseno/`, `firmware/` |
 | `ing-layout` | [`.claude/agents/ing-layout.md`](../.claude/agents/ing-layout.md) | `hardware/v2/` (PCB y reglas), `docs/diseno/` |
 | `jr-conformidad` | [`.claude/agents/jr-conformidad.md`](../.claude/agents/jr-conformidad.md) | `hardware/` (librerías, campos, fichas de componentes), `fabricacion/` |
@@ -81,6 +81,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 | Informes de validación | `informes/` | `ing-validacion` |
 | Decisiones | `decisiones/` | Coordinador (las de diseño, con el usuario) |
 | Checklists de revisión | `checklists/` | Las aplica validación; cada cambio sube la versión |
+| Huella de la carpeta del TFG | `tfg-manifiesto.json` | `herramientas/integridad_tfg.py crear` (solo si el usuario cambia el TFG) |
 | Plantillas | `plantillas/` | Coordinador |
 | Memoria de cada agente | `../.claude/agent-memory/<agente>/MEMORY.md` | Cada agente |
 | Tablero | `TABLERO.md` | Generado: `python herramientas/gestion.py tablero` |
@@ -90,12 +91,31 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 
 ## Guardas
 
-| Hook | Cuándo | Qué hace |
+El control tiene dos capas: **prevención**, que bloquea antes de que ocurra, y **detección**, que encuentra lo que se haya escapado. La guarda es una red de seguridad, no un sandbox: lo que escribe un script de Python o de PowerShell no se puede analizar desde el comando que lo lanza, y por eso existe la segunda capa.
+
+**Prevención**
+
+| Mecanismo | Cuándo | Qué hace |
 |---|---|---|
-| `.claude/hooks/guardia.py` | Antes de `Bash`, `PowerShell`, `Write`, `Edit` de un agente | Bloquea git de escritura, escrituras fuera de la zona del agente y comandos destructivos sobre la carpeta del TFG. Cada bloqueo queda en la auditoría con `ok: false` y el motivo en `bloqueado` |
-| `.claude/hooks/auditoria.py` | Después de cada acción relevante de un agente | Añade `{ts, agente, rama, spec, herramienta, objetivo, ok}` al JSONL del día |
-| `.githooks/commit-msg` | En cada commit | Formato del asunto y trailers obligatorios |
+| `disallowedTools` de cada agente | Siempre (lo aplica Claude Code) | Cada agente solo tiene las herramientas MCP de su dominio: `ing-esquematicos` no tiene las de PCB, librerías ni fabricación; `ing-layout`, las de esquema ni librerías; `jr-conformidad`, las de rutado, colocación ni dibujo del esquema. Ninguno controla la interfaz gráfica de KiCad. `ing-validacion` tiene una lista blanca de 72 herramientas de consulta, revisadas por sus parámetros |
+| `.claude/hooks/guardia.py` | Antes de `Bash`, `PowerShell`, `Write`, `Edit` y las herramientas MCP de un agente | Bloquea:<br>- git de escritura, también dentro de `bash -c`, `cmd /c`, `pwsh -Command`, `iex`, `xargs` y `$(…)`;<br>- escrituras fuera de la zona del agente, resolviendo las rutas de verdad (relativas, `~`, `/c/…`, siguiendo los `cd`);<br>- cualquier forma de tocar la carpeta del TFG, incluidos el MCP y `kicad-cli`;<br>- código en línea (`python -c`) y APIs de .NET que escriben archivos;<br>- en `ing-validacion`, `close_project` sin `save: false` y cualquier herramienta MCP que modifique el diseño.<br>Cada bloqueo queda en la auditoría con `ok: false` y el motivo en `bloqueado` |
+| `.githooks/commit-msg` | En cada commit | Formato del asunto y trailers del bloque final (con el mismo criterio que la trazabilidad), IDs de `Requisitos` existentes y rutas de `Log` existentes. En los merges a `main`: `Spec`, `Validacion` y `Rama` de la misma spec, y el TFG intacto según su huella |
 | `.claude/settings.json` | `git push` | Pide confirmación al usuario |
+
+**Detección**
+
+| Mecanismo | Cuándo | Qué hace |
+|---|---|---|
+| `.claude/hooks/auditoria.py` | Después de cada acción de un agente, tanto si sale bien (`PostToolUse`, en el agente) como si falla (`PostToolUseFailure`, en `settings.json`) | Añade `{ts, agente, agent_id, rama, spec, herramienta, objetivo, ok}` al JSONL del día, más `error` si falló |
+| `herramientas/revisar_zonas.py <agente>` | Antes de cada commit del trabajo de un agente | Lista los archivos cambiados que el agente no podría escribir: detecta lo que haya escrito por el MCP o desde un script |
+| `herramientas/integridad_tfg.py verificar` | En cada merge a `main` (lo ejecuta `commit-msg`) | Compara la carpeta del TFG con su huella SHA-256 (`gestion/tfg-manifiesto.json`) |
+| Revisión del diff por el coordinador | Antes de cada commit | Última comprobación, que cubre todo lo anterior |
+
+**Límites conocidos**
+
+- Los scripts lanzados por un agente (`python script.py`, `pwsh -File`) pueden escribir sin que la guarda lo vea. `revisar_zonas.py`, la huella del TFG y la revisión del diff los detectan.
+- Las herramientas MCP que trabajan sobre la placa o el esquema cargados no llevan ruta, así que la guarda no puede comprobar su zona. Las controlan `disallowedTools` y `revisar_zonas.py`.
+- La guarda trata como orden de git cualquier `git <palabra>` que aparezca en un comando, incluso dentro de un texto. Para buscar texto se usa la herramienta Grep.
 
 ## Herramientas
 
@@ -104,7 +124,11 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 | `python herramientas/gestion.py nueva-spec ...` | Crea una spec con el siguiente ID libre |
 | `python herramientas/gestion.py tablero` | Regenera `TABLERO.md` |
 | `python herramientas/gestion.py trazabilidad` | Regenera `TRAZABILIDAD.md` |
-| `python herramientas/verificar.py <proyecto>` | ERC, DRC y paridad esquema↔PCB con `kicad-cli` y resumen por tipo |
+| `python herramientas/verificar.py <proyecto>` | ERC, DRC y paridad esquema↔PCB con `kicad-cli` y resumen por tipo. Deja el proyecto como estaba y se niega a verificar la carpeta del TFG |
+| `python herramientas/revisar_zonas.py <agente>` | Archivos cambiados fuera de la zona del agente |
+| `python herramientas/integridad_tfg.py verificar` | Compara la carpeta del TFG con su huella (`crear` la regenera) |
+| `python herramientas/pruebas/test_guardia.py` | Batería de regresión de la guarda |
+| `python herramientas/pruebas/test_commit_msg.py` | Batería de regresión del hook `commit-msg` |
 
 ## Consultas de auditoría
 

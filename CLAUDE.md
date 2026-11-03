@@ -5,9 +5,10 @@ Rediseño (v2) de la PCB de control de riego del TFG de Joan San Bartolomé Ferr
 ## Convenciones comunes (coordinador y agentes)
 
 - Idioma: español.
-- **Proyecto del TFG** (origen de la v1): `C:\Users\josan\proyectos\TFG`. Es de solo lectura: nadie lo modifica.
-- **KiCad 10:** `kicad-cli` está en `C:\Program Files\KiCad\10.0\bin\kicad-cli.exe` (no está en el PATH). La verificación estándar es `python herramientas/verificar.py <proyecto o carpeta>`.
-- **MCP de KiCad:** tiene estado global compartido (proyecto y placa cargados), así que solo un agente escribe en KiCad a la vez. Al terminar hay que guardar y hacer `close_project`. Las copias `.mcp-backups/` y `*-backups/` no se versionan.
+- **Proyecto del TFG** (origen de la v1): `C:\Users\josan\proyectos\TFG`. Es de solo lectura: nadie lo modifica, y ni el MCP ni `kicad-cli` lo abren, porque reescriben archivos del proyecto que leen. Se trabaja sobre copias. Su huella SHA-256 está en `gestion/tfg-manifiesto.json`.
+- **KiCad 10:** `kicad-cli` está en `C:\Program Files\KiCad\10.0\bin\kicad-cli.exe` (no está en el PATH). La verificación estándar es `python herramientas/verificar.py <proyecto o carpeta>`, que deja el proyecto como estaba y se niega a verificar la carpeta del TFG.
+- **MCP de KiCad:** tiene estado global compartido (proyecto y placa cargados), así que solo un agente lo usa a la vez para cargar un proyecto, aunque sea solo para leerlo. Al terminar hay que guardar y hacer `close_project`. Las copias `.mcp-backups/` y `*-backups/` no se versionan.
+- **Buscar texto:** con la herramienta Grep, no con `grep` en la terminal. La guarda trata como orden de git cualquier `git <palabra>` que aparezca en un comando.
 - **Requisitos:** IDs de `docs/02-especificaciones-v2.md` (`ALI-01` … `FW-04`). Hallazgos de la v1: `H1` … `H12` en `docs/01-analisis-v1.md`.
 - **Identificadores:** `SPEC-NNNN`, `VAL-NNNN-NN` y `DEC-NNNN`. Los logs van en `gestion/logs/SPEC-NNNN/NN-<agente>.md`.
 - **Plantillas** en `gestion/plantillas/`; **checklists** en `gestion/checklists/`.
@@ -47,17 +48,18 @@ Los agentes ignoran esta sección.
 3. Encargar con una orden breve: `SPEC-NNNN · rama <rama> · Lee: <spec + archivos> · Haz: <paso> · Entrega: <archivos> + log NN-<agente>.md`. La spec tiene que bastar, porque el agente no ve esta conversación.
 4. Revisar antes de cada commit:
    - `git status` y `git diff --stat`;
-   - cada archivo dentro de la zona del agente;
+   - `python herramientas/revisar_zonas.py <agente>`: ningún archivo fuera de su zona;
    - el log presente;
    - `verificar.py` si hay cambios en KiCad;
-   - las líneas nuevas de `gestion/logs/auditoria/`.
+   - las líneas nuevas de `gestion/logs/auditoria/`, sobre todo los `bloqueado` y los `ok: false`;
+   - si el cambio toca hooks o scripts: `python -m py_compile` y las baterías de `herramientas/pruebas/`.
 5. Hacer commits atómicos con los trailers `Spec`, `Agente`, `Requisitos`, `Log` y `Co-Authored-By`.
 6. Pasar por conformidad si hay piezas nuevas o campos que revisar; después, por validación.
 7. Hacer merge solo con `APROBADO` o `APROBADO_CON_OBSERVACIONES`; las observaciones se convierten en specs propuestas. Pasos:
    - `estado: cerrada` y `validacion:` en la spec;
    - `git switch main` y `git merge --no-ff --no-commit <rama>`;
    - regenerar `tablero` y `trazabilidad` y escribir el diario;
-   - commit `merge(SPEC-NNNN): <título>` con `Spec`, `Validacion` y `Rama`;
+   - commit `merge(SPEC-NNNN): <título>` con `Spec`, `Validacion` y `Rama`. El hook `commit-msg` comprueba además que el TFG sigue intacto (`herramientas/integridad_tfg.py verificar`);
    - `git branch -d <rama>`.
 
 **Consultar siempre al usuario:**
@@ -67,6 +69,6 @@ Los agentes ignoran esta sección.
 - las etiquetas de hito;
 - cualquier `git push`, que además `.claude/settings.json` obliga a confirmar.
 
-**Paralelismo.** Una sola spec con escritura en KiCad a la vez; las revisiones que solo leen pueden ir en paralelo. Antes de encargar una spec que escriba en KiCad, comprobar que KiCad no tiene abierto ese proyecto (archivos `.lck`).
+**Paralelismo.** Una sola spec con escritura en KiCad a la vez. Las revisiones que solo leen pueden ir en paralelo si no cargan un proyecto en el MCP; una revisión que hace `open_project` cuenta como uso exclusivo de KiCad. Antes de encargar una spec que use KiCad, comprobar que KiCad no tiene abierto ese proyecto (archivos `.lck`).
 
 **Diario.** Al final de cada sesión de trabajo, escribir `gestion/logs/coordinador/AAAA-MM-DD.md` con las órdenes dadas, las decisiones, los commits y lo que queda pendiente.

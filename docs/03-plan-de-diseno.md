@@ -60,7 +60,7 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 - [ ] `firmware/control-riego.yaml` con el pinout v2 y `secrets.yaml` fuera del repositorio.
 - [ ] Ejecutar los criterios de aceptación de las especificaciones (§6).
-- [ ] Informe de validación en `docs/` y lista de mejoras para una v2.1.
+- [ ] Informe de validación en `docs/validacion/` y lista de mejoras para una v2.1.
 
 ## Organización del trabajo
 
