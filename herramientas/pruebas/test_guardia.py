@@ -1,0 +1,238 @@
+"""Batería de regresión de .claude/hooks/guardia.py.
+
+Uso: python herramientas/pruebas/test_guardia.py [-v]
+
+Cada caso es (id, agente, herramienta, entrada, bloquea). El JSON se pasa por un archivo
+temporal y AUDITORIA_DIR apunta a una carpeta temporal, así que no toca la auditoría real.
+Los casos T, S, Z, G3x y W1x vienen de la revisión VAL-0001-01 de ing-validacion.
+"""
+import json
+import os
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+GUARDIA = REPO / ".claude" / "hooks" / "guardia.py"
+TMP = Path(tempfile.gettempdir())
+TFG = r"C:\Users\josan\proyectos\TFG"
+
+B, P = True, False  # bloquea, pasa
+V, E, L, J = "ing-validacion", "ing-esquematicos", "ing-layout", "jr-conformidad"
+
+
+def bash(c):
+    return ("Bash", {"command": c})
+
+
+def ps(c):
+    return ("PowerShell", {"command": c})
+
+
+def w(p):
+    return ("Write", {"file_path": str(p), "content": "x"})
+
+
+def mcp(nombre, **entrada):
+    return (f"mcp__kicad__{nombre}", entrada)
+
+
+CASOS = [
+    # --- git: lectura permitida
+    ("G01", V, *bash("git status"), P),
+    ("G02", V, *bash("git --no-pager log --oneline -5"), P),
+    ("G03", V, *bash("git branch --show-current"), P),
+    ("G04", V, *bash("git rev-parse --short HEAD"), P),
+    ("G05", V, *bash("git config --get core.hooksPath"), P),
+    ("G06", V, *bash("git tag -l"), P),
+    ("G07", V, *bash("git stash list"), P),
+    ("G08", V, *bash("git diff main..HEAD --stat"), P),
+    ("G09", V, *bash('git -C "C:/x" status && git diff --stat'), P),
+    ("G0A", V, *bash("git branch -a"), P),
+    ("G0B", V, *bash("git log --oneline | head -5"), P),
+    # --- git: escritura directa
+    ("G10", V, *bash("git commit -m x"), B),
+    ("G11", V, *bash("git -C . commit -m x"), B),
+    ("G12", V, *bash("GIT_DIR=.git git commit -m x"), B),
+    ("G13", V, *bash("git add -A && git commit -m x"), B),
+    ("G14", V, *bash("git status; git reset --hard"), B),
+    ("G15", V, *bash("git branch nueva"), B),
+    ("G16", V, *bash("git branch -D main"), B),
+    ("G17", V, *bash("git stash"), B),
+    ("G18", V, *bash("git checkout -- CLAUDE.md"), B),
+    ("G19", V, *bash("git switch -c x"), B),
+    ("G20", V, *bash("git push origin main"), B),
+    ("G21", V, *bash("git tag v1"), B),
+    ("G22", V, *bash("git config user.name x"), B),
+    ("G23", V, *bash("git -c alias.ci=commit ci -m x"), B),
+    ("G24", V, *ps("& 'C:\\Program Files\\Git\\cmd\\git.exe' commit -m x"), B),
+    ("G25", V, *bash("gh pr create"), B),
+    ("G26", V, *bash("(cd hardware && git commit -m x)"), B),
+    ("G27", V, *ps("git push origin main"), B),
+    # --- git: envoltorios y escritura disfrazada de lectura
+    ("G30", V, *bash('bash -c "git commit -m x"'), B),
+    ("G31", V, *bash("cmd /c git commit -m x"), B),
+    ("G32", V, *ps('pwsh -Command "git commit -m x"'), B),
+    ("G33", V, *ps('Invoke-Expression "git commit -m x"'), B),
+    ("G34", V, *bash("echo $(git commit -m x)"), B),
+    ("G35", V, *bash("xargs git commit -m x < /dev/null"), B),
+    ("G36", V, *bash("git diff --output=CLAUDE.md"), B),
+    ("G37", V, *ps("pwsh -EncodedCommand ZQBjAGgAbwA="), B),
+    ("G38", V, *bash('bash -c "rm -rf docs"'), B),
+    # --- Write/Edit por zonas
+    ("W01", V, *w(REPO / "gestion/informes/VAL-0001-01.md"), P),
+    ("W02", V, *w(REPO / "docs/validacion/plan.md"), P),
+    ("W03", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-validacion.md"), P),
+    ("W04", V, *w(REPO / ".claude/agent-memory/ing-validacion/MEMORY.md"), P),
+    ("W05", V, *w(TMP / "x.txt"), P),
+    ("W06", V, *w(REPO / "docs/02-especificaciones-v2.md"), B),
+    ("W07", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-layout.md"), B),
+    ("W08", V, *w(REPO / ".claude/agent-memory/ing-layout/MEMORY.md"), B),
+    ("W09", V, *w(str(REPO / "gestion/informes") + r"\..\..\CLAUDE.md"), B),
+    ("W10", V, *w(TFG + r"\x.kicad_sch"), B),
+    ("W11", V, *w(str(TMP) + r"\..\..\..\proyectos\TFG\x"), B),
+    ("W12", V, *w("gestion/informes/rel.md"), P),
+    ("W13", E, *w(REPO / "hardware/v2/esp.kicad_sch"), P),
+    ("W14", E, *w(REPO / "hardware/v2/esp.kicad_pcb"), B),
+    ("W15", E, *w(REPO / "hardware/v2/ESP.KICAD_PCB"), B),
+    ("W16", E, *w(REPO / "hardware/v2/esp.kicad_dru"), B),
+    ("W17", L, *w(REPO / "hardware/v2/esp.kicad_sch"), B),
+    ("W18", L, *w(REPO / "hardware/v2/esp.kicad_pcb"), P),
+    ("W19", J, *w(REPO / "hardware/libraries/esp-riego.kicad_sym"), P),
+    ("W20", J, *w(REPO / "gestion/README.md"), B),
+    ("W21", J, *w(REPO / ".claude/agents/jr-conformidad.md"), B),
+    ("W22", "", *w(REPO / "gestion/informes/x.md"), B),
+    ("W23", V, "Edit", {"file_path": str(REPO / "CLAUDE.md"), "old_string": "a", "new_string": "b"}, B),
+    ("W24", E, *w(REPO / "firmware/control-riego.yaml"), P),
+    ("W25", E, *w(REPO / "docs/diseno/alimentacion.md"), P),
+    ("W26", J, *w(REPO / "fabricacion/v2.0/bom.csv"), P),
+    ("W27", J, *w(REPO / "docs/02-especificaciones-v2.md"), B),
+    ("W28", V, *w(REPO / "gestion/TABLERO.md"), B),
+    ("W29", V, *w(r"c:\users\josan\proyectos\kicad_mcp\gestion\informes\x.md"), P),
+    # --- carpeta del TFG
+    ("T01", J, *bash(r"rm -rf C:\Users\josan\proyectos\TFG\x"), B),
+    ("T02", J, *bash("rm -rf /c/Users/josan/proyectos/TFG/x"), B),
+    ("T03", J, *ps(r'Remove-Item -Recurse -Force "C:\Users\josan\proyectos\TFG\x"'), B),
+    ("T04", J, *bash("cp -r C:/Users/josan/proyectos/TFG hardware/v1-tfg"), P),
+    ("T05", J, *ps(r"Copy-Item -Recurse C:\Users\josan\proyectos\TFG\* hardware\v1-tfg"), P),
+    ("T06", J, *bash("cp x.txt C:/Users/josan/proyectos/TFG/"), B),
+    ("T07", J, *bash("echo x > C:/Users/josan/proyectos/TFG/x.txt"), B),
+    ("T08", J, *bash("sed -i s/a/b/ C:/Users/josan/proyectos/TFG/x.kicad_sch"), B),
+    ("T09", J, *bash("ls C:/Users/josan/proyectos/TFG"), P),
+    ("T10", J, *bash("rm -rf ../TFG/x"), B),
+    ("T11", J, *bash("mv ../TFG/Control_De_Riego.kicad_pcb hardware/v1-tfg/"), B),
+    ("T12", J, *bash("cd C:/Users/josan/proyectos/TFG && rm -rf *"), B),
+    ("T13", J, *ps(r"Set-Location C:\Users\josan\proyectos\TFG; Remove-Item *.kicad_pcb"), B),
+    ("T14", J, *ps(r"robocopy C:\Users\josan\proyectos\TFG hardware\v1-tfg /MOVE"), B),
+    ("T15", J, *ps(r"[IO.File]::WriteAllText('C:\Users\josan\proyectos\TFG\x.txt','x')"), B),
+    ("T16", J, *bash(r"python -c \"import os; os.remove(r'C:\Users\josan\proyectos\TFG\x')\""), B),
+    ("T17", J, *bash(r"\"C:\Program Files\KiCad\10.0\bin\kicad-cli.exe\" sch export pdf -o C:/Users/josan/proyectos/TFG/x.pdf C:/Users/josan/proyectos/TFG/Control_De_Riego.kicad_sch"), B),
+    ("T18", J, *bash("rm -rf ~/proyectos/TFG"), B),
+    ("T19", J, *bash("cat '/c/Users/josan/proyectos/TFG/Diseño del circuito.md'"), P),
+    ("T1A", J, *ps(r'Get-Content "C:\Users\josan\proyectos\TFG\Control_De_Riego.csv" | Out-File hardware\x.csv'), P),
+    ("T1B", J, *ps(r'Get-Content a.txt | Set-Content "C:\Users\josan\proyectos\TFG\a.txt"'), B),
+    ("T1C", J, *bash(r'robocopy "C:\Users\josan\proyectos\TFG\Llibreries_Kicad" hardware\libraries\tmp /E'), P),
+    ("T1D", J, *bash(r'robocopy hardware "C:\Users\josan\proyectos\TFG\x" /E'), B),
+    ("T1E", J, *bash(r'kicad-cli sch erc -o C:/Users/josan/AppData/Local/Temp/e.json C:/Users/josan/proyectos/TFG/KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_sch'), B),
+    ("T1F", J, *bash(r"python herramientas/verificar.py C:/Users/josan/proyectos/TFG/KiCad_PCB/Control_De_Riego"), B),
+    ("T1G", J, *ps(r"Copy-Item x.txt -Destination 'C:\Users\josan\proyectos\TFG\x.txt'"), B),
+    # --- configuración del sistema y auditoría
+    ("S01", J, *bash("rm -rf .git"), B),
+    ("S02", J, *bash("rm -rf .claude/hooks"), B),
+    ("S03", J, *bash("rm -rf .git .claude"), B),
+    ("S04", J, *bash("rm -rf .claude"), B),
+    ("S05", J, *ps("Remove-Item .git -Recurse -Force"), B),
+    ("S06", J, *bash("echo '{}' > .claude/settings.json"), B),
+    ("S07", J, *bash("sed -i s/guardia/nada/ .claude/agents/jr-conformidad.md"), B),
+    ("S08", J, *bash("cat .claude/hooks/guardia.py"), P),
+    ("S09", J, *bash("cp /tmp/x .githooks/commit_msg.py"), B),
+    ("S10", J, *bash("rm CLAUDE.md"), B),
+    ("S11", J, *bash("cat .git/HEAD"), P),
+    # --- escrituras por la terminal dentro del repositorio
+    ("Z01", V, *bash("echo x > docs/02-especificaciones-v2.md"), B),
+    ("Z02", V, *bash("sed -i s/M/C/ docs/02-especificaciones-v2.md"), B),
+    ("Z03", V, *ps("Set-Content gestion/specs/SPEC-0001-orquestacion.md x"), B),
+    ("Z04", V, *bash("rm -rf docs hardware"), B),
+    ("Z05", V, *bash("echo '{}' >> gestion/logs/auditoria/2026-11-03.jsonl"), B),
+    ("Z06", V, *bash("cp /tmp/x gestion/checklists/esquema.md"), B),
+    ("Z07", E, *bash("echo texto > docs/diseno/x.md"), P),
+    ("Z08", E, *bash("mkdir -p docs/diseno"), P),
+    ("Z09", J, *ps("Set-Content -Path hardware/x.txt -Value 'hola'"), P),
+    ("Z10", V, *bash("echo x > /dev/null 2>&1"), P),
+    ("Z11", J, *bash("tee hardware/x.log < entrada.txt"), P),
+    ("Z12", J, *bash("tee gestion/x.log < entrada.txt"), B),
+    ("Z13", L, *bash("cd hardware/v2 && touch notas.txt"), P),
+    ("Z14", L, *bash("cd hardware/v2 && touch esp.kicad_sch"), B),
+    # --- falsos positivos que no deben bloquear
+    ("F01", V, "Bash", None, P),
+    ("F02", V, *bash('grep -o "patron" gestion/informes/x.md'), P),
+    ("F03", V, *bash('python -c "print(2+2)"'), P),
+    ("F04", V, *bash(r'python herramientas/verificar.py "C:\Users\josan\AppData\Local\Temp\copia" --salida "C:\Users\josan\AppData\Local\Temp\v1"'), P),
+    ("F05", V, *bash("ls -la hardware && cat README.md"), P),
+    ("F06", V, *bash("cmd /c dir"), P),
+    ("F07", V, *bash("kicad-cli sch erc -o C:/Users/josan/AppData/Local/Temp/e.json C:/Users/josan/AppData/Local/Temp/copia/x.kicad_sch"), P),
+    ("F08", V, *bash("python -c \"print(open('README.md').read()[:100])\""), P),
+    ("F09", V, *bash("md5sum hardware/*.kicad_pcb > /tmp/sumas.txt"), P),
+    # --- MCP
+    ("M01", J, *mcp("open_project", projectPath=TFG + r"\KiCad_PCB\Control_De_Riego\Control_De_Riego.kicad_pro"), B),
+    ("M02", J, *mcp("open_project", projectPath=str(REPO / "hardware/v1-tfg/Control_De_Riego.kicad_pro")), P),
+    ("M03", V, *mcp("close_project"), B),
+    ("M04", V, *mcp("close_project", save=False), P),
+    ("M05", V, *mcp("lint_schematic_cosmetic", schematicPath=str(REPO / "hardware/v2/x.kicad_sch")), B),
+    ("M06", V, *mcp("lint_schematic_cosmetic", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), dryRun=True), P),
+    ("M07", V, *mcp("lint_offgrid", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), fix=True), B),
+    ("M08", V, *mcp("run_drc"), B),
+    ("M09", V, *mcp("get_board_info"), P),
+    ("M10", E, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "gestion/x.pdf")), B),
+    ("M11", E, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "docs/diseno/x.pdf")), P),
+    ("M12", L, *mcp("save_board"), P),
+    ("M13", J, *mcp("export_bom", outputPath=r"C:\Users\josan\Desktop\bom.csv"), B),
+    ("M14", J, *mcp("get_jlcpcb_part", lcsc="C25804"), P),
+    ("M15", E, *mcp("create_project", path=str(REPO / "hardware/v2"), name="esp-riego"), P),
+    ("M16", J, *mcp("open_project", projectPath="../TFG/KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_pro"), B),
+]
+
+
+def ejecutar(agente, herramienta, entrada, auditoria):
+    datos = {"tool_name": herramienta, "tool_input": entrada, "cwd": str(REPO), "session_id": "prueba00"}
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as f:
+        json.dump(datos, f)
+        ruta = f.name
+    try:
+        with open(ruta, encoding="utf-8") as entrada_f:
+            r = subprocess.run([sys.executable, str(GUARDIA), agente], stdin=entrada_f, capture_output=True,
+                               text=True, encoding="utf-8", env=dict(os.environ, AUDITORIA_DIR=auditoria),
+                               cwd=str(REPO))
+    finally:
+        os.unlink(ruta)
+    return r.returncode, r.stderr.strip()
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    detalle = "-v" in sys.argv
+    auditoria = tempfile.mkdtemp(prefix="auditoria_prueba_")
+    fallos, bloqueos = [], 0
+    for cid, agente, herramienta, entrada, espera in CASOS:
+        codigo, error = ejecutar(agente, herramienta, entrada, auditoria)
+        bloquea = codigo == 2
+        bloqueos += bloquea
+        if bloquea != espera:
+            fallos.append(cid)
+        if detalle or bloquea != espera:
+            marca = "OK" if bloquea == espera else "XX"
+            print(f"{marca} {cid} [{agente or '-'}] {'bloquea' if bloquea else 'pasa'} "
+                  f"(esperado: {'bloquea' if espera else 'pasa'}) {json.dumps(entrada, ensure_ascii=False)[:100]}"
+                  + (f"\n     {error[:200]}" if error else ""))
+    lineas = [json.loads(l) for f in Path(auditoria).glob("*.jsonl") for l in f.open(encoding="utf-8")]
+    registro_ok = len(lineas) == bloqueos and all(l["ok"] is False and l.get("bloqueado") for l in lineas)
+    print(f"{len(CASOS) - len(fallos)}/{len(CASOS)} casos correctos"
+          + (f"; fallan: {', '.join(fallos)}" if fallos else ""))
+    print(f"Auditoría de bloqueos: {len(lineas)} líneas para {bloqueos} bloqueos "
+          f"({'correcta' if registro_ok else 'INCORRECTA'})")
+    sys.exit(0 if not fallos and registro_ok else 1)
+
+
+if __name__ == "__main__":
+    main()
