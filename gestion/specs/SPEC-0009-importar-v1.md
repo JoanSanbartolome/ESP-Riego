@@ -2,15 +2,15 @@
 id: SPEC-0009
 titulo: Importar la v1 del TFG a KiCad 10
 fase: 1
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0009-importar-v1
 requisitos: [KIC-01]
 depende_de: []
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-04
+validacion: VAL-0009-01
 ---
 
 # SPEC-0009 · Importar la v1 del TFG a KiCad 10
@@ -70,3 +70,7 @@ validacion:
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (abierta) | |
+| 2026-11-04 | jr-conformidad | Importa la v1: hardware/v1-tfg y hardware/libraries; ERC 1, DRC 39, paridad 77 | `265b5ae` |
+| 2026-11-04 | ing-validacion | VAL-0009-01: APROBADO_CON_OBSERVACIONES (M 2 · B 3) | `f1266c9` |
+| 2026-11-04 | coordinador | `.gitattributes` con IGES y STEP en mayúsculas (VAL-0009-01-05) | `57b2a6a` |
+| 2026-11-04 | coordinador | Cierra la spec. Hallazgos 01–04 a una spec de corrección propuesta; propuestas de checklist y de la v2 al diario | VAL-0009-01 |

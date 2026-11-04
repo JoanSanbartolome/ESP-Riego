@@ -1,0 +1,1 @@
+- [Trucos de importación del TFG](importar-tfg-trucos.md) — guardia, kicad-cli upgrade, conversión de .lib/EasyEDA, KICAD9→KICAD10

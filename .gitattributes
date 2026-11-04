@@ -7,6 +7,12 @@
 *.step binary
 *.stp binary
 *.wrl binary
+*.STEP binary
+*.STP binary
+*.igs binary
+*.iges binary
+*.IGS binary
+*.IGES binary
 *.pdf binary
 *.png binary
 *.jpg binary
