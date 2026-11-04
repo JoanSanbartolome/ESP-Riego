@@ -2,15 +2,15 @@
 id: SPEC-0004
 titulo: Requisitos v0.2: nuevo objetivo, 6 salidas, 24 V DC y T/HR en placa
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0004-requisitos-v02
-requisitos: [ALI-01, ALI-02, ALI-04, ALI-05, ALI-06, ALI-08, ALI-09, ALI-11, ALI-12, MCU-02, REL-01, REL-02, REL-03, REL-04, REL-05, REL-06, REL-08, REL-09, AMB-01, AMB-02, AMB-03, EXP-01, EXP-02, EXP-04, FAB-03, FAB-06, FAB-07, FAB-08, FAB-09, FAB-10, KIC-02, KIC-04, FW-03]
+requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-08, ALI-09, ALI-11, ALI-12, MCU-02, REL-01, REL-02, REL-03, REL-04, REL-05, REL-06, REL-08, REL-09, AMB-01, AMB-02, AMB-03, EXP-01, EXP-02, EXP-04, FAB-03, FAB-06, FAB-07, FAB-08, FAB-09, FAB-10, KIC-02, KIC-04, FW-03]
 depende_de: []
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-04
+validacion: VAL-0004-02
 ---
 
 # SPEC-0004 · Requisitos v0.2: nuevo objetivo, 6 salidas, 24 V DC y T/HR en placa
@@ -73,3 +73,5 @@ El resto del repositorio queda coherente con esa versión.
 | 2026-11-04 | usuario | Fuente de hasta 5 A, 6 salidas a la vez, T/HR de la caseta, corte visto como «no disponible»; quita la entrada de AC: solo fuente de 24 V DC | DEC-0002 |
 | 2026-11-04 | coordinador | Rehace la alimentación para 24 V DC y corrige los hallazgos 01–16 de VAL-0004-01 | |
 | 2026-11-04 | usuario | Las electroválvulas instaladas son de 24 V DC, ≈ 0,2 A (no de 24 V AC) | DEC-0002 |
+| 2026-11-04 | ing-validacion | VAL-0004-02: APROBADO_CON_OBSERVACIONES (M 3 · B 7) | gestion/informes/VAL-0004-02.md |
+| 2026-11-04 | coordinador | Cierra la spec; las observaciones pasan a SPEC-0007 (propuesta) y el hallazgo 03 a SPEC-0005 | |
