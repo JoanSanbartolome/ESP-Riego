@@ -1,6 +1,6 @@
 ---
 id: SPEC-0002
-titulo: Guarda: destinos ocultos y claves de destino del MCP
+titulo: Guarda: claves de destino del MCP que faltan
 fase: 0
 estado: propuesta
 responsable: coordinador
@@ -13,42 +13,37 @@ cerrada:
 validacion:
 ---
 
-# SPEC-0002 · Guarda: destinos ocultos y claves de destino del MCP
+# SPEC-0002 · Guarda: claves de destino del MCP que faltan
 
-> Nace de las observaciones M de [VAL-0001-03](../informes/VAL-0001-03.md). Validación recomienda cerrarla **antes de la primera spec que escriba en `hardware/v2/`**.
+> Mínimo imprescindible de las observaciones de [VAL-0001-03](../informes/VAL-0001-03.md), por decisión del usuario de no complicar más la orquestación. Se cierra antes de la primera spec que escriba en `hardware/v2/`.
 
 ## Objetivo
 
-Que la guarda vea los destinos que hoy se le escapan y compruebe todas las claves de escritura reales del servidor MCP. Las elusiones que queden tienen que estar en `LIMITES` y documentadas.
+Que la guarda compruebe la zona de las claves de escritura del MCP que hoy no mira. El caso grave es `run_drc(reportPath)`, que permitiría a un agente de diseño sobrescribir cualquier archivo, `.claude/settings.json` incluido.
 
 ## Alcance
 
-- Incluye:
-  - VAL-0001-03-01: TFG alcanzado con comodines o desde una carpeta padre en tuberías (`Get-ChildItem …\proyectos\T* -Recurse | Remove-Item`); `Get-ChildItem docs | Remove-Item` y `xargs rm` dentro del repositorio; contenido de `find -exec`; `uniq` con segundo argumento; `cp --target-directory=`; `tar -cf`/`-rf` con el archivo dentro del TFG.
-  - VAL-0001-03-02: invertir el criterio de `CLAVES_DESTINO`: toda clave con forma de ruta es destino salvo una lista explícita de orígenes. Cubrir `run_drc(reportPath)`, `subsheetPath`/`parentSchematicPath`, `schematic_path`, `schematicPaths`, `projectsDir` y `pcbPath`. Añadir una prueba que cruce las claves con el código del servidor (`C:\Users\josan\proyectos\KiCAD-MCP-Server\src\tools`).
-  - VAL-0001-03-05: `git --config-env=`, variables `GIT_EXTERNAL_DIFF` y `GIT_CONFIG_*`; la sustitución de órdenes, a `LIMITES`.
-  - VAL-0001-03-06: explicar `ZONAS_MCP` en "Guardas" y exigir a `ing-esquematicos` `close_project` con `save: false` (o aplicarle `AJENOS` en el MCP).
-- Excluye: las B de detalle (SPEC-0003).
+- Incluye: añadir a `CLAVES_DESTINO` de `.claude/hooks/guardia.py` las claves `reportPath`, `subsheetPath`, `parentSchematicPath`, `schematic_path`, `schematicPaths`, `projectsDir` y `pcbPath` (VAL-0001-03-02), con un caso por clave en `herramientas/pruebas/test_guardia.py`.
+- Excluye: todo lo demás de VAL-0001-03 (descartado por el usuario el 2026-11-04).
 
 ## Entradas
 
-- `gestion/informes/VAL-0001-03.md` (hallazgos 01, 02, 05 y 06, con sus casos).
-- `.claude/hooks/guardia.py`, `herramientas/pruebas/test_guardia.py` y `gestion/README.md` (Guardas).
+- `gestion/informes/VAL-0001-03.md`, hallazgo 02.
+- `.claude/hooks/guardia.py` y `herramientas/pruebas/test_guardia.py`.
 
 ## Entregables
 
-- `guardia.py` y su batería con los casos nuevos.
-- "Guardas" actualizada.
+- `guardia.py` con las claves nuevas y la batería ampliada.
 
 ## Criterios de aceptación
 
-- [ ] Los casos de VAL-0001-03-01, -02 y -05 están en la batería y se bloquean, o están en `LIMITES` y documentados.
-- [ ] Una prueba cruza las claves de las herramientas de escritura del servidor MCP con las de la guarda.
-- [ ] "Guardas" explica `ZONAS_MCP` y la regla de `close_project` de `ing-esquematicos`.
-- [ ] Sin falsos positivos nuevos en la batería.
+- [ ] `run_drc` con `reportPath` fuera de las zonas MCP se bloquea; dentro, pasa.
+- [ ] Las otras seis claves se comprueban igual.
+- [ ] La batería pasa entera, sin falsos positivos nuevos.
 
 ## Registro
 
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) a partir de VAL-0001-03 | |
+| 2026-11-04 | usuario | Pide reducir SPEC-0002 y SPEC-0003 al mínimo; queda solo VAL-0001-03-02 | |

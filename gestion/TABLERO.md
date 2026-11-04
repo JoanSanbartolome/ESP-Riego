@@ -2,14 +2,13 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 0 · cerrada 2 · descartada 0.
+Specs por estado: propuesta 1 · abierta 0 · cerrada 2 · descartada 1.
 
-## Propuestas (2)
+## Propuestas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: destinos ocultos y claves de destino del MCP | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
-| [SPEC-0003](specs/SPEC-0003-auditoria-detalles.md) | Auditoría encadenada, falsos positivos y detalles de commit-msg | 0 | coordinador | `spec/SPEC-0003-auditoria-detalles` | — | 2026-11-04 | — |
+| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 
 ## Cerradas (2)
 
@@ -17,6 +16,12 @@ Specs por estado: propuesta 2 · abierta 0 · cerrada 2 · descartada 0.
 |---|---|---|---|---|---|---|---|
 | [SPEC-0000](specs/SPEC-0000-analisis-especificaciones-plan.md) | Análisis de la v1, especificaciones y plan de la v2 | 0 | coordinador | `main` | n/a | 2026-11-03 | 2026-11-03 |
 | [SPEC-0001](specs/SPEC-0001-orquestacion.md) | Sistema de orquestación de agentes | 0 | coordinador | `spec/SPEC-0001-orquestacion` | VAL-0001-03 (APROBADO_CON_OBSERVACIONES) | 2026-11-03 | 2026-11-04 |
+
+## Descartadas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0003](specs/SPEC-0003-auditoria-detalles.md) | Auditoría encadenada, falsos positivos y detalles de commit-msg | 0 | coordinador | `spec/SPEC-0003-auditoria-detalles` | — | 2026-11-04 | — |
 
 ## Decisiones
 

@@ -2,7 +2,7 @@
 id: SPEC-0003
 titulo: Auditoría encadenada, falsos positivos y detalles de commit-msg
 fase: 0
-estado: propuesta
+estado: descartada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0003-auditoria-detalles
@@ -50,3 +50,4 @@ Que la auditoría no se pueda alterar sin que se note, aunque las líneas aún n
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) a partir de VAL-0001-03 | |
+| 2026-11-04 | usuario | Descartada: no complicar más la orquestación. Los límites siguen documentados en `gestion/README.md` (Guardas) | |
