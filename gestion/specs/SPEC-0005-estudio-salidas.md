@@ -2,15 +2,15 @@
 id: SPEC-0005
 titulo: Estudio de la tecnología de las salidas
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0005-estudio-salidas
 requisitos: [REL-01, REL-03, REL-05]
 depende_de: [SPEC-0004]
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-04
+validacion: VAL-0005-01
 ---
 
 # SPEC-0005 · Estudio de la tecnología de las salidas
@@ -96,3 +96,5 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
 | 2026-11-04 | coordinador | Crea la spec (abierta) | |
 | 2026-11-04 | coordinador | La válvula instalada es de 24 V DC, ≈ 0,2 A (VAL-0004-02-03); el estudio entregado partía de 24 V AC y necesita una adenda | |
 | 2026-11-04 | usuario | D8: elige el *high-side* inteligente BTT6050-1ERA con protección y diagnóstico completos (segunda fuente BTT6030-2ERA, reserva BSP752R), tras comparar el ahorro de relajar las protecciones (§11). Se registra en DEC-0003 (SPEC-0007) | §11 |
+| 2026-11-04 | ing-validacion | VAL-0005-01: APROBADO_CON_OBSERVACIONES (M 1 · B 9) | VAL-0005-01 |
+| 2026-11-04 | coordinador | Cierra la spec. Hallazgos 01, 03, 04, 06 y 07 a SPEC-0007; 05 a SPEC-0007 como requisito del bloque de salidas; 02, 08, 09 y 10 (correcciones del estudio) a SPEC-0008 (propuesta) | |
