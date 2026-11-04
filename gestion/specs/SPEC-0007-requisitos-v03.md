@@ -70,3 +70,4 @@ validacion:
 | 2026-11-04 | coordinador | D8 decidida; añade las observaciones 01 y 03–07 de VAL-0005-01 | VAL-0005-01 |
 | 2026-11-04 | usuario | Cortocircuito en una salida (VAL-0005-01-01): limitador común en el bus de las salidas | DEC-0003 |
 | 2026-11-04 | coordinador | Abre la spec | |
+| 2026-11-04 | usuario | D2: confirma quitar el contacto libre (solo salidas alimentadas) | DEC-0003 |

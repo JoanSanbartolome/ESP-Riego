@@ -31,16 +31,15 @@ VAL-0005-01-01 señaló que, con un corto en una salida, la fuente de 5 A limita
 |---|---|---|
 | 1 | **D8: *high-side* inteligente Infineon BTT6050-1ERA** (C534868) en cada canal, con su protección y su diagnóstico completos. La segunda fuente es el BTT6030-2ERA (C534865) y la reserva, el BSP752R (C112644). Se descartan el relé y el MOSFET discreto. Relajar las protecciones ahorraba ≈ 4,7–5,8 $ por placa, a cambio de perder la protección propia del canal y de que el fallo típico deje la válvula abierta. | REL-01, REL-03, REL-05, REL-10 |
 | 2 | **Limitador común en el bus de las salidas** ante un cortocircuito (VAL-0005-01-01), en lugar de un condensador de autonomía con una reacción por hardware. | ALI-12, ALI-13, REL-08 |
+| 3 | **D2: solo salida alimentada; se quita el contacto libre de potencial.** Lo confirma a propuesta del coordinador. Una carga con su propia fuente (p. ej. una válvula de 24 V AC) se movería con un relé externo o con el módulo de expansión. | REL-02, REL-08 |
 
 ## Interpretación del coordinador
 
-Pendiente de que el usuario la confirme en la revisión de la v0.3:
-
-- **D2: solo salida alimentada.**
+- **D2: solo salida alimentada** (confirmada por el usuario, decisión 3).
   - El BTT6050 conmuta el positivo del bus y no ofrece contacto libre de potencial.
   - Se retira el contacto libre de REL-08, y REL-02 queda en ≤ 36 V DC.
   - Una carga con su propia fuente, como una válvula de 24 V AC, se puede mover con un relé externo gobernado por una salida, o con el módulo de expansión (D9).
-  - Esto reduce la flexibilidad que el usuario pedía en DEC-0002 (decisión 6), y por eso se le consulta.
+  - Esto reduce la flexibilidad que el usuario pedía en DEC-0002 (decisión 6); el usuario lo acepta.
 - **Limitador común (ALI-13):**
   - Es un eFuse o un controlador *hot-swap* de ≥ 60 V, entre las protecciones de entrada y los *high-side*. Su umbral:
     - no actúa con los 4 A de ALI-12;
