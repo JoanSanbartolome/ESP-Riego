@@ -2,13 +2,21 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 2 · descartada 1.
+Specs por estado: propuesta 2 · abierta 2 · cerrada 2 · descartada 1.
 
-## Propuestas (1)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
+
+## Abiertas (2)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | Requisitos v0.2: nuevo objetivo, 6 salidas, 24 V AC y T/HR en placa | 0 | coordinador | `spec/SPEC-0004-requisitos-v02` | — | 2026-11-04 | — |
+| [SPEC-0005](specs/SPEC-0005-estudio-salidas.md) | Estudio de la tecnología de las salidas | 2 | ing-esquematicos | `spec/SPEC-0005-estudio-salidas` | — | 2026-11-04 | — |
 
 ## Cerradas (2)
 
