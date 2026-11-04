@@ -15,7 +15,7 @@ Decisiones de partida:
 
 Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la placa e integración en Home Assistant mediante ESPHome. Se alimenta de una fuente de 24 V DC y se monta en interior, en una caja ventilada a la pared.
 
-- Las salidas no quedan atadas a un único tipo de válvula. Su tecnología se decide con un estudio (D8), que tiene en cuenta las electroválvulas de 24 V AC ya instaladas.
+- Las salidas no quedan atadas a un único tipo de válvula. Su tecnología se decide con un estudio (D8), que tiene en cuenta las electroválvulas instaladas: 24 V DC, ≈ 0,2 A cada una.
 - El número de canales se puede ampliar con un módulo de expansión (D9).
 - La v2 corrige los hallazgos de [01-analisis-v1.md](01-analisis-v1.md) y se monta en JLCPCB.
 - No incluye sensor de nivel de depósito.
@@ -101,7 +101,7 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 | REL-05 | M | Al menos 1 A continuo por canal (dos electroválvulas en paralelo) y soporte de su corriente de arranque. Las 6 salidas pueden estar activas a la vez, con el total de ALI-12. Los valores definitivos se fijan al cerrar D8. Pistas dimensionadas con ΔT ≤ 10 °C (IPC-2152). |
 | REL-06 | M | Mismo orden de pines en los 6 bornes, coherente entre esquema, PCB y serigrafía. |
 | REL-07 | S | LED indicador por canal. |
-| REL-08 | S | Opción de alimentar las válvulas desde la entrada de 24 V DC (salida alimentada, con fusible y borne común, como los programadores comerciales), y opción de contacto libre de potencial para válvulas con su propia fuente, como las de 24 V AC instaladas. Qué opciones ofrece la placa y cómo se eligen se decide con D2. Cada salida alimentada lleva protección propia contra cortocircuito, y la lógica aguanta el disparo sin reiniciarse: un corto en el cable de un canal no puede dejar sin alimentación la placa ni los demás canales. |
+| REL-08 | S | Opción de alimentar las válvulas desde la entrada de 24 V DC (salida alimentada, con fusible y borne común, como los programadores comerciales), y opción de contacto libre de potencial para cargas con su propia fuente (p. ej. válvulas de 24 V AC con su transformador). Qué opciones ofrece la placa y cómo se eligen se decide con D2. Cada salida alimentada lleva protección propia contra cortocircuito, y la lógica aguanta el disparo sin reiniciarse: un corto en el cable de un canal no puede dejar sin alimentación la placa ni los demás canales. |
 | REL-09 | M | Salidas repartidas en dos bordes opuestos: canales 1–3 en el borde superior y canales 4–6 en el inferior. |
 
 ### 4.4 Temperatura y humedad (AMB)
@@ -189,7 +189,7 @@ Amplían las pruebas del pliego del TFG.
 | D5 | Modelo de caja ventilada y medidas internas | Pendiente |
 | D6 | Cobre de 1 oz o 2 oz | Por defecto, 1 oz; se revisa con D8 |
 | D7 | ADC interno o ADS1115 para el 4–20 mA | **Sin objeto:** se elimina el sensor de nivel (DEC-0002) |
-| D8 | Tecnología de las salidas: relé, SSR, triac o MOSFET (REL-01, REL-03, REL-05), y qué hacer con las electroválvulas de 24 V AC instaladas | Pendiente de SPEC-0005 |
+| D8 | Tecnología de las salidas: relé, SSR, triac o MOSFET (REL-01, REL-03, REL-05); las válvulas instaladas son de 24 V DC, ≈ 0,2 A | Pendiente de SPEC-0005 |
 | D9 | Arquitectura del módulo de expansión (EXP-02, EXP-04) | Pendiente de SPEC-0006 |
 
 ## 8. Trazabilidad con los hallazgos v1

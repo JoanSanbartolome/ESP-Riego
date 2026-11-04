@@ -72,3 +72,4 @@ El resto del repositorio queda coherente con esa versión.
 | 2026-11-04 | ing-validacion | VAL-0004-01: RECHAZADO (A 1 · M 6 · B 9) | gestion/informes/VAL-0004-01.md |
 | 2026-11-04 | usuario | Fuente de hasta 5 A, 6 salidas a la vez, T/HR de la caseta, corte visto como «no disponible»; quita la entrada de AC: solo fuente de 24 V DC | DEC-0002 |
 | 2026-11-04 | coordinador | Rehace la alimentación para 24 V DC y corrige los hallazgos 01–16 de VAL-0004-01 | |
+| 2026-11-04 | usuario | Las electroválvulas instaladas son de 24 V DC, ≈ 0,2 A (no de 24 V AC) | DEC-0002 |
