@@ -1,1 +1,1 @@
-- [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros y código del servidor, falsos positivos de guardas MCP, listas negras eludibles, revisar_zonas en %TEMP%, TFG sin copia
+- [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG
