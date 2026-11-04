@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v1 (2026-11-03). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v2 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Estructura
 
@@ -21,11 +21,11 @@
 - [ ] Recalculado de forma independiente por el revisor; desviación explicada si la hay.
 - [ ] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] Condensadores cerámicos con *derating* por tensión DC y temperatura.
-- [ ] Disipación de reguladores, resistencias de potencia y MOSFET dentro de márgenes a +60 °C.
+- [ ] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5).
 
 ## Alimentación
 
-- [ ] Protección de polaridad, fusible y TVS en la entrada (ALI-03, ALI-04).
+- [ ] Puente rectificador, condensador de bulk, fusible y TVS en la entrada; el buck no cae por debajo del UVLO con 20 V AC a plena carga (ALI-01 … ALI-04).
 - [ ] UVLO calculado y ajustable (ALI-06).
 - [ ] VBUS unido con diodo, sin retroalimentación al USB ni a la entrada (ALI-08).
 
@@ -40,11 +40,12 @@
 
 ## Salidas e interfaces de campo
 
-- [ ] Relés desactivados durante el reset y el flasheo (REL-04).
-- [ ] Diodo de rueda libre en cada bobina (REL-03).
-- [ ] Orden de pines de los bornes idéntico en los 4 canales y coherente con la serigrafía (REL-06, H1).
-- [ ] ESD o TVS en todos los conectores de campo; limitación de corriente donde un cortocircuito del cable pueda dañar algo (NIV-02).
-- [ ] Lazo 4–20 mA: ≥ 12 V en el transmisor a 20 mA con VIN mínimo (NIV-01, H3).
+- [ ] Salidas desactivadas durante el reset y el flasheo (REL-04).
+- [ ] Protección de la carga inductiva según la tecnología elegida: diodo, *snubber* o varistor (REL-03).
+- [ ] Corriente por canal y total según REL-05 y la decisión D8.
+- [ ] Orden de pines de los bornes idéntico en los 6 canales y coherente con la serigrafía (REL-06, H1).
+- [ ] ESD o TVS en todos los conectores de campo; fusible o limitación donde un cortocircuito del cable pueda dañar algo (REL-08, EXP-01, EXP-02).
+- [ ] Sensor de temperatura y humedad con su desacoplo y pull-ups de I²C; conector de expansión según el informe de SPEC-0006 (AMB-01, EXP-02).
 
 ## Entregables para layout
 
@@ -55,3 +56,4 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
+| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): entrada de 24 V AC rectificada, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA |

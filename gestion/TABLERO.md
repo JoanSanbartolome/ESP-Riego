@@ -36,6 +36,7 @@ Specs por estado: propuesta 2 · abierta 2 · cerrada 2 · descartada 1.
 | Decisión | Título | Estado | Decide | Fecha |
 |---|---|---|---|---|
 | [DEC-0001](decisiones/DEC-0001-orquestacion-de-agentes.md) | Orquestación de agentes para el diseño de la v2 | aceptada | usuario | 2026-11-03 |
+| [DEC-0002](decisiones/DEC-0002-objetivo-v2-revisado.md) | Objetivo de la v2 revisado: interior, 24 V AC, 6 salidas, T/HR en placa y sin nivel | aceptada | usuario | 2026-11-04 |
 
 ## Informes de validación
 

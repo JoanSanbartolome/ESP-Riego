@@ -6,7 +6,7 @@ estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0004-requisitos-v02
-requisitos: []
+requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-06, ALI-09, REL-01, REL-02, REL-03, REL-05, REL-06, REL-08, REL-09, AMB-01, AMB-02, AMB-03, EXP-01, EXP-02, EXP-04, FAB-03, FAB-07, FAB-08, FAB-10, FW-03]
 depende_de: []
 creada: 2026-11-04
 cerrada:
@@ -67,3 +67,4 @@ El resto del repositorio queda coherente con esa versión.
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (abierta) | |
+| 2026-11-04 | coordinador | DEC-0002, docs/02 v0.2, docs/03 y checklists de esquema y layout v2 | |
