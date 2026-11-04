@@ -2,7 +2,7 @@
 id: SPEC-0007
 titulo: Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01
 fase: 0
-estado: propuesta
+estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0007-requisitos-v03
@@ -15,7 +15,7 @@ validacion:
 
 # SPEC-0007 · Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01
 
-> Propuesta: D8 ya está decidida (BTT6050-1ERA con protección completa; registro de SPEC-0005). Reúne en una sola ronda la decisión y las observaciones de VAL-0004-02 y VAL-0005-01.
+> D8 ya está decidida (BTT6050-1ERA con protección completa; registro de SPEC-0005). Reúne en una sola ronda la decisión y las observaciones de VAL-0004-02 y VAL-0005-01.
 
 ## Objetivo
 
@@ -68,3 +68,5 @@ validacion:
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-04 | coordinador | D8 decidida; añade las observaciones 01 y 03–07 de VAL-0005-01 | VAL-0005-01 |
+| 2026-11-04 | usuario | Cortocircuito en una salida (VAL-0005-01-01): limitador común en el bus de las salidas | DEC-0003 |
+| 2026-11-04 | coordinador | Abre la spec | |
