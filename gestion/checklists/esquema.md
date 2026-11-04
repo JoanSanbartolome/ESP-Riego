@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v2 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v3 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Estructura
 
@@ -21,11 +21,16 @@
 - [ ] Recalculado de forma independiente por el revisor; desviación explicada si la hay.
 - [ ] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] Condensadores cerámicos con *derating* por tensión DC y temperatura.
+- [ ] La energía de desmagnetización de cada salida se calcula con el número máximo de cargas por canal y la ecuación del fabricante, y se compara con la curva E_AS(I_L), no con el E_AS a corriente nominal (REL-03).
+- [ ] Si se calcula una autonomía (*hold-up*), va desde la VIN mínima (ALI-01) menos las caídas hasta el umbral de **bajada** del UVLO (ALI-06), con la potencia de pico de la lógica y la tolerancia del condensador.
 - [ ] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5) más el calentamiento interno de la caja (≥ 10 °C, o el valor estimado en `docs/diseno/`).
 
 ## Alimentación
 
 - [ ] Protección de polaridad, fusible y TVS en la entrada, dimensionados para 5 A (ALI-03, ALI-04, ALI-12).
+- [ ] TVS unidireccional después de la protección de polaridad, o bidireccional si va en el borne; en el P-MOSFET de polaridad, VGS limitada (zener) a la tensión máxima de entrada y VDS ≥ Vc.
+- [ ] Divisor de VIN: escala hasta ≥ la VRWM dentro del rango del ADC1, y pin protegido ante Vc (ALI-09).
+- [ ] Limitador común del bus de salidas (ALI-13): el buck se alimenta antes; umbral por encima de 4 A y, con la lógica y la tolerancia, por debajo del límite de la fuente; corte por fallo antes de que el buck baje del UVLO; habilitación con *pull-down*.
 - [ ] TVS: VRWM ≥ tensión máxima de entrada (ALI-01) y Vc ≤ tensión nominal de cada pieza del nodo protegido (ALI-04, ALI-05).
 - [ ] UVLO referido a la tensión tras las protecciones y ajustable (ALI-06).
 - [ ] Presupuesto de consumo de la fuente con las 6 salidas activas (ALI-12).
@@ -44,7 +49,9 @@
 
 - [ ] Salidas desactivadas durante el reset y el flasheo (REL-04).
 - [ ] Protección de la carga inductiva según la tecnología elegida: diodo, *snubber* o varistor (REL-03).
-- [ ] Corriente por canal y total según REL-05 y la decisión D8.
+- [ ] Corriente por canal y total según REL-05 y ALI-12.
+- [ ] Salidas de diagnóstico analógicas (IS) hacia el ADC1 con la tensión máxima en fallo acotada por debajo del máximo del pin; *pull-up* de carga abierta con fuga ≤ 1 mA (REL-10).
+- [ ] Un corto en una salida: se comprueba qué ven el resto de canales y la lógica hasta que actúa el limitador común (REL-08).
 - [ ] Orden de pines de los bornes idéntico en los 6 canales y coherente con la serigrafía (REL-06, H1).
 - [ ] ESD o TVS en todos los conectores de campo; fusible o limitación donde un cortocircuito del cable pueda dañar algo (REL-08, EXP-01, EXP-02).
 - [ ] Sensor de temperatura y humedad con su desacoplo y pull-ups de I²C; conector de expansión según el informe de SPEC-0006 (AMB-01, EXP-02).
@@ -58,4 +65,6 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
+| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002). Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
+| v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02 y VAL-0005-01: TVS frente a polaridad, divisor de VIN, limitador común, energía inductiva con la curva E_AS, *hold-up*, IS acotada y corto en una salida |
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01 |
