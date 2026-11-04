@@ -95,3 +95,4 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (abierta) | |
 | 2026-11-04 | coordinador | La válvula instalada es de 24 V DC, ≈ 0,2 A (VAL-0004-02-03); el estudio entregado partía de 24 V AC y necesita una adenda | |
+| 2026-11-04 | usuario | D8: elige el *high-side* inteligente BTT6050-1ERA con protección y diagnóstico completos (segunda fuente BTT6030-2ERA, reserva BSP752R), tras comparar el ahorro de relajar las protecciones (§11). Se registra en DEC-0003 (SPEC-0007) | §11 |
