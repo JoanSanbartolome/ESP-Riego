@@ -28,7 +28,7 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 ## Fase 2: arquitectura y selección de componentes
 
-- [ ] Cerrar las decisiones abiertas D2–D6, D8 y D9; D8 (tecnología de las salidas) con el estudio de SPEC-0005 y D9 (módulo de expansión) con el informe de SPEC-0006.
+- [ ] Cerrar las decisiones abiertas D3–D6 y D9; D9 (módulo de expansión) con el informe de SPEC-0006. D2 y D8 ya están cerradas (DEC-0003: salidas alimentadas con *high-side* inteligente y limitador común).
 - [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
 - [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
 - [ ] Tabla de asignación de GPIO según MCU-05.

@@ -6,7 +6,7 @@ estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0007-requisitos-v03
-requisitos: [ALI-03, ALI-04, ALI-05, ALI-06, ALI-09, ALI-12, MCU-05, REL-03, REL-05, REL-08, AMB-02, FAB-03, FAB-07, FAB-08]
+requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, REL-10, AMB-02, FAB-03, FAB-06, FAB-07, FAB-08]
 depende_de: [SPEC-0004, SPEC-0005]
 creada: 2026-11-04
 cerrada:
@@ -19,7 +19,7 @@ validacion:
 
 ## Objetivo
 
-`docs/02-especificaciones-v2.md` pasa a la v0.3: refleja la decisión D8 (y D2 si se decide a la vez) en una DEC nueva y resuelve las observaciones de VAL-0004-02.
+`docs/02-especificaciones-v2.md` pasa a la v0.3: refleja D8, el limitador común y D2 en DEC-0003 y resuelve las observaciones de VAL-0004-02 y VAL-0005-01.
 
 ## Alcance
 

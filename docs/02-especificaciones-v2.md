@@ -1,6 +1,6 @@
 # Especificaciones de la PCB v2
 
-**Estado:** borrador v0.2 (2026-11-04). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md) y en el [historial](#10-historial).
+**Estado:** borrador v0.3 (2026-11-04). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md) y en el [historial](#10-historial).
 
 Decisiones de partida:
 
@@ -15,7 +15,7 @@ Decisiones de partida:
 
 Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la placa e integración en Home Assistant mediante ESPHome. Se alimenta de una fuente de 24 V DC y se monta en interior, en una caja ventilada a la pared.
 
-- Las salidas no quedan atadas a un único tipo de válvula. Su tecnología se decide con un estudio (D8), que tiene en cuenta las electroválvulas instaladas: 24 V DC, ≈ 0,2 A cada una.
+- Las salidas alimentan electroválvulas de 24 V DC (las instaladas son de ≈ 0,2 A cada una) con un *high-side* inteligente por canal, con protección y diagnóstico (D8, DEC-0003), detrás de un limitador común del bus de salidas.
 - El número de canales se puede ampliar con un módulo de expansión (D9).
 - La v2 corrige los hallazgos de [01-analisis-v1.md](01-analisis-v1.md) y se monta en JLCPCB.
 - No incluye sensor de nivel de depósito.
@@ -26,13 +26,13 @@ Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la p
 |---|---|---|
 | MCU | Wemos S2 Mini enchufable | ESP32-S3-WROOM-1 soldado, USB-C propio |
 | Alimentación | 12 V DC por jack, sin protecciones | 24 V DC de una fuente de hasta 5 A, por borne, con protección de polaridad, fusible y TVS |
-| Salidas | 4 relés, opto + BC817 | 6 salidas; tecnología según el estudio de SPEC-0005 (D8) |
+| Salidas | 4 relés, opto + BC817 | 6 salidas alimentadas de 24 V DC con *high-side* inteligente (BTT6050-1ERA) y limitador común |
 | Nivel | 4–20 mA alimentado a 12 V | Eliminado |
 | Temperatura / humedad | DHT11 en placa | Sensor I²C en placa (SHT4x o similar), aislado térmicamente, que mide el aire de la caseta |
 | Expansión | — | Conector para un módulo de más canales (D9) |
 | Instalación | Caja estanca | Interior, caja ventilada a la pared |
 | Montaje | Todo a mano, 1210 / 0805 | SMT JLCPCB (≥ 0603) + THT a mano |
-| Tamaño | 129 × 96,5 mm | ≤ 100 mm de ancho; el alto depende de D8 (≈ 65–95 mm) |
+| Tamaño | 129 × 96,5 mm | ≈ 100 × 70 mm |
 | Herramienta | KiCad 9 | KiCad 10 |
 
 ## 3. Arquitectura
@@ -45,10 +45,11 @@ flowchart LR
     BUCK --> OR
     OR --> LDO["3,3 V"]
     LDO --> MCU["ESP32-S3-WROOM-1"]
-    MCU --> OUT["6 salidas (tecnología D8)"]
-    OR -. "control o bobinas, según D8" .-> OUT
-    PROT -. "salida alimentada (D2)" .-> FOUT["Fusible de salidas"]
-    FOUT -.-> OUT
+    MCU --> OUT["6 high-side inteligentes (protección por canal)"]
+    PROT --> LIM["Limitador común del bus de salidas"]
+    MCU -- "habilitación / fallo" --> LIM
+    LIM --> OUT
+    OUT -- "IS (diagnóstico)" --> MCU
     MCU <--> TH["Sensor T/HR en placa (I²C)"]
     MCU <--> EXP["Conector de expansión (I²C + GPIO)"]
     OR --> EXP
@@ -68,15 +69,16 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 | ALI-01 | M | Entrada única de 24 V DC nominales desde una fuente de alimentación. Rango de funcionamiento de 18 a 30 V DC, para cubrir el ajuste de la fuente y la caída en el cable. |
 | ALI-02 | M | Borne atornillado de 2 polos (5,08 mm) para la entrada. |
 | ALI-03 | M | Protección contra inversión de polaridad de bajas pérdidas (P-MOSFET o controlador de diodo ideal), dimensionada para la corriente de entrada de ALI-12. |
-| ALI-04 | M | Protección de entrada: fusible (PTC o SMD) y TVS unidireccional con tensión de trabajo (VRWM) ≥ 30 V (p. ej. SMBJ33A). |
+| ALI-04 | M | Protección de entrada: fusible (PTC o SMD) y TVS. La TVS es unidireccional y va **después** de la protección de polaridad, o bidireccional (p. ej. SMBJ33CA) si va en el borne. Tensión de trabajo (VRWM) ≥ 33 V y ≥ la OVP máxima de la fuente si se conoce (p. ej. SMBJ33A). Su tensión de *clamping* (Vc) no supera, en ninguna pieza conectada al nodo, el máximo absoluto o, si el fabricante la especifica, la tensión de *load dump* (p. ej. V_S(LD) = 65 V del BTT6050). |
 | ALI-05 | M | Buck de 5 V ≥ 1,5 A. Su VIN máxima, y la tensión nominal de los condensadores y de cada pieza del nodo de entrada, son ≥ la tensión de *clamping* máxima (Vc) de la TVS elegida con un 10 % de margen (orientativo: ≥ 60 V con SMBJ33A, Vc = 53,3 V). Se admite un valor menor solo si `docs/diseno/` justifica una Vc más baja con la corriente de pulso limitada. |
 | ALI-06 | M | UVLO del buck ajustable por divisor y con histéresis, referido a la tensión tras las protecciones de entrada: umbral de subida por debajo de 18 V menos la caída de las protecciones, con margen (≈ 15 V), y por encima de la VIN mínima del buck para dar 5 V a 1,5 A. |
 | ALI-07 | M | Raíl de 3,3 V propio (LDO ≥ 800 mA desde 5 V, o buck) para el ESP32-S3 y los sensores. |
 | ALI-08 | M | El USB-C alimenta la lógica para programar sin fuente externa. Se une al raíl de 5 V con diodo Schottky o ideal para no retroalimentar el PC ni la entrada. Con solo USB no se garantiza el accionamiento de las salidas. |
-| ALI-09 | S | Medida de VIN con divisor en un canal ADC1, para avisar en Home Assistant de subtensión o sobretensión de la entrada. El corte total de la fuente se ve como la placa «no disponible»; no se añade reserva de energía (decisión del usuario). |
+| ALI-09 | S | Medida de VIN con divisor en un canal ADC1, para avisar en Home Assistant de subtensión (por debajo de 16 V, entre el UVLO y el mínimo de ALI-01) o sobretensión (por encima de 32 V, por debajo de la VRWM de la TVS). El corte total de la fuente se ve como la placa «no disponible»; no se añade reserva de energía (decisión del usuario). |
 | ALI-10 | S | LED de alimentación. |
 | ALI-11 | S | Test points en VIN, 5 V, 3,3 V y GND. |
-| ALI-12 | M | Presupuesto de potencia: fuente de hasta 5 A a 24 V DC (120 W). Las 6 salidas pueden estar activas a la vez; la corriente total de las salidas alimentadas desde la entrada se limita a 4 A, para dejar margen a la lógica. Fusible, protección de polaridad y pistas de entrada (`Power_In`) dimensionados para 5 A. |
+| ALI-12 | M | Presupuesto de potencia: fuente de hasta 5 A a 24 V DC (120 W). Las 6 salidas pueden estar activas a la vez; la corriente total de las salidas se limita a 4 A con el limitador común (ALI-13), para dejar margen a la lógica. Fusible, protección de polaridad, bus de las salidas y pistas de entrada (`Power_In`) dimensionados para 5 A. |
+| ALI-13 | M | Limitador común del bus de las salidas (eFuse o controlador *hot-swap*), entre las protecciones de entrada y los *high-side*; el buck se alimenta antes del limitador. Tensión nominal según ALI-05 (≥ 60 V). Umbral de corriente que no actúa con el total de ALI-12 (4 A) y que, sumado al consumo de la lógica y con su tolerancia, queda por debajo de la corriente mínima a la que limita la fuente. Corte por fallo (temporizador o térmico) lo bastante rápido para que la entrada del buck no baje del UVLO (ALI-06): la lógica no depende de una retención (*hold-up*). Habilitación desde un GPIO con *pull-down* (corte general: el bus solo está alimentado mientras algún canal riega) e indicación de fallo a un GPIO. Deseable: medida de la corriente total en un ADC1. |
 
 ### 4.2 Microcontrolador (MCU)
 
@@ -94,22 +96,23 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 
 | ID | P | Requisito |
 |---|---|---|
-| REL-01 | M | Al menos 6 salidas en la placa (6 en esta versión), ampliables con el módulo de expansión (EXP-04). La tecnología de conmutación (relé electromecánico, SSR, triac o MOSFET) se elige con el estudio de SPEC-0005 (D8). |
-| REL-02 | M | Solo baja tensión en las salidas: ≤ 32 V AC / 36 V DC, incluida una fuente externa de las válvulas conectada a un contacto libre (p. ej. un transformador de riego de 24 V AC en vacío). Nada de 230 V AC. Indicado en la serigrafía. |
-| REL-03 | M | Accionamiento directo desde GPIO (o desde un expansor), con la protección de la carga inductiva que exija la tecnología elegida (diodo, *snubber* o varistor). Sin optoacoplador, salvo que forme parte de la tecnología elegida (SSR u optotriac). Si la tecnología lleva un LED de control, su corriente queda fijada con margen sobre la IFT máxima en todo el rango de Vf y de 3,3 V (causa de H5). |
-| REL-04 | M | Estado seguro: salidas desactivadas durante el arranque, el reset y el flasheo (pull-down en la entrada de control, lógica activa a nivel alto). |
-| REL-05 | M | Al menos 1 A continuo por canal (dos electroválvulas en paralelo) y soporte de su corriente de arranque. Las 6 salidas pueden estar activas a la vez, con el total de ALI-12. Los valores definitivos se fijan al cerrar D8. Pistas dimensionadas con ΔT ≤ 10 °C (IPC-2152). |
+| REL-01 | M | Al menos 6 salidas en la placa (6 en esta versión), ampliables con el módulo de expansión (EXP-04). Cada salida es un *high-side* inteligente de 24 V (D8, DEC-0003). |
+| REL-02 | M | Solo baja tensión en las salidas: las salidas dan la tensión de entrada (≤ 30 V DC, ALI-01) y no admiten fuentes externas ni AC. Nada de 230 V AC. Indicado en la serigrafía. |
+| REL-03 | M | Cada salida usa un *high-side* inteligente de 24 V (BTT6050-1ERA, o BTT6030-2ERA como segunda fuente; DEC-0003), accionado directamente desde GPIO o desde un expansor: entrada activa alta compatible con 3,3 V. Sin optoacoplador ni relé (causa de H5). Carga inductiva con el *clamp* integrado: la energía de desmagnetización con el máximo de válvulas por canal (2), calculada con la ecuación del fabricante, queda por debajo de la curva E_AS(I_L) del datasheet a esa corriente. |
+| REL-04 | M | Estado seguro: salidas y limitador común (ALI-13) desactivados durante el arranque, el reset y el flasheo (pull-down en la entrada de control, lógica activa a nivel alto). |
+| REL-05 | M | Al menos 1 A continuo por canal (carga real de 0,2–0,56 A con una o dos electroválvulas) y soporte de su corriente de arranque. Las 6 salidas pueden estar activas a la vez, con el total de ALI-12 impuesto por el limitador común (ALI-13). Pistas dimensionadas con ΔT ≤ 10 °C (IPC-2152). |
 | REL-06 | M | Mismo orden de pines en los 6 bornes, coherente entre esquema, PCB y serigrafía. |
 | REL-07 | S | LED indicador por canal. |
-| REL-08 | S | Opción de alimentar las válvulas desde la entrada de 24 V DC (salida alimentada, con fusible y borne común, como los programadores comerciales), y opción de contacto libre de potencial para cargas con su propia fuente (p. ej. válvulas de 24 V AC con su transformador). Qué opciones ofrece la placa y cómo se eligen se decide con D2. Cada salida alimentada lleva protección propia contra cortocircuito, y la lógica aguanta el disparo sin reiniciarse: un corto en el cable de un canal no puede dejar sin alimentación la placa ni los demás canales. |
+| REL-08 | M | Salidas alimentadas desde la entrada de 24 V DC a través del limitador común (ALI-13), sin contacto libre de potencial (D2, DEC-0003). Protección de cada canal: la limitación de corriente y el apagado térmico del *high-side*, más el limitador común; sin fusible por canal. Ante un corto en el cable de un canal, la lógica no se reinicia; el bus de las salidas puede cortarse un momento, y el firmware identifica el canal en fallo, lo deja apagado, avisa en Home Assistant y rearma los demás en ≤ 5 s. |
 | REL-09 | M | Salidas repartidas en dos bordes opuestos: canales 1–3 en el borde superior y canales 4–6 en el inferior. |
+| REL-10 | S | Diagnóstico por canal en Home Assistant: corriente, carga abierta (válvula desconectada o cable cortado) y corto. La salida de medida (IS) llega a un ADC1 a través de una resistencia en serie, con la tensión acotada ≤ 3,1 V también en fallo; la carga abierta en OFF usa un *pull-up* que deja por la válvula una fuga ≤ 1 mA. |
 
 ### 4.4 Temperatura y humedad (AMB)
 
 | ID | P | Requisito |
 |---|---|---|
 | AMB-01 | M | Sensor de temperatura y humedad I²C en la placa (SHT4x o similar), para medir el aire de la caseta o la habitación donde está la caja, no el interior de la caja. |
-| AMB-02 | M | Aislamiento térmico del sensor: en un borde de la placa, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas, con ranuras fresadas a su alrededor y sin planos de cobre debajo, y orientado hacia las rejillas de la caja. El firmware admite una corrección (*offset*) calibrada contra una referencia. |
+| AMB-02 | M | Aislamiento térmico del sensor: en un borde de la placa, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas, con ranuras fresadas a su alrededor y sin planos de cobre debajo, y orientado hacia las rejillas de la caja. El firmware admite una corrección (*offset*) calibrada contra una referencia, que tiene que valer en reposo y con las salidas activas; si una corrección fija no basta, depende del número de salidas activas o de la temperatura interna del ESP32 (FW-03). |
 | AMB-03 | C | Sonda externa opcional por el conector I²C de expansión (EXP-02), para medir fuera del recinto. |
 
 ### 4.5 Entradas y expansión (EXP)
@@ -127,12 +130,12 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 |---|---|---|
 | FAB-01 | M | 2 capas, FR-4 de 1,6 mm, cobre de 1 oz (2 oz a evaluar según REL-05), acabado HASL sin plomo o ENIG. |
 | FAB-02 | M | Reglas compatibles con JLCPCB estándar y con margen: pista y separación ≥ 0,2 mm, vía 0,3 / 0,6 mm, cobre a borde ≥ 0,5 mm. |
-| FAB-03 | M | Clases de red `Default` (0,25 mm), `Power` (≥ 0,6 mm), `Power_In` (entrada y protecciones, 5 A según ALI-12) y `Salidas` (ancho según REL-05, separación ≥ 1 mm). |
+| FAB-03 | M | Clases de red `Default` (0,25 mm), `Power` (≥ 0,6 mm), `Power_In` (entrada, protecciones, limitador común y bus de las salidas hasta cada *high-side*, 5 A según ALI-12) y `Salidas` (de cada *high-side* a su borne, ancho según REL-05, separación ≥ 1 mm). Los retornos GND de los bornes de salida llegan al plano por un camino dimensionado para el total de ALI-12. |
 | FAB-04 | M | Plano de GND continuo en ambas caras con cosido de vías; sin cortes bajo el buck ni bajo las señales analógicas. |
 | FAB-05 | M | SMD mínimo 0603 (sin 0402). Cada componente con campo `LCSC Part#` (preferencia: piezas *Basic* de JLCPCB) y exportación de BOM + CPL para JLCPCB. |
-| FAB-06 | M | Componentes THT (relés si los hay, bornes) en la cara superior, soldados a mano o con montaje THT. |
-| FAB-07 | M | Conectores de campo en los bordes superior e inferior: salidas según REL-09; en el inferior, también la entrada de alimentación, la entrada de pulsos (EXP-01) y el conector de expansión. Los laterales quedan para la antena (MCU-02), el USB-C (accesible desde fuera) y el sensor de temperatura y humedad (AMB-02). |
-| FAB-08 | M | Ancho ≤ 100 mm; el alto se fija al cerrar D8 (≈ 65–95 mm según la tecnología de salida). 4 taladros M3 para fijarla dentro de la caja. |
+| FAB-06 | M | Componentes THT (bornes) en la cara superior, soldados a mano o con montaje THT. |
+| FAB-07 | M | Conectores de campo en los bordes superior e inferior: salidas según REL-09, con 2 polos por canal (OUT_n y GND), es decir, 6 polos por borde (30,5 mm a 5,08 mm); en el inferior, también la entrada de alimentación, la entrada de pulsos (EXP-01) y el conector de expansión. Antes del layout, `docs/diseno/` justifica la longitud de cada borde con los taladros M3. Los laterales quedan para la antena (MCU-02), el USB-C (accesible desde fuera) y el sensor de temperatura y humedad (AMB-02). |
+| FAB-08 | M | Ancho ≤ 100 mm y alto ≈ 70 mm (± 5 mm, se confirma en el layout). 4 taladros M3 para fijarla dentro de la caja. |
 | FAB-09 | M | Serigrafía con la función de cada borne, polaridades, tensión máxima de las salidas, versión y fecha. |
 | FAB-10 | C | Barniz conformado si el recinto es húmedo, con los conectores y el sensor de humedad enmascarados. |
 | FAB-11 | M | Modelo 3D de todos los componentes, para comprobar el encaje en la caja. |
@@ -168,28 +171,30 @@ Amplían las pruebas del pliego del TFG.
 
 | Prueba | Criterio |
 |---|---|
-| Barrido de alimentación a 18, 24 y 30 V DC | 5 V y 3,3 V dentro de ±3 %; sin reinicios al conmutar las 6 salidas a la vez |
-| Polaridad invertida a 30 V DC | Sin daños |
-| Entrada por debajo de 18 V o por encima de 30 V DC | Aviso de subtensión o sobretensión en Home Assistant (ALI-09) |
+| Barrido de alimentación a 18, 24 y 30 V DC | 5 V y 3,3 V dentro de ±3 %; sin reinicios al conmutar las 6 salidas a la vez ni al habilitar el limitador común |
+| Polaridad invertida a 30 V DC | Sin daños ni actuación del fusible |
+| Entrada a 16 V y a 32 V DC | Aviso de subtensión o sobretensión en Home Assistant (ALI-09) |
 | Corte total de la fuente | La placa aparece como no disponible en Home Assistant; al volver la tensión, arranca con las salidas desactivadas (REL-04) |
-| Salidas | Los 6 canales conmutan una electroválvula real de cada tipo que admita D8 y la corriente de REL-05; quedan desactivados durante el reset y el flasheo |
+| Salidas | Los 6 canales conmutan una electroválvula real de 24 V DC y la corriente de REL-05; quedan desactivados durante el reset y el flasheo |
 | Wi-Fi / Home Assistant | Conexión, OTA e integración correctas |
-| Temperatura / humedad | Tras calibrar la corrección de AMB-02, lectura coherente (±0,5 °C, ±3 % HR) con una referencia situada en la caseta, fuera de la caja, tras 1 h con las 6 salidas activas |
-| Cortocircuito en una salida alimentada | Actúa la protección del canal; la lógica y los demás canales siguen funcionando (REL-08) |
-| Térmica | 1 h con las 6 salidas activas y el total de ALI-12 (4 A) repartido entre ellas: ΔT de las pistas ≤ 10 °C |
+| Temperatura / humedad | Tras calibrar la corrección de AMB-02, lectura coherente (±0,5 °C, ±3 % HR) con una referencia situada en la caseta, fuera de la caja, con la misma corrección en reposo y tras 1 h con las 6 salidas activas |
+| Cortocircuito en una salida | Corto franco en el borne y con un cable largo (≥ 10 m), con la fuente de 5 A: actúa el limitador común; la lógica no se reinicia; el firmware deja apagado el canal en fallo, avisa en Home Assistant y los demás canales vuelven a funcionar en ≤ 5 s (REL-08) |
+| Sobrecarga del conjunto de salidas (> 4 A, sin corto) | Actúa el limitador común; la lógica no se reinicia (ALI-12, ALI-13) |
+| Diagnóstico | Una válvula desconectada y un canal en corto aparecen en Home Assistant (REL-10) |
+| Térmica | 1 h con las 6 salidas activas y el total de ALI-12 (4 A) repartido con al menos dos canales a la corriente de REL-05 (p. ej. 1 + 1 + 0,5 × 4 A): ΔT de las pistas ≤ 10 °C |
 
 ## 7. Decisiones abiertas
 
 | ID | Decisión | Estado |
 |---|---|---|
 | D1 | Número de canales | **Cerrada:** 6, ampliables (DEC-0002) |
-| D2 | Salida alimentada desde 24 V DC, contacto libre o ambas (REL-08) | Pendiente de SPEC-0005 |
+| D2 | Salida alimentada desde 24 V DC, contacto libre o ambas (REL-08) | **Cerrada:** solo salida alimentada (DEC-0003) |
 | D3 | Entrada de pulsos o de lluvia (EXP-01) | Por defecto, sí |
 | D4 | Pulsadores de forzado manual (EXP-03) | Por defecto, no |
 | D5 | Modelo de caja ventilada y medidas internas | Pendiente |
-| D6 | Cobre de 1 oz o 2 oz | Por defecto, 1 oz; se revisa con D8 |
+| D6 | Cobre de 1 oz o 2 oz | Por defecto, 1 oz; se revisa en el layout con `Power_In` a 5 A |
 | D7 | ADC interno o ADS1115 para el 4–20 mA | **Sin objeto:** se elimina el sensor de nivel (DEC-0002) |
-| D8 | Tecnología de las salidas: relé, SSR, triac o MOSFET (REL-01, REL-03, REL-05); las válvulas instaladas son de 24 V DC, ≈ 0,2 A | Pendiente de SPEC-0005 |
+| D8 | Tecnología de las salidas (REL-01, REL-03, REL-05) | **Cerrada:** *high-side* inteligente BTT6050-1ERA, con limitador común (DEC-0003) |
 | D9 | Arquitectura del módulo de expansión (EXP-02, EXP-04) | Pendiente de SPEC-0006 |
 
 ## 8. Trazabilidad con los hallazgos v1
@@ -227,16 +232,26 @@ Sus IDs no se reutilizan.
 
 En la v0.2 se redefinen sin cambiar de ID. Cuando se redefinieron, solo SPEC-0005 citaba alguno (REL-01, REL-03 y REL-05), y ya con el sentido nuevo.
 
-- ALI-01, ALI-02, ALI-04, ALI-05, ALI-06 y ALI-09: de 9–30 V DC con batería o panel solar a una fuente de 24 V DC (18–30 V).
+- ALI-01 … ALI-06 y ALI-09: de 9–30 V DC con batería o panel solar a una fuente de 24 V DC (18–30 V).
 - REL-01 … REL-05 y REL-08: de 4 relés a 6 salidas con tecnología por decidir.
 - AMB-01 … AMB-03: de sonda externa a sensor en placa.
 - EXP-02, FAB-03, FAB-07, FAB-08, FAB-10 y FW-03.
+- Ajustes menores de redacción: EXP-01 (añade «o contacto seco»), REL-06 (añade la serigrafía) y el paso de «relés» a «salidas».
 
 Cambios de prioridad: REL-08 C → S, EXP-02 S → M, AMB-03 S → C y FAB-10 S → C. Nuevos: REL-09 (M), EXP-04 (M) y ALI-12 (M).
+
+En la v0.3 (DEC-0003):
+
+- REL-01, REL-03 y REL-05: de «tecnología por decidir» al *high-side* inteligente (D8).
+- REL-02 y REL-08: sin contacto libre de potencial (D2); REL-08 pasa de S a M y admite que el bus de las salidas se corte un momento ante un corto.
+- REL-04: incluye el limitador común.
+- ALI-04 (orden y tensión de la TVS), ALI-09 (puntos de aviso), ALI-12 (mecanismo del límite de 4 A), AMB-02 (corrección en reposo y con carga), FAB-03, FAB-06, FAB-07 y FAB-08.
+- Nuevos: ALI-13 (M) y REL-10 (S).
 
 ## 10. Historial
 
 | Versión | Fecha | Cambios | Spec · decisión |
 |---|---|---|---|
 | v0.1 | 2026-11-03 | Primera versión, a partir del análisis de la v1 | SPEC-0000 |
-| v0.2 | 2026-11-04 | Interior con caja ventilada; fuente de 24 V DC de hasta 5 A; 6 salidas (3 + 3) que pueden activarse a la vez; T/HR de la caseta medida en placa; sin sensor de nivel; módulo de expansión; D8 y D9; ajustes de VAL-0004-01 | SPEC-0004 · DEC-0002 |
+| v0.2 | 2026-11-04 | Interior con caja ventilada; fuente de 24 V DC de hasta 5 A; 6 salidas (3 + 3) que pueden activarse a la vez; válvulas instaladas de 24 V DC; T/HR de la caseta medida en placa; sin sensor de nivel; módulo de expansión; D8 y D9; ajustes de VAL-0004-01 | SPEC-0004 · DEC-0002 |
+| v0.3 | 2026-11-04 | Salidas con *high-side* inteligente BTT6050 y limitador común del bus de salidas (D8, D2 cerradas); diagnóstico por canal; bornes de 2 polos y placa de ≈ 100 × 70 mm; observaciones de VAL-0004-02 y VAL-0005-01 | SPEC-0007 · DEC-0003 |
