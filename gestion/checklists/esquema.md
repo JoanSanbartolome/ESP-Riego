@@ -21,12 +21,14 @@
 - [ ] Recalculado de forma independiente por el revisor; desviación explicada si la hay.
 - [ ] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] Condensadores cerámicos con *derating* por tensión DC y temperatura.
-- [ ] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5).
+- [ ] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5) más el calentamiento interno de la caja (≥ 10 °C, o el valor estimado en `docs/diseno/`).
 
 ## Alimentación
 
-- [ ] Puente rectificador, condensador de bulk, fusible y TVS en la entrada; el buck no cae por debajo del UVLO con 20 V AC a plena carga (ALI-01 … ALI-04).
-- [ ] UVLO calculado y ajustable (ALI-06).
+- [ ] Protección de polaridad, fusible y TVS en la entrada, dimensionados para 5 A (ALI-03, ALI-04, ALI-12).
+- [ ] TVS: VRWM ≥ tensión máxima de entrada (ALI-01) y Vc ≤ tensión nominal de cada pieza del nodo protegido (ALI-04, ALI-05).
+- [ ] UVLO referido a la tensión tras las protecciones y ajustable (ALI-06).
+- [ ] Presupuesto de consumo de la fuente con las 6 salidas activas (ALI-12).
 - [ ] VBUS unido con diodo, sin retroalimentación al USB ni a la entrada (ALI-08).
 
 ## Microcontrolador
@@ -56,4 +58,4 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
-| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): entrada de 24 V AC rectificada, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA |
+| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01 |

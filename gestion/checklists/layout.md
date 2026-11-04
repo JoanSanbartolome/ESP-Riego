@@ -14,8 +14,9 @@
 - [ ] Salidas 1–3 en el borde superior y 4–6 en el inferior, con la entrada y la expansión en el inferior; USB-C accesible desde un lateral (REL-09, FAB-07).
 - [ ] Antena del módulo en el borde con zona libre de cobre en todas las capas (MCU-02).
 - [ ] Buck junto a la entrada con bucle de conmutación mínimo.
-- [ ] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO y de las salidas (AMB-02).
-- [ ] Divisor de la tensión rectificada alejado del buck y de las salidas.
+- [ ] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas (AMB-02).
+- [ ] Divisor de VIN alejado del buck y de las salidas.
+- [ ] Pistas de entrada (`Power_In`) para 5 A (ALI-12, FAB-03).
 - [ ] Dimensiones dentro del objetivo (FAB-08) y 4 taladros M3.
 
 ## Potencia y cargas
@@ -47,4 +48,4 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
-| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): bornes en dos bordes, sensor aislado térmicamente, sin zona del lazo 4–20 mA |
+| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): bornes en dos bordes, sensor aislado térmicamente, sin zona del lazo 4–20 mA; ajustes de VAL-0004-01 |

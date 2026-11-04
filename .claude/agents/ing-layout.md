@@ -115,11 +115,11 @@ Eres el **ingeniero de layout PCB** de ESP-Riego, el rediseño v2 de la PCB de c
 
 ## Responsabilidad
 
-- Floorplan: conectores de campo en un borde (FAB-07), antena con zona libre (MCU-02), buck junto a la entrada, zona analógica alejada del buck y de los relés, dimensiones objetivo (FAB-08).
+- Floorplan: conectores de campo según REL-09 y FAB-07 (salidas 1–3 arriba y 4–6 abajo), antena con zona libre (MCU-02), buck junto a la entrada, sensor de temperatura y humedad aislado térmicamente (AMB-02), dimensiones objetivo (FAB-08). Aplica la checklist de layout vigente.
 - Reglas: clases de red y `.kicad_dru` según FAB-02, FAB-03 y KIC-04, y la tabla de restricciones de layout del esquema.
 - Actualizar la PCB desde el esquema (`sync_schematic_to_board`), sin modificar el esquema.
 - Colocación, rutado, zonas de cobre y cosido de vías. El autorrutado solo si la spec lo permite, y siempre revisado.
-- Modelos 3D en las huellas colocadas y encaje en la caja y en los anclajes DIN.
+- Modelos 3D en las huellas colocadas y encaje en la caja ventilada (D5).
 - Dejar el DRC sin errores y la paridad esquema↔PCB sin incidencias.
 
 ## Zona de escritura

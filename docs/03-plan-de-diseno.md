@@ -28,11 +28,11 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 ## Fase 2: arquitectura y selección de componentes
 
-- [ ] Cerrar las decisiones abiertas D2–D9; D8 (tecnología de las salidas) con el estudio de SPEC-0005 y D9 (módulo de expansión) con el informe de SPEC-0006.
-- [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (entrada rectificada, 5 V, 3,3 V).
-- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: puente rectificador, buck, LDO, protecciones, etapa de salida, sensor de temperatura y humedad, y conectores.
+- [ ] Cerrar las decisiones abiertas D2–D6, D8 y D9; D8 (tecnología de las salidas) con el estudio de SPEC-0005 y D9 (módulo de expansión) con el informe de SPEC-0006.
+- [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
+- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
 - [ ] Tabla de asignación de GPIO según MCU-05.
-- [ ] Cálculos: condensador de bulk y rizado, UVLO, divisor de la tensión rectificada, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
+- [ ] Cálculos: TVS y tensiones nominales del nodo de entrada, UVLO, divisor de VIN, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
 - [ ] Documentar todo en `docs/04-arquitectura.md`.
 
 ## Fase 3: esquema v2

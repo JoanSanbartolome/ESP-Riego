@@ -45,7 +45,8 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
     - estado seguro en el arranque, el reset y el flasheo (REL-04);
     - **modo de fallo** (abierto o cortocircuito). Si una salida falla en corto, la válvula se queda abierta y el riego no para; el estudio propone una mitigación, como una válvula maestra o un corte general.
   - **Salida alimentada o contacto libre (D2):**
-    - si la opción permite alimentar las válvulas desde la propia entrada de 24 V AC, con un borne común como los programadores comerciales;
+    - si la opción permite alimentar las válvulas desde la propia entrada de 24 V DC, con un borne común como los programadores comerciales;
+    - con la fuente de 24 V DC, qué haría falta para seguir usando las electroválvulas de 24 V AC instaladas (contacto libre con su transformador, o cambio a válvulas DC o *latch*);
     - si permite dar un contacto libre de potencial;
     - cuántos polos de borne necesita por canal en cada caso.
   - **Placa:**
@@ -63,7 +64,7 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
 
 ## Entradas
 
-- `docs/02-especificaciones-v2.md` v0.2: §1, §2, REL-01 … REL-10, ALI-01 … ALI-04, FAB-07, FAB-08 y §7 (D2, D8).
+- `docs/02-especificaciones-v2.md` v0.2: §1, §2, REL-01 … REL-09, ALI-01 … ALI-04, FAB-07, FAB-08 y §7 (D2, D8).
 - `gestion/decisiones/DEC-0002-objetivo-v2-revisado.md`.
 - `docs/01-analisis-v1.md`, hallazgo H5 (etapa de relés de la v1).
 - Datasheets de las piezas candidatas (WebSearch y WebFetch) y la base de piezas de JLCPCB del MCP.
