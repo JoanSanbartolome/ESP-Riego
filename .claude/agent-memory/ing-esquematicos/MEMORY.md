@@ -1,0 +1,2 @@
+- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — base JLCPCB del MCP vacía; endpoints de LCSC/JLCPCB y pdftotext a stdout para datasheets
+- [Estudio de salidas D8](project_salidas_d8.md) — entrada 24 V DC; propuesta relé G5NB / 4c / BTT6050; valores de válvula AC/DC/latch; piezas descartadas

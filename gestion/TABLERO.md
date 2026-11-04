@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 1 · cerrada 3 · descartada 1.
+Specs por estado: propuesta 3 · abierta 0 · cerrada 4 · descartada 1.
 
 ## Propuestas (3)
 
@@ -12,19 +12,14 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 3 · descartada 1.
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0007](specs/SPEC-0007-requisitos-v03.md) | Requisitos v0.3: D8 y observaciones de VAL-0004-02 | 0 | coordinador | `spec/SPEC-0007-requisitos-v03` | — | 2026-11-04 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0005](specs/SPEC-0005-estudio-salidas.md) | Estudio de la tecnología de las salidas | 2 | ing-esquematicos | `spec/SPEC-0005-estudio-salidas` | — | 2026-11-04 | — |
-
-## Cerradas (3)
+## Cerradas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0000](specs/SPEC-0000-analisis-especificaciones-plan.md) | Análisis de la v1, especificaciones y plan de la v2 | 0 | coordinador | `main` | n/a | 2026-11-03 | 2026-11-03 |
 | [SPEC-0001](specs/SPEC-0001-orquestacion.md) | Sistema de orquestación de agentes | 0 | coordinador | `spec/SPEC-0001-orquestacion` | VAL-0001-03 (APROBADO_CON_OBSERVACIONES) | 2026-11-03 | 2026-11-04 |
 | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | Requisitos v0.2: nuevo objetivo, 6 salidas, 24 V DC y T/HR en placa | 0 | coordinador | `spec/SPEC-0004-requisitos-v02` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
+| [SPEC-0005](specs/SPEC-0005-estudio-salidas.md) | Estudio de la tecnología de las salidas | 2 | ing-esquematicos | `spec/SPEC-0005-estudio-salidas` | VAL-0005-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
 
 ## Descartadas (1)
 
@@ -48,4 +43,5 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 3 · descartada 1.
 | [VAL-0001-03](informes/VAL-0001-03.md) | SPEC-0001 | APROBADO_CON_OBSERVACIONES | `c732627` | 2026-11-04 |
 | [VAL-0004-01](informes/VAL-0004-01.md) | SPEC-0004 | RECHAZADO | `29ba41e` | 2026-11-04 |
 | [VAL-0004-02](informes/VAL-0004-02.md) | SPEC-0004 | APROBADO_CON_OBSERVACIONES | `924371f` | 2026-11-04 |
+| [VAL-0005-01](informes/VAL-0005-01.md) | SPEC-0005 | APROBADO_CON_OBSERVACIONES | `49bea58` | 2026-11-04 |
 
