@@ -2,14 +2,15 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 1 · cerrada 3 · descartada 1.
+Specs por estado: propuesta 3 · abierta 1 · cerrada 3 · descartada 1.
 
-## Propuestas (2)
+## Propuestas (3)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
+| [SPEC-0007](specs/SPEC-0007-requisitos-v03.md) | Requisitos v0.3: D8 y observaciones de VAL-0004-02 | 0 | coordinador | `spec/SPEC-0007-requisitos-v03` | — | 2026-11-04 | — |
 
 ## Abiertas (1)
 
