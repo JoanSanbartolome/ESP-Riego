@@ -28,27 +28,27 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 ## Fase 2: arquitectura y selección de componentes
 
-- [ ] Cerrar las decisiones abiertas D1–D7.
-- [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (5 V, 3,3 V, 24 V de lazo).
-- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: buck, LDO, boost de lazo, protecciones, MOSFET, relés y conectores.
+- [ ] Cerrar las decisiones abiertas D2–D6, D8 y D9; D8 (tecnología de las salidas) con el estudio de SPEC-0005 y D9 (módulo de expansión) con el informe de SPEC-0006.
+- [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
+- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
 - [ ] Tabla de asignación de GPIO según MCU-05.
-- [ ] Cálculos: UVLO, divisor de VIN, presupuesto del lazo 4–20 mA, filtro RC, corriente de los LED y anchura de pistas (IPC-2152).
+- [ ] Cálculos: TVS y tensiones nominales del nodo de entrada, UVLO, divisor de VIN, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
 - [ ] Documentar todo en `docs/04-arquitectura.md`.
 
 ## Fase 3: esquema v2
 
-- [ ] Proyecto `hardware/v2/` con las hojas `alimentacion`, `mcu`, `reles`, `sensores` y `conectores`.
+- [ ] Proyecto `hardware/v2/` con las hojas `alimentacion`, `mcu`, `salidas`, `sensores` y `conectores`.
 - [ ] Campos en cada símbolo: `Value`, `Footprint`, `LCSC Part#`, `MPN` y `Datasheet`.
 - [ ] ERC sin errores.
-- [ ] Revisión: pines de arranque, estado de los relés en el reset, polaridades, ESD en todos los conectores de campo, test points.
+- [ ] Revisión: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo, test points.
 
 ## Fase 4: layout v2
 
-- [ ] *Floorplan*: conectores de campo en un borde, antena en la esquina opuesta a los relés, buck junto a la entrada y zona analógica alejada del buck y de los relés.
+- [ ] *Floorplan*: salidas 1–3 en el borde superior y 4–6 en el inferior, junto con la entrada y la expansión (REL-09, FAB-07); antena en un lateral, lejos de las salidas; buck junto a la entrada; sensor de temperatura y humedad en un borde, aislado térmicamente (AMB-02).
 - [ ] Clases de red y `.kicad_dru` (FAB-02, FAB-03, KIC-04).
-- [ ] Rutado: primero potencia y cargas, después analógica y por último señales. Planos de GND con cosido de vías.
+- [ ] Rutado: primero potencia y salidas, después analógica y por último señales. Planos de GND con cosido de vías.
 - [ ] DRC sin errores y paridad esquema↔PCB limpia.
-- [ ] Revisión en 3D con la caja y los anclajes DIN.
+- [ ] Revisión en 3D con la caja ventilada (D5).
 
 ## Fase 5: fabricación
 

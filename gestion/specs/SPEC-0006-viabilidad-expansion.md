@@ -6,7 +6,7 @@ estado: propuesta
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0006-viabilidad-expansion
-requisitos: []
+requisitos: [EXP-02, EXP-04]
 depende_de: [SPEC-0004, SPEC-0005]
 creada: 2026-11-04
 cerrada:
@@ -32,7 +32,7 @@ Un informe de viabilidad, con investigación a fondo, sobre cómo ampliar el nú
 - Para cada una:
   - distancia y cableado (conductores, apantallado);
   - número máximo de módulos y canales, y direccionamiento;
-  - alimentación de los módulos (24 V AC compartida, 5 V o local);
+  - alimentación de los módulos (24 V DC compartida, 5 V o local);
   - estado seguro si se corta el bus;
   - soporte en ESPHome (`pca9554`, `mcp23017`, `modbus_controller`…);
   - BOM y coste de un módulo de 6 u 8 canales en cantidades de 5 y 10, incluido el montaje en JLCPCB;
