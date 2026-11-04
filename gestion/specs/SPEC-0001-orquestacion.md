@@ -2,20 +2,20 @@
 id: SPEC-0001
 titulo: Sistema de orquestación de agentes
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0001-orquestacion
 requisitos: []
 depende_de: [SPEC-0000]
 creada: 2026-11-03
-cerrada:
-validacion:
+cerrada: 2026-11-04
+validacion: VAL-0001-03
 ---
 
 # SPEC-0001 · Sistema de orquestación de agentes
 
-> Bootstrapping: esta spec se abre dentro de su propia rama porque crea el sistema que define cómo se abren las specs. A partir de SPEC-0002 se aplica el flujo completo.
+> Bootstrapping: esta spec se abre dentro de su propia rama porque crea el sistema que define cómo se abren las specs. A partir de la siguiente spec se aplica el flujo completo.
 
 ## Objetivo
 
@@ -24,7 +24,7 @@ Poner en marcha el sistema de trabajo de [DEC-0001](../decisiones/DEC-0001-orque
 ## Alcance
 
 - Incluye: definiciones de agentes, `CLAUDE.md`, manual, plantillas y checklists de `gestion/`, scripts de `herramientas/`, hooks de Claude Code y de git, y actualización de `README.md` y `docs/03-plan-de-diseno.md`.
-- Excluye: cualquier cambio de diseño de hardware y la importación de la v1 (SPEC-0002).
+- Excluye: cualquier cambio de diseño de hardware y la importación de la v1 (fase 1).
 
 ## Entradas
 
@@ -68,3 +68,7 @@ Poner en marcha el sistema de trabajo de [DEC-0001](../decisiones/DEC-0001-orque
 | 2026-11-03 | ing-validacion | Segunda revisión: RECHAZADO (2 A, 2 M, 6 B) | [VAL-0001-02](../informes/VAL-0001-02.md) |
 | 2026-11-03 | usuario | Confirma que mantiene su propia copia del TFG fuera del sistema | respuesta en la sesión |
 | 2026-11-03 | coordinador | Corrige los hallazgos 01–09 de VAL-0001-02; las ofuscaciones con variables quedan como límite documentado | commits `fix(...)` posteriores a `a42e462` |
+| 2026-11-04 | ing-esquematicos, ing-layout | Pruebas en vivo con la definición nueva | `05-ing-esquematicos.md`, `06-ing-layout.md` |
+| 2026-11-04 | ing-validacion | Tercera revisión: APROBADO_CON_OBSERVACIONES (2 M, 6 B) | [VAL-0001-03](../informes/VAL-0001-03.md) |
+| 2026-11-04 | jr-conformidad | Prueba en vivo con la definición nueva (VAL-0001-03-07) | `08-jr-conformidad.md` |
+| 2026-11-04 | coordinador | Observaciones convertidas en specs propuestas y cierre | [SPEC-0002](SPEC-0002-guarda-destinos.md), [SPEC-0003](SPEC-0003-auditoria-detalles.md) |
