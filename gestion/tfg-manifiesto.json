@@ -1,0 +1,1354 @@
+{
+ "carpeta": "C:\\Users\\josan\\proyectos\\TFG",
+ "creado": "2026-11-03T19:02:06+01:00",
+ "archivos": {
+  "Back.pdf": {
+   "bytes": 32963,
+   "sha256": "799c4b73fd9ae3c882ffe769747af8a2ca736cca86b313f36091947c8c84ea72"
+  },
+  "Control_De_Riego-F_Paste.zip": {
+   "bytes": 142575,
+   "sha256": "2c11560d9fa575d19da28cefd1a578216961a47f156b3b6cee0e0c3b43a34ac1"
+  },
+  "Control_De_Riego.csv": {
+   "bytes": 2454,
+   "sha256": "66d7c37ef9b73c217e424395cbcbfa773af30f5b001ce2b4b499a864160b57c5"
+  },
+  "Front.pdf": {
+   "bytes": 68920,
+   "sha256": "f7ec38b73b1ed974490eb999257a16cadf5e2c4b1fec148eb4369d66481780ab"
+  },
+  "INFORME-EJECUTIVO_Completo.pdf": {
+   "bytes": 919261,
+   "sha256": "a415b8d2c83aa0539da406931e2bc12919a8260b845b69278aac4fd9d007982e"
+  },
+  "Presentacion_TFG_Joan_san_bartolome.pdf": {
+   "bytes": 1492712,
+   "sha256": "69c5dc79dff96a666db5a64ccb83792abce9b0899fbe4a08922c1af343c840a3"
+  },
+  "Presentacion_TFG_Joan_san_bartolome.zip": {
+   "bytes": 23714684,
+   "sha256": "520a7bf4af6d513d99b68689a97682991fd1aaca6483fd860afe1d9e5b0b25e0"
+  },
+  "Presupuesto.xlsx": {
+   "bytes": 11163,
+   "sha256": "d5e0b515240b17fbae3f736fc3d45cf233cb1e1fb2f94f17840a8efd1fb9c976"
+  },
+  "Presupuesto_Precios_Descompuestos.xlsx": {
+   "bytes": 31558,
+   "sha256": "24490a3e430764c85f237d6fafd1335f659555657587e913082a781dbacba7a4"
+  },
+  "TFG.pptx": {
+   "bytes": 1915547,
+   "sha256": "82f29c535714500333ebd656ff102feaed6c4c04b374bb1ce688f3934ca33a9e"
+  },
+  "TFG.rar": {
+   "bytes": 119883,
+   "sha256": "07fc8e6c861a12cd948ffa61f8fcae5da43642202ec2ad3eceaa5c5cedcb725e"
+  },
+  "TFG_Joan_san_bartolome_ferri.pdf": {
+   "bytes": 26325564,
+   "sha256": "770068f593826f8e6bc5fdbea2b34f1fca46e00fe5aee1716ca513f8306405db"
+  },
+  "TFG_con_portada.pdf": {
+   "bytes": 26382515,
+   "sha256": "c26f3fb547c0d30eaf49b91ba651241a42a65daa0e6ce3ed5ca1a0c5cd6f9d7f"
+  },
+  "autorizacion.pdf": {
+   "bytes": 9021,
+   "sha256": "a8d32dfb948e7442597c35c0ae5197fe87020db9d074dfcb9b4b8193d3f62de1"
+  },
+  "Codigo/Logfile.CSV": {
+   "bytes": 2525252,
+   "sha256": "4cdcccdd3f3d738ae6b4bc27f81e6b4699c96cd088ec226a97db5c59287c2eb3"
+  },
+  "Codigo/control-riego.factory.bin": {
+   "bytes": 946416,
+   "sha256": "35b0a8941e2a5e048cf14513ce714329cc1d7d68c2a6498cd370f77659e88be8"
+  },
+  "Codigo/test_valvulas/test_valvulas.ino": {
+   "bytes": 2459,
+   "sha256": "8d16f745fa4361489a62b1b4d8f36dd4d6db0472b4f37ade19c3d7e9f8dc0707"
+  },
+  "KiCad_PCB/PCB_1_0_0.rar": {
+   "bytes": 5261089,
+   "sha256": "1554c248c6374d1aaeb5df41c70659e2b64bf96f3feb99ab4889ad3ca32754ab"
+  },
+  "KiCad_PCB/PCB_1_1_0(fabricada).rar": {
+   "bytes": 5937758,
+   "sha256": "297ff2701e721b0d6336d03e0f66dc1147056c4060ae14fb2c7f60a1add10fd5"
+  },
+  "KiCad_PCB/PCB_FINAL.rar": {
+   "bytes": 6557398,
+   "sha256": "7363c4e0d8cbac75396e2fdd006b206dcbc86adb118cc02e1506232fc6985cc3"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_pcb": {
+   "bytes": 837956,
+   "sha256": "cc5769e6f0f9011bff3b81e2d8fb3da05bc06f7ac917f9fd0625f62f575c177c"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_prl": {
+   "bytes": 2350,
+   "sha256": "dd8ddab9be30f377e8dfce20610d656cc3772fd78ea9eb41d9f1543500ab6503"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_pro": {
+   "bytes": 21190,
+   "sha256": "cc4e61fe029d28367f289ffae76264a935390e0278afb4de8c25025203d69dec"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_sch": {
+   "bytes": 4818,
+   "sha256": "53060e5624562d4b57a4579979f2343679ab937305cc76d6c7d78aeca34ccbd9"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego.step": {
+   "bytes": 204305,
+   "sha256": "fc3422061c806dedd86bf6bb43e5fc8b864856958cced8968472873b8dba6d88"
+  },
+  "KiCad_PCB/Control_De_Riego/Panel_Control.kicad_sch": {
+   "bytes": 51946,
+   "sha256": "133f19ca27ae812b57736fedc42e53662b88ceb3eaeca9ccb8626b81e0a96a55"
+  },
+  "KiCad_PCB/Control_De_Riego/allimentacion.kicad_sch": {
+   "bytes": 71910,
+   "sha256": "08cdb05ed50c73e5f2034c3b582e33154394d17a49ed3476a4060bb16b4e5c36"
+  },
+  "KiCad_PCB/Control_De_Riego/conectores.kicad_sch": {
+   "bytes": 53458,
+   "sha256": "549c1d1977597d92cd44c8028d9e7ab32b0c253c3193dad86f5cc4e7abef082e"
+  },
+  "KiCad_PCB/Control_De_Riego/fp-info-cache": {
+   "bytes": 3855728,
+   "sha256": "7f3dd20affa6d6fbcd480b54aef5ddf77d5ff62b84e2ffd1458f2fc389e7b264"
+  },
+  "KiCad_PCB/Control_De_Riego/fp-lib-table": {
+   "bytes": 1427,
+   "sha256": "e335fb54c7aee92336ca54e3096ee95fb9e15e8f66d7c7d25b1e1599a2ecc50e"
+  },
+  "KiCad_PCB/Control_De_Riego/modulo_reles.kicad_sch": {
+   "bytes": 144153,
+   "sha256": "a6cf7a0ce4e957644e2f9c341085939fb8ed5c88151e09a5eb7f8e7538e68b6d"
+  },
+  "KiCad_PCB/Control_De_Riego/sym-lib-table": {
+   "bytes": 969,
+   "sha256": "4a2db1350e8b2d64bb5db230c1d8a11d7226d32772d77e2f718cd4befbc021a2"
+  },
+  "KiCad_PCB/Control_De_Riego/untitled.kicad_sch": {
+   "bytes": 34752,
+   "sha256": "4df1b64073be2a7f77fb55f67f4ade7a4478e3a64e68963f70d771255531688d"
+  },
+  "KiCad_PCB/Control_De_Riego/wemos_s2mini.kicad_sch": {
+   "bytes": 34780,
+   "sha256": "63bef1f36f0fd70db76feee71bafa5736628a7fc8f279c62e5f5b077de300582"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-03_125323.zip": {
+   "bytes": 101162,
+   "sha256": "4cf28a6911c4a895d7c819c6bf4b2338a84215064453b69f97f64049221c61ee"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-16_151844.zip": {
+   "bytes": 200152,
+   "sha256": "509794259b332b20579ea6b10dec270a715d2a53b1741e4922ea9ad8fa807b49"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-16_152901.zip": {
+   "bytes": 200223,
+   "sha256": "1ac93a0a0054c110b3eebda369d7d7ae549b917722c7f7319f5d4750f5375be8"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-16_153401.zip": {
+   "bytes": 200504,
+   "sha256": "8b0098967cecc84734009bcdb597da2ad42236d54418b04f43064b78d4155a33"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-16_154447.zip": {
+   "bytes": 200948,
+   "sha256": "423b8a6f83e8d28844c9024ea1431fc0c53f5e3f44667484d84635e6a6797f38"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-16_154957.zip": {
+   "bytes": 125637,
+   "sha256": "b5fd4b6eafc2720b770f615967d84985c3d14ba358b047c42b48f07ebc656174"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-18_134624.zip": {
+   "bytes": 234591,
+   "sha256": "e7003d3a257f4edea3892b60ec6c9de0723f5c9f81d7a6c819ad70388fdde979"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-18_135130.zip": {
+   "bytes": 242288,
+   "sha256": "8be2f5ea89e4d5d5d2b584f95b41069f948769d258e5a8a0a3ee6ea44b9f387e"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-18_152457.zip": {
+   "bytes": 427605,
+   "sha256": "80c208dc14e6bbdd4b66f7db0ab81a44df7c8fc7dc2da47da26e32d85da4fca8"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-18_161525.zip": {
+   "bytes": 242491,
+   "sha256": "5eb1da845f7ec72fa227a14f8948251c4ff8f5ae057cebad6d48a9b5871c02b5"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-18_163635.zip": {
+   "bytes": 242129,
+   "sha256": "ff4e540c4301777c63e9aa7f3c89a122dc51f24390b2b13c5920485063b272c4"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-25_174556.zip": {
+   "bytes": 243852,
+   "sha256": "8f084b01827f82ba69a273618eae7b2ef16859d92a9b317e24702994cc564857"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-25_175309.zip": {
+   "bytes": 243944,
+   "sha256": "4f933a65bd6b72b6a8a1eac29a66df38cdac306cd06f8710f497e6d2a8ca9b29"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-25_175900.zip": {
+   "bytes": 245552,
+   "sha256": "4a8cad2cb03abe669d17052c0dc9e06bbf15295452c4b741f374306b2994f702"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-25_181014.zip": {
+   "bytes": 245201,
+   "sha256": "2e6fc11be15e07746862112e72be18610431d50b7d281db858e171fc5fb2ee5d"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-06-25_183708.zip": {
+   "bytes": 245201,
+   "sha256": "9a057369955910e2ade3ffbb021ae227d2816238cf8855de95ffd00b7539d42b"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-01_114828.zip": {
+   "bytes": 245393,
+   "sha256": "6b16f207bfb136ae22be37a63b2f602b4c1179b8d0e14aa88561609300156146"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-01_200524.zip": {
+   "bytes": 245211,
+   "sha256": "e42390c42b7bc28f340b65b51a5d68fe6b61276479c0aa026d628053a7f1bc40"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-04_101113.zip": {
+   "bytes": 245393,
+   "sha256": "10dd4173b3bf81b573f5e7db429a6e7a30b6285d230dfd0a5c9a54a1416c44ac"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-04_132247.zip": {
+   "bytes": 245386,
+   "sha256": "87e653379b2192c2c864502ff67edee408f53da7323f6b5613c6c0e656720c25"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-04_132904.zip": {
+   "bytes": 245372,
+   "sha256": "d703c420b17b80a0f810d0b113d166b650bfc7228d38b6a4da3722a686136612"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-04_133522.zip": {
+   "bytes": 245190,
+   "sha256": "f1642e4acc6bdc961bbec046bec5d47006db4cce657d8e653448afc9e9a230a1"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-06_133604.zip": {
+   "bytes": 434067,
+   "sha256": "a94a2389374a0652b514e579bc392152e2d830ac885f219a2fb8031f723b207d"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-06_162218.zip": {
+   "bytes": 245382,
+   "sha256": "70b66c149bb84f8388f72e9bd0cd5404077aeb0192b06243bffc852a04fce3ba"
+  },
+  "KiCad_PCB/Control_De_Riego/Control_De_Riego-backups/Control_De_Riego-2025-07-09_083203.zip": {
+   "bytes": 245200,
+   "sha256": "b8e49b1d0f32583a9eff091cd2a678067b43bebf78333b664609c97a16ca0663"
+  },
+  "Llibreries_Kicad/Cajetin_Kicad.kicad_wks": {
+   "bytes": 3110,
+   "sha256": "b642ee167ace623e5dc19149b0b4deb02c9285f97291fb5c1bc1c6b5221b5a0d"
+  },
+  "Llibreries_Kicad/Bloc de terminals/2445P Screw Terminal Block- 2 Pin, 3.5mm Pitch, Side Entry.STEP": {
+   "bytes": 603285,
+   "sha256": "89d683ea888bfce5c8d33850fb6fa2f0c7d83adc4dcd6bd3016653ebb6034b67"
+  },
+  "Llibreries_Kicad/Bloc de terminals/DG306-5.0-02P-12-00AH.STEP": {
+   "bytes": 2653784,
+   "sha256": "b8ee81d1c7f7b23d6188703c7ccccf2159a9f41ff17ee90ee2d090214ca88289"
+  },
+  "Llibreries_Kicad/Bloc de terminals/DG306-5.0-03P-12-00AH.STEP": {
+   "bytes": 3013526,
+   "sha256": "c4ba5fce9e5c23944ec75139f3d1e94e74d0d5ed3d11cbe46d4aa1d780d1f5f8"
+  },
+  "Llibreries_Kicad/Bloc de terminals/README.md": {
+   "bytes": 271,
+   "sha256": "4eeeb6b9ffe6fdd00ac71c7f71fd571b727aef279427ab5e36aeb8194c510879"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-10-5.08_1x10_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 9800,
+   "sha256": "3dccbce486078d22c6fff4ff3a9c5666542f6b743f41c984655a4c2ec3f10104"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-10_1x10_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 9639,
+   "sha256": "1c232d7e3f5fd0ecc80820c9d0ce1c741cb3f0e944a1ff47aaeef095b0767886"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-11-5.08_1x11_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 10505,
+   "sha256": "fd4750c8a6548e79bd57baab71c82c4fe5b7a9352c227b011426eff6e5d3ab84"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-11_1x11_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 10342,
+   "sha256": "830e8c0351879c39b172fb579f44b89028618cc5a8766a42ffd988a96101c397"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-12-5.08_1x12_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 11230,
+   "sha256": "51c0a9dbf95d6b0a2a2d1c8d8327e4718034841d2d5b537662ae94fbff38e480"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-12_1x12_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 11057,
+   "sha256": "808cc13a5f5ceb6ee362f2d9994a581796345732da5365323cb4939f6662fee3"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-13-5.08_1x13_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 11937,
+   "sha256": "2ea624667e11285fe40cff42d6fdb3f4b9a45a6e1728ffa15f1fc7102bfd9d6c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-13_1x13_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 11760,
+   "sha256": "f940461ae6ce31300ac67be03dfa07678fa19629146791abfec6bfedafc1a32d"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-14-5.08_1x14_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 12679,
+   "sha256": "af73565fae152c5074d9386a1ab67178a235bd9f687267ecfbcec241ef5063d1"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-14_1x14_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 12475,
+   "sha256": "79ec615a92b1be47aa85d09c19290712a814342ab72d3ee0a3c99562df27087b"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-15-5.08_1x15_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 13397,
+   "sha256": "5b8db68e6ee31d21e9677399b0f029db671c06361adcb7a97505ad0b0380a347"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-15_1x15_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 13178,
+   "sha256": "fab98d4434ca06726c419ef183ea91a8ce4a2eae63de3c734cc7dcb348afb251"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-16-5.08_1x16_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 14109,
+   "sha256": "02c375d4680fb53f45f728a91ce38dc6214bfa030a6b47bf4f902df8f792660b"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-16_1x16_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 13893,
+   "sha256": "fea0674ce89243e5faafcf086422cfc36f4a83a0f3b2973caa5d3d9441708384"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 4042,
+   "sha256": "43274479460f20ae82c604b02e1775b712a225ad94ef79896a8abd6a4535e237"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 8856,
+   "sha256": "9d368b7a28b62f32828e9dc654053ab9c079d60a60c1014be957ef8128508e86"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 4765,
+   "sha256": "411dc679ad05cf22b2562c6bf486efd9244c76cd161985864699105d2802e71b"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-3_1x03_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 4667,
+   "sha256": "e010b51a2fd75243c9b751c1b17021d4f05dba79d319771ad820fdee41029377"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-4-5.08_1x04_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 5490,
+   "sha256": "7eae9b7697a817d296dc54c91a2378ead1d4bd1b5019bd4873be12eeada224bb"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-4_1x04_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 5388,
+   "sha256": "5a5d2c250ef3af919d1b2a419460d48f2950a080182050bbd287de68faac7b0e"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-5-5.08_1x05_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 6208,
+   "sha256": "50b4c80b9becc4269f565e0006f142acd7b0ac756343ffafec40e66f3a1b2db4"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-5_1x05_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 6086,
+   "sha256": "940106284c6908190e22d1e4c8abc0cef5cacf984335aaccd6cb94fad6c71664"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-6-5.08_1x06_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 6898,
+   "sha256": "a08e7b318b1b754b2cc5ac150be2613f573ed4a629a3ef02d3051d66046b3a50"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-6_1x06_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 6800,
+   "sha256": "7f24ca0b88d13ea0481242a6c3db7593f5b66cbdd564e2a2c9d51346f07bc833"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-7-5.08_1x07_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 7640,
+   "sha256": "2026d78a58122280b6d37f46c64f62c9441601bf167815b1fc8950b0667af215"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-7_1x07_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 7502,
+   "sha256": "4516b1f24ef333a4bb7ffa8f0498fd7778ff37746d0f271133a5442417a5b6c3"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-8-5.08_1x08_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 8347,
+   "sha256": "a01342a7caae7927f37bf297418d911b4b2603a25482da3613858d71c0ca2726"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-8_1x08_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 8216,
+   "sha256": "3a63eb5d9452576de73380fcaf10d8218e041e5d406e023a9a0e7e3ccb0a0506"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-9-5.08_1x09_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 9076,
+   "sha256": "e4dee1d6e18e46ea7ec5770e57d25131bef854d2a38ba45ed768646384446f3f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-1,5-9_1x09_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 8918,
+   "sha256": "8e0ec6413912d07a1f92a435adccc8871bd492754f17a1fe2269e9a10681f623"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-10-5.08_1x10_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 9774,
+   "sha256": "8e37991373220b35ac2d9b4cb07ec228911954968483e26c203d1564141f5d0f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-11-5.08_1x11_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 10480,
+   "sha256": "05fafcd65ea26d4a68937daf15f975d372b09189d6be8ed23d5a0ae284aed421"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-12-5.08_1x12_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 11206,
+   "sha256": "c20746ee32265b0aab479c6da272ddfc40e2e85aed3e8c00cebf8bcf860488e0"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-13-5.08_1x13_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 11914,
+   "sha256": "4c4626e4e6c27f3287df223c1e5270be90f9e47f40f8820090ef56785b4643b2"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-14-5.08_1x14_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 12657,
+   "sha256": "3ed0137c14d5e9077ac3bd4e9d7a2c49d7d5177997d4c44ff3a008b2c7d0ddd3"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-15-5.08_1x15_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 13376,
+   "sha256": "d269c28383dec8b8bf15325c6c85d309162d32c628d17656713f973308c297bc"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-16-5.08_1x16_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 14089,
+   "sha256": "523e2bf7e7cc82f7bd333b2d0ee4dc8966b55e20510d184ec229e7f19dcd4908"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-2-5.08_1x02_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 4006,
+   "sha256": "7c2397c78ec460cfeb28e25bd47b13a96f4da943eb0cf97c233e7a1dedde8af6"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-3-5.08_1x03_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 4730,
+   "sha256": "353f85277283ad90b676d50626e9fb58407bb3ef548a79467b71a41931b17962"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-4-5.08_1x04_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 5456,
+   "sha256": "0a84aadb091149346d21c8c70233dae5632fa04d2980de23af7d1b19f7e8abe4"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-5-5.08_1x05_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 6177,
+   "sha256": "580c1334d57e5c01dca408a4c3af9ba9627b32367b947c5c55bc71b56eab4ecf"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-6-5.08_1x06_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 6868,
+   "sha256": "633531d7d8dd5f68eb9d5264522a3e8f204f194473156bc62b9f3ba2f7c6d2c8"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-7-5.08_1x07_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 7611,
+   "sha256": "e0f3138e86b25f03a7cc8ea3d8a8cc18b545c14d7953882aa01dd35e3178abbf"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-8-5.08_1x08_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 8319,
+   "sha256": "af7130f6ab800c0c3913348deac7aa8797c47380e2185d3003b2a476dd7206ad"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MKDS-3-9-5.08_1x09_P5.08mm_Horizontal.kicad_mod": {
+   "bytes": 9049,
+   "sha256": "5ce7f0bcad652306d90d20915e915533350c2715b25b3a014855e923e4c3a0fc"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-10-2.54_1x10_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 5564,
+   "sha256": "d8b9f8af5440a7c2d573a4ecba5dd4acec39e2d11dbda31d6fd752c85295e7da"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-11-2.54_1x11_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 5860,
+   "sha256": "5350f0d91696b448eb82acf2713dad64b28fdc1e08118e53f78b2a66f4495e6f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-12-2.54_1x12_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 6192,
+   "sha256": "b5c78892ffdec07799de2abd71af5f84b3d4f564f2e99bf3795aba6cf2fe42e2"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-2-2.54_1x02_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 3541,
+   "sha256": "1e5e25c7ba4ac75197a78c5d85a34d4fec4393949f5db70a13512bccbaaf0eb9"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-3-2.54_1x03_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 4094,
+   "sha256": "452f77094c9ec2d22e92e87e1b92577615af235c2b8b11c61d8cc7604cad4769"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-4-2.54_1x04_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 3674,
+   "sha256": "a55abfbcf71e6d42b9931f35fdf2cc55c3a0a42b6df23ed8f34445abe2200060"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-5-2.54_1x05_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 4000,
+   "sha256": "115d76148816b9e07d27ac2385dc7d1d7b5ec4f0d58e315cf629733052cc1961"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-6-2.54_1x06_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 4296,
+   "sha256": "c70785b4f102b3f91d0eaae6055a86a7d097d95323d2d7d6d0906515ec9254af"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-7-2.54_1x07_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 4624,
+   "sha256": "f526d6fc020b28f9d14df79a5355c16f2319108af8b218f3d463841c4af78bc1"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-8-2.54_1x08_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 4936,
+   "sha256": "17bcad0dbfcfe0e5e6b0700e4649e19b5178e4b45deef3ba25c3afc00b0f6bfc"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_MPT-0,5-9-2.54_1x09_P2.54mm_Horizontal.kicad_mod": {
+   "bytes": 5251,
+   "sha256": "c25401229a2e0ef8ebfa438edf9f6aa5dbd9dd743e74a8a31f7b01079971ed16"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-10-3.5-H_1x10_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 9491,
+   "sha256": "df4dfbaae9a8aa5b17ed949cfda72b968a19a4954a21a9fb8a0843e05de7441e"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-10-5.0-H_1x10_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 9471,
+   "sha256": "da59fdd1559447ef509e50234c024b74be27f8833e6051dc381eecf20dfb7521"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-11-3.5-H_1x11_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 10201,
+   "sha256": "c4eac1e90464d1f8b26c51114f3a0f137f9bf4e9495214bc0360371ecbad2392"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-11-5.0-H_1x11_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 10173,
+   "sha256": "a588146a915637d6ef1971c2ae8279f4d43aa80a2c0e5a4a27da2b368bfcc087"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-12-3.5-H_1x12_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 10913,
+   "sha256": "7dc1167c5420976f935f0586fbb3a7a1d72755217214a847e66246a0bb11ae6e"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-12-5.0-H_1x12_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 10887,
+   "sha256": "7d92647b0d5e16718d5806c8a9de3d2405bcf374c1ae973df927936e057c0c14"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-13-3.5-H_1x13_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 11617,
+   "sha256": "a0d9e61da946bf1d856d8b02854061038052627f6035dcc81f458ba5f8516810"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-13-5.0-H_1x13_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 11589,
+   "sha256": "b8d279f80010f8ac10bc7edd80a06be4e6ffce90c3f4ac51a561f7ae4a2d5a1c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-14-3.5-H_1x14_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 12335,
+   "sha256": "db4c8e34c9abbb4843eaca91bc7b62c37b0e0b37768e80d63acbdbad83b8d833"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-14-5.0-H_1x14_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 12303,
+   "sha256": "ad4e9a7f67a6048d57f17f171b28d0e99c4fb1f1e8d484e245deb235a013c2a8"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-15-3.5-H_1x15_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 13045,
+   "sha256": "4e0c3b37011b6c6bbcc113dbb51ff065333c46e1bcc1dc0b6b8209364dfa665c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-15-5.0-H_1x15_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 13005,
+   "sha256": "3e764c72bb1c3cbe1c18767bdc84b03191d33920704169a11fd849d399056db2"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-16-3.5-H_1x16_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 13757,
+   "sha256": "890a4371107c4d427e6091c8798f3d0ac1426deb8af9aa1a195689819012bbe4"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-16-5.0-H_1x16_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 13719,
+   "sha256": "854034406add488d375cb6da965c2a8a5e50c8e748c898cb2208cd5b913bcf27"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 3806,
+   "sha256": "6f23cd576c169f49615f828a0e74f50ba1f2e782283fe116a01bda65ff56604d"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-2-5.0-H_1x02_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 3795,
+   "sha256": "52da6086cc2326207b097bd9627ad54710f5bb6cb4651ec5c85e841649d75494"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 4500,
+   "sha256": "f458792e23152449b22bb12ea5814fdf1b735f8ef4f672eb25e4a69ee18be54b"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-3-5.0-H_1x03_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 4506,
+   "sha256": "4e97cfda665980a7081b204ce21a7876b3ef01a55e1f4c9d697faa359ae24f18"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-4-3.5-H_1x04_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 5221,
+   "sha256": "c4dfff6ab9a624c9305be6bc98d7c1d1c4a0108a09a6057629deff31b6a34046"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-4-5.0-H_1x04_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 5225,
+   "sha256": "9e85ae56cf9bbca33fec4ca6b0f9ef7c7dd358d06d7ba2b2d3b2783ad5a87f11"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-5-3.5-H_1x05_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 5924,
+   "sha256": "9bc05a47106ca78c2cfa7e0de79b61a638972940cfab0a08eb88e99fe976db23"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-5-5.0-H_1x05_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 5923,
+   "sha256": "f6282041312245a90c41cd24548bc6459d62c5c865498944bd815c37611a0131"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-6-3.5-H_1x06_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 6647,
+   "sha256": "7567e919dc8b2fd88b4970e75e025d159889f419395ed788d75c755d5863982f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-6-5.0-H_1x06_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 6636,
+   "sha256": "1a6f2ec58c42bcf83676e4323faeab575fa12e0172869d8b99b5faf9f87d89ba"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-7-3.5-H_1x07_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 7353,
+   "sha256": "56ea707c222fc22e79d52725d2c7adbe70521477f2b916d72365dbdc416521b0"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-7-5.0-H_1x07_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 7337,
+   "sha256": "6f4523946e88dd9e71a0d28edd93e325c4c775c4cb3eea433957469d03e576aa"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-8-3.5-H_1x08_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 8064,
+   "sha256": "9f8cc2de9ea5943dc8ea9c3224b15507c06cb8794e08bd8cbbeb7eac7cff67f7"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-8-5.0-H_1x08_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 8050,
+   "sha256": "bb9bf38fdc964b922497db51f62654f2537363fa8ec9f175837f371fca12bedf"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-9-3.5-H_1x09_P3.50mm_Horizontal.kicad_mod": {
+   "bytes": 8767,
+   "sha256": "c745d12df2e730edeccbc2a32f579ab139460ce283a2d30d52e6d299621f3e6c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PT-1,5-9-5.0-H_1x09_P5.00mm_Horizontal.kicad_mod": {
+   "bytes": 8751,
+   "sha256": "cb39eae090717514b4f74154ea0bbf052132c77419abc455646b8073a920d6cc"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-2-2,5-V-SMD_1x02-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 2619,
+   "sha256": "9477201cfbfdb42900cba15601ffa4705a3a476573cb96b2fdc5ebd039ebd45f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-2-2.5-H-THR_1x02_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 2603,
+   "sha256": "4fa4342ca0babde10498f710bfd9b85b9ee75086db9508337887222c811b9291"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-2-2.5-V-THR_1x02_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4142,
+   "sha256": "256dc9a6251bb801c5ed9ecea9afe9cde99fb71fd2ecd4be1097323db29c45e3"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-2-HV-2.5-SMD_1x02-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 3335,
+   "sha256": "b49f355662315e9aed54faed8e53abae3b112eba06692f529bc3a488b70b87ac"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-3-2,5-V-SMD_1x03-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 2953,
+   "sha256": "9c53169606edf15793b70a2ec1d509e6bbe2603402644d673fe042de171941c8"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-3-2.5-H-THR_1x03_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 2761,
+   "sha256": "ee5f44dcc61e05bce56307c2cd8f6bda4719ccf2c9b318e481724fd24b71c66b"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-3-2.5-V-THR_1x03_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 5042,
+   "sha256": "4db12877b0dfecc67971544f6a42a8492dc315608dedc1a8bbbf26c3f8825d83"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-3-HV-2.5-SMD_1x03-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 3705,
+   "sha256": "13ff257f6567b39a1013b629aa4c340ebe28dc71602984ceb299d94255020fc4"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-4-2,5-V-SMD_1x04-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 3358,
+   "sha256": "98387c0bb5e81d2639b9e22bfaf716896cc82ab9a82dd592e9f7dad56c7d9a6c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-4-2.5-H-THR_1x04_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 2935,
+   "sha256": "d0cd9ad4051bca891927a11b9ccc1f909a4e820a5044ffe689e0bb315a95fab6"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-4-2.5-V-THR_1x04_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 5974,
+   "sha256": "3e0b162636a66b5195852f8c98bd63969731625f3e733a77be1e72a493abba91"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-4-HV-2.5-SMD_1x04-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 3335,
+   "sha256": "fb5d9e666fc3b5d6727ef3b4297c8c61ffb14f372787f536dd7b8cb807000e69"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-5-2,5-V-SMD_1x05-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 3702,
+   "sha256": "1f87041f6d292bf2ffba4a32c01bc8730a8653da1ba09e54c3acb1201bad5e51"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-5-2.5-H-THR_1x05_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 3097,
+   "sha256": "943cef6735295ecbeb240e15e8a09c451c4c92d269a43464e5eb72ea99733c8c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-5-2.5-V-THR_1x05_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 6891,
+   "sha256": "8d55eb78f6740337a67798baec163ee904f388cbfc9e5e2359417ac1b8e6bc7f"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-5-HV-2.5-SMD_1x05-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4434,
+   "sha256": "5792f7b4f6a10e4266b05143ab3fbac6b328d957b66e2110f590e48b1ff1b5fd"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-6-2,5-V-SMD_1x06-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4147,
+   "sha256": "ea0edaa7583a6b953131d2a7359dfacefdbd78fb7c24bda75d3243048ffb19ad"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-6-2.5-H-THR_1x06_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 3273,
+   "sha256": "c941c07794b30122a17176a3397ba4e17ea0c270df6450bebc3d5c69d71f19ed"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-6-2.5-V-THR_1x06_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 7843,
+   "sha256": "7f66eccf761ae4c016cbd34e1bbf2222ef7a96b7ba64635cf185c4eb287ee07d"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-6-HV-2.5-SMD_1x06-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4853,
+   "sha256": "5964bb91f85f458ccd71d89b5c72c7f85891a76b11c4a09161fd3e2912806eb6"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-7-2,5-V-SMD_1x07-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4445,
+   "sha256": "3fef21caf816d85e64ba054975ca1979c31f896924f88b71533948c16bff9ed9"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-7-2.5-H-THR_1x07_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 3433,
+   "sha256": "2bb72d88ac5804a6ed6d17dc25bd90ac147cc5e9c00104cac248ccbcc631af8c"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-7-2.5-V-THR_1x07_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 8765,
+   "sha256": "9efd56f7e0bf31346d41c4902c9b047050573cfc7e71e4c898757162d9896c76"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-7-HV-2.5-SMD_1x07-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 5185,
+   "sha256": "4bb940866055ccc1264545a2307e6a7bc083e5087e27eef353054edbcdeb13a5"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-8-2,5-V-SMD_1x08-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 4890,
+   "sha256": "45d331a4f15ce63d9da1cc483bb6199403c51101697f556feb06ac636aaefcc3"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-8-2.5-H-THR_1x08_P2.50mm_Horizontal.kicad_mod": {
+   "bytes": 3603,
+   "sha256": "dcdc2eeba0527d14a1e3a5dd74542b180e1f2767b6c554267c61f178625dec38"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-8-2.5-V-THR_1x08_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 9717,
+   "sha256": "005fd5e38c63592945d0b034fd8f2510d391c1f8a07a0faa255ee0785ca3dc23"
+  },
+  "Llibreries_Kicad/Bloc de terminals/TerminalBlock_Phoenix_PTSM-0,5-8-HV-2.5-SMD_1x08-1MP_P2.50mm_Vertical.kicad_mod": {
+   "bytes": 5596,
+   "sha256": "fc70635fb19b054e5e31e9368f0236811089d97401abae94090d96640aa6d4f6"
+  },
+  "Llibreries_Kicad/Conector reles/KiCad/1548129.dcm": {
+   "bytes": 226,
+   "sha256": "ecd48be1e58bbf27c9ca2e614344519600a3cff2906ec3060afbcc0e73d9cad1"
+  },
+  "Llibreries_Kicad/Conector reles/KiCad/1548129.kicad_mod": {
+   "bytes": 2496,
+   "sha256": "63b1f955ace2fdfb56a01b6e0f9f53be161e171d0c806f614123b5e937b864f6"
+  },
+  "Llibreries_Kicad/Conector reles/KiCad/1548129.kicad_sym": {
+   "bytes": 2569,
+   "sha256": "67e5bf14a4e96fd8667df0b41d04a7c9d4ae906991f70df8a40588c5146a2dcb"
+  },
+  "Llibreries_Kicad/Conector reles/KiCad/1548129.lib": {
+   "bytes": 1117,
+   "sha256": "e7823b5e9dc9f8df58ff34d2ba88bde49542b6b1c01677b76ff022263e167ea6"
+  },
+  "Llibreries_Kicad/Conector reles/KiCad/1548129.mod": {
+   "bytes": 1354,
+   "sha256": "7686deb8ee471bcced91f3c91e2ea522492bc43d4f5ec18015fc984b0b6aed35"
+  },
+  "Llibreries_Kicad/DC Jack/DC_Power_Jack_PCB_Mounted_2.1mm.step": {
+   "bytes": 253329,
+   "sha256": "3e18c58e7fe4062618ac42008d75a478136577f1929ee388452ba3fcca9f1c61"
+  },
+  "Llibreries_Kicad/DC Jack/PCB_DC-IN-TH_XDJK-0051-025.pcbdoc_2025-06-18.json": {
+   "bytes": 12977,
+   "sha256": "3d678dd33290313283211b0413637cce72082dffb14ed73c9b6efe1a4c2af0a8"
+  },
+  "Llibreries_Kicad/DC Jack/KiCad/PRT-10811.dcm": {
+   "bytes": 289,
+   "sha256": "e66905e732be90be675f77402aa744191f2c178125f561c41901b04a8d006881"
+  },
+  "Llibreries_Kicad/DC Jack/KiCad/PRT-10811.kicad_sym": {
+   "bytes": 2658,
+   "sha256": "97f97f8c1b972163e2d4c77a7ef0ecf289a1f413a35b934f379da5d8c8169a7c"
+  },
+  "Llibreries_Kicad/DC Jack/KiCad/PRT-10811.lib": {
+   "bytes": 1200,
+   "sha256": "82e8fceaaeda33b5909567dc6b3effdeae0358be026c835ece467135180ce06a"
+  },
+  "Llibreries_Kicad/DC Jack/KiCad/PRT-10811.mod": {
+   "bytes": 1201,
+   "sha256": "e28c36920820ce5024691bead3ea084b7d08406a762c520738caa1c10f4dbb88"
+  },
+  "Llibreries_Kicad/DC Jack/KiCad/PRT10811.kicad_mod": {
+   "bytes": 2223,
+   "sha256": "d8ee38ab14716999236bda0b599676eea8a455b0ced685e108c742e368a09b97"
+  },
+  "Llibreries_Kicad/Inductor/PSMT3012.STEP": {
+   "bytes": 567574,
+   "sha256": "a2595ffc8b5bdf2733b56fdb3c4001ff3d7ab2e434225c8d049ce350567abed5"
+  },
+  "Llibreries_Kicad/Inductor/Library.pretty/IND-SMD_L5.5-W5.2.kicad_mod": {
+   "bytes": 3819,
+   "sha256": "34357d964f421a872cded19f169f6063a6992acee9d04989fd2098d30e7f5489"
+  },
+  "Llibreries_Kicad/Inductor/Library.pretty/SMMS0530-150M.kicad_mod": {
+   "bytes": 1588,
+   "sha256": "7fdfeaab4d40689505a2d4a7045e08529c6d7698e412fe9e7761520b0d202c30"
+  },
+  "Llibreries_Kicad/Microcontrolador/KiCADv6/2025-05-07_15-38-52.kicad_sym": {
+   "bytes": 10876,
+   "sha256": "d11d5253166ef0b0cc3fbf94f3ffca7058e5215d1cc82e5933ec6e2707726794"
+  },
+  "Llibreries_Kicad/Microcontrolador/KiCADv6/ImportGuide.html": {
+   "bytes": 8251,
+   "sha256": "3279e31732796ac055acebdea20836e8e3eaf36c4afb3dac6fe81a3175659480"
+  },
+  "Llibreries_Kicad/Microcontrolador/KiCADv6/footprints.pretty/ESP32-S2-SOLO-2.STEP": {
+   "bytes": 7980866,
+   "sha256": "acba13eecc6ff9f83fa06dd585f63329e5637e1823e744cdd31007c7db100a57"
+  },
+  "Llibreries_Kicad/Microcontrolador/KiCADv6/footprints.pretty/ESP32-S2-SOLO-2U_EXP.kicad_mod": {
+   "bytes": 14939,
+   "sha256": "e426cbb655494edfa95181f717870ade7ce2fb785fb6ff1397589e859f98bf4a"
+  },
+  "Llibreries_Kicad/Optoacoplador/TLP185.step": {
+   "bytes": 909277,
+   "sha256": "7b84ed1a43fddefaaf5d42ea26454854803a2f4b9afae48f1493573f969cbab8"
+  },
+  "Llibreries_Kicad/Optoacoplador/KiCad/PS2705-1-F3-A.dcm": {
+   "bytes": 511,
+   "sha256": "69f201b3497446b5c3adfed141a047baa6717d79e5f75b14029a676b1de26039"
+  },
+  "Llibreries_Kicad/Optoacoplador/KiCad/PS2705-1-F3-A.kicad_sym": {
+   "bytes": 2811,
+   "sha256": "799409e310e5aa9b319f13e1b7dfa36cb3f1d21884af11eb02728edde877f771"
+  },
+  "Llibreries_Kicad/Optoacoplador/KiCad/PS2705-1-F3-A.lib": {
+   "bytes": 1387,
+   "sha256": "8f5e9ab052a2e82ac0a108bdb1ccb455ddc6f8f82231a7fd0ea497656cf534db"
+  },
+  "Llibreries_Kicad/Optoacoplador/KiCad/PS2705-1-F3-A.mod": {
+   "bytes": 1143,
+   "sha256": "884252cf51b7d80eadb57ce095c98c150fe03f55e9ec73c52f5566591a1057e2"
+  },
+  "Llibreries_Kicad/Optoacoplador/KiCad/SOP254P700X230-4N.kicad_mod": {
+   "bytes": 1916,
+   "sha256": "4d38628eb612acd7745d88cd6d9cfa2f52fbdb9b77ba6aaa0e2edb3e37cf2233"
+  },
+  "Llibreries_Kicad/Optoacoplador/Proteus/Optoacoplador PS2705.pdf": {
+   "bytes": 5516847,
+   "sha256": "140c4fefb41bb08bb7e1ed6739587789129a87f568bc3694ca7ffc121ab76542"
+  },
+  "Llibreries_Kicad/Optoacoplador/Proteus/PS2705-1-F3-A.pdif": {
+   "bytes": 3682,
+   "sha256": "c31cae011233568598140f81f780b220b85cdc262e514ea388f67adb8941c269"
+  },
+  "Llibreries_Kicad/Optoacoplador/Proteus/PS2705-1-F3-A.pdspart": {
+   "bytes": 2617,
+   "sha256": "f50a0a9dbe7e339d78e93a5d637fde6ae056fc7f1ca8666bc31809567fe3752e"
+  },
+  "Llibreries_Kicad/Optoacoplador/Proteus/8.8 or earlier/Readme.html": {
+   "bytes": 724,
+   "sha256": "429d81b509d803f85bdfeae7225da580d553e401c82fe53453cbbe0802ab2ae4"
+  },
+  "Llibreries_Kicad/Optoacoplador/Proteus/8.9 or later/Readme.html": {
+   "bytes": 430,
+   "sha256": "9834569b2fe1a0f8a3664d7296b22a7ac4f9aca0aa1b6b4e2950fac5df05c907"
+  },
+  "Llibreries_Kicad/Relé/SRD-05VDC-SL-C.lbr": {
+   "bytes": 14873,
+   "sha256": "e2362a00943b3c6c9203d7c84fdb69ddc0ad337b76cd3f4d93e357065a8fad78"
+  },
+  "Llibreries_Kicad/Relé/SRD-05VDC-SL-C.pdf": {
+   "bytes": 93805,
+   "sha256": "d83fa7e7a572e7ec6b3cf1e9d04048198fe4ad42caca174702c2866f74b2d79b"
+  },
+  "Llibreries_Kicad/Relé/SRD.pdf": {
+   "bytes": 74522,
+   "sha256": "c129f36bfac307935f77a071fee231e0a4f503d496cb38824c19fc192bb6ac48"
+  },
+  "Llibreries_Kicad/Transistor/Transistor.IGS": {
+   "bytes": 259284,
+   "sha256": "c6cca7f48827bef20ce369a8b0441aaeb14fd63f5cfcda21be4d4b1a80e15fcd"
+  },
+  "Llibreries_Kicad/Transistor/ds11107.pdf": {
+   "bytes": 378941,
+   "sha256": "9d9219812601592945a0cb4d2c5fb3cbd956c8cb2ba61d14c05d817e35c9586d"
+  },
+  "Llibreries_Kicad/Transistor/KiCad/BC817-25-7-F.dcm": {
+   "bytes": 212,
+   "sha256": "5cda0e967f09a44d39a49f9659c37917587a34b99cda8bbe1c1252c30e48a06a"
+  },
+  "Llibreries_Kicad/Transistor/KiCad/BC817-25-7-F.kicad_sym": {
+   "bytes": 3540,
+   "sha256": "9d31a916cc126d5d23e9692eb124f575ea7966c7f9e431e590addcf937a1d23c"
+  },
+  "Llibreries_Kicad/Transistor/KiCad/BC817-25-7-F.lib": {
+   "bytes": 1244,
+   "sha256": "ace6eee08a75c6af856524cf59c38e5912927a19a59c66babc6ed52987f0fe98"
+  },
+  "Llibreries_Kicad/Transistor/KiCad/BC817-25-7-F.mod": {
+   "bytes": 1113,
+   "sha256": "a842a4f8d384271fc587eda748b109eb68c3482ec3afff97baa57a2c9b6a300c"
+  },
+  "Llibreries_Kicad/Transistor/KiCad/SOT96P240X110-3N.kicad_mod": {
+   "bytes": 1891,
+   "sha256": "6b1c4c9f94bdbf76851977da5f09129a8c570f31e8ce6a11e96fc1d288d99159"
+  },
+  "Llibreries_Kicad/Transistor/Proteus/BC817-25-7-F.pdif": {
+   "bytes": 3637,
+   "sha256": "bc8196646cd06fb6e1acd80e49bdce1487afe904e8d9a558444384520072a5c7"
+  },
+  "Llibreries_Kicad/Transistor/Proteus/BC817-25-7-F.pdspart": {
+   "bytes": 2691,
+   "sha256": "f3cf8e1057d794233b6150807dd461116c3a93362777fe596caba3ff5a48c46f"
+  },
+  "Llibreries_Kicad/Transistor/Proteus/8.8 or earlier/Readme.html": {
+   "bytes": 724,
+   "sha256": "429d81b509d803f85bdfeae7225da580d553e401c82fe53453cbbe0802ab2ae4"
+  },
+  "Llibreries_Kicad/Transistor/Proteus/8.9 or later/Readme.html": {
+   "bytes": 430,
+   "sha256": "9834569b2fe1a0f8a3664d7296b22a7ac4f9aca0aa1b6b4e2950fac5df05c907"
+  },
+  "Llibreries_Kicad/Wemos/PCBLIB_WEMOS-S2-MINI_2025-06-16.json": {
+   "bytes": 29669,
+   "sha256": "1884d4634d60ff162a4f275a2797d586cf78775b6fc03658e8e5a5cfb3c73b1d"
+  },
+  "Llibreries_Kicad/Wemos/SCHLIB_WEMOS-S2-MINI-(ESP32-S2FN4R2)_2025-06-16.json": {
+   "bytes": 7590,
+   "sha256": "30ebecdf974f9865a2d1eab38246a0a34bfdadbbac4585048a358b14f5b3c895"
+  },
+  "Llibreries_Kicad/Wemos/Wemos S2 Mini V1.0.0.step": {
+   "bytes": 15496208,
+   "sha256": "f502959d0783adc8f9a067c4d7fc425b33d4a71eb8d5758274e467cc8cf97b70"
+  },
+  "Normas_UPV/CALENDARIO-DE-FECHAS-DE-TFG-CURSO-2024_25.pdf": {
+   "bytes": 196631,
+   "sha256": "0c69067b51cded8ce6f1bc98b5204c3a1b3a10e5eb3cf8e49e7905bb0899c51e"
+  },
+  "Normas_UPV/Contenido-minimo-del-TFG.pdf": {
+   "bytes": 289748,
+   "sha256": "d7b07de9058f82dfd4a5e7c2605d2b6d0fff510c3ac85e8035388799595a2187"
+  },
+  "Normas_UPV/DOCUMENTO-AYUDA-INFORME-EJECUTIVO.pdf": {
+   "bytes": 886969,
+   "sha256": "a8cc4b2f8b2b5b9f7b95f8d596d08b0598dbf2e27538bba51663f7f081310f6f"
+  },
+  "Normas_UPV/FORMULARIO-INFORME-EJECUTIVO.pdf": {
+   "bytes": 883425,
+   "sha256": "b0ea0af253a5258c98e4024f06061429e8a470b84217c055ef54103c4fb13feb"
+  },
+  "Normas_UPV/Intermitente_portable_para_bicicletas.pptx": {
+   "bytes": 1681607,
+   "sha256": "7269ec1ab0ac20f2bee87bb647a1cb98c9dbaaff953b1245355de07fa3055ef7"
+  },
+  "Normas_UPV/Normativa_TFG_UPV.pdf": {
+   "bytes": 517228,
+   "sha256": "fc102a3adc94530b1db332a14783b328ae44c68b8bc5f60e909d337a1942cf3b"
+  },
+  "Normas_UPV/Procedimiento-Calificaci_n-TFG-1.pdf": {
+   "bytes": 146170,
+   "sha256": "c682ac91bb74de30e640bd3763b2446431e632b4f6432fe44e80aea2d466b0db"
+  },
+  "Normas_UPV/Procedimiento_para_la_tramitaci_n_y_defensa_del_Trabajo_Fin_de_Grado_ETSID.pdf": {
+   "bytes": 342248,
+   "sha256": "513a9e6fb1f5763d126ad28891647693ac0b7964a7c8da921e9698c84f936cdb"
+  },
+  "Normas_UPV/Rubrica_TFG_GIE-R1_v2.pdf": {
+   "bytes": 133232,
+   "sha256": "7b422ad9d1da252a4c3b739af0431cef60319c8aa4522cd4550f50600e4469bd"
+  },
+  "Normas_UPV/Unidad_6._TFG.pptx": {
+   "bytes": 1390182,
+   "sha256": "bc0be522e7a0d28729b7f4d61bf57ec626c5ec90ca3dd6463e3a6b2891782436"
+  },
+  "Normas_UPV/recomendaciones_redacci_n_y_defensa_TFG-2020.docx": {
+   "bytes": 22681,
+   "sha256": "b9eff3e8e27e587247948eebf3fc6edad1dc4bb9fd3bda3230882fb3fe67337b"
+  },
+  "Presentacion/CONTRL DE RIEGO AUTOMÁTICO E INTELIGENTE.pptx": {
+   "bytes": 1488734,
+   "sha256": "d126f87d0f857f3f23e75cf49853fe437c02ed1e5bc224f8559f621cfb743b0b"
+  },
+  "Presentacion/Intermitente portable para bicicletas.pptx": {
+   "bytes": 1681607,
+   "sha256": "7269ec1ab0ac20f2bee87bb647a1cb98c9dbaaff953b1245355de07fa3055ef7"
+  },
+  "Presentacion/Presentacion.tex": {
+   "bytes": 4001,
+   "sha256": "9c852bb46a03f0db41b37914623f72854a62ab708dbaa5733d1a30dff7c6186d"
+  },
+  "Presentacion/TFG.pptx": {
+   "bytes": 2574787,
+   "sha256": "ccc86950d5e5453e4f00f6325ed5eade381e3c59d8ebacc4df6165e874013399"
+  },
+  "Recursos/004-Relay-Module-Circuit-Schematics-activo.png": {
+   "bytes": 51976,
+   "sha256": "76f79714e4c9eb3ce1955fef0102ed476e7d08ccb639e508144de876f78b9dd6"
+  },
+  "Recursos/8 Reles esquematico.jpeg": {
+   "bytes": 259924,
+   "sha256": "2165c84b81c5349f2cb671e58b02f75eed1a1ee1e73035b169d97f6dfc62c4c1"
+  },
+  "Recursos/Diagrama esquemático (Blanco y negro).pdf": {
+   "bytes": 70299,
+   "sha256": "ffbd3d75024af03abf5f628197f449f600883364b73eb6c66acaee64e98cb6c1"
+  },
+  "Recursos/Estudio Inicial.docx": {
+   "bytes": 20857,
+   "sha256": "3d2097bb9b7c8320c9ce5617dd59f955a42f48ccc88bb3bc1b163ffea5d8e25f"
+  },
+  "Recursos/Párraga - Diseño, cálculo y fabricación de un dispositivo sostenible para el control del riego po....pdf": {
+   "bytes": 4864809,
+   "sha256": "cab3271d797493959d2ae2ea134b8fbec8cda4a5a8b1b338fcc094c1abc6600a"
+  },
+  "Recursos/Quero - Diseno validacion e implementacion de un dispositivo electronico programable modular.pdf": {
+   "bytes": 58100109,
+   "sha256": "0f436c215cbf193741ab9761c272d44092669b1507e15359f3cc68cf2c6947ee"
+  },
+  "Recursos/TFM_GilJavier.pdf": {
+   "bytes": 8184843,
+   "sha256": "6faf65a6cd493f437c095850cafab39794bc01fa3f2982ad33734ce7692dc907"
+  },
+  "Recursos/sch_s2_mini_v1.0.0.pdf": {
+   "bytes": 85313,
+   "sha256": "c0fd02597603c4b70494377083b33df3438706a6980c4b681f8be38a618e20d8"
+  },
+  "Redaccio_PDF/Anexo.tex": {
+   "bytes": 747,
+   "sha256": "426a0abf6bb0c4898a94e708fd47e165ed20575bff4fd020db40afaea33f03a0"
+  },
+  "Redaccio_PDF/Bibliografia.bib": {
+   "bytes": 3522,
+   "sha256": "bce613d246c71a03d5379d9fc1afbdd8f7ea1961a5fefad47da145b6f9f2201b"
+  },
+  "Redaccio_PDF/Portada.tex": {
+   "bytes": 1091,
+   "sha256": "5905448ced49fd4f58b4878cba870115d5c050bf2de00703559cca4a791ae54d"
+  },
+  "Redaccio_PDF/Resumen.tex": {
+   "bytes": 549,
+   "sha256": "aecd3e30bf6489325be40cdc53216ba38f78805b687c2ceee15564ea83571920"
+  },
+  "Redaccio_PDF/main.aux": {
+   "bytes": 10267,
+   "sha256": "0904d1bcdc82efc73b36d0a90e9229fa8ca614548c22d1ca1a0d2b63e637ab3d"
+  },
+  "Redaccio_PDF/main.bbl": {
+   "bytes": 777,
+   "sha256": "00025d40259e27fd56dfb567bda72896420a5715f070013e6c86cacceb2b0771"
+  },
+  "Redaccio_PDF/main.blg": {
+   "bytes": 1525,
+   "sha256": "73c039757d40ee3f8a1acdef679d09126ef60a3bf9a73d2ee8809650de795970"
+  },
+  "Redaccio_PDF/main.log": {
+   "bytes": 38928,
+   "sha256": "f83fdb7a74a134a1f37060638baf4c401208763116739f30d2f27590e566af02"
+  },
+  "Redaccio_PDF/main.out": {
+   "bytes": 3225,
+   "sha256": "f58a646942a636dfcfff6bf9aef7b6c8c19225387d76a136436bf4c559d9d335"
+  },
+  "Redaccio_PDF/main.pdf": {
+   "bytes": 26325564,
+   "sha256": "770068f593826f8e6bc5fdbea2b34f1fca46e00fe5aee1716ca513f8306405db"
+  },
+  "Redaccio_PDF/main.synctex(busy).gz": {
+   "bytes": 120385,
+   "sha256": "c2f18f631b0a9ab86a2e3cffa54d943f6cf6c18501ad29b324ef3759d530519a"
+  },
+  "Redaccio_PDF/main.synctex.gz": {
+   "bytes": 320537,
+   "sha256": "90c6a20a7d28c631137483209e65e9c287fedd88e78daf5912b0f0b753299453"
+  },
+  "Redaccio_PDF/main.tex": {
+   "bytes": 6561,
+   "sha256": "6fd1d09690f017be2a343ac8b0d69f044d94f23ef33dcee3b9af6ae4214c50ce"
+  },
+  "Redaccio_PDF/main.toc": {
+   "bytes": 3284,
+   "sha256": "3781a61b42f3c6b6cb631fc0d53acc8106447362d60e9a413e22099204f65ccd"
+  },
+  "Redaccio_PDF/Codigo/control-riego.yaml": {
+   "bytes": 2308,
+   "sha256": "dd0e8c1f5c8d938806bbd454b732e9d77f3500f3575324c345b2b59086c1fcda"
+  },
+  "Redaccio_PDF/Contenido/1_Objetoyambito.tex": {
+   "bytes": 2028,
+   "sha256": "366ad7ecb5c15e95adb7fedfc4d38cb8b49b7839581754bd94c1e1a8ede6871e"
+  },
+  "Redaccio_PDF/Contenido/2_Antecedentes.tex": {
+   "bytes": 18226,
+   "sha256": "a9177ac8cddad89d0027929c94c37a058993f33fc25e1c5d7dc2f8a0c2f0f9a3"
+  },
+  "Redaccio_PDF/Contenido/3_Estudionecesidades.tex": {
+   "bytes": 4822,
+   "sha256": "66fc3dcbd2f818e1b3710693c0e93d12ec272ae783955c6ca17f34a0aeefd8e6"
+  },
+  "Redaccio_PDF/Contenido/4_Solucionesalternativas.tex": {
+   "bytes": 16674,
+   "sha256": "3f5febebc58cca45a0afc9b198003e8875fa4035df4a468dfc9eedb93288f51a"
+  },
+  "Redaccio_PDF/Contenido/5_Solucionadoptada.tex": {
+   "bytes": 19280,
+   "sha256": "515ece2e1436f90b9bb706aac50743faa2e332cdea449eb913945b8115b870ac"
+  },
+  "Redaccio_PDF/Contenido/6_ODS.tex": {
+   "bytes": 2918,
+   "sha256": "20a2e2e2f14a78b0d5ddf004cb6825661287965663e739775e57e98a154dd824"
+  },
+  "Redaccio_PDF/Contenido/7_Conclusiones.tex": {
+   "bytes": 2182,
+   "sha256": "430dd9309f65d804260a1208b1396fb68d8f3a428387de7bfcebc3d905d64f08"
+  },
+  "Redaccio_PDF/Contenido/Planos.tex": {
+   "bytes": 189,
+   "sha256": "c62db4e163a68addf3f37f3af7a6bc23e009517111bf30fb372b2953d8a849c7"
+  },
+  "Redaccio_PDF/Contenido/Pliego.tex": {
+   "bytes": 2844,
+   "sha256": "ef5ddc11cfb5597467878e796e8f5671ff8cb78617f99abe91029d9ba7e6a8e6"
+  },
+  "Redaccio_PDF/Contenido/Presupuesto.tex": {
+   "bytes": 6650,
+   "sha256": "561b42f8d79acc395ce9346639e40cb36b738d2a58cf80562fafd17b7d559a04"
+  },
+  "Redaccio_PDF/HojasDatos/BC817.pdf": {
+   "bytes": 378941,
+   "sha256": "9d9219812601592945a0cb4d2c5fb3cbd956c8cb2ba61d14c05d817e35c9586d"
+  },
+  "Redaccio_PDF/HojasDatos/PS2705.pdf": {
+   "bytes": 5502081,
+   "sha256": "13436b36105cfbc180e7935dbef76b8caba75abcf4925f271b78e61b06ee7be3"
+  },
+  "Redaccio_PDF/HojasDatos/RelaySRD05VDC.pdf": {
+   "bytes": 3994124,
+   "sha256": "1812789b19a42e028ebc8da2682445f67bc47a509e27ecec839b490ade91fc02"
+  },
+  "Redaccio_PDF/HojasDatos/TPS54202.pdf": {
+   "bytes": 1583261,
+   "sha256": "a7f9b762dcd5e18e1bc32bac4ec514fd39b54a16df176d564e3f551bdbed066f"
+  },
+  "Redaccio_PDF/HojasDatos/esp32s2.pdf": {
+   "bytes": 849202,
+   "sha256": "ce77f600807a6a9f5c089f85287d3d8bb90bc20a7fcea630436c9713e845ef90"
+  },
+  "Redaccio_PDF/Imagenes/2capas_pcb.jpg": {
+   "bytes": 71709,
+   "sha256": "527064ed87177332cc16b08ad3d816b6bb60f0be39352ef3a6e6658879c86fea"
+  },
+  "Redaccio_PDF/Imagenes/Leyenda.png": {
+   "bytes": 1129369,
+   "sha256": "dca15131d867229135b94e82ed82f3d1bf10bc0a209ebb52c40ac0a29867ea8b"
+  },
+  "Redaccio_PDF/Imagenes/Vista_Catastro.png": {
+   "bytes": 1142242,
+   "sha256": "d9d03030ac8b4c812a0c674f2d10839cf3d19d61416128cbb477c1d15a3ef53f"
+  },
+  "Redaccio_PDF/Imagenes/bucle_corriente.png": {
+   "bytes": 269303,
+   "sha256": "2abb414164497c4b23198327ae0338adb50b63f9414dcadbe31caff7eaa004ac"
+  },
+  "Redaccio_PDF/Imagenes/caja_montaje.png": {
+   "bytes": 346161,
+   "sha256": "9a9e27d6d8cb62e530dcf98f564c40629dd75f0274548b1fc2afcefda4002f9e"
+  },
+  "Redaccio_PDF/Imagenes/dht11.jpg": {
+   "bytes": 28799,
+   "sha256": "f58f4fc26c83754e51d72e0cf4cc2fafbeedf844d4f9a30d6e745fe31a0594eb"
+  },
+  "Redaccio_PDF/Imagenes/dht11_a.png": {
+   "bytes": 33586,
+   "sha256": "62cd1dbf19863f1c003acef4d84a9595422b671f45f62266f4e3344ef59a31f2"
+  },
+  "Redaccio_PDF/Imagenes/diagrama_bloquesESP32.png": {
+   "bytes": 266359,
+   "sha256": "ebb365b676f72311aaaaa4041fa3b8fae94450c956e7e6d33d0aab114654e768"
+  },
+  "Redaccio_PDF/Imagenes/esphome.png": {
+   "bytes": 4527,
+   "sha256": "7180f75ce0bbff552246326ec7e5ea71de999c71f78a7699b9cb832e86c69df0"
+  },
+  "Redaccio_PDF/Imagenes/esquema_alimentacion.png": {
+   "bytes": 91168,
+   "sha256": "3aabacd53b542682563004f57cf28bc4cb58af50e308ecdd0699fe7b4ea5b82f"
+  },
+  "Redaccio_PDF/Imagenes/esquema_dht11.png": {
+   "bytes": 21076,
+   "sha256": "ba766a0d8aac46b82b53ee80b249fa6662f6c592221a51d104d05b3e74bc2b44"
+  },
+  "Redaccio_PDF/Imagenes/esquema_esp32.png": {
+   "bytes": 73640,
+   "sha256": "da31d5af540c2356b198f8ceb419c9239c7f59170b96dcca79d4850350178e85"
+  },
+  "Redaccio_PDF/Imagenes/esquema_general.png": {
+   "bytes": 19136,
+   "sha256": "390c54475a86bee9d0c0bffae7f725dd757926c447eba0f2c7689f290da998f4"
+  },
+  "Redaccio_PDF/Imagenes/esquema_reles.png": {
+   "bytes": 62182,
+   "sha256": "8aabc56612d74417d19a4aaf30bf51aeb4c7acdfa675f758da41bd05553f7662"
+  },
+  "Redaccio_PDF/Imagenes/esquema_reles_conectores.png": {
+   "bytes": 42432,
+   "sha256": "ffa72ff3bb1c1f58a64bd6978abcf5984d8de97c67edfe0afb6c13f7b2e402a0"
+  },
+  "Redaccio_PDF/Imagenes/esquema_test.png": {
+   "bytes": 42391,
+   "sha256": "c414fb9726d43607ba0e06f327db9a2413b35cd2075e9032a7ae55056df66f51"
+  },
+  "Redaccio_PDF/Imagenes/esquema_transmisor.png": {
+   "bytes": 36641,
+   "sha256": "736b4db6e8c4000812c3816896c862f55c2011b9d8f14afce33bb13fa35026b5"
+  },
+  "Redaccio_PDF/Imagenes/frontal_deposito.jpg": {
+   "bytes": 622014,
+   "sha256": "ebef1cae1ef53f25322c2be8878a3a9972b5f52d78a9760969cafa5d74fa134e"
+  },
+  "Redaccio_PDF/Imagenes/homeA.png": {
+   "bytes": 1807,
+   "sha256": "9bb3aaa27a36bdebd809a692900e0fb0e5ffba47c6a7cd22b11804e62bc515c7"
+  },
+  "Redaccio_PDF/Imagenes/huella_alimentacion.png": {
+   "bytes": 69649,
+   "sha256": "c69923afa55bfc3d51f285212caa5645be3d4f797080f83c97a839f014e7078b"
+  },
+  "Redaccio_PDF/Imagenes/huella_dht11.png": {
+   "bytes": 10247,
+   "sha256": "f648dab85787167740f27196f1607414d2c6032ad156e3b50c38ab7913e74289"
+  },
+  "Redaccio_PDF/Imagenes/huella_esp32.png": {
+   "bytes": 154844,
+   "sha256": "ea48b93ffe4599ba33d4d650f9ea728da40eb8e03404f7b28210119145f8832b"
+  },
+  "Redaccio_PDF/Imagenes/huella_reles.png": {
+   "bytes": 191293,
+   "sha256": "01208a1e4d42cbd0b6ff00a78496bc58f204bb431da361db647eb964efbe5b2e"
+  },
+  "Redaccio_PDF/Imagenes/huella_test.png": {
+   "bytes": 39971,
+   "sha256": "d45b1ac5f7f30f3b0887fdb897c595998169377be3fb1d426782819f82eb9f53"
+  },
+  "Redaccio_PDF/Imagenes/huella_transmisor.png": {
+   "bytes": 37551,
+   "sha256": "5ca762d76c27ae759d8b1bc39a4aef5c14344d3200bc4d7501e16de91b31e77d"
+  },
+  "Redaccio_PDF/Imagenes/interfaz.png": {
+   "bytes": 58501,
+   "sha256": "906ebf2d0a5577da5bb9b5eb87f0440a0c43856b37c4f5277513c6d0d07a66c7"
+  },
+  "Redaccio_PDF/Imagenes/lora.png": {
+   "bytes": 41053,
+   "sha256": "7d67b4c9fbdcd588e56c5584280d9eaabd6b726e8339eb6c7adedd703d64037f"
+  },
+  "Redaccio_PDF/Imagenes/nbiot.png": {
+   "bytes": 60650,
+   "sha256": "7d221abf92318a95cdaa8f7380bde41d6ef853c8b140b26aa9ffd395d1f201ba"
+  },
+  "Redaccio_PDF/Imagenes/optoacoplador.png": {
+   "bytes": 9660,
+   "sha256": "718dd821ca3d8fc108eac6b18df02fd6e7275d104296c7dd4c6e8e1a6f0d06fd"
+  },
+  "Redaccio_PDF/Imagenes/perfil_deposito.jpg": {
+   "bytes": 520951,
+   "sha256": "34c50b0e605b8e76af472338da267203306fdc4759951a6cd2f4dc0ec18f67a7"
+  },
+  "Redaccio_PDF/Imagenes/rainbird.jpg": {
+   "bytes": 60654,
+   "sha256": "b03cc892333ebcfe65975b31b2b54cf502343c21f680fe359c35ebd4783980c9"
+  },
+  "Redaccio_PDF/Imagenes/rele_5v.jpg": {
+   "bytes": 69291,
+   "sha256": "41549c59c0f8bcc629934af41d93abdda9865237a2d4b4e232b7286828a0e4a7"
+  },
+  "Redaccio_PDF/Imagenes/reloj_riego.jpg": {
+   "bytes": 41361,
+   "sha256": "56a6bd889e81159763176eff25b75e5eb906987305fe2e773056b8e5b5b175f2"
+  },
+  "Redaccio_PDF/Imagenes/render_PCB.png": {
+   "bytes": 1184342,
+   "sha256": "c2cf8d42621b3f598daa89cc68469e248b9b64fb443d03aa43b41ebf82113446"
+  },
+  "Redaccio_PDF/Imagenes/riego_goteo.jpg": {
+   "bytes": 244975,
+   "sha256": "da87a1aba26b752bc1297db0d4c82efc4506c49666729b1ee66799dc7db0e010"
+  },
+  "Redaccio_PDF/Imagenes/sensor_flotador.jpg": {
+   "bytes": 85411,
+   "sha256": "ff9788365f328a6c4cccb6715591b1755111dc2e5ff80607193cded89e623bbc"
+  },
+  "Redaccio_PDF/Imagenes/tms1000.jpg": {
+   "bytes": 49133,
+   "sha256": "0025566fb86c3ec5b8aaa6d8e26e794e5392fd1cdaa8ff1e79bf304b08688ae0"
+  },
+  "Redaccio_PDF/Imagenes/transmisor_nivel.jpg": {
+   "bytes": 110560,
+   "sha256": "983245faf621054138349856fe6a6707be5085d2edd784bf7c15c4386f86cdd6"
+  },
+  "Redaccio_PDF/Imagenes/vista_deposito.jpg": {
+   "bytes": 621136,
+   "sha256": "e27e0a0a759139e8eff9c2752f60dc55b592d28a6d27cba72a9a6ec34adb6984"
+  },
+  "Redaccio_PDF/Imagenes/vista_deposito_medidas.png": {
+   "bytes": 4567991,
+   "sha256": "f183966f558cf072393cf7b45d4227f3c3aa167e8c865510a393d03f0044bbcb"
+  },
+  "Redaccio_PDF/Imagenes/wemos_mini.jpg": {
+   "bytes": 147296,
+   "sha256": "321c1f471b7f8efe782e28105e7011c32b5a4b9d9ca12878d7c7d0b64a11c600"
+  },
+  "Redaccio_PDF/Imagenes/wemos_mini_inf.jpg": {
+   "bytes": 281636,
+   "sha256": "eca75c6cd8c2ec8ffd4d617451d8e514afc755e95a08ec633ea074bb6be4a8ea"
+  },
+  "Redaccio_PDF/Imagenes/wemos_mini_sup.jpg": {
+   "bytes": 360135,
+   "sha256": "0336f9cb0d016f135d57a318c18fbac9bdaa44d951feaaf6c28de30ed2053b27"
+  },
+  "Redaccio_PDF/Imagenes/Datos/sensor_plot_data.txt": {
+   "bytes": 1371,
+   "sha256": "0250ce7f0e5f27d8b9fc6db0242bcdf38e8acc94573d80017c10e55ecd2ae6d9"
+  },
+  "Redaccio_PDF/Imagenes/Datos/sensor_plot_data_filtrado.txt": {
+   "bytes": 2592,
+   "sha256": "5ff43701f319c423a4454dc1f9fca016d46de3f1fbba806aa1f4a0d96e9fed75"
+  },
+  "Redaccio_PDF/Imagenes/Logos/ETSIADI.png": {
+   "bytes": 31104,
+   "sha256": "ee8adb9bec1091f218230277002696e62277ebc986a80155371f06ab0db326ef"
+  },
+  "Redaccio_PDF/Imagenes/Logos/Escudo ETSIIT b-n.png": {
+   "bytes": 140708,
+   "sha256": "5b3df71279c0411d57de20590d713d22996ff0c83603179e0bfad0b5f559fb04"
+  },
+  "Redaccio_PDF/Imagenes/Logos/Escudo ETSIIT color.jpg": {
+   "bytes": 7753,
+   "sha256": "d39096e1927ec969f127b97bcf97901fabb7abf0df336be945aca42cadabb7a6"
+  },
+  "Redaccio_PDF/Imagenes/Logos/Logo UC color.png": {
+   "bytes": 13672,
+   "sha256": "0417d2d179a140e411b9df8a119f30bc7bccb8256d2fbdece37bffd8f35e7b52"
+  },
+  "Redaccio_PDF/Imagenes/Logos/logo_UPV.png": {
+   "bytes": 80666,
+   "sha256": "6749805fb56383abd4459282bbb138fdbf8a52ae3c58332c7f4647021c7dda5f"
+  },
+  "Redaccio_PDF/Planos/Esquematicos.pdf": {
+   "bytes": 138365,
+   "sha256": "ea3b9f3e7c44d6e4229c4b89a84c811dbc392c309c43b4f43534b1881c77aa58"
+  },
+  "Redaccio_PDF/Planos/PCB1.pdf": {
+   "bytes": 14262,
+   "sha256": "6fdd628e68a83f5461780eb0b40b821673824dc7289989d525edd192a9b0bda3"
+  },
+  "Redaccio_PDF/Planos/PCB1_1.pdf": {
+   "bytes": 29608,
+   "sha256": "7ae13bc749a1382dda556a881d6626901b7ab1b34f14b56f9141f2a5de15ecf1"
+  },
+  "Redaccio_PDF/Planos/PCB2.pdf": {
+   "bytes": 17817,
+   "sha256": "8e32c85291d995bd9defc99ec2423a1261c8f5d6e8038d48df74535e55544744"
+  },
+  "Redaccio_PDF/Planos/PCB3.pdf": {
+   "bytes": 15995,
+   "sha256": "e566ae7835d71a6a55a0b96bd5ef3157d8e9b4083db26143a85b99bfcc19fb66"
+  },
+  "Redaccio_PDF/Planos/PCB4.pdf": {
+   "bytes": 48166,
+   "sha256": "16a94b8da67429168dc006730b5a279c1213b0b71d934071efb725e7def6d456"
+  },
+  "Redaccio_PDF/Planos/PCB5.pdf": {
+   "bytes": 32836,
+   "sha256": "ec382120a951c1d689524cce610342b3d4af8ca74b599efa4ef76cbad74da3c5"
+  },
+  "Redaccio_PDF/Planos/Plano_PCB.pdf": {
+   "bytes": 134186,
+   "sha256": "7a50015d59125c6a3366b652f223abb4d2486af3e195e721d6f98fbdd201ef87"
+  },
+  "Redaccio_PDF/Planos/Plano_PCB_esquematico.pdf": {
+   "bytes": 113854,
+   "sha256": "8a2af658c11de2c9a680fa9b79ef13576a018a62c12ebf13882b5bf6f55a0687"
+  }
+ }
+}

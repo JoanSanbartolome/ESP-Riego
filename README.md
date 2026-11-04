@@ -20,24 +20,51 @@ Este repositorio contiene el rediseño (v2) de la PCB desarrollada en el Trabajo
 
 1. [Análisis de la PCB v1](docs/01-analisis-v1.md): estado de la placa del TFG y hallazgos.
 2. [Especificaciones de la PCB v2](docs/02-especificaciones-v2.md): requisitos, criterios de aceptación y decisiones abiertas.
-3. [Plan de diseño](docs/03-plan-de-diseno.md): fases, hitos y flujo de trabajo.
+3. [Plan de diseño](docs/03-plan-de-diseno.md): fases e hitos.
+4. [Sistema de gestión](gestion/README.md): roles, ciclo de vida de las specs, commits y auditoría. Estado actual en el [tablero](gestion/TABLERO.md) y en la [trazabilidad de requisitos](gestion/TRAZABILIDAD.md).
+
+## Organización del trabajo
+
+El diseño lo hacen agentes de Claude Code coordinados por la sesión principal ([DEC-0001](gestion/decisiones/DEC-0001-orquestacion-de-agentes.md)):
+
+| Agente | Responsable de |
+|---|---|
+| Coordinador | Specs, órdenes, git, tablero y comunicación |
+| `ing-esquematicos` | Componentes, cálculos y esquemas |
+| `ing-layout` | PCB: colocación, rutado, reglas y 3D |
+| `jr-conformidad` | Librerías, campos, BOM, CPL y paquetes de fabricación |
+| `ing-validacion` | Revisión contra especificaciones e informes con veredicto |
+
+Cada unidad de trabajo es una spec con su propia rama, validada antes de integrarse en `main`.
 
 ## Estructura
 
 ```
 .
-├── docs/            Análisis, especificaciones y plan
+├── docs/            Análisis, especificaciones, plan, cálculos y planes de prueba
 ├── hardware/
 │   ├── libraries/   Símbolos, huellas y modelos 3D propios (rutas ${KIPRJMOD})
+│   ├── componentes/ Fichas de componentes
 │   ├── v1-tfg/      Proyecto del TFG migrado a KiCad 10
 │   └── v2/          Nuevo diseño
 ├── firmware/        Configuración ESPHome
-└── fabricacion/     Salidas de fabricación por versión
+├── fabricacion/     Salidas de fabricación por versión
+├── gestion/         Specs, logs, informes, decisiones, checklists y plantillas
+├── herramientas/    Scripts de gestión y verificación
+├── .claude/         Agentes, hooks y memoria de los agentes
+└── .githooks/       Validación de los mensajes de commit
 ```
 
-Las carpetas se crean a medida que avanzan las fases.
+Las carpetas de diseño se crean a medida que avanzan las fases.
 
 ## Requisitos
 
 - [KiCad 10](https://www.kicad.org/)
+- Python 3 (scripts de `herramientas/` y hooks)
 - [ESPHome](https://esphome.io/) para el firmware
+
+Al clonar el repositorio, activa la validación de commits:
+
+```bash
+git config core.hooksPath .githooks
+```

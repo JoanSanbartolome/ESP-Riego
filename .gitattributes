@@ -1,5 +1,8 @@
 * text=auto
 
+# Hook de git: un CR al final de línea rompe el intérprete de sh
+.githooks/commit-msg text eol=lf
+
 # Modelos 3D y documentos: sin conversión de fin de línea ni diff
 *.step binary
 *.stp binary

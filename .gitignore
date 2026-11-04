@@ -12,8 +12,9 @@ fp-info-cache
 *-save.kicad_pcb
 .history/
 
-# Copias de seguridad del servidor MCP de KiCad
+# Copias de seguridad y vistas temporales del servidor MCP de KiCad
 .mcp-backups/
+*_2d_view.png
 
 # Informes generados (se regeneran con kicad-cli)
 *-drc.rpt
@@ -24,6 +25,9 @@ erc_report.json
 # --- Firmware (ESPHome) ---
 firmware/**/secrets.yaml
 firmware/**/.esphome/
+
+# --- Python (herramientas y hooks) ---
+__pycache__/
 
 # --- Sistema ---
 Thumbs.db
