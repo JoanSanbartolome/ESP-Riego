@@ -31,13 +31,13 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
   5. *High-side switch* inteligente con protección y diagnóstico (p. ej. familias BTS o VN/VNQ).
 - Para cada opción, el estudio responde:
   - **Cargas que cubre:**
-    - válvula de 24 V AC (la instalada);
-    - válvula de 12/24 V DC;
+    - válvula de 24 V DC, ≈ 0,2 A (la instalada);
+    - válvula de 24 V AC con su transformador, en contacto libre;
     - válvula *latch* de 9–12 V DC (necesita inversión de polaridad);
     - bomba pequeña;
     - carga resistiva y LED.
   - **Corriente:**
-    - de mantenimiento y de arranque (*inrush*) de una electroválvula de 24 V AC típica, con 1 y 2 válvulas por canal;
+    - de mantenimiento y de arranque (*inrush*) de la electroválvula de 24 V DC instalada y de una de 24 V AC típica, con 1 y 2 válvulas por canal;
     - máximo por canal y total.
   - **Comportamiento eléctrico:** caída de tensión y disipación, corriente de fuga en reposo (¿puede mantener abierta una válvula?), protección de la carga inductiva (diodo, *snubber* o varistor).
   - **Seguridad:**
@@ -46,7 +46,7 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
     - **modo de fallo** (abierto o cortocircuito). Si una salida falla en corto, la válvula se queda abierta y el riego no para; el estudio propone una mitigación, como una válvula maestra o un corte general.
   - **Salida alimentada o contacto libre (D2):**
     - si la opción permite alimentar las válvulas desde la propia entrada de 24 V DC, con un borne común como los programadores comerciales;
-    - con la fuente de 24 V DC, qué haría falta para seguir usando las electroválvulas de 24 V AC instaladas (contacto libre con su transformador, o cambio a válvulas DC o *latch*);
+    - con la fuente de 24 V DC, qué haría falta para mover válvulas de 24 V AC (contacto libre con su transformador) o *latch*;
     - si permite dar un contacto libre de potencial;
     - cuántos polos de borne necesita por canal en cada caso.
   - **Placa:**
@@ -85,7 +85,7 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
 - [ ] Las 5 opciones del alcance están analizadas con los mismos criterios.
 - [ ] La matriz de cargas × opciones cubre las 5 cargas de la lista, y cada celda dice sí, no o sí con condición, con la condición explicada.
 - [ ] Cada pieza candidata tiene MPN, código LCSC, tipo (*Basic*/*Extended*), precio y fecha de consulta, y un enlace a su datasheet.
-- [ ] Las corrientes de la electroválvula de 24 V AC y la fuga en reposo de cada opción están justificadas con una fuente o un cálculo.
+- [ ] Las corrientes de la electroválvula de 24 V DC instalada (y de una de 24 V AC en contacto libre) y la fuga en reposo de cada opción están justificadas con una fuente o un cálculo.
 - [ ] El modo de fallo de cada opción y la mitigación propuesta están explícitos.
 - [ ] La recomendación no se da por decidida: queda como propuesta para la DEC del usuario (D8).
 
@@ -94,3 +94,4 @@ Un estudio comparativo de las tecnologías posibles para las 6 salidas de riego,
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (abierta) | |
+| 2026-11-04 | coordinador | La válvula instalada es de 24 V DC, ≈ 0,2 A (VAL-0004-02-03); el estudio entregado partía de 24 V AC y necesita una adenda | |
