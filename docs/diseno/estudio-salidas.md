@@ -814,3 +814,153 @@ Tarifas:
 - JLCPCB, «PCB Assembly Price» (actualizado el 2026-10-22): <https://jlcpcb.com/help/article/pcb-assembly-price>
 - LCSC (precio y stock): `https://www.lcsc.com/product-detail/<LCSC>.html`, consultado el 2026-11-04.
 - JLCPCB (tipo Basic/Extended): `https://jlcpcb.com/partdetail/<LCSC>`, consultado el 2026-11-04.
+
+---
+
+## 11. Adenda: válvulas de 24 V DC y elección del *high-side*
+
+Datos nuevos del usuario (2026-11-04, transmitidos por el coordinador; spec corregida en el commit `e10a97d`; `docs/02` v0.2 en `main`, con ALI-12 y REL-08 como protección por canal):
+
+- **Las electroválvulas instaladas son de 24 V DC, de ≈ 0,2 A cada una.** La vía real es la **V2** (salida alimentada de 24 V DC), no la V1. Lo que §0–§10 dicen de V1 y V4 queda como información.
+- **El usuario elige *high-side* para D8**, pero el BTT6050/BTT6030 le parece caro, y propone cuatro chips: VN5050JJTR-E, BTS428L2ATMA1, TPS281C30ERGWR y VN5012AKTR-E.
+
+Esta sección no cambia el resto del estudio. Precios y stock de LCSC consultados el **2026-11-04**.
+
+### 11.1 Conclusión para válvulas de 24 V DC
+
+Coste de la etapa de 6 canales por placa con las hipótesis de §5, más ≈ 0,15 $ por fusible de canal donde hace falta (REL-08).
+
+| | Relé subminiatura (1b, G5NB) | MOSFET *high-side* discreto (4b, FDN5618P) | *High-side* inteligente (5, BTT6050-1ERA) |
+|---|---|---|---|
+| Coste por placa (5 / 10 placas) | 4,64 / 4,07 $ + 0,90 $ de fusibles = **5,54 / 4,97 $** | 2,74 / 2,08 $ + 0,90 $ = **3,64 / 2,98 $** | **8,33 / 7,86 $** (sin fusibles; §11.4) |
+| Dificultad del circuito | Baja (MOSFET + diodo + bobina) | Media (P-MOS, traslación por NPN, divisor de puerta, diodo de libre circulación, fusible) | Baja (un CI y 4–5 resistencias), con el diagnóstico en firmware |
+| Montaje | THT a mano (relé y borne) + SMT | Todo SMT | Todo SMT |
+| Protección ante corto | Fusible por canal; el contacto aguanta | Solo el fusible por canal; el MOSFET puede morir antes que el fusible | Limitación de corriente y apagado térmico integrados |
+| Diagnóstico | Ninguno | Ninguno | Medida de corriente (IS), carga abierta en ON/OFF, corto y sobretemperatura |
+| Contacto libre (V1) | Sí | No | No |
+
+Con válvulas de 24 V DC, la ventaja del relé (V1) deja de ser necesaria. El usuario ha elegido el *high-side* inteligente por la protección y el diagnóstico.
+
+### 11.2 Requisitos del *high-side* (criterios de la evaluación)
+
+| Criterio | Valor exigido | Origen |
+|---|---|---|
+| Rango de funcionamiento | 18–30 V DC sin salir del rango | ALI-01 (N1) |
+| Pico de entrada | El bus llega al recorte de la **SMBJ33A: V_C = 53,3 V** (con I_PP = 11,3 A). El chip tiene que soportarlo como máximo absoluto o como *load dump* | ALI-04 |
+| Corriente | Carga real de 0,2–0,56 A por canal (1–2 válvulas); REL-05 ≥ 1 A. **Basta con 100–200 mΩ** (0,2 W a 1 A) | REL-05, §1.2 b |
+| Entrada | Activa alta, V_IH,máx ≤ 2,64 V (V_OH mínima del ESP32-S3 = 0,8·3,3 V), con *pull-down* para REL-04 | REL-04, MCU-05 |
+| Corto en campo | Limitación de corriente y apagado térmico. Con la fuente de 5 A, la lógica tiene que seguir viva (REL-08, ALI-12) | REL-08 |
+| Carga inductiva | *Clamp* interno con energía ≥ 50 mJ (válvula de 24 V DC, §1.2 b) | REL-03 |
+| Diagnóstico | Deseable: carga abierta (cable cortado o válvula desconectada) y corto, con pocos pines | FW-03 |
+| Encapsulado | SMT soldable en JLCPCB | FAB-05 |
+| Stock | ≥ 60 unidades (10 placas) | — |
+
+**Sobre los chips de 41 V.** Si el máximo absoluto del chip es de 41 V, la TVS de entrada tendría que recortar por debajo de 41 V con la corriente de pico: una SMBJ24A (V_RWM 24 V, V_BR 26,7–29,5 V, V_C 38,9 V). Esa TVS empieza a conducir a 26,7 V, **dentro del rango de 18–30 V de ALI-01**, así que choca con ALI-01/ALI-04. Las otras salidas serían:
+- bajar el máximo de entrada a 24–26 V, lo que exige una fuente regulada y deja sin margen a una de 24 V con tolerancia del +10 %;
+- o poner un limitador activo de sobretensión (*surge stopper*) en la entrada, que añade un MOSFET, un controlador y coste.
+
+Ninguna compensa frente a un chip de 24 V.
+
+### 11.3 Evaluación de los chips
+
+Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la etapa con las hipótesis de §5: chip + borne de 2 polos + LED + 5 resistencias, sin diodo de libre circulación (el *clamp* es interno) ni fusible por canal.
+
+| Chip (LCSC) | Rango de funcionamiento | V_bb máx. / *load dump* frente a 53,3 V | Entrada con 3,3 V | Limitación y corto en campo | *Clamp* inductivo | Diagnóstico y pines de MCU por canal | Encapsulado | Tipo JLCPCB · stock · precio a 30/60 uds. | Etapa por placa (5 / 10) | Resultado |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **BTT6050-1ERA** (C534868) | 5–36 V (hasta 48 V) ✔ | 48 V máx.; **V_S(LD) 65 V** ✔ | ✔ «3.3 V and 5 V compatible logic inputs» | Limitación ≥ 38 A + apagado térmico. La fuente de 5 A limita antes: la lógica necesita autonomía (§1.3) ◐ | ✔ E_AS 60 mJ (4,5 A) | **IS analógico** (corriente), carga abierta ON/OFF, corto a GND/V_S, sobretemperatura. IN + DEN por canal; IS de todos en **un ADC1** | PG-TDSO-14 con *pad*, SMT | Extended · 1 748 · 1,0889 / 1,0889 $ | **8,33 / 7,86 $** | **✔ Principal** |
+| **BTT6030-2ERA** (C534865), 2 canales | 5–36 V ✔ | Igual que BTT6050 ✔ | ✔ | Como BTT6050 ◐ | ✔ | Como BTT6050; DEN y DSEL por circuito (3 circuitos para 6 canales) | PG-TDSO-14, SMT | Extended · 10 479 · 2,2173 $ (1,109 $ por canal) | **8,38 / 7,91 $** | **✔ Segunda fuente** |
+| **BSP752R** (C112644) | 6–52 V ✔ | 52 V máx.; V_bb(AZ) 62 V; *load dump* de 73,5 V con R_GND = 150 Ω (gemelo ISP752R) ✔ | ✔ V_IN(T+) ≤ 2,2 V (dato del ISP752R) | I_L(SCp) 6,5 A típ. / 9 A máx. + ciclo térmico ◐ | ✔ V_ON(CL) 59–63 V | ST digital (corto, sobretemperatura) y carga abierta **solo en OFF** con R externa. IN + ST | SO-8, SMT | Extended · **277** · 1,1464 / 1,1464 $ | 8,61 / 8,14 $ | ✔ Tercera opción (sin medida de corriente) |
+| BTS428L2 (C534779) *(usuario)* | 4,75–41 V ✔ | *Load dump* de 60 V (R_I 2 Ω) ✔ | ◐ Umbral no confirmado en el datasheet | Limitación de 17 A (I_L(SCr)) ◐ | ✔ | ST digital: carga abierta en ON y sobretemperatura. IN + ST | TO-252-5, SMT | Extended · 2 291 · **2,4194** / 2,4194 $ | 16,23 / 15,76 $ | ✘ Por coste (2,2× BTT6050) |
+| VN5050JTR-E (C75918) *(usuario: VN5050JJTR-E, no está en LCSC)* | 4,5–36 V ✔ | **41 V máx. DC**; *clamp* de V_CC 41–52 V ✘ | ◐ (familia VN5; umbral no extraído) | I_limH 13,5–26,5 A ◐ | ✔ | STATUS digital: carga abierta ON/OFF, sobrecarga, corto a V_CC. IN + STATUS (+ STAT_DIS) | PowerSSO-12 | Extended · 1 658 · 1,5597 $ | 11,13 / 10,67 $ | ✘ Por los 41 V (§11.2) |
+| TPS281C30 (C17651020, variante B; la ERGWR no está en LCSC) *(usuario)* | 6–48 V ✔ | ✔ (rango de 48 V) | ◐ (no comprobado) | Limitación ajustable ✔ | ✔ | Sentido de corriente y fallos ✔ | VQFN-20 5 × 5 | Extended (sin verificar) · **3** · **6,3398** $ | 39,89 / 39,43 $ | ✘ Sin stock y 5,8× más caro |
+| VN5012AKTR-E (C2150359) *(usuario)* | 4,5–36 V ✔ | **41 V máx.** ✘ | ◐ | Muy alta (12 mΩ, 45 A) | ✔ | Sin carga abierta | PowerSSO-24 | Extended (sin verificar) · **24** · **4,4185** $ | 28,40 / 27,94 $ | ✘ 41 V, stock y coste |
+| NCV8460ADR2G (C424245) | 6–36 V ✔ | 41 V DC; **pico transitorio de 56 V** (ISO 7637-2, pulso 5) ✔ | **✘ V_in,high = 3,25 V**: necesita traslación a 5 V | Limitación de 6–15 A ✔ | ✔ | STAT: carga abierta ON/OFF, sobretemperatura | SO-8 | Extended · 406 · 1,5349 $ | 10,94 / 10,47 $ (+ traslación) | ✘ Por la entrada y el coste |
+| BSP762T (C112645) | **5–34 V** ✔ | **V_bb(AZ) 41 V** ✘ | ✔ | ✔ | ✔ | Sin diagnóstico | SO-8 | Extended (sin verificar) · 127 · 1,5404 $ | 10,97 / 10,51 $ | ✘ 41 V y sin diagnóstico |
+| VN7140ASTR (C443994) | **4–28 V** ✘ | **40 V** (transitorio) ✘ | ✔ | ✔ | ✔ | Sentido de corriente (MultiSense) | SO-8 | Extended (sin verificar) · 7 453 · 0,6674 $ | 5,73 / 5,27 $ | ✘ Para 12 V: no cubre 30 V ni 53 V |
+| VN7050ASTR (C443993) | Familia VN7, 12 V ✘ | ✘ | ✔ | ✔ | ✔ | MultiSense | SO-8 | Extended (sin verificar) · 2 454 · 0,8453 $ | — | ✘ Igual que VN7140AS |
+| TPS1HC100BQPWPRQ1 (C3230071) | **2,6–28 V** ✘ | ✘ (sistema de 12 V) | ✔ | Ajustable | ✔ | Sentido de corriente | HTSSOP-14 | Extended (sin verificar) · 272 · 0,9288 $ | 7,37 / 6,90 $ | ✘ No cubre 30 V |
+| TPS1H100BQPWPRQ1 (C475505) | 5–40 V ✔ | ◐ | ✔ | Ajustable | ✔ | Sentido de corriente | HTSSOP-14 | Extended (sin verificar) · **0** · 2,4433 $ | — | ✘ Sin stock y caro |
+| BTS4140N (C59442) | 4,9–60 V ✔ | ✔ | **✘ Entrada activa baja** (choca con REL-04) | 1 Ω (0,2 A nominal): **✘ REL-05** | ✔ | — | SOT-223 | Extended (sin verificar) · 23 970 · 0,6453 $ | 5,56 / 5,10 $ | ✘ Entrada activa baja e I < 1 A |
+| ISP752R / IPS160HFTR | — | — | — | — | — | — | — | Stock de 89 y 1 (§2.5) | — | ✘ Sin stock |
+
+**Equivalentes chinos.** No he encontrado en LCSC un *high-side* inteligente de 24 V de fabricante chino con datasheet completo. La familia NSE34/NSE35 de Novosense es para sistemas de 12 V, y los TPS27SA08 de TI no tienen listado en LCSC. No se proponen.
+
+**Ningún chip válido es más barato que el BTT6050-1ERA en LCSC.**
+- Los que cuestan menos (VN7140AS, BTS4140N, TPS1HC100) son de 12 V, tienen la entrada activa baja o no dan 1 A.
+- Los que cumplen (BTT6050-1ERA, BTT6030-2ERA y BSP752R) cuestan 1,09–1,15 $ por canal a 30 unidades.
+- El coste de la etapa (≈ 8 $ por placa) es el mínimo para un *high-side* inteligente de 24 V con stock. Unos 6,5 $ son de los seis chips; el resto, del borne, el LED y las resistencias.
+
+### 11.4 Recomendación (propuesta; decide el usuario)
+
+**Principal: Infineon BTT6050-1ERA (C534868).**
+- Es el más barato de los chips válidos: 1,0889 $ a 30 unidades, 8,33 / 7,86 $ la etapa por placa.
+- El único de su precio con **medida de corriente por canal (IS)** y carga abierta en ON y OFF: detecta en Home Assistant una válvula desconectada o un cable cortado mientras riega, y puede limitar en el firmware el total a 4 A (N2).
+- Soporta el pico de la SMBJ33A (V_S(LD) 65 V) sin tocar ALI-04, y su entrada es compatible con 3,3 V.
+- 1 748 unidades en stock: suficiente para 10 placas.
+- Un canal por chip, lo que facilita el reparto 3 + 3 (REL-09) y repetir la etapa en el módulo de expansión.
+
+**Segunda fuente: Infineon BTT6030-2ERA (C534865).**
+- Misma familia y mismo firmware (IS, DEN), dos canales por chip, 32 mΩ y **10 479 unidades** en stock.
+- Frente al BTT6050 no se pierde nada eléctrico. Hay que agrupar los canales de dos en dos (DEN y DSEL compartidos por chip) y la huella es la misma TDSO-14. La elección entre las dos se hace al dibujar el esquema; no son intercambiables en la misma huella sin cambiar el *routing*.
+- Si se quiere un segundo **fabricante**, la reserva es el **BSP752R** (C112644, 1,1464 $, 277 unidades). Frente al BTT6050 pierde la medida de corriente, la carga abierta en ON (solo la detecta en OFF, con una resistencia externa) y stock.
+
+**Por qué no los chips del usuario:**
+
+| Chip | Motivo |
+|---|---|
+| BTS428L2 | Cumple eléctricamente (60 V de *load dump*), pero en LCSC cuesta **2,42 $, 2,2 veces el BTT6050**, no mide corriente y su TO-252 ocupa más. |
+| VN5050JJTR-E / VN5050JTR-E | **41 V de máximo absoluto**: no aguanta los 53,3 V de la SMBJ33A sin cambiar ALI-01/ALI-04 (§11.2). Además, la variante JJ no está en LCSC y la JTR-E cuesta 1,56 $. |
+| TPS281C30 | 3 unidades en LCSC (variante B; la E no está) y 6,34 $: 5,8 veces el BTT6050, con 29 mΩ que no hacen falta. |
+| VN5012AKTR-E | 41 V de máximo absoluto, 24 unidades en stock, 4,42 $ y sin carga abierta: es un chip de 45 A. |
+
+**Protección por canal (REL-08) con el BTT6050:**
+- No hace falta fusible por canal: el chip limita la corriente y se apaga por temperatura.
+- Su limitación mínima (38 A) es mayor que la de la fuente de 5 A, así que en un corto **la fuente limita primero**.
+- Para que la lógica siga viva hacen falta dos cosas:
+  - que el firmware apague IN en cuanto IS indique sobrecorriente (lectura del ADC tras activar el canal y periódica);
+  - que la lógica tenga autonomía de decenas de ms: diodo y condensador antes del *buck*. Con 470 µF de 24 V a 8 V y 2 W, ≈ 60 ms.
+- Validar en el prototipo con un corto real (ALI-12).
+
+**Corte general.** Se mantiene la propuesta de §6, dos fallos para que una válvula quede abierta. Con esta opción, lo natural es un canal de BTT6030-2ERA por borde (6 A por canal y medida del total de cada grupo), en serie con el bus +24V_SAL.
+
+### 11.5 Cambios en los requisitos con la opción elegida (entrada de SPEC-0007)
+
+| Requisito | Cambio propuesto |
+|---|---|
+| **REL-03** | «Cada salida usa un *high-side* inteligente de 24 V (BTT6050-1ERA o BTT6030-2ERA): entrada activa alta compatible con 3,3 V y *pull-down* de 100 kΩ (REL-04); *clamp* inductivo integrado, sin diodo externo; V_S(LD) ≥ V_C de la TVS de entrada. Sin optoacoplador ni relé.» |
+| **REL-05** | «≥ 1 A continuo por canal (carga real de 0,2–0,56 A); ≤ 4 A en total en el bus de las salidas (N2), vigilado en el firmware con IS. Prueba térmica: 1 h con las 6 salidas activas y 4 A en total.» |
+| **REL-08** | «Protección por canal con la limitación de corriente y el apagado térmico del *high-side*, más apagado por firmware ante sobrecorriente medida en IS; sin fusible por canal. Corte general del bus +24V_SAL (un canal de BTT6030-2ERA por borde) activo solo mientras algún canal riega.» Añadir como S: «diagnóstico de carga abierta y de corto por canal en Home Assistant». |
+| **FAB-07** | **2 polos por canal (OUT_n y GND)**, para que cada válvula tenga su propio retorno y el cableado sea igual en los 6 canales (REL-06): **6 polos por borde**, 30,5 mm a 5,08 mm. Alternativa más compacta: 1 polo por canal + COM (4 polos por borde). Borde inferior: más la entrada (2) y la expansión. |
+| **FAB-08** | Alto ≈ **70 mm** (100 × 70 mm, ±5 mm por confirmar en el layout): la franja de salida baja a ≈ 18–20 mm (§4). |
+| **ALI-04** | Mantener la **SMBJ33A** (V_RWM 33 V ≥ 30 V; V_C 53,3 V < V_S(LD) 65 V del BTT6050). Añadir: «la tensión de recorte de la TVS no supera el *load dump* ni el máximo absoluto de ningún componente conectado al bus», más la autonomía de la lógica ante un corto en campo (ALI-12). |
+| Pines (MCU-05, nota para el esquema) | 6 IN + 6 DEN (o 3 DEN + 3 DSEL con BTT6030-2ERA) + 1 ADC1 compartido para IS, más 2 IN del corte general. Si faltan GPIO, los DEN pueden ir a un expansor I²C. |
+
+### 11.6 Fuentes de la adenda
+
+- LCSC (precio, stock y parámetros, 2026-11-04), en `https://www.lcsc.com/product-detail/<código>.html`:
+  - [C534868 BTT6050-1ERA](https://www.lcsc.com/product-detail/C534868.html)
+  - [C534865 BTT6030-2ERA](https://www.lcsc.com/product-detail/C534865.html)
+  - [C112644 BSP752R](https://www.lcsc.com/product-detail/C112644.html)
+  - [C534779 BTS428L2](https://www.lcsc.com/product-detail/C534779.html)
+  - [C75918 VN5050JTR-E](https://www.lcsc.com/product-detail/C75918.html)
+  - [C17651020 TPS281C30BRGWR](https://www.lcsc.com/product-detail/C17651020.html)
+  - [C2150359 VN5012AKTR-E](https://www.lcsc.com/product-detail/C2150359.html)
+  - [C424245 NCV8460ADR2G](https://www.lcsc.com/product-detail/C424245.html)
+  - [C112645 BSP762T](https://www.lcsc.com/product-detail/C112645.html)
+  - [C443994 VN7140ASTR](https://www.lcsc.com/product-detail/C443994.html)
+  - [C443993 VN7050ASTR](https://www.lcsc.com/product-detail/C443993.html)
+  - [C3230071 TPS1HC100BQPWPRQ1](https://www.lcsc.com/product-detail/C3230071.html)
+  - [C475505 TPS1H100BQPWPRQ1](https://www.lcsc.com/product-detail/C475505.html)
+  - [C59442 BTS4140N](https://www.lcsc.com/product-detail/C59442.html)
+- JLCPCB (tipo Extended): `https://jlcpcb.com/partdetail/<código>`, consultado el 2026-11-04 para C534868, C534865, C112644, C534779, C424245 y C75918.
+- Datasheets:
+  - Infineon BTT6050-1ERA, rev. 1.00 (2019-03-09), tabla 1 y §4.1 (V_S 48 V, V_S(LD) 65 V, I_L5(SC) 38 A, E_AS 60 mJ, entradas de 3,3 V/5 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/f332d8427495765ea0546e562dd08e67.pdf?productCode=C534868)
+  - Infineon ISP752R, rev. 1.2 (gemelo industrial del BSP752R: V_IN(T+) ≤ 2,2 V, V_ON(CL) 59–63 V, I_L(SCp) 6,5/9 A, *load dump* de 73,5 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/9e1390bc93a03b74461d08548900aa42.pdf?productCode=C454923)
+  - BSP752R (resumen: V_bb(AZ) 62 V, 6–52 V, 200 mΩ, 1,3 A): [PDF](https://datasheet.lcsc.com/datasheet/pdf/64c1fbd10ef94abd8e063af906019963.pdf?productCode=C112644)
+  - ST VN5050J (V_CC de 41 V máx., *clamp* de 41–52 V, I_limH de 13,5–26,5 A, STATUS): [PDF](https://datasheet.lcsc.com/datasheet/pdf/81e43811fb3ec7dd124a9111c5d5730c.pdf?productCode=C75918)
+  - onsemi NCV8460A (V_D de 41 V, pico de 56 V, V_in,high de 3,25 V, I_lim de 6–15 A): [PDF](https://datasheet.lcsc.com/datasheet/pdf/3912557ba5c2520b513181d5b3fa5a8b.pdf?productCode=C424245)
+  - ST VN7140AS (V_CC de 40 V en transitorio, funcionamiento de 4–28 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/8cb8740de41b94d4f95a42aaa267af61.pdf?productCode=C443994)
+  - BSP762T (V_bb(AZ) 41 V, 5–34 V; copia en chipfind): <https://chipfind.net/datasheet/html/infineon/bsp762.html>
+  - BTS428L2 (*load dump* de 60 V e I_L(SCr) de 17 A, según la copia del datasheet en chipfind; el PDF de LCSC tiene la fuente codificada y no se pudo extraer): <https://chipfind.net/datasheet/html/infineon/bts428l2.html> · [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/a2647afc25063d1f32e816f6b094fe08.pdf?productCode=C534779)
+  - Novosense NSE34050Q-Q1 (12 V): <https://mt-system.ru/upload/poluprovodniki/NSE34050Q-Q1_Datasheet_EN_0V1.pdf>
+- Valores estándar de las series SMBJ (SMBJ33A, SMBJ24A): tablas de la serie SMBJ (Littelfuse u otro fabricante); confirmar con el fabricante elegido en ALI.

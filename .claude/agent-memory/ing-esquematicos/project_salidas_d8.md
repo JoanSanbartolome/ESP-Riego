@@ -35,4 +35,9 @@ Propuesta para D8: relé subminiatura G5NB-1A-E / HF46F (cubre AC con contacto l
   - AO3400A y SS14 en el bus (30/40 V < 53 V de la SMBJ33A).
 - AQV252G (60 V): sin margen de TVS con 45,3 V de pico.
 
+**Adenda del 2026-11-04 (§11 del estudio):** las válvulas instaladas son en realidad de 24 V DC (≈ 0,2 A) y el usuario eligió *high-side*. Propuesta: BTT6050-1ERA (C534868) como principal, BTT6030-2ERA (C534865) como segunda fuente y BSP752R (C112644) como reserva de otro fabricante.
+- Es el chip válido más barato en LCSC: los más baratos son de 12 V (VN7, TPS1HC100), tienen la entrada activa baja (BTS4140N) o una V_IH de 3,25 V (NCV8460A).
+- Los VN5 y el BSP762T se quedan en 41 V, por debajo de los 53,3 V de la SMBJ33A.
+- El BTS428L2 cuesta 2,42 $.
+
 Relacionado: [[reference-fuentes-piezas]]
