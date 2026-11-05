@@ -51,9 +51,10 @@ Bounding box medido: x -3,0..3,0 (6,0 = span de puntas); y -4,325..4,325 (8,65);
 | 11 | (+2.73, +0.00) | (+2.73, -0.00) | pie x +1.95..+3.00, y centro +0.00 | OK |
 | 12 | (+2.73, -1.27) | (+2.73, +1.27) | pie x +1.95..+3.00, y centro +1.27 | OK |
 | 13 | (+2.73, -2.54) | (+2.73, +2.54) | pie x +1.95..+3.00, y centro +2.54 | OK |
-| 14 | (+2.73, -3.81) | (+2.73, +3.81) | pie x +1.95..+3.00, y centro +3.81 | OK || 15 (EP) | (0, 0) 2,65 x 6,4 | centro (0,0) | slug x +-1,325, y +-3,2 | OK |
+| 14 | (+2.73, -3.81) | (+2.73, +3.81) | pie x +1.95..+3.00, y centro +3.81 | OK |
+| 15 (EP) | (0, 0) 2,65 x 6,4 | centro (0,0) | slug x +-1,325, y +-3,2 | OK |
 
-Marca de pin 1 (rev. 2): hendidura circular de diametro 0,8 y 0,1 de profundidad en la cara superior, centro modelo (-1,2, +3,4) (= huella (-1,2, -3,4)), junto al pad 1 (-2,6, -3,81) y lejos de los pads 7/8 (fondo en gris). La Fig. 53 solo indica 'INDEX MARKING' en esa esquina sin cotas: diametro y profundidad supuestos.
+Marca de pin 1 (rev. 2): hendidura circular de diametro 0,8 y 0,1 de profundidad en la cara superior, centro modelo (-1,2, +3,4) (= huella (-1,2, -3,4)), junto al pad 1 (-2,73, -3,81) y lejos de los pads 7/8 (fondo en gris). La Fig. 53 solo indica 'INDEX MARKING' en esa esquina sin cotas: diametro y profundidad supuestos.
 
 Limitaciones: patillas rectas de seccion constante; sin radios de doblado; los pads "" de pasta de la huella no aplican.
 
