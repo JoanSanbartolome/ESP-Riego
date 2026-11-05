@@ -10,7 +10,7 @@
 ## 0. Resumen
 
 ```
-J1 ─ F1 ─ Q1 (P-MOS, D→S) ─┬─ VIN_PROT ─┬─ U1 TPS26632 (limitador 4,19 A) ─ BUS_24V → salidas
+J1 ─ F1 ─ Q1 (P-MOS, D→S) ─┬─ VIN_PROT ─┬─ U1 TPS26632 (limitador 4,21 A) ─ BUS_24V → salidas
 borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 TPS2116 VIN1 ┐
                            C1, C2       ├─ R14/R15 → VIN_SENSE (ADC1)   VBUS ─ VIN2 ─┴─ +5V ─ U4 TLV1117LV ─ +3V3
                                         └─ R9/R10 → EN de U2 (UVLO)
@@ -25,7 +25,7 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 | Buck 5 V | LMR36520FADDAR, 65 V / 2 A síncrono (C1858395) | LMR36520ADDAR (C2879422) | ALI-05, ALI-06 |
 | Unión USB / 5 V | Multiplexor TPS2116DRLR, prioridad al buck (C3235557) | — (ver §3.8) | ALI-08 |
 | 3,3 V | LDO TLV1117LV33DCYR, 1 A (C15578) | JSMSEMI TLV1117LV33DCYR (C48937499) | ALI-07 |
-| Limitador común | eFuse TPS26632RGER, 60 V, I_OL = 4,19 A ± 8,5 % (C1850278) | TPS26633RGER (C1850275, stock bajo) | ALI-12, ALI-13, REL-04 |
+| Limitador común | eFuse TPS26632RGER, 60 V, I_OL = 4,21 A (3,86–4,57 A) (C1850278) | TPS26633RGER (C1850275, stock bajo) | ALI-12, ALI-13, REL-04 |
 | Medida de VIN | Divisor 100 kΩ / 4,87 kΩ al 0,1 % → ADC1 a 6 dB | Viking ARG03BTC1003 para 100 kΩ | ALI-09 |
 | LED | KT-0603R rojo + 1 kΩ en +3V3 (C2286) | XL-1608SURC-06 (C965799) | ALI-10 |
 | Test points | Pads `TestPoint` (sin pieza) | Keystone 5000/5001 THT | ALI-11 |
@@ -278,7 +278,7 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 | 30 kΩ | 0,6 A | ± 10 % | 18,0 |
 
 - Para 4,30 kΩ (entre 3 y 9 kΩ) se toma, de forma conservadora:
-  - la constante del punto más próximo, 18,09 (4,02 kΩ), que da una nominal mayor que la ec. 5;
+  - la constante del punto más próximo, 18,09 (4,02 kΩ), que da una nominal mayor que la ec. 5; es conservadora para el máximo; el mínimo con 18,0 sería 3,84 A (margen ≥ 9,6 % sobre 3,5 A);
   - la tolerancia interpolada linealmente entre 4,02 kΩ (± 7 %) y 9 kΩ (± 8 %): ± 7,06 %, redondeada a **± 7,1 %** (VAL-0017-01-02).
 - R2 = R_ILIM = **4,30 kΩ** al 1 % y 100 ppm/°C (C23159). Deriva: ± 0,35 % entre 25 y 60 °C.
 
@@ -309,7 +309,7 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 - En sobrecarga o corto, la fuente entrega como mucho I_OL,máx + lógica = 4,77 A < 5,14 A. **Su protección no actúa y `VIN_PROT` no cae** de forma sostenida: la lógica no necesita retención (S2).
 - Único transitorio: el tiempo hasta el *fast-trip* (§3.13.2). En el corto franco es de 1 µs típico, sin máximo publicado; en el blando, ≤ 4,5 µs (p. 9). Las cotas de la caída de `VIN_PROT`, solo con los cerámicos (2 × 4,7 µF a 24 V ≈ 7,9 µF efectivos) y sin contar C1 ni la fuente, son:
   - corto franco, con el típico: Q ≈ 45 A × 1 µs = 45 µC → ΔV ≈ 5,7 V;
-  - corto blando, en el peor caso: Q ≤ 45 A × 4,5 µs = 202 µC → ΔV ≤ 25 V. La caída de `VIN_PROT` es casi total durante ≤ 4,5 µs. C1 (47 µF, ESR sin especificar) la reduce, pero no se cuantifica (VAL-0017-01-04).
+  - corto blando, en el peor caso: Q ≤ 45 A × 4,5 µs = 202 µC → ΔV ≈ 26 V (más que los 24 V de la fuente: caída total). La caída de `VIN_PROT` es casi total durante ≤ 4,5 µs. C1 (47 µF, ESR sin especificar) la reduce, pero no se cuantifica (VAL-0017-01-04).
 - La conclusión no depende de esa cota. Con `VIN_PROT` a 0 V durante 4,5 µs:
   - el +5V lo sostienen C11/C12 (≈ 28 µF efectivos): ΔV = 0,75 A × 4,5 µs / 28 µF = **0,12 V**, y quedan además C16/C17 tras U3;
   - el EN (τ = 0,91 ms, §3.7) baja ≤ 0,5 % y no cruza el umbral;
