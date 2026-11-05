@@ -60,7 +60,7 @@ El usuario revisó la v0.2 y le dio el visto bueno el 2026-11-04, antes de la pr
 
 - **Bornes de 3 polos (NO/COM/NC) en un solo borde:** necesitan 18 × 5,08 = 91 mm más la entrada, y no caben en 100 mm. El usuario elige repartirlos en dos bordes.
 - **Bornes de 2 polos (solo NO/COM):** se aplaza. El número de polos por canal depende de la tecnología de salida y de si la salida es alimentada (SPEC-0005).
-- **Alimentación desde el transformador de riego de 24 V AC:** se recogió en el primer borrador de la v0.2, con puente rectificador y entrada de 20–32 V AC. El usuario la descarta y se queda con una fuente de 24 V DC.
+- **Alimentación desde el transformador de riego de 24 V AC:** se recogió en el primer borrador de la v0.2, con puente rectificador y entrada de 20–28 V AC. El usuario la descarta y se queda con una fuente de 24 V DC.
 
 ## Consecuencias
 

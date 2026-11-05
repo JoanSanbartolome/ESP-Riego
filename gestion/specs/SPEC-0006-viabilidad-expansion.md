@@ -43,7 +43,7 @@ Un informe de viabilidad, con investigación a fondo, sobre cómo ampliar el nú
 ## Entradas
 
 - `docs/02-especificaciones-v2.md` (EXP-01 … EXP-04, REL, ALI).
-- `docs/diseno/estudio-salidas.md` (SPEC-0005) y la DEC que resuelva D8, porque el módulo debería repetir la etapa de salida elegida.
+- `docs/diseno/estudio-salidas.md` (SPEC-0005) y `gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md` (D8: BTT6050-1ERA con limitador común), porque el módulo debería repetir la etapa de salida elegida.
 
 ## Entregables
 

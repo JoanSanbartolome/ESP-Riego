@@ -22,6 +22,13 @@ Para validar una spec de requisitos (`docs/02`), no basta con buscar términos: 
   - puntos de prueba de §6 fuera de la ventana UVLO–VRWM;
   - VRWM ≥ Vmáx sin margen frente a la OVP de la fuente;
   - una prueba térmica «repartida» que no comprueba la corriente por canal.
+- Fallos típicos de las protecciones escalonadas (VAL-0007-01, limitador común del bus de salidas):
+  - un umbral con tolerancia («no actúa con 4 A» y «por debajo del límite de la fuente») deja una banda muerta. Una prueba de §6 «> 4 A» dentro de esa banda falla con un diseño correcto. Calculo la ventana: I_LIM,máx + lógica ≤ protección mínima de la fuente;
+  - el límite de la fuente («de hasta 5 A») no está fijado como requisito: una fuente más pequeña invierte el orden de las protecciones;
+  - el hueco entre la corriente de dimensionado de un canal (pista de 1 A) y el umbral de la protección siguiente (limitador de ≈ 4,5 A, *high-side* de 38 A): con IPC-2221, 4 A en una pista de 1 A dan ΔT ≈ 230 °C;
+  - umbral de aviso igual al punto de prueba (16 V / 32 V);
+  - cifras de la DEC distintas de las de docs/02 (REL-02: 36 V frente a 30 V).
+- Cuando una DEC sustituye la recomendación de un estudio de `docs/diseno/`, compruebo que alguna spec le pone un aviso. Busco términos obsoletos también en `.claude/agent-memory/` de los otros agentes.
 - Cuando el usuario aclara un dato de entrada (tipo de carga, fuente), el commit suele tocar solo docs/02 y la DEC: busco el dato antiguo en las specs abiertas, como SPEC-0005 con «24 V AC (la instalada)».
 - Con `python -I`, `PYTHONIOENCODING` se ignora: en el script uso `sys.stdout.reconfigure(encoding="utf-8")`.
 
