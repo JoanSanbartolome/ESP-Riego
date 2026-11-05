@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v3 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v4 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Estructura
 
@@ -30,7 +30,8 @@
 - [ ] Protección de polaridad, fusible y TVS en la entrada, dimensionados para 5 A (ALI-03, ALI-04, ALI-12).
 - [ ] TVS unidireccional después de la protección de polaridad, o bidireccional si va en el borne; en el P-MOSFET de polaridad, VGS limitada (zener) a la tensión máxima de entrada y VDS ≥ Vc.
 - [ ] Divisor de VIN: escala hasta ≥ la VRWM dentro del rango del ADC1, y pin protegido ante Vc (ALI-09).
-- [ ] Limitador común del bus de salidas (ALI-13): el buck se alimenta antes; umbral por encima de 4 A y, con la lógica y la tolerancia, por debajo del límite de la fuente; corte por fallo antes de que el buck baje del UVLO; habilitación con *pull-down*.
+- [ ] Limitador común del bus de salidas (ALI-13): el buck se alimenta antes; banda del umbral, con su tolerancia, dentro de 3,5–4,9 A, calculada en `docs/diseno/`; corte por fallo antes de que el buck baje del UVLO; habilitación con *pull-down*.
+- [ ] Con el bus de salidas apagado, las entradas IN y DEN a nivel alto no lo alimentan a través del *high-side*.
 - [ ] TVS: VRWM ≥ tensión máxima de entrada (ALI-01) y Vc ≤ tensión nominal de cada pieza del nodo protegido (ALI-04, ALI-05).
 - [ ] UVLO referido a la tensión tras las protecciones y ajustable (ALI-06).
 - [ ] Presupuesto de consumo de la fuente con las 6 salidas activas (ALI-12).
@@ -49,7 +50,8 @@
 
 - [ ] Salidas desactivadas durante el reset y el flasheo (REL-04).
 - [ ] Protección de la carga inductiva según REL-03: desmagnetización en el *high-side* (DEC-0003) dentro de su curva E_AS.
-- [ ] Corriente por canal y total según REL-05 y ALI-12.
+- [ ] Corriente por canal y total según REL-05 y ALI-12; pistas y bornes de salida para la corriente máxima del limitador, sin protección por canal (REL-05, DEC-0004).
+- [ ] El LED de cada canal no enmascara la carga abierta en OFF (REL-10).
 - [ ] Salidas de diagnóstico analógicas (IS) hacia el ADC1 con la tensión máxima en fallo acotada por debajo del máximo del pin; *pull-up* de carga abierta con fuga ≤ 1 mA (REL-10).
 - [ ] Un corto en una salida: se comprueba qué ven el resto de canales y la lógica hasta que actúa el limitador común (REL-08).
 - [ ] Orden de pines de los bornes idéntico en los 6 canales y coherente con la serigrafía (REL-06, H1).
@@ -67,3 +69,4 @@
 | v1 | 2026-11-03 | Versión inicial |
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02 y VAL-0005-01: TVS frente a polaridad, divisor de VIN, limitador común, energía inductiva con la curva E_AS, *hold-up*, IS acotada y corto en una salida |
+| v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004) y propuestas de VAL-0007-01: banda del limitador, salidas para la corriente del limitador, LED frente a carga abierta y retroalimentación del bus apagado |

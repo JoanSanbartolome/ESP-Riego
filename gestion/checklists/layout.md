@@ -1,6 +1,6 @@
 # Checklist de revisión de layout
 
-**Versión:** v3 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v4 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Reglas y verificación
 
@@ -23,7 +23,7 @@
 ## Potencia y cargas
 
 - [ ] Anchos de pista según la tabla de restricciones de layout del esquema.
-- [ ] Pistas de las salidas para la corriente de REL-05 con ΔT ≤ 10 °C, y separación de la clase `Salidas` (FAB-03).
+- [ ] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
 - [ ] Número de vías suficiente en cada cambio de capa de potencia.
 
 ## Masa
@@ -51,3 +51,4 @@
 | v1 | 2026-11-03 | Versión inicial |
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): bornes en dos bordes, sensor aislado térmicamente, sin zona del lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02: bus de salidas y retornos para 4–5 A, presupuesto de los bordes |
+| v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004): pistas de salida para la corriente máxima del limitador |
