@@ -9,7 +9,7 @@
 		(date "2026-11-05")
 		(rev "2.0-dev")
 		(company "Joan San Bartolomé Ferri")
-		(comment 1 "ESP-Riego v2")
+		(comment 1 "Placa de control de riego")
 	)
 	(lib_symbols)
 	(sheet
@@ -195,6 +195,17 @@
 				)
 			)
 		)
+	)
+	(text "Esqueleto limpio de la v2 (SPEC-0014). Los bloques llegan cada uno con su spec:\n- Alimentacion: ALI-01 … ALI-13\n- MCU: MCU-01 … MCU-07\n- Salidas: REL-01 … REL-10\n- Conectores: EXP-01 … EXP-04, FAB-07 y FAB-08\nLa hoja Sensores (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02)."
+		(exclude_from_sim no)
+		(at 109.22 142.24 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "9367ea63-67d7-4068-b849-40bdb137238b")
 	)
 	(sheet_instances
 		(path "/"
