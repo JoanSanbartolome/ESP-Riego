@@ -32,7 +32,7 @@ La documentación de la importación de la v1 no contiene afirmaciones superadas
   - **VAL-0010-01-02:** en la sección «Corrección (SPEC-0010)» del log de SPEC-0009, anular dos afirmaciones:
     - el pendiente de la l. 82 (38 en `docs/01` §2; lo correcto es 39, que es lo que ya dice);
     - la tabla de las l. 73–74, que llama «copia embebida» a las piezas del Wemos (el símbolo siempre fue la conversión; ahora la huella también).
-  - **Checklist `gestion/checklists/librerias.md` v2** (la edita el coordinador):
+  - ~~**Checklist `gestion/checklists/librerias.md` v2**~~: hecha por el coordinador al abrir SPEC-0015 (la necesitaba la recopilación de componentes). Sus puntos eran:
     - antes de dar un JSON de EasyEDA por no convertible, probar `kicad-cli fp|sym upgrade -o` y anotar la orden;
     - en las importaciones, comprobar la fidelidad con una conversión independiente y un `diff` sin las UUID, además de la comparación normalizada de los pads;
     - comprobar que los modelos `${KICADn_3DMODEL_DIR}` existen en KiCad 10, que no instala ningún `.wrl`;
@@ -40,6 +40,7 @@ La documentación de la importación de la v1 no contiene afirmaciones superadas
     - antes de llamar artefacto a un pad `custom`, medir la envolvente de sus primitivas;
     - al sustituir una pieza, comprobar con `git diff` que el archivo cambia, y anotarlo si sale idéntico.
   - **Checklist `proceso.md`:** cuando un log justifica una desviación con «no se convierte» o «no resuelve», validación la reproduce con una orden concreta.
+- Incluye también VAL-0013-02-03 (parte de la hoja de dibujo): en `hardware/libraries/ESP-Riego.kicad_wks`, quitar o aprovechar las dos casillas que quedaron vacías (antes «Plano Nº» y «Escala»).
 - Excluye: cambios de librerías o del proyecto de la v1, y las mejoras para la v2 (courtyard, `.step`, modelos SamacSys, tipos de pin del Wemos).
 
 ## Entradas
@@ -64,3 +65,4 @@ La documentación de la importación de la v1 no contiene afirmaciones superadas
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | La checklist de librerías v2 se adelanta a la apertura de SPEC-0015 | SPEC-0015 |
