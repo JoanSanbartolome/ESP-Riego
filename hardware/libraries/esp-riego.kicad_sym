@@ -1139,7 +1139,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "Texas*HTSOP*1EP*3.9x4.9mm*P1.27mm*EP2.95x4.9mm*Mask2.4x3.1mm*"
+		(property "ki_fp_filters" "Texas*DDA0008B*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1335,6 +1335,7 @@
 		)
 		(pin_names
 			(offset 1.016)
+			(hide yes)
 		)
 		(exclude_from_sim no)
 		(in_bom yes)
