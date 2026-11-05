@@ -33,7 +33,7 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 
 Resultados clave:
 
-- **Banda del limitador:** 3,84–4,54 A (4,19 A −8,2 / +8,5 %). Dentro de 3,5–4,9 A; con la lógica, 4,74 A < 5,14 A.
+- **Banda del limitador:** 3,86–4,57 A (4,21 A −8,3 / +8,6 %; VAL-0017-01-02). Dentro de 3,5–4,9 A; con la lógica, 4,77 A < 5,14 A.
 - **UVLO del buck:** arranque 12,50–14,56 V (nominal 13,54 V, **decidido en DEC-0006**); bajada ≤ 14,56 V. Con la caída de las protecciones: arranque ≤ 14,57 V ≤ 17 V y bajada ≤ 14,72 V ≤ 15,5 V.
 - **Puente JP1 (DEC-0006):** cortocircuita U1 con estaño si U1 no se monta o falla. Pads de 3,0 mm de ancho para 4,9 A; abierto por defecto (§3.13.9).
 - **Medida de VIN:** error ≤ ± 1,62 % a 17 V y ≤ ± 1,05 % a 31 V (≤ ± 3 %).
@@ -168,7 +168,7 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 
 - Caída de las protecciones (F1 + Q1): 5,6 mΩ × 1,3 + 26 mΩ = 33 mΩ.
   - En el arranque, solo con la lógica (0,2 A; el bus está apagado por REL-04): 7 mV.
-  - En marcha, con 4,74 A: 0,16 V.
+  - En marcha, con 4,77 A: 0,16 V.
 - **Arranque en frío:** 14,56 + 0,01 = 14,57 V ≤ 17 V ✔ (margen 2,43 V).
 - **Funcionamiento:** bajada máx. + caída = 14,56 + 0,16 = **14,72 V ≤ 15,5 V** ✔ (margen 0,78 V). Prueba de §6 a 16 V bajando desde 24 V: la placa sigue en marcha.
 - **Por encima de la VIN mínima del buck:** VOUT/D_máx + caídas ≈ 6 V < 12,5 V ✔.
@@ -268,16 +268,27 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 
 #### 3.13.2 Umbral de corriente (banda de ALI-13)
 
-- I_OL = 18/R_ILIM [kΩ] (ec. 5, p. 22). Tolerancia ± 7 % (4,185–4,815 A con 4,02 kΩ, p. 7).
+- I_OL = 18/R_ILIM [kΩ] (ec. 5, p. 22). El datasheet solo da la tolerancia en cuatro puntos (p. 7):
+
+| R_ILIM | Típ. | Tolerancia | Constante (típ. × R) |
+|---|---|---|---|
+| 3 kΩ | 6 A | ± 7 % | 18,0 |
+| 4,02 kΩ | 4,5 A | ± 7 % | 18,09 |
+| 9 kΩ | 2 A | ± 8 % | 18,0 |
+| 30 kΩ | 0,6 A | ± 10 % | 18,0 |
+
+- Para 4,30 kΩ (entre 3 y 9 kΩ) se toma, de forma conservadora:
+  - la constante del punto más próximo, 18,09 (4,02 kΩ), que da una nominal mayor que la ec. 5;
+  - la tolerancia interpolada linealmente entre 4,02 kΩ (± 7 %) y 9 kΩ (± 8 %): ± 7,06 %, redondeada a **± 7,1 %** (VAL-0017-01-02).
 - R2 = R_ILIM = **4,30 kΩ** al 1 % y 100 ppm/°C (C23159). Deriva: ± 0,35 % entre 25 y 60 °C.
 
 | | Valor |
 |---|---|
-| I_OL nominal | 4,186 A |
-| I_OL mín. = 18/(4,30 × 1,0135) × 0,93 | **3,84 A** ≥ 3,5 A (margen 9,7 %) ✔ |
-| I_OL máx. = 18/(4,30 × 0,9865) × 1,07 | **4,54 A** ≤ 4,9 A ✔ |
-| I_OL máx. + lógica | 4,74 A < 5,14 A (margen 0,40 A) ✔ |
-| *Fast-trip* (26632: 2 × I_OL, p. 7) | 8,4 A nom.; respuesta de 1 µs típ. (3,2 µs entre I_FASTTRIP e I_SCP = 45 A, pp. 24-25) |
+| I_OL nominal = 18,09/4,30 (con la ec. 5: 4,186 A) | 4,207 A |
+| I_OL mín. = 18,09/(4,30 × 1,0135) × 0,929 | **3,86 A** ≥ 3,5 A (margen 10,2 %) ✔ |
+| I_OL máx. = 18,09/(4,30 × 0,9865) × 1,071 | **4,57 A** ≤ 4,9 A ✔ |
+| I_OL máx. + lógica | 4,77 A < 5,14 A (margen 0,37 A) ✔ |
+| *Fast-trip* (26632: 2 × I_OL, p. 7) | 8,4 A nom. Corto franco (> I_SCP = 45 A): 1 µs típ., sin máximo. Corto blando (I_FASTTRIP–I_SCP): 2,2 / 3,2 / **4,5 µs** (§6.6, p. 9) |
 
 La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un corto franco el lazo regula con ≈ 24 V de V_DS. La prueba de §6 (3,4 A y 5,5 A) lo comprueba en el prototipo.
 
@@ -295,11 +306,17 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 
 #### 3.13.4 Corte sin bajar del UVLO (ALI-13)
 
-- En sobrecarga o corto, la fuente entrega como mucho I_OL,máx + lógica = 4,74 A < 5,14 A. **Su protección no actúa y `VIN_PROT` no cae**: la lógica no necesita retención (S2).
-- Único transitorio: los ≤ 1–3 µs hasta el *fast-trip*. Cota: Q ≤ 45 A × 1 µs = 45 µC sobre los cerámicos de `VIN_PROT` (2 × 4,7 µF a 24 V ≈ 7,9 µF efectivos) → ΔV ≤ 5,7 V durante µs, sin contar el electrolítico.
-  - A 18 V, el buck sigue regulando con 12 V.
-  - El EN (τ = 0,91 ms, §3.7) no ve la caída.
-  - La salida de 5 V no se interrumpe.
+- En sobrecarga o corto, la fuente entrega como mucho I_OL,máx + lógica = 4,77 A < 5,14 A. **Su protección no actúa y `VIN_PROT` no cae** de forma sostenida: la lógica no necesita retención (S2).
+- Único transitorio: el tiempo hasta el *fast-trip* (§3.13.2). En el corto franco es de 1 µs típico, sin máximo publicado; en el blando, ≤ 4,5 µs (p. 9). Las cotas de la caída de `VIN_PROT`, solo con los cerámicos (2 × 4,7 µF a 24 V ≈ 7,9 µF efectivos) y sin contar C1 ni la fuente, son:
+  - corto franco, con el típico: Q ≈ 45 A × 1 µs = 45 µC → ΔV ≈ 5,7 V;
+  - corto blando, en el peor caso: Q ≤ 45 A × 4,5 µs = 202 µC → ΔV ≤ 25 V. La caída de `VIN_PROT` es casi total durante ≤ 4,5 µs. C1 (47 µF, ESR sin especificar) la reduce, pero no se cuantifica (VAL-0017-01-04).
+- La conclusión no depende de esa cota. Con `VIN_PROT` a 0 V durante 4,5 µs:
+  - el +5V lo sostienen C11/C12 (≈ 28 µF efectivos): ΔV = 0,75 A × 4,5 µs / 28 µF = **0,12 V**, y quedan además C16/C17 tras U3;
+  - el EN (τ = 0,91 ms, §3.7) baja ≤ 0,5 % y no cruza el umbral;
+  - el VCC interno de U2 lo sostiene su condensador de 1 µF.
+
+  La lógica no se reinicia.
+- **Verificación en el prototipo:** en la prueba de §6 «Cortocircuito en una salida» (corto franco y con cable de ≥ 10 m), medir `VIN_PROT` (TP1) y +5V (TP2) con el osciloscopio: amplitud y duración de la caída.
 
 #### 3.13.5 Habilitación (REL-04, ALI-13)
 
@@ -325,17 +342,17 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 - FLT: R6 = 10 kΩ a +3V3 → GPIO (entrada). V_OL = 0,33 mA × 130 Ω = 43 mV (p. 8).
 - IMON: R3 = 10,0 kΩ a GND; ganancia 26,22–29,58 µA/A para 2–6 A (p. 8). V_IMON = I · 27,9 µA/A · 10 kΩ = 0,279 V/A.
   - A 3,5 A: 0,91–1,05 V (± 7 %).
-  - A 4,54 A: 1,18–1,36 V.
+  - A 4,57 A: 1,19–1,37 V.
   - Cabe en ADC1 a 6 dB.
-  - R4 = 10 kΩ en serie hasta el GPIO y C5 = 1 nF en el pin del ADC (τ = 10 µs). En el pin de IMON no va condensador (p. 27).
+  - R4 = 10 kΩ en serie hasta el GPIO y **C5 = 100 nF** en el pin del ADC (VAL-0017-01-03). Es la condición con la que Espressif da su ± 10 mV (ESP32-S3 v2.2 §5.5, p. 66). Con la fuente de R3 + R4 = 20 kΩ, τ ≈ 2 ms: no afecta al firmware, que detecta los fallos con FLT. En el pin de IMON no va condensador (p. 27): C5 queda detrás de R4.
   - Durante el *fast-trip*, IMON puede llegar a su tope de ≈ 4–5,5 V (V_IMONmax 4 V, máximo absoluto 5,5 V; p. 5). R4 limita la corriente por el diodo de protección del GPIO a ≤ 0,2 mA durante µs.
-- Medida del total: ± 7 % más ± 1 % del ADC. Sustituye a la suma de IS (± 25 %, S4).
+- Medida del total: ± 7 % (ganancia ± 6 % y R3 al 1 %) más el ± 10 mV del ADC (≈ ± 1 % a 3,5 A). Sustituye a la suma de IS (± 25 %, S4).
 
 #### 3.13.8 Térmica de U1
 
 - R_ON ≤ 45 mΩ a 85 °C (p. 7); R_θJA 31,4 °C/W en JEDEC (p. 6). En 2 capas se toman 50 °C/W.
 - 3,5 A: 0,55 W → T_J ≈ 88 °C.
-- 4,54 A (justo bajo el umbral; R_ON 53 mΩ): 1,09 W → ≈ 115 °C. Por debajo de T_J_REG (136 °C mín.) y de TSD (165 °C) ✔.
+- 4,57 A (justo bajo el umbral; R_ON 53 mΩ): 1,11 W → ≈ 115 °C. Por debajo de T_J_REG (136 °C mín.) y de TSD (165 °C) ✔.
 - Pad térmico al plano de GND con vías (p. 39).
 
 #### 3.13.9 Puente de soldadura JP1 en paralelo con U1 (DEC-0006)
@@ -345,8 +362,8 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
   - Si U1 falla en corto, el puente no aporta nada.
 - **Símbolo:** `Jumper:SolderJumper_2_Open` (oficial). Ref. JP1, sin pieza: fuera de BOM y CPL.
 - **Huella:** la oficial `Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` tiene pads de 1,5 mm de ancho, menos que los 2,0 mm de `Power_In` (§8). Se pide una **huella nueva** en `esp-riego.pretty` (SPEC-0018), con la misma construcción que la oficial: pads solo en F.Cu y F.Mask, sin pasta.
-  - Nombre propuesto: `SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm`.
-  - Pads rectangulares de 1,2 mm (en el sentido de la corriente) × 3,0 mm (ancho), separados 0,4 mm; paso 1,6 mm.
+  - Nombre: `SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm`.
+  - Pads rectangulares de 1,2 mm (en el sentido de la corriente) × 3,0 mm (ancho), separados **0,6 mm**; paso 1,8 mm (VAL-0017-01-01).
   - Abertura de máscara común a los dos pads y al hueco, para poder puentearlos con el soldador.
   - Sin pasta: así no se cierra en el *reflow*.
 - **Cálculo para 4,9 A** (la corriente máxima de la banda; ALI-13, REL-05):
@@ -354,17 +371,17 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 | Tramo | Cálculo | Resultado |
 |---|---|---|
 | Cobre de los pads (1 oz, 3,0 mm) | IPC-2221 externa: 5,1 A necesita 2,84 mm para ΔT 10 °C (§8) | 3,0 mm ≥ 2,84 mm ✔ |
-| Puente de estaño (SAC305, ρ ≈ 13,2 µΩ·cm) | Sección ≥ 3,0 mm × 0,2 mm (gota mínima) = 0,6 mm²; longitud 0,4 mm → R = ρ·L/A = 13,2·10⁻⁸ × 0,4·10⁻³ / 0,6·10⁻⁶ = 0,09 mΩ | P = 4,9² × 0,09 mΩ = **2,1 mW** |
+| Puente de estaño (SAC305, ρ ≈ 13,2 µΩ·cm) | Sección ≥ 3,0 mm × 0,2 mm (gota mínima) = 0,6 mm²; longitud 0,6 mm → R = ρ·L/A = 13,2·10⁻⁸ × 0,6·10⁻³ / 0,6·10⁻⁶ = 0,13 mΩ | P = 4,9² × 0,13 mΩ = **3,2 mW** |
 | Equivalencia en cobre | 0,6 mm² × (1,72/13,2) = 0,078 mm², frente a 0,070 mm² de una pista de 2,0 mm en 1 oz | Igual o mejor que la pista `Power_In` ✔ |
 | Densidad de corriente en el estaño | 4,9 A / 0,6 mm² = 8,2 A/mm² | Sin problema ✔ |
-| Separación entre pads | Abierto: hasta 30 V continuos entre `VIN_PROT` y `BUS_24V` (con U1 apagado). IPC-2221 B2, 16–30 V: 0,1 mm | 0,4 mm ✔ (≥ 0,2 mm de FAB-02) |
+| Separación entre pads | Abierto, con U1 apagado (REL-04) y el bus a 0 V, `VIN_PROT` puede llegar a Vc = 53,3 V. Se aplica el mismo criterio que al resto de `Power_In` (§8): IPC-2221 B2, 51–100 V → 0,6 mm | **0,6 mm** ✔ (VAL-0017-01-01) |
 
   - Con la huella oficial (1,5 mm), el estaño da 0,039 mm² equivalentes (≈ 1,1 mm de pista). Corto y bien refrigerado, pero por debajo de la clase `Power_In`: descartada.
 - **Funciones que se pierden con JP1 cerrado (sin U1):**
 
 | Función | Con JP1 cerrado |
 |---|---|
-| Limitación común a 3,84–4,54 A (ALI-13) | Se pierde. Un corto en una salida lo limita la protección de la fuente (≥ 5,14 A, hipo o corriente constante) y la limitación del BTT6050 (≥ 38 A). Cae `VIN_PROT` y la lógica puede reiniciarse: **REL-08 no se cumple** |
+| Limitación común a 3,86–4,57 A (ALI-13) | Se pierde. Un corto en una salida lo limita la protección de la fuente (≥ 5,14 A, hipo o corriente constante) y la limitación del BTT6050 (≥ 38 A). Cae `VIN_PROT` y la lógica puede reiniciarse: **REL-08 no se cumple** |
 | Corte general por LIM_EN (S3) | Se pierde: el bus está siempre alimentado. La comprobación de carga abierta (REL-10) funciona igual |
 | FLT e IMON | Se pierden. Sin U1, FLT lee alto siempre por R6 e IMON lee 0 V; el firmware debe desactivarlos (opción de configuración) |
 | *Clamp* del bus a ≤ 35 V | Se pierde: el bus ve `VIN_PROT` hasta Vc = 53,3 V. Sigue dentro de V_S(LD) = 65 V del BTT6050 (ALI-04) ✔ |
@@ -377,7 +394,7 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 
 | Raíl | Carga | Corriente de diseño | Capacidad | Margen |
 |---|---|---|---|---|
-| **24 V (borne)** | Salidas: 3,5 A (carga instalada máx.; tope del limitador 4,54 A) + lógica 0,18 A + U1, divisores y zéner (2,3 mA) | **3,68 A** normal; **4,74 A** con el limitador en su máximo | Fuente: sobrecarga a ≥ 5,14 A · F1: 7,2 A (derating) · Q1: 50 A · J1: 15 A | 0,40 A (7,8 %) sobre la fuente en el peor caso |
+| **24 V (borne)** | Salidas: 3,5 A (carga instalada máx.; tope del limitador 4,57 A) + lógica 0,18 A + U1, divisores y zéner (2,3 mA) | **3,68 A** normal; **4,77 A** con el limitador en su máximo | Fuente: sobrecarga a ≥ 5,14 A · F1: 7,2 A (derating) · Q1: 50 A · J1: 15 A | 0,37 A (7,2 %) sobre la fuente en el peor caso |
 | **5 V** (U2 → U3) | 3,3 V: 0,45 A + 5 V de la expansión: 0,30 A | **0,75 A** | U2: 2 A (ALI-05 ≥ 1,5 A) · U3: 2,5 A | 2,7× |
 | **3,3 V** (U4) | ESP32-S3-WROOM-1: 355 mA de pico (802.11b, 20,5 dBm; WROOM-1 v1.8 tabla 6-4, p. 28) + SHT4x, LED, *pull-ups*, LED de estado y de canal (≈ 45 mA) + 3,3 V de la expansión (≤ 50 mA) | **0,45 A** | U4: 1 A (límite ≥ 1,1 A) | 2,2× |
 
@@ -396,7 +413,7 @@ Potencia de la lógica en la entrada (ALI-12, §6):
 |---|---|---|---|---|
 | Q1 SQD50P06-15L (5,1 A) | 0,68 W | 50 °C/W (1 in², p. 1) | 94 °C | 175 °C |
 | F1 (5,1 A) | 0,19 W | — | — | 7,2 A con derating |
-| U1 TPS26632 (3,5 / 4,54 A) | 0,55 / 1,09 W | 50 °C/W | 88 / 115 °C | 136 °C (T_J_REG mín.) |
+| U1 TPS26632 (3,5 / 4,57 A) | 0,55 / 1,11 W | 50 °C/W | 88 / 115 °C | 136 °C (T_J_REG mín.) |
 | U2 LMR36520 (0,75 A) | 0,51 W | 50 °C/W | 86 °C | 125 °C |
 | U3 TPS2116 | 34 mW | 111,5 °C/W (p. 4) | 64 °C | 105 °C (T_A) |
 | U4 TLV1117LV (0,45 / 0,25 A) | 0,81 / 0,43 W | 60 / 62,9 °C/W | 109 / 87 °C | 125 °C |
@@ -432,7 +449,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | R2 | R_ILIM 4,30 kΩ 1 % 100 ppm | 0603 | 0603WAF4301T5E | C23159 · 113 900 | Yageo RC0603FR-074K3L | `R_0603` |
 | C4 | C_dVdT 22 nF 50 V X7R | 0603 | Samsung CL10B223KB8NNNC | C21122 · 109 250 | — | `C_0603` |
 | R3, R4 | R_IMON y serie al ADC, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 · 4,9 M | — | `R_0603` |
-| C5 | 1 nF 50 V (ADC de IMON) | 0603 | Samsung CL10B102KB8NNNC | C1588 · 618 050 | — | `C_0603` |
+| C5 | 100 nF 50 V X7R (ADC de IMON) | 0603 | Samsung CL10B104KB8NNNC | C1591 · 1,46 M | — | `C_0603` |
 | R5, R6 | *Pull-down* de SHDN y *pull-up* de FLT, 10 kΩ | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
 | D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | MDD SS310 | C15874 · 348 680 | UMW SS310A (C2988628 · 4 720) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
 | U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | **Símbolo nuevo** (copiar `Regulator_Switching:LMR36510ADDA`, compatible pin a pin, p. 1) / `Package_SO:Texas_HTSOP-8-1EP_3.9x4.9mm_…_ThermalVias` |
@@ -459,14 +476,14 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | C20 | 100 nF (ADC de VIN) | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
 | D4 | LED rojo | 0603 | Hubei KENTO KT-0603R | C2286 · 4,2 M | XINGLIGHT XL-1608SURC-06 (C965799) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
 | R13 | 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · 2,86 M | — | `R_0603` |
-| JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,4 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / **huella nueva** `esp-riego:SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm` (SPEC-0018). Excluir de BOM y CPL |
+| JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,6 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / **huella nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (SPEC-0018). Excluir de BOM y CPL |
 | TP1–TP5 | Test points | Pad | — (sin pieza) | — | Keystone 5000/5001 | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm` (TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm`) |
 
 - **Piezas sin ficha en `hardware/componentes/`:** LMR36520, TPS2116, TLV1117LV, SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310 y BZT52C15. Los datos clave y las páginas están en §3 y §0.
 - La ficha de TPS2663 existe. Hay que añadirle la variante elegida (26632, *latch*, PLIM y UVLO a GND).
 - **Símbolos o huellas nuevos:**
   - el símbolo LMR36520, que se puede derivar de LMR36510ADDA;
-  - la huella `SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm` de JP1 (§3.13.9).
+  - la huella `SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` de JP1 (§3.13.9).
 
   El resto existe en las librerías oficiales. Hay que comprobar el pinout de SUD50P06-15 frente a SQD50P06-15L y el de TLV1117-33 frente a TLV1117LV.
 - **Coste orientativo del bloque:** ≈ 8,9 $ por placa (5 placas) y ≈ 7,7 $ (10 placas), con los tramos de LCSC de la cantidad real. **Aceptado en DEC-0006**.
@@ -478,8 +495,8 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas |
 |---|---|---|---|---|---|
 | VIN_RAW (J1 → F1), VIN_F (F1 → Q1-D), VIN_PROT (Q1-S → U1 IN, D2, C1, C2) | 5,1 A continuos | **2,0 mm** en 1 oz (IPC-2221 externa: 1,87 mm para ΔT 20 °C; 2,84 mm para ΔT 10 °C) o polígono | ≥ 0,6 mm a otras redes (hasta 53 V: IPC-2221 B2, 51–100 V); en los pads de los CI, la de la huella | J1 → F1 → Q1 → D2 en línea y juntos en el borde inferior (FAB-07) | Clase `Power_In`. Retorno GND paralelo y del mismo ancho |
-| BUS_24V (U1 OUT → *high-side*) | 4,54 A (4,9 A como dato de REL-05) | 2,0 mm o polígono | ≥ 0,6 mm | — | Clase `Power_In`. D3 y C6 junto a OUT/GND de U1 |
-| JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,4 mm entre pads (≤ 30 V continuos, IPC-2221 B2) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
+| BUS_24V (U1 OUT → *high-side*) | 4,57 A (4,9 A como dato de REL-05) | 2,0 mm o polígono | ≥ 0,6 mm | — | Clase `Power_In`. D3 y C6 junto a OUT/GND de U1 |
+| JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,6 mm entre pads (Vc 53,3 V con el bus a 0 V; IPC-2221 B2, 51–100 V) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
 | GND de potencia (J1-2, D2, C1, U1, U2) | 5,1 A | Plano; vías de cosido junto a J1, D2 y U1 | — | — | D2 a GND con pista corta y ancha: el pulso de 11,3 A suma L·di/dt a Vc (ficha SMBJ33A) |
 | VIN_PROT → U2 VIN (rama del buck) | 0,3 A | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 justo después | Bucle de entrada mínimo (SNVSBF0C §8.5) |
 | SW (U2-8 → L1) | 1,5 A de pico ≈ 2 A | 1,0 mm, lo más corto posible | ≥ 0,3 mm | Lejos de la antena (MCU-02), de las entradas del ADC y del SHT4x (AMB-02) | Área mínima; sin pistas de señal debajo en la otra cara |
@@ -509,8 +526,8 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | ALI-09 | R14/R15 al 0,1 %, ADC1 a 6 dB: ≤ ± 1,75 % | §3.10 |
 | ALI-10 | D4 + R13 | §3.11 |
 | ALI-11 | TP1–TP5 | §3.12 |
-| ALI-12 | Presupuesto: 4,74 A máx.; lógica 4,32 W | §4 |
-| ALI-13 | U1 TPS26632: 3,84–4,54 A, *latch*, SHDN con *pull-down*, FLT e IMON; buck antes del limitador. JP1 abierto por defecto (DEC-0006) | §3.13, §3.13.9 |
+| ALI-12 | Presupuesto: 4,77 A máx.; lógica 4,32 W | §4 |
+| ALI-13 | U1 TPS26632: 3,86–4,57 A, *latch*, SHDN con *pull-down*, FLT e IMON; buck antes del limitador. JP1 abierto por defecto (DEC-0006) | §3.13, §3.13.9 |
 | REL-04 | R5: bus apagado en el reset y el flasheo | §3.13.5 |
 
 ## 10. Riesgos y puntos abiertos
@@ -535,7 +552,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | FXL0650-100-M | FXL0650-100-M · Changjiang (cjiang) | C475521 | PDF de LCSC (C475521) | 2 terminales | `Device:L` / `L_Changjiang_FXL0650` |
 | SS310 | SS310 · MDD | C15874 | PDF de LCSC (C15874) | K / A | `D_Schottky` / `D_SMA` |
 | BZT52C15 | BZT52C15 · MDD | C173427 | PDF de LCSC (C173427) | K / A | `D_Zener` / `D_SOD-123` |
-| JP1 (sin ficha de compra; huella nueva) | Puente de soldadura · — | — (fuera de BOM y CPL) | — | Pad 1 = VIN_PROT, pad 2 = BUS_24V | `Jumper:SolderJumper_2_Open` / **nueva** `esp-riego:SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm`: pads 1,2 × 3,0 mm, hueco 0,4 mm, F.Cu y F.Mask sin pasta, máscara común (§3.13.9) |
+| JP1 (sin ficha de compra; huella nueva) | Puente de soldadura · — | — (fuera de BOM y CPL) | — | Pad 1 = VIN_PROT, pad 2 = BUS_24V | `Jumper:SolderJumper_2_Open` / **nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm`: pads 1,2 × 3,0 mm, hueco 0,6 mm, F.Cu y F.Mask sin pasta, máscara común (§3.13.9) |
 
 ## Anexo B. Notas para el firmware (FW-03)
 
