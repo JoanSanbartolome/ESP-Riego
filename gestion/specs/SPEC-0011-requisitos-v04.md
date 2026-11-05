@@ -2,15 +2,15 @@
 id: SPEC-0011
 titulo: Requisitos v0.4: ventana del limitador y sobrecarga por canal
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0011-requisitos-v04
 requisitos: [ALI-01, ALI-04, ALI-06, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-03, FAB-09]
 depende_de: [SPEC-0007]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0011-02
 ---
 
 # SPEC-0011 · Requisitos v0.4: ventana del limitador y sobrecarga por canal
@@ -77,3 +77,4 @@ validacion:
 | 2026-11-05 | coordinador | Corrige VAL-0011-01: fuente en su ajuste de fábrica, carga instalada en frío (3,9 A), banda 3,9–4,9 A y hallazgos B | VAL-0011-01 |
 | 2026-11-05 | ing-validacion | VAL-0011-02: APROBADO_CON_OBSERVACIONES (B 4) | |
 | 2026-11-05 | coordinador | Aplica las 4 observaciones B de VAL-0011-02 antes del merge: carga instalada 3,5 A (sin la doble corrección por frío), banda 3,5–4,9 A, 5,14 A, lógica en W, UVLO de bajada y versión de las checklists | VAL-0011-02 |
+| 2026-11-05 | coordinador | Cierra la spec. Pendiente fuera de la rama: memoria de ing-esquematicos (≈ 4 A) | VAL-0011-02 |
