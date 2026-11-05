@@ -6,7 +6,7 @@ estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0011-requisitos-v04
-requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01]
+requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-09]
 depende_de: [SPEC-0007]
 creada: 2026-11-05
 cerrada:
@@ -28,7 +28,7 @@ validacion:
 
 - Incluye los hallazgos de `gestion/informes/VAL-0007-01.md`:
   - **01 (M):** la fuente como dato de entrada o requisito (corriente nominal, protección de sobrecarga y OVP). Con ella:
-    - ALI-12 y ALI-13 definen el umbral del limitador como una banda con tolerancia, entre 4 A y la protección de la fuente menos la lógica;
+    - ALI-12 y ALI-13 definen el umbral del limitador como una banda con tolerancia, entre el total de las salidas y la protección de la fuente menos la lógica;
     - la prueba de §6 se hace por encima de la banda;
     - ALI-04 elige entre la SMBJ33A y la SMBJ36A, y fija la tensión del limitador (≥ 60 V o ≥ 64 V).
   - **02 (M):** la sobrecarga de un canal entre 1 A y el umbral del limitador, según la decisión del usuario:
