@@ -34,6 +34,7 @@ Un informe de viabilidad, con investigación a fondo, sobre cómo ampliar el nú
   - número máximo de módulos y canales, y direccionamiento;
   - alimentación de los módulos (24 V DC compartida, 5 V o local);
   - estado seguro si se corta el bus;
+  - si las salidas del módulo cuelgan del bus de salidas limitado de la placa (ALI-13) y cuentan en los 4 A de ALI-12, o llevan su propio limitador (VAL-0007-01-07);
   - soporte en ESPHome (`pca9554`, `mcp23017`, `modbus_controller`…);
   - BOM y coste de un módulo de 6 u 8 canales en cantidades de 5 y 10, incluido el montaje en JLCPCB;
   - comparación con módulos comerciales equivalentes;
@@ -66,3 +67,4 @@ Un informe de viabilidad, con investigación a fondo, sobre cómo ampliar el nú
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | Añade VAL-0007-01-07 (bus limitado y ALI-12) | VAL-0007-01 |

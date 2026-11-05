@@ -2,9 +2,9 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 0 · cerrada 6 · descartada 1.
+Specs por estado: propuesta 5 · abierta 0 · cerrada 6 · descartada 1.
 
-## Propuestas (4)
+## Propuestas (5)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -12,6 +12,7 @@ Specs por estado: propuesta 4 · abierta 0 · cerrada 6 · descartada 1.
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md) | Correcciones de la importación de la v1 | 1 | jr-conformidad | `spec/SPEC-0010-correcciones-importacion-v1` | — | 2026-11-04 | — |
+| [SPEC-0011](specs/SPEC-0011-requisitos-v04.md) | Requisitos v0.4: ventana del limitador y sobrecarga por canal | 0 | coordinador | `spec/SPEC-0011-requisitos-v04` | — | 2026-11-05 | — |
 
 ## Cerradas (6)
 

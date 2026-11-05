@@ -31,6 +31,9 @@ validacion:
   - **08:** aviso al principio y en §0 de que la conclusión vigente es §11 (válvulas de 24 V DC, D8); unificar ISP752R/BSP752R; sumar EXP-01 al presupuesto del borde.
   - **09:** enlaces a los datasheets del fabricante en §11.6.
   - **10:** filas de vida útil y de compatibilidad con la expansión para todas las opciones, e I_DSS citada de 4a/4b/4c.
+- Incluye también VAL-0007-01-03 (y las partes de texto de VAL-0005-01-01, 05 y 07):
+  - §11.4 y §11.5 recomiendan aún 470 µF y ≈ 60 ms de autonomía, vigilar los 4 A con la suma de IS y un corte general con BTT6030; §0.2 y §6 dicen «se protege solo»; §8 pone `+24V_SAL` en la clase `Salidas`.
+  - Cada una lleva un aviso que remite a DEC-0003 (limitador común ALI-13, REL-08 y REL-10), y el aviso de cabecera remite a §11 **y** a DEC-0003, no solo a §11.
 - Excluye: cambiar la recomendación o D8; los requisitos (SPEC-0007); el tipo y stock JLCPCB (jr-conformidad, al pasar las piezas al esquema).
 
 ## Entradas
@@ -47,6 +50,7 @@ validacion:
 
 - [ ] Cada hallazgo del alcance está corregido o justificado uno a uno en el log.
 - [ ] Ninguna sección presenta las válvulas de 24 V AC como las instaladas sin remitir a §11.
+- [ ] Ninguna recomendación que DEC-0003 sustituye (*hold-up*, suma de IS para los 4 A, corte con BTT6030) queda sin aviso.
 - [ ] Las cifras de coste corregidas cuadran con los tramos de LCSC que se citan.
 
 ## Registro
@@ -54,3 +58,4 @@ validacion:
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | Añade VAL-0007-01-03 | VAL-0007-01 |
