@@ -1,6 +1,6 @@
 ---
 name: revision-importaciones
-description: Cómo validar importaciones o migraciones de proyectos y librerías KiCad (p. ej., v1 del TFG a KiCad 10) sin fiarse de las justificaciones del autor: migración independiente, conversión de EasyEDA, resolución de variables 3D
+description: Cómo validar importaciones, migraciones o limpiezas de proyectos y librerías KiCad (p. ej., v1 del TFG a KiCad 10) sin fiarse de las justificaciones del autor: migración independiente, conversión de EasyEDA, resolución de variables 3D
 metadata:
   type: feedback
 ---
@@ -33,5 +33,12 @@ Copias o renombrados de proyecto (VAL-0013-01, 2026-11-05):
 - **El cajetín se valida en el PDF exportado** (`sch export pdf`, `pcb export pdf --include-border-title`), no en el `title_block`: `Cajetin_Kicad.kicad_wks` (heredada del TFG) tiene fijo el título del TFG, no usa `${TITLE}` ni `${REVISION}` y pinta `COMMENT1` como «PROYECTO:».
 - Las rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`) heredadas de la v1 apuntan a `../../`, que es la raíz del repositorio. **El trazado de pcbnew usa `pcbplotparams/outputdirectory` del `.kicad_pcb`**, no `output.plot` del `.kicad_pro`: hay que revisar los dos (en VAL-0013-01 se me pasó el de la PCB).
 - Un `diff` frente al origen no muestra lo que se hereda sin cambios. Busco a propósito restos heredados: `embedded_files` de la PCB (la v1 lleva incrustada `Cajetin_Kicad.kicad_wks`, comprimida con zstd; en el equipo no hay zstd), `outputdirectory` y textos fijos en la hoja de dibujo.
+
+Limpiezas o vaciados de un proyecto (VAL-0014-01, 2026-11-05):
+- **Inventario con la netlist del estado de partida**, no solo con los recuentos. Extraigo la base con `git show <base>:<ruta> > scratchpad` (la guardia bloquea `git archive`) y hago `kicad-cli sch export netlist` sobre esa copia. Así encontré un texto de hoja que decía «test points a +12 V» cuando solo uno lo estaba.
+- **Restos que el `diff` no enseña:** las tablas `sym-lib-table` y `fp-lib-table` siguen listando las librerías de la v1 aunque ya no se usen. También miro las capas, el `stackup` y las reglas heredadas.
+- **PCB editada con script:** `kicad-cli pcb upgrade --force` sobre una copia; si sale idéntica byte a byte, es lo que guardaría pcbnew. En los esquemas, el reguardado solo cambia el orden de los textos (comparar líneas ordenadas).
+- **No es un hallazgo:** que `F.Fab` o `B.Fab` no aparezcan en `(layers …)` no impide trazarlas, porque `kicad-cli --layers F.Fab` las saca. Lo pruebo antes de decir que se pierde algo.
+- Scripts reutilizables en `scratchpad\val14\` (`inventario.py`, `nets.py`, `fp_h.py`). El *scratchpad* es de sesión, así que si hacen falta otra vez, se rehacen.
 
 Relacionado: [[comprobaciones-utiles]].
