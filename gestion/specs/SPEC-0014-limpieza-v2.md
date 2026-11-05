@@ -2,15 +2,15 @@
 id: SPEC-0014
 titulo: Limpieza de la copia de trabajo de la v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos (esquema) e ing-layout (PCB)
 revisor: ing-validacion
 rama: spec/SPEC-0014-limpieza-v2
 requisitos: [KIC-02, KIC-03, FAB-02, FAB-08]
 depende_de: [SPEC-0013]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0014-01
 ---
 
 # SPEC-0014 · Limpieza de la copia de trabajo de la v2
@@ -83,3 +83,7 @@ ERC, DRC y paridad quedan sin errores.
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (abierta) | |
+| 2026-11-05 | ing-esquematicos | Esquema limpio: 57 componentes retirados, H1–H4 conservados, textos de bloque; ERC 0 | `3c8a700` |
+| 2026-11-05 | ing-layout | PCB vacía con contorno preliminar de 100 × 70 mm, reglas de FAB-02, sin restos de la v1; verificación LIMPIA | `9a8c24f` |
+| 2026-11-05 | ing-validacion | VAL-0014-01: APROBADO_CON_OBSERVACIONES (B 2) | |
+| 2026-11-05 | coordinador | Cierra la spec. 01: corregir los textos al sustituir cada bloque; 02: limpiar las tablas de librerías al inscribir `esp-riego` en el primer bloque | VAL-0014-01 |

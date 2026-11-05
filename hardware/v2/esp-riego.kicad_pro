@@ -58,12 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "starved_thermal|129421827|109374000|4f35c484-40eb-40fb-a6c1-642b73f49f3c|36f4c201-0eae-4a23-9edb-b1752d3b76ae|B.Cu",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -129,9 +124,9 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.15,
-        "min_connection": 0.15,
-        "min_copper_edge_clearance": 0.25,
+        "min_clearance": 0.2,
+        "min_connection": 0.2,
+        "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.25,
@@ -142,9 +137,9 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.15,
-        "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.5,
+        "min_track_width": 0.2,
+        "min_via_annular_width": 0.15,
+        "min_via_diameter": 0.6,
         "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
@@ -231,7 +226,7 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.45,
+          "diameter": 0.6,
           "drill": 0.3
         }
       ],
@@ -506,178 +501,14 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
-      },
-      {
-        "bus_width": 12,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "power",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 0,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.5,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
-        "wire_width": 6
-      },
-      {
-        "bus_width": 12,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "signal",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 1,
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.3,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
-        "wire_width": 6
       }
     ],
     "meta": {
       "version": 4
     },
     "net_colors": null,
-    "netclass_assignments": {
-      "/FB": [
-        "signal"
-      ],
-      "Net-(D1-A)": [
-        "signal"
-      ],
-      "Net-(D2-A)": [
-        "signal"
-      ],
-      "Net-(D3-A)": [
-        "power"
-      ],
-      "Net-(D4-A)": [
-        "power"
-      ],
-      "Net-(D5-A)": [
-        "signal"
-      ],
-      "Net-(D6-A)": [
-        "signal"
-      ],
-      "Net-(D7-A)": [
-        "power"
-      ],
-      "Net-(D8-A)": [
-        "power"
-      ],
-      "Net-(D9-A)": [
-        "power"
-      ],
-      "Net-(Q1-AK)": [
-        "signal"
-      ],
-      "Net-(Q1-E)": [
-        "power"
-      ],
-      "Net-(Q2-AK)": [
-        "signal"
-      ],
-      "Net-(Q2-E)": [
-        "power"
-      ],
-      "Net-(Q3-Pad1)": [
-        "power"
-      ],
-      "Net-(Q4-Pad1)": [
-        "power"
-      ],
-      "Net-(Q5-AK)": [
-        "signal"
-      ],
-      "Net-(Q5-E)": [
-        "power"
-      ],
-      "Net-(Q6-AK)": [
-        "signal"
-      ],
-      "Net-(Q6-E)": [
-        "power"
-      ],
-      "Net-(Q7-Pad1)": [
-        "power"
-      ],
-      "Net-(Q8-Pad1)": [
-        "power"
-      ],
-      "Net-(U2-FB)": [
-        "signal"
-      ],
-      "Net-(U4-FB)": [
-        "signal"
-      ],
-      "REL1": [
-        "signal"
-      ],
-      "REL2": [
-        "signal"
-      ],
-      "REL3": [
-        "signal"
-      ],
-      "REL4": [
-        "signal"
-      ]
-    },
-    "netclass_patterns": [
-      {
-        "netclass": "power",
-        "pattern": "3V3"
-      },
-      {
-        "netclass": "power",
-        "pattern": "GND"
-      },
-      {
-        "netclass": "power",
-        "pattern": "5V"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "/GPIO0"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "/ESP32_EN"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "REL1"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "REL2"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "REL3"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "REL4"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "ECHO"
-      },
-      {
-        "netclass": "signal",
-        "pattern": "TRIG"
-      }
-    ]
+    "netclass_assignments": null,
+    "netclass_patterns": []
   },
   "pcbnew": {
     "last_paths": {
