@@ -79,7 +79,7 @@ VAL-0005-01-01 señaló que, con un corto en una salida, la fuente de 5 A limita
 
 - `docs/02-especificaciones-v2.md` pasa a la v0.3 (SPEC-0007). Cambios:
   - nuevos: ALI-13 y REL-10;
-  - redefinidos: REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, ALI-04, ALI-09, ALI-12, AMB-02, FAB-03, FAB-07 y FAB-08;
+  - redefinidos: REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, ALI-04, ALI-09, ALI-12, AMB-02, FAB-03, FAB-06, FAB-07 y FAB-08;
   - D2 y D8 quedan cerradas.
 - **Coste:**
   - la etapa de salidas cuesta 8,33 / 7,86 $ por placa;

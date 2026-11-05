@@ -2,15 +2,15 @@
 id: SPEC-0011
 titulo: Requisitos v0.4: ventana del limitador y sobrecarga por canal
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0011-requisitos-v04
-requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01]
+requisitos: [ALI-01, ALI-04, ALI-06, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-03, FAB-09]
 depende_de: [SPEC-0007]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0011-02
 ---
 
 # SPEC-0011 · Requisitos v0.4: ventana del limitador y sobrecarga por canal
@@ -28,7 +28,7 @@ validacion:
 
 - Incluye los hallazgos de `gestion/informes/VAL-0007-01.md`:
   - **01 (M):** la fuente como dato de entrada o requisito (corriente nominal, protección de sobrecarga y OVP). Con ella:
-    - ALI-12 y ALI-13 definen el umbral del limitador como una banda con tolerancia, entre 4 A y la protección de la fuente menos la lógica;
+    - ALI-12 y ALI-13 definen el umbral del limitador como una banda con tolerancia, entre el total de las salidas y la protección de la fuente menos la lógica;
     - la prueba de §6 se hace por encima de la banda;
     - ALI-04 elige entre la SMBJ33A y la SMBJ36A, y fija la tensión del limitador (≥ 60 V o ≥ 64 V).
   - **02 (M):** la sobrecarga de un canal entre 1 A y el umbral del limitador, según la decisión del usuario:
@@ -73,3 +73,8 @@ validacion:
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | El usuario fija la fuente (LED de 24 V y 5 A) y descarta la protección por canal; abre la spec | DEC-0004 |
+| 2026-11-05 | ing-validacion | VAL-0011-01: RECHAZADO (M 1 · B 8) | `4a0b771` |
+| 2026-11-05 | coordinador | Corrige VAL-0011-01: fuente en su ajuste de fábrica, carga instalada en frío (3,9 A), banda 3,9–4,9 A y hallazgos B | VAL-0011-01 |
+| 2026-11-05 | ing-validacion | VAL-0011-02: APROBADO_CON_OBSERVACIONES (B 4) | |
+| 2026-11-05 | coordinador | Aplica las 4 observaciones B de VAL-0011-02 antes del merge: carga instalada 3,5 A (sin la doble corrección por frío), banda 3,5–4,9 A, 5,14 A, lógica en W, UVLO de bajada y versión de las checklists | VAL-0011-02 |
+| 2026-11-05 | coordinador | Cierra la spec. Pendiente fuera de la rama: memoria de ing-esquematicos (≈ 4 A) | VAL-0011-02 |

@@ -1,6 +1,6 @@
 # Checklist de revisión de layout
 
-**Versión:** v3 (2026-11-04). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v4 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Reglas y verificación
 
@@ -16,14 +16,14 @@
 - [ ] Buck junto a la entrada con bucle de conmutación mínimo.
 - [ ] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas (AMB-02).
 - [ ] Divisor de VIN alejado del buck y de las salidas.
-- [ ] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5 A, y retornos GND de los bornes de salida para el total de ALI-12 (FAB-03).
+- [ ] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5,1 A, y retornos GND de los bornes de salida para la corriente máxima del limitador, 4,9 A (FAB-03).
 - [ ] Dimensiones dentro del objetivo (FAB-08) y 4 taladros M3.
 - [ ] Presupuesto de longitud de cada borde con los taladros M3 y todos los conectores de FAB-07.
 
 ## Potencia y cargas
 
 - [ ] Anchos de pista según la tabla de restricciones de layout del esquema.
-- [ ] Pistas de las salidas para la corriente de REL-05 con ΔT ≤ 10 °C, y separación de la clase `Salidas` (FAB-03).
+- [ ] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
 - [ ] Número de vías suficiente en cada cambio de capa de potencia.
 
 ## Masa
@@ -51,3 +51,4 @@
 | v1 | 2026-11-03 | Versión inicial |
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): bornes en dos bordes, sensor aislado térmicamente, sin zona del lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02: bus de salidas y retornos para 4–5 A, presupuesto de los bordes |
+| v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004): pistas y retornos de salida para la corriente máxima del limitador. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01) |
