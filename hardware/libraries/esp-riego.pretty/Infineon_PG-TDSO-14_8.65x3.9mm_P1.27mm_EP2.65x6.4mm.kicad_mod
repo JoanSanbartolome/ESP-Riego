@@ -1,0 +1,311 @@
+(footprint "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
+	(version 20260206)
+	(generator "jr-conformidad")
+	(layer "F.Cu")
+	(descr "Infineon PG-TDSO-14-11, 14 pines, paso 1,27 mm, cuerpo 8,65 x 3,9 mm, pad termico 2,65 x 6,4 mm (VS). Land pattern oficial de Infineon: https://www.infineon.com/package/PG-TDSO-14-11 (imagen footprint; pads 0,65 x 1,34, filas a 5,46, pasta del pad termico en 2 ventanas de 2,95 x 2,45 con 0,3 entre ellas). Cuerpo: datasheet BTT6050-1ERA Rev.1.00 p.49, fig. 53.")
+	(tags "Infineon PG-TDSO-14 BTT6050 BTT6030 PROFET")
+	(property "Reference" "REF**"
+		(at 0 -5.5 0)
+		(layer "F.SilkS")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
+		(at 0 5.5 0)
+		(layer "F.Fab")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.infineon.com/assets/row/public/documents/10/49/infineon-btt6050-1era-datasheet-en.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "PG-TDSO-14 14-pin gull-wing power package with exposed tab"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_line
+		(start -1.15 -4.325)
+		(end 1.95 -4.325)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "4f6a5b38-0a13-45ff-87f5-997e7fdcb925")
+	)
+	(fp_line
+		(start 1.95 -4.325)
+		(end 1.95 4.325)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "0d50a047-81ce-42c3-8e8b-dbecbde209bb")
+	)
+	(fp_line
+		(start 1.95 4.325)
+		(end -1.95 4.325)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "87f32046-02f7-4973-9031-8327aa83002c")
+	)
+	(fp_line
+		(start -1.95 4.325)
+		(end -1.95 -3.5250000000000004)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "d3b597a8-4267-4563-a9c0-9accfc5c056a")
+	)
+	(fp_line
+		(start -1.95 -3.5250000000000004)
+		(end -1.15 -4.325)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "b7015217-3c38-4892-b4c6-5b5e8b5fb435")
+	)
+	(fp_line
+		(start -1.95 -4.45)
+		(end 1.95 -4.45)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "c50ed4f0-1d88-4b01-8a91-65646b66f1e7")
+	)
+	(fp_line
+		(start -1.95 4.45)
+		(end 1.95 4.45)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "b2149ae9-e2a5-46e6-8db4-87c20519714d")
+	)
+	(fp_poly
+		(pts
+			(xy -4.3 -4.11) (xy -3.75 -3.81) (xy -4.3 -3.51)
+		)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "2fbe29f0-b24e-43b9-9dba-c90f0a16e0e1")
+	)
+	(fp_poly
+		(pts
+			(xy -4.0 -4.1) (xy -3.5 -3.81) (xy -4.0 -3.5)
+		)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "5d3a38c1-3d09-4ae8-ae7e-2da27c0f3265")
+	)
+	(fp_line
+		(start -3.65 -4.6)
+		(end 3.65 -4.6)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "13d156a0-27bc-43af-98ae-14a96202af45")
+	)
+	(fp_line
+		(start 3.65 -4.6)
+		(end 3.65 4.6)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "1bcb8ae8-daa2-407c-b4a3-f035465fee2b")
+	)
+	(fp_line
+		(start 3.65 4.6)
+		(end -3.65 4.6)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "c9add489-319a-4679-bdba-244c78c3f0ef")
+	)
+	(fp_line
+		(start -3.65 4.6)
+		(end -3.65 -4.6)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "f9253fbc-6937-4c40-b225-33d0b47060ad")
+	)
+	(pad "1" smd roundrect
+		(at -2.73 -3.81)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "392bb7a4-02a5-4a1c-898a-e6efc1642d34")
+	)
+	(pad "2" smd roundrect
+		(at -2.73 -2.54)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "13600e84-f77f-49b7-a179-51bcb4b9b1df")
+	)
+	(pad "3" smd roundrect
+		(at -2.73 -1.27)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "e4cadaea-710f-4e54-9482-6dd6179242c0")
+	)
+	(pad "4" smd roundrect
+		(at -2.73 0.0)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "1d9dfb2a-02fa-4b0a-800d-09708bdd0aac")
+	)
+	(pad "5" smd roundrect
+		(at -2.73 1.27)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "16585e01-937a-4e33-a0b9-da5f5d229fa8")
+	)
+	(pad "6" smd roundrect
+		(at -2.73 2.54)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "9ce60f57-f824-421a-ae8d-94bec0e58e47")
+	)
+	(pad "7" smd roundrect
+		(at -2.73 3.81)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "99929d22-59f4-49f9-9b18-6ef8d30f3f32")
+	)
+	(pad "8" smd roundrect
+		(at 2.73 3.81)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "58841442-cf51-45bc-9205-0a952d4093b9")
+	)
+	(pad "9" smd roundrect
+		(at 2.73 2.54)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "4b4b88e1-a9ab-4970-ac41-4950e4c62cac")
+	)
+	(pad "10" smd roundrect
+		(at 2.73 1.27)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "55817fc6-52c2-4c54-812b-d15401b5599d")
+	)
+	(pad "11" smd roundrect
+		(at 2.73 0.0)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "b6eaada2-1f64-42d1-8df6-f5da9a5c45bf")
+	)
+	(pad "12" smd roundrect
+		(at 2.73 -1.27)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "8bde9bcb-cbaf-466c-b07f-286d66c8b49f")
+	)
+	(pad "13" smd roundrect
+		(at 2.73 -2.54)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "4aac581f-25ad-460c-ab74-26987e6c5223")
+	)
+	(pad "14" smd roundrect
+		(at 2.73 -3.81)
+		(size 1.34 0.65)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "b1384649-7d44-4a88-86d5-5924416015f3")
+	)
+	(pad "15" smd rect
+		(at 0 0)
+		(size 2.65 6.4)
+		(layers "F.Cu" "F.Mask")
+		(uuid "bba0cda9-c6d4-4d2a-b182-1e3c34af77b3")
+	)
+	(pad "" smd rect
+		(at 0 -1.625)
+		(size 2.45 2.95)
+		(layers "F.Paste")
+		(uuid "5e6e324a-7afa-4f85-abb3-ec43eb9c92d9")
+	)
+	(pad "" smd rect
+		(at 0 1.625)
+		(size 2.45 2.95)
+		(layers "F.Paste")
+		(uuid "5232e026-4a2e-4fcb-8e4d-808affc53dc8")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/../libraries/3d/Infineon_PG-TDSO-14.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

@@ -2,15 +2,15 @@
 id: SPEC-0015
 titulo: Recopilación de componentes de la v2
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0015-recopilacion-componentes
 requisitos: [MCU-01, MCU-03, REL-03, ALI-04, ALI-13, AMB-01, FAB-05, FAB-07, KIC-01]
 depende_de: [SPEC-0011]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0015-02
 ---
 
 # SPEC-0015 · Recopilación de componentes de la v2
@@ -95,3 +95,8 @@ Cada componente ya elegido o candidato nombrado en los requisitos y decisiones d
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (abierta) | |
+| 2026-11-05 | jr-conformidad | 11 fichas, datasheets, librería esp-riego y 3D | `8503def` |
+| 2026-11-05 | ing-validacion | VAL-0015-01: APROBADO_CON_OBSERVACIONES (M 3 · B 7) | `2e0b34a` |
+| 2026-11-05 | jr-conformidad + modelador | Correcciones: land pattern de Infineon, borne, fichas; STEP de SolidCraft | `daa0aa6` |
+| 2026-11-05 | ing-validacion | VAL-0015-02 (ligera): APROBADO_CON_OBSERVACIONES (B 2) | |
+| 2026-11-05 | coordinador | Cierra la spec; las B van a la spec de mantenimiento | VAL-0015-02 |

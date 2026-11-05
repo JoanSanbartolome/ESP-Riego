@@ -1,4 +1,5 @@
 - [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda del limitador frente al ajuste de la fuente (OLP en % de potencia)
 - [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF codificados → PNG, tramos de precio, hold-up con UVLO, corto vs fuente
 - [Revisión de importaciones](revision-importaciones.md): migraciones, copias y limpiezas KiCad; diff con mapeo, cajetín en PDF, netlist de la base, lib-tables heredadas, `pcb upgrade` como prueba
+- [Revisión de piezas](revision-piezas.md): símbolos/huellas/3D creados; land pattern en la web del encapsulado, pin 1 del 3D con render, corte A-A en bornes, API JLCPCB
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG

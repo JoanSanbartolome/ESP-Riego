@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 10 · descartada 1.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 11 · descartada 1.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 10 · descartada 1.
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | — | 2026-11-05 | — |
-
-## Cerradas (10)
+## Cerradas (11)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -33,6 +27,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 10 · descartada 1.
 | [SPEC-0011](specs/SPEC-0011-requisitos-v04.md) | Requisitos v0.4: ventana del limitador y sobrecarga por canal | 0 | coordinador | `spec/SPEC-0011-requisitos-v04` | VAL-0011-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0013](specs/SPEC-0013-copia-v2.md) | Copia de trabajo de la v2 | 3 | jr-conformidad | `spec/SPEC-0013-copia-v2` | VAL-0013-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md) | Limpieza de la copia de trabajo de la v2 | 3 | ing-esquematicos (esquema) e ing-layout (PCB) | `spec/SPEC-0014-limpieza-v2` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | VAL-0015-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 
 ## Descartadas (1)
 
@@ -68,4 +63,6 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 10 · descartada 1.
 | [VAL-0013-01](informes/VAL-0013-01.md) | SPEC-0013 | RECHAZADO | `e808e47` | 2026-11-05 |
 | [VAL-0013-02](informes/VAL-0013-02.md) | SPEC-0013 | APROBADO_CON_OBSERVACIONES | `8e0fd4e` | 2026-11-05 |
 | [VAL-0014-01](informes/VAL-0014-01.md) | SPEC-0014 | APROBADO_CON_OBSERVACIONES | `9a8c24f` | 2026-11-05 |
+| [VAL-0015-01](informes/VAL-0015-01.md) | SPEC-0015 | APROBADO_CON_OBSERVACIONES | `8503def` | 2026-11-05 |
+| [VAL-0015-02](informes/VAL-0015-02.md) | SPEC-0015 | APROBADO_CON_OBSERVACIONES | `daa0aa6` | 2026-11-05 |
 
