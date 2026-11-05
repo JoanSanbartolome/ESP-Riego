@@ -2,15 +2,15 @@
 id: SPEC-0010
 titulo: Correcciones de la importación de la v1
 fase: 1
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0010-correcciones-importacion-v1
 requisitos: [KIC-01]
 depende_de: [SPEC-0009]
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0010-01
 ---
 
 # SPEC-0010 · Correcciones de la importación de la v1
@@ -55,3 +55,7 @@ Las librerías de la v1 en `hardware/libraries/` son fieles a las del TFG (o la 
 |---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | El usuario elige la opción (a) para el Wemos; abre la spec | |
+| 2026-11-05 | coordinador | docs/01: 36 vías | `acf0b4a` |
+| 2026-11-05 | jr-conformidad | Wemos y jack convertidos del JSON; README y log de SPEC-0009 corregidos; DRC 40 | `76f02f8` |
+| 2026-11-05 | ing-validacion | VAL-0010-01: APROBADO_CON_OBSERVACIONES (B 2) | |
+| 2026-11-05 | coordinador | Cierra la spec. Las observaciones B y las propuestas de checklist de VAL-0009-01 y VAL-0010-01 pasan a una spec propuesta | VAL-0010-01 |
