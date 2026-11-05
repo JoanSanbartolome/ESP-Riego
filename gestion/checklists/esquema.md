@@ -48,7 +48,7 @@
 ## Salidas e interfaces de campo
 
 - [ ] Salidas desactivadas durante el reset y el flasheo (REL-04).
-- [ ] Protección de la carga inductiva según la tecnología elegida: diodo, *snubber* o varistor (REL-03).
+- [ ] Protección de la carga inductiva según REL-03: desmagnetización en el *high-side* (DEC-0003) dentro de su curva E_AS.
 - [ ] Corriente por canal y total según REL-05 y ALI-12.
 - [ ] Salidas de diagnóstico analógicas (IS) hacia el ADC1 con la tensión máxima en fallo acotada por debajo del máximo del pin; *pull-up* de carga abierta con fuga ≤ 1 mA (REL-10).
 - [ ] Un corto en una salida: se comprueba qué ven el resto de canales y la lógica hasta que actúa el limitador común (REL-08).
@@ -65,6 +65,5 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
-| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002). Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
+| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02 y VAL-0005-01: TVS frente a polaridad, divisor de VIN, limitador común, energía inductiva con la curva E_AS, *hold-up*, IS acotada y corto en una salida |
-| v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01 |

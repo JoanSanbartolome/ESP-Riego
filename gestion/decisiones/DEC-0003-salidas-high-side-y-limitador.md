@@ -5,7 +5,7 @@ fecha: 2026-11-04
 estado: aceptada
 decide: usuario
 specs: [SPEC-0005, SPEC-0007]
-requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, REL-10, FAB-03, FAB-07, FAB-08]
+requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, REL-10, AMB-02, FAB-03, FAB-06, FAB-07, FAB-08]
 ---
 
 # DEC-0003 · Salidas con *high-side* inteligente y limitador común
@@ -37,7 +37,7 @@ VAL-0005-01-01 señaló que, con un corto en una salida, la fuente de 5 A limita
 
 - **D2: solo salida alimentada** (confirmada por el usuario, decisión 3).
   - El BTT6050 conmuta el positivo del bus y no ofrece contacto libre de potencial.
-  - Se retira el contacto libre de REL-08, y REL-02 queda en ≤ 36 V DC.
+  - Se retira el contacto libre de REL-08, y REL-02 queda en ≤ 30 V DC (la tensión de entrada, ALI-01).
   - Una carga con su propia fuente, como una válvula de 24 V AC, se puede mover con un relé externo gobernado por una salida, o con el módulo de expansión (D9).
   - Esto reduce la flexibilidad que el usuario pedía en DEC-0002 (decisión 6); el usuario lo acepta.
 - **Limitador común (ALI-13):**
