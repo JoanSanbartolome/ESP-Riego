@@ -1,3 +1,3 @@
-- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — base JLCPCB del MCP vacía; endpoints de LCSC/JLCPCB y pdftotext a stdout para datasheets
+- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — base JLCPCB vacía; JSON de LCSC, PDFs de ti.com, ADC del S3 a 6 dB; fichas fuera de mi zona
 - [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004: BTT6050 a 24 V DC, limitador 3,5–4,9 A, carga 3,5 A; valores de válvula y piezas descartadas
 - [Trucos de esquema y cajetín](reference_trucos_esquema.md) — lo que el MCP no borra, textos multilínea, COMMENT1 ≈ 50 caracteres, PDF con ../libraries

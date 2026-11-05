@@ -42,7 +42,7 @@ validacion:
 ## Entregables
 
 - `docs/diseno/alimentacion.md`.
-- Fichas nuevas en `hardware/componentes/` para las piezas elegidas que no la tengan.
+- Datos de las fichas nuevas en un anexo de `docs/diseno/alimentacion.md` (las fichas las crea jr-conformidad en SPEC-0018).
 - Log `gestion/logs/SPEC-0017/01-ing-esquematicos.md` con el repaso de checklist.
 
 ## Criterios de aceptación
@@ -61,3 +61,4 @@ validacion:
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
+| 2026-11-05 | coordinador | Fichas pasan a SPEC-0018 (zona de jr-conformidad) | |
