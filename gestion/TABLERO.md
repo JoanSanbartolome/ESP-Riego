@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 0 · cerrada 8 · descartada 1.
+Specs por estado: propuesta 4 · abierta 1 · cerrada 8 · descartada 1.
 
 ## Propuestas (4)
 
@@ -12,6 +12,12 @@ Specs por estado: propuesta 4 · abierta 0 · cerrada 8 · descartada 1.
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0013](specs/SPEC-0013-copia-v2.md) | Copia de trabajo de la v2 | 3 | jr-conformidad | `spec/SPEC-0013-copia-v2` | — | 2026-11-05 | — |
 
 ## Cerradas (8)
 
