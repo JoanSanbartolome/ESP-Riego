@@ -2,7 +2,7 @@
 id: SPEC-0018
 titulo: Piezas del bloque de alimentación
 fase: 2
-estado: propuesta
+estado: abierta
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0018-piezas-alimentacion
@@ -55,3 +55,4 @@ Todas las piezas de la lista de `docs/diseno/alimentacion.md` tienen símbolo, h
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
