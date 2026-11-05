@@ -6,7 +6,7 @@ estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0011-requisitos-v04
-requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-09]
+requisitos: [ALI-01, ALI-04, ALI-06, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-03, FAB-09]
 depende_de: [SPEC-0007]
 creada: 2026-11-05
 cerrada:
@@ -73,3 +73,5 @@ validacion:
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | El usuario fija la fuente (LED de 24 V y 5 A) y descarta la protección por canal; abre la spec | DEC-0004 |
+| 2026-11-05 | ing-validacion | VAL-0011-01: RECHAZADO (M 1 · B 8) | `4a0b771` |
+| 2026-11-05 | coordinador | Corrige VAL-0011-01: fuente en su ajuste de fábrica, carga instalada en frío (3,9 A), banda 3,9–4,9 A y hallazgos B | VAL-0011-01 |
