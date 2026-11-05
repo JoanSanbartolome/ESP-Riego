@@ -1,0 +1,2 @@
+- [Efectos del MCP de KiCad](mcp-efectos-secundarios.md) — open/close reescribe .kicad_pro y deja .kicad_prl/.mcp-backups; sync no copia campos
+- [Guardia y rutas literales](guardia-rutas-literales.md) — en mkdir/rm/cp usar rutas absolutas literales, no variables de shell

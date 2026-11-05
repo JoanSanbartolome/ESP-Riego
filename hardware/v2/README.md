@@ -15,8 +15,17 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 
 La hoja `Sensores` (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02). Las hojas no tienen pines jerárquicos: cada bloque los crea cuando los necesite.
 
+## PCB
+
+Placa vacía, sincronizada con el esquema (SPEC-0014; detalle en `gestion/logs/SPEC-0014/02-ing-layout.md`):
+
+- Contorno **preliminar** de 100 × 70 mm en `Edge.Cuts` (FAB-08), de (100, 60) a (200, 130) mm; el origen auxiliar y el de la rejilla están en la esquina inferior izquierda. Un texto en `User.Comments` lo marca como preliminar hasta el *floorplan*.
+- Solo H1–H4 (`MountingHole_3.2mm_M3_Pad_Via`, anillo sin red), a 4 mm de los dos bordes de su esquina: H3 arriba a la izquierda, H1 arriba a la derecha, H4 abajo a la izquierda y H2 abajo a la derecha.
+- Reglas de FAB-02 en el `.kicad_pro`: pista y separación ≥ 0,2 mm, vía 0,6/0,3 mm, cobre a borde ≥ 0,5 mm. Solo existe la clase `Default` (0,2 mm, vía 0,6/0,3). Las clases de FAB-03 y el `.kicad_dru` (KIC-04) llegan con el layout.
+- `pcbplotparams/outputdirectory` vacío y sin `embedded_files`.
+
 ## Cómo se trabaja
 
-Cada bloque llega con su propia spec. La PCB la sincroniza `ing-layout` con el esquema (SPEC-0014, segunda parte: contorno preliminar de 100 × 70 mm y reglas de FAB-02); el layout definitivo se hace cuando el esquema esté estable.
+Cada bloque llega con su propia spec. La PCB se actualiza desde el esquema en cada bloque; el layout definitivo se hace cuando el esquema esté estable.
 
-Las librerías están en `../libraries/` (tablas con `${KIPRJMOD}/../libraries/...`). Verificación: `python herramientas/verificar.py hardware/v2`. Tras limpiar el esquema: ERC 0. El DRC y la paridad siguen con incidencias hasta que la PCB se sincronice.
+Las librerías están en `../libraries/` (tablas con `${KIPRJMOD}/../libraries/...`). Verificación: `python herramientas/verificar.py hardware/v2`. Estado tras SPEC-0014: ERC 0, DRC 0 (0 sin conectar) y paridad 0.
