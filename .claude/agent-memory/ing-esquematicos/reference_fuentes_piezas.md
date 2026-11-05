@@ -19,6 +19,9 @@ Los PDF de LCSC de las PROFET clásicas de Infineon (BTS428L2, BSP752R, BSP762T)
 
 Desde Bash, curl descarga al *scratchpad* los PDF de `datasheet.lcsc.com` y lee el JSON de `wmsc.lcsc.com` (campo `pdfUrl`). st.com no responde a curl, y el clasificador bloquea forzarlo con cabeceras de navegador: usar la copia de LCSC. Para descargar: `cd` al *scratchpad* y `curl -o` con nombre relativo. La guardia lee `<…>` y `>` dentro de un comando como redirección aunque vayan dentro de una cadena de Python: para cambiar textos con esos signos, usar Edit. Con PyMuPDF, usar `sys.stdout.reconfigure(encoding='utf-8')`, porque con `-I` no se lee PYTHONIOENCODING.
 
+Tipo Basic/Extended y stock de JLCPCB por curl (2026-11-05): POST JSON `{"keyword":"Cxxxx" o "4.7uF 100V","currentPage":1,"pageSize":100}` a `https://jlcpcb.com/api/overseas-pcb-order/v1/shoppingCart/smtGood/selectSmtComponentList`; campos `data.componentPageInfo.list[].componentLibraryType` (`base`/`expand`) y `stockCount`. El stock de LCSC puede ser 0 con miles en JLCPCB (C28323). No hay 4,7 µF ≥ 100 V Basic.
+SimSurfing: `curl -L` a `product.samsungsem.com/mlcc/<MPN sin última letra>.do` al *scratchpad* y Grep sobre el HTML (`"graphType" : "DCBias"|"TCC"|"RippleCurr"`, puntos `"x"`/`"y"`). La guardia bloqueó un `python -c` que leía ese HTML con `.replace(`: usar Grep/Read.
+
 `search_parts_registry` (PartReel) solo da huellas y símbolos, sin datos de compra.
 
 Lo que funcionó en SPEC-0017 (2026-11-05):
