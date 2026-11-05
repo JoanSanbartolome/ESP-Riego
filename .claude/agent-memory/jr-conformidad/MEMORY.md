@@ -1,1 +1,2 @@
 - [Trucos de importación del TFG](importar-tfg-trucos.md) — guardia, kicad-cli upgrade, conversión de .lib/EasyEDA, KICAD9→KICAD10
+- [Recopilar componentes](recopilar-componentes-trucos.md) — API JLCPCB para stock/precio, PDFs, 3D ausentes en KiCad 10.0.6, STEP válidos
