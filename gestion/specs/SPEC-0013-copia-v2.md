@@ -2,15 +2,15 @@
 id: SPEC-0013
 titulo: Copia de trabajo de la v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0013-copia-v2
 requisitos: [KIC-01, KIC-02]
 depende_de: [SPEC-0010, SPEC-0011]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0013-02
 ---
 
 # SPEC-0013 · Copia de trabajo de la v2
@@ -42,7 +42,7 @@ validacion:
     - fecha 2026-11-05;
     - autor y empresa «Joan San Bartolomé Ferri».
     
-    Se quitan los comentarios del TFG («Plano General PCB», «001», «SE», «1:1», «Universitat Politecnica de Valencia»). `comment 1` = «ESP-Riego v2», porque la hoja de dibujo lo pinta como «PROYECTO:».
+    Se quitan los comentarios del TFG («Plano General PCB», «001», «SE», «1:1», «Universitat Politecnica de Valencia»). `comment 1` = «ESP-Riego v2» (la hoja de dibujo del TFG lo pintaba como «PROYECTO:»; su uso por bloque queda para SPEC-0014, VAL-0013-02-03).
   - **Hoja de dibujo propia de la v2** (corrección tras VAL-0013-01): `hardware/libraries/ESP-Riego.kicad_wks`, derivada de `Cajetin_Kicad.kicad_wks`, sin ningún texto fijo del TFG y con `${TITLE}`, `${REVISION}`, `${ISSUE_DATE}`, `${COMPANY}`, `${COMMENT1}` y `${SHEETNAME}`. Se apunta desde las dos entradas `page_layout_descr_file` de `esp-riego.kicad_pro`. `Cajetin_Kicad.kicad_wks` se queda como está para la v1.
   - Rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`, `step`, `svg`): vacías o dentro de `fabricacion/v2.0/`.
   - `hardware/v2/README.md` breve:
@@ -82,3 +82,6 @@ validacion:
 | 2026-11-05 | coordinador | Crea la spec (abierta) | |
 | 2026-11-05 | ing-validacion | VAL-0013-01: RECHAZADO (A 1 · M 1 · B 1), cajetín | |
 | 2026-11-05 | coordinador | Corrige la spec: hoja de dibujo propia de la v2, comment 1 y rutas de salida | VAL-0013-01 |
+| 2026-11-05 | jr-conformidad | Corrige el cajetín: ESP-Riego.kicad_wks, comment 1 y rutas de salida | `8e0fd4e` |
+| 2026-11-05 | ing-validacion | VAL-0013-02: APROBADO_CON_OBSERVACIONES (B 3) | |
+| 2026-11-05 | coordinador | Cierra la spec. Las 3 observaciones B pasan a SPEC-0014 (limpieza de hardware/v2) | VAL-0013-02 |
