@@ -20,3 +20,10 @@ Los PDF de LCSC de las PROFET clásicas de Infineon (BTS428L2, BSP752R, BSP762T)
 Desde Bash, curl descarga al *scratchpad* los PDF de `datasheet.lcsc.com` y lee el JSON de `wmsc.lcsc.com` (campo `pdfUrl`). st.com no responde a curl, y el clasificador bloquea forzarlo con cabeceras de navegador: usar la copia de LCSC. Para descargar: `cd` al *scratchpad* y `curl -o` con nombre relativo. La guardia lee `<…>` y `>` dentro de un comando como redirección aunque vayan dentro de una cadena de Python: para cambiar textos con esos signos, usar Edit. Con PyMuPDF, usar `sys.stdout.reconfigure(encoding='utf-8')`, porque con `-I` no se lee PYTHONIOENCODING.
 
 `search_parts_registry` (PartReel) solo da huellas y símbolos, sin datos de compra.
+
+Lo que funcionó en SPEC-0017 (2026-11-05):
+- Scripts propios del *scratchpad* escritos con Write (no con heredoc: la guardia lee el `>` como redirección). Un `lcsc.py` que recorre códigos C y descarga el `pdfUrl` con urllib, y otro que pasa una página de PDF a PNG con PyMuPDF para leer curvas. Write crea las carpetas, así que no hace falta `mkdir`.
+- `curl -L -A "Mozilla/5.0"` sobre `https://www.ti.com/lit/ds/symlink/<pieza>.pdf` descarga la versión inglesa vigente. La copia de LCSC de TI puede estar en chino.
+- El JSON de LCSC devuelve `result: null` para códigos retirados, como algunos Sunlord SWPA/MWSA.
+- ESP32-S3 (datasheet v2.2, tabla 5-6): error total del ADC de ± 50 mV a 12 dB y ± 10 mV a 6 dB. Para medidas de ± 3 %, usar 6 dB.
+- **`hardware/componentes/` no es de mi zona.** La guardia bloquea las fichas: van como anexo en `docs/diseno/` y se piden en PENDIENTE.

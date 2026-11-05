@@ -24,7 +24,10 @@ Todas las piezas de la lista de `docs/diseno/alimentacion.md` tienen símbolo, h
 - Incluye:
   - símbolos, huellas y modelos 3D que falten, reutilizando las librerías oficiales de KiCad cuando existan;
   - campos `LCSC`, `MPN`, `Fabricante`, `Datasheet` y tipo de montaje de JLCPCB (básica o extendida) y stock;
-  - fichas de `hardware/componentes/` actualizadas.
+  - fichas de `hardware/componentes/`: crear las del Anexo A de `docs/diseno/alimentacion.md` y añadir a la de TPS2663 la variante elegida;
+  - huella de JP1 `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (DEC-0006, hueco de 0,6 mm por VAL-0017-01-01; medidas en `alimentacion.md`);
+  - VAL-0017-01-05: *derating* DC y térmico de los cerámicos con la curva del fabricante (prioridad: C11/C12 y C16/C17);
+  - pendientes del log de SPEC-0017 (pines de SUD50P06-15 frente a SQD50P06-15L, de TLV1117-33 frente a TLV1117LV, símbolo de LMR36520 a partir de LMR36510ADDA, stock de R8).
 - Excluye:
   - cambiar valores o piezas elegidas en SPEC-0017 (si una no está disponible, se propone una alternativa al coordinador);
   - editar los esquemas o la PCB de `hardware/v2`.

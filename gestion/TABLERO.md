@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 13 · descartada 3.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
 | [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | — | 2026-11-05 | — |
 | [SPEC-0019](specs/SPEC-0019-hoja-alimentacion.md) | Hoja de alimentación de la v2 | 3 | ing-esquematicos | `spec/SPEC-0019-hoja-alimentacion` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | — | 2026-11-05 | — |
-
-## Cerradas (12)
+## Cerradas (13)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -35,6 +29,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
 | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md) | Limpieza de la copia de trabajo de la v2 | 3 | ing-esquematicos (esquema) e ing-layout (PCB) | `spec/SPEC-0014-limpieza-v2` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | VAL-0015-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | VAL-0016-02 (APROBADO) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | VAL-0017-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 
 ## Descartadas (3)
 
@@ -53,6 +48,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
 | [DEC-0003](decisiones/DEC-0003-salidas-high-side-y-limitador.md) | Salidas con high-side inteligente BTT6050 y limitador común del bus de salidas | aceptada | usuario | 2026-11-04 |
 | [DEC-0004](decisiones/DEC-0004-fuente-led-y-carga-maxima.md) | Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia | aceptada | usuario | 2026-11-05 |
 | [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | aceptada | usuario | 2026-11-05 |
+| [DEC-0006](decisiones/DEC-0006-uvlo-y-puente-del-limitador.md) | UVLO a 13,5 V y limitador TPS26632 con puente de soldadura | aceptada | usuario | 2026-11-05 |
 
 ## Informes de validación
 
@@ -76,4 +72,6 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
 | [VAL-0015-02](informes/VAL-0015-02.md) | SPEC-0015 | APROBADO_CON_OBSERVACIONES | `daa0aa6` | 2026-11-05 |
 | [VAL-0016-01](informes/VAL-0016-01.md) | SPEC-0016 | APROBADO_CON_OBSERVACIONES | `d125c37` | 2026-11-05 |
 | [VAL-0016-02](informes/VAL-0016-02.md) | SPEC-0016 | APROBADO | `55fc4ab` | 2026-11-05 |
+| [VAL-0017-01](informes/VAL-0017-01.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `cfe843a` | 2026-11-05 |
+| [VAL-0017-02](informes/VAL-0017-02.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `5117c57` | 2026-11-05 |
 

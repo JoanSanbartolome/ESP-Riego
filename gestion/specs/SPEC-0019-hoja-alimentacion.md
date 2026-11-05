@@ -25,6 +25,7 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
   - sustituir el contenido de la hoja por el bloque de la v2, con las piezas de SPEC-0018;
   - etiquetas jerárquicas para 24 V del bus de salidas, 5 V, 3,3 V, GND, VIN_SENSE, habilitación e IMON del limitador;
   - VAL-0014-01-01 (textos de bloque de `conectores.kicad_sch` y `alimentacion.kicad_sch`) y VAL-0014-01-02 (quitar de `fp-lib-table` y `sym-lib-table` las librerías de la v1 que no se usen);
+  - JP1 en paralelo con U1 (DEC-0006), con el texto «abierto = limitador · cerrado = sin limitador», y en `hardware/v2/README.md` lo que se pierde con el puente cerrado;
   - mantener la paridad esquema–PCB que exija `verificar.py` (las piezas nuevas se sincronizan con la PCB sin colocarlas).
 - Excluye:
   - colocación y rutado;

@@ -2,15 +2,15 @@
 id: SPEC-0017
 titulo: Selección y cálculos del bloque de alimentación
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0017-calculos-alimentacion
 requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-07, ALI-08, ALI-09, ALI-10, ALI-11, ALI-12, ALI-13]
 depende_de: []
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0017-02
 ---
 
 # SPEC-0017 · Selección y cálculos del bloque de alimentación
@@ -42,18 +42,18 @@ validacion:
 ## Entregables
 
 - `docs/diseno/alimentacion.md`.
-- Fichas nuevas en `hardware/componentes/` para las piezas elegidas que no la tengan.
+- Datos de las fichas nuevas en un anexo de `docs/diseno/alimentacion.md` (las fichas las crea jr-conformidad en SPEC-0018).
 - Log `gestion/logs/SPEC-0017/01-ing-esquematicos.md` con el repaso de checklist.
 
 ## Criterios de aceptación
 
-- [ ] Cada requisito ALI-01…ALI-13 tiene en el documento la pieza o el cálculo que lo cumple, con la condición de partida de cada cifra (tensión, temperatura, tolerancia).
-- [ ] UVLO: arranque en frío desde 17 V y funcionamiento hasta 15,5 V con las tolerancias del divisor y de la referencia (ALI-06).
-- [ ] Tensión nominal de cada pieza del nodo de entrada ≥ Vc máx de la TVS + 10 % (ALI-05).
-- [ ] Banda del limitador dentro de 3,5–4,9 A con sus tolerancias; buck alimentado antes del limitador (DEC-0004, S2/S4).
-- [ ] Medida de VIN ≤ ± 3 % en todo el rango (ALI-09).
-- [ ] Presupuesto de potencia por raíl con margen frente a la corriente nominal de cada regulador.
-- [ ] Lista de piezas con LCSC y stock, y marca de las que necesitan pieza nueva.
+- [x] Cada requisito ALI-01…ALI-13 tiene en el documento la pieza o el cálculo que lo cumple, con la condición de partida de cada cifra (tensión, temperatura, tolerancia).
+- [x] UVLO: arranque en frío desde 17 V y funcionamiento hasta 15,5 V con las tolerancias del divisor y de la referencia (ALI-06).
+- [x] Tensión nominal de cada pieza del nodo de entrada ≥ Vc máx de la TVS + 10 % (ALI-05).
+- [x] Banda del limitador dentro de 3,5–4,9 A con sus tolerancias; buck alimentado antes del limitador (DEC-0004, S2/S4).
+- [x] Medida de VIN ≤ ± 3 % en todo el rango (ALI-09).
+- [x] Presupuesto de potencia por raíl con margen frente a la corriente nominal de cada regulador.
+- [x] Lista de piezas con LCSC y stock, y marca de las que necesitan pieza nueva.
 
 ## Registro
 
@@ -61,3 +61,5 @@ validacion:
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
+| 2026-11-05 | coordinador | Fichas pasan a SPEC-0018 (zona de jr-conformidad) | |
+| 2026-11-05 | coordinador | Cierra la spec; M de VAL-0017-02 corregida y comprobada con Grep | VAL-0017-02 (APROBADO_CON_OBSERVACIONES) |

@@ -2,4 +2,5 @@
 - [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF codificados → PNG, tramos de precio, hold-up con UVLO, corto vs fuente
 - [Revisión de importaciones](revision-importaciones.md): migraciones, copias y limpiezas KiCad; diff con mapeo, cajetín en PDF, netlist de la base, lib-tables heredadas, `pcb upgrade` como prueba
 - [Revisión de piezas](revision-piezas.md): símbolos/huellas/3D creados; land pattern en la web del encapsulado, pin 1 del 3D con render, corte A-A en bornes, API JLCPCB
+- [Revisión de alimentación](revision-alimentacion.md): alimentacion.md; qué recalcular (UVLO, I_OL, VIN, JP1), datos puntuales de TPS2663/LMR36520/ESP32 ADC, huecos con Vc
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG
