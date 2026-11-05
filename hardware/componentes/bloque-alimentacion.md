@@ -10,11 +10,11 @@ Consulta de LCSC/JLCPCB: **2026-11-05**, API `selectSmtComponentList` de JLCPCB 
 | F1 | 0451010.MRL | Littelfuse | C44479 | Extended · 22 770 | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (3D propio) | `0451010.MRL.md` |
 | Q1 | SQD50P06-15L_GE3 | Vishay | C3281500 | Extended · 5 744 | `Transistor_FET:SUD50P06-15` / `Package_TO_SOT_SMD:TO-252-2` (oficial) | `SQD50P06-15L.md` |
 | D1 | BZT52C15 | MDD | C173427 | Extended · 148 099 | `Device:D_Zener` / `Diode_SMD:D_SOD-123` | `BZT52C15.md` |
-| D2 | SMBJ33A | Littelfuse | C224019 | Extended · 9 670 | `Device:D_TVS` / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
+| D2 | SMBJ33A | Littelfuse | C224019 | Extended · 9 670 | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
 | D3 | SS310 | MDD | C15874 | Extended · 348 658 | `Device:D_Schottky` / `Diode_SMD:D_SMA` | `SS310.md` |
 | D4 | KT-0603R | Hubei KENTO | C2286 | **Basic** · 6 683 182 | `Device:LED` / `LED_SMD:LED_0603_1608Metric` | — |
 | U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_…_ThermalVias` | `TPS2663.md` |
-| U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `Package_SO:Texas_HTSOP-8-1EP_…_ThermalVias` | `LMR36520.md` |
+| U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `esp-riego:Texas_DDA0008B_…_Mask2.71x3.4mm` (propia) | `LMR36520.md` |
 | U3 | TPS2116DRLR | TI | C3235557 | Extended · 54 421 | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` | `TPS2116.md` |
 | U4 | TLV1117LV33DCYR | TI | C15578 | Extended · 1 606 | `Regulator_Linear:TLV1117-33` / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `TLV1117LV.md` |
 | L1 | FXL0650-100-M | cjiang | C475521 | Extended · 38 857 | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` | `FXL0650-100-M.md` |

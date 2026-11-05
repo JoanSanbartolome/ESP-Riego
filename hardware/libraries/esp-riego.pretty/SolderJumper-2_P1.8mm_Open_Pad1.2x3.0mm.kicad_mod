@@ -6,7 +6,7 @@
 	(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm")
 	(tags "solder jumper open 4.9A")
 	(property "Reference" "REF**"
-		(at 0 -2.3 0)
+		(at 0 -2.9 0)
 		(layer "F.SilkS")
 		(uuid "7c6c97c1-c01b-4610-b101-7a5c56845e26")
 		(effects
@@ -53,7 +53,7 @@
 			)
 		)
 	)
-	(zone_connect 1)
+	(zone_connect 2)
 	(attr exclude_from_pos_files exclude_from_bom allow_soldermask_bridges)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_rect
