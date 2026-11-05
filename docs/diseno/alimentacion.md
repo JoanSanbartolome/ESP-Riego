@@ -1,7 +1,7 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
 **Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05.
-**Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004; estudio de salidas S2–S4.
+**Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
 > Datasheets usados (revisión, descargados de ti.com, vishay.com vía LCSC, littelfuse.com vía LCSC y espressif.com; las páginas citadas son las del PDF):
@@ -29,15 +29,17 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 | Medida de VIN | Divisor 100 kΩ / 4,87 kΩ al 0,1 % → ADC1 a 6 dB | Viking ARG03BTC1003 para 100 kΩ | ALI-09 |
 | LED | KT-0603R rojo + 1 kΩ en +3V3 (C2286) | XL-1608SURC-06 (C965799) | ALI-10 |
 | Test points | Pads `TestPoint` (sin pieza) | Keystone 5000/5001 THT | ALI-11 |
+| Puente de U1 | JP1, puente de soldadura de `VIN_PROT` a `BUS_24V` (sin pieza), abierto por defecto | — | DEC-0006 |
 
 Resultados clave:
 
 - **Banda del limitador:** 3,84–4,54 A (4,19 A −8,2 / +8,5 %). Dentro de 3,5–4,9 A; con la lógica, 4,74 A < 5,14 A.
-- **UVLO del buck:** arranque 12,50–14,56 V (nominal 13,54 V); bajada ≤ 14,56 V. Con la caída de las protecciones: arranque ≤ 14,57 V ≤ 17 V y bajada ≤ 14,72 V ≤ 15,5 V.
+- **UVLO del buck:** arranque 12,50–14,56 V (nominal 13,54 V, **decidido en DEC-0006**); bajada ≤ 14,56 V. Con la caída de las protecciones: arranque ≤ 14,57 V ≤ 17 V y bajada ≤ 14,72 V ≤ 15,5 V.
+- **Puente JP1 (DEC-0006):** cortocircuita U1 con estaño si U1 no se monta o falla. Pads de 3,0 mm de ancho para 4,9 A; abierto por defecto (§3.13.9).
 - **Medida de VIN:** error ≤ ± 1,62 % a 17 V y ≤ ± 1,05 % a 31 V (≤ ± 3 %).
 - **Nodo de entrada:** todas las piezas ≥ 60 V (Vc = 53,3 V; +10 % = 58,6 V).
 - **Lógica:** 4,32 W en la entrada (≤ 4,8 W), con 0,45 A en 3,3 V y 0,30 A para el 5 V de la expansión.
-- **Pieza nueva:** solo el símbolo del LMR36520 (hay uno compatible pin a pin). Las huellas existen todas en las librerías oficiales de KiCad 10 (§7).
+- **Piezas nuevas:** el símbolo del LMR36520 (hay uno compatible pin a pin) y la huella del puente JP1 con pads de 3,0 mm (§3.13.9). Las demás huellas existen en las librerías oficiales de KiCad 10 (§7).
 
 ## 1. Datos de partida
 
@@ -170,7 +172,7 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 - **Arranque en frío:** 14,56 + 0,01 = 14,57 V ≤ 17 V ✔ (margen 2,43 V).
 - **Funcionamiento:** bajada máx. + caída = 14,56 + 0,16 = **14,72 V ≤ 15,5 V** ✔ (margen 0,78 V). Prueba de §6 a 16 V bajando desde 24 V: la placa sigue en marcha.
 - **Por encima de la VIN mínima del buck:** VOUT/D_máx + caídas ≈ 6 V < 12,5 V ✔.
-- **Desviación del valor orientativo de ALI-06 (≈ 15 V):** el nominal queda en 13,5 V. Con la tolerancia de EN y sin histéresis mínima garantizada, el arranque máximo tiene que quedarse en ≈ 15,3 V para que la bajada cumpla 15,5 V. Eso fuerza un nominal ≤ 14,4 V. 105 kΩ daría 14,2 V con solo 0,11 V de margen; se prefieren 100 kΩ (0,78 V de margen). No cambia ningún requisito M: se informa al coordinador.
+- **Desviación del valor orientativo de ALI-06 (≈ 15 V):** el nominal queda en 13,5 V. Con la tolerancia de EN y sin histéresis mínima garantizada, el arranque máximo tiene que quedarse en ≈ 15,3 V para que la bajada cumpla 15,5 V. Eso fuerza un nominal ≤ 14,4 V. 105 kΩ daría 14,2 V con solo 0,11 V de margen; se prefieren 100 kΩ (0,78 V de margen). **Decidido por el usuario en DEC-0006** (100 kΩ / 10 kΩ, 13,5 V nominales). La cifra de ALI-06 se corrige en la spec de mantenimiento de la fase.
 - EN a Vc: 53,3/11 = 4,85 V, por debajo de VIN + 0,3 V y de 65 V (p. 5) ✔.
 - C13 con el Thévenin de 9,1 kΩ da τ = 0,91 ms: filtra las caídas de µs de §3.13.4 sin retrasar el arranque de forma apreciable.
 
@@ -336,6 +338,41 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 - 4,54 A (justo bajo el umbral; R_ON 53 mΩ): 1,09 W → ≈ 115 °C. Por debajo de T_J_REG (136 °C mín.) y de TSD (165 °C) ✔.
 - Pad térmico al plano de GND con vías (p. 39).
 
+#### 3.13.9 Puente de soldadura JP1 en paralelo con U1 (DEC-0006)
+
+- **Función:** une `VIN_PROT` (U1 IN) con `BUS_24V` (U1 OUT) con una gota de estaño si U1 no se monta o falla abierto. Por defecto va **abierto**, con U1 montado.
+  - No se cierra con U1 montado y sano: la corriente se lo saltaría.
+  - Si U1 falla en corto, el puente no aporta nada.
+- **Símbolo:** `Jumper:SolderJumper_2_Open` (oficial). Ref. JP1, sin pieza: fuera de BOM y CPL.
+- **Huella:** la oficial `Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` tiene pads de 1,5 mm de ancho, menos que los 2,0 mm de `Power_In` (§8). Se pide una **huella nueva** en `esp-riego.pretty` (SPEC-0018), con la misma construcción que la oficial: pads solo en F.Cu y F.Mask, sin pasta.
+  - Nombre propuesto: `SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm`.
+  - Pads rectangulares de 1,2 mm (en el sentido de la corriente) × 3,0 mm (ancho), separados 0,4 mm; paso 1,6 mm.
+  - Abertura de máscara común a los dos pads y al hueco, para poder puentearlos con el soldador.
+  - Sin pasta: así no se cierra en el *reflow*.
+- **Cálculo para 4,9 A** (la corriente máxima de la banda; ALI-13, REL-05):
+
+| Tramo | Cálculo | Resultado |
+|---|---|---|
+| Cobre de los pads (1 oz, 3,0 mm) | IPC-2221 externa: 5,1 A necesita 2,84 mm para ΔT 10 °C (§8) | 3,0 mm ≥ 2,84 mm ✔ |
+| Puente de estaño (SAC305, ρ ≈ 13,2 µΩ·cm) | Sección ≥ 3,0 mm × 0,2 mm (gota mínima) = 0,6 mm²; longitud 0,4 mm → R = ρ·L/A = 13,2·10⁻⁸ × 0,4·10⁻³ / 0,6·10⁻⁶ = 0,09 mΩ | P = 4,9² × 0,09 mΩ = **2,1 mW** |
+| Equivalencia en cobre | 0,6 mm² × (1,72/13,2) = 0,078 mm², frente a 0,070 mm² de una pista de 2,0 mm en 1 oz | Igual o mejor que la pista `Power_In` ✔ |
+| Densidad de corriente en el estaño | 4,9 A / 0,6 mm² = 8,2 A/mm² | Sin problema ✔ |
+| Separación entre pads | Abierto: hasta 30 V continuos entre `VIN_PROT` y `BUS_24V` (con U1 apagado). IPC-2221 B2, 16–30 V: 0,1 mm | 0,4 mm ✔ (≥ 0,2 mm de FAB-02) |
+
+  - Con la huella oficial (1,5 mm), el estaño da 0,039 mm² equivalentes (≈ 1,1 mm de pista). Corto y bien refrigerado, pero por debajo de la clase `Power_In`: descartada.
+- **Funciones que se pierden con JP1 cerrado (sin U1):**
+
+| Función | Con JP1 cerrado |
+|---|---|
+| Limitación común a 3,84–4,54 A (ALI-13) | Se pierde. Un corto en una salida lo limita la protección de la fuente (≥ 5,14 A, hipo o corriente constante) y la limitación del BTT6050 (≥ 38 A). Cae `VIN_PROT` y la lógica puede reiniciarse: **REL-08 no se cumple** |
+| Corte general por LIM_EN (S3) | Se pierde: el bus está siempre alimentado. La comprobación de carga abierta (REL-10) funciona igual |
+| FLT e IMON | Se pierden. Sin U1, FLT lee alto siempre por R6 e IMON lee 0 V; el firmware debe desactivarlos (opción de configuración) |
+| *Clamp* del bus a ≤ 35 V | Se pierde: el bus ve `VIN_PROT` hasta Vc = 53,3 V. Sigue dentro de V_S(LD) = 65 V del BTT6050 (ALI-04) ✔ |
+| Arranque suave del bus (dVdT) | Se pierde: el bus se carga al conectar la fuente, limitado solo por el cable |
+| REL-04 (salidas apagadas en el reset y el flasheo) | **Se mantiene** por el *pull-down* de cada IN de los *high-side* (bloque de salidas). Deja de cumplirse para el corte general del bus |
+
+- **Serigrafía y documentación** (DEC-0006): junto a JP1, «JP1: abierto = limitador · cerrado = sin limitador». Detalle de lo que se pierde en el README de `hardware/v2`.
+
 ## 4. Presupuesto de potencia (6 salidas activas)
 
 | Raíl | Carga | Corriente de diseño | Capacidad | Margen |
@@ -422,12 +459,17 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | C20 | 100 nF (ADC de VIN) | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
 | D4 | LED rojo | 0603 | Hubei KENTO KT-0603R | C2286 · 4,2 M | XINGLIGHT XL-1608SURC-06 (C965799) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
 | R13 | 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · 2,86 M | — | `R_0603` |
+| JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,4 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / **huella nueva** `esp-riego:SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm` (SPEC-0018). Excluir de BOM y CPL |
 | TP1–TP5 | Test points | Pad | — (sin pieza) | — | Keystone 5000/5001 | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm` (TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm`) |
 
 - **Piezas sin ficha en `hardware/componentes/`:** LMR36520, TPS2116, TLV1117LV, SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310 y BZT52C15. Los datos clave y las páginas están en §3 y §0.
 - La ficha de TPS2663 existe. Hay que añadirle la variante elegida (26632, *latch*, PLIM y UVLO a GND).
-- **Símbolos o huellas nuevos:** solo el símbolo LMR36520, que se puede derivar de LMR36510ADDA. El resto existe en las librerías oficiales. Hay que comprobar el pinout de SUD50P06-15 frente a SQD50P06-15L y el de TLV1117-33 frente a TLV1117LV.
-- **Coste orientativo del bloque:** ≈ 8,9 $ por placa (5 placas) y ≈ 7,7 $ (10 placas), con los tramos de LCSC de la cantidad real.
+- **Símbolos o huellas nuevos:**
+  - el símbolo LMR36520, que se puede derivar de LMR36510ADDA;
+  - la huella `SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm` de JP1 (§3.13.9).
+
+  El resto existe en las librerías oficiales. Hay que comprobar el pinout de SUD50P06-15 frente a SQD50P06-15L y el de TLV1117-33 frente a TLV1117LV.
+- **Coste orientativo del bloque:** ≈ 8,9 $ por placa (5 placas) y ≈ 7,7 $ (10 placas), con los tramos de LCSC de la cantidad real. **Aceptado en DEC-0006**.
   - El limitador cuesta 3,56 / 3,02 $, por encima de los 2–3 $ que estimaba DEC-0003.
   - La alternativa UMW de Q1 ahorra ≈ 0,7 $.
 
@@ -437,6 +479,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 |---|---|---|---|---|---|
 | VIN_RAW (J1 → F1), VIN_F (F1 → Q1-D), VIN_PROT (Q1-S → U1 IN, D2, C1, C2) | 5,1 A continuos | **2,0 mm** en 1 oz (IPC-2221 externa: 1,87 mm para ΔT 20 °C; 2,84 mm para ΔT 10 °C) o polígono | ≥ 0,6 mm a otras redes (hasta 53 V: IPC-2221 B2, 51–100 V); en los pads de los CI, la de la huella | J1 → F1 → Q1 → D2 en línea y juntos en el borde inferior (FAB-07) | Clase `Power_In`. Retorno GND paralelo y del mismo ancho |
 | BUS_24V (U1 OUT → *high-side*) | 4,54 A (4,9 A como dato de REL-05) | 2,0 mm o polígono | ≥ 0,6 mm | — | Clase `Power_In`. D3 y C6 junto a OUT/GND de U1 |
+| JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,4 mm entre pads (≤ 30 V continuos, IPC-2221 B2) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
 | GND de potencia (J1-2, D2, C1, U1, U2) | 5,1 A | Plano; vías de cosido junto a J1, D2 y U1 | — | — | D2 a GND con pista corta y ancha: el pulso de 11,3 A suma L·di/dt a Vc (ficha SMBJ33A) |
 | VIN_PROT → U2 VIN (rama del buck) | 0,3 A | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 justo después | Bucle de entrada mínimo (SNVSBF0C §8.5) |
 | SW (U2-8 → L1) | 1,5 A de pico ≈ 2 A | 1,0 mm, lo más corto posible | ≥ 0,3 mm | Lejos de la antena (MCU-02), de las entradas del ADC y del SHT4x (AMB-02) | Área mínima; sin pistas de señal debajo en la otra cara |
@@ -467,12 +510,12 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | ALI-10 | D4 + R13 | §3.11 |
 | ALI-11 | TP1–TP5 | §3.12 |
 | ALI-12 | Presupuesto: 4,74 A máx.; lógica 4,32 W | §4 |
-| ALI-13 | U1 TPS26632: 3,84–4,54 A, *latch*, SHDN con *pull-down*, FLT e IMON; buck antes del limitador | §3.13 |
+| ALI-13 | U1 TPS26632: 3,84–4,54 A, *latch*, SHDN con *pull-down*, FLT e IMON; buck antes del limitador. JP1 abierto por defecto (DEC-0006) | §3.13, §3.13.9 |
 | REL-04 | R5: bus apagado en el reset y el flasheo | §3.13.5 |
 
 ## 10. Riesgos y puntos abiertos
 
-1. **ALI-06, valor orientativo:** el nominal del arranque queda en 13,5 V, no en ≈ 15 V (§3.7). Los criterios M (17 V y 15,5 V) se cumplen con margen.
+1. **ALI-06, valor orientativo:** cerrado por DEC-0006 (13,5 V nominales). Queda pendiente la corrección del texto de ALI-06 en la spec de mantenimiento.
 2. **Fuente real:** DEC-0004 y `docs/03` piden comprobar en su etiqueta que es de tensión constante y su punto de sobrecarga. La banda se ha calculado con los supuestos de DEC-0004.
 3. **Tolerancia de I_OL con V_DS alta** (corto franco): el datasheet la da con 1 V (§3.13.2). Se comprueba en las pruebas de §6.
 4. **TLV1117LV:** sin deriva térmica máxima publicada (§3.9); ± 2,7 % a 25 °C frente a ± 3 %.
@@ -492,9 +535,11 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | FXL0650-100-M | FXL0650-100-M · Changjiang (cjiang) | C475521 | PDF de LCSC (C475521) | 2 terminales | `Device:L` / `L_Changjiang_FXL0650` |
 | SS310 | SS310 · MDD | C15874 | PDF de LCSC (C15874) | K / A | `D_Schottky` / `D_SMA` |
 | BZT52C15 | BZT52C15 · MDD | C173427 | PDF de LCSC (C173427) | K / A | `D_Zener` / `D_SOD-123` |
+| JP1 (sin ficha de compra; huella nueva) | Puente de soldadura · — | — (fuera de BOM y CPL) | — | Pad 1 = VIN_PROT, pad 2 = BUS_24V | `Jumper:SolderJumper_2_Open` / **nueva** `esp-riego:SolderJumper-2_P1.6mm_Open_Pad1.2x3.0mm`: pads 1,2 × 3,0 mm, hueco 0,4 mm, F.Cu y F.Mask sin pasta, máscara común (§3.13.9) |
 
 ## Anexo B. Notas para el firmware (FW-03)
 
 - `VIN_SENSE`: `attenuation: 6dB`, `multiply: 21.534`, media de ≥ 16 muestras. Avisos a < 17 V y > 31 V.
 - `LIM_IMON`: I = V / 0,279 V/A.
+- Opción de configuración «sin limitador», para placas con JP1 cerrado y sin U1: ignora FLT e IMON y no usa LIM_EN para la carga abierta (§3.13.9).
 - Secuencia de rearme del limitador: §3.13.3. Espera ≥ 20 ms tras habilitar el bus antes de activar canales.
