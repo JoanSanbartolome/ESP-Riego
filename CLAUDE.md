@@ -54,8 +54,8 @@ Los agentes ignoran esta sección.
    - las líneas nuevas de `gestion/logs/auditoria/`, sobre todo los `bloqueado` y los `ok: false`;
    - si el cambio toca hooks o scripts: `python -m py_compile` y las baterías de `herramientas/pruebas/`.
 5. Hacer commits atómicos con los trailers `Spec`, `Agente`, `Requisitos`, `Log` y `Co-Authored-By`.
-6. Pasar por conformidad si hay piezas nuevas o campos que revisar; después, por validación.
-7. Hacer merge solo con `APROBADO` o `APROBADO_CON_OBSERVACIONES`; las observaciones se convierten en specs propuestas. Pasos:
+6. Pasar por conformidad si hay piezas nuevas o campos que revisar; después, por validación, indicando el nivel (`ligero` con `model: sonnet` para texto y revalidaciones; `completo` para piezas, esquema, layout y fabricación; DEC-0005). Antes de encargar cualquier spec, repasarla con su checklist y buscar contradicciones internas.
+7. Hacer merge solo con `APROBADO` o `APROBADO_CON_OBSERVACIONES`. Las M que afecten a la spec siguiente se corrigen antes del merge; el resto de observaciones se acumulan en la spec de mantenimiento de la fase (DEC-0005). Pasos:
    - `estado: cerrada` y `validacion:` en la spec;
    - `git switch main` y `git merge --no-ff --no-commit <rama>`;
    - regenerar `tablero` y `trazabilidad` y escribir el diario;

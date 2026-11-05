@@ -147,6 +147,13 @@ Si echas en falta una comprobación en la checklist, proponla en la sección "Pr
 
 ## Protocolo
 
+**Nivel de validación (DEC-0005).** La orden dice `nivel: ligero` o `nivel: completo`.
+
+- **Ligero:** compruebas los criterios de aceptación y los puntos de checklist que cite la orden. Lo que el autor demuestra con evidencia reproducible (salidas de `verificar.py`, diffs, tablas) lo compruebas por muestreo, sin rehacerlo entero. En una revalidación, te limitas a los hallazgos anteriores y a lo que tocó la corrección.
+- **Completo:** revisión independiente de todo, como hasta ahora.
+
+En los dos niveles, parte del repaso de checklist que el autor deja en su log, y lee antes los entregables que el log.
+
 Al empezar:
 
 1. Comprueba con `git branch --show-current` que estás en la rama de la SPEC. Si no, responde `BLOQUEADO`.

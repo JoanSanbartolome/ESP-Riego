@@ -30,15 +30,22 @@ flowchart LR
    python herramientas/gestion.py nueva-spec --titulo "..." --fase 3 --responsable ing-esquematicos --requisitos ALI-01,ALI-03
    ```
    Commit `spec(SPEC-NNNN): abrir — <título>` y rama `git switch -c spec/SPEC-NNNN-<slug>`.
-3. **Encargar.** Orden breve al agente responsable:
+3. **Encargar.** Antes, el coordinador repasa la spec con la checklist que aplique y busca contradicciones entre «Incluye», «Excluye» y los criterios (DEC-0005). Orden breve al agente responsable:
    ```
    SPEC-NNNN · rama spec/SPEC-NNNN-<slug> · Lee: <spec + archivos> · Haz: <paso> · Entrega: <archivos> + log NN-<agente>.md
    ```
 4. **Integrar.** El coordinador revisa el diff (zonas, log, verificación) y hace commits atómicos con trailers.
 5. **Conformidad**, si hay piezas nuevas o campos que revisar.
-6. **Validar.** `ing-validacion` entrega `gestion/informes/VAL-NNNN-NN.md` con veredicto `APROBADO`, `APROBADO_CON_OBSERVACIONES` o `RECHAZADO`. Si es `RECHAZADO`, se corrige y se repite (`-02`, `-03`…). Las observaciones se convierten en specs propuestas.
+6. **Validar.** `ing-validacion` entrega `gestion/informes/VAL-NNNN-NN.md` con veredicto `APROBADO`, `APROBADO_CON_OBSERVACIONES` o `RECHAZADO`.
+   - **Nivel** (DEC-0005), indicado en la orden:
+     - `ligero`, con `model: sonnet`: specs de solo texto o documentación, y revalidaciones. Comprueba los criterios y los puntos de checklist citados; la evidencia reproducible del autor, por muestreo.
+     - `completo`, con Opus: piezas nuevas, esquema, layout y fabricación. Ante la duda, completo.
+   - Si es `RECHAZADO`, se corrige y se repite (`-02`, `-03`…), limitando la revalidación a los hallazgos y a lo corregido.
+   - Observaciones: las M que afectan a la spec siguiente se corrigen antes del merge; las B y las M que no bloquean se acumulan en la spec de mantenimiento de la fase.
 7. **Cerrar.** `estado: cerrada` en la spec, `git merge --no-ff --no-commit`, regenerar tablero y trazabilidad, y commit `merge(SPEC-NNNN): <título>`. Se borra la rama.
-8. **Hito.** Al terminar una fase, etiqueta y push solo con OK del usuario.
+8. **Hito.** Al terminar una fase, se abre su spec de mantenimiento si hay observaciones acumuladas; la etiqueta, con OK del usuario. El push de `main` tras cada merge está autorizado.
+
+Las ediciones del coordinador en su zona (checklists, decisiones, specs, diario, plantillas y este manual) se hacen sin agente y sin validación propia, salvo que cambien `docs/02` (DEC-0005).
 
 ## Identificadores
 

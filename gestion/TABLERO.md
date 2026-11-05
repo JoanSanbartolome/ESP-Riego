@@ -48,6 +48,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 10 · descartada 1.
 | [DEC-0002](decisiones/DEC-0002-objetivo-v2-revisado.md) | Objetivo de la v2 revisado: interior, 24 V DC, 6 salidas, T/HR en placa y sin nivel | aceptada | usuario | 2026-11-04 |
 | [DEC-0003](decisiones/DEC-0003-salidas-high-side-y-limitador.md) | Salidas con high-side inteligente BTT6050 y limitador común del bus de salidas | aceptada | usuario | 2026-11-04 |
 | [DEC-0004](decisiones/DEC-0004-fuente-led-y-carga-maxima.md) | Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia | aceptada | usuario | 2026-11-05 |
+| [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | aceptada | usuario | 2026-11-05 |
 
 ## Informes de validación
 

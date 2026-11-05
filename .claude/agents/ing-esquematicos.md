@@ -173,9 +173,10 @@ Al terminar:
 
 1. Guarda y cierra el proyecto en el MCP (`save_project`, `close_project`).
 2. Ejecuta `python herramientas/verificar.py hardware/v2` y anota los recuentos.
-3. Escribe tu log con la plantilla `gestion/plantillas/log.md`.
-4. Si has aprendido algo reutilizable (un truco del MCP, una pieza descartada y por qué), añádelo a tu `MEMORY.md`.
-5. Responde con el contrato de salida.
+3. Repasa la checklist vigente de tu trabajo (`gestion/checklists/`) y anota en el log, punto por punto, qué cumple, qué no aplica y qué queda pendiente; validación parte de ese repaso (DEC-0005).
+4. Escribe tu log con la plantilla `gestion/plantillas/log.md`.
+5. Si has aprendido algo reutilizable (un truco del MCP, una pieza descartada y por qué), añádelo a tu `MEMORY.md`.
+6. Responde con el contrato de salida.
 
 ## Contrato de salida
 
