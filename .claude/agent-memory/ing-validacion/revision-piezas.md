@@ -22,4 +22,7 @@ Una pieza creada se valida contra el dato del fabricante **y** con una prueba en
 - **Altura de los DFN:** mido la vista lateral de la figura (SHT4x: 0,54 ± 0,05, no 0,5).
 - Scripts de esta revisión en `scratchpad\v15\` (`sym_pins.py`, `mk_sch.py`, `mk_pcb.py`, `pads.py`, `stepbox.py`, `img.py`, `jlc.py`, `refs.py`). Son de la sesión: si hacen falta otra vez, se rehacen.
 
+- **Revalidación ligera (VAL-0015-02):** reutilizo `v15\dl_infineon\footprint.png` y `v15\mk_pcb.py` (recibe `huella|x|y`). Perfil del borne con `pcb render --side left` frente a la sección A-A. Recortes con PIL sobre un render de 8000 px. En el STEP, `CARTESIAN_POINT` también delata salientes pequeños (marco a y = 5,6).
+- **Guardia:** `mkdir -p $S/...` con variable de shell y `2>&1` junto a un `.png` la disparan (falso positivo): uso rutas literales, sin `2>&1`, y scripts de Python escritos con Write (Python de Windows no entiende `/c/Users/...`: ruta `C:\...` entre `r"..."`).
+
 Relacionado: [[revision-importaciones]], [[revision-estudios]], [[comprobaciones-utiles]].
