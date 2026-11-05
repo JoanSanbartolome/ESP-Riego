@@ -19,10 +19,10 @@ No se copió: `Control_De_Riego-backups/`, `fp-info-cache`, `.kicad_prl`, `.step
 | Nickname | Tipo | Archivo | Origen |
 |---|---|---|---|
 | `PS2705-1-F3-A`, `BC817-25-7-F`, `1548129`, `PRT-10811` | símbolos | `<nick>.kicad_sym` | `.lib` + `.dcm` de la librería del TFG, convertidos con `kicad-cli sym upgrade` |
-| `Wemos s2 mini` | símbolo | `Wemos s2 mini.kicad_sym` | copia embebida en `wemos_s2mini.kicad_sch` (`lib_symbols`); el JSON de EasyEDA no se convierte con KiCad |
+| `Wemos s2 mini` | símbolo | `Wemos s2 mini.kicad_sym` | JSON de EasyEDA (`SCHLIB_WEMOS-S2-MINI-…json`) convertido tal cual con `kicad-cli sym upgrade -o` (SPEC-0010) |
 | `PS2705`, `BC817-25-7`, `PRT10811`, `KiCad`, `PhoenixTerminal`, `SMMS0530-150M` | huellas | `<nick>.pretty` | `.kicad_mod` de la librería del TFG, actualizados con `kicad-cli fp upgrade` (`KiCad` = `1548129`; `SMMS0530-150M` incluye también `IND-SMD_L5.5-W5.2`) |
-| `Wemos s2 mini` | huella | `Wemos s2 mini.pretty` | copia embebida en la PCB, sin posición, red ni UUID |
-| `DC-Jack` | huellas | `DC-Jack.pretty` (vacía) | el JSON de EasyEDA solo contiene un contorno y una referencia al paquete, sin pads; la huella no se usa en la PCB (el jack real es `Connector_BarrelJack`) |
+| `Wemos s2 mini` | huella | `Wemos s2 mini.pretty` | JSON de EasyEDA (`PCBLIB_WEMOS-S2-MINI_…json`) convertido tal cual con `kicad-cli fp upgrade -o` (SPEC-0010); no lleva modelo 3D |
+| `DC-Jack` | huella | `DC-Jack.pretty/DC-IN-TH_XDJK-0051-025` | JSON de EasyEDA convertido tal cual con `kicad-cli fp upgrade -o` (SPEC-0010). Tiene 3 pads; el pad 3 es `custom` de 0,000001 mm con taladro de 3×1 mm, un artefacto de la conversión que habría que revisar si alguna vez se usa. No se usa en la PCB (el jack real es `Connector_BarrelJack`) |
 
 También `Cajetin_Kicad.kicad_wks` (hoja de dibujo) y `3d/` (`TLP185.step`, `Transistor.IGS`, `PSMT3012.STEP`, `Wemos S2 Mini V1.0.0.step`).
 
@@ -30,7 +30,8 @@ También `Cajetin_Kicad.kicad_wks` (hoja de dibujo) y `3d/` (`TLP185.step`, `Tra
 
 - `sym-lib-table` y `fp-lib-table`: reescritas con `${KIPRJMOD}/../libraries/...` y tipo `KiCad` (antes `Legacy` y EasyEDA, con rutas `G:/…`).
 - `Control_De_Riego.kicad_pro`: `page_layout_descr_file` (dos apariciones) a `${KIPRJMOD}/../libraries/Cajetin_Kicad.kicad_wks`; `export… svg` (ruta `C:/Users/josan/Desktop/…`, último directorio de exportación) vaciado.
-- `Control_De_Riego.kicad_pcb`: 10 modelos 3D con ruta `G:/…` a `${KIPRJMOD}/../libraries/3d/<archivo>` (4× TLP185, 4× Transistor, 1× PSMT3012, 1× Wemos); 43 modelos `${KICAD9_3DMODEL_DIR}` a `${KICAD10_3DMODEL_DIR}` (KiCad 10 no resuelve el nombre antiguo).
+- `Control_De_Riego.kicad_pcb`: 10 modelos 3D con ruta `G:/…` a `${KIPRJMOD}/../libraries/3d/<archivo>` (4× TLP185, 4× Transistor, 1× PSMT3012, 1× Wemos); 43 modelos `${KICAD9_3DMODEL_DIR}` a `${KICAD10_3DMODEL_DIR}` (normalización a la variable de KiCad 10; la antigua también resuelve, así que el cambio es inocuo).
+- Modelos 3D: 42 de los 53 modelos de la PCB apuntan a un `.wrl`, y KiCad 10.0.6 no instala ningún `.wrl` (solo `.step`), así que esos modelos no se ven en el visor 3D ni en el STEP (`Could not add 3D model`). Viene de la v1; se corrige en la copia de trabajo de la v2 (`.wrl` a `.step`).
 - Esquemas y PCB: `kicad-cli sch|pcb upgrade --force` (esquema `20260306`, PCB `20260206`).
 
 ## Verificación
@@ -40,7 +41,7 @@ También `Cajetin_Kicad.kicad_wks` (hoja de dibujo) y `3d/` (`TLP185.step`, `Tra
 | | Antes (copia sin migrar) | Después |
 |---|---|---|
 | ERC | 1 (`pin_to_pin`) | 1 (`pin_to_pin`) |
-| DRC | 1 error `starved_thermal`, 39 `lib_footprint_mismatch`, 0 sin conectar | 1 error `starved_thermal`, 38 `lib_footprint_mismatch`, 0 sin conectar |
+| DRC | 1 error `starved_thermal`, 39 `lib_footprint_mismatch`, 0 sin conectar | 1 error `starved_thermal`, 39 `lib_footprint_mismatch`, 0 sin conectar (40 en total, como antes) |
 | Paridad | 77 (61 `LCSC Part#`, 10 `net_conflict`, 6 huellas) | 77 (igual) |
 
-La diferencia de un `lib_footprint_mismatch` (el del Wemos, U1) se debe a que la huella de la librería ahora es la copia embebida en la PCB y por eso coincide; no hay cambio de diseño. Netlist (61 componentes, 70 redes), posiciones, pistas (262), vías (36) y zonas (3) son idénticas antes y después. Detalle en `gestion/logs/SPEC-0009/01-jr-conformidad.md`.
+Tras SPEC-0010 el DRC coincide con la copia sin migrar: la huella `Wemos s2 mini` de la librería es la conversión del JSON de EasyEDA, igual que en el TFG, y vuelve a no coincidir con la copia de U1 en la PCB (`lib_footprint_mismatch`). Con la copia embebida en la PCB (SPEC-0009) el DRC era 39. Netlist (61 componentes, 70 redes), posiciones, pistas (262), vías (36) y zonas (3) son idénticas antes y después. Detalle en `gestion/logs/SPEC-0009/01-jr-conformidad.md`.

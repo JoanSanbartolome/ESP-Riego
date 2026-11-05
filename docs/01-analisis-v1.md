@@ -18,7 +18,7 @@ Revisión de la placa *Control_De_Riego* diseñada en el TFG, punto de partida d
 | Alimentación | Jack DC 12 V → TPS54202 (buck 5 V, 2 A) → 3,3 V del LDO del propio Wemos |
 | Salidas | 4 relés SRD-05VDC-SL-C (SPDT); optoacoplador PS2705 + BC817 por canal |
 | Entradas | Transmisor de nivel 4–20 mA (R15 = 150 Ω, filtro RC 270 kΩ / 100 nF) y DHT11 |
-| Pistas | 0,3 mm señal (51), 0,5 mm alimentación (169), 0,7 mm (21), 3 mm cargas (21); 38 vías |
+| Pistas | 0,3 mm señal (51), 0,5 mm alimentación (169), 0,7 mm (21), 3 mm cargas (21); 36 vías |
 | Jerarquía | Raíz + `Modulo_reles`, `ESP32_S2`, `Alimentacion`, `Conectores y agujeros PCB` |
 
 Pinout del ESP32-S2 según la PCB:

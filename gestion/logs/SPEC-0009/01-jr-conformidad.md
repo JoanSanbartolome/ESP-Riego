@@ -89,3 +89,12 @@ Son piezas de la v1 conservadas tal cual; la validación de fondo (huella vs dat
 - `kicad-cli` recrea `Control_De_Riego.kicad_prl` al leer el proyecto; `verificar.py` lo borra, pero si usas `kicad-cli` directamente, bórralo.
 - Las librerías están planas en `hardware/libraries/` con un archivo por nickname; las tablas de `hardware/v2/` pueden apuntar a las mismas con `${KIPRJMOD}/../libraries/...`.
 - Los scripts de extracción (`conv.py`, `extraer.py`) y las referencias «antes» están en el scratchpad de esta sesión, no se versionan.
+
+## Corrección (SPEC-0010)
+
+Hallazgos de VAL-0009-01 que desmienten afirmaciones de este log; el detalle y las órdenes están en `gestion/logs/SPEC-0010/01-jr-conformidad.md`.
+
+- **«El JSON de EasyEDA (Wemos) no se convierte con KiCad» (Acciones 2): falso.** `kicad-cli fp upgrade -o` y `kicad-cli sym upgrade -o` lo convierten. Se sustituyó la pieza por la conversión (SPEC-0010) y el DRC vuelve a 40 (reaparece el `lib_footprint_mismatch` de U1). La explicación «DRC 39 → 38» de la sección Verificación queda sustituida por esta.
+- **«DC-Jack: el JSON no tiene pads» (Acciones 2, Decisiones y Pendiente): falso.** Tiene 3 pads y se convierte con `kicad-cli fp upgrade -o`. Se añadió `DC-IN-TH_XDJK-0051-025` a `DC-Jack.pretty`; el pad 3 (`custom`, 0,000001 mm) es un artefacto de la conversión.
+- **«KiCad 10 no resuelve `${KICAD9_3DMODEL_DIR}`» (Acciones 4): falso.** Sí resuelve. El cambio a `${KICAD10_3DMODEL_DIR}` se mantiene porque normaliza las rutas y es inocuo.
+- **«"Could not add 3D model" es una limitación del exportador de STEP» (Verificación): falso.** KiCad 10.0.6 no instala ningún `.wrl` (0 `.wrl` y 7251 `.step` en `share/kicad/3dmodels`) y 42 de los 53 modelos de la PCB apuntan a un `.wrl`. Es preexistente en la v1.

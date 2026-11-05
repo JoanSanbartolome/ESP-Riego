@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 6 · descartada 1.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 7 · descartada 1.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 6 · descartada 1.
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0011](specs/SPEC-0011-requisitos-v04.md) | Requisitos v0.4: ventana del limitador y sobrecarga por canal | 0 | coordinador | `spec/SPEC-0011-requisitos-v04` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md) | Correcciones de la importación de la v1 | 1 | jr-conformidad | `spec/SPEC-0010-correcciones-importacion-v1` | — | 2026-11-04 | — |
-
-## Cerradas (6)
+## Cerradas (7)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -29,6 +23,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 6 · descartada 1.
 | [SPEC-0005](specs/SPEC-0005-estudio-salidas.md) | Estudio de la tecnología de las salidas | 2 | ing-esquematicos | `spec/SPEC-0005-estudio-salidas` | VAL-0005-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
 | [SPEC-0007](specs/SPEC-0007-requisitos-v03.md) | Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01 | 0 | coordinador | `spec/SPEC-0007-requisitos-v03` | VAL-0007-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-05 |
 | [SPEC-0009](specs/SPEC-0009-importar-v1.md) | Importar la v1 del TFG a KiCad 10 | 1 | jr-conformidad | `spec/SPEC-0009-importar-v1` | VAL-0009-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
+| [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md) | Correcciones de la importación de la v1 | 1 | jr-conformidad | `spec/SPEC-0010-correcciones-importacion-v1` | VAL-0010-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-05 |
 
 ## Descartadas (1)
 
@@ -56,4 +51,5 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 6 · descartada 1.
 | [VAL-0005-01](informes/VAL-0005-01.md) | SPEC-0005 | APROBADO_CON_OBSERVACIONES | `49bea58` | 2026-11-04 |
 | [VAL-0007-01](informes/VAL-0007-01.md) | SPEC-0007 | APROBADO_CON_OBSERVACIONES | `95f0b40` | 2026-11-05 |
 | [VAL-0009-01](informes/VAL-0009-01.md) | SPEC-0009 | APROBADO_CON_OBSERVACIONES | `265b5ae` | 2026-11-04 |
+| [VAL-0010-01](informes/VAL-0010-01.md) | SPEC-0010 | APROBADO_CON_OBSERVACIONES | `76f02f8` | 2026-11-05 |
 

@@ -23,5 +23,9 @@ Con ellas justificaba desviarse de la spec. Solo se descubre reproduciéndolas.
 - En este equipo, `G:` (Drive) está montada con `Llibreries_Kicad`: la copia «antes» del TFG sí resuelve las tablas `G:/…`.
 - Las órdenes con «proyectos/TFG» en el texto las bloquea la guardia aunque solo lean. Construyo la cadena en un script escrito con Write.
 - Reviso `git ls-files --eol` en los binarios nuevos: `.IGS` y `.STEP` en mayúsculas pueden quedar como texto.
+- `kicad-cli fp upgrade -o <dir>` exige que `<dir>` no exista (si existe, devuelve el código 4). Con `sym upgrade -o <archivo>` no pasa.
+- Pads `custom` de EasyEDA (`PAD~POLYGON`): KiCad los convierte en un ancla de 0,000001 mm más una `gr_poly`. Mido la envolvente de la primitiva antes de llamarlo artefacto. En VAL-0009-01-02 me equivoqué con el pad 3 del jack y la spec copió el error (VAL-0010-01-01).
+- Antes de afirmar que una pieza «se extrajo de otro sitio y difiere», hago `cmp` del archivo completo, no solo de los pines. El símbolo del Wemos de SPEC-0009 ya era idéntico a la conversión del JSON, y lo descubrí tarde (VAL-0010-01).
+- Las referencias «antes» de VAL-0009 (`out_orig/drc.json`, `resolve.py`, `pads2.py`) están en `scratchpad\val9\`. Para comparar DRC uso un multiconjunto (`Counter`), no un `set`.
 
 Relacionado: [[comprobaciones-utiles]].
