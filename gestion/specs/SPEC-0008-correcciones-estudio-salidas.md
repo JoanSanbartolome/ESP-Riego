@@ -34,7 +34,7 @@ validacion:
 - Incluye también VAL-0007-01-03 (y las partes de texto de VAL-0005-01-01, 05 y 07):
   - §11.4 y §11.5 recomiendan aún 470 µF y ≈ 60 ms de autonomía, vigilar los 4 A con la suma de IS y un corte general con BTT6030; §0.2 y §6 dicen «se protege solo»; §8 pone `+24V_SAL` en la clase `Salidas`.
   - Cada una lleva un aviso que remite a DEC-0003 (limitador común ALI-13, REL-08 y REL-10), y el aviso de cabecera remite a §11 **y** a DEC-0003, no solo a §11.
-- Incluye también VAL-0011-01-08: el estudio cita aún un total de 4 A (N2, §1.3) y pistas OUT_n de 1,0 mm (§8). Se remite a DEC-0004: carga instalada máxima de 3,9 A, banda del limitador de 3,9–4,9 A y pistas de salida de ≈ 1,2 mm.
+- Incluye también VAL-0011-01-08: el estudio cita aún un total de 4 A (N2, §1.3) y pistas OUT_n de 1,0 mm (§8). Se remite a DEC-0004: carga instalada máxima de 3,5 A, banda del limitador de 3,5–4,9 A y pistas de salida de ≈ 1,2 mm.
 - Excluye: cambiar la recomendación o D8; los requisitos (SPEC-0007); el tipo y stock JLCPCB (jr-conformidad, al pasar las piezas al esquema).
 
 ## Entradas

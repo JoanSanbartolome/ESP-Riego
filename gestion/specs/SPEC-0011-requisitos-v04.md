@@ -75,3 +75,5 @@ validacion:
 | 2026-11-05 | coordinador | El usuario fija la fuente (LED de 24 V y 5 A) y descarta la protección por canal; abre la spec | DEC-0004 |
 | 2026-11-05 | ing-validacion | VAL-0011-01: RECHAZADO (M 1 · B 8) | `4a0b771` |
 | 2026-11-05 | coordinador | Corrige VAL-0011-01: fuente en su ajuste de fábrica, carga instalada en frío (3,9 A), banda 3,9–4,9 A y hallazgos B | VAL-0011-01 |
+| 2026-11-05 | ing-validacion | VAL-0011-02: APROBADO_CON_OBSERVACIONES (B 4) | |
+| 2026-11-05 | coordinador | Aplica las 4 observaciones B de VAL-0011-02 antes del merge: carga instalada 3,5 A (sin la doble corrección por frío), banda 3,5–4,9 A, 5,14 A, lógica en W, UVLO de bajada y versión de las checklists | VAL-0011-02 |

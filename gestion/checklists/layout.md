@@ -51,4 +51,4 @@
 | v1 | 2026-11-03 | Versión inicial |
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): bornes en dos bordes, sensor aislado térmicamente, sin zona del lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02: bus de salidas y retornos para 4–5 A, presupuesto de los bordes |
-| v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004): pistas y retornos de salida para la corriente máxima del limitador |
+| v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004): pistas y retornos de salida para la corriente máxima del limitador. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01) |

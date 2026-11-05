@@ -31,7 +31,7 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 - [ ] Cerrar las decisiones abiertas D3–D6 y D9; D9 (módulo de expansión) con el informe de SPEC-0006. D2 y D8 ya están cerradas (DEC-0003: salidas alimentadas con *high-side* inteligente y limitador común).
 - [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
 - [ ] Fuente real: comprobar en su etiqueta o su modelo que es de tensión constante y que sus protecciones cuadran con las supuestas en DEC-0004, antes de elegir el limitador.
-- [ ] Limitador común (ALI-13): pieza cuya banda de corriente, con la tolerancia, cabe en 3,9–4,9 A (DEC-0004).
+- [ ] Limitador común (ALI-13): pieza cuya banda de corriente, con la tolerancia, cabe en 3,5–4,9 A (DEC-0004).
 - [ ] Presupuesto de longitud de cada borde (FAB-07) con los taladros M3 y las pistas de salida de ≈ 1,2 mm (REL-05).
 - [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
 - [ ] Tabla de asignación de GPIO según MCU-05.

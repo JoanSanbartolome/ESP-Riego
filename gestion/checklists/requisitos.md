@@ -31,6 +31,8 @@
 - [ ] Los parámetros de los equipos externos (protección y OVP de la fuente…) se fijan como requisito o como dato de entrada supuesto en una DEC.
 - [ ] Las protecciones dadas en % de potencia se pasan a corriente en todo el rango de ajuste o de tensión permitido.
 - [ ] El total de carga se calcula a la tensión máxima permitida y con las bobinas frías (temperatura mínima de §5).
+- [ ] Cada corriente de diseño tomada de un estudio cita la condición en que está dada (temperatura y tensión), para no corregirla dos veces.
+- [ ] Los umbrales de UVLO se acotan en los dos sentidos (arranque y bajada) según las pruebas de §6 que se hacen con la placa en marcha.
 - [ ] Cada límite nuevo de consumo tiene reparto, prueba en §6 y llega a las specs que lo consumen.
 - [ ] El margen de cada prueba de §6 respecto a su umbral supera la precisión fijada para la medida.
 
@@ -51,4 +53,4 @@
 |---|---|---|
 | v1 | 2026-11-04 | Versión inicial, a partir de las propuestas de VAL-0004-01 |
 | v2 | 2026-11-04 | Propuestas de VAL-0004-02 y VAL-0005-01: orden de protecciones, mecanismo de los límites globales, puntos de prueba, dependencia entre protecciones y sección de estudios de diseño |
-| v3 | 2026-11-05 | Propuestas de VAL-0007-01 y VAL-0011-01: umbrales como bandas, protecciones escalonadas, parámetros de equipos externos, cifras de la DEC frente a docs/02, búsqueda en las memorias y estudios sustituidos, protecciones en % de potencia, carga a tensión máxima y en frío, límites de consumo con reparto y prueba, y margen de las pruebas |
+| v3 | 2026-11-05 | Propuestas de VAL-0007-01 y VAL-0011-01: umbrales como bandas, protecciones escalonadas, parámetros de equipos externos, cifras de la DEC frente a docs/02, búsqueda en las memorias y estudios sustituidos, protecciones en % de potencia, carga a tensión máxima y en frío, límites de consumo con reparto y prueba, margen de las pruebas, condición de las corrientes de diseño y UVLO en los dos sentidos. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01 y VAL-0011-02) |
