@@ -2,7 +2,7 @@
 id: SPEC-0012
 titulo: Notas de la importación de la v1 y checklist de librerías v2
 fase: 1
-estado: propuesta
+estado: descartada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0012-notas-importacion-v1
@@ -66,3 +66,4 @@ La documentación de la importación de la v1 no contiene afirmaciones superadas
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | La checklist de librerías v2 se adelanta a la apertura de SPEC-0015 | SPEC-0015 |
+| 2026-11-05 | coordinador | Se descarta: su alcance se agrupa en SPEC-0016 (mantenimiento, DEC-0005) | SPEC-0016 |

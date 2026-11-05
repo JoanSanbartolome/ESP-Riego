@@ -2,7 +2,7 @@
 id: SPEC-0008
 titulo: Correcciones menores del estudio de salidas
 fase: 2
-estado: propuesta
+estado: descartada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0008-correcciones-estudio-salidas
@@ -61,3 +61,4 @@ validacion:
 | 2026-11-04 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Añade VAL-0007-01-03 | VAL-0007-01 |
 | 2026-11-05 | coordinador | Añade VAL-0011-01-08 | VAL-0011-01 |
+| 2026-11-05 | coordinador | Se descarta: su alcance se agrupa en SPEC-0016 (mantenimiento, DEC-0005) | SPEC-0016 |

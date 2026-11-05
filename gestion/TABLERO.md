@@ -2,16 +2,15 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 0 · cerrada 11 · descartada 1.
+Specs por estado: propuesta 3 · abierta 0 · cerrada 11 · descartada 3.
 
-## Propuestas (4)
+## Propuestas (3)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
-| [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
+| [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | — | 2026-11-05 | — |
 
 ## Cerradas (11)
 
@@ -29,11 +28,13 @@ Specs por estado: propuesta 4 · abierta 0 · cerrada 11 · descartada 1.
 | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md) | Limpieza de la copia de trabajo de la v2 | 3 | ing-esquematicos (esquema) e ing-layout (PCB) | `spec/SPEC-0014-limpieza-v2` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | VAL-0015-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 
-## Descartadas (1)
+## Descartadas (3)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0003](specs/SPEC-0003-auditoria-detalles.md) | Auditoría encadenada, falsos positivos y detalles de commit-msg | 0 | coordinador | `spec/SPEC-0003-auditoria-detalles` | — | 2026-11-04 | — |
+| [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
+| [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
 
 ## Decisiones
 
