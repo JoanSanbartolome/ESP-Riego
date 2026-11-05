@@ -2,7 +2,7 @@
 id: SPEC-0016
 titulo: Mantenimiento de las fases 0 a 2
 fase: 2
-estado: propuesta
+estado: abierta
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0016-mantenimiento-fases-0-2
@@ -53,3 +53,4 @@ Los documentos, fichas y fuentes heredados de las specs anteriores quedan sin af
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | Abre la spec | |
