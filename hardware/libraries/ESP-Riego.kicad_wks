@@ -93,11 +93,11 @@
 	)
 	(tbtext "Date: ${ISSUE_DATE}"
 		(name "")
-		(pos 28.5802 41.1902)
+		(pos 28.5802 32)
 	)
 	(tbtext "${KICAD_VERSION}"
 		(name "")
-		(pos 53.1202 4.1002)
+		(pos 58 4.1002)
 		(comment "Kicad version")
 	)
 	(line
@@ -107,7 +107,7 @@
 	)
 	(tbtext "Size: ${PAPER}"
 		(name "")
-		(pos 16 22)
+		(pos 16 12)
 		(justify center)
 		(comment "Paper format name")
 	)
@@ -116,11 +116,6 @@
 		(pos 16 4.1)
 		(justify center)
 		(comment "Sheet id")
-	)
-	(line
-		(name "")
-		(start 32 37)
-		(end 2 37)
 	)
 	(tbtext "File: ${FILENAME}"
 		(name "")

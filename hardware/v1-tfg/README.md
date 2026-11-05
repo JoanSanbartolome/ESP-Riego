@@ -22,7 +22,7 @@ No se copió: `Control_De_Riego-backups/`, `fp-info-cache`, `.kicad_prl`, `.step
 | `Wemos s2 mini` | símbolo | `Wemos s2 mini.kicad_sym` | JSON de EasyEDA (`SCHLIB_WEMOS-S2-MINI-…json`) convertido tal cual con `kicad-cli sym upgrade -o` (SPEC-0010) |
 | `PS2705`, `BC817-25-7`, `PRT10811`, `KiCad`, `PhoenixTerminal`, `SMMS0530-150M` | huellas | `<nick>.pretty` | `.kicad_mod` de la librería del TFG, actualizados con `kicad-cli fp upgrade` (`KiCad` = `1548129`; `SMMS0530-150M` incluye también `IND-SMD_L5.5-W5.2`) |
 | `Wemos s2 mini` | huella | `Wemos s2 mini.pretty` | JSON de EasyEDA (`PCBLIB_WEMOS-S2-MINI_…json`) convertido tal cual con `kicad-cli fp upgrade -o` (SPEC-0010); no lleva modelo 3D |
-| `DC-Jack` | huella | `DC-Jack.pretty/DC-IN-TH_XDJK-0051-025` | JSON de EasyEDA convertido tal cual con `kicad-cli fp upgrade -o` (SPEC-0010). Tiene 3 pads; el pad 3 es `custom` de 0,000001 mm con taladro de 3×1 mm, un artefacto de la conversión que habría que revisar si alguna vez se usa. No se usa en la PCB (el jack real es `Connector_BarrelJack`) |
+| `DC-Jack` | huella | `DC-Jack.pretty/DC-IN-TH_XDJK-0051-025` | JSON de EasyEDA convertido tal cual con `kicad-cli fp upgrade -o` (SPEC-0010). Tiene 3 pads; el pad 3 es `custom` con polígono de 3,56 × 1,60 mm y taladro oblongo de 3×1 mm, equivalente a los pads 1 y 2 girados 90° (no es un artefacto). No se usa en la PCB (el jack real es `Connector_BarrelJack`) |
 
 También `Cajetin_Kicad.kicad_wks` (hoja de dibujo) y `3d/` (`TLP185.step`, `Transistor.IGS`, `PSMT3012.STEP`, `Wemos S2 Mini V1.0.0.step`).
 
