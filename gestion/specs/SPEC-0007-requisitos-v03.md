@@ -2,15 +2,15 @@
 id: SPEC-0007
 titulo: Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0007-requisitos-v03
 requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, REL-10, AMB-02, FAB-03, FAB-06, FAB-07, FAB-08]
 depende_de: [SPEC-0004, SPEC-0005]
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0007-01
 ---
 
 # SPEC-0007 · Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01
@@ -71,3 +71,6 @@ validacion:
 | 2026-11-04 | usuario | Cortocircuito en una salida (VAL-0005-01-01): limitador común en el bus de las salidas | DEC-0003 |
 | 2026-11-04 | coordinador | Abre la spec | |
 | 2026-11-04 | usuario | D2: confirma quitar el contacto libre (solo salidas alimentadas) | DEC-0003 |
+| 2026-11-05 | ing-validacion | VAL-0007-01: APROBADO_CON_OBSERVACIONES (M 3 · B 7) | `c48e2b5` |
+| 2026-11-05 | coordinador | Erratas 04, 08 y DEC-0003 del 09 | `2e9640a` |
+| 2026-11-05 | coordinador | Cierra la spec. 01, 02, 05, 06 y 09 a requisitos v0.4 (propuesta); 03 a SPEC-0008; 07 a SPEC-0006; 10 a ing-esquematicos | VAL-0007-01 |
