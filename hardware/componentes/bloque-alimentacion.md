@@ -36,18 +36,18 @@ Alternativas con stock (consulta 2026-11-05): TLC TA10 C2998199 (1 461); UMW SUD
 | R13 | 1 kΩ 1 % | 0603WAF1001T5E | UNI-ROYAL | C21190 | Basic · 27 942 044 |
 | R15 | 4,87 kΩ 0,1 % 25 ppm | AT0603BRD074K87L | Yageo | C855888 | Extended · 4 056 |
 | C1 | 47 µF 63 V electrolítico | MVK 63V47 M 8*10 | SamYoung | C165628 | Extended · 802 |
-| C2, C6, C7 | 4,7 µF 100 V X7R 1210 | FS32X475K101EGG | PSA | C381466 | Extended · 54 967 |
-| C3 | 100 nF 100 V X7R 0603 | CL10B104KC8NNNC | Samsung | C15725 | Extended · 363 813 |
+| C2, C6, C7, C22 | 4,7 µF 100 V X7R 1210 (C22 nuevo: segundo CIN de U2, con C7) | FS32X475K101EGG | PSA | C381466 | Extended · 54 967 |
 | C4 | 22 nF 50 V X7R 0603 | CL10B223KB8NNNC | Samsung | C21122 | **Basic** · 846 818 |
 | C5, C9, C13, C14, C20, C21 | 100 nF 50 V X7R 0603 | CL10B104KB8NNNC | Samsung | C1591 | Extended · 3 579 949 |
-| C8 | 220 nF 100 V X7R 0805 | CC0805KKX7R0BB224 | Yageo | C513710 | Extended · 72 257 |
-| C10, C15 | 1 µF 50 V X5R 0603 | CL10A105KB8NNNC | Samsung | C15849 | **Basic** · 11 489 595 |
+| C3, C8 | 220 nF 100 V X7R 0805 (C3 antes 100 nF 0603 C15725) | CC0805KKX7R0BB224 | Yageo | C513710 | Extended · 72 257 |
+| C10 | 1 µF 50 V X7R 0805 (antes X5R 0603 C15849) | CL21B105KBFNNNE | Samsung | C28323 | **Basic** · 3 504 368 (LCSC 0) |
+| C15 | 1 µF 50 V X5R 0603 | CL10A105KB8NNNC | Samsung | C15849 | **Basic** · 11 489 595 |
 | C11, C12, C16, C17 | 22 µF 25 V X5R 1206 | CL31A226KAHNNNE | Samsung | C12891 | **Basic** · 1 613 044 |
 | C18, C19 | 10 µF 10 V X5R 0603 | CL10A106KP8NNNC | Samsung | C19702 | **Basic** · 10 377 360 |
 
 Símbolos `Device:R`, `Device:C`, `Device:C_Polarized` y `Device:LED`; huellas `R_0603_1608Metric`, `C_0603_1608Metric`, `C_0805_2012Metric`, `C_1206_3216Metric`, `C_1210_3225Metric` y `CP_Elec_8x10` (todas oficiales, con 3D en la instalación). Cambios en cifras respecto a `alimentacion.md` §7: R8 774 (antes 760); R8 alternativa Yageo C861775 pasa de stock 0 a 21 858 (es de 50 ppm); C2998199 1 461.
 
-**Piezas Extended distintas del bloque: 20** (cada una puede llevar el cargo de pieza extendida de JLCPCB); Basic: 9. Propuestas al coordinador, sin cambiar nada:
+**Piezas Extended distintas del bloque: 19** (cada una puede llevar el cargo de pieza extendida de JLCPCB; C3 pasa a la línea de C8 y sale C15725, y C22 es de la línea C381466); Basic: 10 (C10 → C28323, C15 sigue en C15849). Propuestas al coordinador, sin cambiar nada:
 - R8: Yageo **RT0603BRD0724K9L** (C136967, 25 ppm, 0,1 %, misma serie que R7; stock 14 308; 0,0393 $) en lugar de Viking C4156365 (774).
 - C5, C9, C13, C14, C20, C21: Yageo CC0603KRX7R9BB104 (C14663, 100 nF 50 V X7R, **Basic**, 36 130 321) en lugar de C1591 (Extended): una pieza Extended menos.
 
@@ -58,20 +58,20 @@ Fuente: datos simulados por el fabricante en SimSurfing, `https://product.samsun
 | Refs. | Pieza (curva usada) | Polarización | ΔC por tensión | ΔC a 60 °C (suma) | ΔC a 85 °C (suma) | C efectiva por condensador (nominal · mín. con −10 %) |
 |---|---|---|---|---|---|---|
 | C11, C12, C16, C17 | CL31A226KAHNNN (22 µF 25 V X5R 1206) | 5,0 V / 5,107 V | −38,0 % / −38,9 % | −39,0 % | −46,2 % | 13,4 µF · 12,1 µF (25 y 60 °C); 11,8 · 10,6 µF (85 °C) |
-| C10, C15 | CL10A105KB8NNN (1 µF 50 V X5R 0603) | 5 V | −34,4 % | −35,8 % | −42,9 % | 0,64 µF a 60 °C; 0,57 µF a 85 °C |
+| C15 | CL10A105KB8NNN (1 µF 50 V X5R 0603) | 5 V | −34,4 % | −35,8 % | −42,9 % | 0,64 µF a 60 °C; 0,57 µF a 85 °C |
+| C10 | CL21B105KBFNNN (1 µF 50 V X7R 0805, C28323) | 5 V | −2,5 % | −1,5 % (TCC) | −3,5 % a 84 °C (TCC) | 0,96 µF · 0,86 µF a 60 °C; 0,94 · 0,85 µF a 85 °C |
 | C18, C19 | CL10A106KP8NNN (10 µF 10 V X5R 0603) | 3,3 V | −55,7 % | −63,4 % | −70,4 % | 3,7 µF · 3,3 µF a 60 °C; 3,0 · 2,7 µF a 85 °C |
-| C2, C6, C7 | **Proxy** Samsung CL32B475KCJZ4N (4,7 µF 100 V X7R 1210; el PSA FS32X475K101EGG no publica curva) | 24 V / 30 V | −24,5 % / −33,4 % | −27,6 % / −36,5 % | −31,2 % / −40,1 % | 3,4 µF / 3,0 µF a 60 °C. Con el proxy KCIZNW: 3,2 / 2,7 µF |
-| C8 | Proxy CL21B224KCFSFN (220 nF 100 V X7R 0805) | 24 V / 30 V | −22,3 % / −31,1 % | −22,8 % / −31,6 % | −25 % / −33,8 % | 0,17 / 0,15 µF a 60 °C |
-| C3 | CL10B104KC8NNN (100 nF 100 V X7R 0603) | 24 V / 30 V | −25,5 % / −35,4 % | −28,4 % / −38,3 % | −31,8 % / −41,7 % | 72 / 62 nF a 60 °C |
+| C2, C6, C7, C22 | **Proxy** Samsung CL32B475KCJZ4N (4,7 µF 100 V X7R 1210; el PSA FS32X475K101EGG no publica curva) | 24 V / 30 V | −24,5 % / −33,4 % | −27,6 % / −36,5 % | −31,2 % / −40,1 % | 3,4 µF / 3,0 µF a 60 °C. Con el proxy KCIZNW: 3,2 / 2,7 µF |
+| C3, C8 | Proxy CL21B224KCFSFN (220 nF 100 V X7R 0805) | 24 V / 30 V | −22,3 % / −31,1 % | −22,8 % / −31,6 % | −25 % / −33,8 % | 0,17 / 0,15 µF a 60 °C |
 | C5, C9, C13, C14, C20, C21 | CL10B104KB8NNN (100 nF 50 V X7R) | ≤ 5 V | + 0,2 % | −2,7 % | −6,1 % | ≈ 97 nF: sin efecto |
 
 Consecuencias, frente a `docs/diseno/alimentacion.md`:
 
 1. **C11/C12 y C16/C17 (prioridad):** 2 × 13,4 = **26,8 µF** efectivos a 5,1 V y 60 °C (24,2 µF con −10 %; 21,3 µF a 85 °C), frente a los ≈ 28 µF de §3.13.4. La caída del +5V durante el *fast-trip* pasa de 0,12 V a 0,14 V con el mínimo (0,75 A × 4,5 µs / 24,2 µF). La conclusión no cambia. La Tabla 8-1 del LMR36520 (p. 18) da 2 × 22 µF de capacitancia **nominal** (4 × 10 µF como mínimo compacto), así que el diseño cumple la tabla; la nota de la p. 17 dice que el resto de valores del datasheet son efectivos.
 2. **C16/C17 frente a TPS2116:** 26,8 µF efectivos frente a los ≈ 100 µF que sugiere el datasheet con bloqueo inverso e inductancia (p. 11). Refuerza el punto 6 de §10; sin cambios en el diseño.
-3. **C7 como CIN de U2:** el datasheet pide ≥ 4,7 µF cerámicos a la entrada (p. 20) y, según su nota (p. 17), efectivos. **C7 solo da 3,0–3,4 µF a 24–30 V**: no llega. Con C2 (4,7 µF) también junto a VIN–PGND, el total es 6–7 µF y cumple. Propuesta (ing-esquematicos): C2 y C7 pegados a U2, o un segundo 4,7 µF de 100 V, y reflejarlo en §8.
-4. **C10 (CVCC):** 0,64 µF efectivos a 5 V y 60 °C frente al «1 µF, 16 V» de la p. 21. Funciona en las EVM de TI con valores nominales equivalentes, pero queda por debajo de lo literal. Opciones: 1 µF X7R de 25 V en 0805, o aceptar. Decisión de ing-esquematicos.
-5. **C3 (IN_SYS de U1):** 62–72 nF efectivos a 24–30 V frente a «0,1 µF o más» del datasheet (ficha `TPS2663.md`). Propuesta: 220 nF 100 V X7R (como C8, 150–170 nF efectivos).
+3. **CIN de U2 (resuelto, VAL-0018-01-03):** el datasheet pide ≥ 4,7 µF cerámicos efectivos a la entrada (p. 20 y nota de la p. 17). Un solo C7 da 3,0–3,4 µF a 24–30 V: no llega. Solución de `alimentacion.md` §3.6: **C7 + C22** (2 × 4,7 µF 100 V X7R 1210, C381466) junto a U2 + C8 (Tabla 8-1, p. 18); 5,1–6,8 µF efectivos (peor caso 30 V, 85 °C, −10 %: 5,1 µF). C2 se queda en el nodo de entrada y no cuenta para U2.
+4. **C10 (CVCC, resuelto, VAL-0018-01-04):** pasa de 1 µF X5R 0603 (0,64 µF efectivos) a **C28323**, 1 µF 50 V X7R 0805 (Basic): 0,96 µF a 5 V y 60 °C (0,86 µF con −10 %; 0,85 µF a 85 °C), frente al «1 µF, 16 V» de la p. 21. Aceptado. C15 (VIN2 de U3) sigue en C15849.
+5. **C3 (IN_SYS de U1, resuelto, VAL-0018-01-05):** pasa de 100 nF 0603 (62–72 nF efectivos) a **220 nF 100 V X7R 0805 (C513710, como C8)**: 150–170 nF efectivos a 24–30 V y 60 °C frente a «0,1 µF o más» del datasheet (ficha `TPS2663.md`).
 6. **C18/C19:** 3,7 µF efectivos a 60 °C frente a > 0,5 µF efectivos que exige el TLV1117LV en la salida (p. 13): cumple con margen 7×.
 7. **C2/C6/C7 en §3.13.4:** 2 × 4,7 µF a 24 V dan 6,4–7,1 µF efectivos a 24 V y 60 °C (no 7,9 µF); no cambia la conclusión de §3.13.4, que no depende de esa cota.
 
