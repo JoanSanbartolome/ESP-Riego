@@ -1,3 +1,4 @@
 - [Trucos de importación del TFG](importar-tfg-trucos.md) — guardia, kicad-cli upgrade, conversión de .lib/EasyEDA, KICAD9→KICAD10
 - [Recopilar componentes](recopilar-componentes-trucos.md) — API JLCPCB para stock/precio, PDFs, 3D ausentes en KiCad 10.0.6, STEP válidos
 - [Datasheets de fabricante](datasheets-fabricante-trucos.md) — URLs Infineon/Sensirion, sitios que bloquean, trucos de guardia
+- [Derating y 3D](derating-y-3d-trucos.md) — curvas Samsung SimSurfing, búsqueda libre en JLCPCB, 3D del fusible, banco de render

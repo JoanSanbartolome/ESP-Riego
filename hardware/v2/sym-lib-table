@@ -5,4 +5,5 @@
   (lib (name "1548129")(type "KiCad")(uri "${KIPRJMOD}/../libraries/1548129.kicad_sym")(options "")(descr ""))
   (lib (name "PRT-10811")(type "KiCad")(uri "${KIPRJMOD}/../libraries/PRT-10811.kicad_sym")(options "")(descr ""))
   (lib (name "Wemos s2 mini")(type "KiCad")(uri "${KIPRJMOD}/../libraries/Wemos s2 mini.kicad_sym")(options "")(descr ""))
+  (lib (name "esp-riego")(type "KiCad")(uri "${KIPRJMOD}/../libraries/esp-riego.kicad_sym")(options "")(descr "Piezas propias de ESP-Riego v2"))
 )

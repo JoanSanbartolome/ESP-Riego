@@ -8,4 +8,5 @@
   (lib (name "PhoenixTerminal")(type "KiCad")(uri "${KIPRJMOD}/../libraries/PhoenixTerminal.pretty")(options "")(descr ""))
   (lib (name "SMMS0530-150M")(type "KiCad")(uri "${KIPRJMOD}/../libraries/SMMS0530-150M.pretty")(options "")(descr ""))
   (lib (name "DC-Jack")(type "KiCad")(uri "${KIPRJMOD}/../libraries/DC-Jack.pretty")(options "")(descr ""))
+  (lib (name "esp-riego")(type "KiCad")(uri "${KIPRJMOD}/../libraries/esp-riego.pretty")(options "")(descr "Piezas propias de ESP-Riego v2"))
 )

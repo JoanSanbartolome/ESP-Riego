@@ -1,0 +1,218 @@
+(footprint "SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm"
+	(version 20260206)
+	(generator "jr-conformidad")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm")
+	(tags "solder jumper open 4.9A")
+	(property "Reference" "REF**"
+		(at 0 -2.3 0)
+		(layer "F.SilkS")
+		(uuid "7c6c97c1-c01b-4610-b101-7a5c56845e26")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm"
+		(at 0 2.4 0)
+		(layer "F.Fab")
+		(uuid "544a3891-1803-4383-beaa-1577bc4574eb")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cadcae3e-8344-41da-b2e9-8e989ed2610d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "27f28a88-b557-400d-bb46-44b51c45ba9d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(zone_connect 1)
+	(attr exclude_from_pos_files exclude_from_bom allow_soldermask_bridges)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -0.3 -1.5)
+		(end 0.3 1.5)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Mask")
+		(uuid "094ac623-46d6-4e5c-b3e6-c4a76c547bb4")
+	)
+	(fp_line
+		(start -1.75 -1.75)
+		(end 1.75 -1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "cee7d88b-8831-4d0d-914e-f47c22b6731a")
+	)
+	(fp_line
+		(start -1.75 1.75)
+		(end -1.75 -1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "27f8cf8c-98a0-46ff-b81e-824c7d8dfd8c")
+	)
+	(fp_line
+		(start 1.75 -1.75)
+		(end 1.75 1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "fb21daf2-3ae1-4476-b6c3-7237646ac9f2")
+	)
+	(fp_line
+		(start 1.75 1.75)
+		(end -1.75 1.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "555acdb4-c796-4753-a389-30657147311b")
+	)
+	(fp_text user "1"
+		(at -2.4 0 0)
+		(layer "F.SilkS")
+		(uuid "fe7d7d23-2bb7-4ed4-989f-734bd5226634")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_line
+		(start -2.0 -2.0)
+		(end -2.0 2.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1a51c812-4db2-4f7e-9b07-d039666d0f2f")
+	)
+	(fp_line
+		(start -2.0 -2.0)
+		(end 2.0 -2.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e05d219c-9610-4442-885c-3b28f4dc323c")
+	)
+	(fp_line
+		(start 2.0 2.0)
+		(end -2.0 2.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c0f4005d-4cba-416b-8684-379f90922054")
+	)
+	(fp_line
+		(start 2.0 2.0)
+		(end 2.0 -2.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "3158880f-139d-4f13-924b-cdc049e316af")
+	)
+	(fp_rect
+		(start -1.5 -1.5)
+		(end -0.3 1.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "ed7038f7-7064-43ed-9e90-58eab5a9ab93")
+	)
+	(fp_rect
+		(start 0.3 -1.5)
+		(end 1.5 1.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "c53349bf-d600-4d84-940c-b06764554c2a")
+	)
+	(fp_text user "1"
+		(at -0.9 0 0)
+		(layer "F.Fab")
+		(uuid "6327b96a-f6ac-4551-9823-edfc93eb4bd6")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_text user "2"
+		(at 0.9 0 0)
+		(layer "F.Fab")
+		(uuid "964bf84e-f12a-4735-a6cb-825cad1d0db5")
+		(effects
+			(font
+				(size 1.0 1.0)
+				(thickness 0.12)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -0.9 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(uuid "62899ea2-9a81-41a6-b80e-d4846f02148f")
+	)
+	(pad "2" smd rect
+		(at 0.9 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(uuid "01deaf20-52ac-4303-93fe-0cd635ab1b24")
+	)
+	(embedded_fonts no)
+)
