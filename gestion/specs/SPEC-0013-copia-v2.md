@@ -2,15 +2,15 @@
 id: SPEC-0013
 titulo: Copia de trabajo de la v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0013-copia-v2
 requisitos: [KIC-01, KIC-02]
 depende_de: [SPEC-0010, SPEC-0011]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0013-02
 ---
 
 # SPEC-0013 · Copia de trabajo de la v2
@@ -42,14 +42,16 @@ validacion:
     - fecha 2026-11-05;
     - autor y empresa «Joan San Bartolomé Ferri».
     
-    Se quitan los comentarios del TFG («Plano General PCB», «001», «SE», «1:1», «Universitat Politecnica de Valencia»). Se mantiene la hoja de dibujo `Cajetin_Kicad.kicad_wks`.
+    Se quitan los comentarios del TFG («Plano General PCB», «001», «SE», «1:1», «Universitat Politecnica de Valencia»). `comment 1` = «ESP-Riego v2» (la hoja de dibujo del TFG lo pintaba como «PROYECTO:»; su uso por bloque queda para SPEC-0014, VAL-0013-02-03).
+  - **Hoja de dibujo propia de la v2** (corrección tras VAL-0013-01): `hardware/libraries/ESP-Riego.kicad_wks`, derivada de `Cajetin_Kicad.kicad_wks`, sin ningún texto fijo del TFG y con `${TITLE}`, `${REVISION}`, `${ISSUE_DATE}`, `${COMPANY}`, `${COMMENT1}` y `${SHEETNAME}`. Se apunta desde las dos entradas `page_layout_descr_file` de `esp-riego.kicad_pro`. `Cajetin_Kicad.kicad_wks` se queda como está para la v1.
+  - Rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`, `step`, `svg`): vacías o dentro de `fabricacion/v2.0/`.
   - `hardware/v2/README.md` breve:
     - origen (`v1.1-tfg`, commit `ec3527c`);
     - correspondencia de las hojas;
     - que cada bloque se sustituye con su propia spec y el layout se rehace cuando el esquema esté estable.
 - Excluye:
   - Cualquier cambio de circuito, de componentes, de huellas o de la PCB que no sea renombrar o cambiar el cajetín. Los bloques de la v2 son otras specs.
-  - Tocar `hardware/v1-tfg/` o `hardware/libraries/`.
+  - Tocar `hardware/v1-tfg/` o `hardware/libraries/`, salvo para añadir `ESP-Riego.kicad_wks`.
   - `docs/03-plan-de-diseno.md` (lo actualiza el coordinador en esta rama).
 
 ## Entradas
@@ -70,11 +72,16 @@ validacion:
 - [ ] `python herramientas/verificar.py hardware/v2` da lo mismo que la v1: ERC 1 (`pin_to_pin`), DRC 40 (1 `starved_thermal` y 39 `lib_footprint_mismatch`, 0 sin conectar) y paridad 77 (61, 10 y 6).
 - [ ] El diseño es el de la v1. La netlist de `hardware/v2` y la de `hardware/v1-tfg` (exportadas con `kicad-cli`) tienen las mismas 61 referencias, valores, huellas y conexiones. Solo cambia el prefijo de hoja en los nombres de red. La PCB conserva posiciones, pistas, vías y zonas.
 - [ ] La jerarquía tiene las 4 hojas con los nombres de la tabla y no queda ninguna referencia a los archivos antiguos.
-- [ ] El cajetín del esquema y de la PCB tiene los datos de la v2 y ningún resto del TFG.
-- [ ] No hay rutas absolutas; `hardware/v1-tfg/` y `hardware/libraries/` no cambian; no quedan `.lck` ni `-backups/`, y el MCP queda con `close_project` si se usó.
+- [ ] El cajetín del esquema y de la PCB tiene los datos de la v2 y ningún resto del TFG, comprobado en el PDF exportado (`kicad-cli sch export pdf` y `pcb export pdf --include-border-title`, sobre copias).
+- [ ] No hay rutas absolutas; `hardware/v1-tfg/` y `hardware/libraries/` no cambian (salvo el nuevo `ESP-Riego.kicad_wks`); no quedan `.lck` ni `-backups/`, y el MCP queda con `close_project` si se usó.
 
 ## Registro
 
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (abierta) | |
+| 2026-11-05 | ing-validacion | VAL-0013-01: RECHAZADO (A 1 · M 1 · B 1), cajetín | |
+| 2026-11-05 | coordinador | Corrige la spec: hoja de dibujo propia de la v2, comment 1 y rutas de salida | VAL-0013-01 |
+| 2026-11-05 | jr-conformidad | Corrige el cajetín: ESP-Riego.kicad_wks, comment 1 y rutas de salida | `8e0fd4e` |
+| 2026-11-05 | ing-validacion | VAL-0013-02: APROBADO_CON_OBSERVACIONES (B 3) | |
+| 2026-11-05 | coordinador | Cierra la spec. Las 3 observaciones B pasan a SPEC-0014 (limpieza de hardware/v2) | VAL-0013-02 |

@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 8 · descartada 1.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 9 · descartada 1.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 8 · descartada 1.
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0013](specs/SPEC-0013-copia-v2.md) | Copia de trabajo de la v2 | 3 | jr-conformidad | `spec/SPEC-0013-copia-v2` | — | 2026-11-05 | — |
-
-## Cerradas (8)
+## Cerradas (9)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -31,6 +25,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 8 · descartada 1.
 | [SPEC-0009](specs/SPEC-0009-importar-v1.md) | Importar la v1 del TFG a KiCad 10 | 1 | jr-conformidad | `spec/SPEC-0009-importar-v1` | VAL-0009-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
 | [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md) | Correcciones de la importación de la v1 | 1 | jr-conformidad | `spec/SPEC-0010-correcciones-importacion-v1` | VAL-0010-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-05 |
 | [SPEC-0011](specs/SPEC-0011-requisitos-v04.md) | Requisitos v0.4: ventana del limitador y sobrecarga por canal | 0 | coordinador | `spec/SPEC-0011-requisitos-v04` | VAL-0011-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0013](specs/SPEC-0013-copia-v2.md) | Copia de trabajo de la v2 | 3 | jr-conformidad | `spec/SPEC-0013-copia-v2` | VAL-0013-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 
 ## Descartadas (1)
 
@@ -62,4 +57,6 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 8 · descartada 1.
 | [VAL-0010-01](informes/VAL-0010-01.md) | SPEC-0010 | APROBADO_CON_OBSERVACIONES | `76f02f8` | 2026-11-05 |
 | [VAL-0011-01](informes/VAL-0011-01.md) | SPEC-0011 | RECHAZADO | `81b848f` | 2026-11-05 |
 | [VAL-0011-02](informes/VAL-0011-02.md) | SPEC-0011 | APROBADO_CON_OBSERVACIONES | `0d6ab92` | 2026-11-05 |
+| [VAL-0013-01](informes/VAL-0013-01.md) | SPEC-0013 | RECHAZADO | `e808e47` | 2026-11-05 |
+| [VAL-0013-02](informes/VAL-0013-02.md) | SPEC-0013 | APROBADO_CON_OBSERVACIONES | `8e0fd4e` | 2026-11-05 |
 

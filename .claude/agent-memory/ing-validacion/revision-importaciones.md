@@ -28,4 +28,10 @@ Con ellas justificaba desviarse de la spec. Solo se descubre reproduciéndolas.
 - Antes de afirmar que una pieza «se extrajo de otro sitio y difiere», hago `cmp` del archivo completo, no solo de los pines. El símbolo del Wemos de SPEC-0009 ya era idéntico a la conversión del JSON, y lo descubrí tarde (VAL-0010-01).
 - Las referencias «antes» de VAL-0009 (`out_orig/drc.json`, `resolve.py`, `pads2.py`) están en `scratchpad\val9\`. Para comparar DRC uso un multiconjunto (`Counter`), no un `set`.
 
+Copias o renombrados de proyecto (VAL-0013-01, 2026-11-05):
+- Diseño idéntico: aplico con `sed` el mapeo de hojas/redes/`sheetfile` a la PCB de origen y hago `diff --strip-trailing-cr` frente a la nueva (solo debe quedar lo permitido). Netlists: `scratchpad\cmp_net.py` (componentes, redes y partición de nodos). ERC/DRC por violación: `scratchpad\cmp_inf.py`.
+- **El cajetín se valida en el PDF exportado** (`sch export pdf`, `pcb export pdf --include-border-title`), no en el `title_block`: `Cajetin_Kicad.kicad_wks` (heredada del TFG) tiene fijo el título del TFG, no usa `${TITLE}` ni `${REVISION}` y pinta `COMMENT1` como «PROYECTO:».
+- Las rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`) heredadas de la v1 apuntan a `../../`, que es la raíz del repositorio. **El trazado de pcbnew usa `pcbplotparams/outputdirectory` del `.kicad_pcb`**, no `output.plot` del `.kicad_pro`: hay que revisar los dos (en VAL-0013-01 se me pasó el de la PCB).
+- Un `diff` frente al origen no muestra lo que se hereda sin cambios. Busco a propósito restos heredados: `embedded_files` de la PCB (la v1 lleva incrustada `Cajetin_Kicad.kicad_wks`, comprimida con zstd; en el equipo no hay zstd), `outputdirectory` y textos fijos en la hoja de dibujo.
+
 Relacionado: [[comprobaciones-utiles]].

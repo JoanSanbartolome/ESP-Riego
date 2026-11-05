@@ -28,6 +28,8 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 ## Fase 2: arquitectura y selección de componentes
 
+> Forma de trabajo acordada con el usuario (2026-11-05): la v2 parte de una copia de trabajo de la v1 (`hardware/v2`, SPEC-0013) y se avanza **bloque a bloque**. Cada bloque (entrada y limitador, MCU, salidas, sensores, conectores) es una spec que hace su parte de esta fase (selección y cálculos) y sustituye su hoja en el esquema (fase 3). Las tareas de esta fase que afectan a toda la placa (presupuesto de potencia, GPIO, bordes) se cierran a medida que llegan los bloques.
+
 - [ ] Cerrar las decisiones abiertas D3–D6 y D9; D9 (módulo de expansión) con el informe de SPEC-0006. D2 y D8 ya están cerradas (DEC-0003: salidas alimentadas con *high-side* inteligente y limitador común).
 - [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
 - [ ] Fuente real: comprobar en su etiqueta o su modelo que es de tensión constante y que sus protecciones cuadran con las supuestas en DEC-0004, antes de elegir el limitador.
@@ -40,12 +42,15 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 ## Fase 3: esquema v2
 
-- [ ] Proyecto `hardware/v2/` con las hojas `alimentacion`, `mcu`, `salidas`, `sensores` y `conectores`.
+- [ ] Copia de trabajo `hardware/v2/` (proyecto `esp-riego`) a partir de `v1.1-tfg`, con las hojas `alimentacion`, `mcu`, `salidas` y `conectores` (SPEC-0013); `sensores` llega con su bloque.
+- [ ] Sustituir cada hoja por el bloque de la v2, una spec por bloque.
 - [ ] Campos en cada símbolo: `Value`, `Footprint`, `LCSC Part#`, `MPN` y `Datasheet`.
 - [ ] ERC sin errores.
 - [ ] Revisión: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo, test points.
 
 ## Fase 4: layout v2
+
+La PCB de la copia de trabajo es la de la v1: el layout se rehace cuando el esquema esté estable, porque la distribución de bornes en dos bordes cambia toda la colocación.
 
 - [ ] *Floorplan*: salidas 1–3 en el borde superior y 4–6 en el inferior, junto con la entrada y la expansión (REL-09, FAB-07); antena en un lateral, lejos de las salidas; buck junto a la entrada; sensor de temperatura y humedad en un borde, aislado térmicamente (AMB-02).
 - [ ] Clases de red y `.kicad_dru` (FAB-02, FAB-03, KIC-04).
