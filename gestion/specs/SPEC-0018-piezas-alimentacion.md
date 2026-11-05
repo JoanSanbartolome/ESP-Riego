@@ -2,15 +2,15 @@
 id: SPEC-0018
 titulo: Piezas del bloque de alimentación
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0018-piezas-alimentacion
 requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-07, ALI-08, ALI-09, ALI-10, ALI-11, ALI-12, ALI-13, KIC-01]
 depende_de: [SPEC-0017]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0018-02
 ---
 
 # SPEC-0018 · Piezas del bloque de alimentación
@@ -56,3 +56,4 @@ Todas las piezas de la lista de `docs/diseno/alimentacion.md` tienen símbolo, h
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
+| 2026-11-05 | coordinador | Cierra la spec; M de VAL-0018-02 corregida (vías 0,3/0,6, DRC 0 con U2 colocada) | VAL-0018-02 (APROBADO_CON_OBSERVACIONES) |
