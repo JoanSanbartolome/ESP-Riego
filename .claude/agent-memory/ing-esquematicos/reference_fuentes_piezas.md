@@ -15,6 +15,8 @@ Alternativas que funcionan con WebFetch:
 
 Datasheets en PDF: WebFetch guarda el binario en `tool-results/` y no lo lee. Hay que extraer el texto con `pdftotext -layout <ruta> -` a la salida estándar. La guardia bloquea `mkdir` en el *scratchpad*, así que no se escribe en archivos intermedios.
 
-Los PDF de LCSC de las PROFET clásicas de Infineon (BTS428L2, BSP752R, BSP762T) tienen la fuente codificada: `pdftotext` y PyMuPDF devuelven texto desplazado y sin cifras. Hay que buscar otra copia del datasheet. Con PyMuPDF, usar `sys.stdout.reconfigure(encoding='utf-8')`, porque con `-I` no se lee PYTHONIOENCODING.
+Los PDF de LCSC de las PROFET clásicas de Infineon (BTS428L2, BSP752R, BSP762T) tienen la fuente codificada: `pdftotext` y PyMuPDF devuelven texto desplazado y sin cifras. Se leen renderizando las páginas a imagen con PyMuPDF (así lo hizo VAL-0005-01).
+
+Desde Bash, curl descarga al *scratchpad* los PDF de `datasheet.lcsc.com` y lee el JSON de `wmsc.lcsc.com` (campo `pdfUrl`). st.com no responde a curl, y el clasificador bloquea forzarlo con cabeceras de navegador: usar la copia de LCSC. Para descargar: `cd` al *scratchpad* y `curl -o` con nombre relativo. La guardia lee `<…>` y `>` dentro de un comando como redirección aunque vayan dentro de una cadena de Python: para cambiar textos con esos signos, usar Edit. Con PyMuPDF, usar `sys.stdout.reconfigure(encoding='utf-8')`, porque con `-I` no se lee PYTHONIOENCODING.
 
 `search_parts_registry` (PartReel) solo da huellas y símbolos, sin datos de compra.
