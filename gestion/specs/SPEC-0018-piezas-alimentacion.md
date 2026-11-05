@@ -1,0 +1,54 @@
+---
+id: SPEC-0018
+titulo: Piezas del bloque de alimentación
+fase: 2
+estado: propuesta
+responsable: jr-conformidad
+revisor: ing-validacion
+rama: spec/SPEC-0018-piezas-alimentacion
+requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-07, ALI-08, ALI-09, ALI-10, ALI-11, ALI-12, ALI-13, KIC-01]
+depende_de: [SPEC-0017]
+creada: 2026-11-05
+cerrada:
+validacion:
+---
+
+# SPEC-0018 · Piezas del bloque de alimentación
+
+## Objetivo
+
+Todas las piezas de la lista de `docs/diseno/alimentacion.md` tienen símbolo, huella y 3D en las librerías del proyecto, con sus campos completos y su disponibilidad en JLCPCB confirmada.
+
+## Alcance
+
+- Incluye:
+  - símbolos, huellas y modelos 3D que falten, reutilizando las librerías oficiales de KiCad cuando existan;
+  - campos `LCSC`, `MPN`, `Fabricante`, `Datasheet` y tipo de montaje de JLCPCB (básica o extendida) y stock;
+  - fichas de `hardware/componentes/` actualizadas.
+- Excluye:
+  - cambiar valores o piezas elegidas en SPEC-0017 (si una no está disponible, se propone una alternativa al coordinador);
+  - editar los esquemas o la PCB de `hardware/v2`.
+
+## Entradas
+
+- `docs/diseno/alimentacion.md` (lista de piezas, SPEC-0017).
+- `hardware/libraries/` y las tablas de librerías.
+- Checklist `gestion/checklists/librerias.md`.
+
+## Entregables
+
+- Piezas nuevas en `hardware/libraries/` y fichas actualizadas.
+- Log `gestion/logs/SPEC-0018/01-jr-conformidad.md` con el repaso de la checklist y la lista de piezas que validación debe revisar contra su datasheet.
+
+## Criterios de aceptación
+
+- [ ] Cada pieza de la lista tiene símbolo y huella resolubles desde `hardware/v2`, con su 3D.
+- [ ] Pines y pads coinciden con el datasheet (página citada).
+- [ ] Campos completos y stock en JLCPCB confirmados con fecha.
+- [ ] La checklist de librerías está pasada punto por punto.
+
+## Registro
+
+| Fecha | Agente | Acción | Referencia |
+|---|---|---|---|
+| 2026-11-05 | coordinador | Crea la spec (propuesta) | |

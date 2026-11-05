@@ -1,0 +1,55 @@
+---
+id: SPEC-0019
+titulo: Hoja de alimentación de la v2
+fase: 3
+estado: propuesta
+responsable: ing-esquematicos
+revisor: ing-validacion
+rama: spec/SPEC-0019-hoja-alimentacion
+requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-07, ALI-08, ALI-09, ALI-10, ALI-11, ALI-12, ALI-13]
+depende_de: [SPEC-0018]
+creada: 2026-11-05
+cerrada:
+validacion:
+---
+
+# SPEC-0019 · Hoja de alimentación de la v2
+
+## Objetivo
+
+La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a ser el bloque de entrada y limitador de la v2, según `docs/diseno/alimentacion.md`, con el ERC limpio.
+
+## Alcance
+
+- Incluye:
+  - sustituir el contenido de la hoja por el bloque de la v2, con las piezas de SPEC-0018;
+  - etiquetas jerárquicas para 24 V del bus de salidas, 5 V, 3,3 V, GND, VIN_SENSE, habilitación e IMON del limitador;
+  - VAL-0014-01-01 (textos de bloque de `conectores.kicad_sch` y `alimentacion.kicad_sch`) y VAL-0014-01-02 (quitar de `fp-lib-table` y `sym-lib-table` las librerías de la v1 que no se usen);
+  - mantener la paridad esquema–PCB que exija `verificar.py` (las piezas nuevas se sincronizan con la PCB sin colocarlas).
+- Excluye:
+  - colocación y rutado;
+  - otras hojas, salvo las etiquetas que conecten con esta.
+
+## Entradas
+
+- `docs/diseno/alimentacion.md`, `gestion/logs/SPEC-0018/01-jr-conformidad.md`.
+- `gestion/informes/VAL-0014-01.md` (01 y 02).
+- Checklist `gestion/checklists/esquema.md`.
+
+## Entregables
+
+- `hardware/v2/alimentacion.kicad_sch` y las tablas de librerías de `hardware/v2` corregidas.
+- Log `gestion/logs/SPEC-0019/01-ing-esquematicos.md` con el repaso de la checklist y la salida de `verificar.py`.
+
+## Criterios de aceptación
+
+- [ ] Cada pieza y cada valor de la hoja coinciden con `docs/diseno/alimentacion.md`.
+- [ ] `verificar.py hardware/v2`: ERC 0, sin errores de paridad nuevos (se justifican las diferencias por piezas sin colocar).
+- [ ] VAL-0014-01-01 y 02 resueltas.
+- [ ] Ninguna pieza de la hoja usa una librería de la v1.
+
+## Registro
+
+| Fecha | Agente | Acción | Referencia |
+|---|---|---|---|
+| 2026-11-05 | coordinador | Crea la spec (propuesta) | |
