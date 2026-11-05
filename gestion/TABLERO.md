@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 1 · cerrada 11 · descartada 3.
+Specs por estado: propuesta 2 · abierta 0 · cerrada 12 · descartada 3.
 
 ## Propuestas (2)
 
@@ -11,13 +11,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 11 · descartada 3.
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | — | 2026-11-05 | — |
-
-## Cerradas (11)
+## Cerradas (12)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -32,6 +26,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 11 · descartada 3.
 | [SPEC-0013](specs/SPEC-0013-copia-v2.md) | Copia de trabajo de la v2 | 3 | jr-conformidad | `spec/SPEC-0013-copia-v2` | VAL-0013-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md) | Limpieza de la copia de trabajo de la v2 | 3 | ing-esquematicos (esquema) e ing-layout (PCB) | `spec/SPEC-0014-limpieza-v2` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | VAL-0015-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | VAL-0016-02 (APROBADO) | 2026-11-05 | 2026-11-05 |
 
 ## Descartadas (3)
 
@@ -71,4 +66,6 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 11 · descartada 3.
 | [VAL-0014-01](informes/VAL-0014-01.md) | SPEC-0014 | APROBADO_CON_OBSERVACIONES | `9a8c24f` | 2026-11-05 |
 | [VAL-0015-01](informes/VAL-0015-01.md) | SPEC-0015 | APROBADO_CON_OBSERVACIONES | `8503def` | 2026-11-05 |
 | [VAL-0015-02](informes/VAL-0015-02.md) | SPEC-0015 | APROBADO_CON_OBSERVACIONES | `daa0aa6` | 2026-11-05 |
+| [VAL-0016-01](informes/VAL-0016-01.md) | SPEC-0016 | APROBADO_CON_OBSERVACIONES | `d125c37` | 2026-11-05 |
+| [VAL-0016-02](informes/VAL-0016-02.md) | SPEC-0016 | APROBADO | `55fc4ab` | 2026-11-05 |
 

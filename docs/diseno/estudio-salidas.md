@@ -1,10 +1,20 @@
 # Estudio de la tecnología de las salidas (SPEC-0005 · D8, D2)
 
-**Estado:** propuesta para que el usuario decida D8 y D2. No modifica `docs/02-especificaciones-v2.md`.
-**Autor:** ing-esquematicos · **Fecha:** 2026-11-04 · **Precios, stock y tipo JLCPCB consultados el 2026-11-04** (LCSC y `jlcpcb.com/partdetail`).
+**Estado:** cerrado. D8 y D2 las decidió el usuario en [DEC-0003](../../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md) (opción 5, BTT6050-1ERA; solo salida alimentada), con la carga máxima de [DEC-0004](../../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md). Los requisitos vigentes están en `docs/02-especificaciones-v2.md` **v0.4**; este estudio no los modifica.
+**Autor:** ing-esquematicos · **Fecha:** 2026-11-04 (correcciones de texto: 2026-11-05, SPEC-0016) · **Precios, stock y tipo JLCPCB consultados el 2026-11-04** (LCSC y `jlcpcb.com/partdetail`).
 **Requisitos:** REL-01, REL-03, REL-05 (y REL-02, REL-04, REL-08, REL-09, ALI-01…ALI-04, FAB-07, FAB-08).
 
-> La base de piezas local del MCP (`search_jlcpcb_parts`) está vacía (0 piezas), así que los datos de LCSC y JLCPCB se han tomado de sus fichas web. `jr-conformidad` debe confirmar los códigos LCSC antes de usarlos en el esquema.
+> La base de piezas local del MCP (`search_jlcpcb_parts`) está vacía (0 piezas), así que los datos de LCSC y JLCPCB se han tomado de sus fichas web. `jr-conformidad` debe confirmar los códigos LCSC antes de usarlos en el esquema. El stock citado es el de LCSC, que no garantiza el de montaje en JLCPCB (VAL-0005-01-09).
+
+> **Vigencia (2026-11-05). Las válvulas instaladas son de 24 V DC.** §0–§10 se escribieron suponiendo válvulas de 24 V AC y proponen el relé: quedan como información. La conclusión es la de §11, **con las sustituciones S1–S7 de DEC-0003, DEC-0004 y `docs/02` v0.4**, que mandan sobre cualquier texto del estudio. En el resto del documento, «*Sustituido: Sn*» remite a esta lista.
+>
+> - **S1 · Tecnología y forma (DEC-0003, REL-03, REL-08):** opción 5, BTT6050-1ERA (BTT6030-2ERA de segunda fuente y BSP752R de reserva); solo salida alimentada, sin contacto libre, relé ni puente por canal.
+> - **S2 · Protección ante cortos (ALI-13, REL-08):** limitador común del bus de las salidas (eFuse o *hot-swap* de ≥ 60 V), con el *buck* alimentado antes del limitador. Sustituye a la autonomía de la lógica (diodo + condensador; los «≈ 60 ms» con 470 µF eran 5–15 ms en el peor caso, VAL-0005-01-01), al fusible por canal, al fusible de 4 A T del bus y a «se protege solo»: con la fuente de 5 A, el BTT (≥ 38 A) nunca llega a limitar.
+> - **S3 · Corte general (ALI-13):** la habilitación del limitador desde un GPIO con *pull-down*. Sustituye al relé o al BTT6030-2ERA por borde.
+> - **S4 · Corriente total (ALI-12, ALI-13, DEC-0004):** la impone el limitador, con una banda de 3,5–4,9 A (≈ 4,2 A ± 16 %) y una carga instalada máxima de 3,5 A. Sustituye a N2 («≈ 4 A en total») y a la vigilancia de los 4 A con la suma de IS (k_ILIS ± 25 %, VAL-0005-01-04); la medida del total es la IMON del limitador, si la tiene.
+> - **S5 · Pistas y clases (REL-05, FAB-03):** `OUT_n` y su retorno GND, ≈ 1,2 mm (4,9 A con ΔT ≤ 40 °C, IPC-2221); bus de las salidas hasta cada *high-side* en `Power_In` (5,1 A).
+> - **S6 · Bornes (FAB-07):** 2 polos por canal (OUT_n y GND), 6 por borde; en el inferior, además, la entrada, la entrada de pulsos (EXP-01) y la expansión.
+> - **S7 · Diagnóstico (REL-10):** IS a un ADC1 con R_SENSE en serie y tensión ≤ 3,1 V también en fallo; carga abierta en OFF con un *pull-up* R_OL (fuga ≤ 1 mA) y el bus habilitado.
 
 ### Datos de entrada añadidos durante el estudio
 
@@ -13,23 +23,25 @@ Transmitidos por el coordinador el 2026-11-04. Los mensajes llegaron en dos tand
 | # | Dato | Origen | Dónde se usa |
 |---|---|---|---|
 | N1 | **Única entrada: fuente de 24 V DC de hasta 5 A.** Rango de diseño de **18–30 V DC**, con protección de polaridad y una **TVS de clase SMBJ33A**. Desaparecen la entrada de 24 V AC y el puente rectificador. | Usuario, 2026-11-04 (sustituye la entrada de 24/32 V AC) | Todo el estudio |
-| N2 | **Las 6 salidas pueden estar activas a la vez**, con **≈ 4 A en total** en las salidas alimentadas. | Usuario, 2026-11-04 | §1.3, §5, §7.3, §8 |
+| N2 | **Las 6 salidas pueden estar activas a la vez**, con **≈ 4 A en total** en las salidas alimentadas. *Sustituido: S4* (carga instalada máxima de 3,5 A y limitador de 3,5–4,9 A, DEC-0004). | Usuario, 2026-11-04 | §1.3, §5, §7.3, §8 |
 | N3 | **«Salida alimentada» (D2)** = entregar **24 V DC** a la carga desde la entrada. | Coordinador, 2026-11-04 | §1.7, §1.8 |
-| N4 | Las válvulas instaladas siguen siendo de **24 V AC**, pero **ya no se pueden alimentar desde la placa**. Hay que analizar qué haría falta para seguir usándolas: **contacto libre con su propio transformador de 24 V AC (≤ 32 V AC en vacío, ≈ 45 V de pico)**, o **cambiar a válvulas de 24 V DC o de impulso (*latch*)**. | Usuario y coordinador, 2026-11-04 (VAL-0004-01, hallazgo 02) | §1.4, §3.2 |
+| N4 | *Superado por §11: las válvulas instaladas son de 24 V DC.* Dato original: las válvulas instaladas siguen siendo de **24 V AC**, pero **ya no se pueden alimentar desde la placa**. Hay que analizar qué haría falta para seguir usándolas: **contacto libre con su propio transformador de 24 V AC (≤ 32 V AC en vacío, ≈ 45 V de pico)**, o **cambiar a válvulas de 24 V DC o de impulso (*latch*)**. | Usuario y coordinador, 2026-11-04 (VAL-0004-01, hallazgo 02) | §1.4, §3.2 |
 | N5 | El **triac** solo vale para cargas AC alimentadas desde fuera; con salida alimentada en DC no funciona. | Coordinador, 2026-11-04 (VAL-0004-01, nota 6) | §2.3, §3.3 |
 | N6 | Añadir las corrientes de las **electroválvulas de 24 V DC** típicas. | Coordinador, 2026-11-04 | §1.2 |
 | U5 | La corriente del LED de control (SSR, optotriac, driver fotovoltaico) se justifica con margen sobre la I_FT máxima en todo el rango de V_F y de 3,3 V: es la causa de H5. | VAL-0004-01, hallazgo 08 | §1.6 |
-| U6 | En `docs/02` los REL van de REL-01 a REL-09; **REL-10 no existe** (la spec lo citaba por error). Los requisitos nuevos que se proponen aquí no llevan número: lo asigna el coordinador. | VAL-0004-01, hallazgo 15 | §7.3 |
+| U6 | En `docs/02` v0.1 los REL iban de REL-01 a REL-09; **REL-10 no existía** (la spec lo citaba por error; hoy REL-10 es el diagnóstico, DEC-0003). Los requisitos nuevos que se proponen aquí no llevan número: lo asigna el coordinador. | VAL-0004-01, hallazgo 15 | §7.3 |
 
 ---
 
 ## 0. Resumen para decidir
 
+> **Aviso:** este resumen es el de la primera versión, con válvulas de 24 V AC supuestas instaladas. **Las válvulas instaladas son de 24 V DC: la conclusión vigente es §11, con las sustituciones S1–S7 de DEC-0003 y DEC-0004** (cabecera). La propuesta de §0.3 (relé, D2 = ambas, corte general) no es la decidida.
+
 ### 0.1 Las cuatro formas de usar las válvulas
 
 | Vía | Qué es | Qué necesita de la salida |
 |---|---|---|
-| **V1** | Mantener las válvulas de 24 V AC con **su propio transformador** (≤ 32 V AC en vacío) | **Contacto libre**, flotante y bidireccional, que bloquee ≥ 45,3 V de pico |
+| **V1** | Mantener las válvulas de 24 V AC (supuestas instaladas; ver §11) con **su propio transformador** (≤ 32 V AC en vacío) | **Contacto libre**, flotante y bidireccional, que bloquee ≥ 45,3 V de pico |
 | **V2** | Cambiar a válvulas de **24 V DC** | **Salida alimentada** de 24 V DC (o contacto libre con fuente propia) |
 | **V3** | Cambiar a válvulas ***latch*** (impulso de 6–9 V DC, con inversión de polaridad) | Etapa común de polaridad y fuente de impulso, y un interruptor bidireccional por canal |
 | **V4** | Mantener las válvulas de 24 V AC **alimentadas en 24 V DC con PWM** (impulso + mantenimiento, como OpenSprinkler DC), sin transformador | Salida alimentada con **PWM** por canal; uso no estándar, ajustado a cada válvula |
@@ -44,14 +56,16 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 | **1b Relé subminiatura (G5NB / HF46F)** | ✔ | ✔ | ◐ | ✘ | ✔ | ◐ | Aguanta; la fuente limita | ≈ 1 µA | 0,1 W + 0,2 W de bobina | **≈ 75–80 mm** | **4,64 $ / 4,07 $** | THT a mano + SMT |
 | 2 SSR PhotoMOS de 60 V (AQV252G) | ◐ Solo con ≤ 28 V AC en vacío medidos | ✔ | ◐ | ✘ | ◐ | ✔ | Fusible rápido por canal | ≤ 2 µA | 0,12 W | ≈ 70–75 mm | 19,94 $ / 19,07 $ | Todo SMT |
 | 3 Triac + optotriac | ✔ | **✘** | ✘ | ✘ | ✘ | ◐ (AC) | Fusible rápido por canal | ≈ 0,35–1 mA | ≈ 1,0 W | ≈ 75–80 mm | 8,27 $ / 6,17 $ | Todo SMT |
-| 4a MOSFET *low-side* | ✘ | ✔ | ✘ | ◐ | ✔ | ✔ | Fusible rápido; **un corto del cable a tierra abre la válvula** | ≤ 1 µA | ≈ 0,15 W | ≈ 66–70 mm | 3,13 $ / 2,42 $ | Todo SMT |
+| 4a MOSFET *low-side* | ✘ | ✔ | ✘ | ◐ | ✔ | ✔ | Fusible rápido; **un corto del cable a tierra abre la válvula** | ≤ 20 µA (§2.4) | ≈ 0,15 W | ≈ 66–70 mm | 3,13 $ / 2,42 $ | Todo SMT |
 | 4b MOSFET *high-side* discreto | ✘ | ✔ | ✘ | ◐ | ✔ | ✔ | Fusible rápido por canal | ≤ 1 µA | ≈ 0,2 W | ≈ 66–70 mm | 2,74 $ / 2,08 $ | Todo SMT |
-| 4c MOSFET bidireccional de 100 V + driver fotovoltaico («SSR discreto») | ✔ | ✔ | ◐ | ✘ | ✔ | ✔ | Fusible rápido por canal | ≤ 3 µA | ≈ 0,5 W | ≈ 70–75 mm | 14,96 $ / 13,78 $ | Todo SMT |
-| **5 *High-side switch* inteligente de 24 V (BTT6050-1ERA)** | ✘ | ✔ | ✘ | ◐ | ✔ | ✔ | **Se protege solo y lo diagnostica** | ≤ 0,5 µA | ≈ 0,05–0,1 W | ≈ 70 mm | 8,39 $ / 7,93 $ | Todo SMT |
+| 4c MOSFET bidireccional de 100 V + driver fotovoltaico («SSR discreto») | ✔ | ✔ | ◐ | ✘ | ✔ | ✔ | Fusible rápido por canal | ≤ 20 µA (§2.4) | ≈ 0,5 W | ≈ 70–75 mm | 14,96 $ / 13,78 $ | Todo SMT |
+| **5 *High-side switch* inteligente de 24 V (BTT6050-1ERA)** | ✘ | ✔ | ✘ | ◐ | ✔ | ✔ | Limita (≥ 38 A) y se apaga por temperatura, pero **la fuente de 5 A limita antes**: hace falta protección común (*sustituido: S2*, limitador ALI-13). Lo diagnostica | ≤ 0,5 µA (más R_OL, S7) | ≈ 0,05–0,1 W | ≈ 70 mm | 8,39 $ / 7,93 $ | Todo SMT |
 
 ¹ Etapa de salida solamente (interruptor, protección, excitación del LED, LED indicador, resistencias y borne de 2 polos por canal), por placa, con las tarifas de JLCPCB *Economic PCBA* y los THT soldados a mano. No incluye el fusible rápido por canal, el corte general ni la etapa *latch*. Desglose en §5.
 
 ### 0.3 Propuesta (§7)
+
+*Superada: el usuario eligió la opción 5 (DEC-0003, S1). Se conserva como registro.*
 
 - **Propuesta: relé subminiatura 1b** (Omron G5NB-1A-E o Hongfa HF46F/5-HS1). Es la opción barata que cubre a la vez **V1**, para seguir con las válvulas instaladas y su transformador, y **V2**, para pasar a válvulas de 24 V DC. Salida alimentada y contacto libre seleccionables por canal (D2 = ambas), con un **corte general** del bus de 24 V.
 - **Alternativa: 4c, el «SSR discreto»** de 100 V (2× IRLML0100 + VOM1271T), si se quiere todo SMT y sin desgaste, con las mismas vías V1 y V2.
@@ -63,6 +77,8 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 
 ### 1.1 Requisitos y condiciones
 
+Requisitos de `docs/02` v0.1, vigentes cuando se escribió el estudio; los actuales son los de la v0.4.
+
 - REL-01: 6 salidas. REL-02: ≤ 30 V AC / 36 V DC. REL-04: salidas apagadas en el arranque, el reset y el flasheo. REL-05: ≥ 1 A continuo por canal. REL-08: salida alimentada y/o contacto libre (D2). REL-09: canales 1–3 arriba y 4–6 abajo.
 - ALI (pendiente de reescribir por el coordinador con N1): 18–30 V DC, protección de polaridad y TVS SMBJ33A.
 - §5: ambiente de −10 a +50 °C; componentes de −20 a +85 °C como mínimo.
@@ -70,7 +86,7 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 
 ### 1.2 Las cargas
 
-**a) Electroválvula de 24 V AC (la instalada; con N1 solo se puede usar por V1 o V4)**
+**a) Electroválvula de 24 V AC (supuesta instalada al escribir esta sección; las instaladas son de 24 V DC, §11. Con N1 solo se puede usar por V1 o V4)**
 
 | Solenoide | Frecuencia | Arranque (*inrush*) | Mantenimiento | Resistencia de bobina | Fuente |
 |---|---|---|---|---|---|
@@ -95,7 +111,7 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 - En una bobina DC el **arranque es igual al mantenimiento**: no hay reactancia que limite la corriente en régimen. La corriente sube con la constante L/R hasta V/R, sin pico.
 - Bobina fría: la resistencia del cobre a −10 °C es ≈ 12 % menor que a 20 °C, así que la corriente sube un ≈ 14 %.
 - **Valores de diseño por válvula de 24 V DC:** **0,25 A** a 20 °C (redondeo al alza del peor dato) y **0,28 A** en frío; **2 válvulas: 0,56 A**.
-- Energía al abrir: con L ≈ 1 H (supuesto, no hay dato del fabricante), ½·L·I² ≈ 31 mJ. Se toma ≤ 50 mJ para dimensionar la protección.
+- Energía al abrir: con L ≈ 1 H (supuesto, no hay dato del fabricante), ½·L·I² ≈ 31 mJ. Se toma ≤ 50 mJ para dimensionar la protección. *Corregido en §11.2 (VAL-0005-01-06): el criterio vigente es la energía de desmagnetización con 2 válvulas por canal (ec. 5.1 del fabricante) frente a la curva E_AS(I_L) (REL-03).*
 
 **c) Electroválvula *latch* (vía V3)**
 
@@ -120,6 +136,8 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 - Cualquier fuga de ≤ 1 mA **no puede abrir ni mantener una válvula**. Sí puede dar una tensión «fantasma» en un polímetro de alta impedancia.
 
 ### 1.3 Corriente total y cortocircuito con una fuente de 5 A (N1, N2)
+
+> **Aviso (DEC-0003, DEC-0004):** el límite de 4 A de esta tabla y la protección propuesta abajo (fusible por canal, fusible de 4 A T y autonomía de la lógica) están *sustituidos: S2 y S4*. Vigente: carga instalada máxima de 3,5 A (ALI-12) y limitador común de 3,5–4,9 A (ALI-13), con el *buck* antes del limitador y sin retención. La prueba térmica vigente es la de `docs/02` §6 (1 h con 3,5 A en total).
 
 | Caso | Corriente en el bus de 24 V de las salidas | ¿Cabe en 4 A? |
 |---|---|---|
@@ -166,7 +184,7 @@ Valores: ✔ sí · ◐ sí con condición · ✘ no (detalle en §3). Cargas: *
 | MOSFET P de 60 V (FDN5618P), 4b | 6,7 V de margen | — | ✔ |
 | MOSFET N de 100 V (IRLML0100), 4c | ✔ | V_C de la SMAJ48CA = 77,4 V < 100 V | ✔ |
 | BTT6050-1ERA | V_S máx. 48 V; V_S(LD) 65 V (impulso con R_I = 2 Ω) | — | ✔ (el impulso de la SMBJ33A queda dentro de V_S(LD)) |
-| ISP752R | V_bb máx. 52 V < 53,3 V; V_bb(AZ) 62 V con R_GND | — | ◐ |
+| ISP752R / BSP752R | V_bb máx. 52 V < 53,3 V, pero *load dump* de 73,5 V (R_I = 2 Ω, R_L = 13,5 Ω, 400 ms) y V_bb(AZ) ≥ 62 V > 53,3 V (BSP752R V1.3, p. 3 y p. 5) | — | ✔ (como el BTT6050: el impulso queda dentro del *load dump*; mismo criterio que §11.3) |
 
 ### 1.6 Excitación del LED de control: margen sobre I_FT (U5, H5)
 
@@ -214,7 +232,9 @@ Fórmulas: I_F,mín = (3,20 − V_F,máx − 0,01) / (1,01·R) e I_F,máx = (3,4
 | A + C seleccionable (puente de soldadura por canal) | Puente cerrado: RET_n → +24 V del bus. Puente abierto: contacto libre | 2 + COM | 7 | 35,6 mm |
 | V3 *latch* (ampliación) | Puente H común (±9 V) entre la barra LATCH y COM_L; el interruptor del canal selecciona la válvula | 2 + COM_L | 7 | 35,6 mm |
 
-Todas caben en 100 mm de ancho. En el borde inferior hay que añadir la entrada (2 polos) y el conector de expansión (≈ 15 mm). Con A + C quedan ≈ 61 mm más los huecos. El COM y la entrada llevan hasta 4–5 A; el WJ500V está especificado para 18 A.
+Todas caben en 100 mm de ancho. En el borde inferior hay que añadir la entrada (2 polos, 10,2 mm), la entrada de pulsos EXP-01 (2 polos, 10,2 mm) y el conector de expansión (≈ 15 mm). Con A + C quedan ≈ 71 mm más los huecos, dentro de los ≈ 86 mm útiles. El COM y la entrada llevan hasta 4–5 A; el WJ500V está especificado para 18 A.
+
+*Vigente (S6, FAB-07):* 2 polos por canal, 6 por borde (30,5 mm); con la entrada, EXP-01 y la expansión, el borde inferior suma ≈ 66–71 mm (DEC-0003).
 
 ---
 
@@ -225,6 +245,17 @@ Criterios comunes a todas las opciones:
 - *Pull-down* de 100 kΩ en la puerta o en la entrada, lógica activa a nivel alto y nada en los pines de arranque (REL-04, MCU-05).
 - Vida útil con 6 maniobras al día: ≈ 2200 al año.
 - TVS de salida **SMAJ48CA** cuando la salida puede trabajar como contacto libre (V1).
+
+**Vida útil y expansión por opción** (VAL-0005-01-10):
+
+| Opción | Vida útil (≈ 2200 maniobras al año) | Compatibilidad con el módulo de expansión |
+|---|---|---|
+| 1 Relé | Desgaste mecánico: ≥ 100 000 maniobras (G5NB, 5 A 250 V AC) y ≥ 200 000 (3 A 30 V DC), > 45 años (§2.1) | El expansor ataca el AO3400A de la bobina; el *pull-down* mantiene el relé abierto mientras sus salidas arrancan en alta impedancia (§2.1) |
+| 2 SSR PhotoMOS | Sin desgaste mecánico. Lo limita la degradación del LED de control, cubierta con I_F ≥ 2·I_FT (§1.6) | El expansor ataca la puerta del AO3400A del LED (§1.6) |
+| 3 Triac | Sin desgaste mecánico; LED del optotriac como en la opción 2 (§1.6) | Como la opción 2 (§1.6) |
+| 4a/4b MOSFET | Sin desgaste mecánico ni LED | El expansor ataca la puerta (4a) o la base del MMBT3904 (4b), con el *pull-down* de REL-04 |
+| 4c MOSFET bidireccional | Sin desgaste mecánico; LED del VOM1271T como en la opción 2 (§1.6) | Como la opción 2 (§1.6) |
+| 5 *High-side* inteligente | Sin desgaste mecánico ni LED de control | IN y DEN desde el expansor (entradas de 3,3 V con *pull-down*); la IS necesita un ADC en el módulo. Un canal por chip, fácil de repetir (§11.4) |
 
 ### 2.1 Opción 1 — Relé electromecánico
 
@@ -357,7 +388,7 @@ Alternativa: SUPSiC **GAQV252G3EH**.
 |---|---|---|---|---|---|---|---|
 | SSR de 60 V (principal) | AQV252GAX | Panasonic | C425149 | Extended | 2,8039 (≥ 30) | 5 650 | [PDF](https://datasheet.lcsc.com/datasheet/pdf/eaef62e8d8c62312c369a4537573fadb.pdf?productCode=C425149) |
 | SSR de 60 V (alternativa) | GAQV252G3EH | SUPSiC | C7435170 | Extended | 1,9013 (≥ 30) | 1 000 | [PDF](https://datasheet.lcsc.com/datasheet/pdf/fc5528091e245e3b9340a0a364076b20.pdf?productCode=C7435170) |
-| SSR de 100 V (sin stock útil) | LT925 | Letex | C2890348 | — | 1,9135 (≥ 50) | **3** | [PDF](https://datasheet.lcsc.com/datasheet/pdf/667c2bb9d044131a1ea76f426ad82ffa.pdf?productCode=C2890348) |
+| SSR de 100 V (sin stock útil) | LT925 | Letex | C2890348 | No consultado (descartado por stock) | 1,9135 (≥ 50) | **3** | [PDF](https://datasheet.lcsc.com/datasheet/pdf/667c2bb9d044131a1ea76f426ad82ffa.pdf?productCode=C2890348) |
 | TVS para V1 con ≤ 28 V AC | SMAJ40CA | MDD | C113970 | Extended | 0,0435 (≥ 20) | 47 760 | [Ficha](https://www.lcsc.com/product-detail/C113970.html) |
 | Driver, LED, borne | ver §2.1 | | C20917, C2286, C8465 | | | | |
 
@@ -454,7 +485,11 @@ RET_n ── D1 [Q1] S ═ S [Q2] D2 ── OUT_n;   SMAJ48CA entre RET_n y OUT_
 - 4b: FDN5618P, ≈ 0,17–0,19 Ω → ≈ 0,2 W.
 - 4c: 2 × ≈ 0,25 Ω (IRLML0100 con 7,8 V; 220 mΩ a 10 V) → ≈ **0,5 W a 1 A**; con 6 × 0,67 A, 1,35 W.
 
-**Fuga en reposo.** ≤ 1 µA (≤ 3 µA en 4c).
+**Fuga en reposo** (I_DSS máx. del datasheet, a 25 °C salvo indicación; corregida, VAL-0005-01-10):
+- 4a, IRLML0060: ≤ 20 µA con V_DS = 60 V; ≤ 250 µA a T_J = 125 °C (Infineon/IR, p. 2).
+- 4b, FDN5618P: ≤ 1 µA con V_DS = −48 V (onsemi, rev. 3, oct. 2017, p. 2).
+- 4c, IRLML0100: ≤ 20 µA con V_DS = 100 V; ≤ 250 µA a 125 °C (Infineon/IR, p. 2). Bloquea uno de los dos MOSFET.
+- Todas por debajo del criterio de 1 mA de §1.2 (≤ 0,04 V sobre la bobina con 250 µA): no abren la válvula. La cifra anterior (≤ 1–3 µA) no tenía fuente y era optimista en 4a y 4c.
 
 **Seguridad.**
 - 4a: **un corto del cable a tierra abre la válvula**, y el cable queda a +24 V en reposo (§1.4). No recomendable en campo.
@@ -485,13 +520,13 @@ RET_n ── D1 [Q1] S ═ S [Q2] D2 ── OUT_n;   SMAJ48CA entre RET_n y OUT_
 | MOSFET P de 60 V (4b) | FDN5618P | onsemi | C400792 | Extended | 0,1522 (≥ 5) / 0,1196 (≥ 50) | 24 750 | [PDF](https://datasheet.lcsc.com/datasheet/pdf/629cfb3c8437406c7fc1aeb2ac929054.pdf?productCode=C400792) |
 | NPN de traslación (4a/4b) | MMBT3904 | JSCJ | C20526 | **Basic** | 0,0118 (≥ 50) | 2 369 500 | [Ficha](https://www.lcsc.com/product-detail/C20526.html) |
 | Driver fotovoltaico (4c) | VOM1271T | Vishay | C146286 | Extended | 1,2370 (≥ 30) | 6 238 | [PDF](https://datasheet.lcsc.com/datasheet/pdf/5bb285b0c6eb43ddaec41c184c50e9b2.pdf?productCode=C146286) |
-| Diodo de libre circulación sin PWM | M7 | MDD | C95872 | Basic (por confirmar) | 0,0104 (≥ 100) | 5 869 500 | [Ficha](https://www.lcsc.com/product-detail/C95872.html) |
+| Diodo de libre circulación sin PWM | M7 | MDD | C95872 | Basic (por confirmar: la ficha de JLCPCB no muestra el tipo; no se usa con la opción 5, que tiene *clamp* interno) | 0,0104 (≥ 100) | 5 869 500 | [Ficha](https://www.lcsc.com/product-detail/C95872.html) |
 
 Descartados para el bus: el SS14 (C2480, 40 V < 53 V) y el AO3400A (30 V). El Schottky de ≥ 60 V para PWM está pendiente.
 
 ### 2.5 Opción 5 — *High-side switch* inteligente de 24 V
 
-**Funcionamiento.** MOSFET N con bomba de carga, entradas compatibles con 3,3 V, limitación de corriente, protección térmica y de sobretensión, *clamp* inductivo interno y **medida proporcional de corriente** (pin IS, k_ILIS ≈ 1500). Diagnostica la carga abierta con la salida encendida y apagada, el cortocircuito a GND y a V_S, y la sobretemperatura. Esquema de principio:
+**Funcionamiento.** MOSFET N con bomba de carga, entradas compatibles con 3,3 V, limitación de corriente, protección térmica y de sobretensión, *clamp* inductivo interno y **medida proporcional de corriente** (pin IS). k_ILIS = 1500 ± 25 % a 0,5 A, 1600 ± 50 % a 50 mA y 1500 ± 12 % a 1 A (BTT6050-1ERA rev. 1.00, tabla 9, P_7.5.x, p. 30): con la carga real (0,2–0,56 A) la medida tiene ± 25–50 %. Diagnostica la carga abierta con la salida encendida y apagada (en OFF, con un *pull-up* externo R_OL, §7.3.3.2, p. 27), el cortocircuito a GND y a V_S, y la sobretemperatura. Esquema de principio:
 
 ```
 +24V ── VS BTT6050-1ERA OUT ── OUT_n ── válvula ── COM (GND);  M7/Schottky GND→OUT_n solo si hay PWM (V4)
@@ -500,16 +535,20 @@ IS ── R_IS a GND ── ADC1 (los IS de los 6 canales se pueden unir en una 
 GND del IC ── R_GND ── GND
 ```
 
+*Falta en este esquema (VAL-0005-01-05; S7, REL-10):*
+- **R_SENSE = 10 kΩ** en serie entre IS y el ADC1, más un *clamp* (diodo a 3V3 o R_IS dimensionada) para que V_ADC ≤ 3,1 V también en fallo: I_IS(FAULT) es de 6 / 15 / 40 mA (p. 30) y el pin puede subir hasta V_S − (1–3,5) V (V_IS(RANGE), tabla 9, p. 30). Infineon recomienda R_IN = R_DEN = R_SENSE = 10 kΩ (§6.4, p. 19).
+- **R_OL**, *pull-up* de V_S a OUT, para la carga abierta en OFF (§7.3.3.2, p. 27), dimensionado para una fuga por la válvula ≤ 1 mA (§1.2).
+
 **Pieza principal.** Infineon **BTT6050-1ERA** (PROFET+ 24 V):
 - V_S de funcionamiento de 5–36 V (48 V máximo absoluto) y **V_S(LD) = 65 V**;
 - R_DS(on) ≤ 100 mΩ a 150 °C (50 mΩ nominales);
 - I_L(NOM) 4,5 A;
 - limitación de corriente mínima de 38 A;
 - fuga en reposo ≤ 0,5 µA a 25 °C;
-- E_AS 60 mJ (4,5 A, 28 V);
+- E_AS 60 mJ (4,5 A, 28 V; P_4.1.23, p. 7); con la carga real vale la curva de la fig. 12 (≈ 155 mJ a ≤ 1 A, p. 13), §11.2;
 - PG-TDSO-14.
 
-Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ, 6 A por canal, 10 479 en stock). Tres circuitos cubren los 6 canales.
+Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ; **I_L(NOM) de 6 A con un canal activo y 4 A con los dos**, P_5.5.3, p. 16; k_ILIS 2240, distinto del BTT6050, p. 31; 10 479 en stock). Tres circuitos cubren los 6 canales.
 
 **Vías.**
 - V1: ✘.
@@ -521,12 +560,12 @@ Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ, 6 A por canal, 10 479 en st
 
 **Disipación.** 0,05 W a 1 A con 50 mΩ, 0,1 W en caliente. La más baja.
 
-**Fuga en reposo.** ≤ 0,5 µA.
+**Fuga en reposo.** ≤ 0,5 µA del chip, más la corriente de R_OL si se monta (≤ 1 mA por diseño, S7).
 
 **Tensión.** Bus de 18–30 V dentro de 5–36 V. El impulso de la SMBJ33A (≤ 53,3 V) queda dentro de V_S(LD) = 65 V.
 
 **Seguridad.**
-- **Corto en campo:** se limita y se apaga por temperatura sin destruirse, y el MCU lo ve en IS. La limitación mínima (38 A) es más alta que la de la fuente, así que **el primer ms lo limita la fuente**. El MCU tiene que apagar el canal en cuanto IS indique sobrecorriente, y la lógica necesita autonomía (§1.3). Es la única opción que lo **diagnostica**, y la medida de IS detecta también una **válvula desconectada o un cable cortado** (carga abierta).
+- **Corto en campo:** se limita y se apaga por temperatura sin destruirse, y el MCU lo ve en IS. La limitación mínima (38 A) es más alta que la de la fuente, así que **el primer ms lo limita la fuente**. El MCU tiene que apagar el canal en cuanto IS indique sobrecorriente, y la lógica necesita autonomía (§1.3). *Sustituido: S2* (limitador común ALI-13, sin autonomía; el firmware identifica el canal y rearma los demás en ≤ 5 s, REL-08). Es la única opción que lo **diagnostica**, y la medida de IS detecta también una **válvula desconectada o un cable cortado** (carga abierta).
 - **Modo de fallo:** cortocircuito residual por sobretensión o ESD; detectable porque IS indica corriente con IN en bajo.
 
 **D2.** Solo salida alimentada (*high-side*, COM = GND), 1 polo + COM.
@@ -540,7 +579,7 @@ Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ, 6 A por canal, 10 479 en st
 - Stock suficiente para 10 placas (1748 / 10 479).
 
 **Contras.**
-- No admite V1: obliga a cambiar las válvulas instaladas (V2) o a moverlas por PWM (V4).
+- No admite V1: obliga a cambiar las válvulas instaladas (V2) o a moverlas por PWM (V4). (Con las válvulas reales, ya de 24 V DC, no aplica: §11.)
 - Un ADC1 y 1–2 GPIO más (DEN).
 
 **Piezas candidatas**
@@ -560,7 +599,7 @@ Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ, 6 A por canal, 10 479 en st
 
 | Carga | 1 Relé | 2 SSR PhotoMOS de 60 V | 3 Triac | 4a/4b MOSFET | 4c MOSFET bidireccional de 100 V | 5 *High-side* inteligente |
 |---|---|---|---|---|---|---|
-| **Válvula 24 V AC** (instalada) | ✔ V1: contacto libre con su transformador | ◐ V1 solo con ≤ 28 V AC medidos | ✔ V1 | ◐ V4: PWM desde 24 V DC, ajustado a la válvula | ✔ V1 | ◐ V4 |
+| **Válvula 24 V AC** (supuesta instalada al principio; las instaladas son de 24 V DC, §11) | ✔ V1: contacto libre con su transformador | ◐ V1 solo con ≤ 28 V AC medidos | ✔ V1 | ◐ V4: PWM desde 24 V DC, ajustado a la válvula | ✔ V1 | ◐ V4 |
 | **Válvula 24 V DC** | ✔ V2 alimentada o con su fuente | ✔ | ✘ No se apaga en DC | ✔ | ✔ | ✔ Con diagnóstico de carga abierta |
 | **Válvula *latch* 6–9 V DC** | ◐ Etapa común (puente H + fuente de 9 V ≥ 2 A) y el relé selecciona el canal | ◐ Igual | ✘ | ✘ No bloquea la polaridad inversa | ◐ Igual que el relé | ✘ Solo *high-side* |
 | **Bomba pequeña DC** (≤ 2 A) | ✔ ≤ 3 A a 30 V DC | ◐ Arranque ≤ 5 A / 100 ms | ✘ (solo la bobina de AC de un relé de arranque, desde fuera) | ✔ Con diodo | ✔ ≤ 1,6 A | ✔ ≤ 4,5 A |
@@ -569,6 +608,8 @@ Alternativa: **BTT6030-2ERA**, de 2 canales (32 mΩ, 6 A por canal, 10 479 en st
 La etapa *latch* común (puente H de 9 V con su fuente de impulso, más la barra LATCH y el COM_L) es una ampliación válida para las opciones 1, 2 y 4c. Se valoraría en una spec propia si el usuario se inclina por V3.
 
 ### 3.2 Qué haría falta para seguir usando las válvulas de 24 V AC (N4)
+
+*Informativo: las válvulas instaladas son de 24 V DC (§11) y D2 es solo salida alimentada (S1).*
 
 | Opción | V1: transformador propio (≤ 32 V AC) + contacto libre | V2/V3: cambiar las válvulas | V4: PWM desde 24 V DC |
 |---|---|---|---|
@@ -641,9 +682,11 @@ En la opción 1b, la franja inferior (66 mm de relés, entrada, expansión, fusi
 | 4b | FDN5618P + MMBT3904 | 0,326 / 0,267 | 1,96 / 1,60 | 1 | 13,72 / 20,82 | **2,74 / 2,08** | 3,66 / 2,64 |
 | 4c | 2× IRLML0100 + VOM1271T | 2,144 / 2,100 | 12,86 / 12,60 | 3 | 74,82 / 137,80 | **14,96 / 13,78** | 15,88 / 14,33 |
 | 5 | BTT6050-1ERA | 1,253 / 1,227 | 7,52 / 7,36 | 1 | 41,96 / 79,26 | **8,39 / 7,93** | 9,30 / 8,48 |
-| 5 | BTT6030-2ERA (½ por canal) | 1,271 / 1,244 | 7,62 / 7,47 | 1 | 42,06 / 79,46 | **8,41 / 7,95** | 9,32 / 8,50 |
+| 5 | BTT6030-2ERA (½ por canal)² | 1,421 / 1,244 | 8,52 / 7,47 | 1 | 46,55 / 79,46 | **9,31 / 7,95** | 10,22 / 8,50 |
 
-**Corte general (§6), común a todas las opciones:**
+² El BTT6030-2ERA lleva 3 chips por placa: 15 para 5 placas, al tramo de 10 unidades (2,5169 $), y 30 para 10 placas, al de 30 (2,2173 $) (LCSC C534865, 2026-11-04; corregido, VAL-0005-01-03). Con el tramo de 30 para 5 placas salían 8,41 $.
+
+**Corte general (§6), común a todas las opciones** (*sustituido: S3*, habilitación del limitador ALI-13)**:**
 - con un relé de ≥ 5 A a 30 V DC (SRD-05VDC-SL-C, 10 A a 28 V DC según LCSC, ≈ 0,40 $ con su driver);
 - o con un BTT6030-2ERA (2,22 $), un canal por borde, que además mide la corriente de cada grupo.
 
@@ -658,9 +701,11 @@ En la opción 1b, la franja inferior (66 mm de relés, entrada, expansión, fusi
 | 3 Triac | Triac en corto; disparo por dV/dt | Válvula abierta | (Solo V1) fusible rápido | No |
 | 4a | MOSFET en corto; **corto del cable a tierra = válvula abierta** | Válvula abierta | Se destruye sin fusible rápido | No |
 | 4b/4c | MOSFET en corto | Válvula abierta | Se destruye sin fusible rápido | No |
-| 5 | Corto residual (sobretensión, ESD) | Válvula abierta | **Se protege** | **Sí** (IS: corriente con IN en bajo, carga abierta, corto) |
+| 5 | Corto residual (sobretensión, ESD) | Válvula abierta | Limita y se apaga por temperatura, pero la fuente de 5 A limita antes: hace falta la protección común (*sustituido: S2*, limitador ALI-13 y firmware, REL-08) | **Sí** (IS: corriente con IN en bajo, carga abierta, corto) |
 
 **Mitigación propuesta, común a todas las opciones:**
+
+> **Aviso (DEC-0003):** los puntos 1, 3 y 4 están *sustituidos: S2, S3 y S4*. Vigente: limitador común del bus de las salidas con habilitación desde un GPIO y fallo a otro (ALI-13), sin fusible por canal ni autonomía de la lógica, y el total impuesto por el limitador (3,5–4,9 A, DEC-0004), con IMON si la tiene. REL-08: el firmware identifica el canal en fallo, lo deja apagado y rearma los demás en ≤ 5 s.
 
 1. **Corte general del bus de 24 V de las salidas alimentadas.** Un relé de ≥ 5 A a 30 V DC o un *high-side* inteligente (BTT6030-2ERA, un canal por borde) en serie con el bus, controlado por un GPIO propio con *pull-down*. El firmware solo lo activa mientras algún canal riega. Para que la válvula se quede abierta tienen que fallar dos elementos.
 2. **Válvula maestra en campo** (NC): un canal configurable como maestra en ESPHome. Cubre también V1 (contacto libre) y una rotura de tubería.
@@ -674,6 +719,8 @@ En la opción 1b, la franja inferior (66 mm de relés, entrada, expansión, fusi
 ---
 
 ## 7. Recomendación (propuesta para D8 y D2; decide el usuario)
+
+> **Aviso:** propuesta superada. Las válvulas instaladas son de 24 V DC (§11), y el usuario eligió la opción 5 y solo salida alimentada (DEC-0003, S1); los cambios de requisitos de §7.3 no se aplicaron y los vigentes son los de `docs/02` v0.4. En particular, el corte general, la medida del bus por IS, el fusible de 4 A T y la autonomía de la lógica están *sustituidos: S2–S4*.
 
 ### 7.1 Propuesta: opción 1b, relé subminiatura
 
@@ -734,6 +781,8 @@ Los requisitos nuevos van sin número: hoy REL llega a REL-09 (U6).
 
 Se cerrarán en la spec del bloque de salidas. Anchos según IPC-2221 para una capa externa de 1 oz con ΔT = 10 °C:
 
+> **Aviso (DEC-0003, DEC-0004; S5):** tabla preliminar superada. Con la opción 5 valen: `OUT_n` y su retorno GND ≈ **1,2 mm** (4,9 A del limitador con ΔT ≤ 40 °C, IPC-2221; ΔT ≤ 10 °C con la carga máxima, REL-05), clase `Salidas`; bus de las salidas (limitador → cada *high-side*) en la clase **`Power_In`**, para 5,1 A (FAB-03, ALI-12). No aplican `RET_n`, las bobinas de relé ni la TVS del contacto (S1).
+
 - 1 A → 0,30 mm;
 - 2 A → 0,78 mm;
 - 4 A → 2,03 mm;
@@ -741,9 +790,9 @@ Se cerrarán en la spec del bloque de salidas. Anchos según IPC-2221 para una c
 
 | Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas |
 |---|---|---|---|---|---|
-| `OUT_n`, `RET_n` (canal) | 1 A continuo; impulsos *latch* de 2 A | 1,0 mm | ≥ 1 mm a otras redes; ≥ 2 mm entre el circuito AC del usuario (V1) y la lógica | Entre el interruptor y el borne, lo más corta posible; franja de borde (REL-09) | Clase `Salidas`; OUT_n puede bajar a ≈ −35 V al abrir (§2.1) |
-| `+24V_SAL` (bus tras el fusible de 4 A y el corte general) | 4 A (N2) | 2,5 mm o polígono | ≥ 1 mm | De la entrada (borde inferior) a los dos bornes; lejos de la antena (MCU-02) y del sensor de T/HR (AMB-02) | Clase `Salidas`; si se reparte en dos grupos, 2 A por rama (1,0 mm) |
-| `COM` (GND de las salidas) | 4 A | 2,5 mm o polígono | — | Retorno al plano de GND junto a la entrada, no por debajo de la lógica | Clase `Salidas` |
+| `OUT_n`, `RET_n` (canal) | 1 A continuo; impulsos *latch* de 2 A | 1,0 mm (*sustituido: S5*, ≈ 1,2 mm) | ≥ 1 mm a otras redes; ≥ 2 mm entre el circuito AC del usuario (V1) y la lógica | Entre el interruptor y el borne, lo más corta posible; franja de borde (REL-09) | Clase `Salidas`; OUT_n puede bajar a ≈ −35 V al abrir (§2.1) |
+| `+24V_SAL` (bus tras el fusible de 4 A y el corte general) | 4 A (N2) (*sustituido: S4/S5*, 5,1 A en `Power_In`) | 2,5 mm o polígono | ≥ 1 mm | De la entrada (borde inferior) a los dos bornes; lejos de la antena (MCU-02) y del sensor de T/HR (AMB-02) | Clase `Salidas` (*sustituido: S5*, `Power_In`); si se reparte en dos grupos, 2 A por rama (1,0 mm) |
+| `COM` (GND de las salidas) | 4 A (*sustituido: S5*, 4,9 A) | 2,5 mm o polígono | — | Retorno al plano de GND junto a la entrada, no por debajo de la lógica | Clase `Salidas` |
 | Entrada de +24 V (borne → protección → bus y *buck*) | ≈ 5 A | 3,0 mm o polígono | ≥ 0,5 mm | Borde inferior | Clase `Power` |
 | Bobinas de relé (+5 V → bobina → drenaje) | 40 mA por canal, 280 mA en total | 0,25 mm (0,6 mm en el tronco de +5 V) | 0,2 mm | Diodo junto a la bobina | `Default` / `Power` |
 | TVS del contacto | Impulsos de mJ | 0,6 mm | — | En los pads del interruptor o del borne | — |
@@ -753,23 +802,23 @@ Se cerrarán en la spec del bloque de salidas. Anchos según IPC-2221 para una c
 ## 9. Pendientes y validación en el prototipo
 
 - **jr-conformidad:** confirmar los LCSC y los tipos (M7 como *Basic* sin confirmar). Faltan por elegir:
-  - el relé o *high-side* del corte general;
-  - el fusible de 4 A T del bus;
-  - el fusible rápido por canal;
+  - el relé o *high-side* del corte general (*sustituido: S3*; se elige el limitador de ALI-13);
+  - el fusible de 4 A T del bus (*sustituido: S2*; fusible de entrada para 5,1 A, ALI-12);
+  - el fusible rápido por canal (*sustituido: S2*, no lleva);
   - la SMAJ33CA (opción 2 en V2);
   - un Schottky de ≥ 60 V para PWM;
   - un MOSFET de 60 V especificado a 2,5 V para 4a.
 - **Usuario:**
-  - decidir entre V1 (mantener las válvulas de AC con su transformador), V2 (pasar a solenoides de 24 V DC), V3 (*latch*) o una mezcla;
-  - si V1: modelo, VA y tensión en vacío del transformador;
-  - marca y modelo de las válvulas instaladas.
+  - decidir entre V1 (mantener las válvulas de AC con su transformador), V2 (pasar a solenoides de 24 V DC), V3 (*latch*) o una mezcla (*resuelto*: las instaladas son de 24 V DC, V2; DEC-0003);
+  - si V1: modelo, VA y tensión en vacío del transformador (*no aplica*);
+  - marca y modelo de las válvulas instaladas, y su inductancia (REL-03).
 - **Prototipo:**
   - relé: apertura de una válvula de 24 V DC a 30 V DC y recorte de la TVS;
   - 4c: temperatura con 4 A en total;
   - opción 5: diagnóstico de IS con válvula, carga abierta y corto;
   - V4 (si se usa): corriente de mantenimiento con PWM y temperatura de la bobina.
-- **Bloque de alimentación (ALI):** autonomía de la lógica ante el límite de la fuente; recorte real de la SMBJ33A.
-- **SPEC-0006:** el conector EXP-02 tiene que llevar su parte del bus de 24 V y el COM, o el módulo una entrada propia.
+- **Bloque de alimentación (ALI):** autonomía de la lógica ante el límite de la fuente (*sustituido: S2*: se prueba el corte del limitador sin que el *buck* baje del UVLO, ALI-13); recorte real de la SMBJ33A.
+- **SPEC-0006:** el conector EXP-02 tiene que llevar su parte del bus de 24 V y el COM, o el módulo una entrada propia. *Vigente (DEC-0004):* las salidas del módulo llevan su propio limitador o su propia alimentación.
 
 ---
 
@@ -826,6 +875,8 @@ Datos nuevos del usuario (2026-11-04, transmitidos por el coordinador; spec corr
 
 Esta sección no cambia el resto del estudio. Precios y stock de LCSC consultados el **2026-11-04**.
 
+> **Aviso (DEC-0003, DEC-0004):** la elección del chip (§11.3, §11.4) está vigente. La protección ante cortos, la autonomía de la lógica, la vigilancia del total con IS y el corte general de §11.4 y §11.5 están *sustituidos: S2–S5*; el diagnóstico se completa con S7. Requisitos vigentes: `docs/02` v0.4.
+
 ### 11.1 Conclusión para válvulas de 24 V DC
 
 Coste de la etapa de 6 canales por placa con las hipótesis de §5, más ≈ 0,15 $ por fusible de canal donde hace falta (REL-08).
@@ -835,7 +886,7 @@ Coste de la etapa de 6 canales por placa con las hipótesis de §5, más ≈ 0,1
 | Coste por placa (5 / 10 placas) | 4,64 / 4,07 $ + 0,90 $ de fusibles = **5,54 / 4,97 $** | 2,74 / 2,08 $ + 0,90 $ = **3,64 / 2,98 $** | **8,33 / 7,86 $** (sin fusibles; §11.4) |
 | Dificultad del circuito | Baja (MOSFET + diodo + bobina) | Media (P-MOS, traslación por NPN, divisor de puerta, diodo de libre circulación, fusible) | Baja (un CI y 4–5 resistencias), con el diagnóstico en firmware |
 | Montaje | THT a mano (relé y borne) + SMT | Todo SMT | Todo SMT |
-| Protección ante corto | Fusible por canal; el contacto aguanta | Solo el fusible por canal; el MOSFET puede morir antes que el fusible | Limitación de corriente y apagado térmico integrados |
+| Protección ante corto | Fusible por canal; el contacto aguanta | Solo el fusible por canal; el MOSFET puede morir antes que el fusible | Limitación de corriente y apagado térmico integrados; con la fuente de 5 A, además el limitador común (*S2*) |
 | Diagnóstico | Ninguno | Ninguno | Medida de corriente (IS), carga abierta en ON/OFF, corto y sobretemperatura |
 | Contacto libre (V1) | Sí | No | No |
 
@@ -849,11 +900,27 @@ Con válvulas de 24 V DC, la ventaja del relé (V1) deja de ser necesaria. El us
 | Pico de entrada | El bus llega al recorte de la **SMBJ33A: V_C = 53,3 V** (con I_PP = 11,3 A). El chip tiene que soportarlo como máximo absoluto o como *load dump* | ALI-04 |
 | Corriente | Carga real de 0,2–0,56 A por canal (1–2 válvulas); REL-05 ≥ 1 A. **Basta con 100–200 mΩ** (0,2 W a 1 A) | REL-05, §1.2 b |
 | Entrada | Activa alta, V_IH,máx ≤ 2,64 V (V_OH mínima del ESP32-S3 = 0,8·3,3 V), con *pull-down* para REL-04 | REL-04, MCU-05 |
-| Corto en campo | Limitación de corriente y apagado térmico. Con la fuente de 5 A, la lógica tiene que seguir viva (REL-08, ALI-12) | REL-08 |
-| Carga inductiva | *Clamp* interno con energía ≥ 50 mJ (válvula de 24 V DC, §1.2 b) | REL-03 |
+| Corto en campo | Limitación de corriente y apagado térmico. Con la fuente de 5 A, la lógica tiene que seguir viva (REL-08, ALI-12); vigente: con el limitador común (*S2*, ALI-13) | REL-08 |
+| Carga inductiva | *Clamp* interno. La energía de desmagnetización con el máximo de válvulas por canal (2), calculada con la ecuación del fabricante, queda por debajo de la curva E_AS(I_L) del datasheet a esa corriente (corregido, VAL-0005-01-06; antes: «≥ 50 mJ» con una válvula frente a E_AS a 4,5 A) | REL-03 |
 | Diagnóstico | Deseable: carga abierta (cable cortado o válvula desconectada) y corto, con pocos pines | FW-03 |
 | Encapsulado | SMT soldable en JLCPCB | FAB-05 |
 | Stock | ≥ 60 unidades (10 placas) | — |
+
+**Energía de desmagnetización en el BTT6050-1ERA** (ec. 5.1, p. 13; VAL-0005-01-06):
+
+E = V_DS(AZ) · (L/R_L) · [ (V_S − V_DS(AZ))/R_L · ln(1 − R_L·I_L/(V_S − V_DS(AZ))) + I_L ]
+
+Datos: V_DS(AZ) = 66 V mín. (P_5.5.5); bobina fría, R × 0,88 (§1.2 b); I_L = V_S/R_L; 2 válvulas en paralelo por canal (REL-05); L supuesta, sin dato del fabricante.
+
+| Carga por canal | R_L (fría) | L equivalente | E a 24 V | E a 30 V | Capacidad (fig. 12: T_J,start = 150 °C, V_S = 28 V, a ≤ 1 A; lectura de VAL-0005-01) | Margen a 30 V |
+|---|---|---|---|---|---|---|
+| 1 Bermad S-390-T 24 V DC (156 Ω, L = 1 H) | 137 Ω | 1 H | 18 mJ | 29 mJ | ≈ 155 mJ | × 5,4 |
+| 2 Bermad (L = 1 H cada una) | 68,6 Ω | 0,5 H | 35 mJ | **57 mJ** | ≈ 155 mJ | × 2,7 |
+| 2 Bermad (L = 2 H cada una) | 68,6 Ω | 1 H | 70 mJ | **115 mJ** | ≈ 155 mJ | × 1,4 |
+| 2 bobinas RPE (100 Ω, L = 1 H) | 44 Ω | 0,5 H | 86 mJ | **139 mJ** | ≈ 155 mJ | × 1,1 |
+
+- Con 2 válvulas a 30 V se superan los 60 mJ de E_AS (P_4.1.23, que es a 4,5 A), pero no la curva de la fig. 12 a la corriente real: **cumple**, con poco margen si L ≥ 2 H o con bobinas de 100 Ω.
+- El margen depende de L: se mide en el prototipo o se toma del fabricante antes de cerrar el esquema (REL-03).
 
 **Sobre los chips de 41 V.** Si el máximo absoluto del chip es de 41 V, la TVS de entrada tendría que recortar por debajo de 41 V con la corriente de pico: una SMBJ24A (V_RWM 24 V, V_BR 26,7–29,5 V, V_C 38,9 V). Esa TVS empieza a conducir a 26,7 V, **dentro del rango de 18–30 V de ALI-01**, así que choca con ALI-01/ALI-04. Las otras salidas serían:
 - bajar el máximo de entrada a 24–26 V, lo que exige una fuente regulada y deja sin margen a una de 24 V con tolerancia del +10 %;
@@ -867,10 +934,10 @@ Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la e
 
 | Chip (LCSC) | Rango de funcionamiento | V_bb máx. / *load dump* frente a 53,3 V | Entrada con 3,3 V | Limitación y corto en campo | *Clamp* inductivo | Diagnóstico y pines de MCU por canal | Encapsulado | Tipo JLCPCB · stock · precio a 30/60 uds. | Etapa por placa (5 / 10) | Resultado |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **BTT6050-1ERA** (C534868) | 5–36 V (hasta 48 V) ✔ | 48 V máx.; **V_S(LD) 65 V** ✔ | ✔ «3.3 V and 5 V compatible logic inputs» | Limitación ≥ 38 A + apagado térmico. La fuente de 5 A limita antes: la lógica necesita autonomía (§1.3) ◐ | ✔ E_AS 60 mJ (4,5 A) | **IS analógico** (corriente), carga abierta ON/OFF, corto a GND/V_S, sobretemperatura. IN + DEN por canal; IS de todos en **un ADC1** | PG-TDSO-14 con *pad*, SMT | Extended · 1 748 · 1,0889 / 1,0889 $ | **8,33 / 7,86 $** | **✔ Principal** |
-| **BTT6030-2ERA** (C534865), 2 canales | 5–36 V ✔ | Igual que BTT6050 ✔ | ✔ | Como BTT6050 ◐ | ✔ | Como BTT6050; DEN y DSEL por circuito (3 circuitos para 6 canales) | PG-TDSO-14, SMT | Extended · 10 479 · 2,2173 $ (1,109 $ por canal) | **8,38 / 7,91 $** | **✔ Segunda fuente** |
-| **BSP752R** (C112644) | 6–52 V ✔ | 52 V máx.; V_bb(AZ) 62 V; *load dump* de 73,5 V con R_GND = 150 Ω (gemelo ISP752R) ✔ | ✔ V_IN(T+) ≤ 2,2 V (dato del ISP752R) | I_L(SCp) 6,5 A típ. / 9 A máx. + ciclo térmico ◐ | ✔ V_ON(CL) 59–63 V | ST digital (corto, sobretemperatura) y carga abierta **solo en OFF** con R externa. IN + ST | SO-8, SMT | Extended · **277** · 1,1464 / 1,1464 $ | 8,61 / 8,14 $ | ✔ Tercera opción (sin medida de corriente) |
-| BTS428L2 (C534779) *(usuario)* | 4,75–41 V ✔ | *Load dump* de 60 V (R_I 2 Ω) ✔ | ◐ Umbral no confirmado en el datasheet | Limitación de 17 A (I_L(SCr)) ◐ | ✔ | ST digital: carga abierta en ON y sobretemperatura. IN + ST | TO-252-5, SMT | Extended · 2 291 · **2,4194** / 2,4194 $ | 16,23 / 15,76 $ | ✘ Por coste (2,2× BTT6050) |
+| **BTT6050-1ERA** (C534868) | 5–36 V (hasta 48 V) ✔ | 48 V máx.; **V_S(LD) 65 V** ✔ | ✔ «3.3 V and 5 V compatible logic inputs» | Limitación ≥ 38 A + apagado térmico. La fuente de 5 A limita antes: la lógica necesita autonomía (§1.3) ◐ (*sustituido: S2*, limitador común) | ✔ Ec. 5.1 con 2 válvulas: 57 mJ (L = 1 H) / 115 mJ (2 H) a 30 V < ≈ 155 mJ (fig. 12, ≤ 1 A); E_AS 60 mJ es a 4,5 A (§11.2) | **IS analógico** (corriente; k_ILIS 1500 ± 25 % a 0,5 A, 1600 ± 50 % a 50 mA, p. 30), carga abierta ON/OFF (en OFF con R_OL, S7), corto a GND/V_S, sobretemperatura. IN + DEN por canal; IS de todos en **un ADC1** con R_SENSE (S7) | PG-TDSO-14 con *pad*, SMT | Extended · 1 748 · 1,0889 / 1,0889 $ | **8,33 / 7,86 $** | **✔ Principal** |
+| **BTT6030-2ERA** (C534865), 2 canales | 5–36 V ✔ | Igual que BTT6050 ✔ | ✔ | Como BTT6050 ◐. I_L(NOM) 6 A con un canal y **4 A con los dos** (P_5.5.3, p. 16) | ✔ E_AS 85 mJ (4 A) | Como BTT6050, pero **k_ILIS 2240** (2360 ± 25 % a 0,5 A, 2450 ± 50 % a 50 mA, p. 31): cambia la constante del firmware. DEN y DSEL por circuito (3 circuitos para 6 canales) | PG-TDSO-14, SMT | Extended · 10 479 · 2,5169 $ a 10 uds (5 placas: 15 chips) / 2,2173 $ a 30 uds (10 placas: 30 chips) | **9,28 / 7,91 $** (corregido, VAL-0005-01-03) | **✔ Segunda fuente** |
+| **BSP752R** (C112644) | 6–52 V ✔ | 52 V máx.; V_bb(AZ) ≥ 62 V (p. 5); *load dump* de 73,5 V con R_I = 2 Ω y R_L = 13,5 Ω (p. 3; R_GND = 150 Ω limita la corriente de GND por encima de V_bb(AZ)) ✔ | ✔ V_IN(T+) ≤ 2,2 V (BSP752R V1.3, p. 6) | I_L(SCp) 6,5 A típ. / 9 A máx. + ciclo térmico ◐ | ✔ V_ON(CL) 59–63 V | ST digital (corto, sobretemperatura) y carga abierta **solo en OFF** con R externa. IN + ST | SO-8, SMT | Extended · **277** · 1,1464 / 1,1464 $ | 8,61 / 8,14 $ | ✔ Tercera opción (sin medida de corriente) |
+| BTS428L2 (C534779) *(usuario)* | 4,75–41 V ✔ | *Load dump* de 60 V (R_I 2 Ω) ✔ | **✘ V_IN(T+) 1,7–3,2 V** > 2,64 V (V1.1, p. 6) | Limitación de 17 A (I_L(SCr)); **protección completa de corto solo hasta V_bb = 24 V** < 30 V de ALI-01 (p. 3) ✘ | ✔ | ST digital: carga abierta en ON y sobretemperatura. IN + ST | TO-252-5, SMT | Extended · 2 291 · **2,4194** / 2,4194 $ | 16,23 / 15,76 $ | ✘ Entrada, corto solo hasta 24 V y coste (2,2× BTT6050) (corregido, VAL-0005-01-02) |
 | VN5050JTR-E (C75918) *(usuario: VN5050JJTR-E, no está en LCSC)* | 4,5–36 V ✔ | **41 V máx. DC**; *clamp* de V_CC 41–52 V ✘ | ◐ (familia VN5; umbral no extraído) | I_limH 13,5–26,5 A ◐ | ✔ | STATUS digital: carga abierta ON/OFF, sobrecarga, corto a V_CC. IN + STATUS (+ STAT_DIS) | PowerSSO-12 | Extended · 1 658 · 1,5597 $ | 11,13 / 10,67 $ | ✘ Por los 41 V (§11.2) |
 | TPS281C30 (C17651020, variante B; la ERGWR no está en LCSC) *(usuario)* | 6–48 V ✔ | ✔ (rango de 48 V) | ◐ (no comprobado) | Limitación ajustable ✔ | ✔ | Sentido de corriente y fallos ✔ | VQFN-20 5 × 5 | Extended (sin verificar) · **3** · **6,3398** $ | 39,89 / 39,43 $ | ✘ Sin stock y 5,8× más caro |
 | VN5012AKTR-E (C2150359) *(usuario)* | 4,5–36 V ✔ | **41 V máx.** ✘ | ◐ | Muy alta (12 mΩ, 45 A) | ✔ | Sin carga abierta | PowerSSO-24 | Extended (sin verificar) · **24** · **4,4185** $ | 28,40 / 27,94 $ | ✘ 41 V, stock y coste |
@@ -883,6 +950,8 @@ Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la e
 | BTS4140N (C59442) | 4,9–60 V ✔ | ✔ | **✘ Entrada activa baja** (choca con REL-04) | 1 Ω (0,2 A nominal): **✘ REL-05** | ✔ | — | SOT-223 | Extended (sin verificar) · 23 970 · 0,6453 $ | 5,56 / 5,10 $ | ✘ Entrada activa baja e I < 1 A |
 | ISP752R / IPS160HFTR | — | — | — | — | — | — | — | Stock de 89 y 1 (§2.5) | — | ✘ Sin stock |
 
+«Extended (sin verificar)»: tipo JLCPCB no consultado en piezas descartadas, porque no cambia la conclusión. El de las piezas que pasan al esquema (BTT6050, BTT6030 y, si se usa, M7) lo confirma jr-conformidad, igual que su stock de montaje (VAL-0005-01-09).
+
 **Equivalentes chinos.** No he encontrado en LCSC un *high-side* inteligente de 24 V de fabricante chino con datasheet completo. La familia NSE34/NSE35 de Novosense es para sistemas de 12 V, y los TPS27SA08 de TI no tienen listado en LCSC. No se proponen.
 
 **Ningún chip válido es más barato que el BTT6050-1ERA en LCSC.**
@@ -894,26 +963,28 @@ Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la e
 
 **Principal: Infineon BTT6050-1ERA (C534868).**
 - Es el más barato de los chips válidos: 1,0889 $ a 30 unidades, 8,33 / 7,86 $ la etapa por placa.
-- El único de su precio con **medida de corriente por canal (IS)** y carga abierta en ON y OFF: detecta en Home Assistant una válvula desconectada o un cable cortado mientras riega, y puede limitar en el firmware el total a 4 A (N2).
+- El único de su precio con **medida de corriente por canal (IS)** y carga abierta en ON y OFF: detecta en Home Assistant una válvula desconectada o un cable cortado mientras riega. (Limitar el total a 4 A en el firmware con IS: *sustituido: S4*; el total lo impone el limitador.)
 - Soporta el pico de la SMBJ33A (V_S(LD) 65 V) sin tocar ALI-04, y su entrada es compatible con 3,3 V.
 - 1 748 unidades en stock: suficiente para 10 placas.
 - Un canal por chip, lo que facilita el reparto 3 + 3 (REL-09) y repetir la etapa en el módulo de expansión.
 
 **Segunda fuente: Infineon BTT6030-2ERA (C534865).**
-- Misma familia y mismo firmware (IS, DEN), dos canales por chip, 32 mΩ y **10 479 unidades** en stock.
-- Frente al BTT6050 no se pierde nada eléctrico. Hay que agrupar los canales de dos en dos (DEN y DSEL compartidos por chip) y la huella es la misma TDSO-14. La elección entre las dos se hace al dibujar el esquema; no son intercambiables en la misma huella sin cambiar el *routing*.
+- Misma familia y mismo esquema de diagnóstico (IS, DEN), dos canales por chip, 32 mΩ y **10 479 unidades** en stock. El firmware cambia la constante: k_ILIS = 2240 frente a 1500 (p. 31).
+- Frente al BTT6050, con 0,56 A por canal no se pierde nada eléctrico: da 6 A con un canal activo y 4 A con los dos (p. 16). Hay que agrupar los canales de dos en dos (DEN y DSEL compartidos por chip) y la huella es la misma TDSO-14. La elección entre las dos se hace al dibujar el esquema; no son intercambiables en la misma huella sin cambiar el *routing*.
 - Si se quiere un segundo **fabricante**, la reserva es el **BSP752R** (C112644, 1,1464 $, 277 unidades). Frente al BTT6050 pierde la medida de corriente, la carga abierta en ON (solo la detecta en OFF, con una resistencia externa) y stock.
 
 **Por qué no los chips del usuario:**
 
 | Chip | Motivo |
 |---|---|
-| BTS428L2 | Cumple eléctricamente (60 V de *load dump*), pero en LCSC cuesta **2,42 $, 2,2 veces el BTT6050**, no mide corriente y su TO-252 ocupa más. |
+| BTS428L2 | **No cumple** (corregido, VAL-0005-01-02): V_IN(T+) de hasta 3,2 V, por encima de los 2,64 V del ESP32-S3 (V1.1, p. 6), y protección completa de cortocircuito solo hasta V_bb = 24 V, por debajo de los 30 V de ALI-01 (p. 3). Además cuesta **2,42 $, 2,2 veces el BTT6050**, no mide corriente y su TO-252 ocupa más. |
 | VN5050JJTR-E / VN5050JTR-E | **41 V de máximo absoluto**: no aguanta los 53,3 V de la SMBJ33A sin cambiar ALI-01/ALI-04 (§11.2). Además, la variante JJ no está en LCSC y la JTR-E cuesta 1,56 $. |
 | TPS281C30 | 3 unidades en LCSC (variante B; la E no está) y 6,34 $: 5,8 veces el BTT6050, con 29 mΩ que no hacen falta. |
 | VN5012AKTR-E | 41 V de máximo absoluto, 24 unidades en stock, 4,42 $ y sin carga abierta: es un chip de 45 A. |
 
 **Protección por canal (REL-08) con el BTT6050:**
+
+> **Aviso (DEC-0003): *sustituido: S2*.** La autonomía de la lógica (470 µF, «≈ 60 ms») no se usa: con 18 V de entrada, el UVLO de ALI-06 y C − 20 %, quedaban 5–15 ms (VAL-0005-01-01). Vigente: limitador común ALI-13 con el *buck* antes del limitador; el firmware identifica el canal en fallo (IS, DEN, fallo del limitador), lo deja apagado y rearma los demás en ≤ 5 s (REL-08).
 - No hace falta fusible por canal: el chip limita la corriente y se apaga por temperatura.
 - Su limitación mínima (38 A) es mayor que la de la fuente de 5 A, así que en un corto **la fuente limita primero**.
 - Para que la lógica siga viva hacen falta dos cosas:
@@ -921,19 +992,22 @@ Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la e
   - que la lógica tenga autonomía de decenas de ms: diodo y condensador antes del *buck*. Con 470 µF de 24 V a 8 V y 2 W, ≈ 60 ms.
 - Validar en el prototipo con un corto real (ALI-12).
 
-**Corte general.** Se mantiene la propuesta de §6, dos fallos para que una válvula quede abierta. Con esta opción, lo natural es un canal de BTT6030-2ERA por borde (6 A por canal y medida del total de cada grupo), en serie con el bus +24V_SAL.
+**Corte general.** *Sustituido: S3* (DEC-0003): lo hace la habilitación del limitador común desde un GPIO (ALI-13), y la medida del total, su IMON si la tiene. Propuesta original: un canal de BTT6030-2ERA por borde (6 A con un canal activo, 4 A con los dos) en serie con el bus +24V_SAL.
 
 ### 11.5 Cambios en los requisitos con la opción elegida (entrada de SPEC-0007)
+
+> **Aviso:** propuesta ya procesada. Los requisitos vigentes son los de `docs/02` v0.4 (SPEC-0007 y SPEC-0011, DEC-0003 y DEC-0004). Las filas REL-05, REL-08 y ALI-04 y la de pines tienen partes *sustituidas: S2–S4*, marcadas en cada una.
 
 | Requisito | Cambio propuesto |
 |---|---|
 | **REL-03** | «Cada salida usa un *high-side* inteligente de 24 V (BTT6050-1ERA o BTT6030-2ERA): entrada activa alta compatible con 3,3 V y *pull-down* de 100 kΩ (REL-04); *clamp* inductivo integrado, sin diodo externo; V_S(LD) ≥ V_C de la TVS de entrada. Sin optoacoplador ni relé.» |
-| **REL-05** | «≥ 1 A continuo por canal (carga real de 0,2–0,56 A); ≤ 4 A en total en el bus de las salidas (N2), vigilado en el firmware con IS. Prueba térmica: 1 h con las 6 salidas activas y 4 A en total.» |
-| **REL-08** | «Protección por canal con la limitación de corriente y el apagado térmico del *high-side*, más apagado por firmware ante sobrecorriente medida en IS; sin fusible por canal. Corte general del bus +24V_SAL (un canal de BTT6030-2ERA por borde) activo solo mientras algún canal riega.» Añadir como S: «diagnóstico de carga abierta y de corto por canal en Home Assistant». |
+| **REL-05** | «≥ 1 A continuo por canal (carga real de 0,2–0,56 A); ≤ 4 A en total en el bus de las salidas (N2), vigilado en el firmware con IS. Prueba térmica: 1 h con las 6 salidas activas y 4 A en total.» *Sustituido: S4* (carga instalada máxima de 3,5 A, limitador de 3,5–4,9 A; pista y borne para 4,9 A, S5; prueba térmica con 3,5 A, `docs/02` §6). |
+| **REL-08** | «Protección por canal con la limitación de corriente y el apagado térmico del *high-side*, más apagado por firmware ante sobrecorriente medida en IS; sin fusible por canal. Corte general del bus +24V_SAL (un canal de BTT6030-2ERA por borde) activo solo mientras algún canal riega.» Añadir como S: «diagnóstico de carga abierta y de corto por canal en Home Assistant». *Sustituido: S2 y S3* (limitador común con habilitación por GPIO, ALI-13; REL-08 de la v0.4); el diagnóstico es REL-10 (S7). |
 | **FAB-07** | **2 polos por canal (OUT_n y GND)**, para que cada válvula tenga su propio retorno y el cableado sea igual en los 6 canales (REL-06): **6 polos por borde**, 30,5 mm a 5,08 mm. Alternativa más compacta: 1 polo por canal + COM (4 polos por borde). Borde inferior: más la entrada (2) y la expansión. |
 | **FAB-08** | Alto ≈ **70 mm** (100 × 70 mm, ±5 mm por confirmar en el layout): la franja de salida baja a ≈ 18–20 mm (§4). |
-| **ALI-04** | Mantener la **SMBJ33A** (V_RWM 33 V ≥ 30 V; V_C 53,3 V < V_S(LD) 65 V del BTT6050). Añadir: «la tensión de recorte de la TVS no supera el *load dump* ni el máximo absoluto de ningún componente conectado al bus», más la autonomía de la lógica ante un corto en campo (ALI-12). |
-| Pines (MCU-05, nota para el esquema) | 6 IN + 6 DEN (o 3 DEN + 3 DSEL con BTT6030-2ERA) + 1 ADC1 compartido para IS, más 2 IN del corte general. Si faltan GPIO, los DEN pueden ir a un expansor I²C. |
+| **ALI-04** | Mantener la **SMBJ33A** (V_RWM 33 V ≥ 30 V; V_C 53,3 V < V_S(LD) 65 V del BTT6050). Añadir: «la tensión de recorte de la TVS no supera el máximo absoluto de cada componente del bus o, si el fabricante lo especifica, su tensión de *load dump* (p. ej. V_S(LD) del BTT6050)» (corregido, VAL-0005-01-07: el V_S máximo absoluto del BTT6050 es 48 V < 53,3 V, y solo cumple por V_S(LD) = 65 V). La autonomía de la lógica ante un corto en campo está *sustituida: S2*. |
+| Pines (MCU-05, nota para el esquema) | 6 IN + 6 DEN (o 3 DEN + 3 DSEL con BTT6030-2ERA) + 1 ADC1 compartido para IS. Si faltan GPIO, los DEN pueden ir a un expansor I²C. El corte general con BTT6030-2ERA necesitaba 2 IN, 1 DEN y 1 DSEL (corregido, VAL-0005-01-07), pero está *sustituido: S3*: en su lugar, habilitación y fallo del limitador y 1 ADC1 para su IMON, si la tiene (DEC-0003). |
+| Nota para el esquema (VAL-0005-01-05, S7) | R_SENSE = 10 kΩ entre IS y el ADC1 (R_IN = R_DEN = 10 kΩ; §6.4, p. 19) y un *clamp* para que V_ADC ≤ 3,1 V con I_IS(FAULT) ≤ 40 mA y V_IS hasta V_S − 1 V (p. 30). *Pull-up* R_OL de V_S a OUT para la carga abierta en OFF (§7.3.3.2, p. 27), con fuga por la válvula ≤ 1 mA (§1.2). |
 
 ### 11.6 Fuentes de la adenda
 
@@ -954,13 +1028,22 @@ Leyenda: ✔ cumple · ◐ cumple con condición · ✘ no cumple. Coste de la e
   - [C59442 BTS4140N](https://www.lcsc.com/product-detail/C59442.html)
 - JLCPCB (tipo Extended): `https://jlcpcb.com/partdetail/<código>`, consultado el 2026-11-04 para C534868, C534865, C112644, C534779, C424245 y C75918.
 - Datasheets:
-  - Infineon BTT6050-1ERA, rev. 1.00 (2019-03-09), tabla 1 y §4.1 (V_S 48 V, V_S(LD) 65 V, I_L5(SC) 38 A, E_AS 60 mJ, entradas de 3,3 V/5 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/f332d8427495765ea0546e562dd08e67.pdf?productCode=C534868)
+  - Infineon BTT6050-1ERA, rev. 1.00 (2019-03-09), tabla 1 y §4.1 (V_S 48 V, V_S(LD) 65 V, I_L5(SC) 38 A, E_AS 60 mJ p. 7, entradas de 3,3 V/5 V); ec. 5.1 y fig. 12, p. 13; R_SENSE §6.4, p. 19; R_OL §7.3.3.2, p. 27; tabla 9 (k_ILIS, I_IS(FAULT), V_IS(RANGE)), p. 30: [PDF](https://datasheet.lcsc.com/datasheet/pdf/f332d8427495765ea0546e562dd08e67.pdf?productCode=C534868)
+  - Infineon BTT6030-2ERA, rev. 1.00 (2019-03-09): I_L(NOM)1/2 6/4 A (P_5.5.3, p. 16), k_ILIS 2240 (p. 31), E_AS 85 mJ (p. 7): [PDF](https://datasheet.lcsc.com/datasheet/pdf/c717e93e2471b98176c6383deb6f8e7a.pdf?productCode=C534865)
   - Infineon ISP752R, rev. 1.2 (gemelo industrial del BSP752R: V_IN(T+) ≤ 2,2 V, V_ON(CL) 59–63 V, I_L(SCp) 6,5/9 A, *load dump* de 73,5 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/9e1390bc93a03b74461d08548900aa42.pdf?productCode=C454923)
-  - BSP752R (resumen: V_bb(AZ) 62 V, 6–52 V, 200 mΩ, 1,3 A): [PDF](https://datasheet.lcsc.com/datasheet/pdf/64c1fbd10ef94abd8e063af906019963.pdf?productCode=C112644)
+  - Infineon BSP752R, V1.3 (2017-06-13), leído renderizando las páginas a imagen (VAL-0005-01): V_bb 52 V y *load dump* 73,5 V con R_L = 13,5 Ω (p. 3), V_bb(on) 6–52 V y R_ON (p. 4), V_bb(AZ) ≥ 62 V, I_L(SCp) y V_ON(CL) (p. 5), V_IN(T+) ≤ 2,2 V (p. 6): [PDF](https://datasheet.lcsc.com/datasheet/pdf/64c1fbd10ef94abd8e063af906019963.pdf?productCode=C112644)
   - ST VN5050J (V_CC de 41 V máx., *clamp* de 41–52 V, I_limH de 13,5–26,5 A, STATUS): [PDF](https://datasheet.lcsc.com/datasheet/pdf/81e43811fb3ec7dd124a9111c5d5730c.pdf?productCode=C75918)
   - onsemi NCV8460A (V_D de 41 V, pico de 56 V, V_in,high de 3,25 V, I_lim de 6–15 A): [PDF](https://datasheet.lcsc.com/datasheet/pdf/3912557ba5c2520b513181d5b3fa5a8b.pdf?productCode=C424245)
   - ST VN7140AS (V_CC de 40 V en transitorio, funcionamiento de 4–28 V): [PDF](https://datasheet.lcsc.com/datasheet/pdf/8cb8740de41b94d4f95a42aaa267af61.pdf?productCode=C443994)
-  - BSP762T (V_bb(AZ) 41 V, 5–34 V; copia en chipfind): <https://chipfind.net/datasheet/html/infineon/bsp762.html>
-  - BTS428L2 (*load dump* de 60 V e I_L(SCr) de 17 A, según la copia del datasheet en chipfind; el PDF de LCSC tiene la fuente codificada y no se pudo extraer): <https://chipfind.net/datasheet/html/infineon/bts428l2.html> · [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/a2647afc25063d1f32e816f6b094fe08.pdf?productCode=C534779)
+  - Infineon BSP762T (V_bb(AZ) 41 V, 5–34 V): [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/0cd5aa02e586ce9fafb875a8187b1929.pdf?productCode=C112645) (copia del datasheet del fabricante; antes se citaba una copia de chipfind)
+  - Infineon BTS428L2, V1.1 (2007-05-29): V_bb 43 V, protección completa de corto hasta V_bb = 24 V y *load dump* 60 V (p. 3); V_IN(T+) 1,7–3,2 V (p. 6). El PDF de LCSC tiene la fuente codificada: se lee renderizando las páginas a imagen (VAL-0005-01). Copia en chipfind: <https://chipfind.net/datasheet/html/infineon/bts428l2.html> · [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/a2647afc25063d1f32e816f6b094fe08.pdf?productCode=C534779)
+  - TI TPS281C30: <https://www.ti.com/lit/ds/symlink/tps281c30.pdf> · [PDF de LCSC, variante B](https://datasheet.lcsc.com/datasheet/pdf/1ec58f299660e8c010418d62be5d0b1e.pdf?productCode=C17651020)
+  - TI TPS1HC100-Q1: <https://www.ti.com/lit/ds/symlink/tps1hc100-q1.pdf> · [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/4439cabb67e445dc124e16cd4933b312.pdf?productCode=C3230071)
+  - TI TPS1H100-Q1: <https://www.ti.com/lit/ds/symlink/tps1h100-q1.pdf> · [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/68f9d7e538162beea9f3fb9d6cbbc1a6.pdf?productCode=C475505)
+  - ST VN5012AK-E: [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/1afa284e388d3300fefd7409d8188d4d.pdf?productCode=C2150359)
+  - ST VN7050AS: [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/597a0f79caef4f5290f9477e2643da4e.pdf?productCode=C443993)
+  - Infineon BTS4140N: [PDF de LCSC](https://datasheet.lcsc.com/datasheet/pdf/246a6edcc9dd95fbe06c2d3c80b47913.pdf?productCode=C59442)
+  - Enlaces de TI comprobados el 2026-11-05. Los PDF de LCSC (de `wmsc.lcsc.com/ftps/wm/product/detail`, 2026-11-05) son copias del datasheet del fabricante; los de st.com e infineon.com no se pudieron comprobar desde aquí.
+  - Infineon/IR IRLML0060TRPBF e IRLML0100TRPBF (I_DSS, p. 2) y onsemi FDN5618P rev. 3 (I_DSS, p. 2): enlaces en §2.4.
   - Novosense NSE34050Q-Q1 (12 V): <https://mt-system.ru/upload/poluprovodniki/NSE34050Q-Q1_Datasheet_EN_0V1.pdf>
 - Valores estándar de las series SMBJ (SMBJ33A, SMBJ24A): tablas de la serie SMBJ (Littelfuse u otro fabricante); confirmar con el fabricante elegido en ALI.

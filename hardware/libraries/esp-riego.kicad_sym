@@ -103,7 +103,7 @@
 		(symbol "BTT6050-1ERA_0_1"
 			(rectangle
 				(start -7.62 7.62)
-				(end 7.62 -10.16)
+				(end 12.7 -10.16)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -187,7 +187,7 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 5.08 180)
+				(at 15.24 5.08 180)
 				(length 2.54)
 				(name "VS"
 					(effects
@@ -205,9 +205,9 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
-				(name "OUT"
+				(name "OUT 10-12"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -223,10 +223,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT"
+				(name "OUT 10-12"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -242,10 +242,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT"
+				(name "OUT 10-12"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -496,7 +496,7 @@
 		(symbol "BTT6030-2ERA_0_1"
 			(rectangle
 				(start -7.62 7.62)
-				(end 7.62 -12.7)
+				(end 12.7 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -616,7 +616,7 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 5.08 180)
+				(at 15.24 5.08 180)
 				(length 2.54)
 				(name "VS"
 					(effects
@@ -634,9 +634,9 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
-				(name "OUT0"
+				(name "OUT0 12-14"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -652,10 +652,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT0"
+				(name "OUT0 12-14"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -671,10 +671,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT0"
+				(name "OUT0 12-14"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -690,9 +690,9 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 -2.54 180)
+				(at 15.24 -2.54 180)
 				(length 2.54)
-				(name "OUT1"
+				(name "OUT1 8-10"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -708,10 +708,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 -2.54 180)
+				(at 15.24 -2.54 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT1"
+				(name "OUT1 8-10"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -727,10 +727,10 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 -2.54 180)
+				(at 15.24 -2.54 180)
 				(length 2.54)
 				(hide yes)
-				(name "OUT1"
+				(name "OUT1 8-10"
 					(effects
 						(font
 							(size 1.27 1.27)

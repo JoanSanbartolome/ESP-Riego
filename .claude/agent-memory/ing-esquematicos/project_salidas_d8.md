@@ -24,7 +24,8 @@ Piezas descartadas, y por qué:
 - VN7 y TPS1HC100: son de 12 V.
 - NCV8460A: V_IH de 3,25 V.
 - VN5 y BSP762T: 41 V, menos que los 53,3 V de la SMBJ33A.
-- BTS428L2: 2,42 $.
+- BTS428L2: V_IN(T+) hasta 3,2 V (> 2,64 V del ESP32-S3) y protección de corto solo hasta V_bb = 24 V; además 2,42 $ (VAL-0005-01-02).
+- BTT6030-2ERA (segunda fuente): 4 A por canal con los dos activos y k_ILIS 2240 (no 1500); con 5 placas se compran 15 chips, al tramo de 10 uds.
 - AO3400A y SS14 en el bus: 30/40 V, menos que la Vc de 53 V.
 - Z0109MN, IPS160HFTR, ISP752R y LT925: sin stock.
 - G3VM-61HR: sin stock.
