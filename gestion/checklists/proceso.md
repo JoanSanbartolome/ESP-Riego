@@ -2,7 +2,7 @@
 
 Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herramientas/` y convenciones.
 
-**Versión:** v2 (2026-11-03), con las propuestas de VAL-0001-02. Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v3 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Guardas y hooks
 
@@ -26,6 +26,9 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 ## Efectos secundarios
 
 - [ ] Las herramientas de verificación no modifican el proyecto que verifican: `md5sum` antes y después.
+- [ ] En una spec que copia o renombra un proyecto, un `diff` frente al origen, con los nombres nuevos aplicados, muestra solo lo que la spec permite; lo heredado sin cambios (p. ej. `outputdirectory`, `embedded_files`) se busca a propósito.
+- [ ] En una spec de limpieza, el inventario de lo retirado se coteja con la netlist del estado de partida (referencias, valores y redes), no solo con recuentos.
+- [ ] Cuando un log justifica una desviación con «no se convierte» o «no resuelve», validación la reproduce con una orden concreta.
 - [ ] `python herramientas/integridad_tfg.py verificar` da el TFG intacto, y existe una copia recuperable del TFG (la mantiene el usuario).
 - [ ] `herramientas/revisar_zonas.py` confirma que la auditoría solo ha crecido. Para probarlo en una copia del repositorio dentro de la carpeta temporal, hay que anular la exención de esa carpeta.
 
@@ -39,3 +42,4 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial, a partir de la propuesta de VAL-0001-01 |
 | v2 | 2026-11-03 | Propuestas de VAL-0001-02: MCP legítimo en la batería, redirecciones y tuberías, prueba en vivo tras cambiar un agente, auditoría que solo crece, copia del TFG |
+| v3 | 2026-11-05 | Propuestas de VAL-0009-01, VAL-0013-01 y VAL-0014-01: diff frente al origen en copias, inventario frente a la netlist de partida y reproducción de las justificaciones |
