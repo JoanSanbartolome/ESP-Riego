@@ -2,11 +2,11 @@
 id: SPEC-0011
 titulo: Requisitos v0.4: ventana del limitador y sobrecarga por canal
 fase: 0
-estado: propuesta
+estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0011-requisitos-v04
-requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-10, FAB-01]
+requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01]
 depende_de: [SPEC-0007]
 creada: 2026-11-05
 cerrada:
@@ -15,7 +15,10 @@ validacion:
 
 # SPEC-0011 · Requisitos v0.4: ventana del limitador y sobrecarga por canal
 
-> Propuesta: observaciones 01, 02, 05, 06 y 09 de VAL-0007-01. **Necesita del usuario:** el modelo de la fuente de 24 V (corriente nominal, protección de sobrecarga y OVP) para el 01, y una decisión sobre la sobrecarga de un canal para el 02. Se abre cuando estén los dos.
+> Observaciones 01, 02, 05, 06 y 09 de VAL-0007-01. **Decisiones del usuario (2026-11-05, DEC-0004):**
+>
+> - Fuente: una fuente de 24 V DC y 5 A para tiras LED, sin más datos; el coordinador asume los parámetros típicos de ese tipo de fuente, sin complicar el circuito.
+> - Sobrecarga de un canal: sin protección por canal. Se define una carga máxima por canal como parámetro y se dimensiona correctamente.
 
 ## Objetivo
 
@@ -29,9 +32,7 @@ validacion:
     - la prueba de §6 se hace por encima de la banda;
     - ALI-04 elige entre la SMBJ33A y la SMBJ36A, y fija la tensión del limitador (≥ 60 V o ≥ 64 V).
   - **02 (M):** la sobrecarga de un canal entre 1 A y el umbral del limitador, según la decisión del usuario:
-    - pistas y bornes de cada salida dimensionados hasta el umbral;
-    - corte por firmware con IS, documentado y con prueba en §6;
-    - o una protección por canal (PTC o fusible).
+    - sin protección por canal: carga máxima por canal como parámetro y dimensionamiento correcto (DEC-0004).
   - **05 (B):** aviso de subtensión y punto de prueba separados, y arranque en frío.
   - **06 (B):**
     - carga abierta en OFF con el bus de salidas apagado (REL-10 frente a ALI-13);
@@ -71,3 +72,4 @@ validacion:
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | El usuario fija la fuente (LED de 24 V y 5 A) y descarta la protección por canal; abre la spec | DEC-0004 |
