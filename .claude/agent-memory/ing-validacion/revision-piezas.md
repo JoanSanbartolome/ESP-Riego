@@ -32,3 +32,5 @@ Una pieza creada se valida contra el dato del fabricante **y** con una prueba en
 - **API de JLCPCB con `python -I`:** usar `-X utf8` (con `-I` se ignora PYTHONIOENCODING). LCSC y wmsc bloquean la descarga de PDF por curl (devuelven HTML).
 
 Relacionado: [[revision-importaciones]], [[revision-estudios]], [[comprobaciones-utiles]].
+
+- **Revalidación de huellas con EP (VAL-0018-02):** la placa de prueba se monta con el **`.kicad_pro` del proyecto destino** (`hardware/v2`, FAB-02: taladro ≥ 0,3, anillo ≥ 0,15), no con `{}`: así salió el taladro de 0,2 de las vías térmicas (6 `drill_out_of_range`) que `verificar.py` no ve mientras la pieza no esté en la PCB. «Vías tapadas» se comprueba en el Gerber (`pcb export gerbers --layers F.Mask,B.Mask,F.Paste`): si caen dentro de la apertura de F.Mask o F.Paste del EP, solo están tapadas por abajo. Mirar también los restos de la oficial: `Value` de la huella y `ki_fp_filters` del símbolo. Script `scratchpad\v18r\mk.py` (copia `.kicad_pro` y tablas). Estarcido de JLCPCB: 0,10–0,20 estándar; la pasta del EP de TI depende del espesor.
