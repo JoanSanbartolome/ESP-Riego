@@ -34,6 +34,8 @@ Para validar una spec de requisitos (`docs/02`), no basta con buscar términos: 
   - los *drivers* LED de corriente constante (HLG: 95–108 %) no caben en una banda pensada para el 105 %: pido mirar la etiqueta real antes de elegir el limitador;
   - en las protecciones escalonadas también reviso el retorno GND, el fusible o PTC de entrada (con su reducción a 50 °C) y lo que hace el *high-side* (el BTT6050 se enclava y no se rearma solo);
   - márgenes de las pruebas de §6 frente a la precisión de la medida (31 V frente a 31,5 V = 1,6 %).
+- En una corrección, recalculo las cifras que el autor añade por su cuenta y no solo las que propuse. En VAL-0011-02, la carga instalada aplicaba dos veces el factor del frío: 0,28 A ya era el valor en frío del estudio, y el resultado fue 3,9 A en vez de 3,47. Antes de aceptar una corrección, busco en el estudio en qué condición está dado cada valor. Una banda más estrecha de lo necesario deja fuera piezas (*hot-swap* de ± 12 %).
+- Una prueba de aviso por debajo del arranque en frío (16 V frente a 17 V) necesita también acotar el UVLO de bajada.
 - Cuando una DEC sustituye la recomendación de un estudio de `docs/diseno/`, compruebo que alguna spec le pone un aviso. Busco términos obsoletos también en `.claude/agent-memory/` de los otros agentes.
 - Cuando el usuario aclara un dato de entrada (tipo de carga, fuente), el commit suele tocar solo docs/02 y la DEC: busco el dato antiguo en las specs abiertas, como SPEC-0005 con «24 V AC (la instalada)».
 - Con `python -I`, `PYTHONIOENCODING` se ignora: en el script uso `sys.stdout.reconfigure(encoding="utf-8")`.
