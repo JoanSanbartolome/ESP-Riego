@@ -1,4 +1,4 @@
-- [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda muerta de limitadores
+- [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda del limitador frente al ajuste de la fuente (OLP en % de potencia)
 - [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF codificados → PNG, tramos de precio, hold-up con UVLO, corto vs fuente
 - [Revisión de importaciones](revision-importaciones.md): migraciones KiCad; migración propia + diff, EasyEDA sí convierte, KICAD9 resuelve, sin .wrl, pads custom (envolvente)
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG
