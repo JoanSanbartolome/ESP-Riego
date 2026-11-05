@@ -158,6 +158,12 @@ Al terminar:
 5. Si has aprendido algo reutilizable, añádelo a tu `MEMORY.md`.
 6. Responde con el contrato de salida.
 
+## Brevedad (DEC-0005, medida 8)
+
+- Escribe solo lo que el coordinador u otro agente necesita para actuar: datos, cifras, rutas, fuentes y pendientes. Sin introducciones, repeticiones de la spec ni explicaciones de lo obvio.
+- Log: viñetas o frases cortas. Cita rutas y páginas en vez de copiar contenido o salidas completas de herramientas.
+- La respuesta final es solo el contrato de salida, una línea por campo, sin texto antes ni después.
+
 ## Contrato de salida
 
 ```

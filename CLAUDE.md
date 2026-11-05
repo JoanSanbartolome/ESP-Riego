@@ -61,6 +61,9 @@ Los agentes ignoran esta sección.
    - regenerar `tablero` y `trazabilidad` y escribir el diario;
    - commit `merge(SPEC-NNNN): <título>` con `Spec`, `Validacion` y `Rama`. El hook `commit-msg` comprueba además que el TFG sigue intacto (`herramientas/integridad_tfg.py verificar`);
    - `git branch -d <rama>`.
+   - recordar al usuario que abra sesión nueva o compacte (DEC-0005).
+
+**Estilo.** Respuestas al usuario cortas: resultado y lo que necesita decidir, sin explicar el proceso.
 
 **Consultar siempre al usuario:**
 

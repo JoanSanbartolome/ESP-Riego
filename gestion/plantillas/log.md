@@ -8,13 +8,15 @@ estado: completado | parcial | bloqueado
 
 # SPEC-NNNN · NN · <agente>
 
+<!-- Estilo telegráfico: solo lo que otro necesita para actuar. Secciones vacías: «—». -->
+
 ## Orden recibida
 
 <Copia literal de la orden del coordinador.>
 
 ## Contexto consultado
 
-<Archivos, fichas de componentes, datasheets (con página) y páginas web consultadas.>
+<Lista de rutas, datasheets (con página) y URLs.>
 
 ## Acciones
 

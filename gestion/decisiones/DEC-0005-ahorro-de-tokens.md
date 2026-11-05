@@ -49,3 +49,12 @@ Se descartan por ahora la 4 (bajar el modelo o el esfuerzo de los agentes, que e
 - `gestion/README.md` y `CLAUDE.md` recogen los niveles, la revisión previa y la spec de mantenimiento.
 - Las definiciones de los agentes autores añaden el repaso de la checklist al terminar, y `ing-validacion` añade los niveles. Estos cambios se cargan al reiniciar la sesión; mientras tanto, el coordinador los incluye en cada orden.
 - Las specs propuestas SPEC-0008 y SPEC-0012 se pueden agrupar en la primera spec de mantenimiento.
+
+## Ampliación del 2026-11-05 · medida 8
+
+El usuario pide que los agentes no escriban más de lo que tienen que transmitir y que el coordinador responda de forma concisa.
+
+- Las cuatro definiciones de agente añaden la sección «Brevedad»: respuesta final solo con el contrato de salida, y logs e informes en estilo telegráfico, citando rutas en vez de copiar.
+- La plantilla del log pide estilo telegráfico.
+- El coordinador recuerda al usuario, al cerrar cada spec, abrir sesión nueva o compactar (medida 7).
+- Los cambios en `.claude/agents/` se cargan al reiniciar la sesión; hasta entonces, cada orden incluye «Brevedad: solo contrato de salida; log telegráfico».
