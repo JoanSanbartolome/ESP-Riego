@@ -121,3 +121,54 @@ El coordinador autorizó descargar los dos `.step` oficiales de `gitlab.com/kica
 - La API de JLCPCB (`selectSmtComponentList`) funciona con un POST JSON y da stock, tramos de precio, `componentLibraryType` (`base` = Basic, `expand` = Extended) y `preferredComponentFlag`.
 - Para leer símbolos de la librería oficial con herencia (`extends`), los pines están en el padre: `LM5069MM-2` extiende `LM5069MM-1` y `USBLC6-2SC6` extiende `USBLC6-2P6`.
 - Los scripts que han generado huellas, símbolos y STEP están en el *scratchpad* de la sesión (no versionados). Si hay que regenerar, el STEP necesita `MANIFOLD_SOLID_BREP` con `ADVANCED_FACE`: `FACETED_BREP` con `FACE` simple no lo carga KiCad.
+
+## Corrección (VAL-0015-01)
+
+Fecha: 2026-11-05. Rama `spec/SPEC-0015-recopilacion-componentes`. Sin MCP (ni `open_project`); sin tocar `hardware/v2/`, la v1 ni el TFG. Los modelos 3D no se han integrado (los rehace otro agente). La afirmación de «Decisiones» de que el datasheet no da *land pattern* queda sustituida por esta corrección.
+
+### Hallazgo → cambio → evidencia
+
+| Hallazgo | Cambio | Evidencia |
+|---|---|---|
+| M01 | `Infineon_PG-TDSO-14_…kicad_mod` rehecha con el *land pattern* oficial de PG-TDSO-14-11: pads de señal 1,34 × 0,65 con centro en x = ±2,73 (filas a 5,46); pad 15 (VS) igual, 2,65 × 6,4; pasta del pad térmico en 2 ventanas de 2,45 × 2,95 en y = ±1,625 (0,3 entre ellas); courtyard ±3,65 × ±4,6. Se conservan nombre, numeración (1-7 izquierda, 8-14 derecha, 15 = VS), triángulo del pin 1, serigrafía y `model`. `descr` y `Datasheet` citan Infineon | Fuente: `https://www.infineon.com/package/PG-TDSO-14-11`, imagen «footprint» (`assets.infineon.com/is/image/infineon/infineon-pg-tdso-14-11-png-footprint-en.png`), descargada y leída el 2026-11-05. Cotas leídas: paso 1,27; pad 0,65 × 1,34; 5,46 entre filas; cobre del pad térmico 2,65 × 6,4; ventanas de pasta 2,95 × 2,45 con 0,3 de separación. Derivados: borde interior ±2,06 (hueco de 0,735 al pad térmico) y exterior ±3,40; courtyard a 0,25 de los pads. Render `fp export svg` sobre copia correcto; `fp upgrade`: «not updated» (formato nativo) |
+| M03, B04, B09 | `TerminalBlock_Kangnex_WJ500V-…kicad_mod`: cuerpo de y = −5,5 (cara de entrada del cable) a +4,5 (cara trasera), x de −2,54 a 7,62 en Fab; serigrafía a +0,1; courtyard a +0,25 (y −5,75…4,75). Entrada marcada en Fab (línea gruesa, flecha y texto «ENTRADA CABLE»). Pin 1 con triángulo en F.SilkS y F.Fab. Taladro acabado 1,3 mm y pad de 2,6 mm (antes 1,2 y 2,4). Reference y Value fuera del courtyard | Dibujo de Kangnex, sección A-A: patilla a 4,50 ± 0,20 de la cara trasera (fondo 10,00, luego 5,50 a la entrada). Patilla 0,90 × 0,80 (diagonal 1,27 máx.); referencia Phoenix MKDS-1,5-2-5.08 (1,3 / 2,6). Render sobre copia: entrada, pin 1 y courtyard como se describen; `fp upgrade`: «not updated» |
+| B06 | Ficha `WJ500V-5.08-2P.md`: precio a 5 y 10 placas con el supuesto de 7 bornes por placa (6 salidas, REL-06, más la entrada): 35 × 0,1345 = 4,71 $ y 70 × 0,1083 = 7,58 $; con 8 bornes, 5,38 $ y 8,66 $. Frase contradictoria eliminada; quitado el «supuesto» de la posición del pin; taladro de 1,3 justificado | API de JLCPCB, 2026-11-05 (tramos 1-49: 0,1345; 50-149: 0,1083) |
+| B07 | Ficha `BSP752R.md`: V_IN(T+) ≤ 2,2 V, V_IN(T−) ≥ 0,8 V, histéresis 0,4 V y V_ST(low) ≤ 0,4 V (p. 6); I_L(SCp) 9 A máx. (−40 °C, 20 V), 6,5 A típ. (25 °C), 4 A mín. (150 °C) (p. 5). Sin «dato del gemelo». Criterio de páginas: número impreso (entre paréntesis, el del PDF) | `datasheets/BSP752R.pdf` V1.3 (2017-06-13), páginas 5 y 6 leídas en imagen |
+| B08 | `datasheet:` con URL del fabricante y la de LCSC en `datasheet_espejo:` (BTT6050, BTT6030, BSP752R, SMBJ33A); Sensirion actualizada. Mismo cambio en el campo `Datasheet` de los 3 símbolos y de la huella TDSO-14 | Infineon: los PDF de `infineon.com/assets/row/public/documents/10/49/infineon-<mpn>-datasheet-en.pdf` son idénticos byte a byte (MD5) a las copias locales; igual ESP32-S3-WROOM-1 (Espressif), LM5069 y TPS2663 (TI). **SHT4x:** la copia local era la v6.2 (2023) y la vigente en la página de producto de sensirion.com es la **V7.3 (junio de 2026)**: sustituida (1,0 MB). Páginas de la ficha pasadas a la V7.3 (Figura 15, p. 15; §5.3, p. 16; pinout y θ_JA, p. 17); la URL antigua daba 404. **No comprobado:** `st.com` no responde y `littelfuse.com` da 403 desde este equipo: no he podido confirmar que USBLC6-2 Rev 5 y SMBJ de 07/04/25 sean las vigentes (anotado en las fichas). TYPE-C-31-M-12 y WJ500V: sin sede de fabricante accesible, LCSC es la única fuente (anotado) |
+| B10 | Símbolos BTT6050-1ERA y BTT6030-2ERA: Value movido bajo el extremo del pin NC, en (0, −15,24) y (0, −17,78) | `sym export svg` sobre copia: Value por debajo del pin NC sin solaparse. Pines y conexiones sin cambios. No añadí los números del grupo (OUT 10-12), fuera de la orden |
+
+### Requiere verificación de validación (actualizado)
+
+| Pieza | Fuente y página |
+|---|---|
+| Huella PG-TDSO-14 (corregida) | Land pattern: `https://www.infineon.com/package/PG-TDSO-14-11`; cuerpo: BTT6050-1ERA Rev 1.00, Figura 53, p. 49 |
+| Huella WJ500V (corregida) | Dibujo de Kangnex, sección A-A y layout recomendado; taladro 1,3 justificado en la ficha |
+| Símbolos BTT6050 y BTT6030 | Solo cambian la posición de Value y el campo Datasheet |
+| `datasheets/SHT4x.pdf` | Sustituido por la V7.3 de Sensirion |
+
+### Repaso de la checklist `librerias.md` v2
+
+- Huella (cotas del fabricante, pin 1, courtyard, serigrafía): cumple en las dos huellas modificadas; la TDSO-14 con el land pattern de Infineon; el WJ500V con pin 1 en serigrafía y Fab, entrada marcada y taladro justificado.
+- Símbolo: sin cambios de pines; B10 solo cosmético.
+- Modelo 3D: resuelto con los modelos nuevos (ver «Integración de los modelos 3D nuevos»: hallazgos 02, 03 y 05).
+- Ficha (datasheet del fabricante con revisión, LCSC con fecha, tipo, stock, precios): cumple, con las excepciones de ST, Littelfuse, HRO y Kangnex.
+- Rutas absolutas: ninguna; archivos en formato nativo (`upgrade`: «not updated»).
+- Autovalidación: no. `verificar.py` no aplica (ningún proyecto KiCad tocado). `revisar_zonas.py jr-conformidad`: todo dentro de su zona.
+
+### Integración de los modelos 3D nuevos (SolidCraft)
+
+- Copiados a `hardware/libraries/3d/`: `Infineon_PG-TDSO-14.step` y `TerminalBlock_Kangnex_WJ500V-5.08-2P.step` (sustituyen a los anteriores) y `Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step` (nuevo). Borrado `Sensirion_DFN-4_1.5x1.5mm_SHT4x_simplificado.step`.
+- Fuentes en `hardware/libraries/3d/fuentes-solidcraft/` (`gen.py`, `sht4x.json`, `pgtdso14.json`, `borne.json`, `INFORME.md` y un `README.md` de 3 líneas). Sin rutas absolutas en ellos.
+- Las dos huellas propias ya tenían `(model …)` con offset 0, rotación 0 y escala 1 (`${KIPRJMOD}/../libraries/3d/…`): sin cambios.
+- Fichas SHT4x, BTT6050-1ERA, BTT6030-2ERA y WJ500V: modelo, origen, cotas con página y supuestos; en la del SHT4x, la ruta de respaldo `${KIPRJMOD}/../libraries/3d/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step` que el bloque enlazará.
+- Comprobación: placa de prueba en el scratchpad (`v15b/prueba.kicad_pcb`) con la huella oficial del SHT4x y las dos propias, con los modelos de `hardware/libraries/3d/`. `kicad-cli pcb render --side top` (y vista en perspectiva): los tres modelos cargan con color. TDSO-14: patillas sobre los pads (1–7 izquierda, 8–14 derecha) y la marca del pin 1 junto al pad 1, donde está el triángulo de la serigrafía. SHT4x: cuerpo sobre sus 4 pads y marca en la esquina del pad 1. Borne: el cuerpo coincide con el contorno Fab (y = −5,5…+4,5), los dos pines sobre los pads, y la cara de entrada del cable hacia −Y, donde está la marca «ENTRADA CABLE» (en la vista en perspectiva se ve la cara trasera, con el escalón del perfil, hacia +Y). Observación: las patillas del TDSO-14 llegan a |x| = 3,0 y el pad llega a 3,40, así que quedan 0,4 mm de pad libre en la punta: es soldable y coincide con el pie de 6,0 mm de punta a punta del datasheet.
+- Repaso de la checklist `librerias.md` v2, modelo 3D: presente (3 de 3 modelos propios); `.step`; alineado con las huellas (origen, pin 1 y contorno comprobados en el render); sin rutas absolutas. El 3D de respaldo del USB-C no ha cambiado.
+
+### Confirmaciones del usuario (2026-11-05, trasladadas por el coordinador)
+
+- 7 bornes por placa (6 salidas y la entrada): ficha del WJ500V actualizada («confirmado por el usuario»).
+- Copias locales del USBLC6-2SC6 (ST, Rev 5) y de la serie SMBJ (Littelfuse, 07/04/25) válidas como vigentes: fichas actualizadas («confirmado por el usuario»). No se han contrastado con la web de cada fabricante (ST no responde y Littelfuse da 403 desde este equipo).
+
+### Pendiente
+
+- Nada de esta corrección. La revisión de ST y de Littelfuse queda como confirmada por el usuario.

@@ -5,8 +5,9 @@ funcion: interruptor inteligente *high-side* de 2 canales, 24 V, 30 mΩ por cana
 lcsc: C534865
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
-datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6030-2ERA_C534865.pdf
-datasheet_local: datasheets/BTT6030-2ERA.pdf (Rev. 1.00, 2019-03-09, 1,6 MB, copia de LCSC)
+datasheet: https://www.infineon.com/assets/row/public/documents/10/49/infineon-btt6030-2era-datasheet-en.pdf
+datasheet_espejo: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6030-2ERA_C534865.pdf
+datasheet_local: datasheets/BTT6030-2ERA.pdf (Rev. 1.00, 2019-03-09, 1,6 MB, idéntica byte a byte a la de infineon.com, revisión vigente comprobada el 2026-11-05)
 simbolo: esp-riego:BTT6030-2ERA
 huella: esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm
 modelo_3d: ${KIPRJMOD}/../libraries/3d/Infineon_PG-TDSO-14.step
@@ -70,7 +71,7 @@ Tabla 2, p. 4.
 
 ## Notas de los assets
 
-Creados desde el datasheet (sin versión oficial ni en PartReel). Ver la ficha del BTT6050-1ERA: misma huella y mismo modelo 3D.
+Creados desde el datasheet (sin versión oficial ni en PartReel). Ver la ficha del BTT6050-1ERA: misma huella y mismo modelo 3D (SolidCraft, cotas de la Figura 54, p. 51, idénticas a las de la Figura 53, p. 49 del BTT6050; origen, cotas y supuestos en esa ficha).
 
 ## Uso en el proyecto
 

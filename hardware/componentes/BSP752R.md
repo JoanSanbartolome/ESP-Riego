@@ -5,8 +5,9 @@ funcion: interruptor inteligente *high-side* miniPROFET de 1 canal, 6-52 V, 200 
 lcsc: C112644
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
-datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_1810010328_Infineon-Technologies-BSP752R_C112644.pdf
-datasheet_local: datasheets/BSP752R.pdf (V1.3, 2017-06-13, 0,5 MB, copia de LCSC)
+datasheet: https://www.infineon.com/assets/row/public/documents/10/49/infineon-bsp752r-datasheet-en.pdf
+datasheet_espejo: https://www.lcsc.com/datasheet/lcsc_datasheet_1810010328_Infineon-Technologies-BSP752R_C112644.pdf
+datasheet_local: datasheets/BSP752R.pdf (V1.3, 2017-06-13, 0,5 MB; idéntica byte a byte a la de infineon.com, revisión vigente comprobada el 2026-11-05)
 simbolo: esp-riego:BSP752R
 huella: Package_SO:Infineon_PG-DSO-8-24_4x5mm
 modelo_3d: ${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/Infineon_PG-DSO-8-24_4x5mm.step
@@ -24,12 +25,12 @@ verificado_por: pendiente (ing-validacion), solo el símbolo
 | V_bb(AZ) (sobretensión) | 62 V | Tabla 1, p. 1 |
 | R_ON | 200 mΩ | Tabla 1, p. 1 |
 | I_L(nom) | 1,3 A | Tabla 1, p. 1 |
-| Limitación de corto I_L(SCp) | 6,5 A típ. / 9 A máx. (dato del estudio de salidas) | `docs/diseno/estudio-salidas.md` §11 |
-| Entrada | CMOS, compatible con 3,3 V (V_IN(T+) ≤ 2,2 V según el estudio, dato del gemelo ISP752R) | estudio de salidas §11 |
-| Diagnóstico | ST digital (corto y sobretemperatura); carga abierta solo en OFF con R externa | p. 1 |
-| Encapsulado | PG-DSO-8-24 | p. 17 |
+| Limitación de corto I_L(SCp) | 9 A máx. (T_j = −40 °C, V_bb = 20 V); 6,5 A típ. (25 °C); 4 A mín. (150 °C) | p. 5 |
+| Entrada | Umbral de conexión V_IN(T+) ≤ 2,2 V; de desconexión V_IN(T−) ≥ 0,8 V; histéresis 0,4 V típ.; compatible con 3,3 V | p. 6 |
+| Diagnóstico | ST de drenador abierto, V_ST(low) ≤ 0,4 V a 1,6 mA (25 °C); corto y sobretemperatura; carga abierta solo en OFF con R externa | p. 1 y p. 6 |
+| Encapsulado | PG-DSO-8-24 | Figura 1, p. 16 impresa (p. 17 del PDF) |
 
-Los límites de corto y el umbral de entrada son valores heredados del estudio y se deben confirmar en las tablas del datasheet antes de dimensionar.
+Criterio de páginas: las del número impreso en cada hoja del datasheet; entre paréntesis, la del PDF cuando difiere.
 
 ## Pinout (vista superior, p. 2)
 
@@ -45,7 +46,7 @@ Los límites de corto y el umbral de entrada son valores heredados del estudio y
 
 - Los cuatro pines Vbb se unen con cobre amplio para repartir la corriente y disipar el calor.
 - Resistencia en serie con GND para protección contra inversión de polaridad (p. 1: «reverse battery protection with external resistor»).
-- El datasheet no da más indicaciones de layout; la huella oficial de KiCad cita este mismo datasheet (p. 17).
+- El datasheet no da más indicaciones de layout; la huella oficial de KiCad cita este mismo datasheet (p. 16 impresa).
 
 ## Alternativas
 

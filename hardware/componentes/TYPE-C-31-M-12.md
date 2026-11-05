@@ -6,7 +6,7 @@ lcsc: C165948
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
 datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2205251630_Korean-Hroparts-Elec-TYPE-C-31-M-12_C165948.pdf
-datasheet_local: datasheets/TYPE-C-31-M-12.pdf (1 hoja, 0,1 MB)
+datasheet_local: datasheets/TYPE-C-31-M-12.pdf (1 hoja, 0,1 MB). Sin PDF propio localizado: hroparts.com no responde desde este equipo (2026-11-05); LCSC es la única fuente
 simbolo: Connector:USB_C_Receptacle_USB2.0_16P
 huella: Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12
 modelo_3d: ${KICAD10_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step (ausente en la instalación 10.0.6; respaldo en ${KIPRJMOD}/../libraries/3d/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step)

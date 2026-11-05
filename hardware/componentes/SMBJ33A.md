@@ -5,8 +5,9 @@ funcion: TVS unidireccional de 600 W en la entrada de potencia (ALI-04, DEC-0004
 lcsc: C224019
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
-datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Littelfuse-SMBJ33A_C224019.pdf
-datasheet_local: datasheets/SMBJ33A.pdf (serie SMBJ, 0,9 MB, copia de LCSC)
+datasheet: https://www.littelfuse.com/assets/littelfuse/products/pdf/smbj.pdf
+datasheet_espejo: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Littelfuse-SMBJ33A_C224019.pdf
+datasheet_local: datasheets/SMBJ33A.pdf (serie SMBJ, revisión de 07/04/25, 0,9 MB, copia de LCSC). Revisión vigente: confirmado por el usuario (2026-11-05) que se usa esta copia (07/04/25); littelfuse.com devuelve 403 desde el equipo de conformidad, así que no se ha contrastado con la web de Littelfuse
 simbolo: Device:D_TVS
 huella: Diode_SMD:D_SMB
 modelo_3d: ${KICAD10_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SMB.step

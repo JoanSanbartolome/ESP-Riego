@@ -6,7 +6,7 @@ lcsc: C7519
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
 datasheet: https://www.st.com/resource/en/datasheet/usblc6-2.pdf
-datasheet_local: datasheets/USBLC6-2SC6.pdf (Rev 5, 0,2 MB, copia de LCSC del PDF de ST)
+datasheet_local: datasheets/USBLC6-2SC6.pdf (Rev 5, 0,2 MB, copia de LCSC del PDF de ST). Revisión vigente: confirmado por el usuario (2026-11-05) que se usa esta copia (Rev 5); st.com no responde desde el equipo de conformidad, así que no se ha contrastado con la web de ST
 simbolo: Power_Protection:USBLC6-2SC6
 huella: Package_TO_SOT_SMD:SOT-23-6
 modelo_3d: ${KICAD10_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-23-6.step

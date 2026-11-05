@@ -5,8 +5,9 @@ funcion: interruptor inteligente *high-side* de 1 canal, 24 V, 50 mΩ, con medid
 lcsc: C534868
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
-datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6050-1ERA_C534868.pdf
-datasheet_local: datasheets/BTT6050-1ERA.pdf (Rev. 1.00, 2019-03-09, 1,7 MB, copia de LCSC)
+datasheet: https://www.infineon.com/assets/row/public/documents/10/49/infineon-btt6050-1era-datasheet-en.pdf
+datasheet_espejo: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6050-1ERA_C534868.pdf
+datasheet_local: datasheets/BTT6050-1ERA.pdf (Rev. 1.00, 2019-03-09, 1,7 MB, idéntica byte a byte a la de infineon.com, revisión vigente comprobada el 2026-11-05)
 simbolo: esp-riego:BTT6050-1ERA
 huella: esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm
 modelo_3d: ${KIPRJMOD}/../libraries/3d/Infineon_PG-TDSO-14.step
@@ -68,7 +69,9 @@ Tabla 2, p. 4.
 
 ## Notas de los assets
 
-El símbolo y la huella se han creado desde el datasheet: no hay versión en la librería oficial de KiCad 10 ni en PartReel, y la API de EasyEDA no está accesible desde aquí. El datasheet no da *land pattern*: la huella se ha derivado con IPC-7351 a partir del dibujo de la p. 49 (ver el log de SPEC-0015). El modelo 3D es simplificado (cuerpo, pad y patillas), generado con un script propio.
+El símbolo y la huella se han creado desde el datasheet: no hay versión en la librería oficial de KiCad 10 ni en PartReel, y la API de EasyEDA no está accesible desde aquí. La huella usa el *land pattern* oficial de Infineon para el encapsulado PG-TDSO-14-11 (https://www.infineon.com/package/PG-TDSO-14-11, imagen «footprint», consultada el 2026-11-05) y el dibujo de la p. 49 para el cuerpo (ver el log de SPEC-0015). 
+
+**Modelo 3D** (`Infineon_PG-TDSO-14.step`, compartido con el BTT6030-2ERA): creado con SolidCraft (fuentes en `hardware/libraries/3d/fuentes-solidcraft/`). Origen = origen de la huella, Z = 0 en la cara superior de la placa, offset 0, rotación 0 y escala 1. Cotas del datasheet (Figura 53, p. 49): cuerpo 8,65 × 3,9, altura máxima 1,15 con *standoff* de 0,05, pad expuesto 2,65 × 6,4, patillas de 0,4 de ancho a 1,27 de paso con puntas a ±3,0. Supuestos: patillas rectas de 0,2 de grosor y pie de 0,67 modelado desde |x| = 2,3; cuerpo prismático (sin ángulo de flanco); cuerpo hasta 1,15 (máximo, no la cota de referencia de 0,95); marca del pin 1 como hendidura de Ø 0,8 × 0,1 junto al pad 1 (sin cotas en el dibujo). Comprobado con `kicad-cli pcb render` sobre una placa de prueba: patillas sobre sus pads y marca junto al pad 1.
 
 ## Uso en el proyecto
 

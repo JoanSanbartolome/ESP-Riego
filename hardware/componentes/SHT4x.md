@@ -5,12 +5,12 @@ funcion: sensor I²C de temperatura y humedad del aire de la caseta (AMB-01)
 lcsc: C2848306 (SHT40-AD1B-R3)
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05
-datasheet: https://www.sensirion.com/media/documents/33FD6951/64D3B030/Sensirion_Datasheet_SHT4x.pdf
-datasheet_local: datasheets/SHT4x.pdf (versión 6.2, agosto de 2023, 1,9 MB)
+datasheet: https://sensirion.com/media/documents/33FD6951/6A7C10A0/HT_DS_Datasheet_SHT4x_V7.3.pdf
+datasheet_local: datasheets/SHT4x.pdf (versión 7.3, junio de 2026, 1,0 MB; sustituye a la 6.2, que ya no era la vigente: página de producto de sensirion.com, 2026-11-05)
 simbolo: Sensor_Humidity:SHT4x
 huella: Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad
-modelo_3d: ${KICAD10_3DMODEL_DIR}/Sensor_Humidity.3dshapes/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step (ausente en la instalación 10.0.6; respaldo simplificado en ${KIPRJMOD}/../libraries/3d/Sensirion_DFN-4_1.5x1.5mm_SHT4x_simplificado.step)
-origen_assets: kicad-oficial (símbolo y huella); modelo 3D de respaldo creado
+modelo_3d: ${KICAD10_3DMODEL_DIR}/Sensor_Humidity.3dshapes/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step (ausente en la instalación 10.0.6 y en kicad-packages3D); respaldo creado, que el bloque enlaza en la instancia: ${KIPRJMOD}/../libraries/3d/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step
+origen_assets: kicad-oficial (símbolo y huella); modelo 3D de respaldo creado con SolidCraft
 verificado_por: pendiente (ing-validacion), solo el modelo 3D de respaldo
 ---
 
@@ -25,8 +25,8 @@ verificado_por: pendiente (ing-validacion), solo el modelo 3D de respaldo
 | Exactitud | SHT40 ± 1,8 %RH y ± 0,2 °C típ.; SHT41 ± 1,8 %RH y ± 0,2 °C máx. (ver curvas); SHT45 ± 1,0 %RH y ± 0,1 °C | p. 1 y p. 4-6 |
 | Dirección I²C | 0x44 (variantes AD1B), 0x45 (BD1B), 0x46 (CD1B) | p. 1 y p. 21 |
 | Calentador interno | 20, 110 o 200 mW, pulso de 0,1 s o 1 s | p. 2 y p. 13 |
-| Encapsulado | DFN-4, 1,5 × 1,5 mm | §5, p. 14 |
-| Resistencia térmica (θ_JA) | 297 K/W con el pad central sin soldar | Tabla 9, p. 16 |
+| Encapsulado | DFN-4, 1,5 × 1,5 mm | §5, p. 15 |
+| Resistencia térmica (θ_JA) | 297 K/W con el pad central sin soldar | p. 17 |
 
 ## Pinout
 
@@ -37,9 +37,9 @@ verificado_por: pendiente (ing-validacion), solo el modelo 3D de respaldo
 | 3 | VDD | Alimentación |
 | 4 | VSS | Masa |
 
-(§5.4, p. 16.) El pad central no está unido a ningún pin.
+(§5.4, p. 17.) El pad central no está unido a ningún pin.
 
-## Recomendaciones de layout del fabricante (§5.3, p. 15)
+## Recomendaciones de layout del fabricante (§5.3, p. 16)
 
 - No soldar el pad central: Sensirion lo desaconseja porque el sensor puede calentarse con el calentador activo. Es el motivo de la huella «NoCentralPad».
 - Sin cobre bajo el sensor salvo en los pads de pin.
@@ -64,7 +64,7 @@ verificado_por: pendiente (ing-validacion), solo el modelo 3D de respaldo
 
 ## Notas de los assets
 
-El símbolo y la huella son oficiales y no se copian. El modelo 3D que referencia la huella oficial no existe en la instalación local de KiCad 10.0.6 ni en el repositorio oficial `kicad-packages3D` (`master` y `10.0`, comprobado el 2026-11-05: `Sensor_Humidity.3dshapes` solo contiene el HDC2080); se ha creado uno simplificado (cuerpo de 1,5 × 1,5 mm con altura supuesta de 0,5 mm, que hay que contrastar con la Figura 15, p. 14, y cuatro pads) con un script propio, solo para el visor 3D y la comprobación de interferencias. Ver el log de SPEC-0015.
+El símbolo y la huella son oficiales y no se copian. El modelo 3D que referencia la huella oficial no existe en la instalación local de KiCad 10.0.6 ni en el repositorio oficial `kicad-packages3D` (`master` y `10.0`, comprobado el 2026-11-05: `Sensor_Humidity.3dshapes` solo contiene el HDC2080); se ha creado uno de respaldo con SolidCraft (fuentes en `hardware/libraries/3d/fuentes-solidcraft/`), con el mismo nombre que el oficial en `hardware/libraries/3d/`. El bloque de sensores tiene que añadir en la instancia el `model` con `${KIPRJMOD}/../libraries/3d/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step`. Origen = origen de la huella, offset 0, rotación 0, escala 1. Cotas de la Figura 15 (p. 15 de la V7.3): cuerpo 1,5 × 1,5, altura 0,54, paso 0,8, pads de 0,3 con pads a ras del cuerpo, apertura del sensor de Ø 0,6. Supuestos: grosor de pad de 0,2 (lectura de la cota del alzado); pads de 0,3 (lado del pin 1) y 0,4 (lado opuesto) de longitud, por lectura literal; profundidad de la apertura de 0,15; marca del pin 1 como hendidura de Ø 0,2 × 0,05 en la esquina del pad 1 (diámetro supuesto); sin pad central ni rotulado. Comprobado con `kicad-cli pcb render`: pads sobre los de la huella oficial y marca en el pin 1. Ver el log de SPEC-0015.
 
 ## Uso en el proyecto
 

@@ -23,7 +23,7 @@
 			)
 		)
 		(property "Value" "BTT6050-1ERA"
-			(at -7.62 -11.43 0)
+			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -45,7 +45,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6050-1ERA_C534868.pdf"
+		(property "Datasheet" "https://www.infineon.com/assets/row/public/documents/10/49/infineon-btt6050-1era-datasheet-en.pdf"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -416,7 +416,7 @@
 			)
 		)
 		(property "Value" "BTT6030-2ERA"
-			(at -7.62 -13.969999999999999 0)
+			(at 0 -17.78 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -438,7 +438,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Infineon-Technologies-BTT6030-2ERA_C534865.pdf"
+		(property "Datasheet" "https://www.infineon.com/assets/row/public/documents/10/49/infineon-btt6030-2era-datasheet-en.pdf"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -828,7 +828,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810010328_Infineon-Technologies-BSP752R_C112644.pdf"
+		(property "Datasheet" "https://www.infineon.com/assets/row/public/documents/10/49/infineon-bsp752r-datasheet-en.pdf"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
