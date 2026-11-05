@@ -9,6 +9,6 @@ metadata:
 - Los heredocs de Bash pierden las barras invertidas: escribe scripts Python con la herramienta Write.
 - `kicad-cli sym upgrade -o out.kicad_sym in.lib` convierte `.lib` y lee el `.dcm` si está junto al `.lib` (aporta Description); el destino no debe existir. Convertir desde `.lib` (no desde un `.kicad_sym` hermano) reproduce lo embebido en el esquema y evita `lib_symbol_mismatch`.
 - `kicad-cli fp upgrade <dir.pretty>` actualiza formato; en carpeta vacía da error inocuo.
-- Libs EasyEDA JSON no se convierten con KiCad: extraer la copia embebida de `lib_symbols` (esquema) o de `(footprint ...)` (PCB, quitando at/uuid/net/path/sheet*).
-- KiCad 10 no resuelve `${KICAD9_3DMODEL_DIR}`: cambiar a `${KICAD10_3DMODEL_DIR}`.
+- Los JSON de EasyEDA SÍ se convierten (SPEC-0010): `kicad-cli fp upgrade -o <dir que no exista> x.json` y `kicad-cli sym upgrade -o x.kicad_sym x.json`. Probarlo siempre antes de extraer copias embebidas.
+- KiCad 10 SÍ resuelve `${KICAD9_3DMODEL_DIR}` (cambiar a `KICAD10` es solo normalizar). KiCad 10.0.6 no instala `.wrl`: los modelos `.wrl` no se ven.
 - `kicad-cli sch|pcb upgrade --force <archivo>` migra el formato sin abrir GUI/MCP; crea `.kicad_prl` (borrarlo).
