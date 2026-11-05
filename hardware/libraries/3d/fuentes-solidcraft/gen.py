@@ -64,3 +64,11 @@ for i,px in enumerate((0.0,5.08),1):
     s.append(box(f"Borne_pin{i}",px-0.45,px+0.45,-0.4,0.4,-4.5,0.0)); pins.append(f"Borne_pin{i}")
 s+=[color(["Borne_cuerpo"],GREEN),color(screws+pins,METAL)]
 save("borne.json",s)
+
+# ---------- Fusible Littelfuse NANO2 451/453 (SPEC-0018) ----------
+# Cotas: 0451010.MRL, p. 4: 6,10 x 2,69 x 2,69 mm; casquillo 1,45 mm (supuesto: sin chaflan).
+s=[box("Fusible_cuerpo",-1.6,1.6,-1.345,1.345,0,2.69)]
+s.append(box("Fusible_tapa1",-3.05,-1.6,-1.345,1.345,0,2.69))
+s.append(box("Fusible_tapa2",1.6,3.05,-1.345,1.345,0,2.69))
+s+=[color(["Fusible_cuerpo"],"#d8c9a0"),color(["Fusible_tapa1","Fusible_tapa2"],METAL)]
+save("nano2.json",s)

@@ -8,10 +8,10 @@ stock_consultado: 2026-11-05
 datasheet: https://www.littelfuse.com/assets/littelfuse/products/pdf/smbj.pdf
 datasheet_espejo: https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Littelfuse-SMBJ33A_C224019.pdf
 datasheet_local: datasheets/SMBJ33A.pdf (serie SMBJ, revisión de 07/04/25, 0,9 MB, copia de LCSC). Revisión vigente: confirmado por el usuario (2026-11-05) que se usa esta copia (07/04/25); littelfuse.com devuelve 403 desde el equipo de conformidad, así que no se ha contrastado con la web de Littelfuse
-simbolo: Device:D_TVS
+simbolo: esp-riego:SMBJ33A (propio, unidireccional; copia de la forma de Diode:SM6T33A con pines K=1 y A=2; Device:D_TVS es bidireccional y no vale)
 huella: Diode_SMD:D_SMB
 modelo_3d: ${KICAD10_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SMB.step
-origen_assets: kicad-oficial
+origen_assets: símbolo propio (basado en Diode:SM6T33A); huella y 3D kicad-oficial
 verificado_por:
 ---
 

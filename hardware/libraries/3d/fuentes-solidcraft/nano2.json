@@ -1,0 +1,66 @@
+[
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 3.2,
+   "width": 2.69,
+   "height": 2.69,
+   "corner": [
+    -1.6,
+    -1.345,
+    0
+   ],
+   "operation": "new",
+   "body_name": "Fusible_cuerpo"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.45,
+   "width": 2.69,
+   "height": 2.69,
+   "corner": [
+    -3.05,
+    -1.345,
+    0
+   ],
+   "operation": "new",
+   "body_name": "Fusible_tapa1"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.45,
+   "width": 2.69,
+   "height": 2.69,
+   "corner": [
+    1.6,
+    -1.345,
+    0
+   ],
+   "operation": "new",
+   "body_name": "Fusible_tapa2"
+  }
+ },
+ {
+  "command": "appearance.assign",
+  "params": {
+   "bodies": [
+    "Fusible_cuerpo"
+   ],
+   "color": "#d8c9a0"
+  }
+ },
+ {
+  "command": "appearance.assign",
+  "params": {
+   "bodies": [
+    "Fusible_tapa1",
+    "Fusible_tapa2"
+   ],
+   "color": "#c8c8c8"
+  }
+ }
+]
