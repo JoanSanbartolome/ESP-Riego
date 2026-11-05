@@ -2,15 +2,15 @@
 id: SPEC-0016
 titulo: Mantenimiento de las fases 0 a 2
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0016-mantenimiento-fases-0-2
 requisitos: [REL-03, REL-05, KIC-01]
 depende_de: []
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-05
+validacion: VAL-0016-02
 ---
 
 # SPEC-0016 · Mantenimiento de las fases 0 a 2
@@ -45,8 +45,8 @@ Los documentos, fichas y fuentes heredados de las specs anteriores quedan sin af
 
 ## Criterios de aceptación
 
-- [ ] Cada observación del alcance está corregida o justificada una a una en el log de su autor.
-- [ ] Los criterios de aceptación de SPEC-0008 y SPEC-0012 se cumplen.
+- [x] Cada observación del alcance está corregida o justificada una a una en el log de su autor.
+- [x] Los criterios de aceptación de SPEC-0008 y SPEC-0012 se cumplen.
 
 ## Registro
 
@@ -54,3 +54,4 @@ Los documentos, fichas y fuentes heredados de las specs anteriores quedan sin af
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Abre la spec | |
+| 2026-11-05 | coordinador | Cierra la spec | VAL-0016-02 (APROBADO) |
