@@ -2,17 +2,22 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 5 · abierta 0 · cerrada 12 · descartada 3.
+Specs por estado: propuesta 4 · abierta 1 · cerrada 12 · descartada 3.
 
-## Propuestas (5)
+## Propuestas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | — | 2026-11-05 | — |
 | [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | — | 2026-11-05 | — |
 | [SPEC-0019](specs/SPEC-0019-hoja-alimentacion.md) | Hoja de alimentación de la v2 | 3 | ing-esquematicos | `spec/SPEC-0019-hoja-alimentacion` | — | 2026-11-05 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | — | 2026-11-05 | — |
 
 ## Cerradas (12)
 

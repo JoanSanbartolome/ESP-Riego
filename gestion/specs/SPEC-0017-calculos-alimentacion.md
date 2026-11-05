@@ -2,7 +2,7 @@
 id: SPEC-0017
 titulo: Selección y cálculos del bloque de alimentación
 fase: 2
-estado: propuesta
+estado: abierta
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0017-calculos-alimentacion
@@ -60,3 +60,4 @@ validacion:
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
