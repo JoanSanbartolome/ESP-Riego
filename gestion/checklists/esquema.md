@@ -1,11 +1,11 @@
 # Checklist de revisión de esquema
 
-**Versión:** v4 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v5 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Estructura
 
 - [ ] Hojas jerárquicas por bloque (KIC-02); ninguna hoja huérfana (H9).
-- [ ] Cajetín con proyecto, hoja, versión y fecha.
+- [ ] Cajetín con proyecto, hoja, versión y fecha, comprobado en el PDF exportado (`kicad-cli sch export pdf`, sobre una copia), no solo en el `title_block`.
 - [ ] ERC sin errores; cada aviso restante justificado en el log del autor.
 - [ ] Referencias anotadas, sin duplicados.
 
@@ -71,3 +71,4 @@
 | v2 | 2026-11-04 | Requisitos v0.2 (DEC-0002): fuente de 24 V DC, 6 salidas con tecnología por decidir, sensor en placa, sin lazo 4–20 mA; ajustes de VAL-0004-01. Se ajustó antes del merge de SPEC-0004 (VAL-0004-02-10) |
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02 y VAL-0005-01: TVS frente a polaridad, divisor de VIN, limitador común, energía inductiva con la curva E_AS, *hold-up*, IS acotada y corto en una salida |
 | v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004) y propuestas de VAL-0007-01 y VAL-0011-01: banda del limitador, salidas y retornos para la corriente del limitador, LED frente a carga abierta, retroalimentación del bus apagado, fusible de entrada y térmica del *high-side*. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01 y VAL-0011-02) |
+| v5 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: cajetín comprobado en el PDF exportado |

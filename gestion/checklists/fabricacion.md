@@ -1,11 +1,12 @@
 # Checklist de revisión del paquete de fabricación
 
-**Versión:** v1 (2026-11-03). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v2 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Generación
 
 - [ ] Todas las salidas generadas con `kicad-cli` a partir del commit etiquetado (KIC-05).
 - [ ] Carpeta `fabricacion/<versión>/` con Gerber, taladros, BOM, CPL y PDF de esquema y PCB.
+- [ ] Las rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`, `step`, `svg`) y del `.kicad_pcb` (`pcbplotparams/outputdirectory`) están vacías o dentro de `fabricacion/<versión>/`.
 
 ## Gerber y taladros
 
@@ -34,3 +35,4 @@
 | Versión | Fecha | Cambio |
 |---|---|---|
 | v1 | 2026-11-03 | Versión inicial |
+| v2 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: rutas de salida del proyecto y de la PCB |
