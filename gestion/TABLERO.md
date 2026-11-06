@@ -2,16 +2,21 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 0 · cerrada 16 · descartada 3.
+Specs por estado: propuesta 3 · abierta 1 · cerrada 16 · descartada 3.
 
-## Propuestas (4)
+## Propuestas (3)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | — | 2026-11-05 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 
 ## Cerradas (16)
 
