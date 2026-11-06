@@ -1,8 +1,8 @@
 # Bloque MCU: módulo, USB-C, arranque, UART, LED y tabla de GPIO (SPEC-0020)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05.
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07.
 **Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación del TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-01, EXP-02 (pines).
-**Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended lo confirma jr-conformidad (SPEC-0021).
+**Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`); C2913198 y los cambios de compra de DEC-0007 revisados el 2026-11-06. El tipo Basic/Extended lo confirma jr-conformidad (SPEC-0021).
 
 > Datasheets (las páginas son las impresas en el documento):
 > - **WROOM-1:** ESP32-S3-WROOM-1/1U Datasheet v1.8 (`hardware/componentes/datasheets/ESP32-S3-WROOM-1.pdf`).
@@ -23,13 +23,13 @@
 | BOOT / GPIO0 | *Pull-up* de 10 kΩ + pulsador igual al de RESET | ídem | MCU-04 |
 | UART | Tira de 4 pines a 2,54 mm (3V3 · TX · RX · GND), 470 Ω en TXD0 | tira de 40 pines cortada (C2337) | MCU-06 |
 | LED de estado | KT-0603YG (verde-amarillo, V_F 2,0–2,2 V, C2289) + 1 kΩ en GPIO40 | KT-0603Y (C2287) | MCU-07 |
-| Desacoplo | 22 µF X5R 0805 (C45783) + 100 nF (C1591) en el pin 3V3 | — | ALI-07 |
+| Desacoplo | 22 µF X5R 0805 (C45783) + 100 nF (C14663, Basic; DEC-0007) en el pin 3V3 | — | ALI-07 |
 
 Resultados clave:
 
-- **GPIO (MCU-05):** caben las 8 entradas analógicas en ADC1 (VIN_SENSE, LIM_IMON e IS1–IS6), sin usar GPIO3. Las salidas van solo en pines sin *pull-up* ni pulso alto en el arranque. Hay **un DEN común** a los 6 canales (§9.2) y quedan 3 pines libres. La variante con un DEN por canal cabe, pero sin pines libres (§9.3).
+- **GPIO (MCU-05):** caben las 8 entradas analógicas en ADC1 (VIN_SENSE, LIM_IMON e IS1–IS6), sin usar GPIO3. Las salidas van solo en pines sin *pull-up* ni pulso alto en el arranque. Hay **un DEN común** a los 6 canales (§9.2, fijado por DEC-0007) y quedan 3 pines libres. La variante con un DEN por canal (§9.3) queda descartada: ocupa los 28 pines.
 - **REL-04:** con el *chip* en reset, en el arranque y en el modo de descarga, los pines de IN, DEN y LIM_EN están en alta impedancia o a nivel bajo. Las resistencias de *pull-down* fijan el nivel bajo (≤ 5 mV frente a V_IN(L) ≤ 0,8 V). El OTA y los reinicios por software se cubren desde el firmware (§10).
-- **EN:** con la rampa más lenta del raíl de 3,3 V (*soft-start* del buck de 6 ms y τ mínimo), EN está a ≤ 0,13·VDD cuando VDD llega a 3,0 V: el *chip* sigue en reset hasta que el raíl es estable (§5).
+- **EN:** con la rampa más lenta del raíl de 3,3 V (*soft-start* del buck de 6 ms y τ mínimo), EN está a ≤ 0,16·VDD cuando VDD llega a 3,0 V: el *chip* sigue en reset hasta que el raíl es estable (§5).
 - **3,3 V (ALI-07):** 0,43 A de pico (0,45 A de diseño), con 1 A de capacidad. La caída es ≤ 0,70 V, y el margen es de 0,88 V con el buck y de 0,37 V con USB a 4,40 V. T_J = 109 °C a 60 °C de ambiente. Pico de Wi-Fi: ≈ 40 mV de caída. **El TLV1117LV de `alimentacion.md` vale; no se cambia** (§8).
 - **Piezas nuevas:** ningún símbolo ni huella. Falta el **modelo 3D** del pulsador TS-1187A, que no viene en KiCad 10.0 (§11).
 
@@ -67,17 +67,17 @@ Fuente: HDG §1.4.7 (pp. 28-31, Fig. 24 y 26) y WROOM-1 §11.2 (p. 46).
   - Zona libre de 6 mm (alto de la antena) × ≥ 15 mm hacia el lado contrario al punto de alimentación, recortando la placa (Fig. 26, p. 31).
   - Las cotas «Max 1» y «Max 2» de la Fig. 26 fijan la alineación del módulo con los bordes.
   - En la placa, nada de cobre, pistas, vías ni componentes dentro del *keepout* de la huella oficial (21 × 48 mm, en todas las capas).
-- **Caja:** ≥ 15 mm libres alrededor de la antena en todas direcciones, también dentro de la caja (HDG p. 30). Se comprueba con D5.
+- **Caja:** ≥ 15 mm libres alrededor de la antena en todas direcciones, dentro de la caja (HDG p. 30). Se comprueba con la decisión D5 (caja).
 - **Lejos de:**
-  - el buck (SW, L1) y las salidas: ≥ 15 mm del área de la antena (criterio de los 15 mm de la HDG);
-  - el USB y las líneas de la UART: «*as far away from the antenna as possible*» (HDG §1.4.4, p. 28).
-- **Tamaño:** si la antena sobresale, el módulo asoma ≈ 6 mm del contorno. Si FAB-08 (≤ 100 mm) cuenta lo que sobresale, el ancho de la placa baja a ≤ 94 mm. Lo decide el *floorplan*, con D5.
+  - el buck (SW, L1), las salidas (*high-side*), el USB, la UART y el SHT4x: **objetivo del autor de ≥ 15 mm** del área de la antena. No es un requisito de la HDG: la HDG da 15 mm solo como zona libre dentro de la caja (p. 30), y para el USB y la UART pide «*as far away from the antenna as possible*» (§1.4.4, p. 28);
+  - en una placa de ≤ 100 × 70 mm puede no ser realizable: el *floorplan* justifica una distancia menor si hace falta.
+- **Tamaño:** si la antena sobresale, el módulo asoma ≈ 6 mm del contorno. Si FAB-08 (≤ 100 mm) cuenta lo que sobresale, el ancho de la placa baja a ≤ 94 mm. Lo decide el *floorplan*, con la decisión D5 (caja).
 - Hay que poner abundante cobre de GND y vías de cosido junto a la antena, pero fuera de la zona libre (HDG p. 30).
 
 ## 4. USB-C (MCU-03, ALI-08)
 
 ```
-J2 VBUS (A4/A9/B4/B9) ─┬─ U6 pin 5 (VBUS) ─┬─ C25 4,7 µF ── VBUS → U3 VIN2 (alimentación)
+J2 VBUS (A4/A9/B4/B9) ─┬─ U6 pin 5 (VBUS) ─┬─ C26 4,7 µF ── VBUS → U3 VIN2 (alimentación)
 J2 CC1 (A5) ─ R18 5,1 kΩ ─ GND           │
 J2 CC2 (B5) ─ R19 5,1 kΩ ─ GND           │
 J2 D+ (A6+B6) ─ U6 I/O1 (1↔6) ─ R20 22 Ω ─ GPIO20 (USB_D+)
@@ -89,11 +89,11 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
   - Con una fuente Type-C da como mínimo el perfil por defecto de USB.
   - Sin ellas, un cargador C-C no da VBUS.
 - **ESD:** USBLC6-2SC6 junto al conector.
-  - *Clamping* de 17 V a 1 A y 3,5 pF máx. por línea (ficha, tabla 2, p. 2): apto para 12 Mb/s.
+  - *Clamping* V_CL de 12 V a 1 A y de 17 V a 5 A (8/20 µs), y 3,5 pF máx. por línea (ficha, tabla 2, p. 2): apto para 12 Mb/s.
   - Las líneas de datos pasan por los pines de I/O, sin derivaciones.
   - El pin VBUS del USBLC6 va a VBUS: protege también la entrada VIN2 del TPS2116.
 - **22 Ω en serie** junto al módulo: valor inicial de la HDG §1.3.13 (p. 18). Los condensadores a GND que la HDG deja «sin montar» no se ponen.
-- **Condensador de VBUS:** C25 = 4,7 µF 16 V X5R 0603 (C19666). Con el C15 de 1 µF del TPS2116 (`alimentacion.md` §3.8) suman 5,7 µF, por debajo de los 10 µF que admite USB 2.0 en un dispositivo.
+- **Condensador de VBUS:** C26 = 4,7 µF 16 V X5R 0603 (C19666). Con el C15 de 1 µF del TPS2116 (`alimentacion.md` §3.8) suman 5,7 µF, por debajo de los 10 µF que admite USB 2.0 en un dispositivo.
 - **Corriente con solo USB:**
   - 3,3 V: 0,45 A, por debajo de los 0,5 A de un puerto USB 2.0.
   - El 5 V de la expansión (0,30 A) no cabe en un puerto USB 2.0. Con solo USB se programa sin la expansión o con poca carga en ella (ALI-08 solo exige la lógica).
@@ -104,22 +104,23 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 
 ### 5.1 EN
 
-- R16 = 10 kΩ de +3V3 a EN y C22 = 1 µF X7R 16 V (C106248) de EN a GND, junto al pin 3. SW1 (RESET) va en paralelo con C22.
+- R16 = 10 kΩ de +3V3 a EN y C23 = 1 µF X7R 16 V (C106248) de EN a GND, junto al pin 3. SW1 (RESET) va en paralelo con C23.
   - Es el valor que recomienda Espressif (WROOM-1 §9, p. 41; HDG §1.3.3, p. 8).
 - Umbrales: el reset es seguro con EN ≤ V_IL_nRST = 0,25·VDD y la liberación, con EN ≥ V_IH_nRST = 0,75·VDD (S tabla 5-4, p. 65). Además, t_STBL ≥ 50 µs desde que el raíl es estable y t_RST ≥ 50 µs de pulso (WROOM-1 tabla 4-6, p. 16).
-- Simulación numérica de la red RC, con τ entre 8,8 ms (C −10 % con polarización, R −1 %) y 11,1 ms:
+- Simulación numérica de la red RC, con τ entre 7,35 ms y 11,1 ms. τ mín. = 10 kΩ × 0,99 × 1 µF × 0,90 (tolerancia ±10 %) × 0,85 (polarización a 3,3 V, −15 % conservador: sin curva del fabricante para C106248) × 0,97 (−3 % a 60 °C) = 7,35 ms; τ máx. = 10 kΩ × 1,01 × 1 µF × 1,10 = 11,1 ms:
 
-| Arranque del raíl de 3,3 V | VDD llega a 3,0 V en | EN/VDD en ese momento (peor τ) | EN ≥ 0,75·VDD en |
+| Arranque del raíl de 3,3 V | VDD llega a 3,0 V en | EN/VDD en ese momento (τ mín. 7,35 ms) | EN ≥ 0,75·VDD en (τ 7,35–11,1 ms) |
 |---|---|---|---|
-| Escalón (USB ya presente, rearme) | 0 | 0 | 12,2–15,4 ms |
-| VBUS por el TPS2116 (1,7 ms de subida, TPS2116 §8.2.2, p. 15) | 1,55 ms | 0,083 | 13–16 ms |
-| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde su UVLO de 1,95 V (TLV p. 5) | 1,98 / 3,96 ms | 0,069 / **0,132** | 13,6–18,3 ms |
-| Cota pesimista: rampa lineal de 0 a 3,3 V en 6 ms | 5,46 ms | 0,255 | 15–18 ms |
+| Escalón (USB ya presente, rearme) | 0 | 0 | 10,2–15,4 ms |
+| VBUS por el TPS2116 (1,7 ms de subida, TPS2116 §8.2.2, p. 15) | 1,55 ms | ≈ 0,10 (0,083 con 8,8 ms, escalado) | ≈ 11–16 ms |
+| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde su UVLO de 1,95 V (TLV p. 5) | 1,98 / 3,96 ms | 0,081 / **0,155** | 11,6–18,3 ms |
+| Cota pesimista: rampa lineal de 0 a 3,3 V en 6 ms | 5,46 ms | 0,294 | 13,4–18 ms |
 
-- **Cumple:** en los casos reales, EN ≤ 0,13·VDD < 0,25·VDD cuando el raíl llega a 3,0 V. El *chip* no sale de reset antes de que el raíl sea estable, y lo hace entre 12 y 18 ms después (≫ 50 µs).
-  - La cota pesimista no es física, porque el TLV1117LV no da salida por debajo de su UVLO; aun así queda en el umbral.
-  - Si el prototipo arranca mal con fuentes lentas, C22 se sube a 2,2 µF (0,063 en el caso del buck de 6 ms).
-- **Reset con el pulsador:** cortocircuita C22. El pulso dura ≫ 50 µs. Al soltar, el *chip* arranca a los 12–15 ms.
+- **Cumple:** en los casos reales, EN ≤ 0,155·VDD < 0,25·VDD cuando el raíl llega a 3,0 V (recalculado por validación con τ = 7,35 ms). El *chip* no sale de reset antes de que el raíl sea estable, y lo hace entre 10 y 18 ms después (≫ 50 µs).
+  - Con el TPS2116, que solo conecta VIN1 por encima del umbral de PR1 (3,9–4,72 V) y con su *soft-start*, el caso del buck baja a 0,04–0,08: el de la tabla es conservador.
+  - La cota pesimista no es física, porque el TLV1117LV no da salida por debajo de su UVLO; con τ mín. supera el umbral (0,294), así que no es caso de diseño.
+  - Si el prototipo arranca mal con fuentes lentas, C23 se sube a 2,2 µF (≈ 0,08 en el caso del buck de 6 ms, estimado por escalado).
+- **Reset con el pulsador:** cortocircuita C23. El pulso dura ≫ 50 µs. Al soltar, el *chip* arranca a los 10–15 ms.
 - **Apagado y vuelta rápida:** si la tensión se corta y vuelve en menos de ≈ τ, EN puede no bajar del umbral. El detector de *brown-out* del ESP32-S3 resetea igualmente al caer VDD. La HDG pide un supervisor solo con arranques lentos, ciclos frecuentes o fuentes inestables (p. 9); la fuente LED no está en esos casos. No se añade supervisor: queda como prueba del prototipo (§14).
 
 ### 5.2 BOOT (GPIO0)
@@ -156,8 +157,8 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 
 ### 8.1 Desacoplo del módulo
 
-- C23 = 22 µF 25 V X5R 0805 (C45783) y C24 = 100 nF 50 V X7R (C1591), en el pin 2 (3V3), según la Fig. 9-1 de WROOM-1 (p. 41: C1 22 µF y C3 0,1 µF).
-  - Con 3,3 V de polarización, C23 queda en ≈ 14–16 µF (≈ −30 % en X5R 0805 de 25 V; *derating* estimado). Cumple los ≥ 10 µF que la HDG pide en VDD3P3 para los picos de transmisión (§1.3.2, p. 8).
+- C24 = 22 µF 25 V X5R 0805 (C45783) y C25 = 100 nF 50 V X7R (Yageo CC0603KRX7R9BB104, C14663, Basic; cambio de compra de DEC-0007 en lugar de C1591), en el pin 2 (3V3), según la Fig. 9-1 de WROOM-1 (p. 41: C1 22 µF y C3 0,1 µF).
+  - *Derating* de C24 (SimSurfing CL21A226MAQNNN): −32,3 % a 3,3 V y −3,5 % a 60 °C; tolerancia ±20 % (LCSC C45783). Efectivo: 22 × 0,677 × 0,965 × 0,8 = **11,5 µF** en el peor caso (14,4 µF típicos) ≥ 10 µF, que la HDG pide en VDD3P3 para los picos de transmisión (§1.3.2, p. 8) ✔.
 - Con C19 (10 µF) y C21 (100 nF) a la salida del LDO (`alimentacion.md` §3.9): ≈ 25 µF efectivos en +3V3.
 
 ### 8.2 Presupuesto de +3V3
@@ -209,7 +210,7 @@ Datos: S tabla 2-1 (pp. 16-17), tabla 2-2 (pp. 18-19) y §4.2.2.1 (p. 59); HDG t
 
 Pines disponibles: hay 36 GPIO (0–21 y 35–48). Sin los 8 reservados (0, 3, 19, 20, 43, 44, 45 y 46) quedan **28**. Se usan **25**.
 
-### 9.2 Asignación (variante A, la propuesta: DEN común)
+### 9.2 Asignación (variante A: DEN común, fijada por DEC-0007)
 
 Estado: **Z** = alta impedancia, sin *pull* interno · **WPU/WPD** = *pull-up* o *pull-down* interno de ≈ 45 kΩ · **L↓** = pulso bajo de 60 µs al arrancar · **H↑** = pulso alto. «Flasheo» es el modo de descarga de la ROM, por USB-Serial/JTAG o por UART.
 
@@ -260,7 +261,7 @@ Estado: **Z** = alta impedancia, sin *pull* interno · **WPU/WPD** = *pull-up* o
   - cada bus lleva sus propias resistencias de *pull-up*.
 - **Los números de GPIO de esta tabla son fijos para SPEC-0022 y para el YAML.** Si el layout pide permutarlos, se cambia antes este documento.
 
-**Por qué un DEN común (desviación respecto al texto de la spec, «IN, DEN e IS por canal»):**
+**Por qué un DEN común (DEC-0007 cambia el «IN, DEN e IS por canal» de la spec por «IN e IS por canal, DEN común»):**
 
 - Con un IS por canal en su propio ADC1, el DEN por canal no aporta diagnóstico. El BTT6050 deja IS en alta impedancia con DEN bajo y da la corriente del canal o I_IS(FAULT) con DEN alto (BTT §7.2, tabla 8, p. 24). Con todos los DEN altos, cada ADC lee su canal sin interferencias.
 - La carga abierta en OFF (con R_OL y el bus habilitado) se lee igual canal a canal.
@@ -269,9 +270,9 @@ Estado: **Z** = alta impedancia, sin *pull* interno · **WPU/WPD** = *pull-up* o
 - Carga del GPIO38: 6 × I_DEN(H) ≤ 25 µA (BTT tabla 10, p. 34) + 33 µA de R_PD = 183 µA. La caída de V_OH es despreciable (I_OH típ. 40 mA con V_OH ≥ 2,64 V). V_DEN ≥ 2,64 − 25 µA × 10 kΩ = 2,39 V ≥ V_DEN(H) mín. 2,0 V ✔.
 - Con la segunda fuente BTT6030-2ERA (DEN por *chip*, DSEL e IS compartidos por pareja; `estudio-salidas.md` §11.4), el DEN común sigue valiendo. Habría que cambiar 3 IS por 3 DSEL, y eso es otro *routing* (otra spec).
 
-### 9.3 Variante B (un DEN por canal; reserva)
+### 9.3 Variante B (un DEN por canal; descartada por DEC-0007)
 
-Cabe, pero sin ningún pin libre y con restricciones en la expansión:
+Cumple REL-04 (ningún pin tiene WPU ni pulso alto) y cabe, pero ocupa 28 de 28 pines y limita la expansión:
 
 | Cambio respecto a la variante A | GPIO |
 |---|---|
@@ -281,7 +282,7 @@ Cabe, pero sin ningún pin libre y con restricciones en la expansión:
 | EXP_IO2, **solo entrada** (pulso alto al arrancar) | 18 |
 | Libres | Ninguno (GPIO3, solo como entrada, sin usar) |
 
-Coste: 5 × R_PD y 5 × R_DEN más, el bus I²C de la placa expuesto al cable de expansión y ningún pin para lo que pida SPEC-0006. **No se recomienda.**
+Coste: 5 × R_PD y 5 × R_DEN más, el bus I²C de la placa expuesto al cable de expansión y ningún pin para lo que pida SPEC-0006. **Descartada.**
 
 ## 10. Estado seguro durante el arranque, el reset y el flasheo (REL-04)
 
@@ -314,22 +315,22 @@ Van en el bloque que corresponde. Aquí se fijan el valor y la condición.
 
 ## 11. Lista de piezas
 
-Referencias provisionales: siguen a las de `alimentacion.md` y las fija la anotación de SPEC-0022. Símbolos y huellas oficiales de KiCad 10.
+Referencias provisionales: siguen a las de `alimentacion.md` sin chocar con ellas (allí las mayores son C22, R15, D4, J1, U4, JP1, TP5, L1, Q1 y F1) y las fija la anotación de SPEC-0022. En este documento «D5» es el LED de estado; la decisión de la caja se escribe «decisión D5». Símbolos y huellas oficiales de KiCad 10.
 
 | Ref. | Valor / función | Encapsulado | MPN principal | LCSC · stock | Alternativa (LCSC) | Símbolo / huella |
 |---|---|---|---|---|---|---|
 | U5 | Módulo ESP32-S3, 8 MB | SMD 18 × 25,5 | Espressif ESP32-S3-WROOM-1-N8 | C2913198 · 3 277 | ESP32-S3-WROOM-1-N16 (C2913199 · 1 985) | `RF_Module:ESP32-S3-WROOM-1` / `RF_Module:ESP32-S3-WROOM-1` (con el *keepout*) |
-| C23 | 22 µF 25 V X5R | 0805 | Samsung CL21A226MAQNNNE | C45783 · 125 600 | — | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
-| C24 | 100 nF 50 V X7R | 0603 | Samsung CL10B104KB8NNNC | C1591 · 1,50 M | — | `Device:C` / `C_0603_1608Metric` |
+| C24 | 22 µF 25 V X5R | 0805 | Samsung CL21A226MAQNNNE | C45783 · 125 600 | — | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
+| C25 | 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · **Basic** (36,1 M según SPEC-0018; stock LCSC 0 el 2026-11-06, lo confirma jr-conformidad en JLCPCB) | Samsung CL10B104KB8NNNC (C1591 · Extended) | `Device:C` / `C_0603_1608Metric` |
 | R16 | EN, 10 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1002T5E | C25804 · 4,59 M | Yageo RC0603FR-0710KL (C98220) | `Device:R` / `R_0603_1608Metric` |
-| C22 | EN, 1 µF 16 V X7R | 0603 | Yageo CC0603KRX7R7BB105 | C106248 · 538 550 | — (el C15849 de `alimentacion.md` tiene stock 0) | `Device:C` / `C_0603` |
+| C23 | EN, 1 µF 16 V X7R | 0603 | Yageo CC0603KRX7R7BB105 | C106248 · 538 550 | — | `Device:C` / `C_0603` |
 | SW1, SW2 | RESET y BOOT, pulsador SPST 5,1 × 5,1 | SMD-4P | XKB TS-1187A-B-A-B | C318884 · 726 320 | XKB TS-1187A-C-E-B (C318887 · 82 760, misma huella) | `Switch:SW_Push` / `Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A` (**sin modelo 3D en KiCad 10.0**) |
 | R17 | *Pull-up* de GPIO0, 10 kΩ | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
 | J2 | USB-C 2.0, 16 pines | SMD | HRO TYPE-C-31-M-12 | C165948 · 136 905 | TYPE-C-31-M-12A (C5337088 · 2 405; confirmar la huella) | `Connector:USB_C_Receptacle_USB2.0_16P` / `Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12` (3D de respaldo, ficha) |
 | U6 | ESD del USB | SOT-23-6 | ST USBLC6-2SC6 | C7519 · 26 240 | UMW USBLC6-2SC6 (C2687116 · 97 240) | `Power_Protection:USBLC6-2SC6` / `Package_TO_SOT_SMD:SOT-23-6` |
 | R18, R19 | CC, 5,1 kΩ 1 % | 0603 | 0603WAF5101T5E | C23186 · 15,4 M | — | `R_0603` |
 | R20, R21 | Serie en D+/D−, 22 Ω 1 % | 0603 | 0603WAF220JT5E | C23345 · 2,62 M | — | `R_0603` |
-| C25 | VBUS, 4,7 µF 16 V X5R | 0603 | Samsung CL10A475KO8NNNC | C19666 · 1,23 M | — | `C_0603` |
+| C26 | VBUS, 4,7 µF 16 V X5R | 0603 | Samsung CL10A475KO8NNNC | C19666 · 1,23 M | — | `C_0603` |
 | J3 | UART, tira 1 × 4 a 2,54 mm (THT) | THT | Ckmtw B-2100S04P-A110 | C124378 · 97 840 | BOOMELE 2.54-1*40P cortada (C2337) | `Connector_Generic:Conn_01x04` / `Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical` |
 | R22 | Serie en TXD0, 470 Ω 1 % | 0603 | 0603WAF4700T5E | C23179 · 1,59 M | — | `R_0603` |
 | D5 | LED de estado, verde-amarillo | 0603 | Hubei KENTO KT-0603YG | C2289 · 38 650 | KT-0603Y amarillo (C2287 · 92 500) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
@@ -357,13 +358,13 @@ Referencias provisionales: siguen a las de `alimentacion.md` y las fija la anota
 
 | Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas |
 |---|---|---|---|---|---|
-| Antena de U5 | — | — | Zona libre en **todas las capas** (*keepout* de la huella oficial, 21 × 48 mm, o placa recortada) | U5 en una esquina, con la antena sobresaliendo del borde **lateral** y el punto de alimentación hacia la esquina (HDG Fig. 24/26, pp. 30-31). ≥ 15 mm entre el área de la antena y el buck (SW, L1), los *high-side* y sus pistas, el USB, la UART y el SHT4x | MCU-02. Cosido de GND junto a la antena, fuera de la zona. ≥ 15 mm libres en la caja (D5). Si sobresale ≈ 6 mm, se revisa FAB-08 en el *floorplan* |
-| +3V3 → U5 pin 2 | 0,45 A (pico 0,5 A) | 0,5 mm | 0,2 mm | C23 y C24 a ≤ 3 mm del pin 2, con la vía de GND junto a ellos | — |
+| Antena de U5 | — | — | Zona libre en **todas las capas** (*keepout* de la huella oficial, 21 × 48 mm, o placa recortada) | U5 en una esquina, con la antena sobresaliendo del borde **lateral** y el punto de alimentación hacia la esquina (HDG Fig. 24/26, pp. 30-31). Objetivo del autor (no es requisito de la HDG): ≥ 15 mm entre el área de la antena y el buck (SW, L1), los *high-side* y sus pistas, el USB, la UART y el SHT4x; el *floorplan* puede justificar menos | MCU-02. Cosido de GND junto a la antena, fuera de la zona. ≥ 15 mm libres en la caja (HDG p. 30; decisión D5). Si sobresale ≈ 6 mm, se revisa FAB-08 en el *floorplan* |
+| +3V3 → U5 pin 2 | 0,45 A (pico 0,5 A) | 0,5 mm | 0,2 mm | C24 y C25 a ≤ 3 mm del pin 2, con la vía de GND junto a ellos | — |
 | GND de U5 (pines 1, 40 y EPAD 41) | 0,45 A | Plano | — | EPAD con ≥ 9 vías al plano (pad de la huella oficial) | Poca pasta en el EPAD (WROOM-1 p. 41) |
-| EN (U5-3, R16, C22, SW1) | µA | 0,25 mm | 0,2 mm | C22 y R16 junto al pin 3; pista de EN lo más corta posible (HDG p. 8) | Lejos de SW del buck y de la antena |
+| EN (U5-3, R16, C23, SW1) | µA | 0,25 mm | 0,2 mm | C23 y R16 junto al pin 3; pista de EN lo más corta posible (HDG p. 8) | Lejos de SW del buck y de la antena |
 | GPIO0 (R17, SW2) | µA | 0,25 mm | 0,2 mm | R17 junto al módulo | Sin condensadores en GPIO0 |
 | USB_D+ / USB_D− (J2 → U6 → R20/R21 → GPIO20/19) | mA | Par diferencial de 90 Ω ± 10 % si es viable en 2 capas; si no, 0,25–0,3 mm, en paralelo y con la misma longitud (± 1 mm) | 0,2 mm dentro del par; ≥ 0,5 mm a otras señales | U6 a ≤ 5 mm de J2; R20/R21 junto a U5; recorrido corto (≤ 40 mm), sin vías y con plano de GND continuo debajo (HDG §1.4.8, p. 30) | 12 Mb/s: la impedancia no es crítica con ese recorrido. Lejos de la antena |
-| VBUS (J2 → U6-5 → C25 → U3 VIN2) | 0,5 A (0,75 A con la expansión) | 0,6 mm (`Power`) | 0,2 mm | C25 junto a J2; VBUS hasta el TPS2116 (hoja de alimentación) | — |
+| VBUS (J2 → U6-5 → C26 → U3 VIN2) | 0,75 A (0,5 A solo con la lógica; 0,75 A con la expansión) | 0,6 mm (`Power`) | 0,2 mm | C26 junto a J2; VBUS hasta el TPS2116 (hoja de alimentación) | Misma restricción en `alimentacion.md` §8 |
 | CC1, CC2 (R18, R19) | µA | 0,25 mm | 0,2 mm | Junto a J2 | — |
 | SHIELD de J2 | ESD | Pestañas a GND con vías | — | J2 en el borde lateral, accesible desde fuera (FAB-07) | Lejos de la antena |
 | UART (TXD0/RXD0 → J3) | mA | 0,25 mm | 0,2 mm | R22 junto al módulo; J3 lejos de la antena (HDG p. 28) | Rodeadas de GND con vías (HDG §1.4.6) |
@@ -379,9 +380,9 @@ Referencias provisionales: siguen a las de `alimentacion.md` y las fija la anota
 | Requisito | Pieza o cálculo | Sección |
 |---|---|---|
 | MCU-01 | U5 ESP32-S3-WROOM-1-N8, −40…85 °C, sin PSRAM (WROOM-1 tabla 1-1, p. 3) | §2 |
-| MCU-02 | Antena fuera del borde lateral, en una esquina; zona libre de la HDG Fig. 26; ≥ 15 mm del buck y de las salidas | §3, §12 |
+| MCU-02 | Antena fuera del borde lateral, en una esquina; zona libre de la HDG Fig. 26; objetivo de ≥ 15 mm del buck y de las salidas (no es requisito de la HDG) | §3, §12 |
 | MCU-03 | J2 + U6 USBLC6-2SC6 + R18/R19 5,1 kΩ; GPIO19/20 | §4 |
-| MCU-04 | SW1 + R16/C22 (10 kΩ / 1 µF; EN ≤ 0,13·VDD con el raíl a 3,0 V); SW2 + R17 en GPIO0 | §5 |
+| MCU-04 | SW1 + R16/C23 (10 kΩ / 1 µF; EN ≤ 0,16·VDD con el raíl a 3,0 V); SW2 + R17 en GPIO0 | §5 |
 | MCU-05 | Tabla de GPIO: 8 analógicas en ADC1 sin GPIO3; ninguna salida en los pines de arranque, en GPIO18/39/40/43/44 ni en GPIO19/20; GPIO35–37 en uso porque no hay PSRAM octal | §9 |
 | MCU-06 | J3 (3V3, TX, RX, GND) + R22 | §6 |
 | MCU-07 | D5 + R23 en GPIO40 | §7 |
@@ -392,13 +393,13 @@ Referencias provisionales: siguen a las de `alimentacion.md` y las fija la anota
 
 ## 14. Riesgos y puntos abiertos
 
-1. **DEN común:** desviación de la redacción de la spec (§9.2). Lo confirma el coordinador. La variante B queda documentada.
+1. **DEN común:** cerrado por DEC-0007 (§9.2). La variante B (§9.3) queda descartada.
 2. **EXP-02:** la tabla reserva I²C, EXP_INT y EXP_IO2, más 3 pines libres. SPEC-0006 puede pedir otros. Los *pull-ups* y la ESD de la expansión son provisionales.
 3. **GPIO tras `esp_restart()` y OTA:** pueden conservar su nivel hasta que la aplicación los reconfigura. Se cubre en el firmware (Anexo B) y se prueba en §6 («Salidas… desactivados durante el reset y el flasheo»), haciendo también un OTA con un canal activo.
-4. **Arranque con alimentación lenta o con cortes rápidos (§5.1):** sin supervisor. Prueba en el prototipo: cortar y reponer la fuente en < 50 ms, 20 veces; la placa tiene que arrancar siempre. Si falla, C22 = 2,2 µF o un supervisor de 2,9–3,0 V.
-5. **Antena:** el lado del punto de alimentación y las cotas «Max 1/Max 2» se confirman con el modelo 3D y la Fig. 26. El módulo puede asomar ≈ 6 mm frente a FAB-08 (D5).
+4. **Arranque con alimentación lenta o con cortes rápidos (§5.1):** sin supervisor. Prueba en el prototipo: cortar y reponer la fuente en < 50 ms, 20 veces; la placa tiene que arrancar siempre. Si falla, C23 = 2,2 µF o un supervisor de 2,9–3,0 V.
+5. **Antena:** el lado del punto de alimentación y las cotas «Max 1/Max 2» se confirman con el modelo 3D y la Fig. 26. El módulo puede asomar ≈ 6 mm frente a FAB-08 (decisión D5, caja).
 6. **Solo USB:** el 5 V de la expansión (0,30 A) supera lo que da un puerto USB 2.0 (§4).
-7. **C15849** (1 µF 50 V, usado en `alimentacion.md` como C10 y C15) tiene stock 0 a 2026-11-05. Lo revisa jr-conformidad (SPEC-0018).
+7. Cerrado: SPEC-0018 pasó C10 a C28323 (Basic) y C15849 tiene hoy 211 050 en stock en LCSC (2026-11-06); C23 (EN) usa C106248 y no depende de él.
 
 ## Anexo A. Datos para las fichas nuevas (`hardware/componentes/`, fuera de la zona de ing-esquematicos)
 

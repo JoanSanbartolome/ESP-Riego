@@ -527,7 +527,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | VIN_PROT → U2 VIN (rama del buck) | 0,3 A DC; 1,0 A eficaz en CIN (ec. 8, p. 20) | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 y C22 justo después, con su GND al PGND de U2. C2 se queda en el nodo de entrada | Bucle de entrada mínimo (SNVSBF0C §8.5). C7 + C22 son el CIN de U2 (≥ 4,7 µF efectivos, §3.6) |
 | SW (U2-8 → L1) | 1,5 A de pico ≈ 2 A | 1,0 mm, lo más corto posible | ≥ 0,3 mm | Lejos de la antena (MCU-02), de las entradas del ADC y del SHT4x (AMB-02) | Área mínima; sin pistas de señal debajo en la otra cara |
 | +5V_BUCK (L1 → C11/C12 → U3 VIN1), +5V (U3 VOUT) | 0,75 A (diseño); 1,5 A | 0,6 mm (`Power`) | 0,2 mm | — | FB (R7/R8) tomada en C11/C12, lejos de SW y de L1 |
-| VBUS → U3 VIN2 | 0,5 A | 0,5 mm | 0,2 mm | Desde el USB-C (bloque MCU) | — |
+| VBUS → U3 VIN2 | 0,75 A (0,5 A solo con la lógica; 0,75 A con la expansión, `mcu.md` §12) | 0,6 mm (`Power`) | 0,2 mm | Desde el USB-C (bloque MCU) | Misma restricción en `mcu.md` §12 |
 | +3V3 (U4 → módulo) | 0,45 A; 1 A máx. | 0,5 mm | 0,2 mm | — | Pestaña de U4: ≥ 4 cm² de cobre por cara con vías (T_J ≤ 109 °C, §3.9) |
 | Q1 (pestaña = drenador, VIN_F) | 5,1 A | Polígono ≥ 2,5 cm² (R_thJA = 50 °C/W con 1 in², p. 1) | ≥ 0,6 mm | — | R1 y D1 junto a la puerta |
 | U1 EP, U2 EP | — | Pad térmico al plano GND con vías | — | U1 junto a la salida hacia las salidas; U2 lejos de la antena y del SHT4x | SLVSE94G p. 39; SNVSBF0C §8.5 |

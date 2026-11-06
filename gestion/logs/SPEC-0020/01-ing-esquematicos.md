@@ -3,7 +3,7 @@ spec: SPEC-0020
 agente: ing-esquematicos
 n: 01
 fecha: 2026-11-05
-estado: bloqueado
+estado: completado
 ---
 
 # SPEC-0020 · 01 · ing-esquematicos
@@ -60,7 +60,7 @@ Repaso de `gestion/checklists/esquema.md` v5:
   - fórmula, datos con fuente y margen: cumple (§5, §7, §8, §10.2 y §11);
   - recálculo del revisor: pendiente (validación);
   - tensiones nominales frente a Vc: no aplica (bloque de 3,3/5 V; VBUS lo protege U6);
-  - *derating* de cerámicos: cumple (C23, C22; estimado, §8.1, §5.1);
+  - *derating* de cerámicos: cumple (C24, C23; estimado, §8.1, §5.1);
   - E_AS y *hold-up*: no aplican;
   - disipación a 60 °C: cumple (TLV, §8.3).
 - **Microcontrolador:**
@@ -77,17 +77,17 @@ Repaso de `gestion/checklists/esquema.md` v5:
 
 ## Pendiente
 
-- **Coordinador:** copiar los borradores al worktree (o ajustar la guardia para el worktree) y confirmar el DEN común frente a la variante B.
+- **Coordinador:** (cerrado) entregables copiados al worktree; DEN común fijado por DEC-0007.
 - **jr-conformidad (SPEC-0021):**
   - modelo 3D de `SW_Push_1P1T_XKB_TS-1187A` (falta en KiCad 10.0);
   - fichas del TS-1187A-B-A-B, el KT-0603YG y la tira B-2100S04P-A110;
   - actualizar la ficha del ESP32-S3-WROOM-1 (N8);
   - tipo Basic/Extended de todas las piezas.
-- **SPEC-0018:** C15849 (1 µF) tiene stock 0.
+- **SPEC-0018:** (cerrado) C15849 ya tiene stock; C10 pasó a C28323.
 - **SPEC-0006:** pines y pasivos de EXP-02 (provisionales en §9.2).
 - **Bloque de salidas:** R_PD de 100 kΩ en IN1–6 y OUT_DEN (§10.2).
 
 ## Notas para el siguiente agente
 
-- La tabla de GPIO de §9.2 es fija. Las etiquetas jerárquicas están en el Anexo C. Las referencias siguen a las de alimentación (U5, U6, J2, J3, SW1, SW2, D5, R16–R25, C22–C25).
-- C22 = 1 µF de C106248, no C15849 (sin stock).
+- La tabla de GPIO de §9.2 es fija. Las etiquetas jerárquicas están en el Anexo C. Las referencias siguen a las de alimentación (U5, U6, J2, J3, SW1, SW2, D5, R16–R25, C23–C26 (sin chocar con alimentación: máx. C22, R15, D4)).
+- C23 = 1 µF de C106248 (EN); C24 22 µF, C25 100 nF (C14663, DEC-0007), C26 VBUS.
