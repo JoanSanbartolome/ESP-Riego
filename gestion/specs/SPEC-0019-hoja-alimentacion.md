@@ -2,15 +2,15 @@
 id: SPEC-0019
 titulo: Hoja de alimentación de la v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0019-hoja-alimentacion
 requisitos: [ALI-01, ALI-02, ALI-03, ALI-04, ALI-05, ALI-06, ALI-07, ALI-08, ALI-09, ALI-10, ALI-11, ALI-12, ALI-13]
 depende_de: [SPEC-0018]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-06
+validacion: VAL-0019-02
 ---
 
 # SPEC-0019 · Hoja de alimentación de la v2
@@ -49,10 +49,10 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
 
 ## Criterios de aceptación
 
-- [ ] Cada pieza y cada valor de la hoja coinciden con `docs/diseno/alimentacion.md`.
-- [ ] `verificar.py hardware/v2`: ERC 0, sin errores de paridad nuevos (se justifican las diferencias por piezas sin colocar).
-- [ ] VAL-0014-01-01 y 02 resueltas.
-- [ ] Ninguna pieza de la hoja usa una librería de la v1.
+- [x] Cada pieza y cada valor de la hoja coinciden con `docs/diseno/alimentacion.md`.
+- [x] `verificar.py hardware/v2`: ERC 0, sin errores de paridad nuevos (se justifican las diferencias por piezas sin colocar).
+- [x] VAL-0014-01-01 y 02 resueltas.
+- [x] Ninguna pieza de la hoja usa una librería de la v1.
 
 ## Registro
 
@@ -61,3 +61,4 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-06 | coordinador | Abre la spec (aprobada por el usuario) | |
 | 2026-11-06 | coordinador | Error de la spec: la sincronización con la PCB pasa a ing-layout | VAL-0019-01-01 |
+| 2026-11-06 | coordinador | Cierra la spec | VAL-0019-02 (APROBADO) |
