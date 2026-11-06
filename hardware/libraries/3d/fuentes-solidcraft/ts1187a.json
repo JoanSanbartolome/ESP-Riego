@@ -1,0 +1,252 @@
+[
+ {
+  "command": "sketch.create",
+  "params": {
+   "plane": "XY",
+   "offset": 0.15,
+   "name": "tapa"
+  }
+ },
+ {
+  "command": "sketch.line",
+  "params": {
+   "points": [
+    [
+     -1.25,
+     -2.55
+    ],
+    [
+     1.25,
+     -2.55
+    ],
+    [
+     1.25,
+     -1.975
+    ],
+    [
+     1.575,
+     -1.975
+    ],
+    [
+     1.975,
+     -1.575
+    ],
+    [
+     1.975,
+     -1.25
+    ],
+    [
+     2.55,
+     -1.25
+    ],
+    [
+     2.55,
+     1.25
+    ],
+    [
+     1.975,
+     1.25
+    ],
+    [
+     1.975,
+     1.575
+    ],
+    [
+     1.575,
+     1.975
+    ],
+    [
+     1.25,
+     1.975
+    ],
+    [
+     1.25,
+     2.55
+    ],
+    [
+     -1.25,
+     2.55
+    ],
+    [
+     -1.25,
+     1.975
+    ],
+    [
+     -1.575,
+     1.975
+    ],
+    [
+     -1.975,
+     1.575
+    ],
+    [
+     -1.975,
+     1.25
+    ],
+    [
+     -2.55,
+     1.25
+    ],
+    [
+     -2.55,
+     -1.25
+    ],
+    [
+     -1.975,
+     -1.25
+    ],
+    [
+     -1.975,
+     -1.575
+    ],
+    [
+     -1.575,
+     -1.975
+    ],
+    [
+     -1.25,
+     -1.975
+    ]
+   ],
+   "closed": true
+  }
+ },
+ {
+  "command": "sketch.finish",
+  "params": {}
+ },
+ {
+  "command": "solid.extrude",
+  "params": {
+   "distance": 0.75,
+   "operation": "new",
+   "body_name": "SW_tapa"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.55,
+   "width": 0.5,
+   "height": 0.3,
+   "corner": [
+    -3.25,
+    1.6,
+    0.0
+   ],
+   "operation": "new",
+   "body_name": "SW_terminal1"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.55,
+   "width": 0.5,
+   "height": 0.3,
+   "corner": [
+    1.7,
+    1.6,
+    0.0
+   ],
+   "operation": "new",
+   "body_name": "SW_terminal2"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.55,
+   "width": 0.5,
+   "height": 0.3,
+   "corner": [
+    -3.25,
+    -2.1,
+    0.0
+   ],
+   "operation": "new",
+   "body_name": "SW_terminal3"
+  }
+ },
+ {
+  "command": "solid.box",
+  "params": {
+   "length": 1.55,
+   "width": 0.5,
+   "height": 0.3,
+   "corner": [
+    1.7,
+    -2.1,
+    0.0
+   ],
+   "operation": "new",
+   "body_name": "SW_terminal4"
+  }
+ },
+ {
+  "command": "solid.cylinder",
+  "params": {
+   "diameter": 2.0,
+   "height": 0.6,
+   "base": [
+    0,
+    0,
+    0.9
+   ],
+   "operation": "new",
+   "body_name": "SW_tecla"
+  }
+ },
+ {
+  "command": "solid.cylinder",
+  "params": {
+   "diameter": 0.4,
+   "height": 0.05,
+   "base": [
+    -1.55,
+    1.55,
+    0.85
+   ],
+   "operation": "cut",
+   "targets": [
+    "SW_tapa"
+   ]
+  }
+ },
+ {
+  "command": "appearance.assign",
+  "params": {
+   "bodies": [
+    "SW_tapa",
+    "SW_terminal1",
+    "SW_terminal2",
+    "SW_terminal3",
+    "SW_terminal4"
+   ],
+   "color": "#c8c8c8"
+  }
+ },
+ {
+  "command": "appearance.assign",
+  "params": {
+   "bodies": [
+    "SW_tecla"
+   ],
+   "color": "#202020"
+  }
+ },
+ {
+  "command": "appearance.assign",
+  "params": {
+   "faces": [
+    [
+     -1.55,
+     1.55,
+     0.85
+    ]
+   ],
+   "body": "SW_tapa",
+   "color": "#c03030"
+  }
+ }
+]
