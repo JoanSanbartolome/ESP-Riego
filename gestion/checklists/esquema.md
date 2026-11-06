@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v5 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v6 (2026-11-06). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 ## Estructura
 
@@ -13,6 +13,7 @@
 
 - [ ] `Value`, `Footprint`, `LCSC Part#`, `MPN`, `Datasheet` y `Description` presentes (FAB-05).
 - [ ] La huella asignada existe en una librería del repositorio o en las oficiales de KiCad 10 (KIC-01).
+- [ ] Las huellas con vías (`*_ThermalVias` o propias) cumplen FAB-02 (0,3 / 0,6 mm); si no, se usa la variante sin vías y las pone el layout (VAL-0018-02-01, VAL-0019-01-02).
 - [ ] Componentes no montados marcados como DNP.
 
 ## Cálculos (deben estar en `docs/diseno/`)
@@ -72,3 +73,4 @@
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02 y VAL-0005-01: TVS frente a polaridad, divisor de VIN, limitador común, energía inductiva con la curva E_AS, *hold-up*, IS acotada y corto en una salida |
 | v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004) y propuestas de VAL-0007-01 y VAL-0011-01: banda del limitador, salidas y retornos para la corriente del limitador, LED frente a carga abierta, retroalimentación del bus apagado, fusible de entrada y térmica del *high-side*. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01 y VAL-0011-02) |
 | v5 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: cajetín comprobado en el PDF exportado |
+| v6 | 2026-11-06 | Propuesta de VAL-0019-01: vías de las huellas conforme a FAB-02 |
