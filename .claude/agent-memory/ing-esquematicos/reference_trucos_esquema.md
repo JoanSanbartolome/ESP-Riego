@@ -21,4 +21,8 @@ Dibujar una hoja entera (SPEC-0019, 2026-11-06, 55 piezas):
 - Campos de símbolos girados 90/270: el ángulo del campo es relativo al símbolo (poner 90 para que se lea horizontal) y en giro 180 la justificación se invierte.
 - Comprobar la hoja: netlist `kicadsexpr` frente al plan, y PDF → PNG con PyMuPDF (recortes en mm) para ver solapes.
 
+Cambios puntuales de campos (SPEC-0019, 2026-11-06):
+- `edit_schematic_component` edita el `.kicad_sch` directamente, sin `open_project`: no carga la PCB ni puede reescribirla. El diff deja solo la línea de la instancia. El `Footprint` de `lib_symbols` (caché) no se toca: si se cambiara, el ERC daría `lib_symbol_mismatch`.
+- Las huellas oficiales `*_ThermalVias` (Texas RGE, DDA…) llevan vías de 0,2 / 0,5 mm y **no cumplen FAB-02** (0,3 / 0,6). Ha fallado dos veces (VAL-0018-02-01, VAL-0019-01-02). Usar la variante sin vías (las vías las pone el layout, anotado en §8) o una huella `esp-riego` con 0,3 / 0,6.
+
 Relacionado: [[reference-fuentes-piezas]]

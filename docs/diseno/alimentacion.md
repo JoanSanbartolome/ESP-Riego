@@ -81,7 +81,7 @@ WJ500V-5.08-2P: 2 polos a 5,08 mm, 15 A (UL) / 18 A (IEC), 300 V (`hardware/comp
 - Caída y disipación: R en frío 5,6 mΩ (tabla, p. 2); × 1,3 en caliente → 0,19 W a 5,1 A.
 - Arranque en caliente (*hot-plug*), con C = 47 + 2 × 4,7 µF, 30 V y R ≈ 0,1 Ω (cable y ESR): I²t = C·V²/(2R) = 0,25 A²s, frente a I²t de fusión de 26,46 A²s (tabla, p. 2). No actúa.
 - Papel: con la fuente de 5 A (que limita a 5,1–7,5 A), F1 solo actúa con una fuente de más corriente o con un corto franco aguas abajo (Q1 o D2 en corto). En el resto de casos limita primero la fuente o el limitador común.
-- Huella: `Fuse:Fuse_Littelfuse-NANO2-451_453` (oficial).
+- Huella: `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018; VAL-0019-01-03).
 
 ### 3.3 Protección de polaridad Q1 (ALI-03)
 
@@ -470,7 +470,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | C1 | 47 µF 63 V electrolítico 105 °C | Ø8 × 10 | SamYoung MVK 63V47 M 8*10 | C165628 · 815 | ACMECON GVZ1J476M0810CN (C22383753) | `Device:C_Polarized` / `Capacitor_SMD:CP_Elec_8x10` (10,5 mm la alternativa) |
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R (C2: nodo de entrada; C6: OUT de U1; C7 + C22: CIN de U2) | 1210 | PSA FS32X475K101EGG | C381466 · 45 835 (JLCPCB Extended · 54 967) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
 | C3 | 220 nF 100 V X7R (IN_SYS) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 240 (misma línea que C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `C_0805_2012Metric` |
-| U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm_ThermalVias` |
+| U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías: la variante `_ThermalVias` lleva 9 vías de 0,2 / 0,5 mm y no cumple FAB-02; las vías del EP las pone el layout, §8; VAL-0019-01-02) |
 | R2 | R_ILIM 4,30 kΩ 1 % 100 ppm | 0603 | 0603WAF4301T5E | C23159 · 113 900 | Yageo RC0603FR-074K3L | `R_0603` |
 | C4 | C_dVdT 22 nF 50 V X7R | 0603 | Samsung CL10B223KB8NNNC | C21122 · 109 250 | — | `C_0603` |
 | R3, R4 | R_IMON y serie al ADC, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 · 4,9 M | — | `R_0603` |
@@ -530,7 +530,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | VBUS → U3 VIN2 | 0,75 A (0,5 A solo con la lógica; 0,75 A con la expansión, `mcu.md` §12) | 0,6 mm (`Power`) | 0,2 mm | Desde el USB-C (bloque MCU) | Misma restricción en `mcu.md` §12 |
 | +3V3 (U4 → módulo) | 0,45 A; 1 A máx. | 0,5 mm | 0,2 mm | — | Pestaña de U4: ≥ 4 cm² de cobre por cara con vías (T_J ≤ 109 °C, §3.9) |
 | Q1 (pestaña = drenador, VIN_F) | 5,1 A | Polígono ≥ 2,5 cm² (R_thJA = 50 °C/W con 1 in², p. 1) | ≥ 0,6 mm | — | R1 y D1 junto a la puerta |
-| U1 EP, U2 EP | — | Pad térmico al plano GND con vías | — | U1 junto a la salida hacia las salidas; U2 lejos de la antena y del SHT4x | SLVSE94G p. 39; SNVSBF0C §8.5 |
+| U1 EP, U2 EP | — | Pad térmico al plano GND con vías | — | U1 junto a la salida hacia las salidas; U2 lejos de la antena y del SHT4x | SLVSE94G p. 39; SNVSBF0C §8.5. **U1:** la huella no trae vías; el layout pone en el EP (2,7 × 2,7 mm) vías de **0,3 / 0,6 mm** (FAB-02) al plano GND, en la matriz de SLVSE94G p. 39 (referencia: la variante oficial `_ThermalVias` usa 3 × 3). **U2:** la huella `esp-riego` ya trae 8 vías de 0,3 / 0,6 mm |
 | VCC de U2 (U2-6 → C10), IN_SYS de U1 (→ C3) | mA | 0,25 mm | 0,2 mm | C10 y C3 junto a su pin, retorno corto a PGND/GND del CI | C10 y C3 pasan a 0805 (§3.6, §3.13.6) |
 | ILIM (U1-10 → R2), dVdT (U1-9 → C4), IMON (U1-13 → R3) | µA | 0,25 mm | 0,2 mm | R2, C4 y R3 junto a su pin, con retorno corto al GND de U1 | R2 sin acoplamiento a SW (SLVSE94G §9.6.1) |
 | EN_BUCK (R9/R10/C13 → U2-3) | µA | 0,25 mm | ≥ 0,6 mm entre el lado VIN_PROT de R9 y el resto | R10 y C13 junto a U2 | Nodo de alta impedancia: lejos de SW |
