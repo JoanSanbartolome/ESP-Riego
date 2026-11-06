@@ -149,6 +149,66 @@
 				)
 			)
 		)
+		(pin "BUS_24V" output
+			(at 140.97 90.17 0)
+			(uuid "0c5e74ad-cdc9-4891-83f2-2a9ed1c2e0ba")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "VIN_SENSE" output
+			(at 140.97 95.25 0)
+			(uuid "f97e1fee-4dad-49f6-927f-1bc5f038c90c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LIM_IMON" output
+			(at 140.97 100.33 0)
+			(uuid "f6e1c1ce-0c25-4d5f-acde-00d278d81ada")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LIM_FLT" output
+			(at 140.97 105.41 0)
+			(uuid "434ad248-6e3a-4865-aae8-00ed3dc87a6a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LIM_EN" input
+			(at 109.22 95.25 180)
+			(uuid "7ef1181e-71f4-40eb-bcad-c74eeba3e81b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "VBUS" input
+			(at 109.22 100.33 180)
+			(uuid "98309b17-59f0-4328-ba4d-6ff6e11dc25b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
 	)
 	(sheet
 		(at 144.78 86.36)
@@ -206,6 +266,30 @@
 			(justify left bottom)
 		)
 		(uuid "9367ea63-67d7-4068-b849-40bdb137238b")
+	)
+	(no_connect
+		(at 140.97 90.17)
+		(uuid "349f971b-f738-449e-9b17-a4043d89a46e")
+	)
+	(no_connect
+		(at 140.97 95.25)
+		(uuid "13f03551-902c-4a89-b5e3-e5be3cbcc65b")
+	)
+	(no_connect
+		(at 140.97 100.33)
+		(uuid "f6564d8d-4290-4c46-a1ac-e352c554d0fd")
+	)
+	(no_connect
+		(at 140.97 105.41)
+		(uuid "d866da87-343d-400d-ab27-147c94d573b4")
+	)
+	(no_connect
+		(at 109.22 95.25)
+		(uuid "a3741795-1162-42c4-859a-68e8b2dfb171")
+	)
+	(no_connect
+		(at 109.22 100.33)
+		(uuid "d9575b5b-b293-4c6f-81e2-d6e0c13b7648")
 	)
 	(sheet_instances
 		(path "/"

@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 15 · descartada 3.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 16 · descartada 3.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 15 · descartada 3.
 | [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0019](specs/SPEC-0019-hoja-alimentacion.md) | Hoja de alimentación de la v2 | 3 | ing-esquematicos | `spec/SPEC-0019-hoja-alimentacion` | — | 2026-11-05 | — |
-
-## Cerradas (15)
+## Cerradas (16)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -37,6 +31,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 15 · descartada 3.
 | [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | VAL-0016-02 (APROBADO) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | VAL-0017-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | VAL-0018-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0019](specs/SPEC-0019-hoja-alimentacion.md) | Hoja de alimentación de la v2 | 3 | ing-esquematicos | `spec/SPEC-0019-hoja-alimentacion` | VAL-0019-02 (APROBADO) | 2026-11-05 | 2026-11-06 |
 | [SPEC-0020](specs/SPEC-0020-calculos-mcu.md) | Selección y cálculos del bloque MCU | 2 | ing-esquematicos | `spec/SPEC-0020-calculos-mcu` | VAL-0020-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-06 |
 
 ## Descartadas (3)
@@ -85,5 +80,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 15 · descartada 3.
 | [VAL-0017-02](informes/VAL-0017-02.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `5117c57` | 2026-11-05 |
 | [VAL-0018-01](informes/VAL-0018-01.md) | SPEC-0018 | RECHAZADO | `52e574f (entregable en 1d68288)` | 2026-11-05 |
 | [VAL-0018-02](informes/VAL-0018-02.md) | SPEC-0018 | APROBADO_CON_OBSERVACIONES | `6250829` | 2026-11-05 |
+| [VAL-0019-01](informes/VAL-0019-01.md) | SPEC-0019 | RECHAZADO | `e4dbf44` | 2026-11-06 |
+| [VAL-0019-02](informes/VAL-0019-02.md) | SPEC-0019 | APROBADO | `c6b24e2` | 2026-11-06 |
 | [VAL-0020-01](informes/VAL-0020-01.md) | SPEC-0020 | APROBADO_CON_OBSERVACIONES | `a406117` | 2026-11-06 |
 

@@ -8,16 +8,30 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 
 | Hoja (`Sheetname` · archivo) | Bloque pendiente | Requisitos | Contenido actual |
 |---|---|---|---|
-| `Alimentacion` · `alimentacion.kicad_sch` | Entrada, protecciones, limitador común, buck, 3,3 V | ALI-01 … ALI-13 | Texto del bloque pendiente |
+| `Alimentacion` · `alimentacion.kicad_sch` (A3) | Entrada, protecciones, limitador común, buck, 3,3 V | ALI-01 … ALI-13 | **Bloque de la v2** (SPEC-0019): J1, F1, Q1, D1–D4, U1–U4, L1, JP1, TP1–TP5 y pasivos, según `docs/diseno/alimentacion.md`. Pines de hoja: `BUS_24V`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT`, `LIM_EN` y `VBUS` |
 | `MCU` · `mcu.kicad_sch` | ESP32-S3-WROOM-1, USB-C, BOOT/RESET, UART | MCU-01 … MCU-07, FW-02 | Texto del bloque pendiente |
 | `Salidas` · `salidas.kicad_sch` | 6 *high-side* BTT6050 con diagnóstico y sus bornes | REL-01 … REL-10 | Texto del bloque pendiente |
 | `Conectores` · `conectores.kicad_sch` | Entrada de pulsos, expansión, reparto de bornes | EXP-01 … EXP-04, FAB-07, FAB-08 | Texto del bloque pendiente y H1–H4 (taladros M3, FAB-08) |
 
-La hoja `Sensores` (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02). Las hojas no tienen pines jerárquicos: cada bloque los crea cuando los necesite.
+La hoja `Sensores` (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02). Cada bloque crea sus pines jerárquicos. Los de `Alimentacion` llevan en la raíz una marca de no conexión **provisional** hasta que existan las hojas MCU y Salidas: la spec que los conecte la quita (SPEC-0022 para MCU). +5V, +3V3 y GND son símbolos de alimentación globales.
+
+## Puente JP1 del limitador (DEC-0006)
+
+JP1 es un puente de soldadura de `VIN_PROT` a `BUS_24V`, en paralelo con U1 (TPS26632). **Va abierto**, con U1 montado. Solo se cierra, con una gota de estaño, si U1 no se monta o falla abierto. Con U1 sano no se cierra: la corriente se lo saltaría. Serigrafía: «JP1: abierto = limitador · cerrado = sin limitador».
+
+Con JP1 cerrado (y sin U1) se pierde (`docs/diseno/alimentacion.md` §3.13.9):
+
+- la limitación común a 3,86–4,57 A (ALI-13): un corto en una salida lo limitan la fuente (≥ 5,14 A) y el BTT6050 (≥ 38 A); `VIN_PROT` cae y la lógica puede reiniciarse, así que **REL-08 no se cumple**;
+- el corte general del bus por `LIM_EN`: el bus queda siempre alimentado;
+- `LIM_FLT` e `LIM_IMON`: FLT lee alto siempre e IMON 0 V; en el firmware hay que activar la opción «sin limitador»;
+- el *clamp* del bus a ≤ 35 V: el bus ve `VIN_PROT` hasta 53,3 V, dentro de los 65 V del BTT6050;
+- el arranque suave del bus (dVdT).
+
+Se mantiene REL-04: cada IN de las salidas tiene su *pull-down*, así que las salidas siguen apagadas en el reset y el flasheo. Los pads tienen conexión sólida a la zona: para cerrarlo hace falta un soldador potente o punta ancha.
 
 ## PCB
 
-Placa vacía, sincronizada con el esquema (SPEC-0014; detalle en `gestion/logs/SPEC-0014/02-ing-layout.md`):
+Placa vacía (SPEC-0014; detalle en `gestion/logs/SPEC-0014/02-ing-layout.md`). Tras SPEC-0019 le faltan las piezas de la hoja de alimentación, pendientes de sincronizar:
 
 - Contorno **preliminar** de 100 × 70 mm en `Edge.Cuts` (FAB-08), de (100, 60) a (200, 130) mm; el origen auxiliar y el de la rejilla están en la esquina inferior izquierda. Un texto en `User.Comments` lo marca como preliminar hasta el *floorplan*.
 - Solo H1–H4 (`MountingHole_3.2mm_M3_Pad_Via`, anillo sin red), a 4 mm de los dos bordes de su esquina: H3 arriba a la izquierda, H1 arriba a la derecha, H4 abajo a la izquierda y H2 abajo a la derecha.
@@ -28,4 +42,6 @@ Placa vacía, sincronizada con el esquema (SPEC-0014; detalle en `gestion/logs/S
 
 Cada bloque llega con su propia spec. La PCB se actualiza desde el esquema en cada bloque; el layout definitivo se hace cuando el esquema esté estable.
 
-Las librerías están en `../libraries/` (tablas con `${KIPRJMOD}/../libraries/...`). Verificación: `python herramientas/verificar.py hardware/v2`. Estado tras SPEC-0014: ERC 0, DRC 0 (0 sin conectar) y paridad 0.
+Las librerías están en `../libraries/` (tablas con `${KIPRJMOD}/../libraries/...`). Desde SPEC-0019 las tablas del proyecto solo tienen `esp-riego` (símbolos y huellas propios de la v2); el resto son las oficiales de KiCad 10. Las librerías de la v1 siguen en `../libraries/` para `v1-tfg`, que tiene sus propias tablas (VAL-0014-01-02).
+
+Verificación: `python herramientas/verificar.py hardware/v2`. Estado tras SPEC-0019: ERC 0 (0 avisos), DRC 0 (0 sin conectar) y paridad 55 `missing_footprint`: las 55 piezas de la hoja de alimentación aún no están en la PCB (las sincroniza ing-layout, sin colocarlas).

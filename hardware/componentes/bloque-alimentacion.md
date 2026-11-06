@@ -13,7 +13,7 @@ Consulta de LCSC/JLCPCB: **2026-11-05**, API `selectSmtComponentList` de JLCPCB 
 | D2 | SMBJ33A | Littelfuse | C224019 | Extended · 9 670 | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
 | D3 | SS310 | MDD | C15874 | Extended · 348 658 | `Device:D_Schottky` / `Diode_SMD:D_SMA` | `SS310.md` |
 | D4 | KT-0603R | Hubei KENTO | C2286 | **Basic** · 6 683 182 | `Device:LED` / `LED_SMD:LED_0603_1608Metric` | — |
-| U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_…_ThermalVias` | `TPS2663.md` |
+| U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías; las vías 0,3/0,6 al EP las pone el layout, SLVSE94G p. 39) | `TPS2663.md` |
 | U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `esp-riego:Texas_DDA0008B_…_Mask2.71x3.4mm` (propia) | `LMR36520.md` |
 | U3 | TPS2116DRLR | TI | C3235557 | Extended · 54 421 | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` | `TPS2116.md` |
 | U4 | TLV1117LV33DCYR | TI | C15578 | Extended · 1 606 | `Regulator_Linear:TLV1117-33` / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `TLV1117LV.md` |
@@ -31,14 +31,14 @@ Alternativas con stock (consulta 2026-11-05): TLC TA10 C2998199 (1 461); UMW SUD
 | R2 | 4,30 kΩ 1 % 100 ppm | 0603WAF4301T5E | UNI-ROYAL | C23159 | Extended (preferente) · 252 613 |
 | R3, R4, R5, R6, R10 | 10 kΩ 1 % | 0603WAF1002T5E | UNI-ROYAL | C25804 | Basic · 43 742 372 |
 | R7, R14 | 100 kΩ 0,1 % 25 ppm | RT0603BRD07100KL | Yageo | C122538 | Extended · 1 963 953 |
-| R8 | 24,9 kΩ 0,1 % 25 ppm | AR03BTCX2492 | Viking | C4156365 | Extended · **774** |
+| R8 | 24,9 kΩ 0,1 % 25 ppm (DEC-0007; antes Viking AR03BTCX2492 C4156365, 774) | RT0603BRD0724K9L | Yageo | C136967 | Extended · 14 042 (JLCPCB, 2026-11-06) |
 | R11 | 330 kΩ 1 % | 0603WAF3303T5E | UNI-ROYAL | C23137 | Basic · 708 868 |
 | R13 | 1 kΩ 1 % | 0603WAF1001T5E | UNI-ROYAL | C21190 | Basic · 27 942 044 |
 | R15 | 4,87 kΩ 0,1 % 25 ppm | AT0603BRD074K87L | Yageo | C855888 | Extended · 4 056 |
 | C1 | 47 µF 63 V electrolítico | MVK 63V47 M 8*10 | SamYoung | C165628 | Extended · 802 |
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R 1210 (C22 nuevo: segundo CIN de U2, con C7) | FS32X475K101EGG | PSA | C381466 | Extended · 54 967 |
 | C4 | 22 nF 50 V X7R 0603 | CL10B223KB8NNNC | Samsung | C21122 | **Basic** · 846 818 |
-| C5, C9, C13, C14, C20, C21 | 100 nF 50 V X7R 0603 | CL10B104KB8NNNC | Samsung | C1591 | Extended · 3 579 949 |
+| C5, C9, C13, C14, C20, C21 | 100 nF 50 V X7R 0603 (DEC-0007; antes Samsung CL10B104KB8NNNC C1591, Extended) | CC0603KRX7R9BB104 | Yageo | C14663 | **Basic** · 34 750 639 (JLCPCB, 2026-11-06; LCSC 0) |
 | C3, C8 | 220 nF 100 V X7R 0805 (C3 antes 100 nF 0603 C15725) | CC0805KKX7R0BB224 | Yageo | C513710 | Extended · 72 257 |
 | C10 | 1 µF 50 V X7R 0805 (antes X5R 0603 C15849) | CL21B105KBFNNNE | Samsung | C28323 | **Basic** · 3 504 368 (LCSC 0) |
 | C15 | 1 µF 50 V X5R 0603 | CL10A105KB8NNNC | Samsung | C15849 | **Basic** · 11 489 595 |
@@ -47,9 +47,11 @@ Alternativas con stock (consulta 2026-11-05): TLC TA10 C2998199 (1 461); UMW SUD
 
 Símbolos `Device:R`, `Device:C`, `Device:C_Polarized` y `Device:LED`; huellas `R_0603_1608Metric`, `C_0603_1608Metric`, `C_0805_2012Metric`, `C_1206_3216Metric`, `C_1210_3225Metric` y `CP_Elec_8x10` (todas oficiales, con 3D en la instalación). Cambios en cifras respecto a `alimentacion.md` §7: R8 774 (antes 760); R8 alternativa Yageo C861775 pasa de stock 0 a 21 858 (es de 50 ppm); C2998199 1 461.
 
-**Piezas Extended distintas del bloque: 19** (cada una puede llevar el cargo de pieza extendida de JLCPCB; C3 pasa a la línea de C8 y sale C15725, y C22 es de la línea C381466); Basic: 10 (C10 → C28323, C15 sigue en C15849). Propuestas al coordinador, sin cambiar nada:
-- R8: Yageo **RT0603BRD0724K9L** (C136967, 25 ppm, 0,1 %, misma serie que R7; stock 14 308; 0,0393 $) en lugar de Viking C4156365 (774).
-- C5, C9, C13, C14, C20, C21: Yageo CC0603KRX7R9BB104 (C14663, 100 nF 50 V X7R, **Basic**, 36 130 321) en lugar de C1591 (Extended): una pieza Extended menos.
+**Piezas Extended distintas del bloque: 18** (cada una puede llevar el cargo de pieza extendida de JLCPCB; C3 pasa a la línea de C8 y sale C15725, C22 es de la línea C381466 y sale C1591); Basic: 11 (C10 → C28323, C15 sigue en C15849, C5/C9/C13/C14/C20/C21 → C14663). Total 29 líneas.
+
+**Cambios de DEC-0007 aplicados (SPEC-0019, comprobados en la hoja `alimentacion.kicad_sch`):**
+- R8: Yageo **RT0603BRD0724K9L** (C136967, 25 ppm, 0,1 %, misma serie que R7; stock 14 042 el 2026-11-06; 0,0393 $) en lugar de Viking C4156365 (774, alternativa).
+- C5, C9, C13, C14, C20, C21: Yageo CC0603KRX7R9BB104 (C14663, 100 nF 50 V X7R, **Basic**, 34 750 639 el 2026-11-06) en lugar de C1591 (Extended, 3 136 376): una línea Extended menos. Derating de §3 (proxy CL10B104KB8NNN) sigue siendo válido: Yageo no publica curva.
 
 ## 3. *Derating* DC y térmico de los cerámicos (VAL-0017-01-05)
 
