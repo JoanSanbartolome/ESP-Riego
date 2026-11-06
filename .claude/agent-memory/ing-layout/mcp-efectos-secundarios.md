@@ -11,6 +11,8 @@ Observado en SPEC-0014 (2026-11-05), KiCad 10 + MCP backend swig:
 - `sync_schematic_to_board` solo informa de huellas añadidas, redes y pads; **no copia campos de símbolo a huella** (la paridad `footprint_symbol_field_mismatch` sigue). No se ha comprobado si borra huellas sobrantes.
 - Una PCB escrita a mano con el formato de pcbnew (tabs, CRLF) sale byte a byte igual tras open/sync/save del MCP.
 
+SPEC-0019 (2026-11-06), esquema jerárquico: `sync_schematic_to_board` deja las huellas nuevas en (0,0), pone redes sin prefijo de hoja (`VIN_PROT` en vez de `/Alimentacion/VIN_PROT` → `net_conflict`), no copia campos, escribe el `.kicad_pcb` por su cuenta y luego rechaza el autoguardado. Inservible para paridad 0. Alternativa que dio ERC/DRC/paridad 0: `kicad-cli sch export netlist --format kicadsexpr` + script con `C:\Program Files\KiCad\10.0\bin\python.exe -I` (`pcbnew.FootprintLoad`, `SetPath(KIID_PATH(tstamps+uuid))`, `SetSheetname/Sheetfile`, `SetField`, `SetExcludedFromBOM/PosFiles`, `NETINFO_ITEM` incl. `unconnected-(…)`), sobre copia, y copiar solo el `.kicad_pcb` al repo (pcbnew reescribe el `.kicad_pro`).
+
 **Why:** el diff del `.kicad_pro` se infla con ruido y validación revisa restos (`.lck`, `-backups/`, `.kicad_prl`).
 
 **How to apply:** probar primero el MCP sobre una copia en el scratchpad (con `hardware/libraries` al lado); si se abre el proyecto real, revisar después el diff del `.kicad_pro` y borrar `.kicad_prl` y `.mcp-backups/` de `hardware/v2`. Para campos de huella que faltan, añadirlos por script o con otra herramienta y comprobar con `verificar.py`.
