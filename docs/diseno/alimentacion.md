@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05.
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710.
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -119,8 +119,8 @@ Exigido: ≥ 58,6 V (53,3 V × 1,1).
 | U1 TPS26632 (IN, IN_SYS) | 60 V de funcionamiento; 67 V máx. absoluto | SLVSE94G §6.3 y §6.1, p. 5 | ✔ |
 | U2 LMR36520 (VIN, EN) | 65 V de funcionamiento; 70 V máx. absoluto | SNVSBF0C §6.3 y §6.1, p. 5 | ✔ |
 | C1 47 µF electrolítico | 63 V | LCSC C165628 | ✔ (7,5 % sobre 58,6 V) |
-| C2, C3, C7 cerámicos X7R | 100 V | LCSC | ✔ |
-| C8 220 nF X7R | 100 V | LCSC C513710 | ✔ |
+| C2, C7, C22 4,7 µF X7R | 100 V | LCSC C381466 | ✔ |
+| C3, C8 220 nF X7R | 100 V | LCSC C513710 | ✔ |
 | R9, R14, R1 (0603) | 75 V; la tensión que soportan a Vc es ≤ 50,8 V | LCSC | ✔ |
 | J1 | 300 V | ficha | ✔ |
 
@@ -146,11 +146,36 @@ No se reduce el requisito: no hace falta justificar una Vc menor.
 | Corriente disponible | I_OUT,máx = ILIMIT,mín + ΔI/2 = 1,8 + 0,42 = 2,2 A (15 V); 2,3 A (30 V) (ec. 1, p. 13) | ≥ 1,5 A ✔ (ALI-05) |
 | t_ON mínimo | D/f = 5/(53,3 × 400 kHz) = 235 ns > 102 ns máx. (p. 7) | ✔ |
 | COUT | 2 × 22 µF 25 V X5R 1206 (C12891), según la Tabla 8-1 (2 × 22 µF nominales). Con 5 V de polarización quedan ≈ 2 × 14 µF; la tabla admite 4 × 10 µF como mínimo «compacto» | ✔ |
-| CIN | 4,7 µF 100 V X7R 1210 (C381466) + 220 nF 100 V (C513710), según §8.2.1.2.5 (p. 20) | ✔ |
-| CBOOT, CVCC | 100 nF 50 V y 1 µF 50 V (pp. 20-21) | ✔ |
+| CIN | **C7 + C22** = 2 × 4,7 µF 100 V X7R 1210 (C381466) + C8 220 nF 100 V X7R 0805 (C513710), según la Tabla 8-1 (p. 18) y §8.2.1.2.5 (p. 20). Efectivos: ver «CIN de U2» abajo | ✔ (≥ 4,7 µF efectivos) |
+| CBOOT | C9 100 nF 50 V (≥ 16 V, p. 20) | ✔ |
+| CVCC | C10 = 1 µF 50 V **X7R 0805** (C28323): 0,96 µF efectivos a 5 V y 60 °C (ver abajo) | ✔ (antes 0,64 µF con el X5R 0603) |
 | Disipación | P_OUT 3,75 W (0,75 A), η ≈ 88 % (90 % típ. a 1 A, p. 1) → 0,51 W; R_θJA ≈ 50 °C/W en 2 capas (fig. 8-3, p. 22) → T_J ≈ 86 °C | ✔ (< 125 °C) |
 
 La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo.
+
+#### CIN de U2 (VAL-0018-01-03)
+
+- Exigido: ≥ 4,7 µF cerámicos a la entrada (§8.2.1.2.5, p. 20), **efectivos** (nota de la p. 17: valores bajo polarización DC y temperatura). Tabla 8-1 (p. 18), fila 5 V / 400 kHz: **2 × 4,7 µF + 220 nF**. Tensión nominal ≥ VIN máx., preferible 2 × 30 V = 60 V (p. 20): 100 V ✔.
+- Solución: **C22**, segundo 4,7 µF 100 V X7R 1210 (C381466, misma línea que C2/C6/C7), en paralelo con C7 junto a U2. C2 se queda en el nodo de entrada (J1-F1-Q1-D2, §8) y no cuenta para U2.
+- *Derating* (`hardware/componentes/bloque-alimentacion.md` §3: proxy Samsung CL32B475KCJZ4N, SimSurfing; suma de pérdidas por tensión y temperatura; K = −10 %):
+
+| Condición | Por condensador (típ. · −10 %) | C7 + C22 (típ. · −10 %) | ≥ 4,7 µF |
+|---|---|---|---|
+| 24 V, 60 °C | 3,40 · 3,06 µF | 6,8 · 6,1 µF | ✔ |
+| 30 V, 60 °C | 2,98 · 2,69 µF | 6,0 · 5,4 µF | ✔ |
+| 30 V, 85 °C | 2,82 · 2,53 µF | 5,6 · **5,1 µF** | ✔ (+8 %) |
+| 30 V, 60 °C, proxy KCIZNW | 2,7 · 2,4 µF | 5,4 · 4,9 µF | ✔ (+4 %) |
+
+- C8 (220 nF, 0,15–0,17 µF efectivos) es el desacoplo de alta frecuencia pegado a VIN–PGND (p. 20) y no se suma.
+- Corriente eficaz: I_RMS ≈ I_OUT/2 (ec. 8, p. 20) = 0,38 A con 0,75 A y 1,0 A con 2 A; ≤ 0,5 A por condensador. SimSurfing CL32B475KCJZ4N: ΔT ≈ 0,95 °C a 1,07 A y 500 kHz (curva de rizado): autocalentamiento < 1 °C ✔. PSA no publica curva.
+- Coste: + 1 × C381466 (0,17–0,22 $). No añade línea Extended. No hay 4,7 µF ≥ 100 V Basic en JLCPCB (API `selectSmtComponentList`, 2026-11-05).
+
+#### CVCC: C10 (VAL-0018-01-04)
+
+- Exigido: 1 µF, ≥ 16 V, entre VCC y GND (§8.2.1.2.7, p. 21); efectivo según la nota de la p. 17. VCC = 5 V.
+- **C28323**, Samsung CL21B105KBFNNNE, 1 µF 50 V X7R 0805, **Basic** (JLCPCB 3,50 M; LCSC 0, 2026-11-05). SimSurfing CL21B105KBFNNN: −2,5 % a 5 V; −1,5 % a 60 °C y −3,5 % a 84 °C (TCC).
+- Efectivo: 0,96 µF a 60 °C (0,86 µF con −10 %); 0,94 µF a 85 °C (0,85 µF con −10 %). Antes, CL10A105KB8NNNC X5R 0603: 0,64 / 0,57 µF.
+- Con la tolerancia K el mínimo queda en 0,85 µF (−15 %). Se acepta, como propone VAL-0018-01-04: un 2,2 µF cubriría también la tolerancia, pero el datasheet no da máximo para CVCC y es otra pieza.
 
 ### 3.7 UVLO del buck (ALI-06)
 
@@ -335,7 +360,7 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 - **PGTH a GND:** desactiva el encendido rápido tras un fallo (p. 19). PGOOD sin conectar.
 - **UVLO a GND:** UVLO interno del bus, 15,1–15,9 V al subir y 14,0–15,1 V al bajar (p. 6). Habilita el bus por encima de 15,9 V (< 17,9 V en `VIN_PROT` con 18 V en el borne ✔).
 - **PLIM a GND:** sin limitación de potencia (p. 25). Con PLIM, a 30 V el límite caería por debajo de 3,5 A.
-- IN_SYS unido a IN, con C3 = 100 nF 100 V junto al pin (p. 27). B_GATE y DRV abiertos (p. 27). NC 19–24 sin conectar.
+- IN_SYS unido a IN, con C3 = 220 nF 100 V X7R 0805 (C513710, la misma pieza que C8) junto al pin (≥ 0,1 µF, p. 27). Efectivo: 0,17 / 0,15 µF a 24 / 30 V y 60 °C (proxy CL21B224KCFSFN, `bloque-alimentacion.md` §3) ✔; el 100 nF 0603 anterior daba 62–72 nF (VAL-0018-01-05). B_GATE y DRV abiertos (p. 27). NC 19–24 sin conectar.
 
 #### 3.13.7 FLT e IMON
 
@@ -443,8 +468,8 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | R1 | 100 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1003T5E | C25803 · 7,8 M | Yageo RC0603FR-07100KL | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
 | D2 | TVS SMBJ33A | SMB | Littelfuse SMBJ33A | C224019 · 9 670 | Ruilon SMBJ33A (C10219 · 10 155); el Brightking C78419 de la ficha tiene stock 0 | Existente (ficha) |
 | C1 | 47 µF 63 V electrolítico 105 °C | Ø8 × 10 | SamYoung MVK 63V47 M 8*10 | C165628 · 815 | ACMECON GVZ1J476M0810CN (C22383753) | `Device:C_Polarized` / `Capacitor_SMD:CP_Elec_8x10` (10,5 mm la alternativa) |
-| C2, C6, C7 | 4,7 µF 100 V X7R | 1210 | PSA FS32X475K101EGG | C381466 · 45 775 | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
-| C3 | 100 nF 100 V X7R (IN_SYS) | 0603 | Samsung CL10B104KC8NNNC | C15725 · 110 800 | — | `Device:C` / `C_0603_1608Metric` |
+| C2, C6, C7, C22 | 4,7 µF 100 V X7R (C2: nodo de entrada; C6: OUT de U1; C7 + C22: CIN de U2) | 1210 | PSA FS32X475K101EGG | C381466 · 45 835 (JLCPCB Extended · 54 967) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
+| C3 | 220 nF 100 V X7R (IN_SYS) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 240 (misma línea que C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `C_0805_2012Metric` |
 | U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_…_ThermalVias` |
 | R2 | R_ILIM 4,30 kΩ 1 % 100 ppm | 0603 | 0603WAF4301T5E | C23159 · 113 900 | Yageo RC0603FR-074K3L | `R_0603` |
 | C4 | C_dVdT 22 nF 50 V X7R | 0603 | Samsung CL10B223KB8NNNC | C21122 · 109 250 | — | `C_0603` |
@@ -455,7 +480,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | **Símbolo nuevo** (copiar `Regulator_Switching:LMR36510ADDA`, compatible pin a pin, p. 1) / `Package_SO:Texas_HTSOP-8-1EP_3.9x4.9mm_…_ThermalVias` |
 | C8 | 220 nF 100 V X7R (CIN de AF) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 260 | Samsung CL21B224KCFSFNE (C307542) | `C_0805_2012Metric` |
 | C9 | CBOOT 100 nF 50 V | 0603 | Samsung CL10B104KB8NNNC | C1591 · 1,46 M | — | `C_0603` |
-| C10 | CVCC 1 µF 50 V X5R | 0603 | Samsung CL10A105KB8NNNC | C15849 · 436 100 | — | `C_0603` |
+| C10 | CVCC 1 µF 50 V X7R | 0805 | Samsung CL21B105KBFNNNE | C28323 · JLCPCB **Basic** · 3 504 368 (LCSC 0) | — (jr-conformidad) | `C_0805_2012Metric` |
 | L1 | 10 µH, I_sat 5,3 A, 60 mΩ | 7 × 6,6 | Changjiang FXL0650-100-M | C475521 · 38 855 | FXLA0630-100M (C5372143; I_sat 5,5 A) | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` (alt.: `FXL0630`) |
 | C11, C12, C16, C17 | 22 µF 25 V X5R | 1206 | Samsung CL31A226KAHNNNE | C12891 · 7 980 | — (jr-conformidad) | `C_1206_3216Metric` |
 | R7 | RFBT 100 kΩ 0,1 % 25 ppm | 0603 | Yageo RT0603BRD07100KL | C122538 · 1,68 M | Viking ARG03BTC1003 (C335088) | `R_0603` |
@@ -479,6 +504,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,6 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / **huella nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (SPEC-0018). Excluir de BOM y CPL |
 | TP1–TP5 | Test points | Pad | — (sin pieza) | — | Keystone 5000/5001 | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm` (TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm`) |
 
+- **Cambios de SPEC-0018 (VAL-0018-01-03/04/05):** + C22 (C381466, línea existente); C3 pasa a C513710 (sale C15725: una línea Extended menos); C10 pasa a C28323 (Basic; C15 sigue en C15849). Tipo y stock de JLCPCB: API `selectSmtComponentList`, 2026-11-05.
 - **Piezas sin ficha en `hardware/componentes/`:** LMR36520, TPS2116, TLV1117LV, SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310 y BZT52C15. Los datos clave y las páginas están en §3 y §0.
 - La ficha de TPS2663 existe. Hay que añadirle la variante elegida (26632, *latch*, PLIM y UVLO a GND).
 - **Símbolos o huellas nuevos:**
@@ -498,13 +524,14 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | BUS_24V (U1 OUT → *high-side*) | 4,57 A (4,9 A como dato de REL-05) | 2,0 mm o polígono | ≥ 0,6 mm | — | Clase `Power_In`. D3 y C6 junto a OUT/GND de U1 |
 | JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,6 mm entre pads (Vc 53,3 V con el bus a 0 V; IPC-2221 B2, 51–100 V) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
 | GND de potencia (J1-2, D2, C1, U1, U2) | 5,1 A | Plano; vías de cosido junto a J1, D2 y U1 | — | — | D2 a GND con pista corta y ancha: el pulso de 11,3 A suma L·di/dt a Vc (ficha SMBJ33A) |
-| VIN_PROT → U2 VIN (rama del buck) | 0,3 A | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 justo después | Bucle de entrada mínimo (SNVSBF0C §8.5) |
+| VIN_PROT → U2 VIN (rama del buck) | 0,3 A DC; 1,0 A eficaz en CIN (ec. 8, p. 20) | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 y C22 justo después, con su GND al PGND de U2. C2 se queda en el nodo de entrada | Bucle de entrada mínimo (SNVSBF0C §8.5). C7 + C22 son el CIN de U2 (≥ 4,7 µF efectivos, §3.6) |
 | SW (U2-8 → L1) | 1,5 A de pico ≈ 2 A | 1,0 mm, lo más corto posible | ≥ 0,3 mm | Lejos de la antena (MCU-02), de las entradas del ADC y del SHT4x (AMB-02) | Área mínima; sin pistas de señal debajo en la otra cara |
 | +5V_BUCK (L1 → C11/C12 → U3 VIN1), +5V (U3 VOUT) | 0,75 A (diseño); 1,5 A | 0,6 mm (`Power`) | 0,2 mm | — | FB (R7/R8) tomada en C11/C12, lejos de SW y de L1 |
 | VBUS → U3 VIN2 | 0,5 A | 0,5 mm | 0,2 mm | Desde el USB-C (bloque MCU) | — |
 | +3V3 (U4 → módulo) | 0,45 A; 1 A máx. | 0,5 mm | 0,2 mm | — | Pestaña de U4: ≥ 4 cm² de cobre por cara con vías (T_J ≤ 109 °C, §3.9) |
 | Q1 (pestaña = drenador, VIN_F) | 5,1 A | Polígono ≥ 2,5 cm² (R_thJA = 50 °C/W con 1 in², p. 1) | ≥ 0,6 mm | — | R1 y D1 junto a la puerta |
 | U1 EP, U2 EP | — | Pad térmico al plano GND con vías | — | U1 junto a la salida hacia las salidas; U2 lejos de la antena y del SHT4x | SLVSE94G p. 39; SNVSBF0C §8.5 |
+| VCC de U2 (U2-6 → C10), IN_SYS de U1 (→ C3) | mA | 0,25 mm | 0,2 mm | C10 y C3 junto a su pin, retorno corto a PGND/GND del CI | C10 y C3 pasan a 0805 (§3.6, §3.13.6) |
 | ILIM (U1-10 → R2), dVdT (U1-9 → C4), IMON (U1-13 → R3) | µA | 0,25 mm | 0,2 mm | R2, C4 y R3 junto a su pin, con retorno corto al GND de U1 | R2 sin acoplamiento a SW (SLVSE94G §9.6.1) |
 | EN_BUCK (R9/R10/C13 → U2-3) | µA | 0,25 mm | ≥ 0,6 mm entre el lado VIN_PROT de R9 y el resto | R10 y C13 junto a U2 | Nodo de alta impedancia: lejos de SW |
 | VIN_SENSE (R14/R15 → C20 → GPIO), LIM_IMON (R4 → C5 → GPIO) | µA | 0,25 mm | 0,2 mm (≥ 0,6 mm en el lado VIN_PROT de R14) | C20 y C5 junto al pin del módulo | Lejos de SW, de L1 y de las salidas. Sin cortes del plano debajo (FAB-04) |
@@ -519,7 +546,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 | ALI-02 | J1 WJ500V-5.08-2P | §3.1 |
 | ALI-03 | Q1 SQD50P06-15L + D1 + R1; 5,1 A a 60 °C, T_J 94 °C | §3.3 |
 | ALI-04 | F1 10 A (7,2 A con derating); D2 SMBJ33A tras Q1; Vc ≤ nominal del nodo | §3.2, §3.4, §3.5 |
-| ALI-05 | U2 65 V / 2 A; nodo ≥ 60 V | §3.5, §3.6 |
+| ALI-05 | U2 65 V / 2 A; nodo ≥ 60 V; CIN C7 + C22 ≥ 5,1 µF efectivos; CVCC C10 0,96 µF | §3.5, §3.6 |
 | ALI-06 | R9/R10: arranque 12,50–14,56 V; bajada ≤ 14,56 V | §3.7 |
 | ALI-07 | U4 TLV1117LV 1 A | §3.9 |
 | ALI-08 | U3 TPS2116 en modo prioridad | §3.8 |

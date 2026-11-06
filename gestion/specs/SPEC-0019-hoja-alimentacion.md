@@ -26,6 +26,7 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
   - etiquetas jerárquicas para 24 V del bus de salidas, 5 V, 3,3 V, GND, VIN_SENSE, habilitación e IMON del limitador;
   - VAL-0014-01-01 (textos de bloque de `conectores.kicad_sch` y `alimentacion.kicad_sch`) y VAL-0014-01-02 (quitar de `fp-lib-table` y `sym-lib-table` las librerías de la v1 que no se usen);
   - JP1 en paralelo con U1 (DEC-0006), con el texto «abierto = limitador · cerrado = sin limitador», y en `hardware/v2/README.md` lo que se pierde con el puente cerrado;
+  - VAL-0018-02-04: poner al día §7 y §8 de `docs/diseno/alimentacion.md` con `esp-riego:SMBJ33A` (D2), la huella `esp-riego:Texas_DDA0008B_…` (U2), C22 y JP1 con conexión sólida; C3 y C10 en 0805 con sus LCSC nuevos;
   - mantener la paridad esquema–PCB que exija `verificar.py` (las piezas nuevas se sincronizan con la PCB sin colocarlas).
 - Excluye:
   - colocación y rutado;
@@ -34,7 +35,8 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
 ## Entradas
 
 - `docs/diseno/alimentacion.md`, `gestion/logs/SPEC-0018/01-jr-conformidad.md`.
-- `gestion/informes/VAL-0014-01.md` (01 y 02).
+- `gestion/informes/VAL-0014-01.md` (01 y 02) y `gestion/informes/VAL-0018-02.md` (04).
+- `hardware/componentes/bloque-alimentacion.md`.
 - Checklist `gestion/checklists/esquema.md`.
 
 ## Entregables

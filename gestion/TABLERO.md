@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 5 · abierta 2 · cerrada 13 · descartada 3.
+Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
 
 ## Propuestas (5)
 
@@ -14,14 +14,13 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 13 · descartada 3.
 | [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | — | 2026-11-05 | — |
 
-## Abiertas (2)
+## Abiertas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | — | 2026-11-05 | — |
 | [SPEC-0020](specs/SPEC-0020-calculos-mcu.md) | Selección y cálculos del bloque MCU | 2 | ing-esquematicos | `spec/SPEC-0020-calculos-mcu` | — | 2026-11-05 | — |
 
-## Cerradas (13)
+## Cerradas (14)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -38,6 +37,7 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 13 · descartada 3.
 | [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md) | Recopilación de componentes de la v2 | 2 | jr-conformidad | `spec/SPEC-0015-recopilacion-componentes` | VAL-0015-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | VAL-0016-02 (APROBADO) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | VAL-0017-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | VAL-0018-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 
 ## Descartadas (3)
 
@@ -82,4 +82,6 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 13 · descartada 3.
 | [VAL-0016-02](informes/VAL-0016-02.md) | SPEC-0016 | APROBADO | `55fc4ab` | 2026-11-05 |
 | [VAL-0017-01](informes/VAL-0017-01.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `cfe843a` | 2026-11-05 |
 | [VAL-0017-02](informes/VAL-0017-02.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `5117c57` | 2026-11-05 |
+| [VAL-0018-01](informes/VAL-0018-01.md) | SPEC-0018 | RECHAZADO | `52e574f (entregable en 1d68288)` | 2026-11-05 |
+| [VAL-0018-02](informes/VAL-0018-02.md) | SPEC-0018 | APROBADO_CON_OBSERVACIONES | `6250829` | 2026-11-05 |
 
