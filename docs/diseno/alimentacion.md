@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710.
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007.
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -39,7 +39,7 @@ Resultados clave:
 - **Medida de VIN:** error ≤ ± 1,62 % a 17 V y ≤ ± 1,05 % a 31 V (≤ ± 3 %).
 - **Nodo de entrada:** todas las piezas ≥ 60 V (Vc = 53,3 V; +10 % = 58,6 V).
 - **Lógica:** 4,32 W en la entrada (≤ 4,8 W), con 0,45 A en 3,3 V y 0,30 A para el 5 V de la expansión.
-- **Piezas nuevas:** el símbolo del LMR36520 (hay uno compatible pin a pin) y la huella del puente JP1 con pads de 3,0 mm (§3.13.9). Las demás huellas existen en las librerías oficiales de KiCad 10 (§7).
+- **Piezas propias** (SPEC-0018): símbolos de LMR36520 y SMBJ33A; huellas de U2 (land pattern de TI), JP1 (pads de 3,0 mm, §3.13.9), F1 (3D) y J1. Las demás son oficiales de KiCad 10 (§7). Esquema en `hardware/v2/alimentacion.kicad_sch` (SPEC-0019).
 
 ## 1. Datos de partida
 
@@ -457,61 +457,61 @@ Potencia de la lógica en la entrada (ALI-12, §6):
 
 ## 7. Lista de piezas
 
-Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC del 2026-11-05. Las huellas y los símbolos son de las librerías oficiales de KiCad 10 salvo donde se indica.
+Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0019); no usan las reservadas al bloque MCU (`mcu.md` §11). Stock de LCSC del 2026-11-05; los cambios de DEC-0007 (R8 y los 100 nF), con la API de JLCPCB del 2026-11-06. Las huellas y los símbolos son de las librerías oficiales de KiCad 10 salvo donde se indica `esp-riego:` (SPEC-0018).
 
 | Ref. | Valor / función | Encapsulado | MPN principal | LCSC · stock | Alternativa (LCSC) | Símbolo / huella |
 |---|---|---|---|---|---|---|
-| J1 | Borne 2P, entrada | THT 5,08 | WJ500V-5.08-2P | C8465 · 274 005 | — | Existente (proyecto) |
-| F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 | TLC TA10 (C2998199) | `Device:Fuse` / `Fuse:Fuse_Littelfuse-NANO2-451_453` |
+| J1 | Borne 2P, entrada | THT 5,08 | WJ500V-5.08-2P | C8465 · 274 005 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
+| F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 | TLC TA10 (C2998199) | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018) |
 | Q1 | P-MOS de polaridad, 60 V | TO-252 | Vishay SQD50P06-15L_GE3 | C3281500 · 5 748 | UMW SUD50P06-15 (C7503186) | `Transistor_FET:SUD50P06-15` (comprobar G-D-S) / `Package_TO_SOT_SMD:TO-252-2` |
 | D1 | Zéner 15 V, puerta de Q1 | SOD-123 | MDD BZT52C15 | C173427 · 148 150 | Diodes BZT52C15-7-F (C177014 · 52 695) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
 | R1 | 100 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1003T5E | C25803 · 7,8 M | Yageo RC0603FR-07100KL | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
-| D2 | TVS SMBJ33A | SMB | Littelfuse SMBJ33A | C224019 · 9 670 | Ruilon SMBJ33A (C10219 · 10 155); el Brightking C78419 de la ficha tiene stock 0 | Existente (ficha) |
+| D2 | TVS SMBJ33A | SMB | Littelfuse SMBJ33A | C224019 · 9 670 | Ruilon SMBJ33A (C10219 · 10 155); el Brightking C78419 de la ficha tiene stock 0 | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` |
 | C1 | 47 µF 63 V electrolítico 105 °C | Ø8 × 10 | SamYoung MVK 63V47 M 8*10 | C165628 · 815 | ACMECON GVZ1J476M0810CN (C22383753) | `Device:C_Polarized` / `Capacitor_SMD:CP_Elec_8x10` (10,5 mm la alternativa) |
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R (C2: nodo de entrada; C6: OUT de U1; C7 + C22: CIN de U2) | 1210 | PSA FS32X475K101EGG | C381466 · 45 835 (JLCPCB Extended · 54 967) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
 | C3 | 220 nF 100 V X7R (IN_SYS) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 240 (misma línea que C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `C_0805_2012Metric` |
-| U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_…_ThermalVias` |
+| U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm_ThermalVias` |
 | R2 | R_ILIM 4,30 kΩ 1 % 100 ppm | 0603 | 0603WAF4301T5E | C23159 · 113 900 | Yageo RC0603FR-074K3L | `R_0603` |
 | C4 | C_dVdT 22 nF 50 V X7R | 0603 | Samsung CL10B223KB8NNNC | C21122 · 109 250 | — | `C_0603` |
 | R3, R4 | R_IMON y serie al ADC, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 · 4,9 M | — | `R_0603` |
-| C5 | 100 nF 50 V X7R (ADC de IMON) | 0603 | Samsung CL10B104KB8NNNC | C1591 · 1,46 M | — | `C_0603` |
+| C5 | 100 nF 50 V X7R (ADC de IMON) | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · JLCPCB **Basic** · 34 750 639 (2026-11-06; LCSC 0) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
 | R5, R6 | *Pull-down* de SHDN y *pull-up* de FLT, 10 kΩ | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
 | D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | MDD SS310 | C15874 · 348 680 | UMW SS310A (C2988628 · 4 720) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
-| U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | **Símbolo nuevo** (copiar `Regulator_Switching:LMR36510ADDA`, compatible pin a pin, p. 1) / `Package_SO:Texas_HTSOP-8-1EP_3.9x4.9mm_…_ThermalVias` |
+| U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | `esp-riego:LMR36520FADDA` (derivado de `LMR36510ADDA`) / `esp-riego:Texas_DDA0008B_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm` (land pattern de TI, SNVSBF0C pp. 38-40; estarcido de 0,12 mm, VAL-0018-02-05) |
 | C8 | 220 nF 100 V X7R (CIN de AF) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 260 | Samsung CL21B224KCFSFNE (C307542) | `C_0805_2012Metric` |
-| C9 | CBOOT 100 nF 50 V | 0603 | Samsung CL10B104KB8NNNC | C1591 · 1,46 M | — | `C_0603` |
+| C9 | CBOOT 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 (como C5) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
 | C10 | CVCC 1 µF 50 V X7R | 0805 | Samsung CL21B105KBFNNNE | C28323 · JLCPCB **Basic** · 3 504 368 (LCSC 0) | — (jr-conformidad) | `C_0805_2012Metric` |
-| L1 | 10 µH, I_sat 5,3 A, 60 mΩ | 7 × 6,6 | Changjiang FXL0650-100-M | C475521 · 38 855 | FXLA0630-100M (C5372143; I_sat 5,5 A) | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` (alt.: `FXL0630`) |
+| L1 | 10 µH, I_sat 5,3 A típ. (4,24 A mín.), 60 mΩ | 7 × 6,6 | Changjiang FXL0650-100-M | C475521 · 38 855 | FXLA0630-100M (C5372143; I_sat 5,5 A) | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` (alt.: `FXL0630`) |
 | C11, C12, C16, C17 | 22 µF 25 V X5R | 1206 | Samsung CL31A226KAHNNNE | C12891 · 7 980 | — (jr-conformidad) | `C_1206_3216Metric` |
 | R7 | RFBT 100 kΩ 0,1 % 25 ppm | 0603 | Yageo RT0603BRD07100KL | C122538 · 1,68 M | Viking ARG03BTC1003 (C335088) | `R_0603` |
-| R8 | RFBB 24,9 kΩ 0,1 % 25 ppm | 0603 | Viking AR03BTCX2492 | C4156365 · **760** | Yageo RT0603BRE0724K9L (C861775; stock 0) | `R_0603` |
+| R8 | RFBB 24,9 kΩ 0,1 % 25 ppm | 0603 | Yageo RT0603BRD0724K9L (DEC-0007) | C136967 · JLCPCB Extended · 14 042 (2026-11-06) | Viking AR03BTCX2492 (C4156365 · 774) | `R_0603` |
 | R9 | EN superior 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 | — | `R_0603` |
 | R10 | EN inferior 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
-| C13 | Filtro de EN, 100 nF 50 V | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
+| C13 | Filtro de EN, 100 nF 50 V X7R | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | U3 | Multiplexor 5 V 2,5 A | SOT-583 | TI TPS2116DRLR | C3235557 · 54 523 | — (sin equivalente en la misma huella; reserva: 2 Schottky, §3.8) | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` |
 | R11 | PR1 superior 330 kΩ 1 % | 0603 | 0603WAF3303T5E | C23137 · 404 100 | — | `R_0603` |
 | R12 | PR1 inferior 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 | — | `R_0603` |
-| C14 | 100 nF (VIN1) | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
+| C14 | 100 nF 50 V X7R (VIN1) | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | C15 | 1 µF (VIN2) | 0603 | CL10A105KB8NNNC | C15849 | — | `C_0603` |
 | U4 | LDO 3,3 V 1 A | SOT-223 | TI TLV1117LV33DCYR | C15578 · 1 530 | JSMSEMI TLV1117LV33DCYR (C48937499; verificar datasheet) | `Regulator_Linear:TLV1117-33` (comprobar el pinout 1 GND, 2/tab OUT, 3 IN; p. 3) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` |
 | C18, C19 | 10 µF 10 V X5R | 0603 | Samsung CL10A106KP8NNNC | C19702 · 1,47 M | — | `C_0603` |
-| C21 | 100 nF (salida del LDO) | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
+| C21 | 100 nF 50 V X7R (salida del LDO) | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | R14 | Divisor de VIN 100 kΩ 0,1 % 25 ppm | 0603 | Yageo RT0603BRD07100KL | C122538 | Viking ARG03BTC1003 (C335088) | `R_0603` |
 | R15 | Divisor de VIN 4,87 kΩ 0,1 % 25 ppm | 0603 | Yageo AT0603BRD074K87L | C855888 · 4 010 | Yageo RT0603BRE074K87L (C849789; 50 ppm: suma 0,17 % al error) | `R_0603` |
-| C20 | 100 nF (ADC de VIN) | 0603 | CL10B104KB8NNNC | C1591 | — | `C_0603` |
+| C20 | 100 nF 50 V X7R (ADC de VIN) | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | D4 | LED rojo | 0603 | Hubei KENTO KT-0603R | C2286 · 4,2 M | XINGLIGHT XL-1608SURC-06 (C965799) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
 | R13 | 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · 2,86 M | — | `R_0603` |
-| JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,6 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / **huella nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (SPEC-0018). Excluir de BOM y CPL |
-| TP1–TP5 | Test points | Pad | — (sin pieza) | — | Keystone 5000/5001 | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm` (TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm`) |
+| JP1 | Puente de soldadura `VIN_PROT`–`BUS_24V`, abierto | Pads 1,2 × 3,0 mm, hueco 0,6 mm | — (sin pieza; estaño a mano) | — | Huella oficial `SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm` (descartada para 4,9 A, §3.13.9) | `Jumper:SolderJumper_2_Open` / `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (SPEC-0018; conexión sólida a zona, `zone_connect 2`). Símbolo y huella fuera de BOM y de posiciones |
+| TP1–TP5 | Test points | Pad | — (sin pieza) | — | Keystone 5000/5001 | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm` (TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm`). Fuera de BOM y de posiciones |
 
 - **Cambios de SPEC-0018 (VAL-0018-01-03/04/05):** + C22 (C381466, línea existente); C3 pasa a C513710 (sale C15725: una línea Extended menos); C10 pasa a C28323 (Basic; C15 sigue en C15849). Tipo y stock de JLCPCB: API `selectSmtComponentList`, 2026-11-05.
-- **Piezas sin ficha en `hardware/componentes/`:** LMR36520, TPS2116, TLV1117LV, SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310 y BZT52C15. Los datos clave y las páginas están en §3 y §0.
-- La ficha de TPS2663 existe. Hay que añadirle la variante elegida (26632, *latch*, PLIM y UVLO a GND).
-- **Símbolos o huellas nuevos:**
-  - el símbolo LMR36520, que se puede derivar de LMR36510ADDA;
-  - la huella `SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` de JP1 (§3.13.9).
-
-  El resto existe en las librerías oficiales. Hay que comprobar el pinout de SUD50P06-15 frente a SQD50P06-15L y el de TLV1117-33 frente a TLV1117LV.
+- **Cambios de compra de DEC-0007 (SPEC-0019):**
+  - R8: Yageo RT0603BRD0724K9L (C136967), misma serie, tolerancia (0,1 %) y TCR (25 ppm) que R7: el error de VOUT de §3.6 no cambia. Stock de JLCPCB 14 042 frente a 774 de la Viking.
+  - C5, C9, C13, C14, C20 y C21: Yageo CC0603KRX7R9BB104 (C14663), **Basic**, 34 750 639 en JLCPCB el 2026-11-06 (LCSC 0; la orden pedía confirmarlo en JLCPCB). Mismo dieléctrico (X7R), tensión (50 V) y encapsulado que C1591: a ≤ 5 V de polarización y 60 °C la pérdida típica sigue siendo de pocos % (`bloque-alimentacion.md` §3, proxy CL10B104KB8NNN; Yageo no publica curva). Ninguna de estas funciones depende del valor exacto (filtros del ADC, CBOOT, EN y desacoplo). Sale una línea Extended (C1591).
+  - Coste igual o menor; ninguna especificación empeora. La ficha `bloque-alimentacion.md` la ajusta jr-conformidad.
+- **Fichas en `hardware/componentes/`:** creadas en SPEC-0018 (LMR36520, TPS2116, TLV1117LV, SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310, BZT52C15; TPS2663 con la variante 26632). Campos de compra del bloque: `bloque-alimentacion.md`.
+- **Símbolos y huellas propios** (`hardware/libraries/esp-riego.*`, SPEC-0018): símbolos `LMR36520FADDA` y `SMBJ33A`; huellas `Texas_DDA0008B_…_Mask2.71x3.4mm` (U2), `SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (JP1), `Fuse_Littelfuse-NANO2-451_453` (F1, 3D propio) y `TerminalBlock_Kangnex_WJ500V-5.08-2P…` (J1). El resto, oficiales. Pinouts de SUD50P06-15 y TLV1117-33 comprobados (`bloque-alimentacion.md` §4).
+- **Hoja (SPEC-0019):** interfaz con etiquetas jerárquicas `BUS_24V`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` (salidas), `LIM_EN` y `VBUS` (entradas); +5V, +3V3 y GND con símbolos de alimentación (globales, como `mcu.md` Anexo C). Redes internas: `VIN_RAW`, `VIN_F`, `VIN_PROT`, `Q1_G`, `EN_BUCK`, `U2_SW`, `U2_BOOT`, `U2_VCC`, `U2_FB`, `+5V_BUCK`, `U3_PR1`, `U1_ILIM`, `U1_DVDT`, `U1_IMON`. Sin conectar (con marca): B_GATE, DRV, MODE (*latch-off*) y PGOOD de U1, PG de U2 y ST de U3.
 - **Coste orientativo del bloque:** ≈ 8,9 $ por placa (5 placas) y ≈ 7,7 $ (10 placas), con los tramos de LCSC de la cantidad real. **Aceptado en DEC-0006**.
   - El limitador cuesta 3,56 / 3,02 $, por encima de los 2–3 $ que estimaba DEC-0003.
   - La alternativa UMW de Q1 ahorra ≈ 0,7 $.
@@ -522,7 +522,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 |---|---|---|---|---|---|
 | VIN_RAW (J1 → F1), VIN_F (F1 → Q1-D), VIN_PROT (Q1-S → U1 IN, D2, C1, C2) | 5,1 A continuos | **2,0 mm** en 1 oz (IPC-2221 externa: 1,87 mm para ΔT 20 °C; 2,84 mm para ΔT 10 °C) o polígono | ≥ 0,6 mm a otras redes (hasta 53 V: IPC-2221 B2, 51–100 V); en los pads de los CI, la de la huella | J1 → F1 → Q1 → D2 en línea y juntos en el borde inferior (FAB-07) | Clase `Power_In`. Retorno GND paralelo y del mismo ancho |
 | BUS_24V (U1 OUT → *high-side*) | 4,57 A (4,9 A como dato de REL-05) | 2,0 mm o polígono | ≥ 0,6 mm | — | Clase `Power_In`. D3 y C6 junto a OUT/GND de U1 |
-| JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,6 mm entre pads (Vc 53,3 V con el bus a 0 V; IPC-2221 B2, 51–100 V) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
+| JP1 (VIN_PROT ↔ BUS_24V) | 4,9 A con el puente cerrado | Pads de 3,0 mm; las pistas que llegan, 2,0 mm o polígono | Hueco de 0,6 mm entre pads (Vc 53,3 V con el bus a 0 V; IPC-2221 B2, 51–100 V) | Junto a U1, entre el cobre de IN y el de OUT; cara superior y accesible al soldador (sin piezas altas a ≤ 2 mm) | Sin pasta. **Conexión sólida a zona** (`zone_connect 2` en la huella, VAL-0018-01-06): no poner alivio térmico en la regla de la zona. Con polígonos sólidos, cerrarlo a mano pide un soldador de más potencia o punta ancha (≥ 60 W, o precalentar la placa). Serigrafía «JP1: abierto = limitador · cerrado = sin limitador» |
 | GND de potencia (J1-2, D2, C1, U1, U2) | 5,1 A | Plano; vías de cosido junto a J1, D2 y U1 | — | — | D2 a GND con pista corta y ancha: el pulso de 11,3 A suma L·di/dt a Vc (ficha SMBJ33A) |
 | VIN_PROT → U2 VIN (rama del buck) | 0,3 A DC; 1,0 A eficaz en CIN (ec. 8, p. 20) | 0,6 mm (`Power`) | ≥ 0,6 mm | C8 de 220 nF pegado a VIN–PGND de U2; C7 y C22 justo después, con su GND al PGND de U2. C2 se queda en el nodo de entrada | Bucle de entrada mínimo (SNVSBF0C §8.5). C7 + C22 son el CIN de U2 (≥ 4,7 µF efectivos, §3.6) |
 | SW (U2-8 → L1) | 1,5 A de pico ≈ 2 A | 1,0 mm, lo más corto posible | ≥ 0,3 mm | Lejos de la antena (MCU-02), de las entradas del ADC y del SHT4x (AMB-02) | Área mínima; sin pistas de señal debajo en la otra cara |
@@ -563,7 +563,7 @@ Referencias provisionales (las fija la anotación en SPEC-0019). Stock de LCSC d
 2. **Fuente real:** DEC-0004 y `docs/03` piden comprobar en su etiqueta que es de tensión constante y su punto de sobrecarga. La banda se ha calculado con los supuestos de DEC-0004.
 3. **Tolerancia de I_OL con V_DS alta** (corto franco): el datasheet la da con 1 V (§3.13.2). Se comprueba en las pruebas de §6.
 4. **TLV1117LV:** sin deriva térmica máxima publicada (§3.9); ± 2,7 % a 25 °C frente a ± 3 %.
-5. **R8 (24,9 kΩ al 0,1 %):** solo hay 760 en stock. La alternativa Yageo no tiene stock.
+5. **R8 (24,9 kΩ al 0,1 %):** resuelto por DEC-0007: Yageo C136967 (14 042 en JLCPCB, 2026-11-06).
 6. **Condensadores de salida de U3:** 44 µF nominales frente a los ≈ 100 µF que sugiere el datasheet si hay bloqueo inverso (§3.8).
 7. **Retroalimentación del bus apagado** a través de las entradas IN y DEN de los *high-side* (checklist de esquema): corresponde al bloque de salidas.
 

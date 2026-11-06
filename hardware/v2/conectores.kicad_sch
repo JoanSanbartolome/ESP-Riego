@@ -468,7 +468,7 @@
 		)
 		(uuid "22a5cb7b-32d1-4b9f-83ec-702a56a7b51d")
 	)
-	(text "Hoja vaciada en SPEC-0014: el lazo 4–20 mA (DEC-0002), el conector del DHT11 (AMB-01) y los test points a +12 V de la v1 no cumplen los requisitos v0.4.\nEl bloque nuevo llega con su propia spec. Contenido previsto:\n- Entrada digital o de pulsos protegida, para caudalímetro o sensor de lluvia: de 5 a 24 V o contacto seco (EXP-01)\n- Conector de expansión con ESD: I²C, alimentación, al menos 2 GPIO (una de interrupción), 3V3 y GND, según el informe de SPEC-0006 (EXP-02, EXP-04)\n- Pulsadores de accionamiento manual, solo si se decide D4 (EXP-03)\n- Reparto de los conectores de campo en los bordes superior e inferior (FAB-07)\nSe conservan H1–H4: taladros M3 sin conexión eléctrica para fijar la placa en la caja (FAB-08).\nFuentes: docs/02-especificaciones-v2.md v0.4 y DEC-0002."
+	(text "Hoja vaciada en SPEC-0014: el lazo 4–20 mA (DEC-0002), el conector del DHT11 (AMB-01) y los test points TP1–TP4 de la v1 (V_Level, +12 V, +5 V y +3,3 V) no cumplen los requisitos v0.4.\nEl bloque nuevo llega con su propia spec. Contenido previsto:\n- Entrada digital o de pulsos protegida, para caudalímetro o sensor de lluvia: de 5 a 24 V o contacto seco (EXP-01)\n- Conector de expansión con ESD: I²C, alimentación, al menos 2 GPIO (una de interrupción), 3V3 y GND, según el informe de SPEC-0006 (EXP-02, EXP-04)\n- Pulsadores de accionamiento manual, solo si se decide D4 (EXP-03)\n- Reparto de los conectores de campo en los bordes superior e inferior (FAB-07)\nSe conservan H1–H4: taladros M3 sin conexión eléctrica para fijar la placa en la caja (FAB-08).\nFuentes: docs/02-especificaciones-v2.md v0.4 y DEC-0002."
 		(exclude_from_sim no)
 		(at 25.4 55.88 0)
 		(effects
