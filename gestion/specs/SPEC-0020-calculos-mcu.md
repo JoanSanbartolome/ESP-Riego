@@ -28,7 +28,7 @@ validacion:
   - BOOT y RESET con red RC en EN y su tiempo frente al arranque del raíl de 3,3 V (MCU-04);
   - UART de programación (MCU-06) y LED de estado (MCU-07);
   - desacoplo del módulo y consumo de 3,3 V con los picos de WiFi; comprobación del TLV1117LV de `alimentacion.md` (corriente, disipación, caída con 5 V mínimos) (ALI-07);
-  - **tabla de GPIO de toda la placa** (MCU-05): los pines que pide alimentación (VIN_SENSE, LIM_IMON, LIM_EN, LIM_FLT), los de las 6 salidas (IN, DEN e IS a ADC1 por canal, `estudio-salidas.md` S7), I²C del SHT4x y de la expansión (AMB-01, EXP-02), la entrada de EXP-01, el LED y el USB. Si no caben las entradas analógicas en ADC1, se proponen alternativas (multiplexar IS con DEN, mux analógico, etc.) con su coste;
+  - **tabla de GPIO de toda la placa** (MCU-05): los pines que pide alimentación (VIN_SENSE, LIM_IMON, LIM_EN, LIM_FLT), los de las 6 salidas (IN e IS a ADC1 por canal y DEN común, DEC-0007; `estudio-salidas.md` S7), I²C del SHT4x y de la expansión (AMB-01, EXP-02), la entrada de EXP-01, el LED y el USB. Si no caben las entradas analógicas en ADC1, se proponen alternativas (multiplexar IS con DEN, mux analógico, etc.) con su coste;
   - estado de cada pin durante el arranque, el reset y el flasheo, y los *pull-down* que exige REL-04;
   - lista de piezas del bloque (referencia, valor, encapsulado, LCSC) y marca de las que necesitan símbolo o huella nuevos, con los datos de sus fichas en un anexo.
 - Excluye:
@@ -63,3 +63,4 @@ validacion:
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-05 | coordinador | Abre la spec (aprobada por el usuario) | |
+| 2026-11-06 | coordinador | DEN común a los 6 canales (usuario) | DEC-0007 |

@@ -27,6 +27,7 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
   - VAL-0014-01-01 (textos de bloque de `conectores.kicad_sch` y `alimentacion.kicad_sch`) y VAL-0014-01-02 (quitar de `fp-lib-table` y `sym-lib-table` las librerías de la v1 que no se usen);
   - JP1 en paralelo con U1 (DEC-0006), con el texto «abierto = limitador · cerrado = sin limitador», y en `hardware/v2/README.md` lo que se pierde con el puente cerrado;
   - VAL-0018-02-04: poner al día §7 y §8 de `docs/diseno/alimentacion.md` con `esp-riego:SMBJ33A` (D2), la huella `esp-riego:Texas_DDA0008B_…` (U2), C22 y JP1 con conexión sólida; C3 y C10 en 0805 con sus LCSC nuevos;
+  - cambios de compra de DEC-0007: R8 → C136967; C5, C9, C13, C14, C20 y C21 → C14663 (en `alimentacion.md`, la ficha del bloque la ajusta jr-conformidad en SPEC-0021 o mantenimiento);
   - mantener la paridad esquema–PCB que exija `verificar.py` (las piezas nuevas se sincronizan con la PCB sin colocarlas).
 - Excluye:
   - colocación y rutado;
