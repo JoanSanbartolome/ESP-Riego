@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
+Specs por estado: propuesta 5 · abierta 0 · cerrada 15 · descartada 3.
 
 ## Propuestas (5)
 
@@ -14,13 +14,7 @@ Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
 | [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | — | 2026-11-05 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0020](specs/SPEC-0020-calculos-mcu.md) | Selección y cálculos del bloque MCU | 2 | ing-esquematicos | `spec/SPEC-0020-calculos-mcu` | — | 2026-11-05 | — |
-
-## Cerradas (14)
+## Cerradas (15)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -38,6 +32,7 @@ Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
 | [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md) | Mantenimiento de las fases 0 a 2 | 2 | ing-esquematicos | `spec/SPEC-0016-mantenimiento-fases-0-2` | VAL-0016-02 (APROBADO) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0017](specs/SPEC-0017-calculos-alimentacion.md) | Selección y cálculos del bloque de alimentación | 2 | ing-esquematicos | `spec/SPEC-0017-calculos-alimentacion` | VAL-0017-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | VAL-0018-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
+| [SPEC-0020](specs/SPEC-0020-calculos-mcu.md) | Selección y cálculos del bloque MCU | 2 | ing-esquematicos | `spec/SPEC-0020-calculos-mcu` | VAL-0020-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-06 |
 
 ## Descartadas (3)
 
@@ -57,6 +52,7 @@ Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
 | [DEC-0004](decisiones/DEC-0004-fuente-led-y-carga-maxima.md) | Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia | aceptada | usuario | 2026-11-05 |
 | [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | aceptada | usuario | 2026-11-05 |
 | [DEC-0006](decisiones/DEC-0006-uvlo-y-puente-del-limitador.md) | UVLO a 13,5 V y limitador TPS26632 con puente de soldadura | aceptada | usuario | 2026-11-05 |
+| [DEC-0007](decisiones/DEC-0007-den-comun-y-cambios-de-compra.md) | DEN común a los 6 canales y cambios de compra sin consulta | aceptada | usuario | 2026-11-06 |
 
 ## Informes de validación
 
@@ -84,4 +80,5 @@ Specs por estado: propuesta 5 · abierta 1 · cerrada 14 · descartada 3.
 | [VAL-0017-02](informes/VAL-0017-02.md) | SPEC-0017 | APROBADO_CON_OBSERVACIONES | `5117c57` | 2026-11-05 |
 | [VAL-0018-01](informes/VAL-0018-01.md) | SPEC-0018 | RECHAZADO | `52e574f (entregable en 1d68288)` | 2026-11-05 |
 | [VAL-0018-02](informes/VAL-0018-02.md) | SPEC-0018 | APROBADO_CON_OBSERVACIONES | `6250829` | 2026-11-05 |
+| [VAL-0020-01](informes/VAL-0020-01.md) | SPEC-0020 | APROBADO_CON_OBSERVACIONES | `a406117` | 2026-11-06 |
 
