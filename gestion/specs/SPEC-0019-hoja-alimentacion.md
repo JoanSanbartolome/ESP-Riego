@@ -2,7 +2,7 @@
 id: SPEC-0019
 titulo: Hoja de alimentación de la v2
 fase: 3
-estado: propuesta
+estado: abierta
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0019-hoja-alimentacion
@@ -58,3 +58,4 @@ La hoja `hardware/v2/alimentacion.kicad_sch` deja de ser la de la v1 y pasa a se
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-06 | coordinador | Abre la spec (aprobada por el usuario) | |
