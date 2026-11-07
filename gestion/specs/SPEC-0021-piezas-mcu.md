@@ -2,15 +2,15 @@
 id: SPEC-0021
 titulo: Piezas del bloque MCU
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0021-piezas-mcu
 requisitos: [MCU-01, MCU-02, MCU-03, MCU-04, MCU-05, MCU-06, MCU-07, FAB-02, FAB-11, KIC-01]
 depende_de: [SPEC-0020, SPEC-0018]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-07
+validacion: VAL-0021-01
 ---
 
 # SPEC-0021 · Piezas del bloque MCU
@@ -62,3 +62,4 @@ Todas las piezas de la lista de `docs/diseno/mcu.md` §11 tienen símbolo, huell
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-06 | coordinador | Abre la spec (encargo del usuario): 3D del TS-1187A, FAB-02 en la huella del módulo, fichas y stock | |
+| 2026-11-07 | coordinador | Cierra la spec; M de VAL-0021-01 corregidas (polaridad del LED, datasheets de la tabla de campos) y comprobadas con Grep | VAL-0021-01 (APROBADO_CON_OBSERVACIONES) |
