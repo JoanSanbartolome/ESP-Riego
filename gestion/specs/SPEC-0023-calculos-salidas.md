@@ -2,15 +2,15 @@
 id: SPEC-0023
 titulo: Selección y cálculos del bloque de salidas
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0023-calculos-salidas
 requisitos: [REL-01, REL-03, REL-04, REL-05, REL-06, REL-07, REL-08, REL-09, REL-10]
 depende_de: [SPEC-0020, SPEC-0017]
 creada: 2026-11-06
-cerrada:
-validacion:
+cerrada: 2026-11-07
+validacion: VAL-0023-01
 ---
 
 # SPEC-0023 · Selección y cálculos del bloque de salidas
@@ -74,3 +74,4 @@ validacion:
 |---|---|---|---|
 | 2026-11-06 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-06 | coordinador | Abre la spec (encargo del usuario), en paralelo con SPEC-0021 (solo texto) | |
+| 2026-11-07 | coordinador | Cierra la spec; M de VAL-0023-01 corregidas (excepción de 0,6 mm de `Salidas`, pendiente de DEC; umbral de 18 mV) y comprobadas con Grep | VAL-0023-01 (APROBADO_CON_OBSERVACIONES) |
