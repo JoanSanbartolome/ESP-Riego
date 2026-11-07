@@ -1,4 +1,4 @@
 - [Fuentes de datos de piezas](reference_fuentes_piezas.md) — base JLCPCB vacía; JSON de LCSC, PDFs de ti.com; scratchpad compartido; worktree bloqueado por la guardia
-- [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004: BTT6050 a 24 V DC, limitador 3,5–4,9 A, carga 3,5 A; valores de válvula y piezas descartadas
+- [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004: BTT6050, limitador 3,5–4,9 A; válvulas, descartes, IS sin diodo, LED desde GPIO, E_AS y L
 - [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG
 - [Trucos de esquema y cajetín](reference_trucos_esquema.md) — límites del MCP (timeouts, lib_symbols antiguos), pines de hoja, campos girados, COMMENT1, PDF con ../libraries, *_ThermalVias ≠ FAB-02
