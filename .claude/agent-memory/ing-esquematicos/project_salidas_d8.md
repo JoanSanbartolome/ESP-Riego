@@ -33,7 +33,9 @@ Piezas descartadas, y por qué:
 LED de canal (revisado en SPEC-0023, 2026-11-07): LED + 1 kΩ desde el GPIO IN_n (lado del GPIO de R_IN), 1,5 mA; margen de V_IN ≥ 0,3 V. Un LED en OUT enmascara la carga abierta en OFF con R_OL (V_OUT ≈ 6 V) y ve −57 V al apagar.
 
 Lecciones de SPEC-0023 (`docs/diseno/salidas.md`):
-- IS: no poner R_IS de 1,2 kΩ en el pin (0,7 W en fallo continuo: con DEN común, un canal sin válvula da I_IS(FAULT) siempre). Mejor la serie R_SENSE 10 kΩ 1206 → R_IS 820 Ω a GND en el ADC: el divisor acota el fallo sin diodo (un Schottky a 3V3 recorta a 3,84 V > 3,1 V).
+- IS: serie R_SENSE 10 kΩ 1206 → R_IS 820 Ω a GND en el ADC (topología de la Fig. 52); el divisor acota el fallo sin diodo (un Schottky a 3V3 recorta a 3,84 V > 3,1 V). R_IS = 1,2 kΩ de la Tabla 11 daría 3,16–3,27 V a 30 V. Techo del pin: V_IS ≤ V_S (la cota V_S − 1 V solo vale a I_IS = 6 mA; VAL-0023-01-03).
+- BTT6050 p. 30, P_7.5.2: el PDF pone «I_IS(OL) = 8 mA»; es 8 µA (errata).
+- VAL-0023-01: comprobar la separación de cada clase de red contra el hueco entre pads de las huellas conectadas (BTT OUT: 0,62–0,735 mm; 0805: 0,8–0,9 mm) y fijar la excepción en la tabla. Umbrales del firmware con la bobina caliente (supuesto 100 °C, α 0,00393) y el bus mínimo, y con la entrada a 30 V para la sobrecarga.
 - E_AS: sin dato de L, estimarla por τ = L/R de los solenoides AC del mismo cuerpo (9–16,7 ms). La válvula genérica de 0,25 A no cumple si L > 1,1 H: rueda libre M7 DNP como contingencia (montarla pide DEC).
 - Pines «P_x.y.z» del BTT: la numeración de las tablas no siempre cuadra con las filas en `pdftotext`; citar «Tabla N, p. X» salvo que se haya visto en el render.
 
