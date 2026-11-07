@@ -54,7 +54,7 @@ La hoja `hardware/v2/mcu.kicad_sch` pasa a ser el bloque MCU de la v2, según `d
 ## Criterios de aceptación
 
 - [ ] Cada pieza, valor y pin de la hoja coinciden con `docs/diseno/mcu.md`.
-- [ ] Campos (Footprint, Datasheet, LCSC, MPN, tipo) según la tabla de campos del log 01 de SPEC-0021, con las tres huellas `esp-riego:`.
+- [ ] Campos (Footprint, Datasheet, LCSC, MPN; el tipo Basic/Extended va en `mcu.md` §11, no en el símbolo) según la tabla de campos del log 01 de SPEC-0021, con las tres huellas `esp-riego:`.
 - [ ] Ninguna pieza de la hoja usa una librería de la v1.
 - [ ] Etiquetas jerárquicas de la hoja según el Anexo C de `mcu.md`, conectadas con las de `alimentacion.kicad_sch`.
 - [ ] `mcu.md` recoge las huellas, el stock y los cambios de compra de DEC-0007 con su recálculo (EN con C15849, corriente de D5 con R23, decisión sobre U6 justificada con el datasheet) y los cambios de §9.2/Anexo B de SPEC-0023.

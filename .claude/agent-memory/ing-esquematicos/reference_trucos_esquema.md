@@ -25,4 +25,11 @@ Cambios puntuales de campos (SPEC-0019, 2026-11-06):
 - `edit_schematic_component` edita el `.kicad_sch` directamente, sin `open_project`: no carga la PCB ni puede reescribirla. El diff deja solo la línea de la instancia. El `Footprint` de `lib_symbols` (caché) no se toca: si se cambiara, el ERC daría `lib_symbol_mismatch`.
 - Las huellas oficiales `*_ThermalVias` (Texas RGE, DDA…) llevan vías de 0,2 / 0,5 mm y **no cumplen FAB-02** (0,3 / 0,6). Ha fallado dos veces (VAL-0018-02-01, VAL-0019-01-02). Usar la variante sin vías (las vías las pone el layout, anotado en §8) o una huella `esp-riego` con 0,3 / 0,6.
 
+Hoja entera por script (SPEC-0022, 2026-11-07, 21 piezas; ERC 0 al primer intento):
+- Generador propio sin MCP: `lib_symbols` copiados de `share/kicad/symbols` (bloque `	(symbol "Nombre"` por paréntesis, renombrado `Lib:Nombre`). Los derivados (`extends`, p. ej. USBLC6-2SC6 → USBLC6-2P6) se aplanan: gráficos y pines del padre, propiedades del hijo, subunidades `Hijo_0_1`. 0 `lib_symbol_mismatch`.
+- Etiquetas (locales/jerárquicas) y símbolos de alimentación justo en el extremo del pin, sin cables: conectan. Transformada pin→hoja: rotar (x, y) CCW `rot` y luego (X + x', Y − y').
+- Campos de símbolos girados: ángulo del campo = (360 − rot) % 360 → se lee horizontal y `justify left` funciona (probado con 90 y 270).
+- Pines de hoja en la raíz: convención nativa ángulo 0 (borde derecho) → `justify right`, 180 → `justify left` (330/480 casos en las demos de KiCad). Al revés, el nombre sale fuera de la caja (así estaban los de Alimentacion).
+- Unir hojas con etiquetas locales en la raíz renombra las redes (`/Alimentacion/X` → `/X`): la paridad da `net_conflict` en los pads ya sincronizados hasta que layout resincroniza. Es esperado: anotarlo en el log.
+
 Relacionado: [[reference-fuentes-piezas]]
