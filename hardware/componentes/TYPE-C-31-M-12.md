@@ -4,12 +4,12 @@ fabricante: Korean Hroparts Elec (HRO)
 funcion: conector USB-C 2.0 de 16 pines, montaje SMT con pestañas de carcasa (MCU-03)
 lcsc: C165948
 tipo_jlcpcb: extended
-stock_consultado: 2026-11-05
+stock_consultado: 2026-11-07
 datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2205251630_Korean-Hroparts-Elec-TYPE-C-31-M-12_C165948.pdf
 datasheet_local: datasheets/TYPE-C-31-M-12.pdf (1 hoja, 0,1 MB). Sin PDF propio localizado: hroparts.com no responde desde este equipo (2026-11-05); LCSC es la única fuente
 simbolo: Connector:USB_C_Receptacle_USB2.0_16P
-huella: Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12
-modelo_3d: ${KICAD10_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step (ausente en la instalación 10.0.6; respaldo en ${KIPRJMOD}/../libraries/3d/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step)
+huella: esp-riego:USB_C_Receptacle_HRO_TYPE-C-31-M-12 (copia de Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12; solo cambia la ruta del 3D)
+modelo_3d: ${KIPRJMOD}/../libraries/3d/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step (el oficial falta en 10.0.6; la huella esp-riego lo enlaza)
 origen_assets: kicad-oficial
 verificado_por:
 ---
@@ -51,15 +51,15 @@ verificado_por:
 |---|---|---|
 | TYPE-C-31-M-12A | C5337088 | Variante A de HRO; stock 2 533; confirmar la huella antes de usarla |
 
-## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-05)
+## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-07)
 
 | Código | Tipo | Stock | Precio unitario por tramo (USD) | 5 placas | 10 placas |
 |---|---|---|---|---|---|
-| C165948 | Extended | 152 447 | 1–49: 0,1868 · 50–149: 0,1476 | 0,93 $ | 1,87 $ |
+| C165948 | Extended | 321 343 | 1–49: 0,1870 · 50–149: 0,1476 (precios de 2026-11-06 y 2026-11-05) | 0,93 $ | 1,87 $ |
 
 ## Nota sobre el modelo 3D
 
-La instalación local de KiCad 10.0.6 no incluye el `.step` que la huella oficial referencia, y tampoco el repositorio oficial `kicad-packages3D` (rama `master` y rama `10.0`, comprobado el 2026-11-05 con el listado de la API de GitLab: la carpeta `Connector_USB.3dshapes` no contiene ningún HRO). El archivo de respaldo es el mismo modelo que KiCad distribuye en sus demos (`demos/royalblue54L_feather`), copiado a `hardware/libraries/3d/`. Hay que enlazarlo en el PCB si el visor 3D no resuelve la ruta oficial.
+La instalación local de KiCad 10.0.6 no incluye el `.step` que la huella oficial referencia, y tampoco el repositorio oficial `kicad-packages3D` (rama `master` y rama `10.0`, comprobado el 2026-11-05 con el listado de la API de GitLab: la carpeta `Connector_USB.3dshapes` no contiene ningún HRO). El archivo de respaldo es el mismo modelo que KiCad distribuye en sus demos (`demos/royalblue54L_feather`), copiado a `hardware/libraries/3d/`. La huella `esp-riego:USB_C_Receptacle_HRO_TYPE-C-31-M-12` (SPEC-0021) ya lo enlaza con `${KIPRJMOD}`; render de comprobación en `hardware/libraries/3d/fuentes-solidcraft/render_SPEC-0021_top.png`.
 
 ## Uso en el proyecto
 

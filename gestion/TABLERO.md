@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 5 · abierta 2 · cerrada 16 · descartada 3.
+Specs por estado: propuesta 5 · abierta 1 · cerrada 17 · descartada 3.
 
 ## Propuestas (5)
 
@@ -14,14 +14,13 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 16 · descartada 3.
 | [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | — | 2026-11-06 | — |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
 
-## Abiertas (2)
+## Abiertas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | — | 2026-11-05 | — |
 | [SPEC-0023](specs/SPEC-0023-calculos-salidas.md) | Selección y cálculos del bloque de salidas | 2 | ing-esquematicos | `spec/SPEC-0023-calculos-salidas` | — | 2026-11-06 | — |
 
-## Cerradas (16)
+## Cerradas (17)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -41,6 +40,7 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 16 · descartada 3.
 | [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md) | Piezas del bloque de alimentación | 2 | jr-conformidad | `spec/SPEC-0018-piezas-alimentacion` | VAL-0018-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-05 |
 | [SPEC-0019](specs/SPEC-0019-hoja-alimentacion.md) | Hoja de alimentación de la v2 | 3 | ing-esquematicos | `spec/SPEC-0019-hoja-alimentacion` | VAL-0019-02 (APROBADO) | 2026-11-05 | 2026-11-06 |
 | [SPEC-0020](specs/SPEC-0020-calculos-mcu.md) | Selección y cálculos del bloque MCU | 2 | ing-esquematicos | `spec/SPEC-0020-calculos-mcu` | VAL-0020-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-06 |
+| [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | VAL-0021-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-07 |
 
 ## Descartadas (3)
 
@@ -91,4 +91,5 @@ Specs por estado: propuesta 5 · abierta 2 · cerrada 16 · descartada 3.
 | [VAL-0019-01](informes/VAL-0019-01.md) | SPEC-0019 | RECHAZADO | `e4dbf44` | 2026-11-06 |
 | [VAL-0019-02](informes/VAL-0019-02.md) | SPEC-0019 | APROBADO | `c6b24e2` | 2026-11-06 |
 | [VAL-0020-01](informes/VAL-0020-01.md) | SPEC-0020 | APROBADO_CON_OBSERVACIONES | `a406117` | 2026-11-06 |
+| [VAL-0021-01](informes/VAL-0021-01.md) | SPEC-0021 | APROBADO_CON_OBSERVACIONES | `73af0ee` | 2026-11-07 |
 

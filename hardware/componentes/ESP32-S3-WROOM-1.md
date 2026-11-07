@@ -1,16 +1,16 @@
 ---
 mpn: ESP32-S3-WROOM-1-N8
 fabricante: Espressif Systems
-funcion: módulo MCU Wi-Fi 2,4 GHz + BLE, antena PCB (familia ESP32-S3-WROOM-1, misma huella para N4/N8/N16)
+funcion: módulo MCU Wi-Fi 2,4 GHz + BLE, antena PCB. Variante N8 fija (8 MB de flash, sin PSRAM, -40…85 °C); alternativa N16
 lcsc: C2913198
 tipo_jlcpcb: extended
-stock_consultado: 2026-11-05
+stock_consultado: 2026-11-06
 datasheet: https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf
 datasheet_local: datasheets/ESP32-S3-WROOM-1.pdf (v1.8, 1,3 MB)
 simbolo: RF_Module:ESP32-S3-WROOM-1
-huella: RF_Module:ESP32-S3-WROOM-1
+huella: esp-riego:ESP32-S3-WROOM-1 (copia de RF_Module:ESP32-S3-WROOM-1 con las 12 vías del EPAD a 0,3/0,6 mm, FAB-02)
 modelo_3d: ${KICAD10_3DMODEL_DIR}/RF_Module.3dshapes/ESP32-S3-WROOM-1.step
-origen_assets: kicad-oficial
+origen_assets: kicad-oficial (huella modificada: vías del EPAD)
 verificado_por:
 ---
 
@@ -63,22 +63,29 @@ Tabla completa en el datasheet, Tabla 3-1 (pp. 11-12). Las restricciones de uso 
 - Desacoplo en 3V3 según el esquema de periféricos de la Figura 9-1 (p. 41).
 - Perfil de *reflow*: §12.3, p. 47.
 
+## Variante y restricciones del proyecto
+
+- **Variante fija: N8** (C2913198): 8 MB de flash *quad*, sin PSRAM, −40…85 °C (tabla 1-1, p. 3). Alternativa: N16 (C2913199), misma huella y pines.
+- **La placa no admite R8 ni R16V**: GPIO35–37 están en uso (EXP_INT, EXP_IO2, PULSE_IN) y esas variantes los ocupan con la PSRAM octal (tabla 3-1, nota b, p. 12); además solo llegan a 65 °C. N4 no cumple MCU-01.
+- **Antena** (`mcu.md` §3; HDG §1.4.7, pp. 28-31, Fig. 24 y 26): módulo en una esquina con la antena sobresaliendo del borde lateral y el punto de alimentación hacia la esquina; si no sobresale, zona libre de 6 mm × ≥ 15 mm recortando la placa. La huella `esp-riego:ESP32-S3-WROOM-1` conserva el *keepout* de 21 × 48 mm en todas las capas de cobre (sin pistas, vías, pads, relleno ni huellas). ≥ 15 mm libres en la caja alrededor de la antena (HDG p. 30).
+- **Huella propia (FAB-02):** igual que la oficial salvo el taladro de las 12 vías del EPAD (pad 41): 0,3 mm en vez de 0,2 (pad 0,6, máscara frontal abierta como en la oficial). Se conservan las 12 vías (≥ 9 que pide `mcu.md` §12). Poca pasta en el EPAD (§9, p. 41).
+
 ## Alternativas
 
 | MPN | LCSC | Diferencias |
 |---|---|---|
-| ESP32-S3-WROOM-1-N4 | C2913197 | 4 MB de flash; stock 4 617; 3,5307 $ a 30 uds |
-| ESP32-S3-WROOM-1-N16 | C2913199 | 16 MB de flash; stock 2 640 |
+| ESP32-S3-WROOM-1-N4 | C2913197 | 4 MB de flash (no cumple MCU-01); stock 4 154 (2026-11-06); 4,2629 $ (1–9) |
+| ESP32-S3-WROOM-1-N16 | C2913199 | 16 MB de flash; Extended; stock 2 297 (2026-11-06); 4,9603 $ (1–9), 4,4447 $ (10–29) |
 | ESP32-S3-WROOM-1U-N8 | no consultado | Conector de antena externa; huella distinta (`RF_Module:ESP32-S3-WROOM-1U`) |
 
-## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-05)
+## Aprovisionamiento (API de JLCPCB, consulta 2026-11-06)
 
 | Código | Variante | Tipo | Stock | Precio unitario por tramo (USD) | 5 placas | 10 placas |
 |---|---|---|---|---|---|---|
-| C2913198 | N8 | Extended | 4 641 | 1–9: 4,9208 · 10–29: 4,2437 · 30–99: 3,8415 · 100–649: 3,4326 | 24,60 $ | 42,44 $ |
+| C2913198 | N8 | Extended | 2 776 | 1–9: 4,9259 · 10–29: 4,2482 · 30–99: 3,8455 | 24,63 $ | 42,48 $ |
 
-(1 módulo por placa.)
+(1 módulo por placa. El stock de LCSC era 3 277 el 2026-11-05.)
 
 ## Uso en el proyecto
 
-MCU-01 (`mcu.kicad_sch` de la v2). La variante exacta (N8 o superior) la fija el bloque MCU; los pines IO35-IO37 solo se pueden usar con variantes sin PSRAM octal.
+U5 de `mcu.kicad_sch` (v2): MCU-01 y MCU-02. Variante N8 fija (`docs/diseno/mcu.md` §2); IO35–IO37 en uso.
