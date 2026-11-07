@@ -5,7 +5,7 @@ funcion: pulsador táctil SMD SPST 5,1 × 5,1 mm, 160 gf, altura 1,5 mm (RESET y
 lcsc: C318884
 tipo_jlcpcb: basic
 stock_consultado: 2026-11-06
-datasheet: http://www.helloxkb.com/public/images/pdf/TS-1187A-X-X-X.pdf (URL de la huella oficial; no responde desde este equipo). Copia local del dibujo de LCSC/JLCPCB (hoja única): datasheets/TS-1187A-B-A-B.pdf
+datasheet: http://www.helloxkb.com/public/images/pdf/TS-1187A-X-X-X.pdf (URL de la huella oficial; no responde desde este equipo). Espejo de LCSC (dataManualUrl de la API, 2026-11-07): https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_XKB-Connection-TS-1187A-B-A-B_C318884.pdf. Copia local del dibujo de LCSC/JLCPCB (hoja única): datasheets/TS-1187A-B-A-B.pdf
 simbolo: Switch:SW_Push
 huella: esp-riego:SW_Push_1P1T_XKB_TS-1187A (copia de Button_Switch_SMD:SW_Push_1P1T_XKB_TS-1187A; solo cambia la ruta del 3D)
 modelo_3d: ${KIPRJMOD}/../libraries/3d/SW_Push_1P1T_XKB_TS-1187A.step (propio; KiCad 10.0.6 no trae el oficial)
@@ -56,7 +56,7 @@ El conmutador cierra 1-2. El componente es simétrico: no tiene polaridad. El 3D
 
 ## Nota sobre el modelo 3D
 
-KiCad 10.0.6 no instala `Button_Switch_SMD.3dshapes/SW_Push_1P1T_XKB_TS-1187A.step`. El modelo propio sale de `hardware/libraries/3d/fuentes-solidcraft/gen_ts1187a.py` (SolidCraft). Cotas del PDF: cuerpo 5,1, terminales 0,5 de ancho hasta ±3,25, tecla Ø 2,0, H = 1,5. Supuestos: tapa hasta z = 0,9 (cota 0,9 del alzado), tecla de 0,9 a 1,5, terminales de 0,3 de grosor. Render de comprobación: `hardware/libraries/3d/fuentes-solidcraft/render_SPEC-0021_top.png` (terminales sobre los pads y marca del pin 1 arriba a la izquierda).
+KiCad 10.0.6 no instala `Button_Switch_SMD.3dshapes/SW_Push_1P1T_XKB_TS-1187A.step`. El modelo propio sale de `hardware/libraries/3d/fuentes-solidcraft/gen_ts1187a.py` (SolidCraft). Cotas del PDF: cuerpo 5,1, terminales 0,5 de ancho hasta ±3,25, tecla Ø 2,0, H = 1,5. Supuestos: tapa hasta z = 0,9 (cota 0,9 del alzado), tecla de 0,9 a 1,5, terminales de 0,3 de grosor. **Simplificación (VAL-0021-01-04):** se omite el escalón de la tapa de 0,9 a 1,2 mm del alzado, y el cuerpo empieza en z = 0,15 (separado de la placa); la altura máxima (1,5) es correcta, así que no afecta a FAB-11. Render de comprobación: `hardware/libraries/3d/fuentes-solidcraft/render_SPEC-0021_top.png` (terminales sobre los pads y marca del pin 1 arriba a la izquierda).
 
 ## Uso en el proyecto
 

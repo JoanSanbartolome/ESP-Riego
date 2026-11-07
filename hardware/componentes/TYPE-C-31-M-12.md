@@ -4,7 +4,7 @@ fabricante: Korean Hroparts Elec (HRO)
 funcion: conector USB-C 2.0 de 16 pines, montaje SMT con pestañas de carcasa (MCU-03)
 lcsc: C165948
 tipo_jlcpcb: extended
-stock_consultado: 2026-11-05
+stock_consultado: 2026-11-07
 datasheet: https://www.lcsc.com/datasheet/lcsc_datasheet_2205251630_Korean-Hroparts-Elec-TYPE-C-31-M-12_C165948.pdf
 datasheet_local: datasheets/TYPE-C-31-M-12.pdf (1 hoja, 0,1 MB). Sin PDF propio localizado: hroparts.com no responde desde este equipo (2026-11-05); LCSC es la única fuente
 simbolo: Connector:USB_C_Receptacle_USB2.0_16P
@@ -51,11 +51,11 @@ verificado_por:
 |---|---|---|
 | TYPE-C-31-M-12A | C5337088 | Variante A de HRO; stock 2 533; confirmar la huella antes de usarla |
 
-## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-05)
+## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-07)
 
 | Código | Tipo | Stock | Precio unitario por tramo (USD) | 5 placas | 10 placas |
 |---|---|---|---|---|---|
-| C165948 | Extended | 152 447 | 1–49: 0,1868 · 50–149: 0,1476 | 0,93 $ | 1,87 $ |
+| C165948 | Extended | 321 343 | 1–49: 0,1870 · 50–149: 0,1476 (precios de 2026-11-06 y 2026-11-05) | 0,93 $ | 1,87 $ |
 
 ## Nota sobre el modelo 3D
 

@@ -88,26 +88,26 @@ Extended en el bloque: U5, C23, J2, U6, J3, D5 (6 referencias distintas; con la 
 
 ### Tabla de campos por referencia (para SPEC-0022)
 
-`Fabricante` y `MPN` según la API de JLCPCB. `Datasheet`: URL del fabricante o archivo local `hardware/componentes/datasheets/`. `Footprint` con las propias `esp-riego:`; las oficiales las resuelve la tabla global de KiCad (la tabla de la v2 solo lista `esp-riego`).
+`Fabricante` y `MPN` según la API de JLCPCB. `Datasheet`: URL del fabricante o, si no la hay, `dataManualUrl` de LCSC (API de JLCPCB, 2026-11-07); corregida por VAL-0021-01-02 (ver log 03). `Footprint` con las propias `esp-riego:`; las oficiales las resuelve la tabla global de KiCad (la tabla de la v2 solo lista `esp-riego`).
 
 | Ref. | Value | Footprint | LCSC Part# | MPN | Fabricante | Datasheet | Description |
 |---|---|---|---|---|---|---|---|
-| U5 | ESP32-S3-WROOM-1-N8 | esp-riego:ESP32-S3-WROOM-1 | C2913198 | ESP32-S3-WROOM-1-N8 | Espressif Systems | hardware/componentes/datasheets/ESP32-S3-WROOM-1.pdf | Módulo Wi-Fi/BLE ESP32-S3, 8 MB flash, antena PCB |
-| C24 | 22uF | Capacitor_SMD:C_0805_2012Metric | C45783 | CL21A226MAQNNNE | Samsung Electro-Mechanics | (PDF de LCSC C45783) | 22 µF 25 V X5R 0805 |
-| C25 | 100nF | Capacitor_SMD:C_0603_1608Metric | C14663 | CC0603KRX7R9BB104 | YAGEO | (PDF de LCSC C14663) | 100 nF 50 V X7R 0603 |
-| R16, R17 | 10k | Resistor_SMD:R_0603_1608Metric | C25804 | 0603WAF1002T5E | UNI-ROYAL | (PDF de LCSC C25804) | 10 kΩ 1 % 0603 |
-| C23 | 1uF | Capacitor_SMD:C_0603_1608Metric | C106248 (o C15849 si se aprueba) | CC0603KRX7R7BB105 (o CL10A105KB8NNNC) | YAGEO (o Samsung) | (PDF de LCSC) | 1 µF 16 V X7R 0603 (o 50 V X5R) |
-| SW1, SW2 | SW_Push | esp-riego:SW_Push_1P1T_XKB_TS-1187A | C318884 | TS-1187A-B-A-B | XKB Connection | hardware/componentes/datasheets/TS-1187A-B-A-B.pdf | Pulsador SMD 5,1 × 5,1, 160 gf, H 1,5 mm |
-| J2 | USB_C_Receptacle_USB2.0_16P | esp-riego:USB_C_Receptacle_HRO_TYPE-C-31-M-12 | C165948 | TYPE-C-31-M-12 | Korean Hroparts Elec (HRO) | hardware/componentes/datasheets/TYPE-C-31-M-12.pdf | Conector USB-C 2.0 16 pines SMT |
-| U6 | USBLC6-2SC6 | Package_TO_SOT_SMD:SOT-23-6 | C7519 | USBLC6-2SC6 | STMicroelectronics | hardware/componentes/datasheets/USBLC6-2SC6.pdf | ESD de 2 líneas USB, SOT-23-6 |
-| R18, R19 | 5k1 | Resistor_SMD:R_0603_1608Metric | C23186 | 0603WAF5101T5E | UNI-ROYAL | (PDF de LCSC C23186) | 5,1 kΩ 1 % 0603 |
-| R20, R21 | 22 | Resistor_SMD:R_0603_1608Metric | C23345 | 0603WAF220JT5E | UNI-ROYAL | (PDF de LCSC C23345) | 22 Ω 1 % 0603 |
-| C26 | 4.7uF | Capacitor_SMD:C_0603_1608Metric | C19666 | CL10A475KO8NNNC | Samsung Electro-Mechanics | (PDF de LCSC C19666) | 4,7 µF 16 V X5R 0603 |
-| J3 | Conn_01x04 | Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | C124378 | B-2100S04P-A110 | Ckmtw | hardware/componentes/datasheets/B-2100S04P-A110.pdf | Tira 1 × 4 a 2,54 mm, recta THT |
-| R22 | 470 | Resistor_SMD:R_0603_1608Metric | C23179 | 0603WAF4700T5E | UNI-ROYAL | (PDF de LCSC C23179) | 470 Ω 1 % 0603 |
-| D5 | LED | LED_SMD:LED_0603_1608Metric | C2289 | KT-0603YG | Hubei KENTO Elec | hardware/componentes/datasheets/KT-0603YG.pdf | LED verde-amarillo 0603 |
-| R23 | 1k | Resistor_SMD:R_0603_1608Metric | C21190 | 0603WAF1001T5E | UNI-ROYAL | (PDF de LCSC C21190) | 1 kΩ 1 % 0603 |
-| R24, R25 | 4k7 | Resistor_SMD:R_0603_1608Metric | C23162 | 0603WAF4701T5E | UNI-ROYAL | (PDF de LCSC C23162) | 4,7 kΩ 1 % 0603 |
+| U5 | ESP32-S3-WROOM-1-N8 | esp-riego:ESP32-S3-WROOM-1 | C2913198 | ESP32-S3-WROOM-1-N8 | Espressif Systems | https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf | Módulo Wi-Fi/BLE ESP32-S3, 8 MB flash, antena PCB |
+| C24 | 22uF | Capacitor_SMD:C_0805_2012Metric | C45783 | CL21A226MAQNNNE | Samsung Electro-Mechanics | https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL21A226MAQNNNE_C45783.pdf | 22 µF 25 V X5R 0805 |
+| C25 | 100nF | Capacitor_SMD:C_0603_1608Metric | C14663 | CC0603KRX7R9BB104 | YAGEO | https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf | 100 nF 50 V X7R 0603 |
+| R16, R17 | 10k | Resistor_SMD:R_0603_1608Metric | C25804 | 0603WAF1002T5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf | 10 kΩ 1 % 0603 |
+| C23 | 1uF | Capacitor_SMD:C_0603_1608Metric | C106248 (o C15849 si se aprueba) | CC0603KRX7R7BB105 (o CL10A105KB8NNNC) | YAGEO (o Samsung) | https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_YAGEO-CC0603KRX7R7BB105_C106248.pdf (C106248) · https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A105KB8NNNC_C15849.pdf (C15849) | 1 µF 16 V X7R 0603 (o 50 V X5R) |
+| SW1, SW2 | SW_Push | esp-riego:SW_Push_1P1T_XKB_TS-1187A | C318884 | TS-1187A-B-A-B | XKB Connection | https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_XKB-Connection-TS-1187A-B-A-B_C318884.pdf | Pulsador SMD 5,1 × 5,1, 160 gf, H 1,5 mm |
+| J2 | USB_C_Receptacle_USB2.0_16P | esp-riego:USB_C_Receptacle_HRO_TYPE-C-31-M-12 | C165948 | TYPE-C-31-M-12 | Korean Hroparts Elec (HRO) | https://www.lcsc.com/datasheet/lcsc_datasheet_2205251630_Korean-Hroparts-Elec-TYPE-C-31-M-12_C165948.pdf | Conector USB-C 2.0 16 pines SMT |
+| U6 | USBLC6-2SC6 | Package_TO_SOT_SMD:SOT-23-6 | C7519 | USBLC6-2SC6 | STMicroelectronics | https://www.st.com/resource/en/datasheet/usblc6-2.pdf | ESD de 2 líneas USB, SOT-23-6 |
+| R18, R19 | 5k1 | Resistor_SMD:R_0603_1608Metric | C23186 | 0603WAF5101T5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010116_UNI-ROYAL-Uniroyal-Elec-0603WAF5101T5E_C23186.pdf | 5,1 kΩ 1 % 0603 |
+| R20, R21 | 22 | Resistor_SMD:R_0603_1608Metric | C23345 | 0603WAF220JT5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010100_UNI-ROYAL-Uniroyal-Elec-0603WAF220JT5E_C23345.pdf | 22 Ω 1 % 0603 |
+| C26 | 4.7uF | Capacitor_SMD:C_0603_1608Metric | C19666 | CL10A475KO8NNNC | Samsung Electro-Mechanics | https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A475KO8NNNC_C19666.pdf | 4,7 µF 16 V X5R 0603 |
+| J3 | Conn_01x04 | Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | C124378 | B-2100S04P-A110 | Ckmtw | https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Ckmtw-Shenzhen-Cankemeng-B-2100S04P-A110_C124378.pdf | Tira 1 × 4 a 2,54 mm, recta THT |
+| R22 | 470 | Resistor_SMD:R_0603_1608Metric | C23179 | 0603WAF4700T5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010116_UNI-ROYAL-Uniroyal-Elec-0603WAF4700T5E_C23179.pdf | 470 Ω 1 % 0603 |
+| D5 | LED | LED_SMD:LED_0603_1608Metric | C2289 | KT-0603YG | Hubei KENTO Elec | https://www.lcsc.com/datasheet/lcsc_datasheet_1806151835_Hubei-KENTO-Elec-KT-0603YG_C2289.pdf | LED verde-amarillo 0603 |
+| R23 | 1k | Resistor_SMD:R_0603_1608Metric | C21190 | 0603WAF1001T5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1001T5E_C21190.pdf | 1 kΩ 1 % 0603 |
+| R24, R25 | 4k7 | Resistor_SMD:R_0603_1608Metric | C23162 | 0603WAF4701T5E | UNI-ROYAL | https://www.lcsc.com/datasheet/lcsc_datasheet_2206010116_UNI-ROYAL-Uniroyal-Elec-0603WAF4701T5E_C23162.pdf | 4,7 kΩ 1 % 0603 |
 
 ## Requiere verificación de validación
 
