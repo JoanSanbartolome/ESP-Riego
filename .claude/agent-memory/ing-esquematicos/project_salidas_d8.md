@@ -30,6 +30,11 @@ Piezas descartadas, y por qué:
 - Z0109MN, IPS160HFTR, ISP752R y LT925: sin stock.
 - G3VM-61HR: sin stock.
 
-LED de canal: excitarlo con un transistor desde 3,3 V, no desde el GPIO (el ESP32-S3 no garantiza V_OH con carga). No debe enmascarar la carga abierta (REL-10).
+LED de canal (revisado en SPEC-0023, 2026-11-07): LED + 1 kΩ desde el GPIO IN_n (lado del GPIO de R_IN), 1,5 mA; margen de V_IN ≥ 0,3 V. Un LED en OUT enmascara la carga abierta en OFF con R_OL (V_OUT ≈ 6 V) y ve −57 V al apagar.
+
+Lecciones de SPEC-0023 (`docs/diseno/salidas.md`):
+- IS: no poner R_IS de 1,2 kΩ en el pin (0,7 W en fallo continuo: con DEN común, un canal sin válvula da I_IS(FAULT) siempre). Mejor la serie R_SENSE 10 kΩ 1206 → R_IS 820 Ω a GND en el ADC: el divisor acota el fallo sin diodo (un Schottky a 3V3 recorta a 3,84 V > 3,1 V).
+- E_AS: sin dato de L, estimarla por τ = L/R de los solenoides AC del mismo cuerpo (9–16,7 ms). La válvula genérica de 0,25 A no cumple si L > 1,1 H: rueda libre M7 DNP como contingencia (montarla pide DEC).
+- Pines «P_x.y.z» del BTT: la numeración de las tablas no siempre cuadra con las filas en `pdftotext`; citar «Tabla N, p. X» salvo que se haya visto en el render.
 
 Relacionado: [[reference-fuentes-piezas]], [[reference-trucos-esquema]]
