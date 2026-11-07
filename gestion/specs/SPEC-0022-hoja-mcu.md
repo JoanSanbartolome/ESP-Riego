@@ -24,7 +24,11 @@ La hoja `hardware/v2/mcu.kicad_sch` pasa a ser el bloque MCU de la v2, según `d
 - Incluye:
   - sustituir el contenido de la hoja por el bloque de la v2, con las piezas de SPEC-0021;
   - etiquetas jerárquicas según la tabla de GPIO, conectadas con las de `alimentacion.kicad_sch`;
-  - mantener la paridad esquema–PCB que exija `verificar.py` (piezas nuevas sincronizadas sin colocar).
+  - mantener la paridad esquema–PCB que exija `verificar.py` (piezas nuevas sincronizadas sin colocar; la sincronización con la PCB es de ing-layout, con la netlist de `kicad-cli`);
+  - campos de cada símbolo según la «Tabla de campos por referencia» de `gestion/logs/SPEC-0021/01-jr-conformidad.md`, con las huellas `esp-riego:ESP32-S3-WROOM-1`, `esp-riego:SW_Push_1P1T_XKB_TS-1187A` y `esp-riego:USB_C_Receptacle_HRO_TYPE-C-31-M-12`;
+  - actualizar `docs/diseno/mcu.md` con lo que trae SPEC-0021: §11 y Anexo A con esas huellas, stock de la N8 (2 776), TS-1187A y C14663 Basic, alternativa C318887 de 2,5 mm y 260 gf (no «misma altura»);
+  - cambios de compra de DEC-0007 propuestos en SPEC-0021, con su recálculo en `mcu.md`: C23 → C15849 (Basic; EN ≈ 0,159·VDD, §5.1), D5 → KT-0603R C2286 (Basic, rojo; corriente con R23) y U6 → UMW USBLC6-2SC6 (C2687116) solo si se comprueba la equivalencia con el datasheet; si no, se queda el de ST;
+  - los cambios a `mcu.md` §9.2 y Anexo B que propone el log de SPEC-0023 (IS a 6 dB, R_IS 820 Ω, sin diodo), si SPEC-0023 está cerrada.
 - Excluye: colocación y rutado; otras hojas, salvo las etiquetas que conecten con esta.
 
 ## Entradas
@@ -48,3 +52,4 @@ La hoja `hardware/v2/mcu.kicad_sch` pasa a ser el bloque MCU de la v2, según `d
 | Fecha | Agente | Acción | Referencia |
 |---|---|---|---|
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-07 | coordinador | Añade al alcance lo que trae SPEC-0021 (huellas, tabla de campos, `mcu.md` y cambios de compra de DEC-0007) | VAL-0021-01 |
