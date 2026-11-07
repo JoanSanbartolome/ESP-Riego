@@ -31,10 +31,10 @@ Se mantiene REL-04: cada IN de las salidas tiene su *pull-down*, así que las sa
 
 ## PCB
 
-Placa vacía (SPEC-0014; detalle en `gestion/logs/SPEC-0014/02-ing-layout.md`). Tras SPEC-0019 le faltan las piezas de la hoja de alimentación, pendientes de sincronizar:
+Sincronizada con el esquema, sin colocar ni rutar (SPEC-0019 y SPEC-0022; detalle en `gestion/logs/SPEC-0022/02-ing-layout.md`). Tiene 80 huellas: H1–H4 dentro del contorno, y fuera de él, agrupadas por posición, las 55 de Alimentacion (x 10–92, y 60–113 mm) y las 21 de la hoja MCU (x 10–64, y 120–198 mm). Sin pistas, vías ni zonas.
 
 - Contorno **preliminar** de 100 × 70 mm en `Edge.Cuts` (FAB-08), de (100, 60) a (200, 130) mm; el origen auxiliar y el de la rejilla están en la esquina inferior izquierda. Un texto en `User.Comments` lo marca como preliminar hasta el *floorplan*.
-- Solo H1–H4 (`MountingHole_3.2mm_M3_Pad_Via`, anillo sin red), a 4 mm de los dos bordes de su esquina: H3 arriba a la izquierda, H1 arriba a la derecha, H4 abajo a la izquierda y H2 abajo a la derecha.
+- H1–H4 (`MountingHole_3.2mm_M3_Pad_Via`, anillo sin red), a 4 mm de los dos bordes de su esquina: H3 arriba a la izquierda, H1 arriba a la derecha, H4 abajo a la izquierda y H2 abajo a la derecha.
 - Reglas de FAB-02 en el `.kicad_pro`: pista y separación ≥ 0,2 mm, vía 0,6/0,3 mm, cobre a borde ≥ 0,5 mm. Solo existe la clase `Default` (0,2 mm, vía 0,6/0,3). Las clases de FAB-03 y el `.kicad_dru` (KIC-04) llegan con el layout.
 - `pcbplotparams/outputdirectory` vacío y sin `embedded_files`.
 
@@ -44,4 +44,4 @@ Cada bloque llega con su propia spec. La PCB se actualiza desde el esquema en ca
 
 Las librerías están en `../libraries/` (tablas con `${KIPRJMOD}/../libraries/...`). Desde SPEC-0019 las tablas del proyecto solo tienen `esp-riego` (símbolos y huellas propios de la v2); el resto son las oficiales de KiCad 10. Las librerías de la v1 siguen en `../libraries/` para `v1-tfg`, que tiene sus propias tablas (VAL-0014-01-02).
 
-Verificación: `python herramientas/verificar.py hardware/v2`. Estado tras el paso 1 de SPEC-0022: ERC 0 (0 avisos), DRC 0 (108 sin conectar: PCB sin rutar) y paridad 32: 21 `missing_footprint` (piezas de la hoja MCU) y 11 `net_conflict` (pads de Alimentacion cuyas redes pasan de `/Alimentacion/…` a `/VBUS`, `/VIN_SENSE`, `/LIM_IMON`, `/LIM_FLT` y `/LIM_EN`). Las sincroniza ing-layout (paso 2).
+Verificación: `python herramientas/verificar.py hardware/v2`. Estado tras el paso 2 de SPEC-0022: ERC 0 (0 avisos), DRC 0 (0 avisos; 172 sin conectar porque la PCB no está rutada) y paridad 0. Las 21 huellas de la hoja MCU están fuera del contorno hasta la spec de colocación.

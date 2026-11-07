@@ -30,7 +30,7 @@ Piezas descartadas, y por qué:
 - Z0109MN, IPS160HFTR, ISP752R y LT925: sin stock.
 - G3VM-61HR: sin stock.
 
-LED de canal (revisado en SPEC-0023, 2026-11-07): LED + 1 kΩ desde el GPIO IN_n (lado del GPIO de R_IN), 1,5 mA; margen de V_IN ≥ 0,3 V. Un LED en OUT enmascara la carga abierta en OFF con R_OL (V_OUT ≈ 6 V) y ve −57 V al apagar.
+LED de canal (revisado en SPEC-0023, 2026-11-07): LED + 1 kΩ desde el GPIO IN_n (lado del GPIO de R_IN), 1,5 mA; margen de V_IN ≥ 0,3 V. LED de toda la placa = KT-0603R (C2286): numeración del datasheet inversa a KiCad, ② = cátodo = pad 1 (VAL-0022-01-01); no usar la regla de la «T» del KT-0603YG. I_mín se calcula con VDD mín. + V_F máx. + tolerancias (VAL-0022-01-02). Un LED en OUT enmascara la carga abierta en OFF con R_OL (V_OUT ≈ 6 V) y ve −57 V al apagar.
 
 Lecciones de SPEC-0023 (`docs/diseno/salidas.md`):
 - IS: serie R_SENSE 10 kΩ 1206 → R_IS 820 Ω a GND en el ADC (topología de la Fig. 52); el divisor acota el fallo sin diodo (un Schottky a 3V3 recorta a 3,84 V > 3,1 V). R_IS = 1,2 kΩ de la Tabla 11 daría 3,16–3,27 V a 30 V. Techo del pin: V_IS ≤ V_S (la cota V_S − 1 V solo vale a I_IS = 6 mA; VAL-0023-01-03).

@@ -1,6 +1,6 @@
 # Bloque MCU: módulo, USB-C, arranque, UART, LED y tabla de GPIO (SPEC-0020)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B).
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B). **Rev. VAL-0022-01** (2026-11-07): I_mín de D5 en el peor caso (§7) y ficha y polaridad del KT-0603R (§11, Anexo A).
 **Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación del TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-01, EXP-02 (pines).
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`); C2913198 y los cambios de compra de DEC-0007 revisados el 2026-11-06. Tipo Basic/Extended y stock de JLCPCB: SPEC-0021 (2026-11-06) y API de JLCPCB (2026-11-07) para C2286, C15849 y C2687116.
 
@@ -164,7 +164,8 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
   - KT-0603R: V_F 1,8–2,4 V a 20 mA (PDF de LCSC C2286, p. 4); I_F ≤ 25 mA y P_d ≤ 40 mW (p. 3).
   - I_típ = (3,3 − 1,9)/1 k ≈ 1,4 mA.
   - I_máx ≤ (3,389 − 1,6)/1 k = 1,8 mA, con V_F ≥ 1,6 V a corriente baja (supuesto conservador, por debajo del mínimo de 1,8 V a 20 mA) ≪ 25 mA. R23: 1,8² mA × 1 kΩ = 3,2 mW ≪ 100 mW (0603).
-  - I_mín ≥ (2,64 − 2,4)/1 k = 0,24 mA, con V_OH ≥ 0,8·VDD (S tabla 5-4) y V_F máx. a 20 mA (cota pesimista: a 0,3 mA la V_F es menor).
+  - I_mín (peor caso) ≥ (0,8 × 3,211 − 2,45)/(1 k × 1,01) = (2,569 − 2,45)/1,01 k ≈ **0,12 mA**, con V_OH ≥ 0,8·VDD (S tabla 5-4), VDD mín. 3,211 V (§1), V_F máx. a 20 mA más la tolerancia de ±0,05 V (2,45 V; p. 4) y R23 +1 % (VAL-0022-01-02). Cota pesimista: a corriente baja la V_F real es ≈ 1,85 V (curva de la p. 5), y con 1,90 V sale (2,569 − 1,90)/1,01 k ≈ 0,66 mA.
+  - **Visibilidad:** el datasheet solo da la intensidad a 20 mA (p. 3), así que no garantiza el brillo a 0,12 mA; un LED rojo AlGaInP a esa corriente es tenue pero, en general, se ve en interior. No es un requisito (MCU-07 no fija brillo) y el LED no indica nada crítico: se acepta. Si en las pruebas se ve poco, R23 = 470 Ω (I_máx ≈ 3,8 mA ≪ 25 mA) sin cambiar huella.
 - Excitación directa desde el GPIO: a diferencia del LED de canal, este no indica nada crítico y su brillo no tiene que estar garantizado. R23 no cambia.
 - **Color:** con el cambio, D4 (alimentación), D5 (estado) y D6–D11 (canales) son rojos. El LED de estado se distingue por su posición y por la serigrafía «STATUS» (§12), no por el color. Si se quiere distinguir por color, la alternativa es el KT-0603YG (verde-amarillo, AlGaInP, V_F 2,0–2,2 V; C2289, Extended), con la misma huella y la misma R23. Descartado el KT-0603G (verde InGaN, V_F 3,1 V): no tiene margen con 3,3 V.
 - Se usa GPIO40 porque en el modo de descarga USB-OTG la ROM lo pone a nivel alto (HDG tabla 12, p. 19). Ahí el LED encendido avisa de que el *chip* está en descarga, sin riesgo. No sirve para ninguna salida ni para el limitador.
@@ -362,7 +363,7 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
   - R ≥ (3,3 − 0,4 V)/3 mA = 0,97 kΩ;
   - con C_bus ≤ 50 pF (pista hasta el borde del SHT4x), t_r = 0,8473 × 4,7 k × 50 pF = 0,20 µs ≤ 0,3 µs (I²C rápido, 400 kHz) ✔.
 - **Expansión (provisional):** 2,2 kΩ admiten hasta C ≤ 1 µs/(0,8473 × 2,2 k) = 536 pF a 100 kHz, con I_OL = 1,5 mA ≤ 3 mA ✔.
-- **Piezas nuevas:** ninguna pendiente. SPEC-0021 hizo las huellas `esp-riego:` de U5, SW1/SW2 y J2, el 3D del TS-1187A y las fichas TS-1187A-B-A-B, KT-0603YG y B-2100S04P-A110 (y actualizó ESP32-S3-WROOM-1 y TYPE-C-31-M-12). El KT-0603R no tiene ficha propia: sus datos están en `bloque-alimentacion.md` (D4).
+- **Piezas nuevas:** ninguna pendiente. SPEC-0021 hizo las huellas `esp-riego:` de U5, SW1/SW2 y J2, el 3D del TS-1187A y las fichas TS-1187A-B-A-B, KT-0603YG y B-2100S04P-A110 (y actualizó ESP32-S3-WROOM-1 y TYPE-C-31-M-12). El KT-0603R (D4, D5 y D6–D11) tiene ficha propia en `hardware/componentes/KT-0603R.md` (V_F, I_F, P_d y polaridad; jr-conformidad, VAL-0022-01-01). **Polaridad:** la numeración del datasheet es la inversa de la de KiCad: ② del datasheet = cátodo («−», marca verde en la vista superior) = pad 1 de `LED_0603_1608Metric`; ① = ánodo = pad 2 (PDF de LCSC C2286, p. 2). No se aplica la regla de la «T» del KT-0603YG.
 - **Coste orientativo** (primer tramo de JLCPCB del 2026-11-06/07, sin los cargos de montaje de piezas *extended*):
   - **5,62 $ por placa con 5 placas** (módulo 4,93 $);
   - **4,94 $ con 10 placas** (módulo 4,25 $).
@@ -423,7 +424,7 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | Ficha | MPN · fabricante | LCSC | Datasheet | Pinout | Símbolo / huella / 3D |
 |---|---|---|---|---|---|
 | TS-1187A-B-A-B | TS-1187A-B-A-B · XKB Connection | C318884 (alt. C318887) | PDF de LCSC (C318884) | 4 pines: 1-2 y 3-4 unidos de dos en dos; SPST, 12 V, 50 mA, 160 gf, altura 1,5 mm | `Switch:SW_Push` / `esp-riego:SW_Push_1P1T_XKB_TS-1187A` / 3D propio (`../libraries/3d/`, SPEC-0021). Alternativa C318887: 2,5 mm de alto y 260 gf |
-| KT-0603YG | KT-0603YG · Hubei KENTO | C2289 (alt. C2287) | PDF de LCSC (C2289) | Cátodo en el lado de la barra ancha de la «T» (pad 1); V_F 2,0–2,2 V | `Device:LED` / `LED_0603_1608Metric` / oficial. Desde SPEC-0022 es la **alternativa** de D5 (la principal es KT-0603R, ficha en `bloque-alimentacion.md`) |
+| KT-0603YG | KT-0603YG · Hubei KENTO | C2289 (alt. C2287) | PDF de LCSC (C2289) | Cátodo en el lado de la barra ancha de la «T» (pad 1); V_F 2,0–2,2 V | `Device:LED` / `LED_0603_1608Metric` / oficial. Desde SPEC-0022 es la **alternativa** de D5 (la principal es KT-0603R, ficha en `hardware/componentes/KT-0603R.md`) |
 | B-2100S04P-A110 | B-2100S04P-A110 · Ckmtw | C124378 (alt. C2337) | PDF de LCSC (C124378) | 4 pines a 2,54 mm | `Conn_01x04` / `PinHeader_1x04_P2.54mm_Vertical` / oficial |
 | ESP32-S3-WROOM-1 (actualizada) | Variante **N8** fija (C2913198); stock 2 776 a 2026-11-06 | — | WROOM-1 v1.8 | — | Antena según §3; GPIO35–37 en uso (no admite R8/R16V); huella `esp-riego:ESP32-S3-WROOM-1` |
 
