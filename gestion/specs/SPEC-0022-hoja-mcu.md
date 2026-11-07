@@ -2,15 +2,15 @@
 id: SPEC-0022
 titulo: Hoja del MCU en el esquema v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-esquematicos
 revisor: ing-validacion
 rama: spec/SPEC-0022-hoja-mcu
 requisitos: [MCU-01, MCU-02, MCU-03, MCU-04, MCU-05, MCU-06, MCU-07]
 depende_de: [SPEC-0021, SPEC-0019]
 creada: 2026-11-05
-cerrada:
-validacion:
+cerrada: 2026-11-07
+validacion: VAL-0022-01
 ---
 
 # SPEC-0022 · Hoja del MCU en el esquema v2
@@ -67,3 +67,4 @@ La hoja `hardware/v2/mcu.kicad_sch` pasa a ser el bloque MCU de la v2, según `d
 | 2026-11-05 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-07 | coordinador | Añade al alcance lo que trae SPEC-0021 (huellas, tabla de campos, `mcu.md` y cambios de compra de DEC-0007) | VAL-0021-01 |
 | 2026-11-07 | coordinador | Abre la spec; añade los pasos (sincronización de la PCB por ing-layout) y criterios verificables | VAL-0019-01-01 |
+| 2026-11-07 | coordinador | Cierra la spec; M-01 (ficha y polaridad del KT-0603R) y B-02/B-03 corregidas y comprobadas con Grep; B-04 (D5 rojo) queda a confirmar por el usuario | VAL-0022-01 (APROBADO_CON_OBSERVACIONES) |
