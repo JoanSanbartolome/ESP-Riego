@@ -34,3 +34,5 @@ Lo que funcionó en SPEC-0017 (2026-11-05):
 - **Stock a 0 (2026-11-05):** C15849 (1 µF 0603), C72043 (LED verde) y C14663 (100 nF Yageo; en JLCPCB, Basic con 34,75 M el 2026-11-06: el stock que cuenta es el de JLCPCB). Sustituto de 1 µF 0603: C106248.
 - **Modelos 3D que faltan en KiCad 10.0:** `SW_Push_1P1T_XKB_TS-1187A` (la huella sí está).
 - **`hardware/componentes/` no es de mi zona.** La guardia bloquea las fichas: van como anexo en `docs/diseno/` y se piden en PENDIENTE.
+- **`dataManualUrl` de LCSC (`www.lcsc.com/datasheet/...pdf`) devuelve HTML a curl** (2026-11-07): el PDF real es el `pdfUrl` del JSON de `wmsc.lcsc.com` (`datasheet.lcsc.com/...`). El `dataManualUrl` sí vale como campo `Datasheet`.
+- **USBLC6-2SC6 de UMW (C2687116) descartado** como sustituto del de ST (SPEC-0022): V_RWM 5 V < 5,25 V de VBUS, sin condiciones de medida ni esquema interno. Mejor capacidad y V_CL, pero no demuestra equivalencia (DEC-0007).

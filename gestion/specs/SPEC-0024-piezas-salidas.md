@@ -23,6 +23,7 @@ Todas las piezas de la lista de `docs/diseno/salidas.md` tienen símbolo, huella
 
 - Incluye:
   - símbolos, huellas y modelos 3D que falten, reutilizando las librerías oficiales de KiCad y las de `hardware/libraries/` (BTT6050-1ERA y WJ500V-5.08-2P ya existen);
+  - D6–D11 usan la ficha `hardware/componentes/KT-0603R.md` (SPEC-0022, polaridad ② = cátodo = pad 1); proponer el cambio de `salidas.md` l. 434 («ficha propia si jr-conformidad la pide») y el stock desactualizado de D4 en `bloque-alimentacion.md`;
   - huellas con vías conforme a FAB-02 (0,3 / 0,6 mm) o sin vías (checklist de esquema v6);
   - campos `LCSC`, `MPN`, `Fabricante`, `Datasheet`, tipo Basic/Extended y stock de todas las piezas;
   - fichas del Anexo A de `salidas.md` y actualización de las existentes;

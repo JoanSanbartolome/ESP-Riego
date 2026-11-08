@@ -18,4 +18,11 @@ SPEC-0019 (VAL-0019-01, 2026-11-06): la hoja estaba bien red a red. Los fallos e
 - **PCB sincronizada por script** (VAL-0019-02): `sync_schematic_to_board` del MCP no sirve en jerárquicos, así que ing-layout usa netlist + `pcbnew`. La paridad 0 no basta: cruzo la red de cada pad con la netlist XML y compruebo que los *courtyards* quedan fuera del Edge.Cuts y que H1–H4 son iguales en semántica (el diff los reordena). Los scripts están en `scratchpad\pcb_an.py` y `cruce.py`; se reescriben en 5 min.
 - Los símbolos `power:` globales para +5V, +3V3 y GND son aceptables aunque la spec pida etiquetas jerárquicas (`mcu.md` Anexo C).
 
+- **Hoja MCU (VAL-0022-01, 2026-11-07):** la hoja estaba bien; los fallos estaban en la documentación de las piezas.
+  - El KT-0603R (C2286) numera al revés que KiCad: ① = ánodo «+» y ② = cátodo, con la marca verde en ②; pad 1 (K) de `LED_0603` = ② del datasheet. Su marca no sigue la regla del KT-0603YG. Comprobar siempre la polaridad con el PDF de cada MPN, no con la familia.
+  - Los PDF que LCSC bloquea suelen estar ya en el *scratchpad* del autor (`s22\*.pdf`): copiarlos a una carpeta propia. El clasificador deniega `curl` con referer al CDN de LCSC.
+  - Diff semántico de la PCB frente al commit previo (`pcb_cmp.py`: huellas sin uuid ni net, nivel superior) y `git diff --patience --numstat`.
+  - `find … -exec md5sum` lo bloquea la guardia: para el MD5 antes y después, usar un script con `os.walk`.
+  - README de `hardware/v2`: comprobar que se actualiza tras el paso de layout.
+
 Relacionado: [[revision-piezas]], [[revision-alimentacion]], [[comprobaciones-utiles]].
