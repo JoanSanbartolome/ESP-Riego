@@ -24,7 +24,8 @@ La hoja `hardware/v2/salidas.kicad_sch` pasa a ser el bloque de salidas de la v2
 - Incluye:
   - sustituir el contenido de la hoja por los 6 canales de la v2, con las piezas de SPEC-0024;
   - etiquetas jerárquicas según `salidas.md`, conectadas con `alimentacion.kicad_sch` (`BUS_24V`) y `mcu.kicad_sch` (IN1–IN6, IS1–IS6, OUT_DEN);
-  - la paridad esquema–PCB que exija `verificar.py` (piezas nuevas sincronizadas sin colocar; la sincronización con la PCB es de ing-layout).
+  - la paridad esquema–PCB que exija `verificar.py` (piezas nuevas sincronizadas sin colocar; la sincronización con la PCB es de ing-layout);
+  - DEC-0008: D12–D17 con campo DNP (fuera de BOM y CPL); en la raíz, quitar las no conexiones provisionales de los pines de la hoja MCU que se unan con esta; actualizar en `salidas.md` los «requiere DEC» (§0, §5, §11 nota 1, §13 y trazabilidad) para que citen DEC-0008.
 - Excluye: colocación y rutado; otras hojas, salvo las etiquetas que conecten con esta.
 
 ## Entradas

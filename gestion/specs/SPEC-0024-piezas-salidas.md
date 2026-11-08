@@ -27,7 +27,8 @@ Todas las piezas de la lista de `docs/diseno/salidas.md` tienen símbolo, huella
   - huellas con vías conforme a FAB-02 (0,3 / 0,6 mm) o sin vías (checklist de esquema v6);
   - campos `LCSC`, `MPN`, `Fabricante`, `Datasheet`, tipo Basic/Extended y stock de todas las piezas;
   - fichas del Anexo A de `salidas.md` y actualización de las existentes;
-  - cambios de compra que abaratan o facilitan la fabricación (DEC-0007).
+  - cambios de compra que abaratan o facilitan la fabricación (DEC-0007);
+  - D12–D17 (M7, C95872) sin montar con su huella (DEC-0008): campo DNP en la tabla de campos.
 - Excluye: editar hojas del esquema o la PCB; cambiar valores elegidos en SPEC-0023.
 
 ## Entradas

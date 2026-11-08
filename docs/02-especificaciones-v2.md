@@ -1,6 +1,6 @@
 # Especificaciones de la PCB v2
 
-**Estado:** borrador v0.4 (2026-11-05). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md) y en el [historial](#10-historial).
+**Estado:** borrador v0.5 (2026-11-08). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) y en el [historial](#10-historial).
 
 Decisiones de partida:
 
@@ -130,7 +130,7 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 |---|---|---|
 | FAB-01 | M | 2 capas, FR-4 de 1,6 mm, cobre de 1 oz (2 oz a evaluar en el layout con `Power_In` a 5 A y las salidas según REL-05; D6), acabado HASL sin plomo o ENIG. |
 | FAB-02 | M | Reglas compatibles con JLCPCB estándar y con margen: pista y separación ≥ 0,2 mm, vía 0,3 / 0,6 mm, cobre a borde ≥ 0,5 mm. |
-| FAB-03 | M | Clases de red `Default` (0,25 mm), `Power` (≥ 0,6 mm), `Power_In` (entrada, protecciones, limitador común y bus de las salidas hasta cada *high-side*, 5,1 A según ALI-12) y `Salidas` (de cada *high-side* a su borne, ancho según REL-05, separación ≥ 1 mm). Los retornos GND de los bornes de salida llegan al plano por un camino dimensionado para la corriente máxima del limitador (4,9 A, ALI-13). |
+| FAB-03 | M | Clases de red `Default` (0,25 mm), `Power` (≥ 0,6 mm), `Power_In` (entrada, protecciones, limitador común y bus de las salidas hasta cada *high-side*, 5,1 A según ALI-12) y `Salidas` (de cada *high-side* a su borne, ancho según REL-05, separación ≥ 1 mm; ≥ 0,6 mm cuando uno de los objetos es un pad de un *high-side*, de su R_OL o de su C_OUT, o está dentro de su patio, DEC-0008). Los retornos GND de los bornes de salida llegan al plano por un camino dimensionado para la corriente máxima del limitador (4,9 A, ALI-13). |
 | FAB-04 | M | Plano de GND continuo en ambas caras con cosido de vías; sin cortes bajo el buck ni bajo las señales analógicas. |
 | FAB-05 | M | SMD mínimo 0603 (sin 0402). Cada componente con campo `LCSC Part#` (preferencia: piezas *Basic* de JLCPCB) y exportación de BOM + CPL para JLCPCB. |
 | FAB-06 | M | Componentes THT (bornes) en la cara superior, soldados a mano o con montaje THT. |
@@ -266,3 +266,4 @@ En la v0.4 (DEC-0004):
 | v0.2 | 2026-11-04 | Interior con caja ventilada; fuente de 24 V DC de hasta 5 A; 6 salidas (3 + 3) que pueden activarse a la vez; válvulas instaladas de 24 V DC; T/HR de la caseta medida en placa; sin sensor de nivel; módulo de expansión; D8 y D9; ajustes de VAL-0004-01 | SPEC-0004 · DEC-0002 |
 | v0.3 | 2026-11-04 | Salidas con *high-side* inteligente BTT6050 y limitador común del bus de salidas (D8, D2 cerradas); diagnóstico por canal; bornes de 2 polos y placa de ≈ 100 × 70 mm; observaciones de VAL-0004-02 y VAL-0005-01 | SPEC-0007 · DEC-0003 |
 | v0.4 | 2026-11-05 | Fuente LED de 24 V y 5 A supuesta, en su ajuste de fábrica; banda del limitador 3,5–4,9 A sobre una carga instalada máxima de 3,5 A; carga máxima por canal de 1 A sin protección por canal, con pistas, bornes y retornos para la corriente del limitador; avisos de VIN a 17 V y 31 V; observaciones de VAL-0007-01, VAL-0011-01 y VAL-0011-02 | SPEC-0011 · DEC-0004 |
+| v0.5 | 2026-11-08 | FAB-03: separación de `Salidas` de 0,6 mm dentro de las huellas del *high-side*, R_OL y C_OUT (IPC-2221 B2 hasta 100 V; ≥ 0,2 mm de FAB-02) | SPEC-0023 · DEC-0008 |

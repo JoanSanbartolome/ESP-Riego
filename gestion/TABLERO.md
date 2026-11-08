@@ -56,6 +56,7 @@ Specs por estado: propuesta 4 · abierta 0 · cerrada 19 · descartada 3.
 | [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | aceptada | usuario | 2026-11-05 |
 | [DEC-0006](decisiones/DEC-0006-uvlo-y-puente-del-limitador.md) | UVLO a 13,5 V y limitador TPS26632 con puente de soldadura | aceptada | usuario | 2026-11-05 |
 | [DEC-0007](decisiones/DEC-0007-den-comun-y-cambios-de-compra.md) | DEN común a los 6 canales y cambios de compra sin consulta | aceptada | usuario | 2026-11-06 |
+| [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | aceptada | usuario | 2026-11-08 |
 
 ## Informes de validación
 
