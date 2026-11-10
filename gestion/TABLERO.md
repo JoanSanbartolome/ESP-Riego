@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 1 · cerrada 19 · descartada 3.
+Specs por estado: propuesta 3 · abierta 0 · cerrada 20 · descartada 3.
 
 ## Propuestas (3)
 
@@ -12,13 +12,7 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 19 · descartada 3.
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | — | 2026-11-06 | — |
-
-## Cerradas (19)
+## Cerradas (20)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -41,6 +35,7 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 19 · descartada 3.
 | [SPEC-0021](specs/SPEC-0021-piezas-mcu.md) | Piezas del bloque MCU | 2 | jr-conformidad | `spec/SPEC-0021-piezas-mcu` | VAL-0021-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-07 |
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | VAL-0022-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-07 |
 | [SPEC-0023](specs/SPEC-0023-calculos-salidas.md) | Selección y cálculos del bloque de salidas | 2 | ing-esquematicos | `spec/SPEC-0023-calculos-salidas` | VAL-0023-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-07 |
+| [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | VAL-0024-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-10 |
 
 ## Descartadas (3)
 
@@ -95,4 +90,5 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 19 · descartada 3.
 | [VAL-0021-01](informes/VAL-0021-01.md) | SPEC-0021 | APROBADO_CON_OBSERVACIONES | `73af0ee` | 2026-11-07 |
 | [VAL-0022-01](informes/VAL-0022-01.md) | SPEC-0022 | APROBADO_CON_OBSERVACIONES | `38090d2` | 2026-11-07 |
 | [VAL-0023-01](informes/VAL-0023-01.md) | SPEC-0023 | APROBADO_CON_OBSERVACIONES | `992812c` | 2026-11-07 |
+| [VAL-0024-01](informes/VAL-0024-01.md) | SPEC-0024 | APROBADO_CON_OBSERVACIONES | `c2401d6` | 2026-11-10 |
 

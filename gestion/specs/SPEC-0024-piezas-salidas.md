@@ -2,15 +2,15 @@
 id: SPEC-0024
 titulo: Piezas del bloque de salidas
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: jr-conformidad
 revisor: ing-validacion
 rama: spec/SPEC-0024-piezas-salidas
 requisitos: [REL-01, REL-03, REL-05, REL-07, REL-10, FAB-02, FAB-05, FAB-11, KIC-01]
 depende_de: [SPEC-0023, SPEC-0022]
 creada: 2026-11-06
-cerrada:
-validacion:
+cerrada: 2026-11-10
+validacion: VAL-0024-01
 ---
 
 # SPEC-0024 · Piezas del bloque de salidas
@@ -86,3 +86,7 @@ Nivel **completo** (pieza modificada y fichas; DEC-0005).
 | 2026-11-06 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-08 | coordinador | Recoge DEC-0008: D12–D17 DNP con su huella | DEC-0008 |
 | 2026-11-10 | coordinador | Abre la spec (encargo del usuario): vías del EP del BTT6050, 3D, fichas, tipo y stock, y tabla de campos | |
+| 2026-11-10 | jr-conformidad | Entrega: huella con 10 vías en el EP, ficha del M7, fichas revisadas, stock y tabla de campos | `c2401d6`, log 01 |
+| 2026-11-10 | ing-validacion | Validación completa: 3 M y 4 B | VAL-0024-01 (APROBADO_CON_OBSERVACIONES) |
+| 2026-11-10 | jr-conformidad | Corrige las observaciones 01–06: pasta del EP al 65 %, texto del tapado de las vías y cambios a `salidas.md` | `8efa234`, log 03 |
+| 2026-11-10 | coordinador | Cierra la spec; correcciones comprobadas con un script sobre la huella (pasta igual al patrón de VAL-0024-01-01) y con Grep. La observación 07 pasa a mantenimiento | VAL-0024-01 |

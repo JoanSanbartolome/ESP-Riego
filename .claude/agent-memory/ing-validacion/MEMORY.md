@@ -1,7 +1,7 @@
 - [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda del limitador frente al ajuste de la fuente (OLP en % de potencia)
 - [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF codificados → PNG, tramos de precio, hold-up con UVLO, corto vs fuente
 - [Revisión de importaciones](revision-importaciones.md): migraciones, copias y limpiezas KiCad; diff con mapeo, cajetín en PDF, netlist de la base, lib-tables heredadas, `pcb upgrade` como prueba
-- [Revisión de piezas](revision-piezas.md): símbolos/huellas/3D; land pattern, pin 1 3D, API JLCPCB, DRC con reglas del proyecto + control con la oficial, pasta del EP vs vías, polaridad LED
+- [Revisión de piezas](revision-piezas.md): símbolos/huellas/3D; land pattern, pin 1 3D, API JLCPCB, DRC con reglas del proyecto + control con la oficial, pasta del EP vs vías (cobertura, volumen de los agujeros, tapado de JLCPCB), polaridad LED
 - [Revisión de alimentación](revision-alimentacion.md): alimentacion.md; qué recalcular (UVLO, I_OL, VIN, JP1), datos puntuales de TPS2663/LMR36520/ESP32 ADC, huecos con Vc
 - [Revisión de salidas](revision-salidas.md): salidas.md; E_AS cerrada, datos BTT p. 30, huecos de pads vs clase Salidas, umbrales con bobina caliente/fría
 - [Revisión del bloque MCU](revision-mcu.md): mcu.md; refs duplicadas entre bloques, tablas S3/HDG renderizadas, HDG pág.−3, SimSurfing URL, 15 mm = caja

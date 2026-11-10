@@ -12,7 +12,7 @@ Consulta de LCSC/JLCPCB: **2026-11-05**, API `selectSmtComponentList` de JLCPCB 
 | D1 | BZT52C15 | MDD | C173427 | Extended · 148 099 | `Device:D_Zener` / `Diode_SMD:D_SOD-123` | `BZT52C15.md` |
 | D2 | SMBJ33A | Littelfuse | C224019 | Extended · 9 670 | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
 | D3 | SS310 | MDD | C15874 | Extended · 348 658 | `Device:D_Schottky` / `Diode_SMD:D_SMA` | `SS310.md` |
-| D4 | KT-0603R | Hubei KENTO | C2286 | **Basic** · 6 683 182 | `Device:LED` / `LED_SMD:LED_0603_1608Metric` | — |
+| D4 | KT-0603R | Hubei KENTO | C2286 | **Basic** · 6 273 838 (JLCPCB, 2026-11-10; antes 6 683 182 el 2026-11-05) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` | `KT-0603R.md` |
 | U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías; las vías 0,3/0,6 al EP las pone el layout, SLVSE94G p. 39) | `TPS2663.md` |
 | U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `esp-riego:Texas_DDA0008B_…_Mask2.71x3.4mm` (propia) | `LMR36520.md` |
 | U3 | TPS2116DRLR | TI | C3235557 | Extended · 54 421 | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` | `TPS2116.md` |
