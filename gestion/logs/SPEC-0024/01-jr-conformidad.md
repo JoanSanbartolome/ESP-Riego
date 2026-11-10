@@ -42,13 +42,13 @@ SPEC-0024 · rama spec/SPEC-0024-piezas-salidas · todo el alcance de la spec (v
 | Vías | 10 (2 × 5), taladro 0,3 mm, Ø 0,6 mm, numeradas «15» | ≥ 8 (`salidas.md` §11); FAB-02. Anillo 0,15 mm |
 | Posición | x = ±0,95; y = −2,4 · −1,2 · 0 · 1,2 · 2,4 | rejilla 1,9 × 1,2 mm |
 | Anillo dentro del cobre | borde del anillo a x = ±1,25 (0,075 mm del borde del EP) y a y = ±2,7 (0,5 mm) | «anillo entero dentro del EP» ✔ |
-| Taladro a taladro | 0,9 mm (misma columna), 1,6 mm (entre columnas); entre coronas de cobre 0,6 mm | JLCPCB: 0,2 mm (jlcpcb.com/capabilities) ✔ con margen 4,5× |
+| Taladro a taladro | 0,9 mm (misma columna), 1,6 mm (entre columnas); entre coronas de cobre 0,6 mm | JLCPCB (jlcpcb.com/capabilities/pcb-capabilities): vía a vía 0,2 mm y «Pad Hole-to-Hole Spacing» 0,45 mm (las vías son pads `thru_hole`); se cumplen las dos con 0,9 mm ✔ (VAL-0024-01-04) |
 | Elección de 10 y no 8 | 10 vías a 1,2 mm de paso (recomendación habitual 1–1,2 mm) y el anillo exterior no se acerca a los pads 8–14 (hueco EP–pads 0,735 mm sin cambios) | no hay patrón de Infineon ni del datasheet (R_thJA = 50 K/W con ≥ 300 mm² de cobre, Fig. 7, p. 10) |
-| Pasta | 2 ventanas centrales de 1,1 × 2,95 (x = 0, y = ±1,625; 0,15 mm de hueco central, como las 2 ventanas de Infineon) + 8 ventanas de 0,6 × 0,4 en los huecos entre filas de vías (x = ±0,95; y = ±0,6 y ±1,8) | repartida como en las `*_ThermalVias` oficiales (varias aperturas entre vías) |
-| Cobertura de pasta | 6,49 + 1,92 = **8,41 mm² = 49,6 % del EP** (16,96 mm²); antes 14,5 mm² (85 %, 2 ventanas de 2,45 × 2,95) | caen del 85 % al 49,6 % por las vías |
-| Pasta frente a taladros | ≥ 0,1 mm desde el borde de cualquier anillo (central: borde en x = ±0,55 frente a anillo desde ±0,65; ventanas pequeñas: 0,1 mm en y) | ninguna apertura cubre un taladro ni un anillo |
-| Ventana mínima | 0,4 mm (relación de área ≈ 1,0 con stencil de 0,12 mm, > 0,66) | imprimible |
-| Máscara | pad 15 de F.Cu con apertura de máscara (como antes); las vías en `*.Cu` **sin capas de máscara**: tapadas en B.Cu (la soldadura no baja por el taladro), y abiertas en F.Cu por la apertura del pad | JLCPCB tapa vías sin apertura; es el criterio de las huellas oficiales |
+| Pasta (corregida, VAL-0024-01-01) | 14 ventanas: 2 de 1,40 × 2,95 en (0; ±1,625); 8 de 0,375 × 0,70 en (±1,0875; ±0,60 y ±1,80); 4 de 0,375 × 0,45 en (±1,0875; ±2,875). Detalle en `03-jr-conformidad.md` | repartida como en las `*_ThermalVias` oficiales; sustituye al patrón de 10 ventanas |
+| Cobertura de pasta | 11,03 mm² = **65 % del EP** (16,96 mm²); antes 14,5 mm² (85 %, 2 ventanas de 2,45 × 2,95) | caen del 85 % al 65 % por las vías |
+| Pasta frente a taladros | ≥ 0,10 mm del **taladro** de cualquier vía (el anillo de 0,6 queda en parte bajo la pasta) | ninguna apertura cubre un taladro |
+| Ventana mínima | 0,375 × 0,45 mm (relación de área 0,85 con stencil de 0,12 mm, > 0,66) | imprimible |
+| Máscara | pad 15 de F.Cu con apertura de máscara (como antes); las vías en `*.Cu` **sin capas de máscara**: sin apertura de máscara en B.Cu; JLCPCB no garantiza el tapado de vías con apertura en F.Mask; el estado real de las vías se comprueba en los Gerber de la fase 5 | VAL-0024-01-02. Vías sin relleno (no cambia el coste) |
 | Cobre inferior | pad 15 también en B.Cu (2,65 × 6,4 mm, sin máscara) con `zone_connect 2` (sólido) en el pad y en las vías | como la oficial `HSOP-8-1EP…_ThermalVias`. El polígono BUS_24V (≥ 300 mm²) lo pone el layout: el pad B.Cu y las vías ya cuelgan de la red VS. **Con alivio térmico por defecto de la zona, las vías quedarían casi aisladas: de ahí `zone_connect 2`** |
 | Red | todo «15» = VS = BUS_24V, no GND | `salidas.md` §11 |
 
@@ -72,7 +72,7 @@ Sin pad `custom` (no aplica la comprobación de envolvente).
 ## Verificación
 
 - `verificar.py`: **no aplica** (ningún proyecto KiCad tocado; `hardware/v2` sin cambios; MCP no usado).
-- `git diff` de la huella: solo `descr`, el pad 15 (F.Cu con `property pad_prop_heatsink` + `zone_connect 2`), el pad 15 de B.Cu, las 10 vías y las 10 ventanas de pasta; los pads 1–14, el contorno Fab, la serigrafía, el patio y el modelo 3D, idénticos.
+- `git diff` de la huella: solo `descr`, el pad 15 (F.Cu con `property pad_prop_heatsink` + `zone_connect 2`), el pad 15 de B.Cu, las 10 vías y las ventanas de pasta (14 tras VAL-0024-01); los pads 1–14, el contorno Fab, la serigrafía, el patio y el modelo 3D, idénticos.
 - `kicad-cli pcb render` sobre una placa de prueba con las 10 huellas: carga sin errores (top y bottom).
 - Pines del símbolo frente a la Tabla 2, p. 4 (script sobre el `.kicad_sym`): ver «Mapeo».
 
@@ -161,9 +161,15 @@ Símbolos: `esp-riego:BTT6050-1ERA`, `Connector:Screw_Terminal_01x02`, `Device:R
 ### Cambios propuestos a `docs/diseno/salidas.md` (para SPEC-0025; texto exacto)
 
 1. **l. 434 (Anexo A, fila KT-0603R)**, sustituir por:
-   `| KT-0603R | D4 y D6–D11. Ficha propia `KT-0603R.md` (SPEC-0024). Polaridad: ② del datasheet = cátodo = pad 1 (K) de `LED_0603_1608Metric` | C2286 | `datasheets/KT-0603R.pdf` (PDF de LCSC, C2286) | Cátodo = pad 1 (K), ánodo = pad 2 (A) | `Device:LED` / `LED_0603_1608Metric` |`
+
+   ```
+   | KT-0603R | D4, D5 y D6–D11. Ficha propia `KT-0603R.md` (SPEC-0024). Polaridad: ② del datasheet = cátodo = pad 1 (K) de `LED_0603_1608Metric` | C2286 | `datasheets/KT-0603R.pdf` (PDF de LCSC, C2286) | Cátodo = pad 1 (K), ánodo = pad 2 (A) | `Device:LED` / `LED_0603_1608Metric` |
+   ```
 2. **l. 435 (Anexo A, fila M7)**, sustituir por:
-   `| M7 (DNP) | D12–D17, DNP por DEC-0008 (solo se montan si se aprueba, §5). Ficha `M7.md` (SPEC-0024) | C95872 | `datasheets/M7.pdf` (MDD, Rev. 2025A5) | K (banda) = pad 1, A = pad 2 | `Device:D` / `Diode_SMD:D_SMA` |`
+
+   ```
+   | M7 (DNP) | D12–D17, DNP por DEC-0008 (solo se montan si se aprueba, §5). Ficha `M7.md` (SPEC-0024) | C95872 | `datasheets/M7.pdf` (MDD, Rev. 2025A5) | K (banda) = pad 1, A = pad 2 | `Device:D` / `Diode_SMD:D_SMA` |
+   ```
 3. **l. 432 (Anexo A, BTT6050)**, añadir al final de la 2.ª columna: « Ficha revisada en SPEC-0024 (errata de P_7.5.2, vías del EP, stock del 2026-11-10).» y en la **l. 433 (WJ500V)**: « Ficha corregida en SPEC-0024.»
 4. **l. 298 (§8, último punto)**, sustituir la frase «**La ficha dice «Uso: `conectores.kicad_sch`»: los bornes de salida van en `salidas.kicad_sch`** (propuesta de cambio en el log).» por «La ficha `WJ500V-5.08-2P.md` (corregida en SPEC-0024) da el uso: J1 en `alimentacion.kicad_sch` y J4–J9 en `salidas.kicad_sch`.»
 5. **§9 (l. 306–321), stock y tipo con fecha 2026-11-10** (cambiar en la columna «LCSC · tipo · stock JLCPCB»; añadir «(2026-11-10)» a la cabecera):
@@ -177,13 +183,15 @@ Símbolos: `esp-riego:BTT6050-1ERA`, `Connector:Screw_Terminal_01x02`, `Device:R
 7. **l. 30 y l. 405 (§0 y §13.5)**: `1 658` → `1 628` (las dos veces).
 8. **l. 326 (§9, «Piezas nuevas»)**, sustituir por: «**Piezas nuevas:** ningún símbolo ni huella nuevos; la huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` pasa a llevar 10 vías de 0,3 / 0,6 mm en el EP (SPEC-0024, FAB-02). Fichas en Anexo A.»
 9. **l. 321 (§9, fila D12–D17)**, sustituir « (campo DNP; fuera de BOM y CPL mientras no haya DEC)» por « (DNP: `dnp yes` + `in_bom no` en el símbolo, `dnp` + `exclude_from_bom` + `exclude_from_pos_files` en la huella; se exporta con `--exclude-dnp`; huella en la placa)».
-10. **§11, l. 347 (fila «BUS_24V en cada BTT»)**, sustituir « Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02) a un polígono BUS_24V en la cara inferior (≥ 8 por *tab*)» por « Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02), **ya en la huella** (10 por *tab*, pad 15, con pad en B.Cu y conexión sólida), a un polígono BUS_24V en la cara inferior que pone el layout». Añadir al final de la columna Notas: « Pasta del EP al 49,6 % (vías en la huella; ver `BTT6050-1ERA.md`).»
+10. **§11, l. 347 (fila «BUS_24V en cada BTT»)**, sustituir « Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02) a un polígono BUS_24V en la cara inferior (≥ 8 por *tab*)» por « Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02), **ya en la huella** (10 por *tab*, pad 15, con pad en B.Cu y conexión sólida), a un polígono BUS_24V en la cara inferior que pone el layout». Añadir al final de la columna Notas: « Pasta del EP al 65 % (14 ventanas a 0,10 mm del taladro; vías en la huella; ver `BTT6050-1ERA.md`).»
+11. **l. 69 (§3.2, BTT6050-1ERA)**, sustituir «(sin vías: las pone el layout, §11)» por «(con 10 vías de 0,3 / 0,6 mm en el EP, numeradas 15, desde SPEC-0024; §11)». (VAL-0024-01-03; Grep en `salidas.md` de «sin vías», «vías», «pasta», «85 %» y «vía térmica»: no hay más menciones en contra de la huella nueva; l. 349 trata del borne y l. 347 es el cambio 10.)
+12. **l. 5 (cabecera)**, sustituir «El tipo Basic/Extended y los códigos LCSC definitivos los confirma jr-conformidad (SPEC-0024).» por «El tipo Basic/Extended y los códigos LCSC definitivos fueron confirmados por jr-conformidad el 2026-11-10 (SPEC-0024).»
 
 ## Requiere verificación de validación
 
 | Pieza | Qué | Datasheet y página |
 |---|---|---|
-| `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` | **Modificada:** 10 vías 0,3 / 0,6 mm numeradas 15 (x = ±0,95; y = −2,4…2,4 cada 1,2), pad 15 en B.Cu, `zone_connect 2`, 10 ventanas de pasta (49,6 %), `descr`. Pads 1–14, EP, serigrafía, patio y 3D sin cambios | BTT6050-1ERA Rev. 1.00: Fig. 53, p. 49 (cotas del EP y cuerpo); nota 2 de Tabla 3 y Fig. 4, pp. 9-10 (vías térmicas sin cotas); https://www.infineon.com/package/PG-TDSO-14-11 (land pattern); https://jlcpcb.com/capabilities/Capabilities |
+| `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` | **Modificada:** 10 vías 0,3 / 0,6 mm numeradas 15 (x = ±0,95; y = −2,4…2,4 cada 1,2), pad 15 en B.Cu, `zone_connect 2`, 14 ventanas de pasta (65 %, corregida en `03-jr-conformidad.md`), `descr`. Pads 1–14, EP, serigrafía, patio y 3D sin cambios | BTT6050-1ERA Rev. 1.00: Fig. 53, p. 49 (cotas del EP y cuerpo); nota 2 de Tabla 3 y Fig. 4, pp. 9-10 (vías térmicas sin cotas); https://www.infineon.com/package/PG-TDSO-14-11 (land pattern); https://jlcpcb.com/capabilities/Capabilities |
 | `Infineon_PG-TDSO-14.step` | Sin cambios; render de comprobación | Fig. 53, p. 49 |
 | `esp-riego:BTT6050-1ERA` (símbolo) | Sin cambios; 15 pines comprobados frente a la Tabla 2, p. 4 | BTT6050-1ERA, Tabla 2, p. 4 |
 | `M7.md` + `datasheets/M7.pdf` | Ficha nueva: cotas del SMA frente a `D_SMA`, polaridad = pad 1 | M7.pdf pp. 1 y 3 («Suggested Pad Layout») |
