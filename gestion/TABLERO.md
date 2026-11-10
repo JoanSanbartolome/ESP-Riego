@@ -2,16 +2,21 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 0 · cerrada 19 · descartada 3.
+Specs por estado: propuesta 3 · abierta 1 · cerrada 19 · descartada 3.
 
-## Propuestas (4)
+## Propuestas (3)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | — | 2026-11-06 | — |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | — | 2026-11-06 | — |
 
 ## Cerradas (19)
 
