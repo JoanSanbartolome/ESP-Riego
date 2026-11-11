@@ -2,15 +2,15 @@
 id: SPEC-0026
 titulo: Orquestación v2: roles, ciclo, registro y trámite
 fase: 0
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0026-orquestacion-v2
 requisitos: []
 depende_de: []
 creada: 2026-11-11
-cerrada:
-validacion:
+cerrada: 2026-11-11
+validacion: VAL-0026-02
 ---
 
 # SPEC-0026 · Orquestación v2: roles, ciclo, registro y trámite
@@ -29,13 +29,13 @@ El sistema de trabajo pasa a tres agentes, una spec por bloque o hito, un parte 
   - **Ciclo (M3, M4).** `gestion/README.md`: una spec por bloque o por hito de layout con pasos internos; comprobaciones automáticas entre pasos; una validación completa al final; correcciones y revalidaciones continuando la misma instancia; instancia nueva para cada paso nuevo.
   - **Registro (M5).** `plantillas/parte.md` (40 líneas como máximo: decisiones no obvias, desviaciones, pendientes y, de la checklist, solo lo que no cumple o no aplica) sustituye a `log.md`; la ruta `gestion/logs/SPEC-NNNN/NN-<agente>.md` y el trailer `Log` no cambian. `plantillas/spec.md` gana «Plan de validación» y las columnas de tokens y acciones en el registro. `gestion/ESTADO.md` sustituye al diario: siguiente paso, pendientes del usuario y notas para layout y fabricación, tomados de los diarios del 2026-11-07 y del 2026-11-10. Las observaciones de mantenimiento acumuladas en esos diarios pasan a una spec de mantenimiento en `propuesta`.
   - **Checklists (M7).** Cada punto de las seis checklists se marca `[auto]` o `[juicio]`, con el script que cubre cada `[auto]`; los que aún no tienen script se listan para SPEC-0027. Sube la versión de cada una.
-  - **Trámite y medida (M6).** `gestion.py abrir`, `revisar <agente>`, `integrar`, `cerrar` y `registrar` (fila en el registro de la spec con tokens, acciones y duración del arranque); el tablero suma tokens por spec y por agente. `auditoria.py` corta `objetivo` a 160 caracteres. `AGENTES`, `revisar_zonas.py` y `.githooks/commit_msg.py` aceptan `ing-diseno` y siguen aceptando los nombres antiguos en el historial.
-  - **Guarda (M9).** Zonas de `ing-diseno`; la carpeta temporal se puede escribir aunque la ruta vaya en una variable; el código en línea que no toca el TFG pasa. Un caso por cambio en `herramientas/pruebas/test_guardia.py`. SPEC-0002 pasa a `descartada`.
+  - **Trámite y medida (M6).** `gestion.py abrir`, `revisar <agente>`, `integrar`, `cerrar` y `registrar` (fila en el registro de la spec con tokens, acciones y duración del arranque, que `integrar --tokens` anota en el mismo commit); el tablero suma tokens por spec y por agente. `auditoria.py` corta `objetivo` a 160 caracteres. `AGENTES`, `revisar_zonas.py` y `.githooks/commit_msg.py` aceptan `ing-diseno` y siguen aceptando los nombres antiguos en el historial.
+  - **Guarda (M9).** Zonas de `ing-diseno`; la carpeta temporal se puede escribir aunque la ruta vaya en una variable; el código en línea que no toca el TFG pasa, y también el cuerpo de un heredoc que no va a una shell. Además, los dos falsos positivos anotados en el diario del 2026-11-10 y en las memorias: las palabras de control de la shell (`do`, `then`…) y `find -exec` con órdenes de lectura. Un caso por cambio en `herramientas/pruebas/test_guardia.py`. SPEC-0002 pasa a `descartada`.
 - Excluye:
   - la caja de herramientas de `herramientas/kicad/` (SPEC-0027);
   - cualquier cambio en `docs/`, `hardware/`, `firmware/` y `fabricacion/`;
   - reescribir logs, informes o diarios anteriores;
-  - endurecer o reescribir la guarda más allá de los tres cambios citados.
+  - endurecer o reescribir la guarda más allá de los cambios citados.
 
 ## Entradas
 
@@ -65,11 +65,20 @@ El sistema de trabajo pasa a tres agentes, una spec por bloque o hito, un parte 
 
 ## Plan de validación
 
-Nivel **ligero** con la checklist de proceso v3. Se reproduce de forma independiente: las tres baterías, la prueba en vivo y `abrir` y `cerrar` en una copia. Por muestreo: la coherencia de los textos y el marcado de las checklists. La prueba en vivo y la validación se hacen en una sesión nueva, porque las definiciones de agente se cargan al arrancar.
+Nivel **ligero** con la checklist de proceso v4. Se reproduce de forma independiente: las tres baterías, la prueba en vivo y `abrir` y `cerrar` en una copia. Por muestreo: la coherencia de los textos y el marcado de las checklists. La prueba en vivo y la validación se hacen en una sesión nueva, porque las definiciones de agente se cargan al arrancar.
 
 ## Registro
 
-| Fecha | Agente | Acción | Referencia |
-|---|---|---|---|
+| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
+|---|---|---|---|---|---|---|
 | 2026-11-11 | coordinador | Crea la spec (propuesta) a partir de la revisión de la orquestación | DEC-0009 |
 | 2026-11-11 | coordinador | Abre la spec: el usuario acepta la opción B completa | DEC-0009 |
+| 2026-11-11 | coordinador | Implementa M2 a M9: guarda, gestion.py, tres agentes, instrucciones, plantillas, checklists, ESTADO.md y las specs 0027 y 0028 propuestas. Baterías: guarda 254/255 (N33, límite conocido), commit-msg 25/25 y gestión 27/27 | 8a3f4c0, b8ad21e, ce3d649, fc45962 |  |  |  |
+| 2026-11-11 | ing-diseno | Prueba en vivo: escribe en hardware/libraries; gestion/, hardware/v1-tfg/ y herramientas/ bloqueados; copia en la carpeta temporal y texto en su .kicad_pcb por el MCP y por sed; sin Agent ni herramientas de la interfaz gráfica | auditoria/2026-11-11 | 48223 | 14 | 1 |
+| 2026-11-11 | jr-conformidad | Prueba en vivo: escribe en hardware/componentes; docs/diseno/, gestion/ y herramientas/ bloqueados; sin Agent ni herramientas de símbolos, huellas o rutado | auditoria/2026-11-11 | 37231 | 8 | 0 |
+| 2026-11-11 | ing-validacion | Prueba en vivo: escribe en gestion/informes; hardware/, gestion/checklists/ y docs/diseno/ bloqueados; sin Agent ni herramientas que modifican el diseño | auditoria/2026-11-11 | 37673 | 8 | 0 |
+| 2026-11-11 | ing-validacion | Validación ligera: 8 criterios cumplen; 1 M (heredocs de la guarda) y 5 B | VAL-0026-01 | 179638 | 48 | 12 |
+| 2026-11-11 | coordinador | Corrige VAL-0026-01: heredocs (M-01), variables en orden (B-02), find -exec uniq/tree, Requisitos en abrir (B-04), textos (B-06) y checklist de proceso v5. B-03 va a ESTADO.md y B-05 se resuelve en SPEC-0027. Baterías: guarda 270/273 (N33, K07 y HD12, límites), commit-msg 25/25 y gestión 28/28 | VAL-0026-01 |  |  |  |
+| 2026-11-11 | ing-validacion | Revalidación: M-01, B-02, B-04 y B-06 corregidos; 2 B nuevas de la guarda (ofuscaciones deliberadas y falsos positivos) | VAL-0026-02 | 35121 | 14 | 6 |
+| 2026-11-11 | coordinador | Documenta las dos B de VAL-0026-02 en «Límites conocidos» y las apunta en SPEC-0028; checklist de proceso v6; reescribe ESTADO.md (B-03) | VAL-0026-02 |  |  |  |
+| 2026-11-11 | coordinador | Cierra la spec | VAL-0026-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |

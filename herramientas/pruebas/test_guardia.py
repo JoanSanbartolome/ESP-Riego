@@ -4,9 +4,11 @@ Uso: python herramientas/pruebas/test_guardia.py [-v]
 
 Cada caso es (id, agente, herramienta, entrada, bloquea). El JSON se pasa por un archivo
 temporal y AUDITORIA_DIR apunta a una carpeta temporal, así que no toca la auditoría real.
-Los casos T, S, Z, G3x y W1x vienen de VAL-0001-01; los N, R y P, de VAL-0001-02.
+Los casos T, S, Z, G3x y W1x vienen de VAL-0001-01; los N, R y P, de VAL-0001-02; los V, C y K,
+de DEC-0009 (variables, código en línea y heredocs, y palabras de control de la shell); los HD,
+V09–V12, K06 y K07, de VAL-0026-01.
 Los casos de LIMITES son elusiones conocidas y documentadas (gestion/README.md, Guardas):
-se informan, pero no hacen fallar la batería.
+se informan, pero no hacen fallar la batería. Sí la hace fallar un límite que el manual no cite.
 """
 import json
 import os
@@ -22,11 +24,13 @@ TFG = r"C:\Users\josan\proyectos\TFG"
 TFGs = "C:/Users/josan/proyectos/TFG"
 R = str(REPO)
 OFICIAL = r"C:\Program Files\KiCad\10.0\share\kicad\symbols\Device.kicad_sym"
-# Ofuscaciones con variables o concatenación: no se pueden analizar desde el texto del comando.
-LIMITES = {"N24", "N31", "N33"}
+# N33: ofuscación por concatenación, que no se puede analizar desde el texto del comando.
+# K07 y HD12: `case … esac` y la here-string hacia una shell, que la guarda nunca ha analizado.
+LIMITES = {"N33", "K07", "HD12"}
 
 B, P = True, False  # bloquea, pasa
-V, E, L, J = "ing-validacion", "ing-esquematicos", "ing-layout", "jr-conformidad"
+V, D, J = "ing-validacion", "ing-diseno", "jr-conformidad"
+TMPs = TMP.as_posix()
 
 
 def bash(c):
@@ -90,29 +94,29 @@ CASOS = [
     # --- Write/Edit por zonas
     ("W01", V, *w(REPO / "gestion/informes/VAL-0001-01.md"), P),
     ("W02", V, *w(REPO / "docs/validacion/plan.md"), P),
-    ("W03", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-validacion.md"), P),
+    ("W03", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-validacion.md"), B),  # validación no escribe parte
     ("W04", V, *w(REPO / ".claude/agent-memory/ing-validacion/MEMORY.md"), P),
     ("W05", V, *w(TMP / "x.txt"), P),
     ("W06", V, *w(REPO / "docs/02-especificaciones-v2.md"), B),
-    ("W07", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-layout.md"), B),
-    ("W08", V, *w(REPO / ".claude/agent-memory/ing-layout/MEMORY.md"), B),
+    ("W07", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-diseno.md"), B),
+    ("W08", V, *w(REPO / ".claude/agent-memory/ing-diseno/MEMORY.md"), B),
     ("W09", V, *w(str(REPO / "gestion/informes") + r"\..\..\CLAUDE.md"), B),
     ("W10", V, *w(TFG + r"\x.kicad_sch"), B),
     ("W11", V, *w(str(TMP) + r"\..\..\..\proyectos\TFG\x"), B),
     ("W12", V, *w("gestion/informes/rel.md"), P),
-    ("W13", E, *w(REPO / "hardware/v2/esp.kicad_sch"), P),
-    ("W14", E, *w(REPO / "hardware/v2/esp.kicad_pcb"), B),
-    ("W15", E, *w(REPO / "hardware/v2/ESP.KICAD_PCB"), B),
-    ("W16", E, *w(REPO / "hardware/v2/esp.kicad_dru"), B),
-    ("W17", L, *w(REPO / "hardware/v2/esp.kicad_sch"), B),
-    ("W18", L, *w(REPO / "hardware/v2/esp.kicad_pcb"), P),
+    ("W13", D, *w(REPO / "hardware/v2/esp.kicad_sch"), P),
+    ("W14", D, *w(REPO / "hardware/v2/esp.kicad_pcb"), P),
+    ("W15", D, *w(REPO / "hardware/v1-tfg/Control_De_Riego.kicad_sch"), B),
+    ("W16", D, *w(REPO / "hardware/libraries/esp-riego.pretty/X.kicad_mod"), P),
+    ("W17", D, *w(REPO / "herramientas/kicad/pcb_sync.py"), P),
+    ("W18", D, *w(REPO / "herramientas/gestion.py"), B),
     ("W19", J, *w(REPO / "hardware/libraries/esp-riego.kicad_sym"), P),
     ("W20", J, *w(REPO / "gestion/README.md"), B),
     ("W21", J, *w(REPO / ".claude/agents/jr-conformidad.md"), B),
     ("W22", "", *w(REPO / "gestion/informes/x.md"), B),
     ("W23", V, "Edit", {"file_path": str(REPO / "CLAUDE.md"), "old_string": "a", "new_string": "b"}, B),
-    ("W24", E, *w(REPO / "firmware/control-riego.yaml"), P),
-    ("W25", E, *w(REPO / "docs/diseno/alimentacion.md"), P),
+    ("W24", D, *w(REPO / "firmware/control-riego.yaml"), P),
+    ("W25", D, *w(REPO / "docs/diseno/alimentacion.md"), P),
     ("W26", J, *w(REPO / "fabricacion/v2.0/bom.csv"), P),
     ("W27", J, *w(REPO / "docs/02-especificaciones-v2.md"), B),
     ("W28", V, *w(REPO / "gestion/TABLERO.md"), B),
@@ -164,14 +168,14 @@ CASOS = [
     ("Z04", V, *bash("rm -rf docs hardware"), B),
     ("Z05", V, *bash("echo '{}' >> gestion/logs/auditoria/2026-11-03.jsonl"), B),
     ("Z06", V, *bash("cp /tmp/x gestion/checklists/esquema.md"), B),
-    ("Z07", E, *bash("echo texto > docs/diseno/x.md"), P),
-    ("Z08", E, *bash("mkdir -p docs/diseno"), P),
+    ("Z07", D, *bash("echo texto > docs/diseno/x.md"), P),
+    ("Z08", D, *bash("mkdir -p docs/diseno"), P),
     ("Z09", J, *ps("Set-Content -Path hardware/x.txt -Value 'hola'"), P),
     ("Z10", V, *bash("echo x > /dev/null 2>&1"), P),
     ("Z11", J, *bash("tee hardware/x.log < entrada.txt"), P),
     ("Z12", J, *bash("tee gestion/x.log < entrada.txt"), B),
-    ("Z13", L, *bash("cd hardware/v2 && touch notas.txt"), P),
-    ("Z14", L, *bash("cd hardware/v2 && touch esp.kicad_sch"), B),
+    ("Z13", D, *bash("cd hardware/v2 && touch notas.txt"), P),
+    ("Z14", D, *bash("cd hardware/v1-tfg && touch x.kicad_sch"), B),
     # --- falsos positivos que no deben bloquear
     ("F01", V, "Bash", None, P),
     ("F02", V, *bash('grep -o "patron" gestion/informes/x.md'), P),
@@ -192,12 +196,12 @@ CASOS = [
     ("M07", V, *mcp("lint_offgrid", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), fix=True), B),
     ("M08", V, *mcp("run_drc"), B),
     ("M09", V, *mcp("get_board_info"), P),
-    ("M10", E, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "gestion/x.pdf")), B),
-    ("M11", E, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "docs/diseno/x.pdf")), P),
-    ("M12", L, *mcp("save_board"), P),
+    ("M10", D, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "gestion/x.pdf")), B),
+    ("M11", D, *mcp("export_sch_pdf", schematicPath=str(REPO / "hardware/v2/x.kicad_sch"), outputPath=str(REPO / "docs/diseno/x.pdf")), P),
+    ("M12", D, *mcp("save_board"), P),
     ("M13", J, *mcp("export_bom", outputPath=r"C:\Users\josan\Desktop\bom.csv"), B),
     ("M14", J, *mcp("get_jlcpcb_part", lcsc="C25804"), P),
-    ("M15", E, *mcp("create_project", path=str(REPO / "hardware/v2"), name="esp-riego"), P),
+    ("M15", D, *mcp("create_project", path=str(REPO / "hardware/v2"), name="esp-riego"), P),
     ("M16", J, *mcp("open_project", projectPath="../TFG/KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_pro"), B),
     # --- VAL-0001-02: TFG con órdenes no listadas
     ("N01", J, *bash(f"find {TFGs} -name '*.kicad_prl' -delete"), B),
@@ -255,8 +259,8 @@ CASOS = [
     ("N41", V, *mcp("open_project", filename=f"{TFGs}/KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_pro"), B),
     ("N42", V, *mcp("validate_schematic", schematicPath=f"{TFGs}/KiCad_PCB/Control_De_Riego/Control_De_Riego.kicad_sch"), B),
     ("N43", J, *mcp("close_project"), P),
-    ("N44", E, *mcp("lint_offgrid", schematicPath=str(REPO / "docs/x.kicad_sch"), fix=True), B),
-    ("N45", E, *mcp("lint_schematic_cosmetic", schematicPath=str(REPO / "gestion/x.kicad_sch")), B),
+    ("N44", D, *mcp("lint_offgrid", schematicPath=str(REPO / "docs/x.kicad_sch"), fix=True), B),
+    ("N45", D, *mcp("lint_schematic_cosmetic", schematicPath=str(REPO / "gestion/x.kicad_sch")), B),
     ("N46", J, *mcp("export_gerbers", outputDir="fabricacion/v2.0"), P),
     ("N47", J, *mcp("export_gerbers", outputDir="gestion/x"), B),
     ("N48", V, *mcp("open_board", boardPath=str(REPO / "hardware/v1-tfg/Control_De_Riego.kicad_pcb")), P),
@@ -294,17 +298,61 @@ CASOS = [
                     modelPath="${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"), P),
     ("P03", J, *mcp("import_3d_model", modelPath=r"C:\Users\josan\Downloads\x.step",
                     footprintPath=R + r"\hardware\libraries\esp-riego.pretty\X.kicad_mod"), P),
-    ("P04", E, *mcp("add_schematic_component", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
+    ("P04", D, *mcp("add_schematic_component", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
                     symbol="Device:R", footprint="Resistor_SMD:R_0603_1608Metric"), P),
     ("P05", J, *mcp("set_library_table_uri", tablePath=R + r"\hardware\v2\sym-lib-table",
                     uri="${KIPRJMOD}/../libraries/esp-riego.kicad_sym"), P),
-    ("P06", E, *mcp("export_sch_pdf", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
+    ("P06", D, *mcp("export_sch_pdf", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
                     outputPath=R + r"\docs\diseno\esp.pdf",
                     drawingSheet=r"C:\Program Files\KiCad\10.0\share\kicad\template\A4.kicad_wks"), P),
-    ("P07", E, *mcp("add_schematic_text", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
+    ("P07", D, *mcp("add_schematic_text", schematicPath=R + r"\hardware\v2\esp.kicad_sch",
                     text="Ver docs/diseno/alimentacion.md"), P),
-    ("P08", E, *mcp("add_schematic_net_label", schematicPath=R + r"\hardware\v2\esp.kicad_sch", netName="+3V3/ADC"), P),
-    ("P09", E, *mcp("add_schematic_text", schematicPath=R + r"\gestion\x.kicad_sch", text="x"), B),
+    ("P08", D, *mcp("add_schematic_net_label", schematicPath=R + r"\hardware\v2\esp.kicad_sch", netName="+3V3/ADC"), P),
+    ("P09", D, *mcp("add_schematic_text", schematicPath=R + r"\gestion\x.kicad_sch", text="x"), B),
+    # --- DEC-0009: variables asignadas en el propio comando
+    ("V01", D, *bash(f"S={TMPs}/claude/sp; mkdir -p $S/pdf && cp hardware/v2/a.kicad_sch $S/pdf/"), P),
+    ("V02", V, *bash(f'S="{TMPs}/claude/sp"; mkdir -p "$S/a" "$S/b"; git show main:CLAUDE.md > "$S/a/c.md"'), P),
+    ("V03", J, *ps(rf"""$S='{TMP}\sp'; New-Item -ItemType Directory -Force "$S\out" | Out-Null"""), P),
+    ("V04", V, *bash("D=docs; rm -rf $D"), B),
+    ("V05", J, *bash(f"T={TFGs}; rm -rf $T/x"), B),
+    ("V06", V, *bash("mkdir -p $TEMP/val && cp README.md $TEMP/val/"), P),
+    ("V07", J, *bash(f'K="/c/Program Files/KiCad/10.0/bin/kicad-cli.exe"; S={TMPs}/sp; "$K" fp export svg --output $S/out x.pretty'), P),
+    ("V08", V, *bash(f"S={TMPs}/sp; D=$S/val; mkdir -p $D/x"), P),
+    # --- DEC-0009: código en línea y heredocs
+    ("C01", V, *bash(f"python -c \"open(r'{TMPs}/x.txt','w').write('a')\""), P),
+    ("C02", V, *bash("python -I - <<'EOF'\nimport sys\nif len(sys.argv) > 5:\n    print('a')\nEOF"), P),
+    ("C03", J, *bash("cat > hardware/v2/README.md <<'EOF'\n# v2\nmkdir gestion/x\na > b\nEOF"), P),
+    ("C04", V, *bash("cat > docs/x.md <<'EOF'\ntexto\nEOF"), B),
+    ("C05", V, *bash("bash <<'EOF'\nrm -rf docs\nEOF"), B),
+    ("C06", J, *bash("python - <<'EOF'\nopen(r'" + TFG + r"\x','w')" + "\nEOF"), B),
+    ("C07", V, *bash("python - <<'EOF'\nimport os\nos.system('git commit -m x')\nEOF"), B),
+    ("C08", V, *bash("python - <<'EOF'\nprint(1)\nEOF\nrm -rf docs"), B),
+    # --- DEC-0009: palabras de control de la shell
+    ("K01", V, *bash('cd "/c/Program Files/KiCad/10.0/share/kicad" && for f in a b; do grep -o \'(model "[^"]*"\' $f.kicad_mod; done'), P),
+    ("K02", V, *bash("for f in docs/*.md; do rm $f; done"), B),
+    ("K03", V, *bash("if [ -f a -o -f b ]; then echo si; fi"), P),
+    ("K04", V, *bash(f"find hardware/v2 docs -type f -exec md5sum {{}} + | sort -k2 > {TMPs}/md5.txt"), P),
+    ("K05", V, *bash("find docs -name '*.md' -exec rm {} +"), B),
+    ("K06", V, *bash("find . -name '*.md' -exec uniq {} docs/x \\;"), B),
+    ("K07", V, *bash("case x in x) rm -rf docs;; esac"), B),  # límite
+    # --- VAL-0026-01: variables que cambian de valor o que pueden no asignarse
+    ("V09", V, *bash(f"D=docs; rm -rf $D; D={TMPs}/x"), B),
+    ("V10", V, *bash(f"[ 0 = 1 ] && D={TMPs}/x; rm -rf $D/docs"), B),
+    ("V11", V, *bash(f"cd hardware && S={TMPs}/sp && mkdir -p $S/a && cp v2/README.md $S/a/"), P),
+    ("V12", V, *bash(f"S={TMPs}/sp; mkdir -p $S; S=docs; rm -rf $S"), B),
+    # --- VAL-0026-01: heredocs que se ejecutan y << que no abre un heredoc
+    ("HD01", D, *bash("cat > hardware/v2/x.md <<EOF\n$(rm -rf docs)\nEOF"), B),
+    ("HD02", D, *bash("cat > hardware/v2/x.md <<EOF\n`rm -rf docs`\nEOF"), B),
+    ("HD03", V, *bash("cat <<'EOF' | bash\nrm -rf docs\nEOF"), B),
+    ("HD04", V, *bash("cat <<'EOF' | sh -s\nrm -rf docs\nEOF"), B),
+    ("HD05", V, *bash("source /dev/stdin <<'EOF'\nrm -rf docs\nEOF"), B),
+    ("HD06", V, *bash("cat <<END-OF > /dev/null\nx\nEND-OF\nrm -rf docs"), B),
+    ("HD07", V, *bash('echo "a <<EOF"\nrm -rf docs'), B),
+    ("HD08", V, *bash("grep -c '<<EOF' README.md\nrm -rf docs\nEOF"), B),
+    ("HD09", V, *bash("echo x # <<EOF\nrm -rf docs\nEOF"), B),
+    ("HD10", V, *bash("cat > gestion/informes/x.md <<'EOF'\n# informe\nrm -rf docs\n$(rm -rf docs)\nEOF"), P),
+    ("HD11", V, *bash("cat > gestion/informes/x.md <<EOF\nFecha: $(date +%F)\nrm -rf docs\nEOF"), P),
+    ("HD12", V, *bash("bash <<< 'rm -rf docs'"), B),  # límite
 ]
 
 
@@ -352,7 +400,10 @@ def main():
         print(f"Límites que ya se bloquean (quítalos de LIMITES): {', '.join(superados)}")
     print(f"Auditoría de bloqueos: {len(lineas)} líneas para {bloqueos} bloqueos "
           f"({'correcta' if registro_ok else 'INCORRECTA'})")
-    sys.exit(0 if not fallos and registro_ok else 1)
+    manual = (REPO / "gestion" / "README.md").read_text(encoding="utf-8")
+    if sin_documentar := sorted(c for c in LIMITES if c not in manual):
+        print(f"Límites que gestion/README.md no cita: {', '.join(sin_documentar)}")
+    sys.exit(0 if not fallos and registro_ok and not sin_documentar else 1)
 
 
 if __name__ == "__main__":

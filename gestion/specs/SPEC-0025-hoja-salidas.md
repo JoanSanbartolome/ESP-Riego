@@ -3,7 +3,7 @@ id: SPEC-0025
 titulo: Hoja de salidas en el esquema v2
 fase: 3
 estado: propuesta
-responsable: ing-esquematicos
+responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0025-hoja-salidas
 requisitos: [REL-01, REL-03, REL-04, REL-05, REL-06, REL-07, REL-08, REL-10]
@@ -47,6 +47,7 @@ La hoja `hardware/v2/salidas.kicad_sch` pasa a ser el bloque de salidas de la v2
 
 ## Registro
 
-| Fecha | Agente | Acción | Referencia |
-|---|---|---|---|
+| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
+|---|---|---|---|---|---|---|
 | 2026-11-06 | coordinador | Crea la spec (propuesta) | |
+| 2026-11-11 | coordinador | Responsable: ing-diseno; se completa con el ciclo nuevo al abrirla | DEC-0009 |  |  |  |

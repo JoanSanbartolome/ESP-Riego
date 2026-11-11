@@ -73,6 +73,8 @@ def main():
         ("R15", f"feat(sch): entrada\n\n{t}\nSpec: SPEC-0009\n", 1),
         ("R16", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-01, foo\n", 1),
         ("R17", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-011\n", 1),
+        # DEC-0009: agente nuevo
+        ("R18", "feat(sch): entrada\n\nSpec: SPEC-0007\nAgente: ing-diseno\n", 0),
     ]
     m = "Spec: SPEC-0007\nValidacion: VAL-0007-01\nRama: spec/SPEC-0007-entrada\nAgente: coordinador"
     en_merge = [

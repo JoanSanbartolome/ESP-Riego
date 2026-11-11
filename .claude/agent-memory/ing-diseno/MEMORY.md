@@ -1,0 +1,6 @@
+- **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
+- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — JSON de LCSC, API de JLCPCB (tipo y stock), PDFs de ti.com, PDF codificados → imagen; scratchpad compartido; worktrees fuera del repositorio
+- [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004: BTT6050, limitador 3,5–4,9 A; válvulas, descartes, IS sin diodo, LED desde GPIO, E_AS y L
+- [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG
+- [Trucos de esquema y cajetín](reference_trucos_esquema.md) — límites del MCP, hoja entera por script (extends, campos girados, justify de pines de hoja), COMMENT1, PDF, *_ThermalVias ≠ FAB-02
+- [Efectos del MCP de KiCad en la PCB](mcp-efectos-secundarios.md) — open/close reescribe .kicad_pro y deja .kicad_prl/.mcp-backups; sync no copia campos ni sirve en jerárquicos (usar netlist + pcbnew)

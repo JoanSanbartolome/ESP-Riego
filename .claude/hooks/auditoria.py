@@ -20,6 +20,7 @@ import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
+LIMITE = 160  # caracteres de `objetivo`: basta para reconocer la acción (DEC-0009, M6)
 
 
 def rama():
@@ -47,15 +48,15 @@ def ruta_legible(ruta_texto, cwd):
 
 def objetivo(entrada, cwd):
     if not isinstance(entrada, dict):
-        return recortar(entrada, 300)
+        return recortar(entrada, LIMITE)
     for clave in ("file_path", "notebook_path"):
         if entrada.get(clave):
             return ruta_legible(entrada[clave], cwd)
-    for clave, limite in (("command", 300), ("url", 300), ("query", 200), ("skill", 100)):
+    for clave in ("command", "url", "query", "skill"):
         if entrada.get(clave):
-            return recortar(entrada[clave], limite)
+            return recortar(entrada[clave], LIMITE)
     compacto = {k: recortar(v, 80) if isinstance(v, str) else v for k, v in entrada.items()}
-    return recortar(json.dumps(compacto, ensure_ascii=False, default=str), 400)
+    return recortar(json.dumps(compacto, ensure_ascii=False, default=str), LIMITE)
 
 
 def exito(respuesta):

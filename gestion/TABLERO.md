@@ -2,23 +2,18 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 21 · descartada 4.
 
-## Propuestas (3)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
-| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
-
-## Abiertas (1)
+## Propuestas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | Orquestación v2: roles, ciclo, registro y trámite | 0 | coordinador | `spec/SPEC-0026-orquestacion-v2` | — | 2026-11-11 | — |
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
+| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
+| [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | Caja de herramientas de KiCad | 3 | ing-diseno | `spec/SPEC-0027-herramientas-kicad` | — | 2026-11-11 | — |
+| [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
 
-## Cerradas (20)
+## Cerradas (21)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -42,14 +37,30 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | VAL-0022-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-07 |
 | [SPEC-0023](specs/SPEC-0023-calculos-salidas.md) | Selección y cálculos del bloque de salidas | 2 | ing-esquematicos | `spec/SPEC-0023-calculos-salidas` | VAL-0023-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-07 |
 | [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | VAL-0024-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-10 |
+| [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | Orquestación v2: roles, ciclo, registro y trámite | 0 | coordinador | `spec/SPEC-0026-orquestacion-v2` | VAL-0026-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-11 |
 
-## Descartadas (3)
+## Descartadas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
+| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0003](specs/SPEC-0003-auditoria-detalles.md) | Auditoría encadenada, falsos positivos y detalles de commit-msg | 0 | coordinador | `spec/SPEC-0003-auditoria-detalles` | — | 2026-11-04 | — |
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |
+
+## Coste por spec
+
+| Spec | Arranques | Tokens | Acciones | Min |
+|---|---|---|---|---|
+| [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | 5 | 337 886 | 92 | 19 |
+
+## Coste por agente
+
+| Agente | Arranques | Tokens | Acciones | Min |
+|---|---|---|---|---|
+| ing-diseno | 1 | 48 223 | 14 | 1 |
+| ing-validacion | 3 | 252 432 | 70 | 18 |
+| jr-conformidad | 1 | 37 231 | 8 | — |
 
 ## Decisiones
 
@@ -98,4 +109,6 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
 | [VAL-0022-01](informes/VAL-0022-01.md) | SPEC-0022 | APROBADO_CON_OBSERVACIONES | `38090d2` | 2026-11-07 |
 | [VAL-0023-01](informes/VAL-0023-01.md) | SPEC-0023 | APROBADO_CON_OBSERVACIONES | `992812c` | 2026-11-07 |
 | [VAL-0024-01](informes/VAL-0024-01.md) | SPEC-0024 | APROBADO_CON_OBSERVACIONES | `c2401d6` | 2026-11-10 |
+| [VAL-0026-01](informes/VAL-0026-01.md) | SPEC-0026 | APROBADO_CON_OBSERVACIONES | `de91d02` | 2026-11-11 |
+| [VAL-0026-02](informes/VAL-0026-02.md) | SPEC-0026 | APROBADO_CON_OBSERVACIONES | `330972d` | 2026-11-11 |
 

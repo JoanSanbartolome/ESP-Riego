@@ -1,3 +1,4 @@
+- **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
 - [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda del limitador frente al ajuste de la fuente (OLP en % de potencia)
 - [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF codificados → PNG, tramos de precio, hold-up con UVLO, corto vs fuente
 - [Revisión de importaciones](revision-importaciones.md): migraciones, copias y limpiezas KiCad; diff con mapeo, cajetín en PDF, netlist de la base, lib-tables heredadas, `pcb upgrade` como prueba
@@ -6,4 +7,5 @@
 - [Revisión de salidas](revision-salidas.md): salidas.md; E_AS cerrada, datos BTT p. 30, huecos de pads vs clase Salidas, umbrales con bobina caliente/fría
 - [Revisión del bloque MCU](revision-mcu.md): mcu.md; refs duplicadas entre bloques, tablas S3/HDG renderizadas, HDG pág.−3, SimSurfing URL, 15 mm = caja
 - [Revisión de hojas](revision-hojas.md): hojas de esquema v2; netlist de copia, placa de prueba, paridad vs zonas, ThermalVias, diff semántico PCB, polaridad KT-0603R invertida
+- [Revisión de la orquestación](revision-orquestacion.md): agentes/guarda/gestion.py; sondas contra la guarda frente a la versión anterior, abrir/cerrar en copia, herramientas vs servidor MCP
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG

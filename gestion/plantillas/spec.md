@@ -15,6 +15,8 @@ validacion:
 
 # {id} · {titulo}
 
+<!-- Objetivo, restricciones y criterios: sin pasos ni números de línea. Unas 60 líneas. Una spec de bloque o de hito de layout lleva sus pasos en «Alcance». -->
+
 ## Objetivo
 
 <Resultado verificable que produce esta spec, en una o dos frases.>
@@ -26,7 +28,7 @@ validacion:
 
 ## Entradas
 
-<Archivos concretos que el responsable debe leer. La spec es la orden completa: un agente sin más contexto tiene que poder ejecutarla.>
+<Archivos y secciones concretas que el responsable debe leer. La spec es la orden completa: un agente sin más contexto tiene que poder ejecutarla.>
 
 -
 
@@ -38,8 +40,12 @@ validacion:
 
 - [ ]
 
+## Plan de validación
+
+<Nivel (ligero o completo). Qué reproduce validación de forma independiente (lo que tiene riesgo: cotas, mapeo de pines, cálculos con poco margen) y qué comprueba por muestreo (lo mecánico: stock, campos, enlaces).>
+
 ## Registro
 
-| Fecha | Agente | Acción | Referencia |
-|---|---|---|---|
-| {fecha} | coordinador | Crea la spec ({estado}) | |
+| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
+|---|---|---|---|---|---|---|
+| {fecha} | coordinador | Crea la spec ({estado}) | | | | |

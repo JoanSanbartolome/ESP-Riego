@@ -9,7 +9,6 @@ metadata:
 - `add_schematic_text` escribe directamente en el `.kicad_sch` sin `open_project`. Los textos de varias líneas se justifican abajo (`justify left bottom`): el `at` es la base de la última línea y el bloque crece hacia arriba. Admite `≥ – … ² Ω`.
 - Hoja de dibujo `ESP-Riego.kicad_wks`: `${COMMENT1}` va a 3,5 mm en negrita, en una casilla de ≈ 145 mm. Caben unos 50 caracteres; las mayúsculas ocupan más.
 - PDF del cajetín sobre una copia: hay que copiar también `hardware/libraries/` al lado (como `../libraries`). Si no, `${KIPRJMOD}/../libraries/...` no resuelve, y KiCad usa sin avisar la hoja por defecto («Title:», «KiCad E.D.A.»).
-- La guardia bloquea `cp` hacia el *scratchpad* si el destino va en una variable de shell (`"$S/x"`). Hay que escribir la ruta literal. Lo mismo con `kicad-cli -o` y con `python -c` que escriba: hay que usar scripts escritos con Write.
 
 Dibujar una hoja entera (SPEC-0019, 2026-11-06, 55 piezas):
 - Las llamadas *batch* del MCP **cortan a los 30 s** a medias: rinden ~4 s por pieza cuando la hoja crece. Lotes de ≤ 5–10, o colocar con el MCP y hacer etiquetas, campos y no-connect con un script propio (más rápido y reproducible).
