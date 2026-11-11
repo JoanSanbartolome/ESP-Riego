@@ -40,7 +40,9 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
 TFG = Path(r"C:\Users\josan\proyectos\TFG")
-TEMPORAL = Path(tempfile.gettempdir())
+# GUARDIA_TEMPORAL cambia la carpeta temporal exenta: solo para probar las zonas en una copia
+# del repositorio que está dentro de la carpeta temporal (herramientas/pruebas/test_gestion.py).
+TEMPORAL = Path(os.environ.get("GUARDIA_TEMPORAL") or tempfile.gettempdir())
 
 ZONAS = {
     "ing-diseno": ("hardware/", "docs/diseno/", "firmware/", "herramientas/kicad/"),
