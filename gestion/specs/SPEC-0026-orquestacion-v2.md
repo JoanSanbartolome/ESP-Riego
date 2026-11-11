@@ -69,7 +69,8 @@ Nivel **ligero** con la checklist de proceso v3. Se reproduce de forma independi
 
 ## Registro
 
-| Fecha | Agente | Acción | Referencia |
-|---|---|---|---|
+| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
+|---|---|---|---|---|---|---|
 | 2026-11-11 | coordinador | Crea la spec (propuesta) a partir de la revisión de la orquestación | DEC-0009 |
 | 2026-11-11 | coordinador | Abre la spec: el usuario acepta la opción B completa | DEC-0009 |
+| 2026-11-11 | coordinador | Implementa M2 a M9: guarda, gestion.py, tres agentes, instrucciones, plantillas, checklists, ESTADO.md y las specs 0027 y 0028 propuestas. Baterías: guarda 254/255 (N33, límite conocido), commit-msg 25/25 y gestión 27/27 | 8a3f4c0, b8ad21e, ce3d649, fc45962 |  |  |  |

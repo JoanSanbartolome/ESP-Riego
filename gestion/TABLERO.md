@@ -2,15 +2,16 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
+Specs por estado: propuesta 4 · abierta 1 · cerrada 20 · descartada 4.
 
-## Propuestas (3)
+## Propuestas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
-| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
+| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
+| [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | Caja de herramientas de KiCad | 3 | ing-diseno | `spec/SPEC-0027-herramientas-kicad` | — | 2026-11-11 | — |
+| [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
 
 ## Abiertas (1)
 
@@ -43,10 +44,11 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
 | [SPEC-0023](specs/SPEC-0023-calculos-salidas.md) | Selección y cálculos del bloque de salidas | 2 | ing-esquematicos | `spec/SPEC-0023-calculos-salidas` | VAL-0023-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-07 |
 | [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | VAL-0024-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-10 |
 
-## Descartadas (3)
+## Descartadas (4)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
+| [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0003](specs/SPEC-0003-auditoria-detalles.md) | Auditoría encadenada, falsos positivos y detalles de commit-msg | 0 | coordinador | `spec/SPEC-0003-auditoria-detalles` | — | 2026-11-04 | — |
 | [SPEC-0008](specs/SPEC-0008-correcciones-estudio-salidas.md) | Correcciones menores del estudio de salidas | 2 | ing-esquematicos | `spec/SPEC-0008-correcciones-estudio-salidas` | — | 2026-11-04 | — |
 | [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md) | Notas de la importación de la v1 y checklist de librerías v2 | 1 | jr-conformidad | `spec/SPEC-0012-notas-importacion-v1` | — | 2026-11-05 | — |

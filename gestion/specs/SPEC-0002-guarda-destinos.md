@@ -2,7 +2,7 @@
 id: SPEC-0002
 titulo: Guarda: claves de destino del MCP que faltan
 fase: 0
-estado: propuesta
+estado: descartada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0002-guarda-destinos
@@ -43,7 +43,8 @@ Que la guarda compruebe la zona de las claves de escritura del MCP que hoy no mi
 
 ## Registro
 
-| Fecha | Agente | Acción | Referencia |
-|---|---|---|---|
+| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
+|---|---|---|---|---|---|---|
 | 2026-11-04 | coordinador | Crea la spec (propuesta) a partir de VAL-0001-03 | |
 | 2026-11-04 | usuario | Pide reducir SPEC-0002 y SPEC-0003 al mínimo; queda solo VAL-0001-03-02 | |
+| 2026-11-11 | coordinador | Descartada: la guarda no se endurece más (M9) | DEC-0009 |  |  |  |
