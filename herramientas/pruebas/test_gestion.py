@@ -80,7 +80,8 @@ def main():
 
     # --- nueva-spec y abrir
     codigo, salida = gestion(tmp, "nueva-spec", "--titulo", "Prueba: del ciclo", "--fase", "0",
-                             "--responsable", "ing-diseno", "--estado", "propuesta", "--slug", "prueba")
+                             "--responsable", "ing-diseno", "--estado", "propuesta", "--slug", "prueba",
+                             "--requisitos", "ALI-01,MCU-05")
     caso("A01 nueva-spec crea la spec con plan de validación y registro de 7 columnas",
          codigo == 0 and "## Plan de validación" in ruta_spec.read_text(encoding="utf-8")
          and "| Tokens | Acciones | Min |" in ruta_spec.read_text(encoding="utf-8"), salida)
@@ -100,6 +101,8 @@ def main():
     caso("A05 el commit de abrir lleva Spec, Agente y Co-Authored-By",
          git(tmp, "log", "-1", "--format=%(trailers:key=Spec,valueonly)%(trailers:key=Agente,valueonly)"
              "%(trailers:key=Co-Authored-By,valueonly)").split() == [SPEC, "coordinador", "Prueba", "<prueba@example.com>"])
+    caso("A06 el commit de abrir lleva los Requisitos de la spec, que es el trailer que lee la trazabilidad",
+         git(tmp, "log", "-1", "--format=%(trailers:key=Requisitos,valueonly)").strip() == "ALI-01, MCU-05")
 
     # --- revisar e integrar
     escribir(tmp, "hardware/v2/notas.md")

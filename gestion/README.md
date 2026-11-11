@@ -11,7 +11,7 @@ Cómo se organiza el trabajo de ESP-Riego: quién hace qué, cómo se registra y
 | `jr-conformidad` | [`.claude/agents/jr-conformidad.md`](../.claude/agents/jr-conformidad.md) | Sonnet | `hardware/` (fichas, tablas de campos, campos de los esquemas), `fabricacion/` |
 | `ing-validacion` | [`.claude/agents/ing-validacion.md`](../.claude/agents/ing-validacion.md) | el de la sesión; Sonnet en el nivel ligero | `gestion/informes/`, `docs/validacion/` |
 
-`ing-diseno` lleva cada bloque de principio a fin: cálculos, piezas, esquema y PCB. Lo que se mantiene separado es la revisión: quien diseña no valida. Los agentes de diseño escriben además su parte (`gestion/logs/SPEC-NNNN/NN-<agente>.md`), y todos, su memoria (`.claude/agent-memory/<agente>/`). Ninguno usa git para escribir, escribe en la carpeta del TFG ni lanza otros agentes.
+`ing-diseno` lleva cada bloque de principio a fin: cálculos, piezas, esquema y PCB. Lo que se mantiene separado es la revisión: quien diseña no valida. `ing-diseno` y `jr-conformidad` escriben además su parte (`gestion/logs/SPEC-NNNN/NN-<agente>.md`; validación no: su registro es el informe), y todos, su memoria (`.claude/agent-memory/<agente>/`). Ninguno usa git para escribir, escribe en la carpeta del TFG ni lanza otros agentes.
 
 ## Ciclo de vida de una spec
 
@@ -44,7 +44,7 @@ Una spec cubre un **bloque** (selección y cálculos, piezas, hoja y sincronizac
 5. **Entre pasos, comprobaciones automáticas** (`verificar.py` y las herramientas de `herramientas/kicad/`). `jr-conformidad` entra al final del bloque para el tipo y el stock, la tabla de campos y las fichas.
 6. **Validar** una vez, al final de la spec. `ing-validacion` entrega `gestion/informes/VAL-NNNN-NN.md` con veredicto `APROBADO`, `APROBADO_CON_OBSERVACIONES` o `RECHAZADO`.
    - El **plan de validación** de la spec dice el nivel y dónde está el riesgo: qué se reproduce de forma independiente (cotas, mapeo de pines, cálculos con poco margen, lo que va a cobre) y qué se comprueba por muestreo (stock, campos, enlaces).
-   - **Nivel** (DEC-0005): `ligero`, con `model: sonnet`, para texto, documentación y proceso; `completo`, con el modelo de la sesión, para piezas, esquema, layout y fabricación. Ante la duda, completo.
+   - **Nivel** (DEC-0005): `ligero`, para texto, documentación y proceso; `completo`, para piezas, esquema, layout y fabricación. Ante la duda, completo. La definición de `ing-validacion` usa el modelo de la sesión: en el nivel ligero, el coordinador lo lanza con `model: sonnet`.
    - En el layout hay validación completa en el primer hito (reglas y *floorplan*) y en el último; en los intermedios bastan las comprobaciones automáticas y el visto bueno del usuario sobre una imagen.
 7. **Corregir y revalidar** continuando la misma instancia del agente (`SendMessage`), que ya tiene el contexto. Una instancia nueva, solo para un paso nuevo. La revalidación se limita a los hallazgos y a lo corregido, y genera el informe siguiente (`-02`).
    - Las M que afectan a la spec siguiente se corrigen antes del merge. Las B y las M que no bloquean se apuntan, una línea cada una, en la spec de mantenimiento de la fase, que está en `propuesta` desde que aparece la primera.
@@ -133,7 +133,8 @@ El control tiene dos capas: **prevención**, que bloquea antes de que ocurra, y 
 **Límites conocidos**
 
 - Los scripts que lanza un agente y el código en línea de `python` o `node` (`-c`, heredoc) pueden escribir sin que la guarda lo vea, salvo que el comando mencione el TFG. La detección los cubre.
-- La concatenación no se analiza: `& ('gi'+'t') commit` pasa (caso N33 de la batería). Las variables que no se asignan en el propio comando tampoco se sustituyen. Fuera de la carpeta del TFG, una orden de escritura que la guarda no conozca también pasa.
+- El cuerpo de un heredoc (`<<EOF`) solo se deja sin analizar si lo reciben `cat`, `tee` o un intérprete y la línea no lo pasa a una shell (`| bash`, `source`); con el delimitador sin comillas se analizan las líneas que llevan `$(…)` o comillas invertidas, que la shell ejecuta. Las variables se sustituyen en orden, y una asignación tras `&&` solo vale hasta que acaba su cadena.
+- La concatenación no se analiza: `& ('gi'+'t') commit` pasa (caso N33 de la batería). Tampoco se analizan `case … esac` (K07) ni una *here-string* hacia una shell, `bash <<< '…'` (HD12). Las variables que no se asignan en el propio comando no se sustituyen. Fuera de la carpeta del TFG, una orden de escritura que la guarda no conozca también pasa (`uniq a b`, `tree -o`). La batería falla si un caso de `LIMITES` no está citado aquí.
 - Las herramientas MCP que trabajan sobre la placa o el esquema cargados no llevan ruta, así que su zona no se comprueba al llamarlas. De las que llevan ruta, solo se comprueban los argumentos de destino conocidos (`CLAVES_DESTINO` en `guardia.py`).
 - La guarda trata como orden de git cualquier `git <palabra>` que aparezca en un comando, incluso dentro de un texto. Para buscar texto se usa la herramienta Grep.
 - **Copia de seguridad del TFG:** la huella detecta cualquier cambio, pero no lo repara. El usuario mantiene su propia copia del TFG fuera del sistema (lo confirmó el 2026-11-03).

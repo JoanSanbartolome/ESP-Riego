@@ -43,7 +43,7 @@ Trabajas solo por encargo del coordinador y siempre dentro de una SPEC, que es l
 
 **Al terminar**
 
-1. Si cargaste un proyecto en el MCP, guárdalo y ciérralo.
+1. Si cargaste un proyecto en el MCP, guárdalo y ciérralo. `ing-validacion` lo cierra sin guardar (`save: false`).
 2. Si has tocado un proyecto KiCad, ejecuta `python herramientas/verificar.py <proyecto>`.
 3. Repasa los puntos `[juicio]` de la checklist de tu trabajo. Los `[auto]` los comprueban los scripts.
 4. Escribe tu parte con `gestion/plantillas/parte.md`: 40 líneas como máximo. Los datos (tablas, cotas, stock) van en su archivo, no en el parte.

@@ -2,14 +2,16 @@
 
 Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herramientas/` y convenciones.
 
-**Versión:** v4 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v5 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Guardas y hooks
 
 - [ ] [auto: py_compile] `python -m py_compile` de `.claude/hooks/*.py`, `.githooks/*.py` y `herramientas/**/*.py` sin errores.
-- [ ] [auto: baterías] `herramientas/pruebas/test_guardia.py`, `test_commit_msg.py` y `test_gestion.py` pasan. Cada fallo nuevo encontrado en la revisión se añade a la batería. Los límites aceptados se marcan en `LIMITES` y se documentan en `gestion/README.md`.
+- [ ] [auto: baterías] `herramientas/pruebas/test_guardia.py`, `test_commit_msg.py` y `test_gestion.py` pasan. Cada fallo nuevo encontrado en la revisión se añade a la batería. Los límites aceptados se marcan en `LIMITES` y se documentan en `gestion/README.md`: la batería falla si el manual no cita alguno.
+- [ ] [auto: test_gestion.py] `abrir`, `integrar` y `cerrar` dejan los trailers que leen `commit-msg` y la trazabilidad (`Spec`, `Agente`, `Requisitos`, `Validacion`, `Rama`).
+- [ ] [juicio] Cada heurística nueva de la guarda se prueba con sondas adversarias (comillas, delimitadores, tuberías hacia una shell, expansiones dentro del texto que se salta) y se compara con la versión anterior: lo que antes se bloqueaba y ahora pasa se corrige o va a `LIMITES`, y cada sonda, a la batería.
 - [ ] [juicio] La batería de la guarda cubre:
   - git directo y a través de envoltorios (`bash -c`, `cmd /c`, `pwsh -Command`, `iex`, `$(…)`);
   - el TFG por ruta absoluta, relativa (`../TFG`), por nombre corto 8.3, por `cd` previo, por el MCP y en tuberías hacia órdenes que borran (`Get-ChildItem … | Remove-Item`, `find -delete`);
@@ -31,7 +33,8 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 - [ ] [juicio] En una spec que copia o renombra un proyecto, un `diff` frente al origen, con los nombres nuevos aplicados, muestra solo lo que la spec permite; lo heredado sin cambios (p. ej. `outputdirectory`, `embedded_files`) se busca a propósito.
 - [ ] [juicio] En una spec de limpieza, el inventario de lo retirado se coteja con la netlist del estado de partida (referencias, valores y redes), no solo con recuentos.
 - [ ] [juicio] Cuando un log justifica una desviación con «no se convierte» o «no resuelve», validación la reproduce con una orden concreta.
-- [ ] [auto: commit-msg en el merge] `python herramientas/integridad_tfg.py verificar` da el TFG intacto, y existe una copia recuperable del TFG (la mantiene el usuario).
+- [ ] [auto: commit-msg en el merge] `python herramientas/integridad_tfg.py verificar` da el TFG intacto.
+- [ ] [juicio] Existe una copia recuperable del TFG (la mantiene el usuario).
 - [ ] [auto: gestion.py revisar] `herramientas/revisar_zonas.py` confirma que la auditoría solo ha crecido. Para probarlo en una copia del repositorio dentro de la carpeta temporal, hay que anular la exención de esa carpeta con `GUARDIA_TEMPORAL`.
 
 ## Documentación
@@ -46,3 +49,4 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 | v2 | 2026-11-03 | Propuestas de VAL-0001-02: MCP legítimo en la batería, redirecciones y tuberías, prueba en vivo tras cambiar un agente, auditoría que solo crece, copia del TFG |
 | v3 | 2026-11-05 | Propuestas de VAL-0009-01, VAL-0013-01 y VAL-0014-01: diff frente al origen en copias, inventario frente a la netlist de partida y reproducción de las justificaciones |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]`; agentes y baterías nuevos |
+| v5 | 2026-11-11 | Propuestas de VAL-0026-01: sondas adversarias para cada heurística nueva de la guarda, límites citados en el manual, trailers de `abrir` y `cerrar`, y la copia del TFG separada de su huella |

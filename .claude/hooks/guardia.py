@@ -18,10 +18,11 @@ al agente) cuando:
   fabricacion/, docs/diseno/, docs/validacion/, firmware/ o la carpeta temporal;
 - ing-validacion usa una herramienta MCP que guardaría o modificaría el diseño.
 
-Para resolver las rutas, sustituye las variables que se asignan en el propio comando
-(S=/ruta; mkdir $S/x) y no trata como órdenes el cuerpo de un heredoc que no va a una
-shell. El código en línea de python o node no se analiza, igual que el de un script,
-salvo que el comando toque el TFG (DEC-0009, M9).
+Para resolver las rutas, sustituye en orden las variables que se asignan en el propio
+comando (S=/ruta; mkdir $S/x) y no trata como órdenes el cuerpo de un heredoc que reciben
+cat, tee o un intérprete, salvo que la línea lo pase a una shell o que, sin comillas en el
+delimitador, lleve $(...) o `...`. El código en línea de python o node no se analiza,
+igual que el de un script, salvo que el comando toque el TFG (DEC-0009, M9).
 
 Es una red de seguridad, no un sandbox: lo que escribe un script de Python o de
 PowerShell no se puede analizar desde el comando. Lo que se escape lo detectan
@@ -73,9 +74,15 @@ TAG_LISTADO = {"-l", "--list", "--contains", "--no-contains", "--merged", "--no-
 PREFIJOS = {"&", ".", "sudo", "command", "exec", "time", "env", "nohup", "call",
             # palabras de control de la shell: la orden es lo que viene detrás
             "do", "then", "else", "elif", "if", "while", "until", "!"}
-# Shells: el cuerpo de un heredoc que reciben son órdenes; para cualquier otro programa es texto.
 SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "cmd", "pwsh", "powershell"}
-HEREDOC = re.compile(r"(?<!<)<<-?\s*(['\"]?)([A-Za-z_]\w*)\1")
+# <<EOF, <<-EOF, <<'EOF', <<"EOF" y <<\EOF, con el delimitador completo (FIN-DE-TEXTO, EOF.1).
+HEREDOC = re.compile(r"<<-?[ \t]*(?:'([^'\n]+)'|\"([^\"\n]+)\"|(\\?)([^\s;&|<>()'\"\\]+))")
+# El cuerpo de un heredoc es texto solo para estos programas; para cualquier otro se analiza.
+TEXTO_HEREDOC = {"cat", "tee", "python", "python3", "py", "node"}
+# Órdenes que ejecutan lo que reciben por la entrada.
+EJECUTAN_ENTRADA = SHELLS | {"source", "eval", "xargs", "iex", "invoke-expression"}
+# Fin de una cadena de &&: ; salto de línea, ||, y | o & sueltos (no 2>&1 ni &>).
+ROMPE_CADENA = re.compile(r";|\n|\|\||(?<![&>])&(?![&>])|(?<!\|)\|(?!\|)")
 VALOR = r"(\"[^\"\n]*\"|'[^'\n]*'|[^\s;&|\n=\"']+)"
 # S=/ruta (bash, sin espacios) y $S = 'C:\ruta' (PowerShell)
 ASIGNACION = re.compile(r"(?:^|[;&|\n(]\s*|\bexport\s+)([A-Za-z_]\w*)=" + VALOR
@@ -198,36 +205,89 @@ def motivo_destino(agente, ruta):
     memoria = f".claude/agent-memory/{agente}"
     if rel == memoria or rel.startswith(memoria + "/"):
         return None
-    if re.fullmatch(rf"gestion/logs/spec-\d{{4}}/\d{{2}}-{re.escape(agente)}\.md", rel):
+    # Validación no escribe parte: su registro es el informe.
+    if agente != "ing-validacion" and re.fullmatch(
+            rf"gestion/logs/spec-\d{{4}}/\d{{2}}-{re.escape(agente)}\.md", rel):
         return None
     zonas = ZONAS.get(agente, ())
     if any(rel == z.rstrip("/") or rel.startswith(z) for z in zonas):
         if any(rel == x.rstrip("/") or rel.startswith(x) for x in EXCLUIDAS.get(agente, ())):
             return f"{rel} es de solo lectura para ti"
         return None
-    return f"{rel} está fuera de tu zona ({', '.join(zonas) or 'ninguna'}, tu log y tu memoria)"
+    propio = "tu memoria" if agente == "ing-validacion" else "tu parte y tu memoria"
+    return f"{rel} está fuera de tu zona ({', '.join(zonas) or 'ninguna'}, {propio})"
 
 
 # --- Troceado de comandos ------------------------------------------------------------
 
+def heredocs_de(linea, comilla):
+    """Heredocs que abre una línea fuera de comillas y de comentarios, [(posición, delimitador,
+    literal)], y la comilla que queda abierta al acabar la línea. `literal`: el delimitador va
+    entre comillas, así que la shell no expande $(...) ni `...` dentro del cuerpo."""
+    abiertos, i = [], 0
+    while i < len(linea):
+        c = linea[i]
+        if comilla:
+            if c == "\\" and comilla == '"':
+                i += 1
+            elif c == comilla:
+                comilla = None
+        elif c == "\\":
+            i += 1
+        elif c in "\"'":
+            comilla = c
+        elif c == "#" and (i == 0 or linea[i - 1].isspace()):
+            break
+        elif linea.startswith("<<<", i):
+            i += 2
+        elif linea.startswith("<<", i):
+            m = HEREDOC.match(linea, i)
+            if m:
+                abiertos.append((i, m.group(1) or m.group(2) or m.group(4),
+                                 bool(m.group(1) or m.group(2) or m.group(3))))
+                i = m.end() - 1
+            else:
+                i += 1
+        i += 1
+    return abiertos, comilla
+
+
+def heredoc_es_texto(linea, posicion):
+    """¿El heredoc que se abre en `posicion` es texto para un programa que no lo ejecuta?
+    Lo es si lo recibe cat, tee o un intérprete y ningún tramo de la línea se lo pasa a una
+    shell (`cat <<EOF | bash`, `source /dev/stdin <<EOF`)."""
+    antes = partir(linea[:posicion])
+    if not antes or orden(trocear(antes[-1]))[0] not in TEXTO_HEREDOC:
+        return False
+    for segmento in partir(linea):
+        tokens = trocear(segmento)
+        if tokens and (tokens[0] == "." or orden(tokens)[0] in EJECUTAN_ENTRADA):
+            return False
+    return True
+
+
 def sin_heredocs(comando):
-    """Quita el cuerpo de los heredocs (<<EOF ... EOF) que no van a una shell: es texto o
-    código para otro programa (python, cat), no órdenes. La línea que lo abre se conserva,
-    con sus redirecciones."""
-    lineas, salida, i = comando.split("\n"), [], 0
+    """Quita el cuerpo de los heredocs (<<EOF ... EOF) que son texto o código para otro
+    programa (cat, tee, python), no órdenes. La línea que lo abre se conserva, con sus
+    redirecciones. Se conserva también, para analizarlo: el cuerpo que va a una shell o a un
+    programa que no se conoce; las líneas con $(...) o `...` de un heredoc sin comillas, que
+    la shell ejecuta; y todo lo que sigue a un << que no llega a cerrarse."""
+    lineas, salida, comilla, i = comando.split("\n"), [], None, 0
     while i < len(lineas):
         linea = lineas[i]
         salida.append(linea)
         i += 1
-        m = HEREDOC.search(linea)
-        if not m:
-            continue
-        antes = partir(linea[:m.start()])
-        if antes and orden(trocear(antes[-1]))[0] in SHELLS:
-            continue
-        while i < len(lineas) and lineas[i].strip() != m.group(2):
-            i += 1
-        i += 1  # la línea que cierra
+        abiertos, comilla = heredocs_de(linea, comilla)
+        for posicion, delimitador, literal in abiertos:
+            fin = next((j for j in range(i, len(lineas)) if lineas[j].strip() == delimitador), None)
+            if fin is None:
+                break
+            cuerpo = lineas[i:fin]
+            if not heredoc_es_texto(linea, posicion):
+                salida += cuerpo
+            elif not literal:
+                salida += [l for l in cuerpo if "$(" in l or "`" in l]
+            i = fin + 1
     return "\n".join(salida)
 
 
@@ -238,17 +298,39 @@ def sustituir(texto, valores):
 
 
 def expandir(comando):
-    """Sustituye las variables que se asignan en el propio comando (S=/ruta; mkdir $S/x ·
-    $S = 'C:\\ruta'; New-Item $S), para resolver de verdad las rutas que las usan. Las que
-    no se asignan aquí, o salen de $(...), se dejan como están."""
-    valores = {}
+    """Sustituye, en orden, las variables que se asignan en el propio comando (S=/ruta; mkdir
+    $S/x · $S = 'C:\\ruta'; New-Item $S), para resolver de verdad las rutas que las usan: cada
+    $VAR toma el valor vigente en ese punto. Las que no se asignan aquí, o salen de $(...), se
+    dejan como están. Una asignación tras &&, || o | puede no ejecutarse: solo vale hasta que
+    acaba su cadena de && (A && S=/ruta && mkdir $S)."""
+    valores, dudosas, salida, pos = {}, set(), [], 0
+
+    def tramo(texto):
+        corte = ROMPE_CADENA.search(texto) if dudosas else None
+        if not corte:
+            return sustituir(texto, valores)
+        cabeza = sustituir(texto[:corte.start()], valores)
+        for nombre in dudosas:
+            valores.pop(nombre, None)
+        dudosas.clear()
+        return cabeza + sustituir(texto[corte.start():], valores)
+
     for m in ASIGNACION.finditer(comando):
         nombre, valor = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+        inicio = m.start(1) if m.group(1) else m.start(3) - 1
+        salida.append(tramo(comando[pos:inicio]))
+        salida.append(sustituir(comando[inicio:m.end()], valores))
+        pos = m.end()
+        previo = re.sub(r"\bexport\s*$", "", comando[:inicio]).rstrip()
         valor = valor.strip("\"'")
         if "$(" in valor or "`" in valor:
+            valores.pop(nombre, None)
+            dudosas.discard(nombre)
             continue
         valores[nombre] = sustituir(valor, valores)
-    return sustituir(comando, valores) if valores else comando
+        (dudosas.add if previo.endswith(("&", "|")) else dudosas.discard)(nombre)
+    salida.append(tramo(comando[pos:]))
+    return "".join(salida)
 
 
 def partir(comando):
@@ -398,7 +480,8 @@ def destinos(nombre, args, segmento, cwd):
     elif nombre == "find" and any(a in ("-delete", "-exec", "-execdir", "-ok", "-okdir") for a in args):
         ejecutadas = [re.split(r"[\\/]", args[i + 1])[-1].lower() for i, a in enumerate(args[:-1])
                       if a in ("-exec", "-execdir", "-ok", "-okdir")]
-        if "-delete" in args or any(e not in SOLO_LECTURA for e in ejecutadas):
+        # uniq y tree están en SOLO_LECTURA, pero escriben con un segundo argumento o con -o
+        if "-delete" in args or any(e not in SOLO_LECTURA or e in ("uniq", "tree") for e in ejecutadas):
             for a in args:  # las carpetas de partida van antes de la expresión
                 if a.startswith(("-", "(", "!")):
                     break

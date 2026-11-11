@@ -305,8 +305,10 @@ def abrir(args):
     anotar(ruta, "coordinador", "Abre la spec")
     tablero(None)
     git_ok("add", "--", "gestion")
+    requisitos = datos.get("requisitos") or []  # la trazabilidad lee este trailer
     sha = commit(f"spec({args.spec}): abrir — {datos.get('titulo', '')}",
-                 {"Spec": args.spec, "Agente": "coordinador"})
+                 {"Spec": args.spec, "Agente": "coordinador",
+                  "Requisitos": requisitos if isinstance(requisitos, str) else ", ".join(requisitos)})
     git_ok("switch", "-q", "-c", datos["rama"])
     print(f"{args.spec} abierta en {sha}. Rama actual: {datos['rama']}")
 

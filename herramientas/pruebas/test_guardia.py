@@ -5,9 +5,10 @@ Uso: python herramientas/pruebas/test_guardia.py [-v]
 Cada caso es (id, agente, herramienta, entrada, bloquea). El JSON se pasa por un archivo
 temporal y AUDITORIA_DIR apunta a una carpeta temporal, así que no toca la auditoría real.
 Los casos T, S, Z, G3x y W1x vienen de VAL-0001-01; los N, R y P, de VAL-0001-02; los V, C y K,
-de DEC-0009 (variables, código en línea y heredocs, y palabras de control de la shell).
+de DEC-0009 (variables, código en línea y heredocs, y palabras de control de la shell); los HD,
+V09–V12, K06 y K07, de VAL-0026-01.
 Los casos de LIMITES son elusiones conocidas y documentadas (gestion/README.md, Guardas):
-se informan, pero no hacen fallar la batería.
+se informan, pero no hacen fallar la batería. Sí la hace fallar un límite que el manual no cite.
 """
 import json
 import os
@@ -23,8 +24,9 @@ TFG = r"C:\Users\josan\proyectos\TFG"
 TFGs = "C:/Users/josan/proyectos/TFG"
 R = str(REPO)
 OFICIAL = r"C:\Program Files\KiCad\10.0\share\kicad\symbols\Device.kicad_sym"
-# Ofuscaciones por concatenación: no se pueden analizar desde el texto del comando.
-LIMITES = {"N33"}
+# N33: ofuscación por concatenación, que no se puede analizar desde el texto del comando.
+# K07 y HD12: `case … esac` y la here-string hacia una shell, que la guarda nunca ha analizado.
+LIMITES = {"N33", "K07", "HD12"}
 
 B, P = True, False  # bloquea, pasa
 V, D, J = "ing-validacion", "ing-diseno", "jr-conformidad"
@@ -92,7 +94,7 @@ CASOS = [
     # --- Write/Edit por zonas
     ("W01", V, *w(REPO / "gestion/informes/VAL-0001-01.md"), P),
     ("W02", V, *w(REPO / "docs/validacion/plan.md"), P),
-    ("W03", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-validacion.md"), P),
+    ("W03", V, *w(REPO / "gestion/logs/SPEC-0001/02-ing-validacion.md"), B),  # validación no escribe parte
     ("W04", V, *w(REPO / ".claude/agent-memory/ing-validacion/MEMORY.md"), P),
     ("W05", V, *w(TMP / "x.txt"), P),
     ("W06", V, *w(REPO / "docs/02-especificaciones-v2.md"), B),
@@ -331,6 +333,26 @@ CASOS = [
     ("K03", V, *bash("if [ -f a -o -f b ]; then echo si; fi"), P),
     ("K04", V, *bash(f"find hardware/v2 docs -type f -exec md5sum {{}} + | sort -k2 > {TMPs}/md5.txt"), P),
     ("K05", V, *bash("find docs -name '*.md' -exec rm {} +"), B),
+    ("K06", V, *bash("find . -name '*.md' -exec uniq {} docs/x \\;"), B),
+    ("K07", V, *bash("case x in x) rm -rf docs;; esac"), B),  # límite
+    # --- VAL-0026-01: variables que cambian de valor o que pueden no asignarse
+    ("V09", V, *bash(f"D=docs; rm -rf $D; D={TMPs}/x"), B),
+    ("V10", V, *bash(f"[ 0 = 1 ] && D={TMPs}/x; rm -rf $D/docs"), B),
+    ("V11", V, *bash(f"cd hardware && S={TMPs}/sp && mkdir -p $S/a && cp v2/README.md $S/a/"), P),
+    ("V12", V, *bash(f"S={TMPs}/sp; mkdir -p $S; S=docs; rm -rf $S"), B),
+    # --- VAL-0026-01: heredocs que se ejecutan y << que no abre un heredoc
+    ("HD01", D, *bash("cat > hardware/v2/x.md <<EOF\n$(rm -rf docs)\nEOF"), B),
+    ("HD02", D, *bash("cat > hardware/v2/x.md <<EOF\n`rm -rf docs`\nEOF"), B),
+    ("HD03", V, *bash("cat <<'EOF' | bash\nrm -rf docs\nEOF"), B),
+    ("HD04", V, *bash("cat <<'EOF' | sh -s\nrm -rf docs\nEOF"), B),
+    ("HD05", V, *bash("source /dev/stdin <<'EOF'\nrm -rf docs\nEOF"), B),
+    ("HD06", V, *bash("cat <<END-OF > /dev/null\nx\nEND-OF\nrm -rf docs"), B),
+    ("HD07", V, *bash('echo "a <<EOF"\nrm -rf docs'), B),
+    ("HD08", V, *bash("grep -c '<<EOF' README.md\nrm -rf docs\nEOF"), B),
+    ("HD09", V, *bash("echo x # <<EOF\nrm -rf docs\nEOF"), B),
+    ("HD10", V, *bash("cat > gestion/informes/x.md <<'EOF'\n# informe\nrm -rf docs\n$(rm -rf docs)\nEOF"), P),
+    ("HD11", V, *bash("cat > gestion/informes/x.md <<EOF\nFecha: $(date +%F)\nrm -rf docs\nEOF"), P),
+    ("HD12", V, *bash("bash <<< 'rm -rf docs'"), B),  # límite
 ]
 
 
@@ -378,7 +400,10 @@ def main():
         print(f"Límites que ya se bloquean (quítalos de LIMITES): {', '.join(superados)}")
     print(f"Auditoría de bloqueos: {len(lineas)} líneas para {bloqueos} bloqueos "
           f"({'correcta' if registro_ok else 'INCORRECTA'})")
-    sys.exit(0 if not fallos and registro_ok else 1)
+    manual = (REPO / "gestion" / "README.md").read_text(encoding="utf-8")
+    if sin_documentar := sorted(c for c in LIMITES if c not in manual):
+        print(f"Límites que gestion/README.md no cita: {', '.join(sin_documentar)}")
+    sys.exit(0 if not fallos and registro_ok and not sin_documentar else 1)
 
 
 if __name__ == "__main__":
