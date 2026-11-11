@@ -396,10 +396,13 @@ def destinos(nombre, args, segmento, cwd):
     elif nombre in PERMISOS:
         rutas += [p for p in posicionales if not re.fullmatch(r"[+-]?[0-7]{3,4}|[+-][a-zA-Z]+|[ugoa]*[+=-][rwxXst]+", p)]
     elif nombre == "find" and any(a in ("-delete", "-exec", "-execdir", "-ok", "-okdir") for a in args):
-        for a in args:  # las carpetas de partida van antes de la expresión
-            if a.startswith(("-", "(", "!")):
-                break
-            rutas.append(a)
+        ejecutadas = [re.split(r"[\\/]", args[i + 1])[-1].lower() for i, a in enumerate(args[:-1])
+                      if a in ("-exec", "-execdir", "-ok", "-okdir")]
+        if "-delete" in args or any(e not in SOLO_LECTURA for e in ejecutadas):
+            for a in args:  # las carpetas de partida van antes de la expresión
+                if a.startswith(("-", "(", "!")):
+                    break
+                rutas.append(a)
     elif nombre == "rsync":
         rutas += posicionales[-1:]
     elif nombre in ("perl", "awk", "gawk") and any(re.fullmatch(r"-\w*i\w*", a) for a in args):

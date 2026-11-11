@@ -329,6 +329,8 @@ CASOS = [
     ("K01", V, *bash('cd "/c/Program Files/KiCad/10.0/share/kicad" && for f in a b; do grep -o \'(model "[^"]*"\' $f.kicad_mod; done'), P),
     ("K02", V, *bash("for f in docs/*.md; do rm $f; done"), B),
     ("K03", V, *bash("if [ -f a -o -f b ]; then echo si; fi"), P),
+    ("K04", V, *bash(f"find hardware/v2 docs -type f -exec md5sum {{}} + | sort -k2 > {TMPs}/md5.txt"), P),
+    ("K05", V, *bash("find docs -name '*.md' -exec rm {} +"), B),
 ]
 
 

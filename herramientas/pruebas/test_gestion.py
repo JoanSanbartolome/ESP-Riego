@@ -165,6 +165,13 @@ def main():
     caso("G05 cualquier otro cambio en la spec sí cuenta como fuera de zona",
          codigo == 1 and f"FUERA: gestion/specs/{SPEC}-prueba.md" in salida, salida)
     ruta_spec.write_text(original, encoding="utf-8", newline="\n")
+    auditoria = tmp / "gestion" / "logs" / "auditoria" / "2026-01-01.jsonl"
+    lineas = auditoria.read_text(encoding="utf-8")
+    auditoria.write_text(lineas.split("\n", 1)[1], encoding="utf-8", newline="\n")
+    codigo, salida = gestion(tmp, "revisar", "jr-conformidad")
+    caso("G06 revisar avisa si a la auditoría versionada le falta una línea",
+         codigo == 1 and "AUDITORÍA ALTERADA" in salida, salida)
+    auditoria.write_text(lineas, encoding="utf-8", newline="\n")
 
     # --- cerrar
     codigo, salida = gestion(tmp, "cerrar", SPEC)

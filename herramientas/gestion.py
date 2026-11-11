@@ -329,6 +329,10 @@ def revisar(args):
     print("Zonas: todo dentro" if not fuera else f"Zonas: {len(fuera)} archivos FUERA")
     for r, motivo in fuera[:4]:
         print(f"  FUERA: {r}")
+    import revisar_zonas  # ya está en sys.path por cambios()
+    alterada = revisar_zonas.auditoria_alterada()
+    for archivo in alterada[:2]:
+        print(f"AUDITORÍA ALTERADA: {archivo}")
 
     falta = False
     if agente == "ing-validacion":
@@ -373,7 +377,7 @@ def revisar(args):
         except ValueError:
             sucio = True
             print(f"Verificación: verificar.py ha fallado — {(r.stderr or r.stdout).strip()[:120]}")
-    sys.exit(1 if fuera or falta else 0)
+    sys.exit(1 if fuera or falta or alterada else 0)
 
 
 def anotar_arranque(ruta, args, accion, referencia):
