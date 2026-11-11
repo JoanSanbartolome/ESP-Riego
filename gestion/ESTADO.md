@@ -1,13 +1,12 @@
 # Estado
 
-Actualizado el 2026-11-11, con SPEC-0026 abierta. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-11, al cerrar SPEC-0026. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
-1. **SPEC-0026 · Orquestación v2** (abierta, rama `spec/SPEC-0026-orquestacion-v2`). Hecho: guarda, `gestion.py`, tres agentes, `CLAUDE.md`, manual, plantillas y checklists, con las tres baterías en verde. Falta, en una **sesión nueva** porque las definiciones de agente se cargan al arrancar: prueba en vivo de los tres agentes, validación ligera y cierre.
-2. **SPEC-0027 · Caja de herramientas de KiCad** (propuesta): `ing-diseno`, validación completa.
-3. **SPEC-0025 · Hoja de salidas** (propuesta), como piloto del ciclo nuevo. Referencia para comparar: SPEC-0022, con 5 arranques y 210 acciones para 21 piezas.
-4. Bloques que faltan de la fase 3: sensores y conectores, una spec por bloque. Después, el desglose de la fase 4 con la tabla única de restricciones y la prueba de herramientas de layout (DEC-0009, M10).
+1. **SPEC-0027 · Caja de herramientas de KiCad** (propuesta): `ing-diseno`, validación completa. Hasta que se cierre, `herramientas/kicad/` no existe: la orden al agente tiene que decirlo (VAL-0026-01-05).
+2. **SPEC-0025 · Hoja de salidas** (propuesta), como piloto del ciclo nuevo. Referencia para comparar: SPEC-0022, con 5 arranques y 210 acciones para 21 piezas.
+3. Bloques que faltan de la fase 3: sensores y conectores, una spec por bloque. Después, el desglose de la fase 4 con la tabla única de restricciones y la prueba de herramientas de layout (DEC-0009, M10).
 
 ## Para SPEC-0025
 
@@ -19,6 +18,7 @@ Actualizado el 2026-11-11, con SPEC-0026 abierta. Lo reescribe el coordinador en
 ## Pendiente del usuario
 
 - Medir la inductancia de la válvula (REL-03, `salidas.md` §5). No bloquea.
+- Medir en el prototipo la resistencia de la bobina caliente y el margen del umbral de carga abierta de 18 mV (REL-10, `salidas.md` §13.7). No bloquea.
 - Decidir si se versiona el `.kicad_pro` que KiCad 10 reescribe al abrir el proyecto (SPEC-0028).
 
 ## Para el layout (fase 4)
@@ -35,5 +35,6 @@ Actualizado el 2026-11-11, con SPEC-0026 abierta. Lo reescribe el coordinador en
 
 ## Mantenimiento
 
-- Observaciones acumuladas de las fases 2 y 3: [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md).
+- Observaciones acumuladas de las fases 2 y 3 y las dos B de la guarda de VAL-0026-02: [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md).
+- La guarda no se endurece más (DEC-0009): sus límites están en `README.md`, «Límites conocidos», y la batería falla si falta alguno.
 - FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6.

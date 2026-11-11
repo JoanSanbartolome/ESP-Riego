@@ -80,3 +80,4 @@ Nivel **ligero** con la checklist de proceso v4. Se reproduce de forma independi
 | 2026-11-11 | ing-validacion | Validación ligera: 8 criterios cumplen; 1 M (heredocs de la guarda) y 5 B | VAL-0026-01 | 179638 | 48 | 12 |
 | 2026-11-11 | coordinador | Corrige VAL-0026-01: heredocs (M-01), variables en orden (B-02), find -exec uniq/tree, Requisitos en abrir (B-04), textos (B-06) y checklist de proceso v5. B-03 va a ESTADO.md y B-05 se resuelve en SPEC-0027. Baterías: guarda 270/273 (N33, K07 y HD12, límites), commit-msg 25/25 y gestión 28/28 | VAL-0026-01 |  |  |  |
 | 2026-11-11 | ing-validacion | Revalidación: M-01, B-02, B-04 y B-06 corregidos; 2 B nuevas de la guarda (ofuscaciones deliberadas y falsos positivos) | VAL-0026-02 | 35121 | 14 | 6 |
+| 2026-11-11 | coordinador | Documenta las dos B de VAL-0026-02 en «Límites conocidos» y las apunta en SPEC-0028; checklist de proceso v6; reescribe ESTADO.md (B-03) | VAL-0026-02 |  |  |  |

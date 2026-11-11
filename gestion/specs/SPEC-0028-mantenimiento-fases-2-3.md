@@ -26,6 +26,7 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
   - **Fichas:** `verificado_por` de `BTT6050-1ERA.md` y `WJ500V-5.08-2P.md` sigue «pendiente».
   - **Documentos:** cambios propuestos en `gestion/logs/SPEC-0023/01-ing-esquematicos.md` a `alimentacion.md` y a `estudio-salidas.md` S7; citar la página del pinout (VAL-0021-01-07).
   - **Checklists:** `librerias.md`, cobertura de pasta y tratamiento de las vías en pads expuestos, y Grep de todas las menciones del rasgo cambiado al proponer cambios a un documento (VAL-0024-01); `layout.md`, cruce pad ↔ netlist (VAL-0019-02).
+  - **Guarda (VAL-0026-02), a cargo del coordinador:** en un heredoc sin comillas, analizar solo el texto de `$(…)` y de las comillas invertidas, no la línea entera (-02); no dar por buena una asignación tras `||` (`A || S=… && rm $S`, -01 b). Toca un hook: sondas nuevas y validación.
   - **Proyecto:** versionar el `.kicad_pro` que reescribe KiCad 10 al abrirlo, si el usuario lo quiere.
   - **Posible:** campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas.
 - Excluye: lo que es del layout o de la fabricación, que está en `gestion/ESTADO.md` (vías y pasta del EPAD de U5, polígono BUS_24V, serigrafía «STATUS», estado de las vías en los Gerber).

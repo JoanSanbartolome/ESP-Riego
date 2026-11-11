@@ -2,7 +2,7 @@
 
 Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herramientas/` y convenciones.
 
-**Versión:** v5 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v6 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -11,7 +11,7 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 - [ ] [auto: py_compile] `python -m py_compile` de `.claude/hooks/*.py`, `.githooks/*.py` y `herramientas/**/*.py` sin errores.
 - [ ] [auto: baterías] `herramientas/pruebas/test_guardia.py`, `test_commit_msg.py` y `test_gestion.py` pasan. Cada fallo nuevo encontrado en la revisión se añade a la batería. Los límites aceptados se marcan en `LIMITES` y se documentan en `gestion/README.md`: la batería falla si el manual no cita alguno.
 - [ ] [auto: test_gestion.py] `abrir`, `integrar` y `cerrar` dejan los trailers que leen `commit-msg` y la trazabilidad (`Spec`, `Agente`, `Requisitos`, `Validacion`, `Rama`).
-- [ ] [juicio] Cada heurística nueva de la guarda se prueba con sondas adversarias (comillas, delimitadores, tuberías hacia una shell, expansiones dentro del texto que se salta) y se compara con la versión anterior: lo que antes se bloqueaba y ahora pasa se corrige o va a `LIMITES`, y cada sonda, a la batería.
+- [ ] [juicio] Cada heurística nueva de la guarda se prueba con sondas adversarias (comillas, delimitadores, tuberías hacia una shell, expansiones dentro del texto que se salta) y se compara con la versión anterior: lo que antes se bloqueaba y ahora pasa se corrige o va a `LIMITES`, y cada sonda, a la batería. La revalidación de una corrección repite las sondas con formas nuevas, no solo las del informe anterior.
 - [ ] [juicio] La batería de la guarda cubre:
   - git directo y a través de envoltorios (`bash -c`, `cmd /c`, `pwsh -Command`, `iex`, `$(…)`);
   - el TFG por ruta absoluta, relativa (`../TFG`), por nombre corto 8.3, por `cd` previo, por el MCP y en tuberías hacia órdenes que borran (`Get-ChildItem … | Remove-Item`, `find -delete`);
@@ -50,3 +50,4 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 | v3 | 2026-11-05 | Propuestas de VAL-0009-01, VAL-0013-01 y VAL-0014-01: diff frente al origen en copias, inventario frente a la netlist de partida y reproducción de las justificaciones |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]`; agentes y baterías nuevos |
 | v5 | 2026-11-11 | Propuestas de VAL-0026-01: sondas adversarias para cada heurística nueva de la guarda, límites citados en el manual, trailers de `abrir` y `cerrar`, y la copia del TFG separada de su huella |
+| v6 | 2026-11-11 | Propuesta de VAL-0026-02: la revalidación de una corrección de la guarda repite las sondas con formas nuevas |
