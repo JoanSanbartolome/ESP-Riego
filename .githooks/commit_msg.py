@@ -16,7 +16,8 @@ from pathlib import Path
 
 TIPOS = "feat|fix|docs|spec|val|lib|fab|fw|chore|merge|refactor|test|revert"
 ASUNTO = re.compile(rf"^({TIPOS})(\([^)]+\))?!?: \S")
-AGENTES = ("coordinador", "ing-esquematicos", "ing-layout", "jr-conformidad", "ing-validacion")
+# Los dos últimos se retiraron con DEC-0009: se aceptan por si se rehace un commit antiguo.
+AGENTES = ("coordinador", "ing-diseno", "jr-conformidad", "ing-validacion", "ing-esquematicos", "ing-layout")
 ID_REQUISITO = re.compile(r"[A-Z]{2,4}-\d{2}")
 
 

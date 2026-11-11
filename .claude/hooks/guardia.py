@@ -18,6 +18,11 @@ al agente) cuando:
   fabricacion/, docs/diseno/, docs/validacion/, firmware/ o la carpeta temporal;
 - ing-validacion usa una herramienta MCP que guardaría o modificaría el diseño.
 
+Para resolver las rutas, sustituye las variables que se asignan en el propio comando
+(S=/ruta; mkdir $S/x) y no trata como órdenes el cuerpo de un heredoc que no va a una
+shell. El código en línea de python o node no se analiza, igual que el de un script,
+salvo que el comando toque el TFG (DEC-0009, M9).
+
 Es una red de seguridad, no un sandbox: lo que escribe un script de Python o de
 PowerShell no se puede analizar desde el comando. Lo que se escape lo detectan
 herramientas/revisar_zonas.py, herramientas/integridad_tfg.py y la revisión del
@@ -38,15 +43,13 @@ TFG = Path(r"C:\Users\josan\proyectos\TFG")
 TEMPORAL = Path(tempfile.gettempdir())
 
 ZONAS = {
-    "ing-esquematicos": ("hardware/v2/", "docs/diseno/", "firmware/"),
-    "ing-layout": ("hardware/v2/", "docs/diseno/"),
+    "ing-diseno": ("hardware/", "docs/diseno/", "firmware/", "herramientas/kicad/"),
     "jr-conformidad": ("hardware/", "fabricacion/"),
     "ing-validacion": ("gestion/informes/", "docs/validacion/"),
 }
-# Archivos que, aun estando en la zona, pertenecen a otro agente.
-AJENOS = {
-    "ing-esquematicos": (".kicad_pcb", ".kicad_dru"),
-    "ing-layout": (".kicad_sch",),
+# Carpetas que, aun estando en la zona, el agente no toca.
+EXCLUIDAS = {
+    "ing-diseno": ("hardware/v1-tfg/",),
 }
 # Dónde puede escribir una herramienta MCP de escritura, sea cual sea el agente.
 ZONAS_MCP = ("hardware/", "fabricacion/", "docs/diseno/", "docs/validacion/", "firmware/")
@@ -65,7 +68,17 @@ BRANCH_LISTADO = {"-l", "--list", "-a", "--all", "-r", "--remotes", "--contains"
                   "--merged", "--no-merged", "--points-at"}
 TAG_LISTADO = {"-l", "--list", "--contains", "--no-contains", "--merged", "--no-merged", "--points-at"}
 
-PREFIJOS = {"&", ".", "sudo", "command", "exec", "time", "env", "nohup", "call"}
+PREFIJOS = {"&", ".", "sudo", "command", "exec", "time", "env", "nohup", "call",
+            # palabras de control de la shell: la orden es lo que viene detrás
+            "do", "then", "else", "elif", "if", "while", "until", "!"}
+# Shells: el cuerpo de un heredoc que reciben son órdenes; para cualquier otro programa es texto.
+SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "cmd", "pwsh", "powershell"}
+HEREDOC = re.compile(r"(?<!<)<<-?\s*(['\"]?)([A-Za-z_]\w*)\1")
+VALOR = r"(\"[^\"\n]*\"|'[^'\n]*'|[^\s;&|\n=\"']+)"
+# S=/ruta (bash, sin espacios) y $S = 'C:\ruta' (PowerShell)
+ASIGNACION = re.compile(r"(?:^|[;&|\n(]\s*|\bexport\s+)([A-Za-z_]\w*)=" + VALOR
+                        + r"|(?:^|[;\n({]\s*)\$([A-Za-z_]\w*)\s*=\s*" + VALOR)
+CARPETA_TEMPORAL = re.compile(r"^(\$\{?(?:TEMP|TMP|TMPDIR)\}?|\$env:(?:TEMP|TMP)|%(?:TEMP|TMP)%)(?=[\\/]|$)", re.I)
 CAMBIO_DIRECTORIO = {"cd", "chdir", "set-location", "sl", "pushd", "push-location"}
 BORRA_O_CREA = {"rm", "rmdir", "del", "erase", "rd", "ri", "remove-item", "mkdir", "md", "ni",
                 "new-item", "touch", "truncate", "tee", "mv", "move", "mi", "move-item", "ren",
@@ -107,7 +120,8 @@ SOLO_LECTURA = {"ls", "dir", "gci", "get-childitem", "cat", "type", "gc", "get-c
                 "select-string", "sls", "wc", "uniq", "diff", "cmp", "md5sum", "sha1sum",
                 "sha256sum", "get-filehash", "file", "stat", "du", "df", "echo", "printf",
                 "write-output", "write-host", "test-path", "resolve-path", "measure-object",
-                "where", "which", "tree", "pwd", "realpath", "dirname", "basename"}
+                "where", "which", "tree", "pwd", "realpath", "dirname", "basename",
+                "[", "[[", "test"}
 INTERPRETES = {"python", "python3", "py", "node"}
 # Parámetros de PowerShell que no llevan valor detrás.
 INTERRUPTORES = {"-recurse", "-force", "-confirm", "-whatif", "-passthru", "-nonewline", "-append",
@@ -121,11 +135,6 @@ OPCIONES_SALIDA = {"-o", "--output", "-outfile", "--outfile", "--output-dir", "-
                    "--salida", "-outputdirectory"}
 ESPECIALES = {"/dev/null", "nul", "$null", "/dev/stdout", "/dev/stderr", "con"}
 
-ESCRITURA_CODIGO = re.compile(
-    r"open\s*\([^)]*['\"][rbt]*[wxa+]|\.write(?:_text|_bytes)?\s*\(|"
-    r"\b(?:os|shutil|pathlib)\.\w*(?:remove|unlink|rmdir|rmtree|rename|replace|move|copy|makedirs|mkdir|truncate|chmod)|"
-    r"\.(?:unlink|rmdir|rename|replace|touch|mkdir|write_text|write_bytes)\s*\(|"
-    r"\bfs\.(?:write|append|rm|unlink|rename|mkdir|copy|cp)", re.I)
 DOTNET_ESCRITURA = re.compile(
     r"\[(?:system\.)?io\.(?:file|directory|fileinfo|directoryinfo)\]::\s*"
     r"(?:write|append|delete|move|copy|create|replace|setattributes|open|encrypt|decrypt)", re.I)
@@ -162,6 +171,7 @@ def resolver(texto, cwd):
         t = f"{m.group(1)}:{m.group(2) or '/'}"
     elif t == "/tmp" or t.startswith("/tmp/"):
         t = str(TEMPORAL) + t[4:]
+    t = CARPETA_TEMPORAL.sub(lambda _: str(TEMPORAL), t)
     t = re.sub(r"^(~|\$HOME|\$env:USERPROFILE|%USERPROFILE%)(?=[\\/]|$)",
                lambda _: str(Path.home()), t, flags=re.I)
     ruta = Path(t)
@@ -190,13 +200,54 @@ def motivo_destino(agente, ruta):
         return None
     zonas = ZONAS.get(agente, ())
     if any(rel == z.rstrip("/") or rel.startswith(z) for z in zonas):
-        if rel.endswith(AJENOS.get(agente, ())):
-            return f"{rel} pertenece a otro agente"
+        if any(rel == x.rstrip("/") or rel.startswith(x) for x in EXCLUIDAS.get(agente, ())):
+            return f"{rel} es de solo lectura para ti"
         return None
     return f"{rel} está fuera de tu zona ({', '.join(zonas) or 'ninguna'}, tu log y tu memoria)"
 
 
 # --- Troceado de comandos ------------------------------------------------------------
+
+def sin_heredocs(comando):
+    """Quita el cuerpo de los heredocs (<<EOF ... EOF) que no van a una shell: es texto o
+    código para otro programa (python, cat), no órdenes. La línea que lo abre se conserva,
+    con sus redirecciones."""
+    lineas, salida, i = comando.split("\n"), [], 0
+    while i < len(lineas):
+        linea = lineas[i]
+        salida.append(linea)
+        i += 1
+        m = HEREDOC.search(linea)
+        if not m:
+            continue
+        antes = partir(linea[:m.start()])
+        if antes and orden(trocear(antes[-1]))[0] in SHELLS:
+            continue
+        while i < len(lineas) and lineas[i].strip() != m.group(2):
+            i += 1
+        i += 1  # la línea que cierra
+    return "\n".join(salida)
+
+
+def sustituir(texto, valores):
+    """Cambia ${VAR} y $VAR por su valor, salvo donde $VAR es el destino de una asignación."""
+    return re.sub(r"\$\{(\w+)\}|\$(\w+)(?!\w)(?!\s*=(?!=))",
+                  lambda m: valores.get(m.group(1) or m.group(2), m.group(0)), texto)
+
+
+def expandir(comando):
+    """Sustituye las variables que se asignan en el propio comando (S=/ruta; mkdir $S/x ·
+    $S = 'C:\\ruta'; New-Item $S), para resolver de verdad las rutas que las usan. Las que
+    no se asignan aquí, o salen de $(...), se dejan como están."""
+    valores = {}
+    for m in ASIGNACION.finditer(comando):
+        nombre, valor = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+        valor = valor.strip("\"'")
+        if "$(" in valor or "`" in valor:
+            continue
+        valores[nombre] = sustituir(valor, valores)
+    return sustituir(comando, valores) if valores else comando
+
 
 def partir(comando):
     """Segmentos separados por ; && || | & y saltos de línea, respetando las comillas."""
@@ -540,18 +591,22 @@ def analizar(comando, agente, cwd, profundidad=0):
     """Motivo de bloqueo de un comando de Bash o PowerShell, o None."""
     if profundidad > 3:
         return "comando anidado demasiado profundo para analizarlo"
-    motivo = git_en_cualquier_parte(comando)
+    original = comando
+    if profundidad == 0:
+        comando = expandir(comando)
+    motivo = git_en_cualquier_parte(comando)  # con los heredocs: git se busca en todo el texto
     if motivo:
         return motivo
     if DOTNET_ESCRITURA.search(comando):
         return "las APIs de .NET que escriben archivos no se permiten: usa Write o los comandos estándar"
+    comando = sin_heredocs(comando)
     interiores = re.findall(r"\$\(([^()]*(?:\([^()]*\)[^()]*)*)\)", comando) + re.findall(r"`([^`]+)`", comando)
     for interior in interiores:
         motivo = analizar(interior, agente, cwd, profundidad + 1)
         if motivo:
             return motivo
     segmentos = partir(comando)
-    if toca_tfg(comando, segmentos, cwd):
+    if TFG_TEXTO.search(original) or toca_tfg(comando, segmentos, cwd):
         motivo = motivo_tfg(segmentos, cwd)
         if motivo:
             return motivo
@@ -585,9 +640,8 @@ def analizar(comando, agente, cwd, profundidad=0):
                 return motivo
             continue
         if nombre in INTERPRETES:
-            codigo = valor_de(args, ("-c", "-e", "--eval"))
-            if codigo and ESCRITURA_CODIGO.search(codigo):
-                return f"`{nombre}` con código en línea que escribe archivos: usa Write o un script revisado"
+            # El código en línea (-c, heredoc) no se analiza, igual que el de un script: si el
+            # comando toca el TFG ya se ha bloqueado arriba, y lo demás lo ve revisar_zonas.py.
             posicionales = [a for a in args if not a.startswith("-")]
             if posicionales:
                 escrituras = SCRIPTS_REPO.get(re.split(r"[\\/]", posicionales[0])[-1].lower(), {})
