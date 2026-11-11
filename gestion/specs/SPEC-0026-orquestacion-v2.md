@@ -65,7 +65,7 @@ El sistema de trabajo pasa a tres agentes, una spec por bloque o hito, un parte 
 
 ## Plan de validación
 
-Nivel **ligero** con la checklist de proceso v3. Se reproduce de forma independiente: las tres baterías, la prueba en vivo y `abrir` y `cerrar` en una copia. Por muestreo: la coherencia de los textos y el marcado de las checklists. La prueba en vivo y la validación se hacen en una sesión nueva, porque las definiciones de agente se cargan al arrancar.
+Nivel **ligero** con la checklist de proceso v4. Se reproduce de forma independiente: las tres baterías, la prueba en vivo y `abrir` y `cerrar` en una copia. Por muestreo: la coherencia de los textos y el marcado de las checklists. La prueba en vivo y la validación se hacen en una sesión nueva, porque las definiciones de agente se cargan al arrancar.
 
 ## Registro
 
@@ -74,3 +74,6 @@ Nivel **ligero** con la checklist de proceso v3. Se reproduce de forma independi
 | 2026-11-11 | coordinador | Crea la spec (propuesta) a partir de la revisión de la orquestación | DEC-0009 |
 | 2026-11-11 | coordinador | Abre la spec: el usuario acepta la opción B completa | DEC-0009 |
 | 2026-11-11 | coordinador | Implementa M2 a M9: guarda, gestion.py, tres agentes, instrucciones, plantillas, checklists, ESTADO.md y las specs 0027 y 0028 propuestas. Baterías: guarda 254/255 (N33, límite conocido), commit-msg 25/25 y gestión 27/27 | 8a3f4c0, b8ad21e, ce3d649, fc45962 |  |  |  |
+| 2026-11-11 | ing-diseno | Prueba en vivo: escribe en hardware/libraries; gestion/, hardware/v1-tfg/ y herramientas/ bloqueados; copia en la carpeta temporal y texto en su .kicad_pcb por el MCP y por sed; sin Agent ni herramientas de la interfaz gráfica | auditoria/2026-11-11 | 48223 | 14 | 1 |
+| 2026-11-11 | jr-conformidad | Prueba en vivo: escribe en hardware/componentes; docs/diseno/, gestion/ y herramientas/ bloqueados; sin Agent ni herramientas de símbolos, huellas o rutado | auditoria/2026-11-11 | 37231 | 8 | 0 |
+| 2026-11-11 | ing-validacion | Prueba en vivo: escribe en gestion/informes; hardware/, gestion/checklists/ y docs/diseno/ bloqueados; sin Agent ni herramientas que modifican el diseño | auditoria/2026-11-11 | 37673 | 8 | 0 |
