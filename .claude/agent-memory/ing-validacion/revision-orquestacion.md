@@ -11,3 +11,4 @@ metadata:
 - **Herramientas de los agentes:** cruzo cada `mcp__kicad__x` con `KiCAD-MCP-Server/src/tools/*.ts` (`.tool("x"`), 247 el 2026-11-11; las 12 de la interfaz gráfica son las 11 de `gui-driver.ts` más `launch_kicad_ui`.
 - **Prueba en vivo propia:** Write fuera de zona (queda una línea `ok:false` en la auditoría versionada, inevitable) y `close_project` sin `save:false`, que se bloquea con el MCP descargado.
 - `uniq IN OUT` y `tree -o` pasan directos y dentro de `find -exec` (limite antiguo, no regresión).
+- **Revalidación de la guarda (VAL-0026-02):** repetir las sondas anteriores y probar formas nuevas (shell invocada con `env -i`, `busybox sh`, `$SHELL`, `>(bash)`, `eval "$(cat <<…)"`, `||` seguido de `&&`) y falsos positivos (heredoc sin comillas con `>` y backticks, programas fuera de `cat`/`tee`/intérpretes). Salieron solo B, ofuscaciones deliberadas.
