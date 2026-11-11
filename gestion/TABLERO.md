@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 0 · cerrada 20 · descartada 3.
+Specs por estado: propuesta 3 · abierta 1 · cerrada 20 · descartada 3.
 
 ## Propuestas (3)
 
@@ -11,6 +11,12 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 20 · descartada 3.
 | [SPEC-0002](specs/SPEC-0002-guarda-destinos.md) | Guarda: claves de destino del MCP que faltan | 0 | coordinador | `spec/SPEC-0002-guarda-destinos` | — | 2026-11-04 | — |
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-esquematicos | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | Orquestación v2: roles, ciclo, registro y trámite | 0 | coordinador | `spec/SPEC-0026-orquestacion-v2` | — | 2026-11-11 | — |
 
 ## Cerradas (20)
 
@@ -57,6 +63,7 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 20 · descartada 3.
 | [DEC-0006](decisiones/DEC-0006-uvlo-y-puente-del-limitador.md) | UVLO a 13,5 V y limitador TPS26632 con puente de soldadura | aceptada | usuario | 2026-11-05 |
 | [DEC-0007](decisiones/DEC-0007-den-comun-y-cambios-de-compra.md) | DEN común a los 6 canales y cambios de compra sin consulta | aceptada | usuario | 2026-11-06 |
 | [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | aceptada | usuario | 2026-11-08 |
+| [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | aceptada | usuario | 2026-11-11 |
 
 ## Informes de validación
 
