@@ -1,35 +1,37 @@
 # Checklist de revisión del paquete de fabricación
 
-**Versión:** v3 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v4 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Generación
 
-- [ ] Todas las salidas generadas con `kicad-cli` a partir del commit etiquetado (KIC-05).
-- [ ] Carpeta `fabricacion/<versión>/` con Gerber, taladros, BOM, CPL y PDF de esquema y PCB.
-- [ ] `copper_finish` del *stackup* según FAB-01 (HASL sin plomo o ENIG) y grosor de cobre según D6.
-- [ ] Las rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`, `step`, `svg`) y del `.kicad_pcb` (`pcbplotparams/outputdirectory`) están vacías o dentro de `fabricacion/<versión>/`.
+- [ ] [juicio] Todas las salidas generadas con `kicad-cli` a partir del commit etiquetado (KIC-05).
+- [ ] [auto: pendiente] Carpeta `fabricacion/<versión>/` con Gerber, taladros, BOM, CPL y PDF de esquema y PCB.
+- [ ] [auto: pendiente] `copper_finish` del *stackup* según FAB-01 (HASL sin plomo o ENIG) y grosor de cobre según D6.
+- [ ] [auto: pendiente] Las rutas de salida del `.kicad_pro` (`plot`, `bom_export_filename`, `step`, `svg`) y del `.kicad_pcb` (`pcbplotparams/outputdirectory`) están vacías o dentro de `fabricacion/<versión>/`.
 
 ## Gerber y taladros
 
-- [ ] Todas las capas necesarias y archivo de trabajo (`.gbrjob`).
-- [ ] Revisión visual de cada capa en un visor de Gerber.
-- [ ] Taladros con tamaños y número de agujeros coherentes con la PCB.
+- [ ] [auto: pendiente] Todas las capas necesarias y archivo de trabajo (`.gbrjob`).
+- [ ] [juicio] Revisión visual de cada capa en un visor de Gerber.
+- [ ] [auto: pendiente] Taladros con tamaños y número de agujeros coherentes con la PCB.
 
 ## BOM
 
-- [ ] Todas las referencias, con cantidades correctas y componentes DNP excluidos.
-- [ ] Código LCSC en cada línea montada por JLCPCB, con stock comprobado (fecha anotada).
-- [ ] Piezas *Extended* justificadas.
+- [ ] [auto: pendiente] Todas las referencias, con cantidades correctas y componentes DNP excluidos.
+- [ ] [auto: pendiente] Código LCSC en cada línea montada por JLCPCB, con stock comprobado (fecha anotada).
+- [ ] [juicio] Piezas *Extended* justificadas.
 
 ## CPL (pick and place)
 
-- [ ] Cara correcta para cada componente.
-- [ ] Rotaciones comprobadas en la previsualización de JLCPCB (especialmente SOT, SOIC, diodos y LED).
+- [ ] [auto: pendiente] Cara correcta para cada componente.
+- [ ] [juicio] Rotaciones comprobadas en la previsualización de JLCPCB (especialmente SOT, SOIC, diodos y LED).
 
 ## Coherencia
 
-- [ ] Versión y fecha de la serigrafía coinciden con la etiqueta de git.
-- [ ] Revisión DFM de JLCPCB sin errores.
+- [ ] [juicio] Versión y fecha de la serigrafía coinciden con la etiqueta de git.
+- [ ] [juicio] Revisión DFM de JLCPCB sin errores.
 
 ## Historial
 
@@ -38,3 +40,4 @@
 | v1 | 2026-11-03 | Versión inicial |
 | v2 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: rutas de salida del proyecto y de la PCB |
 | v3 | 2026-11-05 | Propuesta de VAL-0014-01: acabado y cobre del *stackup* |
+| v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |

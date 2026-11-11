@@ -29,13 +29,13 @@ El sistema de trabajo pasa a tres agentes, una spec por bloque o hito, un parte 
   - **Ciclo (M3, M4).** `gestion/README.md`: una spec por bloque o por hito de layout con pasos internos; comprobaciones automáticas entre pasos; una validación completa al final; correcciones y revalidaciones continuando la misma instancia; instancia nueva para cada paso nuevo.
   - **Registro (M5).** `plantillas/parte.md` (40 líneas como máximo: decisiones no obvias, desviaciones, pendientes y, de la checklist, solo lo que no cumple o no aplica) sustituye a `log.md`; la ruta `gestion/logs/SPEC-NNNN/NN-<agente>.md` y el trailer `Log` no cambian. `plantillas/spec.md` gana «Plan de validación» y las columnas de tokens y acciones en el registro. `gestion/ESTADO.md` sustituye al diario: siguiente paso, pendientes del usuario y notas para layout y fabricación, tomados de los diarios del 2026-11-07 y del 2026-11-10. Las observaciones de mantenimiento acumuladas en esos diarios pasan a una spec de mantenimiento en `propuesta`.
   - **Checklists (M7).** Cada punto de las seis checklists se marca `[auto]` o `[juicio]`, con el script que cubre cada `[auto]`; los que aún no tienen script se listan para SPEC-0027. Sube la versión de cada una.
-  - **Trámite y medida (M6).** `gestion.py abrir`, `revisar <agente>`, `integrar`, `cerrar` y `registrar` (fila en el registro de la spec con tokens, acciones y duración del arranque); el tablero suma tokens por spec y por agente. `auditoria.py` corta `objetivo` a 160 caracteres. `AGENTES`, `revisar_zonas.py` y `.githooks/commit_msg.py` aceptan `ing-diseno` y siguen aceptando los nombres antiguos en el historial.
-  - **Guarda (M9).** Zonas de `ing-diseno`; la carpeta temporal se puede escribir aunque la ruta vaya en una variable; el código en línea que no toca el TFG pasa. Un caso por cambio en `herramientas/pruebas/test_guardia.py`. SPEC-0002 pasa a `descartada`.
+  - **Trámite y medida (M6).** `gestion.py abrir`, `revisar <agente>`, `integrar`, `cerrar` y `registrar` (fila en el registro de la spec con tokens, acciones y duración del arranque, que `integrar --tokens` anota en el mismo commit); el tablero suma tokens por spec y por agente. `auditoria.py` corta `objetivo` a 160 caracteres. `AGENTES`, `revisar_zonas.py` y `.githooks/commit_msg.py` aceptan `ing-diseno` y siguen aceptando los nombres antiguos en el historial.
+  - **Guarda (M9).** Zonas de `ing-diseno`; la carpeta temporal se puede escribir aunque la ruta vaya en una variable; el código en línea que no toca el TFG pasa, y también el cuerpo de un heredoc que no va a una shell. Además, los dos falsos positivos anotados en el diario del 2026-11-10 y en las memorias: las palabras de control de la shell (`do`, `then`…) y `find -exec` con órdenes de lectura. Un caso por cambio en `herramientas/pruebas/test_guardia.py`. SPEC-0002 pasa a `descartada`.
 - Excluye:
   - la caja de herramientas de `herramientas/kicad/` (SPEC-0027);
   - cualquier cambio en `docs/`, `hardware/`, `firmware/` y `fabricacion/`;
   - reescribir logs, informes o diarios anteriores;
-  - endurecer o reescribir la guarda más allá de los tres cambios citados.
+  - endurecer o reescribir la guarda más allá de los cambios citados.
 
 ## Entradas
 

@@ -1,3 +1,4 @@
+- **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
 - [Trucos de importación del TFG](importar-tfg-trucos.md) — guardia, kicad-cli upgrade, conversión de .lib/EasyEDA, KICAD9→KICAD10
 - [Recopilar componentes](recopilar-componentes-trucos.md) — API JLCPCB para stock/precio, PDFs, 3D ausentes en KiCad 10.0.6, STEP válidos
 - [Datasheets de fabricante](datasheets-fabricante-trucos.md) — URLs Infineon/Sensirion, sitios que bloquean, trucos de guardia

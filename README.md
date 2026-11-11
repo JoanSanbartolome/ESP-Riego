@@ -25,17 +25,16 @@ Este repositorio contiene el rediseño (v2) de la PCB desarrollada en el Trabajo
 
 ## Organización del trabajo
 
-El diseño lo hacen agentes de Claude Code coordinados por la sesión principal ([DEC-0001](gestion/decisiones/DEC-0001-orquestacion-de-agentes.md)):
+El diseño lo hacen agentes de Claude Code coordinados por la sesión principal ([DEC-0001](gestion/decisiones/DEC-0001-orquestacion-de-agentes.md) y [DEC-0009](gestion/decisiones/DEC-0009-orquestacion-v2.md)):
 
 | Agente | Responsable de |
 |---|---|
 | Coordinador | Specs, órdenes, git, tablero y comunicación |
-| `ing-esquematicos` | Componentes, cálculos y esquemas |
-| `ing-layout` | PCB: colocación, rutado, reglas y 3D |
-| `jr-conformidad` | Librerías, campos, BOM, CPL y paquetes de fabricación |
+| `ing-diseno` | Cada bloque de principio a fin: cálculos, piezas, esquema y PCB |
+| `jr-conformidad` | Tipo y stock, fichas, campos, BOM, CPL y paquetes de fabricación |
 | `ing-validacion` | Revisión contra especificaciones e informes con veredicto |
 
-Cada unidad de trabajo es una spec con su propia rama, validada antes de integrarse en `main`.
+Cada unidad de trabajo es una spec (un bloque o un hito de layout) con su propia rama, validada antes de integrarse en `main`. Lo que toca ahora está en [`gestion/ESTADO.md`](gestion/ESTADO.md).
 
 ## Estructura
 

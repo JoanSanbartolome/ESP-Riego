@@ -1,51 +1,53 @@
 # Checklist de revisión de layout
 
-**Versión:** v5 (2026-11-05). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v6 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Reglas y verificación
 
-- [ ] `.kicad_dru` y clases de red según FAB-02, FAB-03 y KIC-04.
-- [ ] DRC sin errores y sin elementos sin conectar.
-- [ ] Paridad esquema↔PCB sin incidencias (KIC-03, H1).
-- [ ] Zonas rellenadas antes de verificar.
-- [ ] Cajetín comprobado en el PDF exportado (`kicad-cli pcb export pdf --include-border-title`, sobre una copia).
-- [ ] La PCB no lleva `embedded_files` con hojas de dibujo u otros archivos ajenos al diseño actual.
-- [ ] `pcbplotparams/outputdirectory` vacío o dentro de `fabricacion/<versión>/`.
+- [ ] [juicio] `.kicad_dru` y clases de red según FAB-02, FAB-03 y KIC-04.
+- [ ] [auto: verificar.py] DRC sin errores y sin elementos sin conectar.
+- [ ] [auto: verificar.py] Paridad esquema↔PCB sin incidencias (KIC-03, H1).
+- [ ] [auto: pendiente] Zonas rellenadas antes de verificar.
+- [ ] [juicio] Cajetín comprobado en el PDF exportado (`kicad-cli pcb export pdf --include-border-title`, sobre una copia).
+- [ ] [auto: pendiente] La PCB no lleva `embedded_files` con hojas de dibujo u otros archivos ajenos al diseño actual.
+- [ ] [auto: pendiente] `pcbplotparams/outputdirectory` vacío o dentro de `fabricacion/<versión>/`.
 
 ## Floorplan
 
-- [ ] Salidas 1–3 en el borde superior y 4–6 en el inferior, con la entrada y la expansión en el inferior; USB-C accesible desde un lateral (REL-09, FAB-07).
-- [ ] Antena del módulo en el borde con zona libre de cobre en todas las capas (MCU-02).
-- [ ] Buck junto a la entrada con bucle de conmutación mínimo.
-- [ ] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas (AMB-02).
-- [ ] Divisor de VIN alejado del buck y de las salidas.
-- [ ] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5,1 A, y retornos GND de los bornes de salida para la corriente máxima del limitador, 4,9 A (FAB-03).
-- [ ] Dimensiones dentro del objetivo (FAB-08) y 4 taladros M3.
-- [ ] Presupuesto de longitud de cada borde con los taladros M3 y todos los conectores de FAB-07.
+- [ ] [juicio] Salidas 1–3 en el borde superior y 4–6 en el inferior, con la entrada y la expansión en el inferior; USB-C accesible desde un lateral (REL-09, FAB-07).
+- [ ] [juicio] Antena del módulo en el borde con zona libre de cobre en todas las capas (MCU-02).
+- [ ] [juicio] Buck junto a la entrada con bucle de conmutación mínimo.
+- [ ] [juicio] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas (AMB-02).
+- [ ] [juicio] Divisor de VIN alejado del buck y de las salidas.
+- [ ] [auto: pendiente] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5,1 A, y retornos GND de los bornes de salida para la corriente máxima del limitador, 4,9 A (FAB-03).
+- [ ] [juicio] Dimensiones dentro del objetivo (FAB-08) y 4 taladros M3.
+- [ ] [juicio] Presupuesto de longitud de cada borde con los taladros M3 y todos los conectores de FAB-07.
 
 ## Potencia y cargas
 
-- [ ] Anchos de pista según la tabla de restricciones de layout del esquema.
-- [ ] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
-- [ ] Número de vías suficiente en cada cambio de capa de potencia.
+- [ ] [auto: pendiente] Anchos de pista según la tabla de restricciones de layout del esquema.
+- [ ] [auto: pendiente] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
+- [ ] [juicio] Número de vías suficiente en cada cambio de capa de potencia.
 
 ## Masa
 
-- [ ] Planos de GND continuos en ambas caras, sin cortes bajo el buck ni bajo señales analógicas (FAB-04).
-- [ ] Cosido de vías.
-- [ ] Ninguna conexión térmica incompleta ni isla aislada (H10).
+- [ ] [juicio] Planos de GND continuos en ambas caras, sin cortes bajo el buck ni bajo señales analógicas (FAB-04).
+- [ ] [juicio] Cosido de vías.
+- [ ] [auto: verificar.py] Ninguna conexión térmica incompleta ni isla aislada (H10).
 
 ## Fabricación y montaje
 
-- [ ] Separación cobre-borde ≥ 0,5 mm (FAB-02).
-- [ ] Fiduciales para montaje SMT.
-- [ ] Componentes SMD solo en la cara superior, salvo justificación.
-- [ ] Serigrafía legible (≥ 0,8 mm), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
+- [ ] [auto: verificar.py] Separación cobre-borde ≥ 0,5 mm (FAB-02).
+- [ ] [juicio] Fiduciales para montaje SMT.
+- [ ] [auto: pendiente] Componentes SMD solo en la cara superior, salvo justificación.
+- [ ] [juicio] Serigrafía legible (≥ 0,8 mm), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
 
 ## 3D y mecánica
 
-- [ ] Modelo 3D en todos los componentes (FAB-11).
-- [ ] Encaje en la caja ventilada y acceso a los bornes y al USB-C (D5).
+- [ ] [auto: pendiente] Modelo 3D en todos los componentes (FAB-11).
+- [ ] [juicio] Encaje en la caja ventilada y acceso a los bornes y al USB-C (D5).
 
 ## Historial
 
@@ -56,3 +58,4 @@
 | v3 | 2026-11-04 | Requisitos v0.3 (DEC-0003) y propuestas de VAL-0004-02: bus de salidas y retornos para 4–5 A, presupuesto de los bordes |
 | v4 | 2026-11-05 | Requisitos v0.4 (DEC-0004): pistas y retornos de salida para la corriente máxima del limitador. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01) |
 | v5 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: cajetín en el PDF, `embedded_files` ajenos y directorio de trazado |
+| v6 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
