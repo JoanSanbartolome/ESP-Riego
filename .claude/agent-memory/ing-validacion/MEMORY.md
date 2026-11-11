@@ -7,4 +7,5 @@
 - [Revisión de salidas](revision-salidas.md): salidas.md; E_AS cerrada, datos BTT p. 30, huecos de pads vs clase Salidas, umbrales con bobina caliente/fría
 - [Revisión del bloque MCU](revision-mcu.md): mcu.md; refs duplicadas entre bloques, tablas S3/HDG renderizadas, HDG pág.−3, SimSurfing URL, 15 mm = caja
 - [Revisión de hojas](revision-hojas.md): hojas de esquema v2; netlist de copia, placa de prueba, paridad vs zonas, ThermalVias, diff semántico PCB, polaridad KT-0603R invertida
+- [Revisión de la orquestación](revision-orquestacion.md): agentes/guarda/gestion.py; sondas contra la guarda frente a la versión anterior, abrir/cerrar en copia, herramientas vs servidor MCP
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG

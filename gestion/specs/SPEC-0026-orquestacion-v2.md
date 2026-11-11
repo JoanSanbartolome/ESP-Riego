@@ -77,3 +77,4 @@ Nivel **ligero** con la checklist de proceso v4. Se reproduce de forma independi
 | 2026-11-11 | ing-diseno | Prueba en vivo: escribe en hardware/libraries; gestion/, hardware/v1-tfg/ y herramientas/ bloqueados; copia en la carpeta temporal y texto en su .kicad_pcb por el MCP y por sed; sin Agent ni herramientas de la interfaz gráfica | auditoria/2026-11-11 | 48223 | 14 | 1 |
 | 2026-11-11 | jr-conformidad | Prueba en vivo: escribe en hardware/componentes; docs/diseno/, gestion/ y herramientas/ bloqueados; sin Agent ni herramientas de símbolos, huellas o rutado | auditoria/2026-11-11 | 37231 | 8 | 0 |
 | 2026-11-11 | ing-validacion | Prueba en vivo: escribe en gestion/informes; hardware/, gestion/checklists/ y docs/diseno/ bloqueados; sin Agent ni herramientas que modifican el diseño | auditoria/2026-11-11 | 37673 | 8 | 0 |
+| 2026-11-11 | ing-validacion | Validación ligera: 8 criterios cumplen; 1 M (heredocs de la guarda) y 5 B | VAL-0026-01 | 179638 | 48 | 12 |
