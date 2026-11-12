@@ -77,3 +77,4 @@ Nivel **completo**. Se reproduce de forma independiente: los seis criterios con 
 | 2026-11-12 | ing-validacion | Validación completa: 3 M y 7 B | VAL-0027-01 | 269466 | 58 | 26 |
 | 2026-11-12 | ing-diseno | Corrige VAL-0027-01-02 a 07, 09 y 10 (instancia nueva, Opus) | 02-ing-diseno | 234711 | 73 | 21 |
 | 2026-11-12 | coordinador | VAL-0027-01-01, -03 y -08: verificar.py, batería nueva a pruebas/ y checklists |  |  |  |  |
+| 2026-11-12 | ing-validacion | Revalidación: los 10 hallazgos corregidos; 2 B nuevas | VAL-0027-02 | 61078 | 21 | 12 |

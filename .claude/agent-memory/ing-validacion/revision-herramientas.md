@@ -17,4 +17,6 @@ Un punto de checklist que pasa a `[auto]` se valida haciéndolo fallar, no vién
 - Ojo con `comprobar.py` sobre una copia fuera del repositorio: `librerias.gitattributes` da N/A, y sin `componentes/` `librerias.fichas` también da N/A. Hay que pasarlo también sobre `hardware/v2` (solo lee).
 - Contrastar las marcas de la checklist con lo que mide el script: los puntos con corriente o ΔT, «relleno al día» y «dentro de fabricacion/» suelen quedar a medias.
 
+- **Revalidación (VAL-0027-02):** `mutar2.py` reutiliza los helpers de `mutar.py` (exec hasta `CASOS = [`) y comprueba el detalle con «contiene», porque en `hardware/v2` `fichas` y `attr` ya fallan. Para medir falsos positivos de una heurística nueva, se pasa `huella.analizar` sobre una muestra de la librería oficial (0 de 867). La USB-C con patas `pad_prop_mechanical` es `smd` para KiCad: no es mixta. `--refill-zones` se demuestra con una zona real sin rellenar, creada con `pcbnew` (salen `isolated_copper`, md5 intacto).
+
 Relacionado: [[revision-hojas]], [[revision-piezas]], [[comprobaciones-utiles]].
