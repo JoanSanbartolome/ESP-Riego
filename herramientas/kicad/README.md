@@ -56,7 +56,7 @@ Reglas comunes:
 
 ## Puntos de checklist que comprueba `comprobar.py`
 
-Línea de cada checklist en su versión actual (`gestion/checklists/`: esquema v8, layout v7, librerías v5). Marca: `[auto: comprobar.py <punto>]`. Cada punto tiene en `test_kicad.py` (clases `Comprobar` y `Mutaciones`) al menos un caso que lo hace fallar.
+Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `[auto: comprobar.py <punto>]`. Cada punto tiene en `test_kicad.py` (clases `Comprobar` y `Mutaciones`) al menos un caso que lo hace fallar.
 
 | Checklist | Línea | Punto de la checklist | `comprobar.py` |
 |---|---|---|---|

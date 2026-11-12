@@ -22,8 +22,11 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
 ## Alcance
 
 - Incluye:
-  - **Campos (VAL-0024-01-07):** `Datasheet` distinto para la misma pieza según la hoja, `Fabricante` ausente en `alimentacion.kicad_sch` y `Value` del LED sin unificar («Rojo» en D4, «LED» en D5). Con `campos.py` de SPEC-0027.
+  - **Campos (VAL-0024-01-07):** `Datasheet` distinto para la misma pieza según la hoja, `Fabricante` ausente en `alimentacion.kicad_sch` y `Value` del LED sin unificar («Rojo» en D4, «LED» en D5), y «100n»/«100nF» y «1u»/«1uF». Con `campos.py revisar`.
   - **Fichas:** `verificado_por` de `BTT6050-1ERA.md` y `WJ500V-5.08-2P.md` sigue «pendiente».
+  - **Puntos `[auto]` que fallan hoy en `verificar.py hardware/v2` (SPEC-0027):** `librerias.fichas`, seis pasivos del MCU sin ficha (C19666, C23162, C23179, C23186, C23345 y C45783; `jr-conformidad`), y `librerias.gitattributes`, falta `*.WRL` como `binary`.
+  - **H1–H4:** el símbolo dice `in_pos_files yes` y la huella `exclude_from_pos_files`; la paridad no lo ve (parte 01 de SPEC-0027).
+  - **Batería (VAL-0027-02-02):** casos de `test_kicad.py` para `verificar.py` con un `comprobar.py` roto y con una zona sin rellenar.
   - **Documentos:** cambios propuestos en `gestion/logs/SPEC-0023/01-ing-esquematicos.md` a `alimentacion.md` y a `estudio-salidas.md` S7; citar la página del pinout (VAL-0021-01-07).
   - **Checklists:** `librerias.md`, cobertura de pasta y tratamiento de las vías en pads expuestos, y Grep de todas las menciones del rasgo cambiado al proponer cambios a un documento (VAL-0024-01); `layout.md`, cruce pad ↔ netlist (VAL-0019-02).
   - **Guarda (VAL-0026-02), a cargo del coordinador:** en un heredoc sin comillas, analizar solo el texto de `$(…)` y de las comillas invertidas, no la línea entera (-02); no dar por buena una asignación tras `||` (`A || S=… && rm $S`, -01 b). Toca un hook: sondas nuevas y validación.
@@ -53,3 +56,4 @@ Nivel **ligero**, salvo que alguna línea toque una huella o una hoja: entonces,
 |---|---|---|---|---|---|---|
 | 2026-11-11 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-11 | coordinador | Recoge las observaciones de los diarios del 2026-11-07 y del 2026-11-10 | DEC-0009 |  |  |  |
+| 2026-11-12 | coordinador | Recoge lo pendiente de SPEC-0027 | VAL-0027-02 |  |  |  |
