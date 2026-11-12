@@ -2,15 +2,20 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 0 · cerrada 22 · descartada 4.
+Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 
-## Propuestas (3)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
 | [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
 
 ## Cerradas (22)
 
