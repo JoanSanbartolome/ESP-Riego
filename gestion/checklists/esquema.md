@@ -1,22 +1,22 @@
 # Checklist de revisión de esquema
 
-**Versión:** v7 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v8 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
-`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Estructura
 
-- [ ] [auto: pendiente] Hojas jerárquicas por bloque (KIC-02); ninguna hoja huérfana (H9).
+- [ ] [auto: comprobar.py esquema.hojas] Hojas jerárquicas por bloque (KIC-02); ninguna hoja huérfana (H9).
 - [ ] [juicio] Cajetín con proyecto, hoja, versión y fecha, comprobado en el PDF exportado (`kicad-cli sch export pdf`, sobre una copia), no solo en el `title_block`.
 - [ ] [auto: verificar.py] ERC sin errores; cada aviso restante justificado en el parte del autor.
 - [ ] [auto: verificar.py] Referencias anotadas, sin duplicados.
 
 ## Campos de cada símbolo
 
-- [ ] [auto: pendiente] `Value`, `Footprint`, `LCSC Part#`, `MPN`, `Datasheet` y `Description` presentes (FAB-05).
-- [ ] [auto: pendiente] La huella asignada existe en una librería del repositorio o en las oficiales de KiCad 10 (KIC-01).
-- [ ] [auto: pendiente] Las huellas con vías (`*_ThermalVias` o propias) cumplen FAB-02 (0,3 / 0,6 mm); si no, se usa la variante sin vías y las pone el layout (VAL-0018-02-01, VAL-0019-01-02).
-- [ ] [auto: pendiente] Componentes no montados marcados como DNP.
+- [ ] [auto: comprobar.py esquema.campos] `Value`, `Footprint`, `LCSC Part#`, `MPN`, `Datasheet` y `Description` presentes (FAB-05).
+- [ ] [auto: comprobar.py esquema.huellas] La huella asignada existe en una librería del repositorio o en las oficiales de KiCad 10 (KIC-01).
+- [ ] [auto: comprobar.py esquema.vias] Las huellas con vías (`*_ThermalVias` o propias) cumplen FAB-02 (0,3 / 0,6 mm); si no, se usa la variante sin vías y las pone el layout (VAL-0018-02-01, VAL-0019-01-02).
+- [ ] [auto: comprobar.py esquema.dnp] Componentes no montados marcados como DNP.
 
 ## Cálculos (deben estar en `docs/diseno/`)
 
@@ -77,3 +77,4 @@
 | v5 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: cajetín comprobado en el PDF exportado |
 | v6 | 2026-11-06 | Propuesta de VAL-0019-01: vías de las huellas conforme a FAB-02 |
 | v7 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
+| v8 | 2026-11-12 | SPEC-0027: los cinco `[auto: pendiente]` pasan a `comprobar.py` |

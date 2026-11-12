@@ -73,3 +73,4 @@ Nivel **completo**. Se reproduce de forma independiente: los seis criterios con 
 | 2026-11-11 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-12 | ing-diseno | caja de herramientas de KiCad: nueve herramientas, README y batería | 01-ing-diseno | 395172 | 100 | 59 |
+| 2026-11-12 | coordinador | Enganche en verificar.py, batería a pruebas/ y checklists enlazadas |  |  |  |  |

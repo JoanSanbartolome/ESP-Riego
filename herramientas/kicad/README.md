@@ -76,20 +76,7 @@ Sin cubrir: `requisitos.md` (IDs citados) y los ocho puntos de `fabricacion.md`,
 
 ## Enganche en `herramientas/verificar.py`
 
-Cinco líneas; no cambian `limpio` ni el código de salida, y con `--json` añaden la clave `auto`. En `main()`, después de `resumen["informes"] = None`:
-
-```python
-    sys.path.insert(0, str(Path(__file__).resolve().parent / "kicad"))
-    import comprobar
-    resumen["auto"] = comprobar.para_verificar(carpeta)  # puntos [auto] de las checklists; no cambian «limpio»
-```
-
-En `imprimir()`, antes de `destino = …`:
-
-```python
-        for linea in resumen["auto"]["lineas"]:
-            print(linea)
-```
+`verificar.py` llama a `comprobar.para_verificar(carpeta)` después de restaurar el proyecto y antes de imprimir: añade las líneas de los puntos a su informe y, con `--json`, la clave `auto`. No cambia `limpio` ni el código de salida.
 
 ## Pruebas
 

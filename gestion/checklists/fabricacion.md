@@ -1,8 +1,8 @@
 # Checklist de revisión del paquete de fabricación
 
-**Versión:** v4 (2026-11-11). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v5 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
-`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script del paquete de fabricación (fase 5); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Generación
 
@@ -41,3 +41,4 @@
 | v2 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: rutas de salida del proyecto y de la PCB |
 | v3 | 2026-11-05 | Propuesta de VAL-0014-01: acabado y cobre del *stackup* |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
+| v5 | 2026-11-12 | SPEC-0027: los `[auto: pendiente]` de esta checklist quedan para el paquete de fabricación (fase 5) |

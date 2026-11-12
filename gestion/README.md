@@ -151,8 +151,9 @@ El control tiene dos capas: **prevención**, que bloquea antes de que ocurra, y 
 | `python herramientas/gestion.py registrar SPEC-NNNN ...` | Fila suelta en el registro de la spec |
 | `python herramientas/gestion.py cerrar SPEC-NNNN` | Cierra la spec validada: merge a `main` y rama borrada |
 | `python herramientas/gestion.py tablero` / `trazabilidad` | Regeneran `TABLERO.md` y `TRAZABILIDAD.md` |
-| `python herramientas/verificar.py <proyecto>` | ERC, DRC y paridad esquema↔PCB con `kicad-cli`. Deja el proyecto como estaba y se niega a verificar la carpeta del TFG |
+| `python herramientas/verificar.py <proyecto>` | ERC, DRC y paridad esquema↔PCB con `kicad-cli`, y los puntos `[auto]` de las checklists de esquema, layout y librerías (`comprobar.py`), que informan sin cambiar el resultado. Deja el proyecto como estaba y se niega a verificar la carpeta del TFG |
 | `herramientas/kicad/` | Herramientas de diseño versionadas (SPEC-0027): su README dice lo que hay |
+| `python herramientas/pruebas/test_kicad.py` | Batería de `herramientas/kicad/` y del enganche de `verificar.py`, sobre una copia de `hardware/v2` (unos minutos; necesita KiCad 10) |
 | `python herramientas/revisar_zonas.py <agente>` | Archivos cambiados fuera de la zona del agente |
 | `python herramientas/integridad_tfg.py verificar` | Compara la carpeta del TFG con su huella (`crear` la regenera) |
 | `python herramientas/pruebas/test_guardia.py` | Batería de la guarda |

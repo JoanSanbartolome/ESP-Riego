@@ -7,6 +7,9 @@ Códigos de salida: 0 si no hay errores de ERC ni de DRC, elementos sin conectar
 de paridad; 1 si los hay; 2 si no se pudo verificar. Los informes JSON de kicad-cli se guardan
 en --salida (por defecto, una carpeta temporal fuera del repositorio).
 
+Después añade los puntos [auto] de las checklists de esquema, layout y librerías
+(herramientas/kicad/comprobar.py). Solo informan: no cambian el resultado ni el código de salida.
+
 kicad-cli reescribe archivos del proyecto que lee (el .kicad_prl, por ejemplo): el script
 guarda una copia de los archivos de la carpeta del proyecto y los restaura al terminar. Se
 niega a verificar la carpeta del TFG, que se verifica sobre una copia.
@@ -130,6 +133,10 @@ def main():
         print(f"kicad-cli tocó el proyecto; se ha dejado como estaba: {', '.join(tocados)}", file=sys.stderr)
     if not args.salida:
         resumen["informes"] = None
+    # Puntos [auto] de las checklists (herramientas/kicad/comprobar.py): informan, no cambian «limpio».
+    sys.path.insert(0, str(Path(__file__).resolve().parent / "kicad"))
+    import comprobar
+    resumen["auto"] = comprobar.para_verificar(carpeta)
     imprimir(resumen, args.json)
     sys.exit(0 if resumen["limpio"] else 1)
 
@@ -181,6 +188,8 @@ def imprimir(resumen, como_json):
             print(f"Paridad  {p['total']:>4}")
             for tipo, n in p["por_tipo"].items():
                 print(f"  {n:>4}  {tipo}")
+        for linea in resumen.get("auto", {}).get("lineas", []):
+            print(linea)
         destino = f" · informes en {resumen['informes']}" if resumen["informes"] else ""
         print(f"Resultado: {'LIMPIO' if resumen['limpio'] else 'CON INCIDENCIAS'}{destino}")
 
