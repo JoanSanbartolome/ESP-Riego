@@ -134,9 +134,12 @@ def main():
     if not args.salida:
         resumen["informes"] = None
     # Puntos [auto] de las checklists (herramientas/kicad/comprobar.py): informan, no cambian «limpio».
-    sys.path.insert(0, str(Path(__file__).resolve().parent / "kicad"))
-    import comprobar
-    resumen["auto"] = comprobar.para_verificar(carpeta)
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent / "kicad"))
+        import comprobar
+        resumen["auto"] = comprobar.para_verificar(carpeta)
+    except Exception as e:  # un fallo de herramientas/kicad no tumba la verificación
+        resumen["auto"] = {"fallan": 0, "puntos": {}, "lineas": [f"Puntos [auto]: no disponibles ({e})"]}
     imprimir(resumen, args.json)
     sys.exit(0 if resumen["limpio"] else 1)
 
@@ -149,7 +152,9 @@ def verificar(cli, sch, pcb, salida):
                              "-o", str(salida / "erc.json"), str(sch)], salida / "erc.json")
         resumen["erc"] = contar([v for hoja in erc.get("sheets", []) for v in hoja.get("violations", [])])
     if pcb:
-        argumentos = ["pcb", "drc", "--format", "json", "--severity-all", "-o", str(salida / "drc.json")]
+        # --refill-zones rellena las zonas en memoria antes del DRC (sin --save-board no escribe la PCB)
+        argumentos = ["pcb", "drc", "--format", "json", "--severity-all", "--refill-zones",
+                      "-o", str(salida / "drc.json")]
         if sch:
             argumentos.append("--schematic-parity")
         drc = ejecutar(cli, [*argumentos, str(pcb)], salida / "drc.json")

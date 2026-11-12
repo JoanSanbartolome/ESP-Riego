@@ -1,6 +1,6 @@
 # Checklist de revisión de librerías y componentes
 
-**Versión:** v5 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v6 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -32,7 +32,7 @@
 - [ ] [juicio] Taladro acabado ≥ diagonal máxima de la patilla + 0,1 mm, o justificado.
 - [ ] [auto: comprobar.py librerias.3d] Modelo 3D presente, en `.step` (KiCad 10 no instala los `.wrl`), y las rutas `${KICADn_3DMODEL_DIR}` apuntan a archivos que existen.
 - [ ] [juicio] Modelo 3D alineado (posición, rotación, altura), mirado con `vista.py huella --3d`.
-- [ ] [juicio] Atributo de la huella (`smd` o `through_hole`) coherente con sus pads: sin él, `kicad-cli pcb export pos --smd-only` deja la pieza fuera del CPL (SPEC-0027).
+- [ ] [auto: comprobar.py librerias.attr] Atributo de la huella (`smd` o `through_hole`) coherente con sus pads, en la librería y en la PCB: sin él, `kicad-cli pcb export pos --smd-only` deja la pieza fuera del CPL (VAL-0027-01-02).
 - [ ] [juicio] Antes de llamar artefacto a un pad `custom`, se mide la envolvente de sus primitivas (el `size` del ancla no da el tamaño del cobre).
 - [ ] [auto: comprobar.py librerias.gitattributes] Las extensiones de los modelos 3D, en mayúsculas y en minúsculas, están como `binary` en `.gitattributes`.
 
@@ -55,3 +55,4 @@
 | v3 | 2026-11-05 | Propuestas de VAL-0014-01 y VAL-0015-01: tablas sin restos, land pattern del fabricante, pin 1 del 3D con render, patilla THT desde el corte, taladro frente a la diagonal, datasheet del fabricante y API de JLCPCB |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v5 | 2026-11-12 | SPEC-0027: los `[auto: pendiente]` pasan a `comprobar.py`; el modelo 3D se parte en presente (`[auto]`) y alineado (`[juicio]`); atributo `smd` o `through_hole` de la huella |
+| v6 | 2026-11-12 | VAL-0027-01-02: el atributo de la huella pasa a `[auto: comprobar.py librerias.attr]` |

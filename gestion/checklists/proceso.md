@@ -2,7 +2,7 @@
 
 Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herramientas/` y convenciones.
 
-**Versión:** v7 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v8 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -20,6 +20,8 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
   - **llamadas MCP de escritura legítimas** de cada agente de diseño: orígenes fuera del repositorio (librería oficial, descargas), valores `${KIPRJMOD}` y `${KICAD10_3DMODEL_DIR}`, y textos y valores con `/`. Todas deben pasar;
   - otros falsos positivos en órdenes legítimas.
 - [ ] [juicio] Hooks registrados para `PreToolUse` y `PostToolUse` (en el frontmatter de cada agente) y `PostToolUseFailure` (en `.claude/settings.json`), con *matchers* que incluyan `mcp__.*`.
+- [ ] [juicio] Cada punto `[auto: <script> <punto>]` nuevo o cambiado tiene en su batería al menos un caso que lo hace fallar. Una checklist solo marca `[auto]` lo que el script cubre entero; el resto se queda como `[juicio]`.
+- [ ] [auto: test_kicad.py] El `--help` de cada herramienta de `herramientas/kicad/` cabe en 30 líneas.
 
 ## Herramientas de los agentes
 
@@ -52,3 +54,4 @@ Para specs que cambian el sistema de trabajo: agentes, hooks, scripts de `herram
 | v5 | 2026-11-11 | Propuestas de VAL-0026-01: sondas adversarias para cada heurística nueva de la guarda, límites citados en el manual, trailers de `abrir` y `cerrar`, y la copia del TFG separada de su huella |
 | v6 | 2026-11-11 | Propuesta de VAL-0026-02: la revalidación de una corrección de la guarda repite las sondas con formas nuevas |
 | v7 | 2026-11-12 | SPEC-0027: batería `test_kicad.py`; la leyenda ya no cita `[auto: pendiente]` |
+| v8 | 2026-11-12 | Propuestas de VAL-0027-01: un caso que haga fallar cada punto `[auto]`, y `--help` en 30 líneas |

@@ -1,15 +1,15 @@
 # Checklist de revisión de layout
 
-**Versión:** v7 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v8 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
-`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `layout.restricciones` no aplica hasta que exista la tabla de restricciones (`docs/diseno/restricciones.csv`, fase 4). `[juicio]`: lo repasan el autor, antes de entregar, y validación.
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `layout.restricciones` compara la PCB con la tabla, no calcula anchos, y no aplica hasta que exista la tabla de restricciones (`docs/diseno/restricciones.csv`, fase 4). `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Reglas y verificación
 
 - [ ] [juicio] `.kicad_dru` y clases de red según FAB-02, FAB-03 y KIC-04.
 - [ ] [auto: verificar.py] DRC sin errores y sin elementos sin conectar.
 - [ ] [auto: verificar.py] Paridad esquema↔PCB sin incidencias (KIC-03, H1).
-- [ ] [auto: comprobar.py layout.zonas] Zonas rellenadas antes de verificar.
+- [ ] [auto: comprobar.py layout.zonas] Zonas con relleno en cada una de sus capas; `verificar.py` las rellena antes del DRC.
 - [ ] [juicio] Cajetín comprobado en el PDF exportado (`kicad-cli pcb export pdf --include-border-title`, sobre una copia).
 - [ ] [auto: comprobar.py layout.incrustados] La PCB no lleva `embedded_files` con hojas de dibujo u otros archivos ajenos al diseño actual.
 - [ ] [auto: comprobar.py layout.salida] `pcbplotparams/outputdirectory` vacío o dentro de `fabricacion/<versión>/`.
@@ -21,14 +21,14 @@
 - [ ] [juicio] Buck junto a la entrada con bucle de conmutación mínimo.
 - [ ] [juicio] Sensor de temperatura y humedad en un borde, con ranuras y sin cobre debajo, lejos del buck, del LDO, del módulo ESP32-S3 y de las salidas (AMB-02).
 - [ ] [juicio] Divisor de VIN alejado del buck y de las salidas.
-- [ ] [auto: comprobar.py layout.restricciones] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5,1 A, y retornos GND de los bornes de salida para la corriente máxima del limitador, 4,9 A (FAB-03).
+- [ ] [juicio] Pistas de entrada, limitador común y bus de las salidas (`Power_In`) para 5,1 A, y retornos GND de los bornes de salida para la corriente máxima del limitador, 4,9 A (FAB-03): el «Ancho mín.» de la tabla de restricciones sale de la corriente y del ΔT (IPC-2152), y las zonas de retorno no tienen cuellos.
 - [ ] [juicio] Dimensiones dentro del objetivo (FAB-08) y 4 taladros M3.
 - [ ] [juicio] Presupuesto de longitud de cada borde con los taladros M3 y todos los conectores de FAB-07.
 
 ## Potencia y cargas
 
 - [ ] [auto: comprobar.py layout.restricciones] Anchos de pista según la tabla de restricciones de layout del esquema.
-- [ ] [auto: comprobar.py layout.restricciones] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
+- [ ] [juicio] Pistas de las salidas para la carga máxima de REL-05 con ΔT ≤ 10 °C y para la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz), y separación de la clase `Salidas` (FAB-03).
 - [ ] [juicio] Número de vías suficiente en cada cambio de capa de potencia.
 
 ## Masa
@@ -60,3 +60,4 @@
 | v5 | 2026-11-05 | Propuestas de VAL-0013-01 y VAL-0013-02: cajetín en el PDF, `embedded_files` ajenos y directorio de trazado |
 | v6 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v7 | 2026-11-12 | SPEC-0027: los ocho `[auto: pendiente]` pasan a `comprobar.py`; los tres de anchos y corriente dependen de la tabla de restricciones |
+| v8 | 2026-11-12 | VAL-0027-01-01 y -03: la corriente y el ΔT de las pistas vuelven a `[juicio]` (el script solo compara con la tabla); zonas con relleno en cada capa |

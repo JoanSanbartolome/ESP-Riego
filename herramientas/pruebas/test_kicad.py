@@ -4,14 +4,16 @@ Uso: python herramientas/pruebas/test_kicad.py [-v]
 
 Localiza la raíz del repositorio buscando CLAUDE.md hacia arriba, copia `hardware/v2`,
 `hardware/libraries` y `hardware/componentes` a una carpeta temporal y prueba cada herramienta
-sobre esa copia: que tiene --help, que su salida cabe en 30 líneas, que no modifica lo que lee
-y que da el resultado esperado. No usa la red (jlc.py se prueba con una respuesta guardada).
+sobre esa copia: que su --help y su salida caben en 30 líneas, que no modifica lo que lee y que
+da el resultado esperado. Cada punto de comprobar.py tiene al menos un caso que lo hace fallar
+(clase Mutaciones). No usa la red (jlc.py se prueba con una respuesta guardada).
 Se lanza con el Python del sistema; las herramientas que necesitan pcbnew o wx se relanzan
 solas con el Python de KiCad. Necesita KiCad 10 instalado (kicad-cli y su Python).
 """
 import hashlib
 import json
 import py_compile
+import re
 import shutil
 import struct
 import subprocess
@@ -96,6 +98,7 @@ class Generales(unittest.TestCase):
             codigo, salida, _ = correr(h, "--help")
             self.assertEqual(codigo, 0, h)
             self.assertIn("Uso:", salida, h)
+            self.assertLessEqual(len(salida.strip().splitlines()), 30, f"--help de {h}")
         for f in sorted(KICAD.glob("*.py")):
             py_compile.compile(str(f), cfile=str(TMP / (f.name + "c")), doraise=True)
 
@@ -104,7 +107,7 @@ class Generales(unittest.TestCase):
         tabla.write_text("Red;Corriente;Ancho mín.;Separación\nGND;1 A;0,2;0,2\n", encoding="utf-8")
         v2, mod = BASE / "v2", BASE / "libraries" / "esp-riego.pretty" / f"{BTT6050}.kicad_mod"
         ordenes = [
-            ("campos", "revisar", v2), ("comprobar", v2), ("huella", mod), ("huella", mod, "--json"),
+            ("campos", "revisar", v2), ("comprobar", v2), ("comprobar", "--lista"), ("huella", mod), ("huella", mod, "--json"),
             ("hoja", "pines", "RF_Module:ESP32-S3-WROOM-1"), ("hoja", "extraer", v2 / "mcu.kicad_sch", "-o", TMP / "nm.json"),
             ("hoja", "netlist", v2, v2), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
@@ -222,6 +225,49 @@ class Huella(unittest.TestCase):
         self.assertEqual(r["ep"]["pasta_sobre_taladro"], 2)
         self.assertEqual(r["modelos"], [])
         self.assertAlmostEqual(huella.area_union([(0, 0, 2, 2), (1, 1, 3, 3)]), 7.0)
+        self.assertEqual(r["tipo_pads"], "smd")            # la vía del pad 3 es térmica: no la hace pasante
+        self.assertIsNone(r["attr_incoherente"])
+
+    def test_textos_de_serigrafia(self):
+        base = '''(footprint "t" (layer "F.Cu") (attr smd)
+  (property "Reference" "REF**" (at {x} {y} {giro}) (layer "F.SilkS") {oculto}(effects (font (size 1 1) (thickness 0.15)){just}))
+  (fp_text user "${{REFERENCE}}" (at 0 0 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
+  (pad "1" smd rect (at -2 0) (size 1 1) (layers "F.Cu" "F.Mask" "F.Paste"))
+  (pad "2" smd rect (at 2 0) (size 1 1) (layers "F.Cu" "F.Mask" "F.Paste"))
+)'''
+        mod = TMP / "texto.kicad_mod"
+        casos = [(dict(x=0, y=-3, giro=0), 0), (dict(x=-2, y=0, giro=0), 1), (dict(x=0, y=0, giro=0), 1),   # «REF**» mide ~4,2 mm
+                 (dict(x=0, y=0, giro=90), 0), (dict(x=0, y=-1.2, giro=0, just=" (justify left)"), 0),
+                 (dict(x=-2.6, y=-1.2, giro=0, just=" (justify left bottom)"), 0), (dict(x=-2.6, y=0, giro=0, just=" (justify left)"), 1),
+                 (dict(x=-2, y=0, giro=0, oculto="(hide yes) "), 0)]
+        for datos, esperado in casos:
+            mod.write_text(base.format(**{"oculto": "", "just": "", **datos}), encoding="utf-8")
+            r = huella.analizar(mod)
+            self.assertEqual(r["serigrafia_sobre_pads"], esperado, datos)
+            self.assertEqual(r["serigrafia_textos"], ["REF**"] * esperado, datos)
+
+    def test_tipo_por_pads_y_atributo(self):
+        def pads(*tipos):
+            return [{"num": n, "tipo": t, "forma": "rect", "x": x, "y": 0.0, "giro": 0.0, "w": 2.0, "h": 2.0,
+                     "capas": {"*.Cu"} if t != "smd" else {"F.Cu", "F.Paste"}, "props": list(props)}
+                    for n, t, x, props in tipos]
+        smd, tht = ("1", "smd", 0.0, ()), ("2", "thru_hole", 5.0, ())
+        termica = ("1", "thru_hole", 0.5, ())                      # mismo número que el pad SMD y dentro de él
+        disipador = ("3", "thru_hole", 9.0, ("pad_prop_heatsink",))
+        npth = ("", "np_thru_hole", 7.0, ())
+        self.assertEqual(huella.tipo_por_pads(pads(smd, termica, disipador)), "smd")
+        self.assertEqual(huella.tipo_por_pads(pads(tht, npth)), "through_hole")
+        self.assertEqual(huella.tipo_por_pads(pads(smd, tht)), "mixta")
+        self.assertIsNone(huella.tipo_por_pads(pads(npth)))
+        motivo = huella.atributo_incoherente
+        self.assertIn("por sus pads, smd", motivo([], pads(smd)))
+        self.assertIn("atributo through_hole; por sus pads, smd", motivo(["through_hole"], pads(smd)))
+        self.assertIn("por sus pads, through_hole", motivo(["smd"], pads(tht)))
+        self.assertIn("a la vez", motivo(["smd", "through_hole"], pads(smd)))
+        self.assertIn("smd o through_hole", motivo([], pads(smd, tht)))
+        for attr, ps in ((["smd"], pads(smd, tht)), (["through_hole"], pads(smd, tht)), (["smd"], pads(smd, termica)),
+                         (["exclude_from_pos_files", "exclude_from_bom"], pads(smd)), ([], pads(npth))):
+            self.assertIsNone(motivo(attr, ps), attr)
 
 
 class Hoja(unittest.TestCase):
@@ -428,7 +474,7 @@ class Comprobar(unittest.TestCase):
 
     def test_proyecto_actual(self):
         puntos, r = self.estados(BASE / "v2")
-        self.assertEqual(len(puntos), 19)
+        self.assertEqual(len(puntos), 20)
         self.assertLessEqual(len(r["lineas"]), 30)
         for punto in ("esquema.hojas", "esquema.huellas", "esquema.vias", "layout.incrustados", "layout.salida",
                       "layout.smd_cara", "librerias.formato", "librerias.rutas", "librerias.serigrafia"):
@@ -468,6 +514,253 @@ class Comprobar(unittest.TestCase):
         codigo, salida, _ = correr("comprobar", BASE / "v2", "--punto", "librerias.fichas")
         self.assertIn(codigo, (0, 1))
         self.assertLessEqual(len(salida.strip().splitlines()), 30)
+
+
+def sustituir(ruta, a, b, n=1):
+    texto = _comun.leer(ruta)
+    assert a in texto, f"no está {a!r} en {Path(ruta).name}"
+    _comun.escribir(ruta, texto.replace(a, b, n))
+
+
+def bloque(texto, ref, clave="footprint"):
+    """(i, j) de la huella (o del símbolo) con esa referencia."""
+    i = texto.index(f'(property "Reference" "{ref}"')
+    k = texto.rindex(f"({clave} ", 0, i)
+    return k, _comun.fin_bloque(texto, k)
+
+
+def poner_attr(texto, attr):
+    """Huella (texto del bloque) con `(attr …)` sustituido o añadido tras su `(layer …)`."""
+    i = texto.find("(attr ")
+    if i >= 0:
+        return texto[:i] + f"(attr {attr})" + texto[_comun.fin_bloque(texto, i):]
+    j = texto.index(")", texto.index("(layer ")) + 1
+    return texto[:j] + f" (attr {attr})" + texto[j:]
+
+
+class Mutaciones(unittest.TestCase):
+    """Cada punto de comprobar.py falla con al menos un defecto (mutaciones de VAL-0027-01, mutar.py)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.d = TMP / "mut"
+        for sub in ("v2", "libraries", "componentes"):
+            shutil.copytree(BASE / sub, cls.d / sub)
+        cls.v2, cls.libs, cls.comp = cls.d / "v2", cls.d / "libraries", cls.d / "componentes"
+        cls.pcb, cls.mcu = cls.v2 / "esp-riego.kicad_pcb", cls.v2 / "mcu.kicad_sch"
+        cls.pretty = cls.libs / "esp-riego.pretty"
+
+    def setUp(self):
+        self.guardados = {}
+
+    def tearDown(self):
+        for ruta, texto in self.guardados.items():
+            if texto is None:
+                Path(ruta).unlink(missing_ok=True)
+            else:
+                _comun.escribir(ruta, texto)
+
+    def guardar(self, *rutas):
+        for r in rutas:
+            self.guardados.setdefault(r, _comun.leer(r) if Path(r).exists() else None)
+
+    def punto(self, clave):
+        x = comprobar.resumen(self.v2, clave)["puntos"][0]
+        return x["estado"], "\n".join(x["detalle"])
+
+    def falla(self, clave, *textos):
+        estado, detalle = self.punto(clave)
+        self.assertEqual(estado, "FALLA", f"{clave}: {detalle}")
+        for t in textos:
+            self.assertIn(t, detalle, clave)
+        return detalle
+
+    def mod(self, nombre):
+        return self.pretty / f"{nombre}.kicad_mod"
+
+    def huella_pcb(self, ref, cambio):
+        self.guardar(self.pcb)
+        texto = _comun.leer(self.pcb)
+        i, j = bloque(texto, ref)
+        _comun.escribir(self.pcb, texto[:i] + cambio(texto[i:j]) + texto[j:])
+
+    def test_esquema_vias_y_dnp(self):
+        self.guardar(self.mcu)
+        sustituir(self.mcu, '"Package_TO_SOT_SMD:SOT-23-6"', '"Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm_ThermalVias"', -1)
+        self.falla("esquema.vias", "QFN-24-1EP", "0,2/0,5")
+        texto = _comun.leer(self.mcu)
+        i = texto.index('(property "Description" "', texto.index('(property "Reference" "R16"')) + len('(property "Description" "')
+        texto = texto[:i] + "No montar. " + texto[i:]
+        k = texto.rindex("(dnp no)", 0, texto.index('(property "Reference" "R17"'))
+        _comun.escribir(self.mcu, texto[:k] + "(dnp yes)" + texto[k + len("(dnp no)"):])
+        self.falla("esquema.dnp", "R16: el texto dice que no se monta", "R17: DNP sí en la hoja y no en la PCB")
+
+    def test_layout_zonas(self):
+        self.guardar(self.pcb)
+        texto = _comun.leer(self.pcb).rstrip()
+        zonas = ('\t(zone (net "GND") (layers "F.Cu" "B.Cu") (uuid "11111111-1111-1111-1111-111111111111")\n'
+                 '\t\t(polygon (pts (xy 0 0) (xy 10 0) (xy 10 10) (xy 0 10)))\n'
+                 '\t\t(filled_polygon (layer "F.Cu") (pts (xy 0 0) (xy 10 0) (xy 10 10)))\n\t)\n'
+                 '\t(zone (net "+3V3") (layers "F&B.Cu") (uuid "22222222-2222-2222-2222-222222222222")\n'
+                 '\t\t(polygon (pts (xy 0 0) (xy 10 0) (xy 10 10)))\n\t)\n')
+        _comun.escribir(self.pcb, texto[:-1] + zonas + ")\n")
+        detalle = self.falla("layout.zonas", "zona de GND en B.Cu: sin rellenar", "zona de +3V3 en F.Cu", "zona de +3V3 en B.Cu")
+        self.assertNotIn("GND en F.Cu", detalle)
+        rellena = zonas.split('\t(zone (net "+3V3")')[0].replace(
+            "\t)\n", '\t\t(filled_polygon (layer "B.Cu") (pts (xy 0 0) (xy 1 0) (xy 1 1)))\n\t)\n')
+        _comun.escribir(self.pcb, texto[:-1] + rellena + ")\n")
+        self.assertEqual(self.punto("layout.zonas"), ("OK", "1 zonas rellenadas en todas sus capas"))
+
+    def test_layout_salida(self):
+        self.guardar(self.pcb)
+        original = _comun.leer(self.pcb)
+        self.assertIn('(outputdirectory "")', original)
+        for carpeta, esperado in (("", "OK"), ("../../fabricacion/v2/", "OK"), ("../../fabricacion/", "FALLA"),
+                                  ("../../gerber/", "FALLA"), ("C:/Users/otro/fabricacion/v2/", "FALLA"),
+                                  ("../../../TFG/fabricacion/", "FALLA"), ("fabricacion/v2", "FALLA")):
+            _comun.escribir(self.pcb, original.replace('(outputdirectory "")', f'(outputdirectory "{carpeta}")'))
+            self.assertEqual(self.punto("layout.salida")[0], esperado, carpeta)
+
+    def test_layout_smd_cara(self):
+        self.guardar(self.pcb)
+        original = _comun.leer(self.pcb)
+
+        def abajo(t):
+            return t.replace('(layer "F.Cu")', '(layer "B.Cu")', 1)
+
+        def sin_attr(t):
+            return t.replace("(attr smd)", "", 1)
+
+        def pads_abajo(t):
+            return t.replace('"F.Cu" "F.Mask" "F.Paste"', '"B.Cu" "B.Mask" "B.Paste"')
+
+        for nombre, cambio in (("con attr", abajo), ("sin attr", lambda t: sin_attr(abajo(t))),
+                               ("pads en B.Cu", lambda t: sin_attr(pads_abajo(t)))):
+            _comun.escribir(self.pcb, original)
+            self.huella_pcb("R16", cambio)
+            self.falla("layout.smd_cara", "R16: pads SMD en la cara inferior")
+        _comun.escribir(self.pcb, original)
+        self.huella_pcb("R16", lambda t: poner_attr(abajo(t), "smd exclude_from_pos_files"))
+        self.assertEqual(self.punto("layout.smd_cara")[0], "OK")     # fuera del CPL: punto de prueba, puente
+
+    def test_layout_restricciones(self):
+        tabla = self.v2 / "restricciones.csv"
+        self.guardar(self.pcb, tabla)
+        tabla.write_text("Red;Corriente;Ancho mín.;Separación;Vía\nGND;1 A;0,5;0,2;0,3/0,6\n", encoding="utf-8")
+        self.assertEqual(self.punto("layout.restricciones")[0], "N/A")     # tabla, pero aún sin pistas
+        texto = _comun.leer(self.pcb).rstrip()
+        _comun.escribir(self.pcb, texto[:-1] + '\t(segment (start 0 0) (end 10 0) (width 0.3) (layer "F.Cu") (net "GND")'
+                        ' (uuid "44444444-4444-4444-4444-444444444444"))\n\t(via (at 20 20) (size 0.5) (drill 0.2)'
+                        ' (layers "F.Cu" "B.Cu") (net "GND") (uuid "55555555-5555-5555-5555-555555555555"))\n)\n')
+        self.falla("layout.restricciones", "GND:", "vías por debajo de FAB-02")
+
+    def test_layout_3d(self):
+        def otro_modelo(t):
+            i = t.index("(model ")
+            return t[:i] + '(model "${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/NoExiste.step"' + t[t.index("\n", i):]
+
+        def sin_modelo(t):
+            i = t.index("(model ")
+            return t[:i] + t[_comun.fin_bloque(t, i):]
+
+        self.huella_pcb("R16", otro_modelo)
+        self.huella_pcb("R17", sin_modelo)
+        self.falla("layout.3d", "R16: no existe", "NoExiste.step", "R17: sin modelo 3D")
+
+    def test_librerias_formato_y_campos(self):
+        tabla, sym, json_ = self.v2 / "fp-lib-table", self.libs / "esp-riego.kicad_sym", self.pretty / "vieja.json"
+        self.guardar(tabla, sym, json_)
+        json_.write_text("{}", encoding="utf-8")
+        sustituir(tabla, '(type "KiCad")', '(type "Legacy")')
+        self.falla("librerias.formato", "vieja.json: formato no nativo", "esp-riego es de tipo Legacy")
+        texto = _comun.leer(sym)
+        _comun.escribir(sym, re.sub(r'(\(property "MPN" )"[^"]*"', r'\1""', texto, count=1))
+        self.falla("librerias.campos", "falta MPN")
+
+    def test_librerias_patio(self):
+        sw = self.mod("SW_Push_1P1T_XKB_TS-1187A")
+        self.guardar(sw)
+        original = _comun.leer(sw)
+        _comun.escribir(sw, original.replace('(layer "F.CrtYd")', '(layer "F.Fab")'))
+        self.falla("librerias.patio", "SW_Push_1P1T_XKB_TS-1187A: sin patio")
+        justo = original
+        for a, b in (("(start -3.75 ", "(start -3.3 "), ("(end -3.75 ", "(end -3.3 "), ("(start 3.75 ", "(start 3.3 "), ("(end 3.75 ", "(end 3.3 ")):
+            justo = justo.replace(a, b)
+        self.assertNotEqual(justo, original)
+        _comun.escribir(sw, justo)
+        self.falla("librerias.patio", "SW_Push_1P1T_XKB_TS-1187A: margen del patio")
+
+    def test_librerias_serigrafia(self):
+        btt, fusible = self.mod(BTT6050), self.mod("Fuse_Littelfuse-NANO2-451_453")
+        self.guardar(btt, fusible)
+        texto = _comun.leer(btt).rstrip()
+        _comun.escribir(btt, texto[:-1] + '\t(fp_line (start -3.5 -3.81) (end -2 -3.81) (stroke (width 0.12) (type solid))'
+                        ' (layer "F.SilkS") (uuid "33333333-3333-3333-3333-333333333333"))\n)\n')
+        texto = _comun.leer(fusible)
+        nuevo = re.sub(r'(\(property "Reference" "REF\*\*"\s*\(at )[-\d.]+ [-\d.]+', r"\g<1>-2.455 0", texto, count=1)
+        self.assertNotEqual(nuevo, texto)
+        _comun.escribir(fusible, nuevo)
+        self.falla("librerias.serigrafia", f"{BTT6050}: 1 gráficos", "Fuse_Littelfuse-NANO2-451_453: 1 gráficos o textos",
+                   "(textos: REF**)")
+
+    def test_librerias_attr(self):
+        sw, fusible, btt = self.mod("SW_Push_1P1T_XKB_TS-1187A"), self.mod("Fuse_Littelfuse-NANO2-451_453"), self.mod(BTT6050)
+        borne = self.mod("TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal")
+        self.guardar(sw, fusible, btt, borne, self.pcb)
+        sustituir(sw, "(attr smd)", "")
+        sustituir(fusible, "(attr smd)", "(attr through_hole)")
+        self.falla("librerias.attr", "SW_Push_1P1T_XKB_TS-1187A: sin atributo smd/through_hole; por sus pads, smd",
+                   "Fuse_Littelfuse-NANO2-451_453: atributo through_hole; por sus pads, smd")
+        # con los atributos que pide SPEC-0025 (BTT6050 smd, WJ500V through_hole, también J1 en la PCB) queda limpio
+        for ruta in (sw, fusible):
+            _comun.escribir(ruta, self.guardados[ruta])
+        _comun.escribir(btt, poner_attr(_comun.leer(btt), "smd"))
+        _comun.escribir(borne, poner_attr(_comun.leer(borne), "through_hole"))
+        self.huella_pcb("J1", lambda t: poner_attr(t, "through_hole"))
+        estado, detalle = self.punto("librerias.attr")
+        self.assertEqual(estado, "OK", detalle)
+
+    def test_librerias_3d(self):
+        btt, wrl = self.mod(BTT6050), self.libs / "3d" / "Infineon_PG-TDSO-14.wrl"
+        self.guardar(btt, wrl)
+        sustituir(btt, "Infineon_PG-TDSO-14.step", "Infineon_PG-TDSO-14.wrl")
+        self.falla("librerias.3d", f"{BTT6050}: no existe")
+        shutil.copyfile(self.libs / "3d" / "Infineon_PG-TDSO-14.step", wrl)
+        self.falla("librerias.3d", "el modelo no es STEP (.wrl)")
+
+    def test_librerias_gitattributes(self):
+        d = TMP / "ga"
+        (d / "v2").mkdir(parents=True)
+        (d / "v2" / "p.kicad_pro").write_text("{}", encoding="utf-8")
+        (d / "libraries" / "3d").mkdir(parents=True)
+        for nombre in ("a.step", "b.STEP"):
+            (d / "libraries" / "3d" / nombre).write_bytes(b"ISO-10303-21;")
+        (d / ".gitattributes").write_text("*.step binary\n", encoding="utf-8")
+        x = comprobar.resumen(d / "v2", "librerias.gitattributes")["puntos"][0]
+        self.assertEqual(x["estado"], "FALLA", x)
+        self.assertIn("*.STEP no está como binary", x["detalle"][0])
+        (d / ".gitattributes").write_text("*.step binary\n*.STEP binary\n", encoding="utf-8")
+        self.assertEqual(comprobar.resumen(d / "v2", "librerias.gitattributes")["puntos"][0]["estado"], "OK")
+
+    def test_librerias_fichas(self):
+        usb, led, esp, bloque_ = (self.comp / n for n in ("USBLC6-2SC6.md", "KT-0603R.md", "ESP32-S3-WROOM-1.md",
+                                                          "bloque-alimentacion.md"))
+        self.guardar(usb, led, esp, bloque_)
+        antes = {l.split(" ")[0] for l in self.punto("librerias.fichas")[1].splitlines()}
+        self.assertFalse({"C7519", "C2913198", "C25804"} & antes, antes)
+        sustituir(usb, "tipo_jlcpcb: extended", "tipo_jlcpcb:")
+        # C2913198 sale de su ficha y solo se cita en otra, como alternativa: no cuenta
+        sustituir(esp, "lcsc: C2913198", "lcsc: C1")
+        _comun.escribir(led, _comun.leer(led) + "\nAlternativa descartada: C2913198.\n")
+        # C25804 (pasivo) está en la columna LCSC de la ficha de bloque; sin tipo en su fila, falla
+        sustituir(bloque_, "| C25804 | Basic ·", "| C25804 | ·")
+        lineas = {l.split(" ")[0]: l for l in self.falla("librerias.fichas").splitlines()}
+        self.assertIn("a su ficha (USBLC6-2SC6.md) le falta tipo", lineas["C7519"])
+        self.assertIn("sin ficha", lineas["C2913198"])
+        self.assertIn("(bloque-alimentacion.md) le falta tipo", lineas["C25804"])
+        # una alternativa entre paréntesis en el campo lcsc tampoco cuenta como ficha
+        self.assertEqual(comprobar.codigos_lcsc("C44479 (alternativa TLC TA10, C2998199)"), ["C44479"])
+        self.assertEqual(comprobar.codigos_lcsc("C1858395 (FADDAR) · C2879422 (ADDAR)"), ["C1858395", "C2879422"])
 
 
 if __name__ == "__main__":
