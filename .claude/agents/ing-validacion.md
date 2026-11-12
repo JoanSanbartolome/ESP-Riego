@@ -85,7 +85,7 @@ tools:
   - mcp__kicad__suggest_jlcpcb_alternatives
   - mcp__kicad__validate_schematic
   - mcp__kicad__validate_symbol_library
-model: inherit
+model: opus
 effort: high
 color: red
 memory: project

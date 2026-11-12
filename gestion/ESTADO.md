@@ -1,13 +1,13 @@
 # Estado
 
-Actualizado el 2026-11-12, al cerrar SPEC-0027. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-12, al cerrar SPEC-0027 y registrar DEC-0010. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
 1. **SPEC-0025 · Hoja de salidas** (propuesta), como piloto del ciclo nuevo y de `herramientas/kicad/`. Referencia para comparar: SPEC-0022, con 5 arranques y 210 acciones para 21 piezas.
 2. Bloques que faltan de la fase 3: sensores y conectores, una spec por bloque. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`, que es la que lee `restricciones.py`) y la prueba de herramientas de layout (DEC-0009, M10).
 
-**Modelo de los agentes:** el usuario pidió el 2026-11-12 no lanzar agentes con Fable 5.2. Hasta que diga otra cosa, cada `Agent` lleva `model: opus` (o `sonnet` donde ya tocaba), y no se continúa una instancia que arrancó con Fable.
+**Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2. `ing-diseno` e `ing-validacion` lo llevan en su definición; el primer encargo de SPEC-0025 sirve para comprobar que arrancan en Opus.
 
 ## Para SPEC-0025
 
@@ -19,7 +19,6 @@ Actualizado el 2026-11-12, al cerrar SPEC-0027. Lo reescribe el coordinador en c
 
 ## Pendiente del usuario
 
-- Decidir si lo de Opus es permanente: habría que cambiar `model: inherit` en `ing-diseno` e `ing-validacion` (DEC-0009, M8) y repetir la prueba en vivo.
 - Medir la inductancia de la válvula (REL-03, `salidas.md` §5). No bloquea.
 - Medir en el prototipo la resistencia de la bobina caliente y el margen del umbral de carga abierta de 18 mV (REL-10, `salidas.md` §13.7). No bloquea.
 - Decidir si se versiona el `.kicad_pro` que KiCad 10 reescribe al abrir el proyecto (SPEC-0028).

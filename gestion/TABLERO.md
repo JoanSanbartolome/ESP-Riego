@@ -76,6 +76,7 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 22 · descartada 4.
 | [DEC-0007](decisiones/DEC-0007-den-comun-y-cambios-de-compra.md) | DEN común a los 6 canales y cambios de compra sin consulta | aceptada | usuario | 2026-11-06 |
 | [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | aceptada | usuario | 2026-11-08 |
 | [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | aceptada | usuario | 2026-11-11 |
+| [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md) | Agentes en Opus o inferior, nunca en Fable 5.2 | aceptada | usuario | 2026-11-12 |
 
 ## Informes de validación
 

@@ -1,15 +1,15 @@
 # Sistema de gestión del proyecto
 
-Cómo se organiza el trabajo de ESP-Riego: quién hace qué, cómo se registra y cómo se audita. Las decisiones que lo originan son [DEC-0001](decisiones/DEC-0001-orquestacion-de-agentes.md), [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) y [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md).
+Cómo se organiza el trabajo de ESP-Riego: quién hace qué, cómo se registra y cómo se audita. Las decisiones que lo originan son [DEC-0001](decisiones/DEC-0001-orquestacion-de-agentes.md), [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md), [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) y [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md).
 
 ## Roles
 
 | Rol | Definición | Modelo | Escribe en |
 |---|---|---|---|
 | **coordinador** (sesión principal) | [`CLAUDE.md`](../CLAUDE.md) | el de la sesión | `gestion/`, `docs/01`–`docs/03`, `CLAUDE.md`, `README.md`, `herramientas/`, `.claude/`, `.githooks/`; único que usa git para escribir |
-| `ing-diseno` | [`.claude/agents/ing-diseno.md`](../.claude/agents/ing-diseno.md) | el de la sesión | `hardware/` (salvo `v1-tfg/`), `docs/diseno/`, `firmware/`, `herramientas/kicad/` |
+| `ing-diseno` | [`.claude/agents/ing-diseno.md`](../.claude/agents/ing-diseno.md) | Opus | `hardware/` (salvo `v1-tfg/`), `docs/diseno/`, `firmware/`, `herramientas/kicad/` |
 | `jr-conformidad` | [`.claude/agents/jr-conformidad.md`](../.claude/agents/jr-conformidad.md) | Sonnet | `hardware/` (fichas, tablas de campos, campos de los esquemas), `fabricacion/` |
-| `ing-validacion` | [`.claude/agents/ing-validacion.md`](../.claude/agents/ing-validacion.md) | el de la sesión; Sonnet en el nivel ligero | `gestion/informes/`, `docs/validacion/` |
+| `ing-validacion` | [`.claude/agents/ing-validacion.md`](../.claude/agents/ing-validacion.md) | Opus; Sonnet en el nivel ligero | `gestion/informes/`, `docs/validacion/` |
 
 `ing-diseno` lleva cada bloque de principio a fin: cálculos, piezas, esquema y PCB. Lo que se mantiene separado es la revisión: quien diseña no valida. `ing-diseno` y `jr-conformidad` escriben además su parte (`gestion/logs/SPEC-NNNN/NN-<agente>.md`; validación no: su registro es el informe), y todos, su memoria (`.claude/agent-memory/<agente>/`). Ninguno usa git para escribir, escribe en la carpeta del TFG ni lanza otros agentes.
 
@@ -44,7 +44,7 @@ Una spec cubre un **bloque** (selección y cálculos, piezas, hoja y sincronizac
 5. **Entre pasos, comprobaciones automáticas** (`verificar.py` y las herramientas de `herramientas/kicad/`). `jr-conformidad` entra al final del bloque para el tipo y el stock, la tabla de campos y las fichas.
 6. **Validar** una vez, al final de la spec. `ing-validacion` entrega `gestion/informes/VAL-NNNN-NN.md` con veredicto `APROBADO`, `APROBADO_CON_OBSERVACIONES` o `RECHAZADO`.
    - El **plan de validación** de la spec dice el nivel y dónde está el riesgo: qué se reproduce de forma independiente (cotas, mapeo de pines, cálculos con poco margen, lo que va a cobre) y qué se comprueba por muestreo (stock, campos, enlaces).
-   - **Nivel** (DEC-0005): `ligero`, para texto, documentación y proceso; `completo`, para piezas, esquema, layout y fabricación. Ante la duda, completo. La definición de `ing-validacion` usa el modelo de la sesión: en el nivel ligero, el coordinador lo lanza con `model: sonnet`.
+   - **Nivel** (DEC-0005): `ligero`, para texto, documentación y proceso; `completo`, para piezas, esquema, layout y fabricación. Ante la duda, completo. La definición de `ing-validacion` usa Opus: en el nivel ligero, el coordinador lo lanza con `model: sonnet`. Ningún agente se lanza con Fable 5.2, ni se continúa una instancia que arrancó con él (DEC-0010).
    - En el layout hay validación completa en el primer hito (reglas y *floorplan*) y en el último; en los intermedios bastan las comprobaciones automáticas y el visto bueno del usuario sobre una imagen.
 7. **Corregir y revalidar** continuando la misma instancia del agente (`SendMessage`), que ya tiene el contexto. Una instancia nueva, solo para un paso nuevo. La revalidación se limita a los hallazgos y a lo corregido, y genera el informe siguiente (`-02`).
    - Las M que afectan a la spec siguiente se corrigen antes del merge. Las B y las M que no bloquean se apuntan, una línea cada una, en la spec de mantenimiento de la fase, que está en `propuesta` desde que aparece la primera.

@@ -1,6 +1,6 @@
 # ESP-Riego — instrucciones del proyecto
 
-Rediseño (v2) de la PCB de control de riego del TFG de Joan San Bartolomé Ferri. El trabajo se organiza en specs, con un coordinador y tres agentes. El manual está en `gestion/README.md`; las decisiones que lo originan, en `gestion/decisiones/DEC-0001-*.md` y `DEC-0009-*.md`.
+Rediseño (v2) de la PCB de control de riego del TFG de Joan San Bartolomé Ferri. El trabajo se organiza en specs, con un coordinador y tres agentes. El manual está en `gestion/README.md`; las decisiones que lo originan, en `gestion/decisiones/DEC-0001-*.md`, `DEC-0009-*.md` y `DEC-0010-*.md`.
 
 ## Convenciones comunes (coordinador y agentes)
 
@@ -75,5 +75,6 @@ Los agentes ignoran esta sección.
 
 - **Rol.** Trocear cada fase en specs, encargar el trabajo, revisar lo que entregan los agentes, llevar git y el registro, y hablar con el usuario. El coordinador no diseña, no crea piezas ni valida: delega.
 - **Al empezar cada sesión.** `git status`, la rama actual, `gestion/ESTADO.md` y la sección «Ciclo de vida de una spec» de `gestion/README.md`, que es el procedimiento: `gestion.py abrir`, `revisar`, `integrar` y `cerrar`. Retomar la spec abierta o preguntar al usuario.
+- **Modelo de los agentes.** Opus o inferior, nunca Fable 5.2 (DEC-0010): `ing-diseno` e `ing-validacion` lo llevan en su definición; a un agente genérico se le pone `model: opus` o menor.
 - **Estilo.** Respuestas al usuario cortas: resultado y lo que necesita decidir, sin explicar el proceso.
 - **Consultar siempre al usuario:** el desglose de cada fase; las decisiones D1–D7 y cualquier cambio de requisitos o de coste, que se registran como `DEC-NNNN`; las etiquetas de hito; en el layout, el *floorplan* y la colocación, con una imagen, antes de rutar; y cualquier `git push` que no sea el de `main` después de un merge.

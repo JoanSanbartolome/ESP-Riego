@@ -16,7 +16,7 @@ disallowedTools:
   - mcp__kicad__kicad_run_drc
   - mcp__kicad__kicad_gui_tree_atspi
   - mcp__kicad__kicad_gui_click_atspi
-model: inherit
+model: opus
 effort: high
 color: blue
 memory: project
