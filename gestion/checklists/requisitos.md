@@ -1,8 +1,8 @@
 # Checklist de revisión de requisitos
 
-**Versión:** v4 (2026-11-11). Para las specs que cambian `docs/02-especificaciones-v2.md`. Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v5 (2026-11-12). Para las specs que cambian `docs/02-especificaciones-v2.md`. Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
-`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: lo comprobará un script de `herramientas/kicad/` (SPEC-0027); hasta entonces se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
+`[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: todavía sin script; se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
 ## Identificadores y trazabilidad
 
@@ -57,3 +57,4 @@
 | v2 | 2026-11-04 | Propuestas de VAL-0004-02 y VAL-0005-01: orden de protecciones, mecanismo de los límites globales, puntos de prueba, dependencia entre protecciones y sección de estudios de diseño |
 | v3 | 2026-11-05 | Propuestas de VAL-0007-01 y VAL-0011-01: umbrales como bandas, protecciones escalonadas, parámetros de equipos externos, cifras de la DEC frente a docs/02, búsqueda en las memorias y estudios sustituidos, protecciones en % de potencia, carga a tensión máxima y en frío, límites de consumo con reparto y prueba, margen de las pruebas, condición de las corrientes de diseño y UVLO en los dos sentidos. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01 y VAL-0011-02) |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
+| v5 | 2026-11-12 | SPEC-0027: el `[auto: pendiente]` de esta checklist sigue sin script |

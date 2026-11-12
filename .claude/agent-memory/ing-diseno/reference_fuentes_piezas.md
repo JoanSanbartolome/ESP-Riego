@@ -5,7 +5,7 @@ metadata:
   type: reference
 ---
 
-La base local de JLCPCB del MCP (`search_jlcpcb_parts`, `get_jlcpcb_part`) estaba vacía a 2026-11-04 (0 piezas). `download_jlcpcb_database` está disponible desde DEC-0009 (2026-11-11), sin probar; `herramientas/kicad/` tendrá una consulta de tipo y stock por lotes (SPEC-0027).
+La base local de JLCPCB del MCP (`search_jlcpcb_parts`, `get_jlcpcb_part`) estaba vacía a 2026-11-04 (0 piezas). `download_jlcpcb_database` está disponible desde DEC-0009 (2026-11-11), sin probar. Tipo, stock y precio por lotes: `herramientas/kicad/jlc.py` (SPEC-0027; usa la API `selectSmtComponentList` de más abajo).
 
 Alternativas que funcionan con WebFetch:
 - Precio, stock, parámetros y enlace al PDF: `https://wmsc.lcsc.com/ftps/wm/product/detail?productCode=Cxxxx` (JSON). La búsqueda `wmsc.../search/global` da 403, y `lcsc.com/search` no devuelve resultados.

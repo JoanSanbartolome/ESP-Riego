@@ -2,15 +2,15 @@
 id: SPEC-0027
 titulo: Caja de herramientas de KiCad
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0027-herramientas-kicad
 requisitos: []
 depende_de: [SPEC-0026]
 creada: 2026-11-11
-cerrada:
-validacion:
+cerrada: 2026-11-12
+validacion: VAL-0027-02
 ---
 
 # SPEC-0027 · Caja de herramientas de KiCad
@@ -72,3 +72,10 @@ Nivel **completo**. Se reproduce de forma independiente: los seis criterios con 
 |---|---|---|---|---|---|---|
 | 2026-11-11 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-12 | ing-diseno | caja de herramientas de KiCad: nueve herramientas, README y batería | 01-ing-diseno | 395172 | 100 | 59 |
+| 2026-11-12 | coordinador | Enganche en verificar.py, batería a pruebas/ y checklists enlazadas |  |  |  |  |
+| 2026-11-12 | ing-validacion | Validación completa: 3 M y 7 B | VAL-0027-01 | 269466 | 58 | 26 |
+| 2026-11-12 | ing-diseno | Corrige VAL-0027-01-02 a 07, 09 y 10 (instancia nueva, Opus) | 02-ing-diseno | 234711 | 73 | 21 |
+| 2026-11-12 | coordinador | VAL-0027-01-01, -03 y -08: verificar.py, batería nueva a pruebas/ y checklists |  |  |  |  |
+| 2026-11-12 | ing-validacion | Revalidación: los 10 hallazgos corregidos; 2 B nuevas | VAL-0027-02 | 61078 | 21 | 12 |
+| 2026-11-12 | coordinador | Cierra la spec | VAL-0027-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |

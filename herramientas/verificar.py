@@ -7,6 +7,9 @@ Códigos de salida: 0 si no hay errores de ERC ni de DRC, elementos sin conectar
 de paridad; 1 si los hay; 2 si no se pudo verificar. Los informes JSON de kicad-cli se guardan
 en --salida (por defecto, una carpeta temporal fuera del repositorio).
 
+Después añade los puntos [auto] de las checklists de esquema, layout y librerías
+(herramientas/kicad/comprobar.py). Solo informan: no cambian el resultado ni el código de salida.
+
 kicad-cli reescribe archivos del proyecto que lee (el .kicad_prl, por ejemplo): el script
 guarda una copia de los archivos de la carpeta del proyecto y los restaura al terminar. Se
 niega a verificar la carpeta del TFG, que se verifica sobre una copia.
@@ -130,6 +133,13 @@ def main():
         print(f"kicad-cli tocó el proyecto; se ha dejado como estaba: {', '.join(tocados)}", file=sys.stderr)
     if not args.salida:
         resumen["informes"] = None
+    # Puntos [auto] de las checklists (herramientas/kicad/comprobar.py): informan, no cambian «limpio».
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent / "kicad"))
+        import comprobar
+        resumen["auto"] = comprobar.para_verificar(carpeta)
+    except Exception as e:  # un fallo de herramientas/kicad no tumba la verificación
+        resumen["auto"] = {"fallan": 0, "puntos": {}, "lineas": [f"Puntos [auto]: no disponibles ({e})"]}
     imprimir(resumen, args.json)
     sys.exit(0 if resumen["limpio"] else 1)
 
@@ -142,7 +152,9 @@ def verificar(cli, sch, pcb, salida):
                              "-o", str(salida / "erc.json"), str(sch)], salida / "erc.json")
         resumen["erc"] = contar([v for hoja in erc.get("sheets", []) for v in hoja.get("violations", [])])
     if pcb:
-        argumentos = ["pcb", "drc", "--format", "json", "--severity-all", "-o", str(salida / "drc.json")]
+        # --refill-zones rellena las zonas en memoria antes del DRC (sin --save-board no escribe la PCB)
+        argumentos = ["pcb", "drc", "--format", "json", "--severity-all", "--refill-zones",
+                      "-o", str(salida / "drc.json")]
         if sch:
             argumentos.append("--schematic-parity")
         drc = ejecutar(cli, [*argumentos, str(pcb)], salida / "drc.json")
@@ -181,6 +193,8 @@ def imprimir(resumen, como_json):
             print(f"Paridad  {p['total']:>4}")
             for tipo, n in p["por_tipo"].items():
                 print(f"  {n:>4}  {tipo}")
+        for linea in resumen.get("auto", {}).get("lineas", []):
+            print(linea)
         destino = f" · informes en {resumen['informes']}" if resumen["informes"] else ""
         print(f"Resultado: {'LIMPIO' if resumen['limpio'] else 'CON INCIDENCIAS'}{destino}")
 
