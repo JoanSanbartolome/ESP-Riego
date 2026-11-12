@@ -65,3 +65,4 @@ Nivel **completo**. Se reproduce de forma independiente: la netlist de la hoja f
 | 2026-11-06 | coordinador | Crea la spec (propuesta) | |
 | 2026-11-11 | coordinador | Responsable: ing-diseno; se completa con el ciclo nuevo al abrirla | DEC-0009 |  |  |  |
 | 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-12 | jr-conformidad | campos-salidas.csv (87 refs) y stock del 2026-11-12 | 01-jr-conformidad | 69447 | 13 | 2 |
