@@ -2,7 +2,7 @@
 id: SPEC-0027
 titulo: Caja de herramientas de KiCad
 fase: 3
-estado: propuesta
+estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0027-herramientas-kicad
@@ -30,7 +30,7 @@ Las operaciones de diseño que los agentes repetían con scripts desechables (27
   - `vista.py`: imagen PNG de una hoja, de la placa, de una zona o de una huella;
   - `huella.py`: cotas de un `.kicad_mod` (pads, paso, taladros, vías y cobertura de pasta del pad expuesto);
   - `restricciones.py`: anchos, separaciones y vías por red de la PCB frente a una tabla de restricciones;
-  - `verificar.py`: los puntos `[auto: pendiente]` de las checklists de esquema, layout y librerías;
+  - `comprobar.py`: los puntos `[auto: pendiente]` de las checklists de esquema, layout y librerías, que `herramientas/verificar.py` añade a su informe;
   - `herramientas/kicad/README.md` con una línea y un ejemplo por herramienta, y la batería `herramientas/pruebas/test_kicad.py`.
 - Excluye:
   - el paquete de fabricación (se hará con la fase 5) y cualquier cambio en `hardware/v2`;
@@ -41,12 +41,15 @@ Las operaciones de diseño que los agentes repetían con scripts desechables (27
 - DEC-0009 (M1 y M10) y `gestion/README.md`.
 - `.claude/agent-memory/ing-diseno/` (`reference_trucos_esquema.md`, `mcp-efectos-secundarios.md`, `reference_fuentes_piezas.md`) y `.claude/agent-memory/jr-conformidad/` (API de JLCPCB).
 - Los puntos `[auto: pendiente]` de `gestion/checklists/` (Grep).
-- `herramientas/verificar.py` y `hardware/v2` como banco de pruebas, siempre sobre una copia.
+- `herramientas/verificar.py` y `hardware/v2` como banco de pruebas, siempre sobre una copia. Punto de partida en `e1b984f`: ERC 0, DRC 0 con 172 sin conectar, paridad 0.
+- Los scripts de la carpeta temporal están en subcarpetas de cada `scratchpad` (`gen/gen.py`, `s19/sync.py`, `v18/mk_pcb.py`, `v21/`, `v22/`, `v24/`…): búsqueda recursiva.
+- Estado anterior a `38090d2` (`047cabd`), ya extraído con `git archive`: `%TEMP%\esp-riego\SPEC-0027\pre-38090d2\hardware\` (`v2` y `libraries`). Se copia antes de usarlo.
+- Python de KiCad, con `pcbnew`: `C:\Program Files\KiCad\10.0\bin\python.exe` (3.11). El del sistema es 3.12.
 
 ## Entregables
 
-- `herramientas/kicad/*.py` y su `README.md`; `herramientas/verificar.py` ampliado; `herramientas/pruebas/test_kicad.py`.
-- Las checklists con cada `[auto: pendiente]` cubierto cambiado a `[auto: <script>]` (las edita el coordinador con la lista del parte).
+- De `ing-diseno`, todo en `herramientas/kicad/`, que es su zona y que crea esta spec: las herramientas, el `README.md` y la batería `test_kicad.py`, que localiza la raíz del repositorio buscando `CLAUDE.md` hacia arriba. El parte da las líneas del enganche de `comprobar.py` en `herramientas/verificar.py` y la lista de puntos de checklist cubiertos, cada uno con su script.
+- Del coordinador, después de integrar (`herramientas/` y `gestion/` son su zona): el enganche en `herramientas/verificar.py`, la batería movida a `herramientas/pruebas/test_kicad.py` y las checklists con cada `[auto: pendiente]` cubierto cambiado a `[auto: <script>]`.
 
 ## Criterios de aceptación
 
@@ -57,7 +60,7 @@ Las operaciones de diseño que los agentes repetían con scripts desechables (27
 - [ ] `jlc.py` da para los códigos de `salidas.md` §9 el mismo tipo que la tabla de SPEC-0024.
 - [ ] `campos.py` encuentra las incoherencias de VAL-0024-01-07 (`Datasheet`, `Fabricante` y `Value` del LED) en las hojas actuales.
 - [ ] `verificar.py hardware/v2` informa de los puntos `[auto]` nuevos sin cambiar su resultado de ERC, DRC y paridad.
-- [ ] `test_kicad.py` pasa y `python -m py_compile` no da errores.
+- [ ] `python herramientas/pruebas/test_kicad.py` pasa con el Python del sistema y sin red (lo que necesita `pcbnew` se lanza con el Python de KiCad), y `python -m py_compile` no da errores.
 
 ## Plan de validación
 
@@ -68,3 +71,4 @@ Nivel **completo**. Se reproduce de forma independiente: los seis criterios con 
 | Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
 |---|---|---|---|---|---|---|
 | 2026-11-11 | coordinador | Crea la spec (propuesta) | | | | |
+| 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
