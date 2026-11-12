@@ -1,4 +1,4 @@
-"""Cotas de un .kicad_mod: pads, paso, taladros, vías y pasta del pad expuesto, patio, serigrafía y 3D.
+"""Cotas de un .kicad_mod: pads, paso, taladros, vías y pasta del pad expuesto, patio, serigrafía, atributo y 3D.
 
 Uso:
     python herramientas/kicad/huella.py hardware/libraries/esp-riego.pretty/<huella>.kicad_mod
@@ -124,6 +124,89 @@ def _puntos(nodo, capa):
     return salida, n
 
 
+def _oculto(nodo):
+    efectos = uno(nodo, "effects", [])
+    return any(x == "hide" or (isinstance(x, list) and x[:2] == ["hide", "yes"]) for x in list(nodo) + list(efectos))
+
+
+def cajas_texto(nodo, capa):
+    """Cajas aproximadas (cx, cy, ancho, alto, giro, texto) de los textos visibles de una capa.
+
+    Ancho estimado: 0,8 × alto de letra por carácter (fuente de trazos de KiCad), más el grueso.
+    Un `${CAMPO}` cuenta como 5 caracteres. Tiene en cuenta `justify` y el giro."""
+    salida = []
+    for g in hijos(nodo, "property") + hijos(nodo, "fp_text"):
+        if val(g, "layer") != capa or _oculto(g) or len(g) < 3 or not isinstance(g[2], str) or not g[2].strip():
+            continue
+        fuente = uno(uno(g, "effects", []), "font", [])
+        tam = uno(fuente, "size", ["size", "1", "1"])
+        grueso = float(val(fuente, "thickness", "0.15") or 0.15)
+        texto = re.sub(r"\$\{[^}]*\}", "XXXXX", g[2])
+        lineas = texto.split("\n")
+        ancho = 0.8 * float(tam[2]) * max(len(l) for l in lineas) + grueso
+        alto = float(tam[1]) * len(lineas) * 1.4 - 0.4 * float(tam[1]) + grueso
+        at = uno(g, "at", ["at", "0", "0"])
+        x, y, giro = float(at[1]), float(at[2]), float(at[3]) if len(at) > 3 else 0.0
+        just = set(uno(uno(g, "effects", []), "justify", ["justify"])[1:])
+        u = ancho / 2 if "left" in just else -ancho / 2 if "right" in just else 0.0
+        v = alto / 2 if "top" in just else -alto / 2 if "bottom" in just else 0.0
+        a = math.radians(giro)
+        salida.append((x + u * math.cos(a) + v * math.sin(a), y - u * math.sin(a) + v * math.cos(a), ancho, alto, giro, g[2]))
+    return salida
+
+
+def texto_sobre_pad(caja_txt, pads):
+    """¿Algún punto de la caja del texto cae sobre uno de los pads?"""
+    cx, cy, ancho, alto, giro, _ = caja_txt
+    a = math.radians(giro)
+    nu, nv = max(2, int(ancho / 0.1)), max(2, int(alto / 0.1))
+    for i in range(nu + 1):
+        for j in range(nv + 1):
+            u, v = -ancho / 2 + ancho * i / nu, -alto / 2 + alto * j / nv
+            x, y = cx + u * math.cos(a) + v * math.sin(a), cy - u * math.sin(a) + v * math.cos(a)
+            if any(dentro_pad(p, x, y) for p in pads):
+                return True
+    return False
+
+
+# Propiedades de pad que no cuentan para el tipo de huella (como en KiCad: disipador, almenado,
+# mecánico y fiduciales).
+PADS_NEUTROS = {"pad_prop_heatsink", "pad_prop_castellated", "pad_prop_mechanical", "pad_prop_fiducial_glob",
+                "pad_prop_fiducial_loc"}
+
+
+def _de_cobre(p):
+    return any(c.endswith(".Cu") for c in p["capas"])
+
+
+def tipo_por_pads(pads):
+    """Tipo que piden los pads: 'smd', 'through_hole', 'mixta' (los dos valen) o None (sin pads de cobre).
+
+    No cuentan los pads con PADS_NEUTROS ni las vías térmicas (pasantes con el número de un pad SMD y
+    dentro de él)."""
+    smd = [p for p in pads if p["tipo"] == "smd" and _de_cobre(p) and not PADS_NEUTROS & set(p["props"])]
+    todos_smd = [p for p in pads if p["tipo"] == "smd" and _de_cobre(p) and p["num"]]
+    tht = [p for p in pads if p["tipo"] == "thru_hole" and not PADS_NEUTROS & set(p["props"])
+           and not any(q["num"] == p["num"] and dentro_pad(q, p["x"], p["y"], 1e-6) for q in todos_smd)]
+    return "mixta" if smd and tht else "through_hole" if tht else "smd" if smd else None
+
+
+def atributo_incoherente(attr, pads):
+    """Motivo por el que el atributo de la huella no casa con sus pads, o None si casa."""
+    tipo, tiene = tipo_por_pads(pads), [a for a in attr if a in ("smd", "through_hole")]
+    if len(tiene) > 1:
+        return "lleva smd y through_hole a la vez"
+    if tipo is None:
+        return None
+    if not tiene:
+        if "exclude_from_pos_files" in attr:
+            return None  # fuera del CPL: el tipo no cambia nada (puntos de prueba, puentes)
+        return f"sin atributo smd/through_hole; por sus pads, {'smd o through_hole' if tipo == 'mixta' else tipo}"
+    if tipo != "mixta" and tiene[0] != tipo:
+        return f"atributo {tiene[0]}; por sus pads, {tipo}"
+    return None
+
+
 def resolver_modelo(ruta, kiprjmod):
     ruta = re.sub(r"\$\{KICAD\d+_3DMODEL_DIR\}", str(MODELOS).replace("\\", "/"), ruta)
     ruta = ruta.replace("${KIPRJMOD}", str(kiprjmod).replace("\\", "/"))
@@ -222,7 +305,12 @@ def analizar(archivo, kiprjmod=None):
         for x, y, ancho, n in pts:
             if (capa, n) not in malos and any(dentro_pad(p, x, y, ancho - 0.01) for p in expuestos):
                 malos.add((capa, n))
-    r["serigrafia_sobre_pads"] = len(malos)
+    textos = [t[5] for capa, mascara in (("F.SilkS", "F.Mask"), ("B.SilkS", "B.Mask"))
+              for t in cajas_texto(nodo, capa) if texto_sobre_pad(t, [p for p in pads if _en(p["capas"], mascara)])]
+    r["serigrafia_textos"] = textos
+    r["serigrafia_sobre_pads"] = len(malos) + len(textos)
+    r["tipo_pads"] = tipo_por_pads(pads)
+    r["attr_incoherente"] = atributo_incoherente(uno(nodo, "attr", ["attr"])[1:], pads)
     r["pads_custom"] = sum(p["custom"] for p in pads)
 
     # modelos 3D
@@ -255,7 +343,8 @@ def parse_nombre(texto, i):
 
 
 def informe(r):
-    lineas = [f"{r['nombre']} · attr {r['attr']} · {r['pads']} pads · números {r['numeros'][0] if r['numeros'] else '—'}"
+    lineas = [f"{r['nombre']} · attr {r['attr']}{' (' + r['attr_incoherente'] + ')' if r['attr_incoherente'] else ''}"
+              f" · {r['pads']} pads · números {r['numeros'][0] if r['numeros'] else '—'}"
               f"…{r['numeros'][-1] if r['numeros'] else '—'} ({len(r['numeros'])})"]
     for g in r["grupos"][:8]:
         tal = f", taladro {f(g['taladro'])}" if g["taladro"] else ""
@@ -288,7 +377,8 @@ def informe(r):
                       f"{'' if r['patio_margen'] >= MARGEN_PATIO else ' (INSUFICIENTE)'}")
     else:
         lineas.append("Patio: NO HAY")
-    lineas.append(f"Serigrafía sobre pads: {r['serigrafia_sobre_pads']} gráficos"
+    lineas.append(f"Serigrafía sobre pads: {r['serigrafia_sobre_pads']} gráficos o textos"
+                  + (f" ({', '.join(r['serigrafia_textos'])})" if r["serigrafia_textos"] else "")
                   + (f" · {r['pads_custom']} pads custom (medidos por su ancla)" if r["pads_custom"] else ""))
     for m in r["modelos"] or [None]:
         lineas.append("Modelo 3D: NO HAY" if m is None else

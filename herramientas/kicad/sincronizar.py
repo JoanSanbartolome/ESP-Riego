@@ -4,16 +4,13 @@ Uso:
     python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb
     python herramientas/kicad/sincronizar.py hardware/v2 -o <temporal>/esp-riego.kicad_pcb --actualizar U7,U8
 
-Exporta la netlist del proyecto, añade las huellas que faltan (sin colocar: en filas debajo del
-contorno, agrupadas por tipo), borra las que ya no tienen símbolo (--conservar para no hacerlo),
-y pone en todas valor, campos, ruta, hoja, atributos (DNP, fuera de BOM y de posiciones) y la red
-de cada pad. «Fuera de los archivos de posición» se pone si el símbolo lo pide, pero no se quita de
-una huella que ya lo lleva (taladros, puntos de prueba): se avisa. Una huella cuyo identificador cambió en el esquema, o que se pide con --actualizar
-(referencias o «todas»), se recarga de la librería en su misma posición, giro y cara.
-
-Todo se hace sobre una copia temporal del proyecto: del original solo se lee, y se escribe
-únicamente el .kicad_pcb de -o. Imprime los cambios y la paridad esquema ↔ PCB del resultado
-(sale con 1 si no es cero). Se relanza solo con el Python de KiCad si hace falta.
+Añade las huellas que faltan (sin colocar: en filas bajo el contorno, por tipo), borra las que ya
+no tienen símbolo (salvo --conservar) y pone en todas valor, campos, ruta, hoja, atributos (DNP,
+fuera de BOM y de posiciones) y la red de cada pad. «Fuera de posiciones» no se quita de una huella
+que ya lo lleva (se avisa). Una huella cuyo identificador cambió, o pedida con --actualizar
+(referencias o «todas»), se recarga de la librería en su posición, giro y cara.
+Trabaja sobre una copia: solo escribe el .kicad_pcb de -o. Da los cambios y la paridad del
+resultado (sale con 1 si no es cero). Se relanza con el Python de KiCad si hace falta.
 """
 import argparse
 import json

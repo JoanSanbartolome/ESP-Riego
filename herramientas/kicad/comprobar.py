@@ -3,35 +3,14 @@
 Uso:
     python herramientas/kicad/comprobar.py hardware/v2
     python herramientas/kicad/comprobar.py hardware/v2 --punto esquema.campos
-    python herramientas/kicad/comprobar.py hardware/v2 --json
+    python herramientas/kicad/comprobar.py --lista
 
-Una línea por punto: OK, FALLA, N/A (no hay con qué comprobarlo todavía) o ERROR, con el número
-de incidencias y la primera. --punto enseña todas las de uno. Busca al lado del proyecto
-`../libraries`, `../componentes` (fichas y `campos-<hoja>.csv`), la tabla de restricciones
-(`restricciones.csv` en la carpeta del proyecto o `../../docs/diseno/restricciones.csv`) y el
-`.gitattributes` del repositorio. Solo lee archivos; no lanza kicad-cli. Sale con 1 si algún
-punto falla. `herramientas/verificar.py` lo llama con `para_verificar()` y añade las líneas a su informe.
-
-Puntos (checklist · lo que se comprueba):
-  esquema.hojas        hojas por bloque: todo cuelga de la raíz, sin piezas en ella ni hojas huérfanas
-  esquema.campos       Value, Footprint, LCSC Part#, MPN, Datasheet y Description en lo que va al BOM
-  esquema.huellas      la huella asignada existe (librerías del proyecto u oficiales de KiCad 10)
-  esquema.vias         las huellas con vías cumplen FAB-02 (taladro ≥ 0,3, corona ≥ 0,6)
-  esquema.dnp          DNP igual en la hoja, en la tabla de campos y en la PCB
-  layout.zonas         todas las zonas de cobre están rellenadas
-  layout.incrustados   la PCB no lleva archivos incrustados
-  layout.salida        `outputdirectory` vacío o dentro de fabricacion/
-  layout.restricciones anchos, separaciones y vías de la tabla de restricciones (restricciones.py)
-  layout.smd_cara      ningún componente SMD en la cara inferior
-  layout.3d            todas las huellas montadas tienen modelo 3D y el archivo existe
-  librerias.formato    librerías en formato nativo, sin JSON de EasyEDA ni formatos antiguos
-  librerias.rutas      tablas de librerías y modelos 3D con ${KIPRJMOD}, sin rutas absolutas
-  librerias.campos     los símbolos propios llevan los seis campos
-  librerias.patio      las huellas propias tienen patio con margen ≥ 0,1 mm
-  librerias.serigrafia las huellas propias no tienen serigrafía sobre los pads
-  librerias.3d         modelo 3D de cada huella usada o propia: existe y es STEP
-  librerias.gitattributes  las extensiones de los modelos 3D están como `binary`
-  librerias.fichas     cada código LCSC del BOM tiene ficha con tipo, fecha y datasheet
+Una línea por punto: OK, FALLA, N/A (aún no hay con qué comprobarlo) o ERROR, con el número de
+incidencias y la primera; --punto da todas las de uno y --lista, qué mira cada punto. Lee, al lado
+del proyecto, `../libraries`, `../componentes` (fichas y `campos-<hoja>.csv`), la tabla de
+restricciones (`restricciones.csv` o `../../docs/diseno/restricciones.csv`) y el `.gitattributes`
+del repositorio. Solo lee archivos y no lanza kicad-cli. Sale con 1 si algún punto falla.
+`herramientas/verificar.py` lo llama con `para_verificar()` y añade las líneas a su informe.
 """
 import argparse
 import json
@@ -40,8 +19,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (Fallo, emitir, es_pieza, hijos, hojas, leer, parse, principal, proyecto, ruta_huella,  # noqa: E402
-                    simbolos_hoja, tabla_libs, trozos, uno, val)
+from _comun import (Fallo, dentro, emitir, es_pieza, hijos, hojas, leer, parse, principal, proyecto,  # noqa: E402
+                    raiz_repo, ruta_huella, simbolos_hoja, tabla_libs, trozos, uno, val)
 import campos as _campos  # noqa: E402
 import huella as _huella  # noqa: E402
 import restricciones as _restricciones  # noqa: E402
@@ -91,7 +70,8 @@ class Proyecto:
                         props = {p[1]: p[2] for p in hijos(n, "property") if len(p) > 2 and isinstance(p[2], str)}
                         attr = uno(n, "attr", ["attr"])[1:]
                         self._pcb.append({"ref": props.get("Reference", "?"), "fpid": n[1], "capa": val(n, "layer"),
-                                          "attr": attr, "modelos": [m[1] for m in hijos(n, "model")]})
+                                          "attr": attr, "modelos": [m[1] for m in hijos(n, "model")],
+                                          "pads": _huella.leer_pads(n)})
         return self._pcb
 
     def analisis(self, fpid):
@@ -171,15 +151,37 @@ def _zonas(p):
     return [parse(p.texto_pcb[i:j]) for n, i, j in trozos(p.texto_pcb) if n == "zone"]
 
 
+def _capas_cobre(p):
+    """Capas de cobre de la placa, de la sección `layers` de la PCB."""
+    p.huellas_pcb()
+    for n, i, j in trozos(p.texto_pcb):
+        if n == "layers":
+            return [c[1] for c in parse(p.texto_pcb[i:j])[1:] if isinstance(c, list) and len(c) > 1 and c[1].endswith(".Cu")]
+    return ["F.Cu", "B.Cu"]
+
+
+def capas_zona(z, cobre):
+    capas = [val(z, "layer")] if val(z, "layer") else uno(z, "layers", ["layers"])[1:]
+    salida = []
+    for c in capas:
+        salida += cobre if c == "*.Cu" else ["F.Cu", "B.Cu"] if c == "F&B.Cu" else [c]
+    return [c for c in salida if c.endswith(".Cu")]
+
+
 def layout_zonas(p):
+    """Cada capa de cada zona de cobre tiene relleno guardado (`filled_polygon` en esa capa)."""
     if not p.pcb.is_file():
         return NA, ["no hay PCB"]
+    cobre_placa = _capas_cobre(p)
     cobre = [z for z in _zonas(p) if not uno(z, "keepout")]
-    malas = [f"zona de {val(z, 'net_name') or val(z, 'net') or 'sin red'} en {val(z, 'layer') or ' '.join(uno(z, 'layers', ['', '?'])[1:])}: sin rellenar"
-             for z in cobre if not hijos(z, "filled_polygon")]
     if not cobre:
         return NA, ["la PCB no tiene zonas de cobre todavía"]
-    return ("FALLA" if malas else "OK"), malas or [f"{len(cobre)} zonas rellenadas"]
+    malas = []
+    for z in cobre:
+        rellenas = {val(f, "layer") for f in hijos(z, "filled_polygon")}
+        nombre = val(z, "net_name") or val(z, "net") or "sin red"
+        malas += [f"zona de {nombre} en {c}: sin rellenar" for c in capas_zona(z, cobre_placa) if c not in rellenas]
+    return ("FALLA" if malas else "OK"), malas or [f"{len(cobre)} zonas rellenadas en todas sus capas"]
 
 
 def layout_incrustados(p):
@@ -198,9 +200,17 @@ def layout_salida(p):
         return NA, ["no hay PCB"]
     p.huellas_pcb()
     m = re.search(r'\(outputdirectory "((?:\\.|[^"\\])*)"\)', p.texto_pcb)
-    carpeta = m.group(1) if m else ""
-    bien = not carpeta or "fabricacion/" in carpeta.replace("\\", "/") + "/"
-    return ("OK" if bien else "FALLA"), [f"outputdirectory «{carpeta}»"]
+    carpeta = m.group(1).replace("\\\\", "/").replace("\\", "/") if m else ""
+    if not carpeta:
+        return "OK", ["outputdirectory vacío"]
+    raiz = raiz_repo(p.carpeta) or p.carpeta.parent.parent
+    fabricacion = raiz / "fabricacion"
+    if _absoluta(carpeta):
+        return "FALLA", [f"outputdirectory «{carpeta}»: ruta absoluta; tiene que ser relativa al proyecto"]
+    destino = (p.carpeta / carpeta).resolve()
+    if not dentro(destino, fabricacion) or destino == fabricacion.resolve():
+        return "FALLA", [f"outputdirectory «{carpeta}»: fuera de fabricacion/<versión> del repositorio ({destino})"]
+    return "OK", [f"outputdirectory «{carpeta}» → fabricacion/{destino.relative_to(fabricacion.resolve()).as_posix()}"]
 
 
 def tabla_restricciones(p):
@@ -223,11 +233,21 @@ def layout_restricciones(p):
     return ("FALLA" if malas else "OK"), malas or [f"{tabla.name}: {len(r['filas'])} filas, {r['sin_datos']} sin datos"]
 
 
+def _pads_smd(h):
+    """Pads SMD de cobre que se sueldan (sin disipadores, fiduciales ni mecánicos)."""
+    return [x for x in h["pads"] if x["tipo"] == "smd" and any(c.endswith(".Cu") for c in x["capas"])
+            and not _huella.PADS_NEUTROS & set(x["props"])]
+
+
 def layout_smd_cara(p):
+    """Por los pads, no por el atributo: huella en B.Cu con pads SMD, o pad SMD en B.Cu con pasta.
+    No cuenta lo que está fuera de los archivos de posición (puntos de prueba, puentes)."""
     if not p.pcb.is_file():
         return NA, ["no hay PCB"]
-    malas = [f"{h['ref']}: SMD en la cara inferior" for h in p.huellas_pcb() if "smd" in h["attr"] and h["capa"] == "B.Cu"]
-    return ("FALLA" if malas else "OK"), malas or [f"{sum('smd' in h['attr'] for h in p.huellas_pcb())} SMD, todos arriba"]
+    con_smd = [h for h in p.huellas_pcb() if _pads_smd(h) and "exclude_from_pos_files" not in h["attr"]]
+    malas = [f"{h['ref']}: pads SMD en la cara inferior" for h in con_smd
+             if h["capa"] == "B.Cu" or any("B.Cu" in x["capas"] and "B.Paste" in x["capas"] for x in _pads_smd(h))]
+    return ("FALLA" if malas else "OK"), malas or [f"{len(con_smd)} huellas con pads SMD, todas arriba"]
 
 
 def _montada(h):
@@ -317,9 +337,24 @@ def librerias_patio(p):
 
 
 def librerias_serigrafia(p):
-    malas = [f"{fpid}: {p.analisis(fpid)['serigrafia_sobre_pads']} gráficos de serigrafía sobre pads"
-             for fpid in p.huellas_propias() if p.analisis(fpid)["serigrafia_sobre_pads"]]
+    malas = []
+    for fpid in p.huellas_propias():
+        a = p.analisis(fpid)
+        if a["serigrafia_sobre_pads"]:
+            textos = f" (textos: {', '.join(a['serigrafia_textos'])})" if a["serigrafia_textos"] else ""
+            malas.append(f"{fpid}: {a['serigrafia_sobre_pads']} gráficos o textos de serigrafía sobre pads{textos}")
     return ("FALLA" if malas else "OK"), malas or [f"{len(p.huellas_propias())} huellas propias"]
+
+
+def librerias_attr(p):
+    """Atributo smd / through_hole de cada huella propia y de cada huella de la PCB, frente a sus pads."""
+    malas = [f"{fpid}: {p.analisis(fpid)['attr_incoherente']}" for fpid in p.huellas_propias()
+             if p.analisis(fpid)["attr_incoherente"]]
+    for h in p.huellas_pcb():
+        motivo = _huella.atributo_incoherente(h["attr"], h["pads"])
+        if motivo:
+            malas.append(f"{h['ref']} (PCB, {h['fpid']}): {motivo}")
+    return ("FALLA" if malas else "OK"), malas or [f"{len(p.huellas_propias())} huellas propias y {len(p.huellas_pcb())} de la PCB"]
 
 
 def librerias_3d(p):
@@ -355,37 +390,93 @@ def librerias_gitattributes(p):
     return ("FALLA" if malas else "OK"), sorted(set(malas)) or [f"extensiones en uso: {', '.join(sorted(usadas)) or '—'}"]
 
 
+FECHA = re.compile(r"20\d\d-\d\d-\d\d")
+TIPO = re.compile(r"\b(basic|extended)\b", re.I)
+
+
+def codigos_lcsc(texto):
+    """Códigos LCSC de un campo o una celda, sin los que van entre paréntesis (alternativas)."""
+    return re.findall(r"(?<![A-Za-z0-9])C\d{3,}(?!\d)", re.sub(r"\([^)]*\)", " ", texto))
+
+
+def fuentes_fichas(carpeta):
+    """{código LCSC: [(archivo, tiene tipo, tiene fecha, tiene datasheet)]} de las fichas de componentes.
+
+    Ficha de pieza (`<MPN>.md` con cabecera YAML): el código está en `lcsc:`, y el tipo, la fecha y el
+    datasheet en `tipo_jlcpcb`, `stock_consultado` y `datasheet*` de esa cabecera. Ficha de bloque
+    (tabla con columna «LCSC»): el código está en esa columna; el tipo, en la fila; la fecha, en la
+    fila o en el archivo; el datasheet, en el archivo. Una cita en otro sitio no cuenta."""
+    fuentes = {}
+    for f in sorted(Path(carpeta).glob("*.md")):
+        texto = f.read_text(encoding="utf-8", errors="replace")
+        cab = re.match(r"---\r?\n(.*?)\r?\n---", texto, re.S)
+        if cab:
+            campos_ = dict(re.findall(r"^([A-Za-z_]+):[ \t]*(.*)$", cab.group(1), re.M))
+            hay = (bool(TIPO.search(campos_.get("tipo_jlcpcb", ""))), bool(FECHA.search(campos_.get("stock_consultado", ""))),
+                   any(v.strip() for k, v in campos_.items() if k.startswith("datasheet")))
+            for c in codigos_lcsc(campos_.get("lcsc", "")):
+                fuentes.setdefault(c, []).append((f.name,) + hay)
+        col = None
+        for linea in texto.splitlines():
+            if not linea.lstrip().startswith("|"):
+                col = None
+                continue
+            celdas = [c.strip() for c in linea.strip().strip("|").split("|")]
+            if col is None:
+                col = next((k for k, c in enumerate(celdas) if c.strip("*` ").upper() == "LCSC"), -1)
+                continue
+            if col < 0 or col >= len(celdas) or set(linea.replace("|", "").strip()) <= set("-: "):
+                continue
+            hay = (any(TIPO.search(c) for c in celdas), bool(FECHA.search(linea) or FECHA.search(texto)),
+                   "datasheet" in texto.lower())
+            for c in codigos_lcsc(celdas[col]):
+                fuentes.setdefault(c, []).append((f.name,) + hay)
+    return fuentes
+
+
 def librerias_fichas(p):
     if not p.componentes.is_dir():
         return NA, ["no hay carpeta ../componentes"]
-    fichas = {f.name: f.read_text(encoding="utf-8", errors="replace") for f in p.componentes.glob("*.md")}
+    fuentes = fuentes_fichas(p.componentes)
     codigos = {}
     for _, s in p.piezas():
         if s["in_bom"] and s["props"].get("LCSC Part#", "").strip():
             codigos.setdefault(s["props"]["LCSC Part#"].strip(), []).append(s["ref"])
     malas = []
     for codigo, refs in sorted(codigos.items()):
-        patron = re.compile(r"(?<![A-Za-z0-9])" + re.escape(codigo) + r"(?!\d)")
-        mias = [t for t in fichas.values() if patron.search(t)]
-        if not mias:
-            malas.append(f"{codigo} ({_campos.rangos(refs)}): sin ficha en componentes/")
+        if codigo not in fuentes:
+            malas.append(f"{codigo} ({_campos.rangos(refs)}): sin ficha (campo lcsc de una ficha o columna LCSC de una ficha de bloque)")
             continue
-        faltan = [que for que, pat in (("tipo Basic/Extended", r"basic|extended"), ("fecha", r"20\d\d-\d\d-\d\d"),
-                                       ("datasheet", r"datasheet")) if not any(re.search(pat, t, re.I) for t in mias)]
+        mejor = max(fuentes[codigo], key=lambda x: sum(x[1:]))
+        faltan = [que for que, hay in zip(("tipo Basic/Extended", "fecha", "datasheet"), mejor[1:]) if not hay]
         if faltan:
-            malas.append(f"{codigo} ({_campos.rangos(refs)}): a su ficha le falta {', '.join(faltan)}")
+            malas.append(f"{codigo} ({_campos.rangos(refs)}): a su ficha ({mejor[0]}) le falta {', '.join(faltan)}")
     return ("FALLA" if malas else "OK"), malas or [f"{len(codigos)} códigos LCSC con ficha"]
 
 
-PUNTOS = [
-    ("esquema.hojas", esquema_hojas), ("esquema.campos", esquema_campos), ("esquema.huellas", esquema_huellas),
-    ("esquema.vias", esquema_vias), ("esquema.dnp", esquema_dnp),
-    ("layout.zonas", layout_zonas), ("layout.incrustados", layout_incrustados), ("layout.salida", layout_salida),
-    ("layout.restricciones", layout_restricciones), ("layout.smd_cara", layout_smd_cara), ("layout.3d", layout_3d),
-    ("librerias.formato", librerias_formato), ("librerias.rutas", librerias_rutas), ("librerias.campos", librerias_campos),
-    ("librerias.patio", librerias_patio), ("librerias.serigrafia", librerias_serigrafia), ("librerias.3d", librerias_3d),
-    ("librerias.gitattributes", librerias_gitattributes), ("librerias.fichas", librerias_fichas),
+LISTA = [
+    ("esquema.hojas", esquema_hojas, "todo cuelga de la raíz, sin piezas en ella ni hojas huérfanas"),
+    ("esquema.campos", esquema_campos, "los seis campos en lo que va al BOM; Value, Footprint y Description en el resto"),
+    ("esquema.huellas", esquema_huellas, "la huella asignada existe (librerías del proyecto u oficiales de KiCad 10)"),
+    ("esquema.vias", esquema_vias, "las huellas con vías cumplen FAB-02 (taladro ≥ 0,3, corona ≥ 0,6)"),
+    ("esquema.dnp", esquema_dnp, "DNP igual en la hoja, en la tabla de campos y en la PCB; texto «no montar» con DNP"),
+    ("layout.zonas", layout_zonas, "cada zona de cobre tiene relleno guardado en cada una de sus capas"),
+    ("layout.incrustados", layout_incrustados, "la PCB no lleva archivos incrustados"),
+    ("layout.salida", layout_salida, "`outputdirectory` vacío o relativo y dentro de <repo>/fabricacion/<versión>"),
+    ("layout.restricciones", layout_restricciones, "anchos, separaciones y vías de la tabla de restricciones (restricciones.py)"),
+    ("layout.smd_cara", layout_smd_cara, "por los pads: ninguna huella con pads SMD en la cara inferior"),
+    ("layout.3d", layout_3d, "todas las huellas montadas tienen modelo 3D y el archivo existe"),
+    ("librerias.formato", librerias_formato, "formato nativo, sin JSON de EasyEDA ni formatos antiguos"),
+    ("librerias.rutas", librerias_rutas, "tablas de librerías y modelos 3D con ${KIPRJMOD}, sin rutas absolutas"),
+    ("librerias.campos", librerias_campos, "los símbolos propios llevan los seis campos"),
+    ("librerias.patio", librerias_patio, "las huellas propias tienen patio con margen ≥ 0,1 mm"),
+    ("librerias.serigrafia", librerias_serigrafia, "sin gráficos ni textos (caja aproximada) de serigrafía sobre pads"),
+    ("librerias.attr", librerias_attr, "atributo smd / through_hole coherente con los pads (huellas propias y PCB)"),
+    ("librerias.3d", librerias_3d, "modelo 3D de cada huella usada o propia: existe y es STEP"),
+    ("librerias.gitattributes", librerias_gitattributes, "las extensiones de los modelos 3D están como `binary`"),
+    ("librerias.fichas", librerias_fichas, "cada código LCSC del BOM tiene ficha (campo lcsc o columna LCSC) con tipo, fecha y datasheet"),
 ]
+PUNTOS = [(clave, funcion) for clave, funcion, _ in LISTA]
 
 
 def resumen(ruta, solo=None):
@@ -421,11 +512,17 @@ def para_verificar(carpeta):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("proyecto", help="carpeta del proyecto o .kicad_pro")
+    ap.add_argument("proyecto", nargs="?", help="carpeta del proyecto o .kicad_pro")
     ap.add_argument("--punto", help="enseña todas las incidencias de un punto")
+    ap.add_argument("--lista", action="store_true", help="los puntos y lo que mira cada uno")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--detalle", metavar="ARCHIVO", help="guarda todas las incidencias de todos los puntos")
     args = ap.parse_args()
+    if args.lista:
+        emitir([f"{clave:<24} {que}" for clave, _, que in LISTA])
+        return 0
+    if not args.proyecto:
+        raise Fallo("falta el proyecto (o --lista)")
     if args.punto and args.punto not in dict(PUNTOS):
         raise Fallo(f"no existe el punto {args.punto}: {', '.join(k for k, _ in PUNTOS)}")
     r = resumen(args.proyecto, args.punto)

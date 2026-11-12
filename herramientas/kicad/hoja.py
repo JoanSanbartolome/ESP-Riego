@@ -6,20 +6,13 @@ Uso:
     python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch
     python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 [--hoja MCU]
 
-Descripción (JSON): {"papel", "cajetin": {title, date, rev, company, comment: {"1": …}},
-"piezas": [{"ref", "simbolo": "Lib:Nombre", "x", "y", "giro", "campos": {…}, "dnp", "pines": {"nº": conexión}}],
-"banderas": [[x, y]], "textos": [{"x", "y", "tam", "negrita", "texto"}]}. Conexión de un pin, dibujada
-en su extremo y sin cables: "L:RED" etiqueta local · "H:RED:forma" jerárquica (input, output,
-bidirectional, passive, tri_state) · "G:RED:forma" global · "P:GND" símbolo de `power` · "NC" · "" nada.
-Todo pin visible debe tener conexión declarada.
-
-generar escribe solo en -o. Si -o (o --base) ya existe, conserva sus UUID (hoja, símbolos, pines,
-etiquetas) y las referencias #PWR, para no romper la paridad con la PCB; se niega a sustituir una
-hoja con cables u otros elementos que no sabe representar, salvo con --forzar. Los símbolos de
-`lib_symbols` se copian de las librerías (oficiales o del sym-lib-table del proyecto), con los
-derivados (`extends`) aplanados. No admite símbolos de varias unidades ni espejados.
-netlist compara las netlists de dos proyectos (exportadas sobre copias). Los pines de hoja de la
-raíz no se tocan: si cambian las etiquetas jerárquicas, hay que actualizarlos aparte.
+Descripción JSON: formato en herramientas/kicad/README.md («Descripción de hoja»). Conexión de cada
+pin, en su extremo y sin cables: "L:RED" local · "H:RED:forma" jerárquica · "G:RED:forma" global ·
+"P:GND" símbolo de `power` · "NC" · "" nada. Todo pin visible lleva conexión declarada.
+generar escribe solo en -o; si -o (o --base) existe, conserva sus UUID y las referencias #PWR, y
+no sustituye una hoja con cables u otros elementos que no sabe representar (salvo --forzar). Copia
+`lib_symbols` de las librerías, con `extends` aplanado. Sin símbolos de varias unidades ni espejados.
+Los pines de hoja de la raíz no se tocan: si cambian las etiquetas jerárquicas, se actualizan aparte.
 """
 import argparse
 import json
