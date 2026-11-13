@@ -66,3 +66,4 @@ Nivel **completo**. Se reproduce de forma independiente: la netlist de la hoja f
 | 2026-11-11 | coordinador | Responsable: ing-diseno; se completa con el ciclo nuevo al abrirla | DEC-0009 |  |  |  |
 | 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-12 | jr-conformidad | campos-salidas.csv (87 refs) y stock del 2026-11-12 | 01-jr-conformidad | 69447 | 13 | 2 |
+| 2026-11-13 | ing-diseno | hoja de salidas, raíz unida, PCB sincronizada, attr de huellas y salidas.md | 02-ing-diseno | 226617 | 58 | 973 |
