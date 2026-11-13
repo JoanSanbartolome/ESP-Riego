@@ -31,6 +31,8 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
   - **Checklists:** `librerias.md`, cobertura de pasta y tratamiento de las vías en pads expuestos, y Grep de todas las menciones del rasgo cambiado al proponer cambios a un documento (VAL-0024-01); `layout.md`, cruce pad ↔ netlist (VAL-0019-02).
   - **Guarda (VAL-0026-02), a cargo del coordinador:** en un heredoc sin comillas, analizar solo el texto de `$(…)` y de las comillas invertidas, no la línea entera (-02); no dar por buena una asignación tras `||` (`A || S=… && rm $S`, -01 b). Toca un hook: sondas nuevas y validación.
   - **Proyecto:** versionar el `.kicad_pro` que reescribe KiCad 10 al abrirlo, si el usuario lo quiere.
+  - **`salidas.md` (VAL-0025-01-01):** la cabecera cita `docs/02` v0.4 en lugar de v0.5.
+  - **Herramientas (SPEC-0025):** `hoja.py raiz` (pines de hoja y no conexiones de la raíz, que hoy se editan con Python en línea) y `hoja.py netlist --plan` (netlist frente al plan de conexiones del documento de diseño; lo escribieron por separado el autor y validación). Con su prueba en `test_kicad.py`.
   - **Posible:** campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas.
 - Excluye: lo que es del layout o de la fabricación, que está en `gestion/ESTADO.md` (vías y pasta del EPAD de U5, polígono BUS_24V, serigrafía «STATUS», estado de las vías en los Gerber).
 

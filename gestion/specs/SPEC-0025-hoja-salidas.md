@@ -2,15 +2,15 @@
 id: SPEC-0025
 titulo: Hoja de salidas en el esquema v2
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0025-hoja-salidas
 requisitos: [REL-01, REL-03, REL-04, REL-05, REL-06, REL-07, REL-08, REL-10]
 depende_de: [SPEC-0024, SPEC-0022]
 creada: 2026-11-06
-cerrada:
-validacion:
+cerrada: 2026-11-13
+validacion: VAL-0025-01
 ---
 
 # SPEC-0025 · Hoja de salidas en el esquema v2
@@ -66,6 +66,7 @@ Nivel **completo**. Se reproduce de forma independiente: la netlist de la hoja f
 | 2026-11-11 | coordinador | Responsable: ing-diseno; se completa con el ciclo nuevo al abrirla | DEC-0009 |  |  |  |
 | 2026-11-12 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-12 | jr-conformidad | campos-salidas.csv (87 refs) y stock del 2026-11-12 | 01-jr-conformidad | 69447 | 13 | 2 |
-| 2026-11-13 | ing-diseno | hoja de salidas, raíz unida, PCB sincronizada, attr de huellas y salidas.md | 02-ing-diseno | 226617 | 58 | 973 |
-| 2026-11-13 | jr-conformidad | bloque-salidas.md: fichas de C17713, C17902 y C23253 | 03-jr-conformidad | 6577 | 17 | 977 |
+| 2026-11-13 | ing-diseno | hoja de salidas, raíz unida, PCB sincronizada, attr de huellas y salidas.md (cortada por el límite de uso; 10 + 7 min) | 02-ing-diseno | 226617 | 58 | 17 |
+| 2026-11-13 | jr-conformidad | bloque-salidas.md: fichas de C17713, C17902 y C23253 | 03-jr-conformidad | 6577 | 4 | 1 |
 | 2026-11-13 | ing-validacion | Validación completa: 1 B | VAL-0025-01 | 186708 | 51 | 10 |
+| 2026-11-13 | coordinador | Cierra la spec | VAL-0025-01 (APROBADO_CON_OBSERVACIONES) |  |  |  |
