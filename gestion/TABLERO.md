@@ -78,6 +78,7 @@ Specs por estado: propuesta 2 · abierta 0 · cerrada 23 · descartada 4.
 | [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | aceptada | usuario | 2026-11-08 |
 | [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | aceptada | usuario | 2026-11-11 |
 | [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md) | Agentes en Opus o inferior, nunca en Fable 5.2 | aceptada | usuario | 2026-11-12 |
+| [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | aceptada | usuario | 2026-11-13 |
 
 ## Informes de validación
 

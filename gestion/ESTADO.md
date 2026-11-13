@@ -4,8 +4,13 @@ Actualizado el 2026-11-13, al cerrar SPEC-0025. Lo reescribe el coordinador en c
 
 ## Siguiente
 
-1. Bloques que faltan de la fase 3: sensores y conectores, una spec por bloque, con el ciclo de SPEC-0025 (paso de campos, paso de diseño y una validación).
-2. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`, que es la que lee `restricciones.py`) y la prueba de herramientas de layout (DEC-0009, M10).
+Una spec cada vez (comparten carpeta), con el ciclo de SPEC-0025: paso de campos, paso de diseño y una validación.
+
+1. **Requisitos v0.6** (DEC-0011, sin crear): retira EXP-01, redefine EXP-03 con 6 pulsadores y cierra D3 y D4. Coordinador, validación ligera.
+2. **SPEC-0029 · Bloque de sensores** (sin crear; AMB-01, AMB-02): no depende de nada, puede ir antes.
+3. **SPEC-0006 · Viabilidad de la expansión**, que además fija el conector EXP-02 (DEC-0011) y termina en la decisión D9 del usuario.
+4. Bloque de conectores, expansión y pulsadores; después SPEC-0028 y la integración y revisión global del esquema, que lleva a la etiqueta `v2.0-sch`.
+5. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`, que es la que lee `restricciones.py`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2. Comprobado en SPEC-0025: `ing-diseno` e `ing-validacion` arrancan en Opus por su definición.
 
@@ -18,10 +23,9 @@ Actualizado el 2026-11-13, al cerrar SPEC-0025. Lo reescribe el coordinador en c
 
 ## Pendiente del usuario
 
-- **Válvulas instaladas (bloquea la etiqueta `v2.0-sch`):** la foto del usuario del 2026-11-13 es una Bermad S-390-3-D de 24 V AC, NC, 0,2 A y 3,5 W, con cables naranja y azul; la fila que coincide de la ficha S-390-T-3W da 42 Ω a 20 °C. No es la de 24 V DC y 156 Ω de DEC-0002 y `salidas.md`. Falta confirmar si todas son así y medir la bobina en los dos sentidos; después, decidir cómo se alimentan (afecta a REL-03, REL-05, ALI-12 y ALI-13).
-- Respuestas del 2026-11-13, sin DEC todavía: D3, sin entrada de lluvia (falta confirmar si EXP-01 desaparece entera); D4, pulsadores manuales leídos por firmware con antirrebote (EXP-03). D9 sigue abierta.
+- **Válvulas instaladas (bloquea la etiqueta `v2.0-sch`):** la foto del usuario del 2026-11-13 es una Bermad S-390-3-D de 24 V AC, NC, 0,2 A y 3,5 W, con cables naranja y azul; la fila que coincide de la ficha S-390-T-3W da 42 Ω a 20 °C. No es la de 24 V DC y 156 Ω de DEC-0002 y `salidas.md`. Hoy funcionan las seis a la vez con la fuente de 24 V, sin problemas (DEC-0011). Falta medir la corriente de una válvula a 24 V DC, o la resistencia de la bobina en los dos sentidos; con el dato, `ing-diseno` revisa `salidas.md` (REL-03, REL-05, ALI-12).
+- D9, arquitectura de la expansión: con el informe de SPEC-0006.
 - Medir en el prototipo la resistencia de la bobina caliente y el margen del umbral de carga abierta de 18 mV (REL-10, `salidas.md` §13.7). No bloquea.
-- Decidir si se versiona el `.kicad_pro` que KiCad 10 reescribe al abrir el proyecto (SPEC-0028).
 
 ## Para el layout (fase 4)
 
