@@ -18,7 +18,8 @@ Actualizado el 2026-11-13, al cerrar SPEC-0025. Lo reescribe el coordinador en c
 
 ## Pendiente del usuario
 
-- Medir la inductancia de la válvula (REL-03, `salidas.md` §5). No bloquea.
+- **Válvulas instaladas (bloquea la etiqueta `v2.0-sch`):** la foto del usuario del 2026-11-13 es una Bermad S-390-3-D de 24 V AC, NC, 0,2 A y 3,5 W, con cables naranja y azul; la fila que coincide de la ficha S-390-T-3W da 42 Ω a 20 °C. No es la de 24 V DC y 156 Ω de DEC-0002 y `salidas.md`. Falta confirmar si todas son así y medir la bobina en los dos sentidos; después, decidir cómo se alimentan (afecta a REL-03, REL-05, ALI-12 y ALI-13).
+- Respuestas del 2026-11-13, sin DEC todavía: D3, sin entrada de lluvia (falta confirmar si EXP-01 desaparece entera); D4, pulsadores manuales leídos por firmware con antirrebote (EXP-03). D9 sigue abierta.
 - Medir en el prototipo la resistencia de la bobina caliente y el margen del umbral de carga abierta de 18 mV (REL-10, `salidas.md` §13.7). No bloquea.
 - Decidir si se versiona el `.kicad_pro` que KiCad 10 reescribe al abrir el proyecto (SPEC-0028).
 
