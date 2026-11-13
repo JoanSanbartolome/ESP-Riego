@@ -264,7 +264,7 @@ En la v0.4 (DEC-0004):
 
 En la v0.6 (DEC-0011):
 
-- EXP-03: de «pulsadores por canal» a 6 pulsadores en la placa, uno por salida, en fila en el centro y leídos por el firmware con antirrebote. Prioridad C → S, propuesta del coordinador pendiente de que la acepte el usuario.
+- EXP-03: de «pulsadores por canal» a 6 pulsadores en la placa, uno por salida, en fila en el centro y leídos por el firmware con antirrebote. Prioridad C → S, propuesta por el coordinador y aceptada por el usuario el 2026-11-13 (DEC-0011).
 - EXP-02 y EXP-04: SPEC-0006 fija el conector junto con su informe, no después; D9 la decide el usuario con el informe.
 - FAB-07: sin el borne de la entrada de pulsos; los pulsadores, en el centro.
 - REL-03, §1, §2 y §6: las válvulas instaladas son de 24 V AC alimentadas en continua, con la corriente a 24 V DC pendiente de medir. Las cifras de REL-05, ALI-12 y ALI-13 no cambian hasta tener la medida.
@@ -278,4 +278,4 @@ En la v0.6 (DEC-0011):
 | v0.3 | 2026-11-04 | Salidas con *high-side* inteligente BTT6050 y limitador común del bus de salidas (D8, D2 cerradas); diagnóstico por canal; bornes de 2 polos y placa de ≈ 100 × 70 mm; observaciones de VAL-0004-02 y VAL-0005-01 | SPEC-0007 · DEC-0003 |
 | v0.4 | 2026-11-05 | Fuente LED de 24 V y 5 A supuesta, en su ajuste de fábrica; banda del limitador 3,5–4,9 A sobre una carga instalada máxima de 3,5 A; carga máxima por canal de 1 A sin protección por canal, con pistas, bornes y retornos para la corriente del limitador; avisos de VIN a 17 V y 31 V; observaciones de VAL-0007-01, VAL-0011-01 y VAL-0011-02 | SPEC-0011 · DEC-0004 |
 | v0.5 | 2026-11-08 | FAB-03: separación de `Salidas` de 0,6 mm dentro de las huellas del *high-side*, R_OL y C_OUT (IPC-2221 B2 hasta 100 V; ≥ 0,2 mm de FAB-02) | SPEC-0023 · DEC-0008 |
-| v0.6 | 2026-11-13 | EXP-01 retirado (sin entrada de pulsos ni de lluvia, D3 cerrada); EXP-03 con 6 pulsadores en la placa leídos por el firmware (D4 cerrada, prioridad S propuesta); conector EXP-02 fijado con el informe de SPEC-0006; válvulas instaladas de 24 V AC alimentadas en continua, con la medida pendiente | SPEC-0030 · DEC-0011 |
+| v0.6 | 2026-11-13 | EXP-01 retirado (sin entrada de pulsos ni de lluvia, D3 cerrada); EXP-03 con 6 pulsadores en la placa leídos por el firmware (D4 cerrada, prioridad S); conector EXP-02 fijado con el informe de SPEC-0006; válvulas instaladas de 24 V AC alimentadas en continua, con la medida pendiente | SPEC-0030 · DEC-0011 |

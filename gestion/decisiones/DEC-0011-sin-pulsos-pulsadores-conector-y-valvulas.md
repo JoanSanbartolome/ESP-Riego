@@ -30,7 +30,7 @@ Decididas por el usuario el 2026-11-13.
 
 - **Requisitos v0.6** (spec del coordinador, validación ligera):
   - EXP-01 pasa a «Requisitos retirados»; salen del diagrama de §3 la entrada de pulsos y de FAB-07 su borne; D3 y D4 quedan cerradas.
-  - EXP-03 se redefine con los 6 pulsadores, su lectura por firmware y su posición. Propuesta del coordinador: prioridad de C a S; el usuario dijo «sería interesante».
+  - EXP-03 se redefine con los 6 pulsadores, su lectura por firmware y su posición. Prioridad de C a S: la propuso el coordinador (el usuario dijo «sería interesante») y el usuario la aceptó el 2026-11-13 («Sí, a S»).
   - EXP-02 y EXP-04: el conector se fija con el informe de SPEC-0006, no después.
 - **GPIO:** `PULSE_IN` (GPIO37) queda libre. Con GPIO10, 18 y 39 hay 4 pines libres y 6 pulsadores no caben uno por pin: el bloque de conectores compara una escalera de resistencias en un canal de ADC1 con un expansor I²C en el bus de la placa (`docs/diseno/mcu.md` §9).
 - **Pulsadores en el centro de la placa:** solo se alcanzan con la caja abierta, y ocupan la zona por la que pasan el bus de 24 V y los planos. Es una restricción del *floorplan* de la fase 4.
