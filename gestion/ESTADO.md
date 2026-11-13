@@ -6,10 +6,10 @@ Actualizado el 2026-11-13, al cerrar SPEC-0025. Lo reescribe el coordinador en c
 
 Una spec cada vez (comparten carpeta), con el ciclo de SPEC-0025: paso de campos, paso de diseño y una validación.
 
-1. **Requisitos v0.6** (DEC-0011, sin crear): retira EXP-01, redefine EXP-03 con 6 pulsadores y cierra D3 y D4. Coordinador, validación ligera.
-2. **SPEC-0029 · Bloque de sensores** (sin crear; AMB-01, AMB-02): no depende de nada, puede ir antes.
+1. **SPEC-0030 · Requisitos v0.6** (DEC-0011): retira EXP-01, redefine EXP-03 con 6 pulsadores y cierra D3 y D4. Coordinador, validación ligera.
+2. **SPEC-0029 · Bloque de sensores** (AMB-01, AMB-02): no depende de nada, puede ir antes.
 3. **SPEC-0006 · Viabilidad de la expansión**, que además fija el conector EXP-02 (DEC-0011) y termina en la decisión D9 del usuario.
-4. Bloque de conectores, expansión y pulsadores; después SPEC-0028 y la integración y revisión global del esquema, que lleva a la etiqueta `v2.0-sch`.
+4. **SPEC-0031 · Conectores, expansión y pulsadores**; después SPEC-0028 y **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
 5. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`, que es la que lee `restricciones.py`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2. Comprobado en SPEC-0025: `ing-diseno` e `ing-validacion` arrancan en Opus por su definición.

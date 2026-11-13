@@ -4,7 +4,7 @@ titulo: Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y vá
 fecha: 2026-11-13
 estado: aceptada
 decide: usuario
-specs: [SPEC-0006, SPEC-0028]
+specs: [SPEC-0006, SPEC-0028, SPEC-0030, SPEC-0031, SPEC-0032]
 requisitos: [EXP-01, EXP-02, EXP-03, EXP-04, REL-03, REL-05, ALI-12]
 ---
 
