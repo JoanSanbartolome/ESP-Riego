@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
+Specs por estado: propuesta 2 · abierta 0 · cerrada 23 · descartada 4.
 
 ## Propuestas (2)
 
@@ -11,13 +11,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 | [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
 | [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | — | 2026-11-06 | — |
-
-## Cerradas (22)
+## Cerradas (23)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -41,6 +35,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 | [SPEC-0022](specs/SPEC-0022-hoja-mcu.md) | Hoja del MCU en el esquema v2 | 3 | ing-esquematicos | `spec/SPEC-0022-hoja-mcu` | VAL-0022-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-05 | 2026-11-07 |
 | [SPEC-0023](specs/SPEC-0023-calculos-salidas.md) | Selección y cálculos del bloque de salidas | 2 | ing-esquematicos | `spec/SPEC-0023-calculos-salidas` | VAL-0023-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-07 |
 | [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | Piezas del bloque de salidas | 2 | jr-conformidad | `spec/SPEC-0024-piezas-salidas` | VAL-0024-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-10 |
+| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | VAL-0025-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-13 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | Orquestación v2: roles, ciclo, registro y trámite | 0 | coordinador | `spec/SPEC-0026-orquestacion-v2` | VAL-0026-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-11 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | Caja de herramientas de KiCad | 3 | ing-diseno | `spec/SPEC-0027-herramientas-kicad` | VAL-0027-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-12 |
 
@@ -57,6 +52,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 
 | Spec | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
+| [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | 4 | 489 349 | 126 | 30 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | 5 | 337 886 | 92 | 19 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | 4 | 960 427 | 252 | 118 |
 
@@ -64,9 +60,9 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 3 | 678 106 | 187 | 81 |
-| ing-validacion | 5 | 582 976 | 149 | 56 |
-| jr-conformidad | 1 | 37 231 | 8 | — |
+| ing-diseno | 4 | 904 723 | 245 | 98 |
+| ing-validacion | 6 | 769 684 | 200 | 66 |
+| jr-conformidad | 3 | 113 255 | 25 | 3 |
 
 ## Decisiones
 
@@ -116,6 +112,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 22 · descartada 4.
 | [VAL-0022-01](informes/VAL-0022-01.md) | SPEC-0022 | APROBADO_CON_OBSERVACIONES | `38090d2` | 2026-11-07 |
 | [VAL-0023-01](informes/VAL-0023-01.md) | SPEC-0023 | APROBADO_CON_OBSERVACIONES | `992812c` | 2026-11-07 |
 | [VAL-0024-01](informes/VAL-0024-01.md) | SPEC-0024 | APROBADO_CON_OBSERVACIONES | `c2401d6` | 2026-11-10 |
+| [VAL-0025-01](informes/VAL-0025-01.md) | SPEC-0025 | APROBADO_CON_OBSERVACIONES | `07b48a6` | 2026-11-13 |
 | [VAL-0026-01](informes/VAL-0026-01.md) | SPEC-0026 | APROBADO_CON_OBSERVACIONES | `de91d02` | 2026-11-11 |
 | [VAL-0026-02](informes/VAL-0026-02.md) | SPEC-0026 | APROBADO_CON_OBSERVACIONES | `330972d` | 2026-11-11 |
 | [VAL-0027-01](informes/VAL-0027-01.md) | SPEC-0027 | APROBADO_CON_OBSERVACIONES | `06f15e8` | 2026-11-12 |

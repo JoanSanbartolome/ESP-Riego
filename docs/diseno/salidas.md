@@ -1,8 +1,8 @@
 # Bloque de salidas: 6 canales *high-side* BTT6050-1ERA y bornes (SPEC-0023)
 
-**Estado:** revisado tras VAL-0023-01 (M-01, M-02, B-03…B-06). **Autor:** ing-esquematicos · **Fecha:** 2026-11-07.
-**Requisitos:** REL-01, REL-03…REL-10; además ALI-01, ALI-12, ALI-13, FAB-03, FAB-07, FAB-09 y §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006, DEC-0007.
-**Precios y stock:** API de JLCPCB (`selectSmtComponentList`), consulta del 2026-11-06. El tipo Basic/Extended y los códigos LCSC definitivos los confirma jr-conformidad (SPEC-0024).
+**Estado:** revisado tras VAL-0023-01 (M-01, M-02, B-03…B-06); actualizado en SPEC-0025 (cambios propuestos en SPEC-0024 y DEC-0008). **Autor:** ing-esquematicos; ing-diseno (SPEC-0025) · **Fecha:** 2026-11-07; 2026-11-13.
+**Requisitos:** REL-01, REL-03…REL-10; además ALI-01, ALI-12, ALI-13, FAB-03, FAB-07, FAB-09 y §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006, DEC-0007, DEC-0008.
+**Precios y stock:** API de JLCPCB (`selectSmtComponentList`), consulta del 2026-11-06. El tipo Basic/Extended y los códigos LCSC definitivos fueron confirmados por jr-conformidad el 2026-11-10 (SPEC-0024). Stock de §9 del 2026-11-12 (`hardware/componentes/stock-salidas.csv`, SPEC-0025).
 
 > Datasheets (páginas del PDF):
 > - **BTT:** Infineon BTT6050-1ERA Rev. 1.00, 2019-03-09 (`hardware/componentes/datasheets/BTT6050-1ERA.pdf`). En pp. 23-32 el pie dice «*Target Data Sheet 30*»: se cita la página del PDF.
@@ -27,7 +27,7 @@ BTT GND (pin 3) ─ GND directo (sin R_GND ni diodo, §4.4)
 
 | Función | Pieza principal | Alternativa | Requisito |
 |---|---|---|---|
-| *High-side* (×6) | Infineon BTT6050-1ERA, C534868 (Extended, 1 658) | BTT6030-2ERA, C534865 (otro *routing*, §10) | REL-01, REL-03, REL-08 |
+| *High-side* (×6) | Infineon BTT6050-1ERA, C534868 (Extended, 1 628) | BTT6030-2ERA, C534865 (otro *routing*, §10) | REL-01, REL-03, REL-08 |
 | Borne (×6) | Kangnex WJ500V-5.08-2P, C8465 | — (ficha existente; misma línea que J1) | REL-05, REL-06, REL-09, FAB-07 |
 | Medida IS | R_SENSE 10 kΩ 1206 + R_IS 820 Ω + C_IS 100 nF; **el divisor acota V_ADC sin diodo** | — | REL-10 |
 | Carga abierta en OFF | R_OL 47 kΩ 0805 de BUS_24V a OUT_n | 56 kΩ (§3.3) | REL-10 |
@@ -42,7 +42,7 @@ Resultados clave:
 - **Carga abierta en ON:** umbral de **18 mV**. Una válvula caliente con el bus a 17,5 V da ≥ 19,9 mV y la carga abierta ≤ 16,6 mV (ADC incluido): margen de 1,4–1,9 mV con la bobina a 100 °C (supuesto). Se mide en el prototipo (§3.2, §13).
 - **Carga abierta en OFF:** fuga por la válvula **0,64 mA a 30 V** (0,78 mA a 36,7 V) ≤ 1 mA; 0,10 V sobre la bobina. Detección con la válvula presente hasta R_L < 90 kΩ y válvula ausente con fugas externas ≥ 159 kΩ (a 17,5 V).
 - **E_AS (REL-03):** con 2 válvulas del tipo instalado (Bermad 24 V DC, 156 Ω), 81–150 mJ a 30 V frente a ≈ 155 mJ de la curva (fig. 12): **cumple en la cota baja de L; en la alta, el margen (3 %) está dentro de la incertidumbre de la lectura de la figura**. Límite: L ≤ 2,69 H por válvula. Con la válvula genérica de diseño (0,25 A) solo cumple con L ≤ 1,10 H. **La inductancia hay que medirla antes de cerrar el esquema** (REL-03, §13.1); D12–D17 quedan como huella DNP por si no cumple (§5).
-- **Layout (FAB-03):** clase `Salidas` con 1 mm de separación, salvo **0,6 mm dentro de las huellas U7–U12, R57–R62 y C33–C38**, que no permiten 1 mm (§11). Requiere DEC.
+- **Layout (FAB-03):** clase `Salidas` con 1 mm de separación, salvo **0,6 mm dentro de las huellas U7–U12, R57–R62 y C33–C38**, que no permiten 1 mm (§11). Fijada por DEC-0008.
 - **Térmica:** T_J = 77 °C a 1 A y 60 °C (R_thJA 50 K/W, con 300 mm² de cobre en VS). Sin enclavamiento hasta ≈ 4,0 A a 60 °C; a 4,57–4,9 A el BTT llega al apagado térmico y se enclava (previsto en DEC-0004 y REL-08).
 - **Piezas nuevas:** ningún símbolo ni huella; las del BTT6050 y el WJ500V existen (`esp-riego`). Líneas de BOM nuevas: C534868 (Extended) y tres resistencias Basic (C17902, C17713, C23253).
 
@@ -66,7 +66,7 @@ Resultados clave:
 
 ### 2.1 Pieza
 
-BTT6050-1ERA (DEC-0003): V_S(OP) 5–48 V (Tabla 4, p. 8), V_S(LD) 65 V (Tabla 3, p. 6), R_DS(on) ≤ 100 mΩ a 150 °C (P_5.5.1, p. 15), I_L(NOM) 4,5 A (Tabla 6, p. 15), I_L5(SC) 38–56 A (Tabla 7, p. 22), entradas para 3,3 V (p. 2). Pinout: 3 GND, 4 IN, 5 DEN, 6 IS, 10-12 OUT, *tab* VS; NC 1, 2, 7, 8, 9, 13, 14 (Tabla 2, p. 4). Símbolo `esp-riego:BTT6050-1ERA` y huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` (sin vías: las pone el layout, §11).
+BTT6050-1ERA (DEC-0003): V_S(OP) 5–48 V (Tabla 4, p. 8), V_S(LD) 65 V (Tabla 3, p. 6), R_DS(on) ≤ 100 mΩ a 150 °C (P_5.5.1, p. 15), I_L(NOM) 4,5 A (Tabla 6, p. 15), I_L5(SC) 38–56 A (Tabla 7, p. 22), entradas para 3,3 V (p. 2). Pinout: 3 GND, 4 IN, 5 DEN, 6 IS, 10-12 OUT, *tab* VS; NC 1, 2, 7, 8, 9, 13, 14 (Tabla 2, p. 4). Símbolo `esp-riego:BTT6050-1ERA` y huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` (con 10 vías de 0,3 / 0,6 mm en el EP, numeradas 15, desde SPEC-0024; §11).
 
 ### 2.2 Niveles de entrada
 
@@ -254,7 +254,7 @@ Ecuación 5.1 (p. 13): E = V_DS(AZ)·(L/R_L)·[(V_S − V_DS(AZ))/R_L · ln(1 �
 - **Con la válvula instalada, cumple en la cota baja de L (81 mJ, × 1,9); en la alta (150 frente a ≈ 155 mJ, 3 %), el margen está dentro de la incertidumbre de la lectura de la figura**, que además empieza en 1 A y aquí se extrapola a 0,44–0,69 A (la curva crece al bajar la corriente, lo que iría a favor, pero por debajo de 1 A no está especificada). El cumplimiento queda condicionado a la medida de L (§13.1). Con la válvula genérica de 0,25 A solo cumple si L ≤ 1,10 H. Margen no cuantificado a favor: la curva es con T_J,start = 150 °C y aquí T_J ≤ 77 °C al apagar (§6).
 - A 35 V (*clamp* de U1, fuera de ALI-01) la energía sube × 1,4.
 - **REL-03 pide medir L antes de cerrar el esquema** (pendiente del usuario). Método: válvula a 24 V con el émbolo dentro; al cortar, recircular por un diodo y una resistencia conocida R_x en serie, y medir el tiempo al 37 % de la corriente: L = τ·(R_bobina + R_x).
-- **Contingencia: D12–D17, M7 (C95872, Basic) DNP**, de GND (ánodo) a OUT_n (cátodo). Si se monta, la desmagnetización se hace en la bobina (E en el BTT ≈ 0) y la válvula cierra en ≈ 3τ (30–50 ms, irrelevante para riego). Fuga a 30 V: ≤ 5 µA a 25 °C (1 kV, C95872), decenas de µA en caliente, < 84 µA del presupuesto de R_OL (§3.3) ✔. **Montarlas cambia el «con el *clamp* integrado» de REL-03: requiere DEC** (§13).
+- **Contingencia: D12–D17, M7 (C95872, Basic) DNP**, de GND (ánodo) a OUT_n (cátodo). Si se monta, la desmagnetización se hace en la bobina (E en el BTT ≈ 0) y la válvula cierra en ≈ 3τ (30–50 ms, irrelevante para riego). Fuga a 30 V: ≤ 5 µA a 25 °C (1 kV, C95872), decenas de µA en caliente, < 84 µA del presupuesto de R_OL (§3.3) ✔. **DNP por DEC-0008; montarlas cambia el «con el *clamp* integrado» de REL-03 y se consulta de nuevo al usuario** (DEC-0008, «Consecuencias»; §13).
 - Tiempo de desmagnetización con el *clamp*: t = τ·ln(1 + R_L·I_L/(V_DS(AZ) − V_S)), de la misma ec. 5.1. A 30 V, con V_DS(AZ) = 66 V y la cota alta de L (τ en frío = 16,7/0,88 = 18–19 ms): **≈ 11–12 ms** (9–10 ms con V_DS(AZ) = 75 V).
 
 ## 6. Térmica del BTT
@@ -295,35 +295,36 @@ Modelo: R_DS(on) máx. = 100 mΩ a 150 °C (P_5.5.1, p. 15) escalado con la curv
 - Los seis con la entrada del cable hacia fuera de la placa y con el pin 1 en el mismo lado visto desde la entrada del cable (los del borde inferior van girados 180° respecto a los del superior). Lo fija el layout y lo comprueba con la serigrafía.
 - Corriente: 4,9 A frente a 15 A (UL) ✔ (§4.2).
 - Serigrafía (FAB-09, REL-02): «OUTn» y «GND» (o «+» / «−») en cada borne; junto a cada grupo, «24 V DC · máx. 30 V · 1 A/canal».
-- Ficha existente con símbolo `Connector:Screw_Terminal_01x02` y huella `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal`. **La ficha dice «Uso: `conectores.kicad_sch`»: los bornes de salida van en `salidas.kicad_sch`** (propuesta de cambio en el log).
+- Ficha existente con símbolo `Connector:Screw_Terminal_01x02` y huella `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal`. La ficha `WJ500V-5.08-2P.md` (corregida en SPEC-0024) da el uso: J1 en `alimentacion.kicad_sch` y J4–J9 en `salidas.kicad_sch`.
 
 ## 9. Lista de piezas
 
 Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, SW2) y `alimentacion.md` §7 sin chocar. «n» = canal 1…6, en orden (R26 = canal 1 … R31 = canal 6).
 
-| Ref. | Valor / función | Encapsulado | MPN principal | LCSC · tipo · stock JLCPCB | Alternativa (LCSC) | Símbolo / huella |
+| Ref. | Valor / función | Encapsulado | MPN principal | LCSC · tipo · stock JLCPCB (2026-11-12) | Alternativa (LCSC) | Símbolo / huella |
 |---|---|---|---|---|---|---|
-| U7–U12 | *High-side* 24 V, canales 1–6 | PG-TDSO-14 | Infineon BTT6050-1ERA | C534868 · Extended · 1 658 | BTT6030-2ERA (C534865 · 10 617; otro *routing*, §10) | `esp-riego:BTT6050-1ERA` / `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` |
-| J4–J9 | Borne 2P 5,08 mm, salidas 1–6 | THT | Kangnex WJ500V-5.08-2P | C8465 · Extended (THT) · 279 844 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
-| R26–R31 | R_IN, 10 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1002T5E | C25804 · Basic · 42,7 M | Yageo RC0603FR-0710KL (C98220) | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
-| R32–R37 | R_PD de IN1–6, 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 · Basic · 16,3 M | Yageo RC0603FR-07100KL (C14675) | `R_0603` |
+| U7–U12 | *High-side* 24 V, canales 1–6 | PG-TDSO-14 | Infineon BTT6050-1ERA | C534868 · Extended · 1 628 | BTT6030-2ERA (C534865 · 10 556; otro *routing*, §10) | `esp-riego:BTT6050-1ERA` / `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` |
+| J4–J9 | Borne 2P 5,08 mm, salidas 1–6 | THT | Kangnex WJ500V-5.08-2P | C8465 · Extended (THT) · 293 197 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
+| R26–R31 | R_IN, 10 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1002T5E | C25804 · Basic · 42,9 M | Yageo RC0603FR-0710KL (C98220) | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
+| R32–R37 | R_PD de IN1–6, 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 · Basic · 15,2 M | Yageo RC0603FR-07100KL (C14675) | `R_0603` |
 | R38–R43 | R_DEN, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 | C98220 | `R_0603` |
 | R44 | R_PD de OUT_DEN, 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 | C14675 | `R_0603` |
-| R45–R50 | R_SENSE, 10 kΩ 1 % 0,25 W 200 V | **1206** | UNI-ROYAL 1206W4F1002T5E | C17902 · Basic · 2,09 M | Yageo RC1206FR-0710KL (C132649) | `Device:R` / `Resistor_SMD:R_1206_3216Metric` |
-| R51–R56 | R_IS, 820 Ω 1 % | 0603 | 0603WAF8200T5E | C23253 · Basic · 755 673 | Yageo RC0603FR-07820RL (C114638) | `R_0603` |
-| R57–R62 | R_OL, 47 kΩ 1 % 0,125 W 150 V | **0805** | 0805W8F4702T5E | C17713 · Basic · 1,21 M | Yageo RC0805FR-0747KL (jr-conformidad) | `Device:R` / `Resistor_SMD:R_0805_2012Metric` |
-| R63–R68 | R_LED, 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · Basic · 27,5 M | Yageo RC0603FR-071KL (C22548) | `R_0603` |
-| C27–C32 | C_VS, 220 nF 100 V X7R | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · Extended · 34 575 (línea de C3/C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
+| R45–R50 | R_SENSE, 10 kΩ 1 % 0,25 W 200 V | **1206** | UNI-ROYAL 1206W4F1002T5E | C17902 · Basic · 1,92 M | Yageo RC1206FR-0710KL (C132649) | `Device:R` / `Resistor_SMD:R_1206_3216Metric` |
+| R51–R56 | R_IS, 820 Ω 1 % | 0603 | 0603WAF8200T5E | C23253 · Basic · 816 705 | Yageo RC0603FR-07820RL (C114638) | `R_0603` |
+| R57–R62 | R_OL, 47 kΩ 1 % 0,125 W 150 V | **0805** | 0805W8F4702T5E | C17713 · Basic · 1,10 M | Yageo RC0805FR-0747KL (C126351 · Extended · 245 933) | `Device:R` / `Resistor_SMD:R_0805_2012Metric` |
+| R63–R68 | R_LED, 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · Basic · 28,8 M | Yageo RC0603FR-071KL (C22548) | `R_0603` |
+| C27–C32 | C_VS, 220 nF 100 V X7R | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · Extended · 26 821 (línea de C3/C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
 | C33–C38 | C_OUT, 220 nF 100 V X7R | 0805 | CC0805KKX7R0BB224 | C513710 | C307542 | `C_0805` |
-| C39–C44 | C_IS, 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · Basic · 34,7 M | Samsung CL10B104KB8NNNC (C1591) | `Device:C` / `Capacitor_SMD:C_0603_1608Metric` |
-| C45, C46 | BUS_24V a granel (C45 borde superior, C46 inferior), 4,7 µF 100 V X7R | 1210 | PSA FS32X475K101EGG | C381466 · Extended · 52 897 (línea de C2/C6/C7/C22) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
-| D6–D11 | LED de canal, rojo | 0603 | Hubei KENTO KT-0603R | C2286 · Basic · 6,66 M (línea de D4) | KT-0603YG (C2289 · Extended) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
-| D12–D17 | Rueda libre, 1 kV 1 A — **DNP** | SMA | MDD M7 | C95872 · Basic · 5,63 M | — | `Device:D` / `Diode_SMD:D_SMA` (campo DNP; fuera de BOM y CPL mientras no haya DEC) |
+| C39–C44 | C_IS, 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · Basic · 36,5 M | Samsung CL10B104KB8NNNC (C1591) | `Device:C` / `Capacitor_SMD:C_0603_1608Metric` |
+| C45, C46 | BUS_24V a granel (C45 borde superior, C46 inferior), 4,7 µF 100 V X7R | 1210 | PSA FS32X475K101EGG | C381466 · Extended · 37 932 (línea de C2/C6/C7/C22) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
+| D6–D11 | LED de canal, rojo | 0603 | Hubei KENTO KT-0603R | C2286 · Basic · 5,99 M (línea de D4) | KT-0603YG (C2289 · Extended) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
+| D12–D17 | Rueda libre, 1 kV 1 A — **DNP** | SMA | MDD M7 | C95872 · Basic · 6,49 M | — | `Device:D` / `Diode_SMD:D_SMA` (DNP: `dnp yes` + `in_bom no` en el símbolo, `dnp` + `exclude_from_bom` + `exclude_from_pos_files` en la huella; se exporta con `--exclude-dnp`; huella en la placa) |
 
+- **Stock de las alternativas (2026-11-12):** C98220 11,8 M; C14675 10,8 M; C132649 3,33 M; C114638 147 774; C126351 245 933; C22548 13,5 M; C307542 29 234; C1591 2,34 M; C7471274 1 959; C2289 34 078; C534865 10 556.
 - **Totales:** 6 U, 6 J, 43 R, 20 C, 6 LED (+ 6 diodos DNP).
 - **Líneas nuevas en el BOM:** C534868 (Extended), C17902, C17713 y C23253 (Basic). El resto, líneas existentes. C23253 (820 Ω, Basic) sustituye a 910 Ω (C23264, Extended) del primer cálculo: cumple igual REL-10 (§3.2) y ahorra una línea Extended (DEC-0007).
-- **Stock para 10 placas:** BTT6050 60 de 1 658 ✔ (margen limitado; segunda fuente en §10). C513710: 14 por placa (con C3 y C8), 140 de 34 575 ✔.
-- **Piezas nuevas:** ningún símbolo ni huella. Fichas en Anexo A.
+- **Stock para 10 placas (2026-11-12):** BTT6050 60 de 1 628 ✔ (margen limitado; segunda fuente en §10). C513710: 14 por placa (con C3 y C8), 140 de 26 821 ✔. C381466: 6 por placa (con alimentación), 60 de 37 932 ✔. C8465: 7 por placa, 70 de 293 197 ✔.
+- **Piezas nuevas:** ningún símbolo ni huella nuevos; la huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` pasa a llevar 10 vías de 0,3 / 0,6 mm en el EP (SPEC-0024, FAB-02). Fichas en Anexo A.
 - **Coste orientativo** (tramo de la cantidad real; sin cargos de piezas Extended): BTT 6 × 1,0952 $ = 6,57 $ (30 y 60 uds, tramo 30–99); bornes 0,81 $ (5 placas, tramo 1–49 con J1) / 0,65 $ (10, tramo 50–149); C45/C46 0,43 / 0,34 $; C513710 0,27 $; resto (resistencias, C_IS, LED) 0,24 $. **≈ 8,3 $ por placa con 5 placas y ≈ 8,1 $ con 10** (el estudio daba 8,33 / 7,86 $).
 
 ## 10. Segunda fuente: BTT6030-2ERA (sin diseñarla)
@@ -344,7 +345,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 | Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas |
 |---|---|---|---|---|---|
 | BUS_24V (tronco desde U1 hasta cada grupo de 3 BTT) | 4,57 A (4,9 A como dato de REL-05) | 2,0 mm o polígono (`Power_In`) | ≥ 0,6 mm (hasta 53 V con JP1 cerrado; IPC-2221 B2) | C45 (arriba) y C46 (abajo) a la entrada de cada grupo | Clase `Power_In` (FAB-03, `alimentacion.md` §8) |
-| BUS_24V en cada BTT (*tab* VS, pad 15) | 4,9 A por un solo canal | Polígono que une los 3 *tabs* del grupo | ≥ 0,6 mm | **≥ 300 mm² de cobre en VS por BTT** (cara superior + inferior), de él depende R_thJA = 50 K/W (Fig. 7, p. 10). Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02) a un polígono BUS_24V en la cara inferior (≥ 8 por *tab*) | El *tab* es VS, **no GND**: las vías no van al plano de GND. Mantener el plano GND continuo bajo las señales analógicas (FAB-04); la franja del borde es zona de potencia |
+| BUS_24V en cada BTT (*tab* VS, pad 15) | 4,9 A por un solo canal | Polígono que une los 3 *tabs* del grupo | ≥ 0,6 mm | **≥ 300 mm² de cobre en VS por BTT** (cara superior + inferior), de él depende R_thJA = 50 K/W (Fig. 7, p. 10). Vías térmicas en el EP de **0,3 / 0,6 mm** (FAB-02), **ya en la huella** (10 por *tab*, pad 15, con pad en B.Cu y conexión sólida), a un polígono BUS_24V en la cara inferior que pone el layout | El *tab* es VS, **no GND**: las vías no van al plano de GND. Mantener el plano GND continuo bajo las señales analógicas (FAB-04); la franja del borde es zona de potencia. Pasta del EP al 65 % (14 ventanas a 0,10 mm del taladro; vías en la huella; ver `BTT6050-1ERA.md`). |
 | OUT_n (pines 10-12 del BTT → C_OUT → J pin 1) | 1 A; 4,9 A sin daño | **1,2 mm** (ΔT 38 °C a 4,9 A; 16,5 °C a 3,4 A; ≈ 1 °C a 1 A) | **≥ 1 mm** (clase `Salidas`) en pistas, polígonos y pads fuera de las huellas de la excepción; **≥ 0,6 mm dentro de las huellas U7–U12, R57–R62 y C33–C38 y en sus pads** (nota 1) | BTT a ≤ 15 mm de su borne; los tres pines OUT unidos en la placa (nota 1 de la Tabla 2, p. 4); la pista sale de la huella del BTT por el lado de los pads OUT, sin pasar entre pads | Clase `Salidas` (FAB-03). OUT oscila de −57 V a +37 V |
 | Retorno GND del borne (J pin 2 → plano) | 4,9 A | 1,2 mm o conexión directa al polígono | — | Pad THT unido a GND en las dos caras; con alivio térmico, radios con suma ≥ 1,2 mm (p. ej. 4 × 0,5 mm) o conexión sólida; ≥ 3 vías de 0,3 / 0,6 mm junto al pad | FAB-03 |
 | GND del BTT (pin 3), C_VS | 9 mA | 0,25 mm | 0,2 mm | C_VS (C27–C32) a ≤ 3 mm entre el polígono VS y el pin 3; vía a GND junto al pin 3 | — |
@@ -369,7 +370,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 - **Regla para el layout:** separación de `Salidas` ≥ 1 mm en general y una regla propia de **0,6 mm** cuando uno de los dos objetos es un pad de U7–U12, R57–R62 o C33–C38 o está dentro de su patio. La escribe el ingeniero de layout en las reglas de diseño; el DRC no debe tener excepciones manuales.
 - **Justificación eléctrica:** la tensión entre OUT_n y cualquier red vecina es ≤ 75 V (V_DS(AZ) máx.); IPC-2221 B2 (capa externa sin recubrir) pide 0,6 mm hasta 100 V. Los cuatro huecos cumplen (0,62–0,90 mm). Los 1 mm de FAB-03 se mantienen en pistas y polígonos, donde sí caben.
 - **Alternativa R_OL y C_OUT en 1206 (1,8 mm entre pads): descartada.** No elimina la excepción, porque la impone el BTT (encapsulado fijado por DEC-0003). En C_OUT, además, cambiaría la línea existente C513710 (compartida con C3, C8 y C_VS) por una nueva, lo que empeora el coste (DEC-0007). R_OL queda en 0805 (C17713) por coherencia con la regla.
-- La excepción contradice la letra de FAB-03 (M): **requiere una DEC** que la fije (propuesta en el log de SPEC-0023).
+- La excepción la fija **DEC-0008** (punto 3), con la condición de cumplir los parámetros de fabricación de la clase de trabajo; `docs/02` v0.5 la recoge en FAB-03.
 
 ## 12. Notas para el firmware (FW-01…FW-04)
 
@@ -398,14 +399,14 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 
 ## 13. Riesgos y puntos abiertos
 
-1. **Inductancia de la válvula (REL-03):** sin dato del fabricante; estimada en 1,4–2,6 H (Bermad DC). Cumple con L ≤ 2,69 H (instalada) o ≤ 1,10 H (genérica de 0,25 A). **El usuario la mide antes de cerrar el esquema** (§5). Si no cumple: montar D12–D17 (requiere DEC) o limitar a 1 válvula por canal ese modelo.
+1. **Inductancia de la válvula (REL-03):** sin dato del fabricante; estimada en 1,4–2,6 H (Bermad DC). Cumple con L ≤ 2,69 H (instalada) o ≤ 1,10 H (genérica de 0,25 A). **El usuario la mide antes de cerrar el esquema** (§5). Si no cumple: montar D12–D17 (cambia REL-03: nueva consulta al usuario, DEC-0008) o limitar a 1 válvula por canal ese modelo.
 2. **Impulso de la TVS con JP1 cerrado:** V_ADC ≤ 4,11 V durante el impulso con V_IS = V_S (inyección ≤ 0,8 mA, filtrada). Fuera de ALI-01 y solo sin U1. Aceptado como residual.
 3. **k_ILIS con V_IS alta:** aquí V_IS llega a 8–12 V en funcionamiento normal (con 1,2 kΩ serían < 1,5 V). El datasheet especifica la fuente de corriente hasta V_S − 3,5 V (P_7.5.6), pero mide k_ILIS sin fijar R_IS. **Prototipo:** comparar la lectura a 1 A con el bus a 18 V y a 30 V (diferencia ≤ 3 %).
 4. **Fugas del cable mojado:** la carga abierta en OFF falla con fugas por debajo de 159–306 kΩ (§3.3); se vería como «carga presente». La carga abierta en ON lo cubre al regar.
-5. **Stock del BTT6050:** 1 658; 10 placas consumen 60. Si baja, la segunda fuente obliga a rehacer *routing* y reparto (§10).
+5. **Stock del BTT6050:** 1 628 (2026-11-12); 10 placas consumen 60. Si baja, la segunda fuente obliga a rehacer *routing* y reparto (§10).
 6. **V_OH del GPIO con el LED:** S garantiza 2,64 V sin carga y lo da típico con 40 mA. Con 1,5 mA el margen de V_IN es ≥ 0,3 V; se comprueba en el prototipo (V_IN ≥ 2,2 V con el LED encendido).
 7. **Umbral de carga abierta en ON (18 mV, VAL-0023-01-02):** margen de 1,4 mV frente a la carga abierta y de 1,9 mV frente a la válvula caliente, con la bobina a 100 °C **supuesta**. **Prototipo:** (a) R de la bobina tras ≥ 1 h energizada a 24 V en su arqueta: T = 20 + (R/156 − 1)/0,00393; (b) V_ADC con esa válvula y el bus a 17,5 V (≥ 20 mV); (c) V_ADC con el borne abierto (≤ 17 mV). Si el margen no aparece, calibración por canal de k (§12) o bajar la exigencia a «aviso solo con el bus ≥ 20 V» (VIN_SENSE).
-8. **Excepción de separación de `Salidas` (FAB-03):** 0,6 mm dentro de U7–U12, R57–R62 y C33–C38 (§11, nota 1). Requiere DEC antes del layout.
+8. **Excepción de separación de `Salidas` (FAB-03):** 0,6 mm dentro de U7–U12, R57–R62 y C33–C38 (§11, nota 1). Fijada por DEC-0008: la regla se escribe en las reglas de diseño del layout.
 
 ## 14. Trazabilidad
 
@@ -413,7 +414,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 |---|---|---|
 | REL-01 | 6 canales U7–U12 BTT6050-1ERA + J4–J9 | §2, §9 |
 | REL-02 | Salida = BUS_24V (≤ 30 V DC); serigrafía «24 V DC · máx. 30 V» | §8 |
-| REL-03 | Entrada activa alta, V_IN ≥ 2,39 V ≥ 2,0 V (Tabla 10, p. 34); *clamp* integrado: E = 81–150 mJ (instalada) a 30 V frente a ≈ 155 mJ (fig. 12, p. 13): cumple en la cota baja de L; en la alta, margen dentro de la incertidumbre de la figura. Condicionado a medir L (§13.1); D12–D17 DNP | §2.2, §5 |
+| REL-03 | Entrada activa alta, V_IN ≥ 2,39 V ≥ 2,0 V (Tabla 10, p. 34); *clamp* integrado: E = 81–150 mJ (instalada) a 30 V frente a ≈ 155 mJ (fig. 12, p. 13): cumple en la cota baja de L; en la alta, margen dentro de la incertidumbre de la figura. Condicionado a medir L (§13.1); D12–D17 DNP (DEC-0008) | §2.2, §5 |
 | REL-04 | R_PD 100 kΩ en IN1–6 y OUT_DEN: ≤ 5 mV | §2.2 |
 | REL-05 | Pista `Salidas` 1,2 mm: ΔT 38 °C a 4,9 A, ≈ 1 °C a 1 A; borne 15 A; retorno GND 1,2 mm | §4.2, §11 |
 | REL-06 | Pin 1 = OUT_n, pin 2 = GND en J4–J9 | §8 |
@@ -421,7 +422,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 | REL-08 | Limitación y apagado térmico del BTT (38 A, ≥ 150 °C, *latch*, p. 21-22) + U1; secuencia de identificación ≤ 5 s; T_J y enclavamiento a 4,57–4,9 A | §4.1, §6, §12 |
 | REL-09 | J4–J6 arriba (canales 1–3), J7–J9 abajo (4–6) | §8, §11 |
 | REL-10 | IS → R_SENSE 10 kΩ → ADC1 6 dB; V_ADC ≤ 2,32 V a 30 V (≤ 2,83 V a 36,7 V) con V_IS = V_S, sin corriente en el pin; R_OL 47 kΩ: 0,64 mA ≤ 1 mA; carga abierta en ON < 18 mV (margen a medir, §13.7); aviso a > 0,82 A (sin falso aviso con 0,56 A a ≤ 24,5 V) | §3, §12 |
-| FAB-03 | `Power_In` 2,0 mm; `Salidas` 1,2 mm, ≥ 1 mm salvo 0,6 mm dentro de U7–U12, R57–R62 y C33–C38 (requiere DEC); retornos 4,9 A | §11 |
+| FAB-03 | `Power_In` 2,0 mm; `Salidas` 1,2 mm, ≥ 1 mm salvo 0,6 mm dentro de U7–U12, R57–R62 y C33–C38 (DEC-0008); retornos 4,9 A | §11 |
 | FAB-07 | 3 bornes de 2 polos por borde (30,5 mm) | §8 |
 | FAB-09 | Serigrafía de bornes, tensión y carga máximas | §8 |
 
@@ -429,10 +430,10 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 
 | Ficha | Cambio o dato | LCSC | Datasheet | Pinout | Símbolo / huella |
 |---|---|---|---|---|---|
-| BTT6050-1ERA (actualizar) | «Uso»: U7–U12 en `salidas.kicad_sch`. Añadir: sin R_GND ni zéner en VS (§4.4); vías del EP a BUS_24V (no a GND); BTT6030 con la misma huella pero **distinto pinout** | C534868 | Rev. 1.00 (local) | Tabla 2, p. 4 | Existentes |
-| WJ500V-5.08-2P (actualizar) | «Uso»: J1 (alimentación) y J4–J9 en `salidas.kicad_sch` (no en `conectores.kicad_sch`); 7 por placa | C8465 | Local | Pin 1 = OUT_n / pin 2 = GND | Existentes |
-| KT-0603R | D6–D11 (y D4). Ya en `bloque-alimentacion.md`; ficha propia si jr-conformidad la pide | C2286 | PDF de LCSC (C2286) | Ánodo / cátodo según el PDF | `Device:LED` / `LED_0603_1608Metric` |
-| M7 (DNP) | D12–D17, solo si se aprueba montarlas (§5) | C95872 | PDF de LCSC (C95872) | K / A (banda = cátodo) | `Device:D` / `Diode_SMD:D_SMA` |
+| BTT6050-1ERA (actualizar) | «Uso»: U7–U12 en `salidas.kicad_sch`. Añadir: sin R_GND ni zéner en VS (§4.4); vías del EP a BUS_24V (no a GND); BTT6030 con la misma huella pero **distinto pinout**. Ficha revisada en SPEC-0024 (errata de P_7.5.2, vías del EP, stock del 2026-11-10). | C534868 | Rev. 1.00 (local) | Tabla 2, p. 4 | Existentes |
+| WJ500V-5.08-2P (actualizar) | «Uso»: J1 (alimentación) y J4–J9 en `salidas.kicad_sch` (no en `conectores.kicad_sch`); 7 por placa. Ficha corregida en SPEC-0024. | C8465 | Local | Pin 1 = OUT_n / pin 2 = GND | Existentes |
+| KT-0603R | D4, D5 y D6–D11. Ficha propia `KT-0603R.md` (SPEC-0024). Polaridad: ② del datasheet = cátodo = pad 1 (K) de `LED_0603_1608Metric` | C2286 | `datasheets/KT-0603R.pdf` (PDF de LCSC, C2286) | Cátodo = pad 1 (K), ánodo = pad 2 (A) | `Device:LED` / `LED_0603_1608Metric` |
+| M7 (DNP) | D12–D17, DNP por DEC-0008 (solo se montan si se aprueba, §5). Ficha `M7.md` (SPEC-0024) | C95872 | `datasheets/M7.pdf` (MDD, Rev. 2025A5) | K (banda) = pad 1, A = pad 2 | `Device:D` / `Diode_SMD:D_SMA` |
 | Resistencias y condensadores genéricos | C17902, C17713, C23253 (nuevas líneas Basic); el resto, existentes | — | — | — | Oficiales |
 
 ## Anexo B. Etiquetas jerárquicas de la hoja de salidas (para SPEC-0025)
