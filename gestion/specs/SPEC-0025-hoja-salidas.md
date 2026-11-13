@@ -68,3 +68,4 @@ Nivel **completo**. Se reproduce de forma independiente: la netlist de la hoja f
 | 2026-11-12 | jr-conformidad | campos-salidas.csv (87 refs) y stock del 2026-11-12 | 01-jr-conformidad | 69447 | 13 | 2 |
 | 2026-11-13 | ing-diseno | hoja de salidas, raíz unida, PCB sincronizada, attr de huellas y salidas.md | 02-ing-diseno | 226617 | 58 | 973 |
 | 2026-11-13 | jr-conformidad | bloque-salidas.md: fichas de C17713, C17902 y C23253 | 03-jr-conformidad | 6577 | 17 | 977 |
+| 2026-11-13 | ing-validacion | Validación completa: 1 B | VAL-0025-01 | 186708 | 51 | 10 |

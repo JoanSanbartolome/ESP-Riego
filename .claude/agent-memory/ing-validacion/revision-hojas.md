@@ -25,4 +25,6 @@ SPEC-0019 (VAL-0019-01, 2026-11-06): la hoja estaba bien red a red. Los fallos e
   - `find … -exec md5sum` lo bloquea la guardia: para el MD5 antes y después, usar un script con `os.walk`.
   - README de `hardware/v2`: comprobar que se actualiza tras el paso de layout.
 
+- **Hoja de salidas (VAL-0025-01, 2026-11-13), primera con `hoja.py`:** estaba bien. En 1 h salió con: `kicad-cli sch export netlist --format kicadxml` + plan esperado escrito en Python a partir del Anexo B (los `pinfunction` de KiCad 10 son `K_1` o `OUT_10-12_10`: comparar el prefijo antes de `_`; `dnp` y `exclude_from_bom` van como `<property name>` sin `value`). Para los «sin conectar» esperados: Σ(islas de pads − 1) en las redes nuevas + nº de pads nuevos en las redes compartidas (dio +180 exacto). La raíz se une con etiquetas locales en el extremo del pin de hoja, sin cables. Las huellas «sin colocar» quedan fuera del Edge.Cuts. `get_jlcpcb_part` del MCP no tiene base: uso `jlc.py`.
+
 Relacionado: [[revision-piezas]], [[revision-alimentacion]], [[comprobaciones-utiles]].
