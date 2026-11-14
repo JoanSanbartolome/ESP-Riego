@@ -2,15 +2,15 @@
 id: SPEC-0030
 titulo: Requisitos v0.6
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0030-requisitos-v06
 requisitos: [EXP-01, EXP-02, EXP-03, EXP-04, FAB-07, REL-03]
 depende_de: []
 creada: 2026-11-13
-cerrada:
-validacion:
+cerrada: 2026-11-14
+validacion: VAL-0030-02
 ---
 
 # SPEC-0030 · Requisitos v0.6
@@ -76,3 +76,4 @@ Nivel **ligero** (texto de requisitos; DEC-0005), con `gestion/checklists/requis
 | 2026-11-14 | ing-validacion | VAL-0030-02 APROBADO_CON_OBSERVACIONES (1 B) | VAL-0030-02 | 15020 | 4 | 2 |
 
 Minutos de ing-validacion corregidos a mano: la instancia se cortó por el límite de uso y se reanudó al día siguiente; `integrar` contaba la pausa. Tokens y acciones de VAL-0030-02: diferencia con el acumulado.
+| 2026-11-14 | coordinador | Cierra la spec | VAL-0030-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |
