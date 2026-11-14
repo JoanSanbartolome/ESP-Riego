@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v9 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v10 (2026-11-13). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -59,7 +59,7 @@
 - [ ] [juicio] Salidas de diagnóstico analógicas (IS) hacia el ADC1 con la tensión máxima en fallo acotada por debajo del máximo del pin; *pull-up* de carga abierta con fuga ≤ 1 mA (REL-10).
 - [ ] [juicio] Un corto en una salida: se comprueba qué ven el resto de canales y la lógica hasta que actúa el limitador común (REL-08).
 - [ ] [juicio] Orden de pines de los bornes idéntico en los 6 canales y coherente con la serigrafía (REL-06, H1).
-- [ ] [juicio] ESD o TVS en todos los conectores de campo; fusible o limitación donde un cortocircuito del cable pueda dañar algo (REL-08, EXP-01, EXP-02).
+- [ ] [juicio] ESD o TVS en todos los conectores de campo; fusible o limitación donde un cortocircuito del cable pueda dañar algo (REL-08, EXP-02).
 - [ ] [juicio] Sensor de temperatura y humedad con su desacoplo y pull-ups de I²C; conector de expansión según el informe de SPEC-0006 (AMB-01, EXP-02).
 
 ## Entregables para layout
@@ -79,3 +79,4 @@
 | v7 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v8 | 2026-11-12 | SPEC-0027: los cinco `[auto: pendiente]` pasan a `comprobar.py` |
 | v9 | 2026-11-12 | VAL-0027-01-10: excepción de lo que va fuera del BOM en los campos |
+| v10 | 2026-11-13 | SPEC-0030: sin EXP-01, retirado en los requisitos v0.6 (DEC-0011) |

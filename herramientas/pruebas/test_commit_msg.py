@@ -64,6 +64,7 @@ def main():
         ("R07", f"feat(sch): entrada\n\nSpec: SPEC-0007\nAgente: becario\n", 1),
         ("R08", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-01, XYZ-99\n", 1),
         ("R09", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-01, MCU-05\n", 0),
+        ("R09b", f"feat(sch): entrada\n\n{t}\nRequisitos: ALI-01, NIV-01\n", 0),
         ("R10", f"feat(sch): entrada\n\n{t}\nRequisitos: ninguno\n", 1),
         ("R11", f"feat(sch): entrada\n\n{t}\nLog: gestion/logs/SPEC-0007/01-ing-esquematicos.md\n", 0),
         ("R12", f"feat(sch): entrada\n\n{t}\nLog: gestion/logs/SPEC-0007/09-nadie.md\n", 1),

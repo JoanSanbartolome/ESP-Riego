@@ -29,7 +29,7 @@ El esquema v2 queda cerrado para el layout: raíz completa, ERC 0, campos comple
   - raíz: todas las hojas unidas, sin no conexiones provisionales;
   - `docs/04-arquitectura.md`: diagrama de bloques, presupuesto de potencia por raíl con todos los bloques (ALI-12) y tabla de GPIO contrastada con la netlist (base de FW-02);
   - revisión global de la fase 3 del plan: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo y test points;
-  - `docs/diseno/salidas.md` con el dato medido de la válvula instalada (DEC-0011); sin ese dato no se propone la etiqueta;
+  - `docs/diseno/salidas.md` con el dato medido de la válvula instalada (DEC-0011); sin ese dato no se propone la etiqueta; con él, también el aviso de vigencia de la cabecera de `estudio-salidas.md` y la memoria `.claude/agent-memory/ing-diseno/project_salidas_d8.md`, que aún dicen «válvulas de 24 V DC» (VAL-0030-01-04);
   - BOM preliminar con coste y stock (`jr-conformidad`) y PDF del esquema;
   - casillas de las fases 2 y 3 de `docs/03-plan-de-diseno.md` (coordinador).
 - Excluye: el layout; la etiqueta `v2.0-sch`, que el coordinador propone al usuario al cerrar.

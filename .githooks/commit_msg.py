@@ -4,7 +4,7 @@
 - Trailers leídos con `git interpret-trailers --parse`, el mismo criterio que usa
   herramientas/gestion.py para la trazabilidad: solo cuentan los del bloque final.
 - En ramas spec/SPEC-NNNN-*: `Spec: SPEC-NNNN` (el de la rama) y `Agente: <agente>`.
-- `Requisitos`: cada ID tiene que existir en docs/02-especificaciones-v2.md.
+- `Requisitos`: cada ID tiene que existir en docs/02-especificaciones-v2.md, vigente o retirado (§9).
 - `Log`: cada ruta tiene que existir en el árbol de trabajo.
 - En merges a main: tipo `merge`, `Spec`, `Validacion: VAL-NNNN-NN` y `Rama: spec/SPEC-NNNN-...`
   del mismo número, y la carpeta del TFG sin cambios (herramientas/integridad_tfg.py).
@@ -48,7 +48,7 @@ def requisitos_conocidos(raiz):
     doc = raiz / "docs" / "02-especificaciones-v2.md"
     if not doc.exists():
         return None
-    patron = re.compile(r"^\|\s*([A-Z]{2,4}-\d{2})\s*\|\s*[MSC]\s*\|")
+    patron = re.compile(r"^\|\s*([A-Z]{2,4}-\d{2})\s*\|\s*(?:[MSC]|v\d+\.\d+)\s*\|")
     return {m.group(1) for l in doc.read_text(encoding="utf-8").splitlines() if (m := patron.match(l))}
 
 

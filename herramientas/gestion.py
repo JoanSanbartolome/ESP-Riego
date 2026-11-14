@@ -93,6 +93,13 @@ def leer_requisitos():
     return requisitos
 
 
+def leer_retirados():
+    """IDs de la tabla «Requisitos retirados» de docs/02 (filas `| ID | vX.Y | ...`)."""
+    patron = re.compile(r"^\|\s*([A-Z]{2,4}-\d{2})\s*\|\s*v\d+\.\d+\s*\|")
+    return {m.group(1) for linea in DOC_REQUISITOS.read_text(encoding="utf-8").splitlines()
+            if (m := patron.match(linea))}
+
+
 def git(*args, entrada=None):
     resultado = subprocess.run(["git", "-C", str(RAIZ), *args], capture_output=True, input=entrada,
                                text=True, encoding="utf-8", errors="replace")
@@ -561,7 +568,8 @@ def trazabilidad(_args):
     specs = cargar(SPECS, "SPEC-*.md")
     informes = cargar(INFORMES, "VAL-*.md")
     commits = commits_por_requisito()
-    conocidos = {r[0] for r in requisitos}
+    # Un ID retirado (§9) sigue siendo válido en las specs que lo trataron.
+    conocidos = {r[0] for r in requisitos} | leer_retirados()
     for s in specs:
         desconocidos = [r for r in s.get("requisitos", []) if r not in conocidos]
         if desconocidos:
