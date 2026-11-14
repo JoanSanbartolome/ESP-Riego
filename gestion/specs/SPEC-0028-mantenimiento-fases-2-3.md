@@ -33,6 +33,10 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
   - **Proyecto:** confirmar el `.kicad_pro` que reescribe KiCad 10 al abrirlo; se versiona cuando cambie (DEC-0011).
   - **`salidas.md` (VAL-0025-01-01):** la cabecera cita `docs/02` v0.4 en lugar de v0.5.
   - **Herramientas (SPEC-0025):** `hoja.py raiz` (pines de hoja y no conexiones de la raíz, que hoy se editan con Python en línea) y `hoja.py netlist --plan` (netlist frente al plan de conexiones del documento de diseño; lo escribieron por separado el autor y validación). Con su prueba en `test_kicad.py`.
+  - **Batería (VAL-0029-01-01, M):** casos de `test_kicad.py` para `_comun.modelo_de_respaldo`, el cambio de modelo de `sincronizar.py` y la rama de respaldo de `librerias.3d`.
+  - **`SHT4x.md` (VAL-0029-01-02):** modelo 3D aún «pendiente» en `verificado_por` y sin la variante fijada (SHT40-AD1B-R3).
+  - **Pieza (VAL-0029-01-03):** U13 a SHT40-AD1B-R2 (C2909890), el mismo chip ≈ 0,10 $ más barato por placa; se acepta sin consulta (abarata).
+  - **`mcu.md` §8.2 (VAL-0029-01-04):** calentador del SHT4x a 100 mA máx. (datasheet p. 9), no 61 mA; no se usa.
   - **Posible:** campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas.
 - Excluye: lo que es del layout o de la fabricación, que está en `gestion/ESTADO.md` (vías y pasta del EPAD de U5, polígono BUS_24V, serigrafía «STATUS», estado de las vías en los Gerber).
 
