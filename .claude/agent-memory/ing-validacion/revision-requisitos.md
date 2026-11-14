@@ -40,4 +40,6 @@ Para validar una spec de requisitos (`docs/02`), no basta con buscar términos: 
 - Cuando el usuario aclara un dato de entrada (tipo de carga, fuente), el commit suele tocar solo docs/02 y la DEC: busco el dato antiguo en las specs abiertas, como SPEC-0005 con «24 V AC (la instalada)».
 - Con `python -I`, `PYTHONIOENCODING` se ignora: en el script uso `sys.stdout.reconfigure(encoding="utf-8")`.
 
+- Requisitos que retiran un ID o liberan un recurso (VAL-0030-01): compruebo cada sección que el historial de §9 dice haber cambiado (§9 afirmaba «§2» y §2 no cambió), y busco los recuentos derivados («3 libres», «GPIO35–37») y no solo el nombre. Los criterios de una spec que piden SPEC-NNNN en cabecera y §9 chocan con la convención de docs/02 (SPEC solo en §10). Un ID retirado en §9 es «conocido» para `gestion.py` y `commit_msg.py` desde SPEC-0030. Si el coordinador cambia el commit durante la revisión (EXP-03 en S), valido contra el último.
+
 Relacionado: [[comprobaciones-utiles]].

@@ -52,7 +52,7 @@ validacion:
 - [ ] EXP-02 y EXP-04 fijan el conector con el informe de SPEC-0006, y D9 lo decide el usuario con ese informe.
 - [ ] D3 y D4 cerradas en §7 con DEC-0011; D9 coherente con EXP-02 y EXP-04.
 - [ ] §1, §2, §6 y REL-03 dicen que las válvulas instaladas son de 24 V AC (Bermad S-390-3-D) alimentadas en continua, con la corriente en continua pendiente de medir; las cifras de REL-05, ALI-12 y ALI-13 no cambian.
-- [ ] Cabecera, §9 (redefiniciones de la v0.6) y §10 citan SPEC-0030 y DEC-0011.
+- [ ] La cabecera cita DEC-0011, como las versiones anteriores citan su DEC; §9 (redefiniciones de la v0.6) y §10 citan SPEC-0030 y DEC-0011.
 - [ ] SPEC-0006 define en su alcance los pines, tensiones, tipo y ESD del conector a partir de `mcu.md` §9.2 y `alimentacion.md` §4, y tiene «Plan de validación».
 - [ ] SPEC-0031 lista, con ruta, cada aparición pendiente fuera de `docs/02`; `docs/diseno/` y `hardware/` sin cambios.
 - [ ] `gestion.py trazabilidad` sin avisos.
@@ -72,3 +72,4 @@ Nivel **ligero** (texto de requisitos; DEC-0005), con `gestion/checklists/requis
 |---|---|---|---|---|---|---|
 | 2026-11-13 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-13 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-14 | ing-validacion | VAL-0030-01 RECHAZADO (3 M, 2 B) | VAL-0030-01 | 119792 | 24 | 1395 |
