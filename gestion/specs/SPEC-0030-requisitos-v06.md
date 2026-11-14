@@ -73,3 +73,4 @@ Nivel **ligero** (texto de requisitos; DEC-0005), con `gestion/checklists/requis
 | 2026-11-13 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-13 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-14 | ing-validacion | VAL-0030-01 RECHAZADO (3 M, 2 B) | VAL-0030-01 | 119792 | 24 | 1395 |
+| 2026-11-14 | ing-validacion | VAL-0030-02 APROBADO_CON_OBSERVACIONES (1 B) | VAL-0030-02 |  | 28 | 1398 |
