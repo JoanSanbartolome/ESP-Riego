@@ -28,7 +28,7 @@ Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la p
 |---|---|---|
 | MCU | Wemos S2 Mini enchufable | ESP32-S3-WROOM-1 soldado, USB-C propio |
 | Alimentación | 12 V DC por jack, sin protecciones | 24 V DC de una fuente LED de 5 A, por borne, con protección de polaridad, fusible y TVS |
-| Salidas | 4 relés, opto + BC817 | 6 salidas alimentadas de 24 V DC con *high-side* inteligente (BTT6050-1ERA) y limitador común |
+| Salidas | 4 relés, opto + BC817 | 6 salidas alimentadas de 24 V DC con *high-side* inteligente (BTT6050-1ERA) y limitador común; las válvulas instaladas son de 24 V AC alimentadas en continua (DEC-0011) |
 | Nivel | 4–20 mA alimentado a 12 V | Eliminado |
 | Temperatura / humedad | DHT11 en placa | Sensor I²C en placa (SHT4x o similar), aislado térmicamente, que mide el aire de la caseta |
 | Accionamiento manual | Hoja `Panel_Control` sin conectar (H9) | 6 pulsadores en la placa, uno por salida, leídos por el firmware |
@@ -262,7 +262,7 @@ En la v0.4 (DEC-0004):
 - REL-05, REL-08, FAB-03 y FAB-09: carga máxima por canal de 1 A como parámetro, sin protección por canal, con pistas, bornes y retornos para la corriente máxima del limitador; enclavamiento térmico del *high-side*.
 - REL-03 (inductancia de la válvula), REL-10 (carga abierta con el bus habilitado) y FAB-01 (cobre según D6).
 
-En la v0.6 (DEC-0011):
+En la v0.6 (SPEC-0030, DEC-0011):
 
 - EXP-03: de «pulsadores por canal» a 6 pulsadores en la placa, uno por salida, en fila en el centro y leídos por el firmware con antirrebote. Prioridad C → S, propuesta por el coordinador y aceptada por el usuario el 2026-11-13 (DEC-0011).
 - EXP-02 y EXP-04: SPEC-0006 fija el conector junto con su informe, no después; D9 la decide el usuario con el informe.
