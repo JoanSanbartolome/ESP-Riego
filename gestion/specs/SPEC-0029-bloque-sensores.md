@@ -70,3 +70,4 @@ Nivel **completo**. Se reproduce de forma independiente: el mapeo de pines del s
 | 2026-11-14 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-14 | jr-conformidad | campos-sensores.csv (U13, C46) y stock del 2026-11-14 | 01-jr-conformidad | 49358 | 9 | 1 |
 | 2026-11-14 | ing-diseno | sensores.md, hoja de sensores (U13, C47), raíz con cinco hojas, PCB sincronizada y modelo 3D de respaldo en sincronizar.py | 02-ing-diseno | 239919 | 76 | 17 |
+| 2026-11-14 | ing-validacion | Validación completa: 1 M y 3 B | VAL-0029-01 | 173217 | 47 | 8 |
