@@ -18,3 +18,9 @@ Lo que no está en las herramientas y cuesta tiempo:
 - **Raíz (SPEC-0025):** sin herramienta. Python en línea sobre la copia: pin de hoja en el borde izquierdo `(at x y 180)` + `justify left`; etiqueta local en el mismo punto `(at x y 180)` + `justify right bottom`; en `instances` de la hoja, `path` va a 4 tabs y `page` a 5. Las etiquetas renombran las redes (`/MCU/IN1` → `/IN1`): `sincronizar.py` lo resuelve.
 - **Hoja A3 de 6 canales con `hoja.py`** (sin cables, etiqueta en cada pin): bloques de 129,5 × 81 mm; las etiquetas verticales ocupan ~8 mm, así que entre dos pines enfrentados con etiqueta hacen falta ≥ 15 mm; el `Value` de un borne, con `pos` encima. Revisar con `vista.py hoja --zona`.
 - `hoja.py generar` conserva los UUID de la hoja que sustituye (paridad intacta), pero no toca los pines de hoja de la raíz ni dibuja cables.
+
+SPEC-0029 (2026-11-14):
+- `herramientas/pruebas/test_kicad.py` está **fuera de mi zona** (la guarda lo bloquea): una herramienta nueva o cambiada se prueba a mano y la prueba se pide al coordinador en PENDIENTE.
+- La terminal Bash (MSYS) convierte `--hoja /` en `C:/Program Files/...`: la raíz con `vista.py hoja … --hoja /` se lanza desde PowerShell. Y la guarda bloquea cualquier comando que contenga la palabra del control de versiones seguida de otra palabra, también en un heredoc de texto.
+- Modelo 3D oficial ausente: `sincronizar.py` enlaza el de `libraries/3d` con el mismo nombre y `librerias.3d` lo acepta (`_comun.modelo_de_respaldo`); no hace falta copiar la huella a `esp-riego`.
+- Las referencias «libres» de la spec pueden estar mal: comprobar el máximo real en las hojas (C46 estaba en uso).

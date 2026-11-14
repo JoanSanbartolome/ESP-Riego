@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (Fallo, dentro, emitir, es_pieza, hijos, hojas, leer, parse, principal, proyecto,  # noqa: E402
-                    raiz_repo, ruta_huella, simbolos_hoja, tabla_libs, trozos, uno, val)
+from _comun import (Fallo, dentro, emitir, es_pieza, hijos, hojas, leer, modelo_de_respaldo, parse,  # noqa: E402
+                    principal, proyecto, raiz_repo, ruta_huella, simbolos_hoja, tabla_libs, trozos, uno, val)
 import campos as _campos  # noqa: E402
 import huella as _huella  # noqa: E402
 import restricciones as _restricciones  # noqa: E402
@@ -358,7 +358,7 @@ def librerias_attr(p):
 
 
 def librerias_3d(p):
-    malas, fuera_bom = [], {s["props"].get("Footprint") for _, s in p.piezas() if not s["in_bom"]}
+    malas, respaldo, fuera_bom = [], [], {s["props"].get("Footprint") for _, s in p.piezas() if not s["in_bom"]}
     en_bom = {s["props"].get("Footprint") for _, s in p.piezas() if s["in_bom"]}
     todas = sorted(set(p.huellas_propias()) | set(p.huellas_usadas()))
     for fpid in todas:
@@ -371,10 +371,14 @@ def librerias_3d(p):
             continue
         for m in a["modelos"]:
             if not m["existe"]:
-                malas.append(f"{fpid}: no existe {m['ruta']}")
+                if modelo_de_respaldo(m["ruta"], p.libs / "3d") and m["ext"].lower() in (".step", ".stp"):
+                    respaldo.append(fpid)   # el oficial falta y libraries/3d tiene el de respaldo (sincronizar.py lo enlaza)
+                else:
+                    malas.append(f"{fpid}: no existe {m['ruta']}")
             elif m["ext"].lower() not in (".step", ".stp"):
                 malas.append(f"{fpid}: el modelo no es STEP ({m['ext']})")
-    return ("FALLA" if malas else "OK"), malas or [f"{len(todas)} huellas usadas o propias"]
+    nota = f"; respaldo en libraries/3d: {', '.join(respaldo)}" if respaldo else ""
+    return ("FALLA" if malas else "OK"), malas or [f"{len(todas)} huellas usadas o propias{nota}"]
 
 
 def librerias_gitattributes(p):

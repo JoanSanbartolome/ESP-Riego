@@ -19,7 +19,7 @@ Reglas comunes:
 | `hoja.py extraer` | Descripción JSON de una hoja existente (piezas, campos, conexión de cada pin, textos) | `python herramientas/kicad/hoja.py extraer hardware/v2/mcu.kicad_sch -o mcu.json` |
 | `hoja.py generar` | Escribe la hoja desde la descripción; conserva los UUID de la hoja que sustituye | `python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch` |
 | `hoja.py netlist` | Compara las netlists de dos proyectos (netlist frente al plan o frente a la hoja anterior) | `python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 --hoja MCU` |
-| `sincronizar.py` | Netlist → PCB con `pcbnew`: huellas nuevas sin colocar, redes, campos y atributos; da la paridad | `python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb` |
+| `sincronizar.py` | Netlist → PCB con `pcbnew`: huellas nuevas sin colocar, redes, campos y atributos; un modelo 3D oficial que falta se enlaza al de `../libraries/3d` con el mismo nombre; da la paridad | `python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb` |
 | `colocar.py` | Aplica una tabla `ref,x,y,giro,cara` a la PCB, o la exporta | `python herramientas/kicad/colocar.py <copia>/v2/esp-riego.kicad_pcb colocacion.csv -o <copia>/v2/esp-riego.kicad_pcb` |
 | `vista.py hoja` | PNG de una hoja o de una zona de ella | `python herramientas/kicad/vista.py hoja hardware/v2 --hoja MCU --zona 150,95,280,190 -o u5.png` |
 | `vista.py placa` | PNG de la placa por capas, entera, de una zona o con lo que está fuera del contorno | `python herramientas/kicad/vista.py placa hardware/v2 --todo -o placa.png` |
@@ -76,7 +76,7 @@ Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `
 | librerías | 22 | Campos del símbolo | `librerias.campos` (símbolos de las librerías del `sym-lib-table`) |
 | librerías | 28 | Courtyard presente y con margen | `librerias.patio` (≥ 0,1 mm; huellas del `fp-lib-table`) |
 | librerías | 29 | Serigrafía fuera de los pads | `librerias.serigrafia` (gráficos y textos; textos por caja aproximada) |
-| librerías | 33 | Modelo 3D presente, en `.step`, y existe | `librerias.3d` (alineado, l. 34, es `[juicio]`: `vista.py huella --3d`) |
+| librerías | 33 | Modelo 3D presente, en `.step`, y existe | `librerias.3d` (alineado, l. 34, es `[juicio]`: `vista.py huella --3d`). Un modelo oficial que no existe vale si `libraries/3d` tiene uno con el mismo nombre (respaldo que enlaza `sincronizar.py`; `_comun.modelo_de_respaldo`) |
 | librerías | 35 | Atributo `smd` / `through_hole` coherente con los pads | `librerias.attr` (huellas propias y huellas de la PCB) |
 | librerías | 37 | Extensiones 3D como `binary` | `librerias.gitattributes` |
 | librerías | 45 | Ficha del componente | `librerias.fichas` (campo `lcsc:` de una ficha de pieza o columna `LCSC` de una ficha de bloque; ver «Formatos») |

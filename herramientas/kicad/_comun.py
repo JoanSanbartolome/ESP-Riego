@@ -277,6 +277,18 @@ def ruta_huella(fpid, carpeta=None):
     return libs.get(apodo, HUELLAS / f"{apodo}.pretty") / f"{nombre}.kicad_mod"
 
 
+def modelo_de_respaldo(ruta, libs3d):
+    """Ruta `${KIPRJMOD}/../libraries/3d/<nombre>` si el modelo `ruta` de una huella de librería no existe
+    y `libs3d` tiene uno con el mismo nombre de archivo (respaldo de un modelo oficial que falta); si no, None."""
+    real = re.sub(r"\$\{KICAD\d+_3DMODEL_DIR\}", str(MODELOS).replace("\\", "/"), ruta)
+    if "${" in real or Path(real).is_file():
+        return None
+    nombre = Path(real).name
+    if libs3d is not None and (Path(libs3d) / nombre).is_file():
+        return f"${{KIPRJMOD}}/../libraries/3d/{nombre}"
+    return None
+
+
 # ------------------------------------------------------------------ copia de trabajo y kicad-cli
 
 def _ignorar(con_3d):
