@@ -8,7 +8,8 @@ Añade las huellas que faltan (sin colocar: en filas bajo el contorno, por tipo)
 no tienen símbolo (salvo --conservar) y pone en todas valor, campos, ruta, hoja, atributos (DNP,
 fuera de BOM y de posiciones) y la red de cada pad. «Fuera de posiciones» no se quita de una huella
 que ya lo lleva (se avisa). Una huella cuyo identificador cambió, o pedida con --actualizar
-(referencias o «todas»), se recarga de la librería en su posición, giro y cara.
+(referencias o «todas»), se recarga de la librería en su posición, giro y cara. Al cargar una huella,
+un modelo 3D de la librería que no existe se sustituye por el de ../libraries/3d con el mismo nombre.
 Trabaja sobre una copia: solo escribe el .kicad_pcb de -o. Da los cambios y la paridad del
 resultado (sale con 1 si no es cero). Se relanza con el Python de KiCad si hace falta.
 """
@@ -20,8 +21,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (Fallo, cli, con_python_kicad, copia_trabajo, emitir, leer_netlist, principal,  # noqa: E402
-                    proyecto, ruta_huella)
+from _comun import (Fallo, cli, con_python_kicad, copia_trabajo, emitir, leer_netlist,  # noqa: E402
+                    modelo_de_respaldo, principal, proyecto, ruta_huella)
 
 ORDEN = ["J", "F", "D", "Q", "U", "L", "JP", "SW", "C", "R", "TP", "H"]
 PROPIOS = ("Reference", "Value", "Footprint", "Datasheet", "Description")
@@ -37,18 +38,19 @@ def orden_ref(ref):
     return (ORDEN.index(pre) if pre in ORDEN else 99, pre, int(n.group(0)) if n else 0)
 
 
-def sincronizar(pcb_entrada, pcb_salida, net, carpeta, conservar=False, actualizar=()):
+def sincronizar(pcb_entrada, pcb_salida, net, carpeta, conservar=False, actualizar=(), libs3d=None):
     import pcbnew
 
     board = pcbnew.LoadBoard(str(pcb_entrada))
     comps, redes = net["comps"], net["redes"]
     red_de = {nodo: nombre for nombre, nodos in redes.items() for nodo in nodos}
-    informe = {"nuevas": [], "borradas": [], "recargadas": [], "redes": [], "campos": [], "sobrantes": [], "avisos": []}
+    informe = {"nuevas": [], "borradas": [], "recargadas": [], "redes": [], "campos": [], "sobrantes": [], "avisos": [],
+               "modelos": []}
 
     def ruta_de(c):
         return c["ruta"] + c["uuid"]
 
-    def cargar(fpid):
+    def cargar(fpid, ref):
         archivo = ruta_huella(fpid, carpeta)
         if archivo is None or not archivo.is_file():
             raise Fallo(f"no se encuentra la huella {fpid}")
@@ -57,6 +59,12 @@ def sincronizar(pcb_entrada, pcb_salida, net, carpeta, conservar=False, actualiz
             raise Fallo(f"pcbnew no carga la huella {fpid}")
         apodo, nombre = fpid.split(":", 1)
         fp.SetFPID(pcbnew.LIB_ID(apodo, nombre))
+        modelos = fp.Models()  # por índice: iterar da copias
+        for i in range(len(modelos)):
+            nueva = modelo_de_respaldo(modelos[i].m_Filename, libs3d)
+            if nueva:
+                modelos[i].m_Filename = nueva
+                informe["modelos"].append(ref)
         return fp
 
     por_ruta = {fp.GetPath().AsString(): fp for fp in board.GetFootprints()}
@@ -88,7 +96,7 @@ def sincronizar(pcb_entrada, pcb_salida, net, carpeta, conservar=False, actualiz
     for ref, c in comps.items():
         fp = huellas.get(ref)
         if fp is not None and (fp.GetFPIDAsString() != c["footprint"] or todas or ref in actualizar):
-            nueva = cargar(c["footprint"])
+            nueva = cargar(c["footprint"], ref)
             vuelta, giro, pos, bloqueada = fp.IsFlipped(), fp.GetOrientationDegrees(), fp.GetPosition(), fp.IsLocked()
             board.RemoveNative(fp)
             board.Add(nueva)  # antes de girarla: SetLayerAndFlip sobre una huella sin placa cuelga pcbnew
@@ -100,7 +108,7 @@ def sincronizar(pcb_entrada, pcb_salida, net, carpeta, conservar=False, actualiz
             informe["recargadas"].append(ref)
             fp = huellas[ref] = nueva
         elif fp is None:
-            fp = huellas[ref] = cargar(c["footprint"])
+            fp = huellas[ref] = cargar(c["footprint"], ref)
             board.Add(fp)
             informe["nuevas"].append(ref)
         if fp.GetReference() != ref:
@@ -197,7 +205,8 @@ def main():
         cli("sch", "export", "netlist", "--format", "kicadsexpr", "-o", red, copia / f"{nombre}.kicad_sch", comprobar=red)
         pcb = copia / f"{nombre}.kicad_pcb"
         r = sincronizar(pcb, pcb, leer_netlist(red), copia, conservar=args.conservar,
-                        actualizar=tuple(x for x in args.actualizar.split(",") if x))
+                        actualizar=tuple(x for x in args.actualizar.split(",") if x),
+                        libs3d=carpeta.parent / "libraries" / "3d")
         incidencias, sin_conectar = paridad(pcb, copia)
         destino = Path(args.salida).resolve()
         destino.parent.mkdir(parents=True, exist_ok=True)
@@ -210,7 +219,8 @@ def main():
               f"{len(r['recargadas'])} · redes cambiadas {len(r['redes'])} · campos cambiados {len(r['campos'])}",
               f"Paridad {len(incidencias)}" + (f" {tipos}" if tipos else "") + f" · sin conectar {sin_conectar}"]
     for clave, titulo in (("nuevas", "Nuevas (sin colocar)"), ("borradas", "Borradas"), ("recargadas", "Recargadas"),
-                          ("sobrantes", "Sin símbolo, conservadas")):
+                          ("sobrantes", "Sin símbolo, conservadas"),
+                          ("modelos", "Modelo 3D de respaldo (${KIPRJMOD}/../libraries/3d)")):
         if r[clave]:
             lineas.append(f"{titulo}: {' '.join(sorted(r[clave], key=orden_ref))}"[:400])
     lineas += r["avisos"] + r["redes"] + r["campos"]

@@ -646,7 +646,7 @@
 			)
 		)
 	)
-	(text "Esqueleto limpio de la v2 (SPEC-0014). Los bloques llegan cada uno con su spec:\n- Alimentacion: ALI-01 … ALI-13\n- MCU: MCU-01 … MCU-07\n- Salidas: REL-01 … REL-10\n- Conectores: EXP-01 … EXP-04, FAB-07 y FAB-08\nLa hoja Sensores (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02)."
+	(text "Esqueleto limpio de la v2 (SPEC-0014). Los bloques llegan cada uno con su spec:\n- Alimentacion: ALI-01 … ALI-13\n- MCU: MCU-01 … MCU-07\n- Salidas: REL-01 … REL-10\n- Conectores: EXP-01 … EXP-04, FAB-07 y FAB-08\n- Sensores: AMB-01 y AMB-02 (SPEC-0029)"
 		(exclude_from_sim no)
 		(at 109.22 142.24 0)
 		(effects
@@ -756,14 +756,6 @@
 			(justify left bottom)
 		)
 		(uuid "560f533a-fb87-4231-8b07-fd08c18ebf47")
-	)
-	(no_connect
-		(at 50.8 43.18)
-		(uuid "7c4c7a4f-1516-41a3-a6dc-d4f0ff8f3e4d")
-	)
-	(no_connect
-		(at 50.8 45.72)
-		(uuid "a59bb214-00c9-4805-a144-b29ad32979f6")
 	)
 	(no_connect
 		(at 50.8 48.26)
@@ -1064,6 +1056,112 @@
 			(justify right bottom)
 		)
 		(uuid "64fc7277-362d-4414-b92b-75187b845074")
+	)
+	(sheet
+		(at 12.7 38.1)
+		(size 17.78 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 194 224 255 1)
+		)
+		(uuid "d4edc991-66e8-430c-b64d-d9eea6f467f2")
+		(property "Sheetname" "Sensores"
+			(at 12.7 37.3884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sensores.kicad_sch"
+			(at 12.7 50.1246 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1"
+					(page "6")
+				)
+			)
+		)
+		(pin "I2C_SDA" bidirectional
+			(at 30.48 43.18 0)
+			(uuid "0c46aa0a-cf6b-4fd0-9679-5c154a970bee")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C_SCL" input
+			(at 30.48 45.72 0)
+			(uuid "8df06062-ecb1-4f18-aed1-4f6e8b90f307")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(label "I2C_SDA"
+		(at 30.48 43.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b0d56705-396d-4081-aafe-0a8fdbe5c89b")
+	)
+	(label "I2C_SDA"
+		(at 50.8 43.18 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "262bee93-2a24-4f6f-af92-0c6f9e225993")
+	)
+	(label "I2C_SCL"
+		(at 30.48 45.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "65568ec3-5360-469f-9642-02a9f61a31ca")
+	)
+	(label "I2C_SCL"
+		(at 50.8 45.72 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0a1e8ec5-8acf-4b05-a1bf-48f64e20e6f4")
 	)
 	(sheet_instances
 		(path "/"

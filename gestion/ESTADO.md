@@ -1,23 +1,23 @@
 # Estado
 
-Actualizado el 2026-11-14, al cerrar SPEC-0030. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-14, al cerrar SPEC-0029. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
-Una spec cada vez (comparten carpeta).
+Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los conectores.
 
-1. **SPEC-0029 · Bloque de sensores** (AMB-01, AMB-02): no depende de nada.
-2. **SPEC-0006 · Viabilidad de la expansión**: informe y definición del conector EXP-02 (pines, tensiones, tipo y ESD, ya en su alcance); termina en la decisión D9 del usuario. Validación completa.
-3. **SPEC-0031 · Conectores, expansión y pulsadores**, con la lista de restos de EXP-01 y `PULSE_IN` que dejó SPEC-0030; después SPEC-0028 y **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
-4. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
+1. **SPEC-0006 · Viabilidad de la expansión**: informe y definición del conector EXP-02 (pines, tensiones, tipo y ESD, ya en su alcance); termina en la decisión D9 del usuario. Validación completa.
+2. **SPEC-0031 · Conectores, expansión y pulsadores**, con la lista de restos de EXP-01 y `PULSE_IN` que dejó SPEC-0030; después SPEC-0028 y **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
+3. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2; validación ligera con `model: sonnet`.
 
-## Requisitos v0.6 (SPEC-0030, DEC-0011)
+## Bloque de sensores (SPEC-0029)
 
-- EXP-01 retirado (sin entrada de pulsos ni de lluvia); D3 y D4 cerradas. EXP-03: 6 pulsadores en la placa, uno por salida, leídos por el firmware, prioridad S (aceptada por el usuario).
-- `gestion.py trazabilidad` y el hook `commit-msg` aceptan IDs retirados de §9.
-- Si una instancia se corta por el límite de uso, `integrar` cuenta la pausa en los minutos: se corrigen a mano en el registro.
+- U13 SHT40-AD1B-R3 (0x44, calentador sin usar) y C47 100 nF, en I2C_SDA/SCL (GPIO41/42, R24 y R25 en la hoja MCU). VAL-0029-01: 1 M y 3 B, a SPEC-0028 (entre ellas, U13 a la R2, más barata).
+- `sensores.md` §5: la isla se calienta ≈ 1,3 K en reposo y ≈ 3 K con las 6 salidas; casi seguro hace falta la corrección según las salidas activas (AMB-02, FW-03) y recalcular la HR.
+- Coste: 3 arranques, 132 acciones, 462 494 tokens y 26 min para 2 piezas.
+- `sincronizar.py` enlaza el modelo 3D de respaldo cuando falta el oficial.
 
 ## Pendiente del usuario
 
@@ -27,6 +27,7 @@ Una spec cada vez (comparten carpeta).
 
 ## Para el layout (fase 4)
 
+- Restricciones de AMB-02 en `sensores.md` (isla en el borde lateral, ranuras con un puente, sin planos ni vías, ≥ 20 mm de pista I²C), listas para `restricciones.csv`.
 - Fila de 6 pulsadores en el centro de la placa (EXP-03, FAB-07): solo se alcanzan con la caja abierta y ocupan la zona del bus de 24 V y los planos (VAL-0030-02-05).
 - 87 huellas de salidas sin colocar (U7–U12, J4–J9 y pasivos); D12–D17 DNP con huella en la placa (DEC-0008).
 - Polígono BUS_24V de ≥ 300 mm² bajo cada BTT6050; el pad 15 de B.Cu y las vías ya cuelgan de VS.
@@ -42,7 +43,7 @@ Una spec cada vez (comparten carpeta).
 
 ## Mantenimiento
 
-- `verificar.py hardware/v2`: ERC 0, DRC 0 con 352 sin conectar y paridad 0; dos `[auto]` en FALLA (`librerias.fichas` y `librerias.gitattributes`), los dos en SPEC-0028. La batería `test_kicad.test_librerias_fichas` falla por lo mismo.
+- `verificar.py hardware/v2`: ERC 0, DRC 0 con 358 sin conectar y paridad 0; dos `[auto]` en FALLA (`librerias.fichas` y `librerias.gitattributes`), los dos en SPEC-0028. La batería `test_kicad.test_librerias_fichas` falla por lo mismo.
 - Observaciones de las fases 2 y 3 y herramientas que faltan: [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md).
 - La guarda no se endurece más (DEC-0009): sus límites están en `README.md`, «Límites conocidos».
 - FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6.

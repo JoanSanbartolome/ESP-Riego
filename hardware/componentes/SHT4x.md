@@ -4,7 +4,7 @@ fabricante: Sensirion
 funcion: sensor I²C de temperatura y humedad del aire de la caseta (AMB-01)
 lcsc: C2848306 (SHT40-AD1B-R3)
 tipo_jlcpcb: extended
-stock_consultado: 2026-11-05
+stock_consultado: 2026-11-14
 datasheet: https://sensirion.com/media/documents/33FD6951/6A7C10A0/HT_DS_Datasheet_SHT4x_V7.3.pdf
 datasheet_local: datasheets/SHT4x.pdf (versión 7.3, junio de 2026, 1,0 MB; sustituye a la 6.2, que ya no era la vigente: página de producto de sensirion.com, 2026-11-05)
 simbolo: Sensor_Humidity:SHT4x
@@ -50,17 +50,17 @@ verificado_por: pendiente (ing-validacion), solo el modelo 3D de respaldo
 
 | MPN | LCSC | Diferencias |
 |---|---|---|
-| SHT41-AD1B-R2 | C7461861 | Mejor exactitud; 2,4792 $ a 30 uds; stock 12 072 |
-| SHT45-AD1B-R2 | C5221601 | Mejor exactitud; 4,4678 $ a 30 uds; stock 7 078 |
-| SHT40-AD1B-R2 | C2909890 | Mismo chip, carrete R2; stock 15 973 |
+| SHT41-AD1B-R2 | C7461861 | Mejor exactitud; 2,4792 $ a 30 uds; stock 11 244 |
+| SHT45-AD1B-R2 | C5221601 | Mejor exactitud; 4,4678 $ a 30 uds; stock 6 530 |
+| SHT40-AD1B-R2 | C2909890 | Mismo chip, carrete R2; stock 14 052 (1,7491 $ a 5 uds) |
 
-## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-05)
+## Aprovisionamiento (JLCPCB/LCSC, consulta 2026-11-14)
 
 | Código | Variante | Tipo | Stock | Precio unitario por tramo (USD) | 5 placas | 10 placas |
 |---|---|---|---|---|---|---|
-| C2848306 | SHT40-AD1B-R3 | Extended | 15 537 | 1–9: 1,8529 · 10–29: 1,5732 | 9,26 $ | 15,73 $ |
-| C7461861 | SHT41-AD1B-R2 | Extended | 12 072 | 1–9: 3,2576 · 10–29: 2,7785 | 16,29 $ | 27,79 $ |
-| C5221601 | SHT45-AD1B-R2 | Extended | 7 078 | 1–9: 5,7139 · 10–29: 4,9388 | 28,57 $ | 49,39 $ |
+| C2848306 | SHT40-AD1B-R3 | Extended | 13 207 | 1–9: 1,8538 · 10–29: 1,5740 | 9,27 $ | 15,74 $ |
+| C7461861 | SHT41-AD1B-R2 | Extended | 11 244 | 1–9: 3,2592 · 10–29: 2,7798 | 16,30 $ | 27,80 $ |
+| C5221601 | SHT45-AD1B-R2 | Extended | 6 530 | 1–9: 5,7167 · 10–29: 4,9411 | 28,58 $ | 49,41 $ |
 
 ## Notas de los assets
 

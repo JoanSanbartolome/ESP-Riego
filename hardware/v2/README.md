@@ -11,9 +11,10 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 | `Alimentacion` · `alimentacion.kicad_sch` (A3) | Entrada, protecciones, limitador común, buck, 3,3 V | ALI-01 … ALI-13 | **Bloque de la v2** (SPEC-0019): J1, F1, Q1, D1–D4, U1–U4, L1, JP1, TP1–TP5 y pasivos, según `docs/diseno/alimentacion.md`. Pines de hoja: `BUS_24V`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT`, `LIM_EN` y `VBUS` |
 | `MCU` · `mcu.kicad_sch` (A3) | ESP32-S3-WROOM-1, USB-C, BOOT/RESET, UART | MCU-01 … MCU-07, FW-02 | **Bloque de la v2** (SPEC-0022): U5, U6, J2, J3, SW1, SW2, D5 y pasivos, según `docs/diseno/mcu.md`. 25 pines de hoja (Anexo C de `mcu.md`) |
 | `Salidas` · `salidas.kicad_sch` | 6 *high-side* BTT6050 con diagnóstico y sus bornes | REL-01 … REL-10 | Texto del bloque pendiente |
+| `Sensores` · `sensores.kicad_sch` | Temperatura y humedad del aire de la caseta | AMB-01, AMB-02 | **Bloque de la v2** (SPEC-0029): U13 SHT40-AD1B (I²C 0x44) y C47, según `docs/diseno/sensores.md`. Pines de hoja: `I2C_SDA` e `I2C_SCL`, unidos a la hoja MCU (R24/R25 en MCU) |
 | `Conectores` · `conectores.kicad_sch` | Entrada de pulsos, expansión, reparto de bornes | EXP-01 … EXP-04, FAB-07, FAB-08 | Texto del bloque pendiente y H1–H4 (taladros M3, FAB-08) |
 
-La hoja `Sensores` (AMB-01 … AMB-03) se añade con el bloque de temperatura y humedad (KIC-02). Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022). Los pines sin hoja de destino llevan una marca de no conexión **provisional** (`BUS_24V`; IN, OUT_DEN, IS, I²C y expansión de MCU): la spec que dibuje Salidas, Sensores o Conectores la quita. +5V, +3V3 y GND son símbolos de alimentación globales.
+Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022), e `I2C_SDA`/`I2C_SCL` unen MCU y Sensores (SPEC-0029). Los pines sin hoja de destino llevan una marca de no conexión **provisional** (desde SPEC-0029, solo `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT`, `EXP_IO2` y `PULSE_IN` de MCU): la spec de Conectores la quita. +5V, +3V3 y GND son símbolos de alimentación globales.
 
 ## Puente JP1 del limitador (DEC-0006)
 

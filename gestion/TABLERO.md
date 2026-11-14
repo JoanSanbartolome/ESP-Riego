@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 4 · abierta 1 · cerrada 24 · descartada 4.
+Specs por estado: propuesta 4 · abierta 0 · cerrada 25 · descartada 4.
 
 ## Propuestas (4)
 
@@ -13,13 +13,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 24 · descartada 4.
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | — | 2026-11-13 | — |
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | Bloque de sensores | 3 | ing-diseno | `spec/SPEC-0029-bloque-sensores` | — | 2026-11-13 | — |
-
-## Cerradas (24)
+## Cerradas (25)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -46,6 +40,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 24 · descartada 4.
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | Hoja de salidas en el esquema v2 | 3 | ing-diseno | `spec/SPEC-0025-hoja-salidas` | VAL-0025-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-06 | 2026-11-13 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | Orquestación v2: roles, ciclo, registro y trámite | 0 | coordinador | `spec/SPEC-0026-orquestacion-v2` | VAL-0026-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-11 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | Caja de herramientas de KiCad | 3 | ing-diseno | `spec/SPEC-0027-herramientas-kicad` | VAL-0027-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-12 |
+| [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | Bloque de sensores | 3 | ing-diseno | `spec/SPEC-0029-bloque-sensores` | VAL-0029-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | Requisitos v0.6 | 3 | coordinador | `spec/SPEC-0030-requisitos-v06` | VAL-0030-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 
 ## Descartadas (4)
@@ -64,15 +59,16 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 24 · descartada 4.
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | 4 | 489 349 | 126 | 30 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | 5 | 337 886 | 92 | 19 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | 4 | 960 427 | 252 | 118 |
+| [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | 3 | 462 494 | 132 | 26 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | 2 | 134 812 | 28 | 3 |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 4 | 904 723 | 245 | 98 |
-| ing-validacion | 8 | 904 496 | 228 | 69 |
-| jr-conformidad | 3 | 113 255 | 25 | 3 |
+| ing-diseno | 5 | 1 144 642 | 321 | 115 |
+| ing-validacion | 9 | 1 077 713 | 275 | 77 |
+| jr-conformidad | 4 | 162 613 | 34 | 4 |
 
 ## Decisiones
 
@@ -128,6 +124,7 @@ Specs por estado: propuesta 4 · abierta 1 · cerrada 24 · descartada 4.
 | [VAL-0026-02](informes/VAL-0026-02.md) | SPEC-0026 | APROBADO_CON_OBSERVACIONES | `330972d` | 2026-11-11 |
 | [VAL-0027-01](informes/VAL-0027-01.md) | SPEC-0027 | APROBADO_CON_OBSERVACIONES | `06f15e8` | 2026-11-12 |
 | [VAL-0027-02](informes/VAL-0027-02.md) | SPEC-0027 | APROBADO_CON_OBSERVACIONES | `3e9a121` | 2026-11-12 |
+| [VAL-0029-01](informes/VAL-0029-01.md) | SPEC-0029 | APROBADO_CON_OBSERVACIONES | `0a786a3` | 2026-11-14 |
 | [VAL-0030-01](informes/VAL-0030-01.md) | SPEC-0030 | RECHAZADO | `e0467a3` | 2026-11-14 |
 | [VAL-0030-02](informes/VAL-0030-02.md) | SPEC-0030 | APROBADO_CON_OBSERVACIONES | `a899307` | 2026-11-14 |
 

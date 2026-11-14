@@ -1,0 +1,3 @@
+Refs,Value,Footprint,LCSC Part#,MPN,Fabricante,Datasheet,Description,DNP
+U13,SHT40-AD1B-R3,Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad,C2848306,SHT40-AD1B-R3,Sensirion,https://sensirion.com/media/documents/33FD6951/6A7C10A0/HT_DS_Datasheet_SHT4x_V7.3.pdf,Sensor I2C de temperatura y humedad SHT40 direccion 0x44 DFN-4 1.5x1.5 mm: aire de la caseta,no
+C47,100n,Capacitor_SMD:C_0603_1608Metric,C14663,CC0603KRX7R9BB104,YAGEO,https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf,MLCC 100 nF 50 V X7R 0603: desacoplo de VDD del SHT40,no
