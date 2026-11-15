@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
+Specs por estado: propuesta 2 · abierta 0 · cerrada 27 · descartada 4.
 
 ## Propuestas (2)
 
@@ -11,13 +11,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 | [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | — | 2026-11-13 | — |
-
-## Cerradas (26)
+## Cerradas (27)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -47,6 +41,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | Caja de herramientas de KiCad | 3 | ing-diseno | `spec/SPEC-0027-herramientas-kicad` | VAL-0027-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-11 | 2026-11-12 |
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | Bloque de sensores | 3 | ing-diseno | `spec/SPEC-0029-bloque-sensores` | VAL-0029-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | Requisitos v0.6 | 3 | coordinador | `spec/SPEC-0030-requisitos-v06` | VAL-0030-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
+| [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | VAL-0031-02 (APROBADO) | 2026-11-13 | 2026-11-15 |
 
 ## Descartadas (4)
 
@@ -67,14 +62,15 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | 4 | 960 427 | 252 | 118 |
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | 3 | 462 494 | 132 | 26 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | 2 | 134 812 | 28 | 3 |
+| [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | 6 | 804 144 | 235 | 67 |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 7 | 1 537 301 | 437 | 150 |
-| ing-validacion | 11 | 1 323 122 | 326 | 90 |
-| jr-conformidad | 4 | 162 613 | 34 | 4 |
+| ing-diseno | 10 | 1 954 956 | 573 | 194 |
+| ing-validacion | 13 | 1 574 606 | 377 | 106 |
+| jr-conformidad | 5 | 297 618 | 82 | 11 |
 
 ## Decisiones
 
@@ -92,6 +88,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 | [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md) | Agentes en Opus o inferior, nunca en Fable 5.2 | aceptada | usuario | 2026-11-12 |
 | [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | aceptada | usuario | 2026-11-13 |
 | [DEC-0012](decisiones/DEC-0012-expansion-i2c.md) | D9, módulo de expansión por I²C con TCA9535 y ADS1115 | aceptada | usuario | 2026-11-15 |
+| [DEC-0013](decisiones/DEC-0013-pulsadores-tca9554.md) | Lectura de los 6 pulsadores con un TCA9554 en el bus I²C de la placa | aceptada | usuario | 2026-11-15 |
 
 ## Informes de validación
 
@@ -136,4 +133,6 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 | [VAL-0029-01](informes/VAL-0029-01.md) | SPEC-0029 | APROBADO_CON_OBSERVACIONES | `0a786a3` | 2026-11-14 |
 | [VAL-0030-01](informes/VAL-0030-01.md) | SPEC-0030 | RECHAZADO | `e0467a3` | 2026-11-14 |
 | [VAL-0030-02](informes/VAL-0030-02.md) | SPEC-0030 | APROBADO_CON_OBSERVACIONES | `a899307` | 2026-11-14 |
+| [VAL-0031-01](informes/VAL-0031-01.md) | SPEC-0031 | APROBADO_CON_OBSERVACIONES | `a9cfa2d` | 2026-11-15 |
+| [VAL-0031-02](informes/VAL-0031-02.md) | SPEC-0031 | APROBADO | `c947654` | 2026-11-15 |
 

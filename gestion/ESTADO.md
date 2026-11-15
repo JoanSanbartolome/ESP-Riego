@@ -1,23 +1,23 @@
 # Estado
 
-Actualizado el 2026-11-15, al cerrar SPEC-0006. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-15, al cerrar SPEC-0031. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
-Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los conectores.
+Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloque.
 
-1. **Requisito del módulo de expansión** (entrada de 24 V y limitador propios, en EXP-04 o con ID propio, y D9 decidida en `docs/02` §8): cambio de requisitos con su propia spec, a proponer al usuario. D9 = arquitectura 1, I²C (DEC-0012).
-2. **SPEC-0031 · Conectores, expansión y pulsadores**: pasa `viabilidad-expansion.md` §10 a `conectores.md` y a la hoja, con la lista de §10.6 para `mcu.md` (§9.2 EXP_IO2 → EXP_EN, §10.1, §10.2, Anexo B y §14.2), los dos TPS2553 y la conexión de EN y FAULT; más los restos de EXP-01 y `PULSE_IN` de SPEC-0030. Después SPEC-0028 y **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
+1. **SPEC-0028 · Mantenimiento de las fases 2 y 3** y, después, **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
+2. **Requisitos v0.7** (entrada de 24 V y limitador propios del módulo de expansión, y lo que salga de la medida de la válvula), cuando el usuario mida la válvula; antes de SPEC-0032 (decisión del usuario del 2026-11-15). D9 = arquitectura 1, I²C (DEC-0012).
 3. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2; validación ligera con `model: sonnet`.
 
-## Expansión y conector EXP-02 (SPEC-0006)
+## Conectores y pulsadores (SPEC-0031)
 
-- Conector: IDC 2 × 5 de 2,54 mm polarizado (BH254V-10P, C492442): 5 V, 3,3 V, I2C_EXP (GPIO47/48), EXP_INT (GPIO35), EXP_EN (GPIO36) y 4 GND; cada alimentación por un TPS2553 (≈ 2 $ por placa), ESD con dos USBLC6-2SC6, *pull-ups* de 2,2 kΩ en el lado del conector. ALI-12 no cambia; GPIO10, 18, 37 y 39 quedan para EXP-03.
-- El módulo necesita su propia entrada de 24 V y su limitador: con la fuente de 5 A no cabe (4,77 A frente a 5,14 A). Requisito nuevo (DEC-0012; no cambia ALI-01, ALI-12 ni ALI-13).
-- VAL-0006-02: APROBADO_CON_OBSERVACIONES; 1 M (F1 sin stock) y 2 B, en SPEC-0028.
-- Coste: 4 arranques y 638 068 tokens (registro de la spec).
+- `docs/diseno/conectores.md` y hoja `conectores`: J10 (EXP-02, BH254V-10P), U14/U15 TPS2553 (+5V_EXP, +3V3_EXP), U16/U17 USBLC6, R69–R78, C48–C51; EXP_IO2 pasa a EXP_EN (GPIO36, R78 de 100 kΩ). `PULSE_IN` y los restos de EXP-01, retirados.
+- Pulsadores (DEC-0013): U18 TCA9554PWR (0x20) en el bus de la placa, ahora a 100 kHz, SW3–SW8 en P0–P5 con los *pull-ups* internos, INT en GPIO39 (`BTN_INT`, R79). Libres: GPIO10, 18 y 37. +1,52 $ por placa con 5 uds.
+- Símbolo propio `esp-riego:TPS2553DBVR` (SLVS841G p. 4).
+- VAL-0031-02: APROBADO; 1 B de VAL-0031-01 en SPEC-0028.
 
 ## Pendiente del usuario
 
@@ -26,9 +26,9 @@ Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los 
 
 ## Para el layout (fase 4)
 
-- Restricciones de AMB-02 en `sensores.md` (isla en el borde lateral, ranuras con un puente, sin planos ni vías, ≥ 20 mm de pista I²C) y del conector EXP-02 en `viabilidad-expansion.md` §10.7, listas para `restricciones.csv`.
-- Fila de 6 pulsadores en el centro de la placa (EXP-03, FAB-07): solo se alcanzan con la caja abierta y ocupan la zona del bus de 24 V y los planos (VAL-0030-02-05).
-- 87 huellas de salidas sin colocar (U7–U12, J4–J9 y pasivos); D12–D17 DNP con huella en la placa (DEC-0008).
+- Restricciones de AMB-02 en `sensores.md`, de EXP-02 y de los pulsadores en `conectores.md` §5, y longitud de bordes en `conectores.md` §4 (inferior: 71 de 84 mm útiles), listas para `restricciones.csv`.
+- Fila SW3–SW8 en el centro (EXP-03, FAB-07), con U18 al lado; solo se alcanza con la caja abierta y comparte zona con el bus de 24 V y los planos (bus por la cara inferior).
+- 115 huellas de salidas y conectores sin colocar; D12–D17 DNP con huella en la placa (DEC-0008).
 - Polígono BUS_24V de ≥ 300 mm² bajo cada BTT6050; el pad 15 de B.Cu y las vías ya cuelgan de VS.
 - Vías y pasta del EPAD de U5 (VAL-0021-01-03), serigrafía «STATUS» junto a D5 y antena en el borde.
 - Separación de 0,6 mm dentro de las huellas de salida (DEC-0008).
@@ -36,12 +36,12 @@ Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los 
 
 ## Para la fabricación (fase 5)
 
-- F1 (0451010.MRL) con stock 0 el 2026-11-15: sustituto en SPEC-0028. Stock del BTT6050: 1 628 el 2026-11-12; del TPS26632, 1 240 el 2026-11-15. Recomprobar antes de pedir, con `jlc.py`.
+- F1 (0451010.MRL) con stock 0 el 2026-11-15: sustituto en SPEC-0028. Stock del 2026-11-15: TCA9554PWR 5 455, TPS2553 48 313, TPS26632 1 240; BTT6050 1 628 el 2026-11-12. Recomprobar antes de pedir, con `jlc.py`.
 - Comprobar en los Gerber el estado real de las vías del EP (F.Mask y B.Mask). Las vías rellenas y tapadas de JLCPCB encarecen la placa: consulta al usuario.
 - Los ocho `[auto: pendiente]` de `checklists/fabricacion.md` van con el paquete de fabricación.
 
 ## Mantenimiento
 
-- `verificar.py hardware/v2`: ERC 0, DRC 0 con 358 sin conectar y paridad 0; dos `[auto]` en FALLA (`librerias.fichas` y `librerias.gitattributes`), los dos en SPEC-0028.
+- `verificar.py hardware/v2`: ERC 0, DRC 0 con 448 sin conectar y paridad 0; dos `[auto]` en FALLA (`librerias.fichas`, 4 pasivos de la hoja MCU, y `librerias.gitattributes`), los dos en SPEC-0028.
 - Observaciones de las fases 2 y 3 y herramientas que faltan: [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md). La guarda no se endurece más (DEC-0009).
 - FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6.

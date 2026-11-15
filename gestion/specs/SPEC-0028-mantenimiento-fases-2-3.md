@@ -39,6 +39,8 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
   - **`mcu.md` §8.2 (VAL-0029-01-04):** calentador del SHT4x a 100 mA máx. (datasheet p. 9), no 61 mA; no se usa.
   - **F1 sin stock (VAL-0006-01-04, M):** 0451010.MRL (C44479) a 0 en JLCPCB el 2026-11-15; validar 0453010.MR (C178995, acción lenta) o TA10 (C2998199) frente a `alimentacion.md` §3.2 (7,2 A con derating, 125 V DC, I²t), y recomprobar el stock antes de la fase 5.
   - **Batería (VAL-0006-01-07):** caso de `test_kicad.py` para `jlc.py --buscar` (`jlc.resultados`).
+  - **Hoja de conectores (VAL-0031-01-06, B):** 7 cables añadidos por script (EN–IN de U14/U15, GND de J10, A0–A2 de U18); cambiarlos por `P:<red>` de `hoja.py` para que la hoja vuelva a regenerarse sin `--forzar`; en la misma edición, la nota de la hoja pasa de «SLVS841G p. 16» a «pp. 16–17» (VAL-0031-01-05).
+  - **`librerias.fichas` (SPEC-0031):** siguen sin ficha C23162, C23186, C23345 y C45783 (hoja MCU).
   - **`viabilidad-expansion.md` §5 (VAL-0006-02-01, B):** el 2N7002 del inversor de la arquitectura 3 no garantiza la conmutación con ≈ 2,4 V en la puerta; solo si se retoma esa arquitectura.
   - **Posible:** campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas.
 - Excluye: lo que es del layout o de la fabricación, que está en `gestion/ESTADO.md` (vías y pasta del EPAD de U5, polígono BUS_24V, serigrafía «STATUS», estado de las vías en los Gerber).
