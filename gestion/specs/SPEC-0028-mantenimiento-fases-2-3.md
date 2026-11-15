@@ -37,6 +37,9 @@ Corregir las observaciones B y M no bloqueantes acumuladas en las fases 2 y 3. S
   - **`SHT4x.md` (VAL-0029-01-02):** modelo 3D aún «pendiente» en `verificado_por` y sin la variante fijada (SHT40-AD1B-R3).
   - **Pieza (VAL-0029-01-03):** U13 a SHT40-AD1B-R2 (C2909890), el mismo chip ≈ 0,10 $ más barato por placa; se acepta sin consulta (abarata).
   - **`mcu.md` §8.2 (VAL-0029-01-04):** calentador del SHT4x a 100 mA máx. (datasheet p. 9), no 61 mA; no se usa.
+  - **F1 sin stock (VAL-0006-01-04, M):** 0451010.MRL (C44479) a 0 en JLCPCB el 2026-11-15; validar 0453010.MR (C178995, acción lenta) o TA10 (C2998199) frente a `alimentacion.md` §3.2 (7,2 A con derating, 125 V DC, I²t), y recomprobar el stock antes de la fase 5.
+  - **Batería (VAL-0006-01-07):** caso de `test_kicad.py` para `jlc.py --buscar` (`jlc.resultados`).
+  - **`viabilidad-expansion.md` §5 (VAL-0006-02-01, B):** el 2N7002 del inversor de la arquitectura 3 no garantiza la conmutación con ≈ 2,4 V en la puerta; solo si se retoma esa arquitectura.
   - **Posible:** campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas.
 - Excluye: lo que es del layout o de la fabricación, que está en `gestion/ESTADO.md` (vías y pasta del EPAD de U5, polígono BUS_24V, serigrafía «STATUS», estado de las vías en los Gerber).
 
