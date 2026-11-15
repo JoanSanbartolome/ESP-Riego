@@ -6,7 +6,7 @@ Actualizado el 2026-11-15, al cerrar SPEC-0006. Lo reescribe el coordinador en c
 
 Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los conectores.
 
-1. **D9 del usuario** con `docs/diseno/viabilidad-expansion.md` §0 (abajo); se registra en DEC-0012 y ajusta el alcance de SPEC-0031.
+1. **Requisito del módulo de expansión** (entrada de 24 V y limitador propios, en EXP-04 o con ID propio, y D9 decidida en `docs/02` §8): cambio de requisitos con su propia spec, a proponer al usuario. D9 = arquitectura 1, I²C (DEC-0012).
 2. **SPEC-0031 · Conectores, expansión y pulsadores**: pasa `viabilidad-expansion.md` §10 a `conectores.md` y a la hoja, con la lista de §10.6 para `mcu.md` (§9.2 EXP_IO2 → EXP_EN, §10.1, §10.2, Anexo B y §14.2), los dos TPS2553 y la conexión de EN y FAULT; más los restos de EXP-01 y `PULSE_IN` de SPEC-0030. Después SPEC-0028 y **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`.
 3. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
@@ -15,13 +15,12 @@ Una spec cada vez (comparten carpeta). El esquema tiene cinco hojas; faltan los 
 ## Expansión y conector EXP-02 (SPEC-0006)
 
 - Conector: IDC 2 × 5 de 2,54 mm polarizado (BH254V-10P, C492442): 5 V, 3,3 V, I2C_EXP (GPIO47/48), EXP_INT (GPIO35), EXP_EN (GPIO36) y 4 GND; cada alimentación por un TPS2553 (≈ 2 $ por placa), ESD con dos USBLC6-2SC6, *pull-ups* de 2,2 kΩ en el lado del conector. ALI-12 no cambia; GPIO10, 18, 37 y 39 quedan para EXP-03.
-- El módulo necesita su propia entrada de 24 V y su limitador: con la fuente de 5 A no cabe (4,77 A frente a 5,14 A). Requisito nuevo, a decidir con D9 (no cambia ALI-01, ALI-12 ni ALI-13).
+- El módulo necesita su propia entrada de 24 V y su limitador: con la fuente de 5 A no cabe (4,77 A frente a 5,14 A). Requisito nuevo (DEC-0012; no cambia ALI-01, ALI-12 ni ALI-13).
 - VAL-0006-02: APROBADO_CON_OBSERVACIONES; 1 M (F1 sin stock) y 2 B, en SPEC-0028.
 - Coste: 4 arranques y 638 068 tokens (registro de la spec).
 
 ## Pendiente del usuario
 
-- **D9, arquitectura de la expansión:** recomendada la 1, I²C con TCA9535 + ADS1115 (24,9 $ por módulo de 8 canales con 10 uds); alternativa, la 4, nodo ESP32-S3 propio (29,9 $), que no usa EXP-02.
 - **Válvulas instaladas (bloquea la etiqueta `v2.0-sch`):** la foto del usuario del 2026-11-13 es una Bermad S-390-3-D de 24 V AC, NC, 0,2 A y 3,5 W, con cables naranja y azul; la fila que coincide de la ficha S-390-T-3W da 42 Ω a 20 °C. No es la de 24 V DC y 156 Ω de DEC-0002 y `salidas.md`. Hoy funcionan las seis a la vez con la fuente de 24 V, sin problemas (DEC-0011). Falta medir la corriente de una válvula a 24 V DC, o la resistencia de la bobina en los dos sentidos; con el dato, `ing-diseno` revisa `salidas.md` (REL-03, REL-05, ALI-12) en SPEC-0032. También fija R_ILIM y la fuente del módulo de expansión (`viabilidad-expansion.md` §2.3).
 - Medir en el prototipo la resistencia de la bobina caliente y el margen del umbral de carga abierta de 18 mV (REL-10, `salidas.md` §13.7). No bloquea.
 

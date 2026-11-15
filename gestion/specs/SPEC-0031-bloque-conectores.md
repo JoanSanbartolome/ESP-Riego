@@ -26,7 +26,8 @@ El bloque de conectores de la v2 queda completo: conector de expansión, pulsado
 ## Alcance
 
 - Incluye:
-  - `docs/diseno/conectores.md`: conector de expansión según SPEC-0006 y D9 (pines, tensiones, ESD y *pull-ups* del I²C de expansión);
+  - `docs/diseno/conectores.md`: conector de expansión EXP-02 tal como lo define `docs/diseno/viabilidad-expansion.md` §10 para la arquitectura 1, I²C con TCA9535 + ADS1115 (D9, DEC-0012): pines, TPS2553 de 5 V y 3,3 V con sus EN y FAULT (§10.6), ESD, *pull-ups* en el lado del conector y restricciones de layout (§10.7);
+  - `docs/diseno/mcu.md` y hoja MCU, con la lista de §10.6: GPIO36 de EXP_IO2 a EXP_EN (salida con *pull-down* de 100 kΩ), EXP_EN en §10.1, §10.2 y Anexo B (REL-04 en el módulo), y §14.2 cerrada;
   - 6 pulsadores (EXP-03): comparación, con coste, de una escalera de resistencias en un canal de ADC1 frente a un expansor I²C en el bus de la placa; quedan libres GPIO10, 18, 37 y 39 (DEC-0011);
   - longitud de cada borde con los taladros M3 (FAB-07) y restricciones de layout, con la fila de pulsadores en el centro;
   - `docs/diseno/mcu.md` §9 y hoja MCU: `PULSE_IN` (GPIO37) libre y pines de los pulsadores;

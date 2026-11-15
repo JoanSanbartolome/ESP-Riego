@@ -86,6 +86,7 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 26 · descartada 4.
 | [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | aceptada | usuario | 2026-11-11 |
 | [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md) | Agentes en Opus o inferior, nunca en Fable 5.2 | aceptada | usuario | 2026-11-12 |
 | [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | aceptada | usuario | 2026-11-13 |
+| [DEC-0012](decisiones/DEC-0012-expansion-i2c.md) | D9, módulo de expansión por I²C con TCA9535 y ADS1115 | aceptada | usuario | 2026-11-15 |
 
 ## Informes de validación
 
