@@ -29,7 +29,7 @@ GND ─────────────── U13 VSS (4)           I2C_SDA 
 Resultados clave:
 
 - **Variante:** SHT40 (la del paso 1). La exactitud que pide §6 de `docs/02` (± 0,5 °C, ± 3 % HR tras calibrar) la decide la corrección del firmware, no la variante (§2).
-- **Dirección:** 0x44, sola en el bus de la placa (GPIO41/42); la expansión va en otro bus (GPIO47/48): sin choque (§3).
+- **Dirección:** 0x44, en el bus de la placa (GPIO41/42) junto con U18 TCA9554 en 0x20, el expansor de los pulsadores (DEC-0013; `conectores.md` §3.3); la expansión va en otro bus (GPIO47/48): sin choque (§3).
 - **Consumo:** 0,5 mA máx. midiendo y 2,2 µA de media a 1 medida/s; cuadra con los 0,5 mA de `mcu.md` §8.2. Calentador **sin usar** (§4).
 - **Autocalentamiento:** 2 mK a 1 medida/s; 0,49 K si se midiera sin parar: el firmware mide cada ≥ 10 s (§4.3).
 - **Aislamiento (AMB-02):** isla en el borde lateral, rodeada de ranuras con un solo puente y sin planos. Estimación: la isla sigue al **≈ 30 %** del calentamiento de la placa (frente al ≈ 100 % sin ranuras): **≈ 1,3 K en reposo y ≈ 3 K con las 6 salidas a 0,25 A**. La diferencia (≈ 1,7 K) supera ± 0,5 °C: lo previsible es que haga falta la corrección **según las salidas activas** de AMB-02/FW-03, y **hay que recalcular la HR** con la temperatura corregida (§5, §8).
@@ -52,7 +52,7 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 | Dato | Valor | Origen |
 |---|---|---|
 | Raíl +3V3 | 3,211–3,389 V (TLV1117LV ± 2,7 %) | `mcu.md` §1; `alimentacion.md` §3.9 |
-| Bus I²C de la placa | GPIO41 (SDA, pin 34 de U5) y GPIO42 (SCL, pin 35); R24/R25 = 4,7 kΩ a +3V3; 400 kHz | `mcu.md` §9.2, §11 |
+| Bus I²C de la placa | GPIO41 (SDA, pin 34 de U5) y GPIO42 (SCL, pin 35); R24/R25 = 4,7 kΩ a +3V3; **100 kHz**, con U18 TCA9554 (0x20) en el mismo bus (DEC-0013) | `mcu.md` §9.2, §11; `conectores.md` §3.3 |
 | Bus de expansión | GPIO47/48, otro bus (SPEC-0031) | `mcu.md` §9.2 |
 | Placa | 100 × 70 mm (preliminar), 2 capas, 1,6 mm, 1 oz; planos de GND en las dos caras (FAB-04) | FAB-01, FAB-04, FAB-08 |
 | Ambiente de diseño | +50 °C en la caseta + ≥ 10 °C dentro de la caja | `docs/02` §5; checklist de esquema |
@@ -74,7 +74,7 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 ## 3. Dirección I²C
 
 - La letra 7 del código fija la dirección: A = 0x44, B = 0x45, C = 0x46 (Tabla 11, p. 21). SHT40-**A**D1B → **0x44**.
-- En el bus de la placa solo está U13. Una sonda externa (AMB-03) va por el bus de expansión (GPIO47/48), así que puede ser otro SHT4x o un SHT3x en 0x44 sin choque.
+- En el bus de la placa están U13 (0x44) y U18 TCA9554 (0x20, pulsadores; DEC-0013, `conectores.md` §3.3): sin choque. Una sonda externa (AMB-03) va por el bus de expansión (GPIO47/48), así que puede ser otro SHT4x o un SHT3x en 0x44 sin choque.
 - El *general call reset* (0x00, comando 0x06, p. 13) solo reinicia el bus de la placa.
 
 ## 4. Eléctrico
@@ -182,7 +182,7 @@ FAB-07 deja los laterales para la antena (MCU-02), el USB-C y el sensor. La ante
 
 ## 8. Notas para el firmware (FW-03)
 
-- `i2c` `bus_placa` (SDA 41, SCL 42, 400 kHz; `mcu.md` Anexo B) y `sensor: sht4x` con `address: 0x44`, `precision: High`, `heater_max_duty: 0.0` y `update_interval` ≥ 10 s (60 s recomendado; §4.3).
+- `i2c` `bus_placa` (SDA 41, SCL 42, **100 kHz**, compartido con U18 TCA9554 en 0x20; DEC-0013, `mcu.md` Anexo B) y `sensor: sht4x` con `address: 0x44`, `precision: High`, `heater_max_duty: 0.0` y `update_interval` ≥ 10 s (60 s recomendado; §4.3).
 - **Corrección de AMB-02**, en este orden:
   1. T_aire = T_sensor − ΔT, con ΔT fijo o ΔT(n) según el número n de salidas activas (o según la temperatura interna del ESP32), calibrado contra la referencia en reposo y tras 1 h con las 6 salidas.
   2. HR_aire = HR_sensor · e_s(T_sensor) / e_s(T_aire), con e_s(T) = 6,112 · exp(17,62 · T / (243,12 + T)) hPa (Magnus, constantes de Sonntag 1990 sobre agua, −45…60 °C). Conserva la humedad absoluta.

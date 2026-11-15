@@ -24,7 +24,7 @@ verificado_por:
 | Bus | 100 kHz (estándar) y 400 kHz (rápido) | p. 1 |
 | Dirección | 0100 A2 A1 A0: 0x20 con A2-A0 a GND, hasta 0x27 | p. 19 (Tabla 2) |
 | Entradas P0-P7 | Tolerantes a 5 V; arrancan como entradas | pp. 1, 4 |
-| **Pull-up interno** | **Débil, de 100 kΩ típ. a VCC en cada E/S; «no hace falta pull-up externo»**; P6 y P7 sin usar llevan el interno | p. 16 (§8.3.1), p. 24 |
+| **Pull-up interno** | **Débil, de 100 kΩ típ. a VCC en cada E/S; «no hace falta pull-up externo»**; P6 y P7 sin usar llevan el interno | p. 16 (§8.3.1), p. 25 |
 | INT | Salida activa baja de drenador abierto; pull-up externo a VCC | pp. 1, 4 |
 | SDA y SCL | Pull-up externo a VCC (en la placa, R24 y R25) | p. 4 |
 

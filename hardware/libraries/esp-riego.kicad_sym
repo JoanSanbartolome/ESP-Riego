@@ -1553,7 +1553,7 @@
 				)
 			)
 		)
-		(property "Description" "Current-limited power distribution switch 2.5-6.5 V, adjustable limit 75-1300 mA (RILIM to GND), active-high EN, open-drain FAULT, auto-retry, SOT-23-6 (SLVS841G p. 4)"
+		(property "Description" "Current-limited power distribution switch 2.5-6.5 V, adjustable limit 75-1700 mA typ. (RILIM to GND), active-high EN, open-drain FAULT, auto-retry, SOT-23-6 (SLVS841G p. 4)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

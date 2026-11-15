@@ -462,7 +462,6 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | LIM_EN | Salida | Alimentación |
 | IN1…IN6, OUT_DEN | Salida | Salidas |
 | IS1…IS6 | Entrada | Salidas |
-| I2C_SDA, I2C_SCL | Bidireccional | Sensores |
 | I2C_SDA, I2C_SCL | Bidireccional | Sensores y Conectores (U18) |
 | I2C_EXP_SDA, I2C_EXP_SCL | Bidireccional | Conectores |
 | EXP_INT, BTN_INT | Entrada | Conectores |

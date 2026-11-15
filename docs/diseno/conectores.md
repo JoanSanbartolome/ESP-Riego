@@ -35,7 +35,7 @@ GPIO39 BTN_INT ─ R79 10 k a +3V3 ─ INT de U18 · C52 en VDD de U18
 Resultados clave:
 
 - **EXP-02** es el conector de `viabilidad-expansion.md` §10 sin cambios de diseño, con las referencias definitivas (§2). EXP_IO2 pasa a **EXP_EN** (salida, R78 de 100 kΩ, REL-04).
-- **U14:** límite de 343–440 mA (≥ 0,30 A); **U15:** 104–146 mA (≥ 50 mA), con R al 1 % (SLVS841G p. 16).
+- **U14:** límite de 343–440 mA (≥ 0,30 A); **U15:** 104–146 mA (≥ 50 mA), con R al 1 % (SLVS841G pp. 16–17, ec. (1)–(3)).
 - **Pulsadores (DEC-0013):** TCA9554 en el bus de la placa, 0x20, sin choque con el SHT40 (0x44). Las E/S llevan *pull-up* interno de 100 kΩ (SCPS233E pp. 16 y 25): **sin *pull-ups* externos**. INT en GPIO39. Bus de la placa a 100 kHz (§3).
 - **GPIO:** quedan libres GPIO10, 18 y 37 (`mcu.md` §9.2).
 - **Bordes (FAB-07, §4):** con 8 mm reservados en cada esquina para los taladros, el borde superior usa 34 de 84 mm y el inferior 71 de 84 mm.
@@ -61,7 +61,7 @@ Restricciones de layout (filas para `docs/diseno/restricciones.csv`; justificaci
 
 Fuentes:
 
-- **TPS:** TI TPS2552/53, SLVS841G (oct. 2026; `hardware/componentes/datasheets/TPS2553.pdf`): pinout p. 4; I_OS p. 16; *layout* p. 25.
+- **TPS:** TI TPS2552/53, SLVS841G (oct. 2026; `hardware/componentes/datasheets/TPS2553.pdf`): pinout p. 4; I_OS pp. 16–17, ec. (1)–(3) (la (1), máximo, en la p. 16; la (2), nominal, y la (3), mínimo, en la p. 17); *layout* p. 25.
 - **TCA:** TI TCA9554, SCPS233E (`datasheets/TCA9554PWR.pdf`): pinout p. 4; *pull-up* interno de 100 kΩ p. 16 («*weak pull-up (100 kΩ typical)*») y p. 25 («*no need for an external pull-up*»); dirección p. 19.
 - **BH:** XFCN BH254V, hoja única (`datasheets/BH254V-10P.pdf`). **USBLC6:** USBLC6-2SC6 (`datasheets/USBLC6-2SC6.pdf`), tabla 2, p. 2.
 - **S:** ESP32-S3 Series Datasheet v2.2. Tabla 5-6 (p. 66): error total del ADC calibrado de ± 10 mV con ATTEN2 (6 dB), en 0–1600 mV; ± 50 mV con ATTEN3 (12 dB), en 0–2900 mV.
@@ -260,7 +260,7 @@ Es la definición de `viabilidad-expansion.md` §10 (arquitectura 1, D9, DEC-001
 
 ### 2.3 Interruptores de alimentación (U14, U15)
 
-Ecuaciones de la p. 16 (SLVS841G; la revisión anterior las tenía en la p. 17), R en kΩ, I en mA; los extremos incluyen R al ± 1 %:
+Ecuaciones (1)–(3) de SLVS841G, pp. 16–17 (la (1), I_OS máx., en la p. 16; la (2) y la (3), nominal y mínimo, en la p. 17), R en kΩ, I en mA; los extremos incluyen R al ± 1 %:
 
 | | R_ILIM | I_OS mín. = 25 230 / (1,01·R)^1,016 | I_OS nom. = 23 950 / R^0,977 | I_OS máx. = 22 980 / (0,99·R)^0,94 | Carga | Margen |
 |---|---|---|---|---|---|---|

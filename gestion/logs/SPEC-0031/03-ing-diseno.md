@@ -39,7 +39,16 @@ estado: completado
 - Herramientas: `hoja.py` (extraer ×3, pines ×7, generar ×5), `huella.py` ×6, `vista.py` ×7, `sincronizar.py` ×1, `campos.py` ×4, `verificar.py` ×3 y `comprobar.py` ×1.
 - Scripts de la carpeta temporal: `s31_simbolo.py` (símbolo), `s31_con_json.py` (descripción de la hoja), `s31_cables.py` (cables) y `s31_raiz.py` (raíz). Además, cuatro trozos de Python en línea (JSON de MCU, netlist y páginas de datasheets).
 
+## Correcciones de VAL-0031-01
+
+- -01: `sensores.md`, las cuatro líneas (Dirección, Bus I²C de la placa, §3, §8) pasan a 100 kHz, con U18 TCA9554 (0x20) en el mismo bus.
+- -02: `TPS2553.md`, cabecera: `simbolo: esp-riego:TPS2553DBVR (creación propia…)` y `origen_assets: … símbolo propio`.
+- -03: `Description` del símbolo, «75-1700 mA typ.», en la librería y en la copia de `lib_symbols` de `conectores.kicad_sch`, que se cambia también para no dar `lib_symbol_mismatch`. `verificar.py`: ERC 0, DRC 0 con 448 sin conectar, paridad 0.
+- -04: `mcu.md`, Anexo C: borrada la fila antigua de I2C_SDA/SCL.
+- -05: `conectores.md` (§0, Fuentes y §2.3) y `TPS2553.md` citan las pp. 16–17, ec. (1)–(3); `TCA9554PWR.md`, la p. 25. La nota de la hoja Conectores sigue con «SLVS841G p. 16», porque no se tocan las hojas.
+- -06: no se corrige; queda para SPEC-0028. Retiro la petición de ampliar `hoja.py`: basta con `P:<red>` en cada pin.
+
 ## Pendiente
 
-1. Coordinador: añadir a `hoja.py` cables en la descripción JSON (`"cables": [[x1, y1, x2, y2]]`), con su prueba en `test_kicad.py`, que está fuera de mi zona. Así `s31_cables.py` dejaría de hacer falta y la hoja se podría regenerar sin `--forzar`.
-2. Coordinador: la fila `H1-H4` añadida a `campos-conectores.csv` (archivo del paso 3).
+1. Coordinador: la fila `H1-H4` añadida a `campos-conectores.csv` (archivo del paso 3).
+2. SPEC-0028: quitar los 7 cables de `conectores.kicad_sch` (VAL-0031-01-06) y cambiar la cita de la nota a «pp. 16–17».
