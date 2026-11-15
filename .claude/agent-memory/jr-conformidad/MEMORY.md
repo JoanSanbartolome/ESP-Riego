@@ -5,3 +5,4 @@
 - [Piezas del bloque MCU](piezas-mcu-trucos.md) — Basic/Extended confirmados, TS-1187A, 3D con SolidCraft, trampas API
 - [Piezas de salidas](piezas-salidas-trucos.md) — códigos LCSC, vías térmicas del EP, banco de render con huellas en línea, --exclude-dnp
 - [Derating y 3D](derating-y-3d-trucos.md) — curvas Samsung SimSurfing, búsqueda libre en JLCPCB, 3D del fusible, banco de render
+- [Piezas de conectores](piezas-conectores-trucos.md) — fichas de bloque, símbolos ausentes, TCA9554 con pull-up interno, descargas TI
