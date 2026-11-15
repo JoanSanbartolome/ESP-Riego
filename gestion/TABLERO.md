@@ -56,7 +56,7 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 26 · descartada 4.
 
 | Spec | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | 4 | 638 068 | 308 | 106 |
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | 4 | 638 068 | 167 | 48 |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | 4 | 489 349 | 126 | 30 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | 5 | 337 886 | 92 | 19 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | 4 | 960 427 | 252 | 118 |
@@ -67,8 +67,8 @@ Specs por estado: propuesta 3 · abierta 0 · cerrada 26 · descartada 4.
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 7 | 1 537 301 | 536 | 192 |
-| ing-validacion | 11 | 1 323 122 | 368 | 106 |
+| ing-diseno | 7 | 1 537 301 | 437 | 150 |
+| ing-validacion | 11 | 1 323 122 | 326 | 90 |
 | jr-conformidad | 4 | 162 613 | 34 | 4 |
 
 ## Decisiones
