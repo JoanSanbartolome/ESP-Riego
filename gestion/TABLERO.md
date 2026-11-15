@@ -2,15 +2,20 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 0 · cerrada 26 · descartada 4.
+Specs por estado: propuesta 2 · abierta 1 · cerrada 26 · descartada 4.
 
-## Propuestas (3)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | Mantenimiento de las fases 2 y 3 | 3 | ing-diseno | `spec/SPEC-0028-mantenimiento-fases-2-3` | — | 2026-11-11 | — |
-| [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | — | 2026-11-13 | — |
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | — | 2026-11-13 | — |
 
 ## Cerradas (26)
 
