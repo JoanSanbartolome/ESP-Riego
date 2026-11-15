@@ -91,3 +91,4 @@ Nivel **completo**: el conector y su ESD van al esquema y al cobre (DEC-0005).
 | 2026-11-13 | coordinador | Añade la definición del conector EXP-02 y el plan de validación | SPEC-0030 · DEC-0011 |  |  |  |
 | 2026-11-15 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-15 | ing-diseno | informe de viabilidad de la expansión y conector EXP-02 | 01-ing-diseno | 354959 | 99 | 30 |
+| 2026-11-15 | ing-validacion | VAL-0006-01 del informe de expansión | VAL-0006-01 | 211242 | 42 | 11 |
