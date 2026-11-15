@@ -26,7 +26,7 @@ Coste por placa con 5 / 10 uds, sin los 0,17 $ de los 6 pulsadores TS-1187A, com
 
 ## Decisión
 
-Decidida por el usuario el 2026-11-15: **B'', TCA9554PWR (C477924) en el bus I²C de la placa (GPIO41/42), dirección 0x20, con un *pull-up* de 10 kΩ (C25804) por pulsador, INT en GPIO39 con 10 kΩ a +3V3 y 100 nF (C14663) en VCC**. Las dos pulsaciones simultáneas se detectan por separado, sin tocar GPIO10 (reserva de ADC1) ni GPIO37.
+Decidida por el usuario el 2026-11-15: **B'', TCA9554PWR (C477924) en el bus I²C de la placa (GPIO41/42), dirección 0x20, con los pulsadores de cada E/S a GND (*pull-ups* internos de 100 kΩ; ver la corrección en «Consecuencias»), INT en GPIO39 con 10 kΩ a +3V3 y 100 nF (C14663) en VCC**. Las dos pulsaciones simultáneas se detectan por separado, sin tocar GPIO10 (reserva de ADC1) ni GPIO37.
 
 ## Consecuencias
 
@@ -34,4 +34,5 @@ Decidida por el usuario el 2026-11-15: **B'', TCA9554PWR (C477924) en el bus I²
 - **Pines:** GPIO39 pasa a `BTN_INT` (entrada, drenador abierto con *pull-up*); quedan libres GPIO10, 18 y 37. SPEC-0031 lo lleva a `mcu.md` §9.2 y a la hoja MCU.
 - **Bus de la placa:** un segundo dispositivo junto al SHT40 (0x44, sin choque); R24 y R25 siguen siendo los *pull-ups* del bus, que se configura a **100 kHz** (`conectores.md` §1.3: t_r ≈ 0,28 µs con ≈ 70 pF). Un TCA9554 averiado que retenga SDA bloquearía también el SHT40 (AMB-01): riesgo aceptado.
 - **Firmware (fase 6):** componente `pca9554` con `address: 0x20` e `interrupt_pin: GPIO39`, un `binary_sensor` por pulsador con antirrebote; el prototipo comprueba que el TCA9554 funciona con él. Si falla, el PCA9554PWR (C2873588) va en la misma huella TSSOP-16 sin los *pull-ups* externos.
+- **Corrección del 2026-11-15 (paso 3 de SPEC-0031):** el TCA9554 sí lleva *pull-ups* internos de 100 kΩ en cada E/S (SCPS233E pp. 16 y 24); la comparación lo confundió con el TCA9534. Se quitan los 6 *pull-ups* externos, cambio de pieza que abarata la fabricación: el pulsador va de la E/S a GND y queda solo el de 10 kΩ de INT. El coste baja en unas 6 uniones (≈ 0,01 $ por placa).
 - **Layout (fase 4):** el TCA9554 junto a la fila de pulsadores, en el centro de la placa (FAB-07).
