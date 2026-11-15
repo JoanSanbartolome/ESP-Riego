@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
+Specs por estado: propuesta 3 · abierta 0 · cerrada 26 · descartada 4.
 
 ## Propuestas (3)
 
@@ -12,13 +12,7 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | — | 2026-11-13 | — |
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | — | 2026-11-04 | — |
-
-## Cerradas (25)
+## Cerradas (26)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -26,6 +20,7 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
 | [SPEC-0001](specs/SPEC-0001-orquestacion.md) | Sistema de orquestación de agentes | 0 | coordinador | `spec/SPEC-0001-orquestacion` | VAL-0001-03 (APROBADO_CON_OBSERVACIONES) | 2026-11-03 | 2026-11-04 |
 | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | Requisitos v0.2: nuevo objetivo, 6 salidas, 24 V DC y T/HR en placa | 0 | coordinador | `spec/SPEC-0004-requisitos-v02` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
 | [SPEC-0005](specs/SPEC-0005-estudio-salidas.md) | Estudio de la tecnología de las salidas | 2 | ing-esquematicos | `spec/SPEC-0005-estudio-salidas` | VAL-0005-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | Viabilidad del módulo de expansión de canales | 2 | ing-diseno | `spec/SPEC-0006-viabilidad-expansion` | VAL-0006-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-15 |
 | [SPEC-0007](specs/SPEC-0007-requisitos-v03.md) | Requisitos v0.3: D8 y observaciones de VAL-0004-02 y VAL-0005-01 | 0 | coordinador | `spec/SPEC-0007-requisitos-v03` | VAL-0007-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-05 |
 | [SPEC-0009](specs/SPEC-0009-importar-v1.md) | Importar la v1 del TFG a KiCad 10 | 1 | jr-conformidad | `spec/SPEC-0009-importar-v1` | VAL-0009-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-04 |
 | [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md) | Correcciones de la importación de la v1 | 1 | jr-conformidad | `spec/SPEC-0010-correcciones-importacion-v1` | VAL-0010-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-04 | 2026-11-05 |
@@ -61,6 +56,7 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
 
 | Spec | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
+| [SPEC-0006](specs/SPEC-0006-viabilidad-expansion.md) | 4 | 638 068 | 308 | 106 |
 | [SPEC-0025](specs/SPEC-0025-hoja-salidas.md) | 4 | 489 349 | 126 | 30 |
 | [SPEC-0026](specs/SPEC-0026-orquestacion-v2.md) | 5 | 337 886 | 92 | 19 |
 | [SPEC-0027](specs/SPEC-0027-herramientas-kicad.md) | 4 | 960 427 | 252 | 118 |
@@ -71,8 +67,8 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 5 | 1 144 642 | 321 | 115 |
-| ing-validacion | 9 | 1 077 713 | 275 | 77 |
+| ing-diseno | 7 | 1 537 301 | 536 | 192 |
+| ing-validacion | 11 | 1 323 122 | 368 | 106 |
 | jr-conformidad | 4 | 162 613 | 34 | 4 |
 
 ## Decisiones
@@ -101,6 +97,8 @@ Specs por estado: propuesta 3 · abierta 1 · cerrada 25 · descartada 4.
 | [VAL-0004-01](informes/VAL-0004-01.md) | SPEC-0004 | RECHAZADO | `29ba41e` | 2026-11-04 |
 | [VAL-0004-02](informes/VAL-0004-02.md) | SPEC-0004 | APROBADO_CON_OBSERVACIONES | `924371f` | 2026-11-04 |
 | [VAL-0005-01](informes/VAL-0005-01.md) | SPEC-0005 | APROBADO_CON_OBSERVACIONES | `49bea58` | 2026-11-04 |
+| [VAL-0006-01](informes/VAL-0006-01.md) | SPEC-0006 | APROBADO_CON_OBSERVACIONES | `7db6ae4` | 2026-11-15 |
+| [VAL-0006-02](informes/VAL-0006-02.md) | SPEC-0006 | APROBADO_CON_OBSERVACIONES | `362e9ce` | 2026-11-15 |
 | [VAL-0007-01](informes/VAL-0007-01.md) | SPEC-0007 | APROBADO_CON_OBSERVACIONES | `95f0b40` | 2026-11-05 |
 | [VAL-0009-01](informes/VAL-0009-01.md) | SPEC-0009 | APROBADO_CON_OBSERVACIONES | `265b5ae` | 2026-11-04 |
 | [VAL-0010-01](informes/VAL-0010-01.md) | SPEC-0010 | APROBADO_CON_OBSERVACIONES | `76f02f8` | 2026-11-05 |

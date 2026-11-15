@@ -2,15 +2,15 @@
 id: SPEC-0006
 titulo: Viabilidad del módulo de expansión de canales
 fase: 2
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0006-viabilidad-expansion
 requisitos: [EXP-02, EXP-04]
 depende_de: [SPEC-0004, SPEC-0005, SPEC-0030]
 creada: 2026-11-04
-cerrada:
-validacion:
+cerrada: 2026-11-15
+validacion: VAL-0006-02
 ---
 
 # SPEC-0006 · Viabilidad del módulo de expansión de canales
@@ -90,3 +90,8 @@ Nivel **completo**: el conector y su ESD van al esquema y al cobre (DEC-0005).
 | 2026-11-11 | coordinador | Responsable: ing-diseno; se completa con el ciclo nuevo al abrirla | DEC-0009 |  |  |  |
 | 2026-11-13 | coordinador | Añade la definición del conector EXP-02 y el plan de validación | SPEC-0030 · DEC-0011 |  |  |  |
 | 2026-11-15 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-15 | ing-diseno | informe de viabilidad de la expansión y conector EXP-02 | 01-ing-diseno | 354959 | 99 | 30 |
+| 2026-11-15 | ing-validacion | VAL-0006-01 del informe de expansión | VAL-0006-01 | 211242 | 42 | 11 |
+| 2026-11-15 | ing-diseno | correcciones de VAL-0006-01 | 03-ing-diseno | 37700 | 116 | 47 |
+| 2026-11-15 | ing-validacion | VAL-0006-02 de las correcciones | VAL-0006-02 | 34167 | 51 | 18 |
+| 2026-11-15 | coordinador | Cierra la spec | VAL-0006-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |
