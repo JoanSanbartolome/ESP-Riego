@@ -29,5 +29,7 @@ Un estudio comparativo se valida recalculando sus cifras y releyendo cada dato c
 - TPS2553 (SLVS841G): ecuaciones en las pp. 17 y 20; R_ILIM 15–232 kΩ; EN activo alto (p. 4); TSD en límite 135 °C. TI da los PDF en `ti.com/lit/ds/symlink/<pieza>.pdf`.
 - Fallos típicos: la térmica en fallo calculada solo con el buck (falta el USB a 5,25 V); el margen de I²C en un solo sentido; señales activas a nivel bajo (OE del 74HC595) colgadas de una línea con *pull-down*; la lista para la spec siguiente sin las barreras de firmware de REL-04 (OTA, `esp_restart`).
 - OpenSprinkler da 403 y KinCony 429 a WebFetch; Robotshop sí responde.
+- Antes de dar una caída en una resistencia en serie de I²C, mirar a qué lado está el *pull-up*: si está en el lado del conector, el receptor no ve caída (VAL-0006-02, mi 0,25 V era 0,40 V).
+- Inversores de ejemplo con 2N7002 a ≈ 2,4 V de puerta: V_GS(th) máx. 2,1–2,5 V, la conmutación no está garantizada.
 
 Relacionado: [[revision-requisitos]], [[comprobaciones-utiles]].
