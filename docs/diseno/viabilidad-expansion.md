@@ -1,8 +1,8 @@
 # Viabilidad del módulo de expansión de canales y conector EXP-02 (SPEC-0006)
 
-**Estado:** propuesta para validación y para la decisión D9 del usuario. **Autor:** ing-diseno · **Fecha:** 2026-11-15.
+**Estado:** propuesta para la decisión D9 del usuario. **Autor:** ing-diseno · **Fecha:** 2026-11-15. **Rev. VAL-0006-01** (2026-11-15): barreras de REL-04 y conexiones de los TPS2553 para SPEC-0031 (§10.6), lista de piezas por variante, R_ILIM_B = 220 kΩ por el caso del USB (§10.3), OE de la arquitectura 3, márgenes de I²C en los dos sentidos y 4.º módulo (§10.4), precio del Waveshare.
 **Requisitos:** EXP-02, EXP-04; además ALI-12, ALI-13, REL-03…REL-05, REL-10, FAB-07 de `docs/02` v0.6; DEC-0003, DEC-0004, DEC-0011.
-**Precios y stock:** API de JLCPCB (`herramientas/kicad/jlc.py`, también `--buscar`), consulta del **2026-11-15**, en el tramo de la cantidad real del pedido. Todos los precios usados, con código, cantidad y tramo: `hardware/componentes/stock-expansion.csv`. Tarifas de montaje: JLCPCB *Economic PCBA*, artículo actualizado el 2026-10-22 (fuentes, §10).
+**Precios y stock:** API de JLCPCB (`herramientas/kicad/jlc.py`, también `--buscar`), consulta del **2026-11-15**, en el tramo de la cantidad real del pedido. Todos los precios usados y todos los códigos citados, con cantidad y tramo: `hardware/componentes/stock-expansion.csv`. Lista de piezas de cada arquitectura y variante (código × cantidad por módulo, tipo, uniones y precio de los dos tramos), de la que salen los totales de §8: `hardware/componentes/bom-expansion.csv`. Tarifas de montaje: JLCPCB *Economic PCBA*, artículo actualizado el 2026-10-22 (fuentes, §10).
 
 > Datasheets (páginas del PDF, descargados el 2026-11-15 de ti.com o de la copia de LCSC):
 > - **TCA9535:** SCPS201F (sep. 2026). **TCA9555:** SCPS200E (abr. 2019). **ADS1115:** SBAS444E (dic. 2024). **TPS2553:** SLVS841G (oct. 2026). **P82B715:** SCPS145B (feb. 2016). **PCF8574:** SCPS068K (sep. 2024). **TPIC6B595:** SLIS032D (abr. 2025). **MCP23017:** DS20001952D (LCSC C47023).
@@ -20,12 +20,12 @@
 | | 1 · I²C (expansor) | 2 · RS-485 / Modbus | 3 · Registros 74HC595 | 4 · Nodo ESP32 propio | 5 · CAN |
 |---|---|---|---|---|---|
 | Distancia | ≤ 3 m (≤ 50 m con P82B715) | ≤ 1200 m | ≤ 1 m | Cobertura Wi-Fi | ≤ 500 m a 125 kb/s |
-| Módulos × canales | 4 × 8 (direcciones del ADS1115) | 247 × 8 | sin límite lógico | sin límite (HA) | > 100 × 8 |
+| Módulos × canales | 3 × 8 seguros; 4 × 8 con ADDR = SDA, a comprobar (§10.4) | 247 × 8 | sin límite lógico | sin límite (HA) | > 100 × 8 |
 | Diagnóstico REL-10 | Sí (ADS1115) | Sí (ADC del MCU) | **No** | Sí | Sí |
-| Estado seguro si se corta | Hardware: EXP_EN + *pull-downs* | Firmware del esclavo (tiempo sin Modbus) | Hardware: EXP_EN + OE | Firmware del nodo | Firmware del esclavo |
+| Estado seguro si se corta | Hardware: EXP_EN + *pull-downs* | Firmware del esclavo (tiempo sin Modbus) | Hardware: EXP_EN + OE (con inversor) | Firmware del nodo | Firmware del esclavo |
 | ESPHome | `pca9554` (16 pines) + `ads1115` | `modbus_controller`; esclavo **sin ESPHome** | `sn74hc595` | YAML propio (otro nodo) | `canbus` + *lambdas*; esclavo sin ESPHome |
 | Firmware y puesta en marcha | Baja | Alta | Baja | Baja (dos nodos) | Alta |
-| **8 canales, por módulo: 5 / 10 uds** | **30,9 / 24,9 $** | 31,3 / 25,4 $ + adaptador | 27,2 / 22,1 $ | 37,5 / 29,9 $ | 32,5 / 26,0 $ + adaptador |
+| **8 canales, por módulo: 5 / 10 uds** | **30,9 / 24,9 $** | 31,3 / 25,4 $ + adaptador | 27,2 / 22,1 $ | 37,5 / 29,9 $ | 32,6 / 26,0 $ + adaptador |
 | 6 canales: 5 / 10 uds | 28,2 / 22,2 $ | 28,8 / 22,7 $ | 24,5 / 19,4 $ | 34,8 / 27,2 $ | 30,1 / 23,2 $ |
 
 **Recomendación (§9):** arquitectura **1, I²C con TCA9535 + ADS1115**, en la misma caja o en una contigua (≤ 3 m de cable plano), con entrada de 24 V y limitador propios. Es la más barata de las que mantienen el diagnóstico, va entera en el YAML de la placa principal y su estado seguro no depende del firmware. **Alternativa:** arquitectura **4, un nodo ESP32-S3 independiente** (en la práctica, otra placa ESP-Riego con 6 u 8 canales), cuando el módulo esté lejos o no se quiera tender cable. La alternativa no usa EXP-02.
@@ -103,7 +103,7 @@ Con IS compartido, cada canal necesita IN y DEN: 16 líneas para 8 canales, just
 
 - **ADC:** TI ADS1115IDGSR (C37593, 12 662, 1,13 $): 16 bits, 4 direcciones (pin ADDR, p. 20), FSR ± 4,096 V con entradas hasta V_DD + 0,3 V (p. 4), 150–300 µA (p. 6). IS máximo en fallo: 2,32 V (`salidas.md` §0), dentro del rango. ESPHome `ads1115`. Alternativa: ADS1015 (C193969, 12 bits, 1,39 $).
 - **Distancia y cableado:** cable plano de 10 hilos (28 AWG, 3M 3365 o equivalente) con GND entre señales, ≤ 3 m en total a 100 kHz (§10.4). Para 3–50 m, un par de P82B715 (C2649394, 6 726, 0,89 $; 400 pF en el lado del bus y 3000 pF en la línea, > 50 m con par trenzado, p. 1): uno en un adaptador enchufado en EXP-02 y otro en el módulo. El PCA9615 (diferencial) no tiene stock en JLCPCB el 2026-11-15.
-- **Módulos y canales:** 4 módulos × 8 canales = 32 canales más (las 4 direcciones del ADS1115 limitan; el TCA9535 admite 8). Cada módulo, su dirección con puentes.
+- **Módulos y canales:** 3 módulos × 8 canales = 24 canales más con las direcciones del ADS1115 a GND, VDD y SCL; el 4.º (ADDR = SDA) pide una condición de tiempo que se comprueba en el prototipo (§10.4). El TCA9535 admite 8. Cada módulo, su dirección con puentes.
 - **Estado seguro:** corte del cable → sin 3,3 V el TCA9535 no alimenta IN y los R_PD apagan los BTT; EXP_EN a nivel bajo apaga el limitador. Corte solo de SDA o SCL → el TCA9535 conserva sus salidas, pero el firmware ve el NACK y baja EXP_EN. Reset del TCA9535 por un bajón de 3,3 V → vuelve a entradas (POR, p. 18) → apagado. Bloqueo del firmware de la placa → los *watchdogs* del ESP32-S3 la reinician y GPIO36 vuelve a alta impedancia.
 - **ESPHome:** `i2c` (`bus_exp`, 47/48, 100 kHz), `pca9554` con `pin_count: 16` y `interrupt_pin` en GPIO35, `ads1115`, `switch` de GPIO36 para EXP_EN con `restore_mode: ALWAYS_OFF`. Secuencia: escribir las salidas a 0 → subir EXP_EN → esperar ≥ 20 ms (como LIM_EN, `alimentacion.md` §3.13.5) → canal. Lectura de IS: un DEN alto cada vez, ≥ 1 ms y lectura del ADS1115.
 - **Complejidad:** baja. Un solo firmware (el YAML de la placa); puesta en marcha: dirección por puentes y cable.
@@ -117,19 +117,19 @@ Con IS compartido, cada canal necesita IN y DEN: 16 líneas para 8 canales, just
 - **Alimentación:** local (buck), nada por el conector salvo el adaptador.
 - **Estado seguro:** lo pone el firmware del esclavo: si no recibe una trama válida en un tiempo, apaga salidas y limitador. Sin firmware que lo haga, el hardware no lo garantiza.
 - **ESPHome:** en la placa, `uart` + `modbus` + `modbus_controller` (bobinas para IN, registros de entrada para IS). El esclavo no ejecuta ESPHome: firmware propio en C (Modbus RTU, mapa de registros, *watchdog*), con otra cadena de herramientas y programador (WCH-LinkE). ESPHome tiene `modbus_server`, pero solo en un ESP32, y entonces el módulo sería la arquitectura 4 con cable.
-- **Comercial:** Waveshare Modbus RTU Relay 8CH (B), 7–36 V, 37,95 $ (Robotshop, 2026-11-15): relés de contacto seco, sin diagnóstico ni *high-side*.
+- **Comercial:** Waveshare Modbus RTU Relay 8CH (B), 7–36 V, 31,49 $ (Robotshop, 2026-11-15, según VAL-0006-01; la búsqueda del autor daba 37,95 $): relés de contacto seco, sin diagnóstico ni *high-side*.
 - **Complejidad:** alta (segundo firmware, terminación, polarización del bus).
 
 ## 5. Arquitectura 3 · Registros de desplazamiento encadenados
 
-**Esquema:** 2 × 74HC595D (C5947, Basic, 0,10 $) para IN1–8 y DEN1–8; SER, SRCLK y RCLK por GPIO47, 48 y 35 (matriz de GPIO) y OE desde EXP_EN (GPIO36). Mismo conector EXP-02.
+**Esquema:** 2 × 74HC595D (C5947, Basic, 0,10 $) para IN1–8 y DEN1–8; SER, SRCLK y RCLK por GPIO47, 48 y 35 (matriz de GPIO). OE (activa a nivel bajo) con *pull-up* a 3,3 V y gobernada desde EXP_EN (GPIO36) **a través de un inversor**: un N-MOS de señal (p. ej. 2N7002) con la puerta en EXP_EN (que conserva su carga de ≥ 22 kΩ a GND) y el drenador en OE. EXP_EN bajo → N-MOS abierto → OE alto → salidas en alta impedancia. Mismo conector EXP-02; ≈ 0,02 $ más (no incluidos en §8 ni en `bom-expansion.csv`), que no cambian la comparación.
 
 - **TPIC6B595 descartado:** salidas *low-side* de drenador abierto y 150 mA continuos (p. 1); no hace de *high-side* ni aguanta 0,66 A. Obligaría a otra topología de salida que la de DEC-0003.
 - **Sin diagnóstico:** el 74HC595 solo escribe. No hay IS (REL-10) ni lectura de fallo, salvo añadir un 74HC165 y un comparador por canal, que lo acercan al coste de la arquitectura 1.
 - **Distancia:** líneas CMOS sin protocolo ni comprobación: ≤ 1 m dentro de la caja. Un pulso de ruido en SRCLK desplaza todos los bits y puede encender otro canal hasta el siguiente refresco.
 - **Módulos:** ESPHome admite `sr_count` hasta 256, sin direcciones.
-- **Estado seguro:** OE con *pull-up* (lo pide la documentación de ESPHome) y EXP_EN con *pull-down*: al encender, salidas en alta impedancia → R_PD → BTT apagados; con el cable cortado, igual.
-- **ESPHome:** `sn74hc595` (modo GPIO, `oe_pin`).
+- **Estado seguro:** en el reset de la placa, en el arranque o con el cable cortado, EXP_EN queda bajo (*pull-downs*), el inversor deja OE alto por su *pull-up* (lo pide la documentación de ESPHome) y las salidas del 74HC595 quedan en alta impedancia → R_PD → BTT apagados, sea cual sea el contenido aleatorio del registro. Además, EXP_EN bajo apaga el limitador del módulo. El firmware carga ceros en el registro antes de subir EXP_EN.
+- **ESPHome:** `sn74hc595` (modo GPIO) sin `oe_pin`: OE se gobierna con el `switch` de EXP_EN (GPIO36) a través del inversor (EXP_EN alto = salidas habilitadas).
 - **Comercial:** OpenSprinkler Zone Expander, 16 zonas a 24 V AC, 49–50 $ (opensprinkler.com, 2026-11-15).
 - **Complejidad:** baja en firmware, pero sin diagnóstico ni detección de errores en el bus.
 
@@ -162,21 +162,21 @@ Con IS compartido, cada canal necesita IN y DEN: 16 líneas para 8 canales, just
 - JLCPCB *Economic PCBA*: 8,18 $ de preparación + 1,53 $ de plantilla por pedido, 3,07 $ por pieza Extended distinta (las «Extended preferidas» no pagan), 0,0016 $ por unión SMT. THT (bornes y cabeceras) soldado por el usuario (FAB-06); columna aparte con el THT de JLCPCB (3,58 $ por pedido + 0,0164 $ por unión).
 - PCB de 2 capas ≤ 100 × 100 mm: 2 $ las 5 (oferta de JLCPCB) y 5 $ las 10 (**supuesto**, sin presupuesto). Sin envío, aranceles ni cupones (JLCPCB da cupones de montaje mensuales que pueden quitar los 8 $ de preparación).
 - Todas llevan la misma entrada de 24 V (sin buck) y la misma etapa de salida (§2.1). Las 2, 4 y 5 llevan además el buck de 65 V; las 2 y 5 necesitan un adaptador en la placa (≈ 1–3 $ en piezas, no incluido).
+- Lista de piezas de cada variante: `hardware/componentes/bom-expansion.csv` (con ella, Σ cantidad × módulos × precio del tramo da la columna «Piezas»). En el módulo, R_LED = 1,5 kΩ (C22843), por el presupuesto de §10.3.
 - Sin merma de piezas. El fusible 0451010.MRL (C44479) tiene **stock 0 en JLCPCB** el 2026-11-15; su precio se usa igual (alternativa TA10, C2998199, 1 307).
 
 | Arquitectura | Canales | Módulos | Piezas (pedido) | Extended distintas | Montaje | PCB | Total pedido | **Por módulo** | Por módulo con THT de JLCPCB |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 · I²C | 8 | 5 | 99,75 | 13 | 52,80 | 2,00 | 154,55 | **30,91** | 32,25 |
-| 1 · I²C | 8 | 10 | 187,58 | 13 | 55,99 | 5,00 | 248,57 | **24,86** | 25,84 |
-| 1 · I²C | 6 | 5 / 10 | 86,61 / 161,82 | 13 | 52,28 / 54,93 | 2 / 5 | 140,88 / 221,75 | **28,18 / 22,17** | 29,45 / 23,09 |
-| 2 · RS-485 | 8 | 5 / 10 | 100,94 / 191,84 | 13 | 53,40 / 57,17 | 2 / 5 | 156,34 / 254,01 | **31,27 / 25,40** | 32,34 / 26,12 |
-| 2 · RS-485 | 6 | 5 / 10 | 89,07 / 165,74 | 13 | 52,80 / 55,99 | 2 / 5 | 143,87 / 226,73 | **28,77 / 22,67** | 29,79 / 23,33 |
-| 3 · 74HC595 | 8 | 5 / 10 | 87,41 / 166,07 | 11 | 46,62 / 49,75 | 2 / 5 | 136,02 / 220,82 | **27,20 / 22,08** | 28,54 / 23,06 |
-| 3 · 74HC595 | 6 | 5 / 10 | 74,27 / 140,31 | 11 | 46,09 / 48,70 | 2 / 5 | 122,36 / 194,01 | **24,47 / 19,40** | 25,74 / 20,32 |
-| 4 · Nodo ESP32-S3 | 8 | 5 / 10 | 122,77 / 227,02 | 16 | 62,86 / 66,89 | 2 / 5 | 187,64 / 298,91 | **37,53 / 29,89** | 38,54 / 30,54 |
-| 4 · Nodo ESP32-S3 | 6 | 5 / 10 | 109,46 / 200,92 | 16 | 62,27 / 65,71 | 2 / 5 | 173,73 / 271,63 | **34,75 / 27,16** | 35,69 / 27,75 |
-| 5 · CAN | 8 | 5 / 10 | 101,20 / 191,40 | 15 | 59,52 / 63,28 | 2 / 5 | 162,72 / 259,68 | **32,54 / 25,97** | 33,62 / 26,69 |
-| 5 · CAN | 6 | 5 / 10 | 89,33 / 165,31 | 15 | 58,93 / 62,10 | 2 / 5 | 150,25 / 232,40 | **30,05 / 23,24** | 31,06 / 23,89 |
+| 1 · I²C | 8 | 5 / 10 | 99,76 / 187,60 | 13 | 52,80 / 55,99 | 2 / 5 | 154,56 / 248,59 | **30,91 / 24,86** | 32,25 / 25,84 |
+| 1 · I²C | 6 | 5 / 10 | 86,62 / 161,84 | 13 | 52,28 / 54,93 | 2 / 5 | 140,89 / 221,77 | **28,18 / 22,18** | 29,45 / 23,09 |
+| 2 · RS-485 | 8 | 5 / 10 | 100,95 / 191,86 | 13 | 53,40 / 57,17 | 2 / 5 | 156,35 / 254,03 | **31,27 / 25,40** | 32,35 / 26,12 |
+| 2 · RS-485 | 6 | 5 / 10 | 89,08 / 165,76 | 13 | 52,80 / 55,99 | 2 / 5 | 143,88 / 226,75 | **28,78 / 22,67** | 29,79 / 23,33 |
+| 3 · 74HC595 | 8 | 5 / 10 | 87,42 / 166,09 | 11 | 46,62 / 49,75 | 2 / 5 | 136,04 / 220,85 | **27,21 / 22,08** | 28,55 / 23,07 |
+| 3 · 74HC595 | 6 | 5 / 10 | 74,28 / 140,33 | 11 | 46,09 / 48,70 | 2 / 5 | 122,36 / 194,03 | **24,47 / 19,40** | 25,75 / 20,32 |
+| 4 · Nodo ESP32-S3 | 8 | 5 / 10 | 122,79 / 227,04 | 16 | 62,86 / 66,89 | 2 / 5 | 187,65 / 298,94 | **37,53 / 29,89** | 38,54 / 30,55 |
+| 4 · Nodo ESP32-S3 | 6 | 5 / 10 | 109,47 / 200,94 | 16 | 62,27 / 65,71 | 2 / 5 | 173,74 / 271,65 | **34,75 / 27,17** | 35,69 / 27,75 |
+| 5 · CAN | 8 | 5 / 10 | 101,21 / 191,43 | 15 | 59,52 / 63,28 | 2 / 5 | 162,73 / 259,71 | **32,55 / 25,97** | 33,62 / 26,69 |
+| 5 · CAN | 6 | 5 / 10 | 89,34 / 165,33 | 15 | 58,93 / 62,10 | 2 / 5 | 150,26 / 232,42 | **30,05 / 23,24** | 31,06 / 23,90 |
 
 Lectura:
 
@@ -190,10 +190,10 @@ Lectura:
 |---|---|---|---|
 | Hunter PCM-300 (para Pro-C) | 3, 24 V AC | 35–63 $ | Solo para su programador; triacs de 24 V AC |
 | OpenSprinkler Zone Expander | 16, 24 V AC (o DC según versión) | 49–50 $ | Solo para OpenSprinkler |
-| Waveshare Modbus RTU Relay 8CH (B) | 8 relés | 37,95 $ | Contacto seco: necesita cableado de 24 V aparte; sin diagnóstico |
+| Waveshare Modbus RTU Relay 8CH (B) | 8 relés | 31,49 $ | Contacto seco: necesita cableado de 24 V aparte; sin diagnóstico |
 | KinCony KC868-A8 | 8 relés, ESP32 | desde 55 $ | ESPHome; relés, sin diagnóstico ni limitador |
 
-El módulo propio de 8 canales (25–31 $) cuesta menos que cualquiera de ellos y es el único con diagnóstico por canal y limitador (REL-10, ALI-13).
+El módulo propio de 8 canales cuesta 24,9 $ con 10 uds, menos que cualquiera de ellos; con 5 uds (30,9 $) cuesta casi lo mismo que el Waveshare (31,49 $). Es el único con diagnóstico por canal y limitador (REL-10, ALI-13).
 
 ## 9. Recomendación
 
@@ -230,19 +230,19 @@ Orden pensado para el cable plano: cada línea de I²C va entre dos GND y las al
 
 | Pin | Señal | GPIO | Dir. (vista desde la placa) | Tensión | Corriente | En la placa, del MCU al conector | ESD |
 |---|---|---|---|---|---|---|---|
-| 1 | +5V_EXP | — | Salida | +5V tras el interruptor: 4,83–5,11 V con el buck; ≥ 4,33 V con USB | **≤ 0,30 A** (límite del interruptor 343–439 mA) | TPS2553DBVR (U_A) desde +5V, R_ILIM 68 kΩ; C_IN 100 nF, C_OUT 4,7 µF | U_EXP2 pin 5 (VBUS) |
+| 1 | +5V_EXP | — | Salida | +5V tras el interruptor: 4,83–5,11 V con el buck; ≥ 4,33 V con USB | **≤ 0,30 A** (límite del interruptor 343–439 mA) | TPS2553DBVR (U_A) desde +5V, EN (activo alto, p. 4) unido a su IN: siempre habilitado; R_ILIM 68 kΩ; C_IN 100 nF, C_OUT 4,7 µF | U_EXP2 pin 5 (VBUS) |
 | 2 | GND | — | — | 0 V | retorno | Plano | — |
-| 3 | +3V3_EXP | — | Salida | 3,20–3,39 V | **≤ 50 mA** (límite 115–159 mA) | TPS2553DBVR (U_B) desde +3V3, R_ILIM 200 kΩ; C_IN 100 nF, C_OUT 1 µF | U_EXP1 pin 5 (VBUS) |
+| 3 | +3V3_EXP | — | Salida | 3,20–3,39 V | **≤ 50 mA** (límite 104–146 mA) | TPS2553DBVR (U_B) desde +3V3, EN unido a su IN; R_ILIM **220 kΩ**; C_IN 100 nF, C_OUT 1 µF | U_EXP1 pin 5 (VBUS) |
 | 4 | GND | — | — | 0 V | retorno | Plano | — |
 | 5 | I2C_EXP_SDA | **47** | E/S, drenador abierto | 0–3,39 V | ≤ 3 mA (1,55 mA con 2,2 kΩ) | 100 Ω en serie; 2,2 kΩ a +3V3_EXP | U_EXP1 I/O1 (1↔6) |
 | 6 | GND | — | — | 0 V | — | Plano | — |
 | 7 | I2C_EXP_SCL | **48** | Salida, drenador abierto | 0–3,39 V | ≤ 3 mA | 100 Ω en serie; 2,2 kΩ a +3V3_EXP | U_EXP1 I/O2 (3↔4) |
 | 8 | GND | — | — | 0 V | — | Plano | — |
-| 9 | EXP_INT | **35** | Entrada, activa baja; drenador abierto en los módulos (INT del expansor y FLT del limitador) y FAULT de U_A y U_B | 0–3,39 V | ≤ 0,35 mA | 470 Ω en serie; 10 kΩ a +3V3 | U_EXP2 I/O1 (1↔6) |
+| 9 | EXP_INT | **35** | Entrada, activa baja; drenador abierto en los módulos (INT del expansor y FLT del limitador) y FAULT de U_A y U_B | 0–3,39 V | ≤ 0,35 mA | 470 Ω en serie; 10 kΩ a +3V3 **en el lado del MCU** de la de 470 Ω, donde se unen también los FAULT de U_A y U_B | U_EXP2 I/O1 (1↔6) |
 | 10 | EXP_EN (antes EXP_IO2) | **36** | Salida, activa alta: habilita el limitador de los módulos | 0 / ≥ 2,4 V en el módulo | ≤ 0,5 mA (4 módulos) | 470 Ω en serie; **100 kΩ a GND en el lado del MCU** (REL-04) | U_EXP2 I/O2 (3↔4) |
 
 - **GPIO:** los cuatro de `mcu.md` §9.2, sin cambios de número. EXP_IO2 pasa a llamarse **EXP_EN** y se fija como salida (GPIO36: alta impedancia en el reset y el flasheo, sin pulsos altos, `mcu.md` §9.1: apto para salidas). No se usa ningún pin libre: **GPIO10, 18, 37 y 39 quedan para los pulsadores de EXP-03** (escalera en GPIO10 o INT de un expansor de la placa).
-- **Uso por arquitectura:** 1 → tal cual. 3 → SER, SRCLK, RCLK y OE en los pines 5, 7, 9 y 10 (GPIO47, 48, 35, 36 por la matriz de GPIO; con 2,2 kΩ a 3,3 V las líneas siguen en reposo alto). 2 y 5 → adaptador en EXP-02: TX/RX en 47/48, DE en 36 (RS-485), o TWAI en 47/48 con el transceptor a 5 V. 4 → no lo usa.
+- **Uso por arquitectura:** 1 → tal cual. 3 → SER, SRCLK y RCLK en los pines 5, 7 y 9 (GPIO47, 48 y 35 por la matriz de GPIO; con 2,2 kΩ a 3,3 V las líneas siguen en reposo alto) y EXP_EN (pin 10) a la OE de los 74HC595 a través de un inversor en el módulo (§5). 2 y 5 → adaptador en EXP-02: TX/RX en 47/48, DE en 36 (RS-485), o TWAI en 47/48 con el transceptor a 5 V. 4 → no lo usa.
 - **Requisitos para el módulo** (los fija este conector): carga en EXP_EN ≥ 22 kΩ a GND por módulo (con el TPS26632: 10 µA × 22 kΩ = 0,22 V < 0,8 V, apagado; TPS2663 p. 7); sin *pull-ups* propios en SDA/SCL; ≤ 30 pF por línea de I²C; ESD propia en su conector.
 
 ### 10.3 Alimentación (EXP-02 frente a `alimentacion.md` §4 y ALI-12)
@@ -253,13 +253,13 @@ Orden pensado para el cable plano: cada línea de I²C va entre dos GND y las al
 | +5V_EXP | Arquitectura 1: 0 mA. Adaptador CAN: ≤ 70 mA | ≤ 0,30 A ✔ |
 | ALI-12 | El presupuesto de `alimentacion.md` §4 ya cuenta 50 mA y 0,30 A: 4,32 W ≤ 4,8 W | **Sin cambio** ✔ |
 | Interruptor de 5 V (U_A) | I_OS mín. = 25 230 / (68 × 1,01)^1,016 = 343 mA ≥ 300 mA (+14 %); máx. = 22 980 / (68 × 0,99)^0,94 = 439 mA (ec. 2-3 y la de máximo, pp. 17 y 20; R al 1 %). Caída: 0,15 Ω × 0,3 A = 45 mV (p. 6) | ✔ |
-| Interruptor de 3,3 V (U_B) | R_ILIM 200 kΩ: 115–159 mA ≥ 50 mA (mismas ecuaciones; 210 kΩ da 110–150 mA en la tabla de la p. 7). V_IN 3,3 V dentro de 2,5–6,5 V (p. 6); UVLO 2,35 V (p. 7) | ✔ |
-| Corto en el cable (los dos raíles a la vez) | +3V3: 0,40 + 0,159 = 0,559 A; +5V: 0,559 + 0,439 = 1,00 A → 5 × 1,00 / 0,88 + 0,05 = 5,7 W = 0,24 A a 24 V; con el limitador de la placa en su máximo, 4,57 + 0,24 = **4,81 A < 5,14 A** (margen 0,33 A) | ✔ La fuente no actúa; la lógica no se reinicia |
-| TLV1117LV durante el corto | (5,107 − 3,3) × 0,559 = 1,01 W × 60 °C/W → T_J = **121 °C** < 125 °C | ✔, margen 4 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,159 A × 182,6 °C/W = +96 °C → 135 °C, p. 16), así que la media es menor. **Poco margen: para validación** |
+| Interruptor de 3,3 V (U_B) | R_ILIM 220 kΩ (C22961, Basic): I_OS mín. = 25 230 / (220 × 1,01)^1,016 = 104 mA ≥ 50 mA (2,1×); máx. = 22 980 / (220 × 0,99)^0,94 = 146 mA (210 kΩ da 110–150 mA en la tabla de la p. 7). Dentro de 15–232 kΩ (p. 16). V_IN 3,3 V dentro de 2,5–6,5 V (p. 6); UVLO 2,35 V (p. 7) | ✔ |
+| Corto en el cable (los dos raíles a la vez) | +3V3: 0,40 + 0,146 = 0,546 A; +5V: 0,546 + 0,439 = 0,985 A → 5 × 0,985 / 0,88 + 0,05 = 5,65 W = 0,235 A a 24 V; con el limitador de la placa en su máximo, 4,57 + 0,235 = **4,81 A < 5,14 A** (margen 0,33 A) | ✔ La fuente no actúa; la lógica no se reinicia. La lógica pasa de 4,8 W solo durante el fallo |
+| TLV1117LV durante el corto, peor caso con USB a 5,25 V (como `mcu.md` §8.3) | (5,25 − 0,03 − 3,3) × 0,546 = 1,05 W × 60 °C/W → T_J = **122,9 °C** < 125 °C (con el buck: 0,99 W → 119,2 °C) | ✔, margen 2,1 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,146 A × 182,6 °C/W = +88 °C → 135 °C, p. 16), así que la media es menor. Con los 200 kΩ de la primera versión salían 124,4 °C; 232 kΩ daría 122,1 °C, pero es Extended (C22913) y gana solo 0,8 K. **Prueba en el prototipo:** corto de +3V3_EXP con USB, temperatura de U4 |
 | Sin cable | U_A y U_B con salida en vacío; EXP_INT a nivel alto por su *pull-up*; EXP_EN con 100 kΩ | ✔ |
 
 - Los FAULT de U_A y U_B (drenador abierto, p. 4) se unen a EXP_INT: el firmware distingue el corto en el cable (FAULT con los módulos sin fallo) leyendo el FLT del módulo por I²C. FAULT tiene un filtro de 7,5 ms (p. 7) y puede marcar en el arranque: el firmware ignora EXP_INT el primer segundo.
-- Las dos funciones del TPS2553 son una línea Extended nueva (TPS2553DBVR, C55266, 48 302, 0,46 $). Las R_ILIM son Basic: 68 kΩ C23231 y 200 kΩ C25811.
+- Las dos funciones del TPS2553 son una línea Extended nueva (TPS2553DBVR, C55266, 48 302, 0,46 $). Las R_ILIM son Basic: 68 kΩ C23231 y 220 kΩ C22961.
 
 ### 10.4 *Pull-ups*, capacidad del bus y extensor
 
@@ -281,7 +281,11 @@ Ecuaciones (TCA9535 §7.2.2, p. 27): R_P(mín) = (V_CC − V_OL) / I_OL; R_P(má
 
 - **R_P = 2,2 kΩ ± 1 % (C4190, Basic), definitiva**, a +3V3_EXP, una por línea y solo en la placa. R_P(mín) = (3,39 − 0,4) / 3 mA = 1,0 kΩ ≤ 2,18 kΩ ✔ (I_OL 3 mA a 0,4 V en SDA, TCA9535 p. 7). Corriente a nivel bajo: 1,55 mA (ya contada en `mcu.md` §8.2).
 - **Velocidad: 100 kHz** (`mcu.md` Anexo B, `bus_exp`). 400 kHz solo con un módulo y ≤ 1 m.
-- **Margen de ruido:** V_IL del TCA9535 = 0,3 × V_CC = 0,96 V con V_CC = 3,20 V (p. 6). Nivel bajo en el módulo cuando transmite el ESP32: V_OL ≤ 0,1 × V_DD = 0,34 V más 1,55 mA × 100 Ω = 0,49 V → margen 0,47 V. Absorbe los 29 mV de desplazamiento de masa de §2.2.
+- **Margen de ruido, en los dos sentidos** (los *pull-ups* están en el lado del conector de la de 100 Ω):
+  - transmite el ESP32: su corriente de bajada atraviesa la de 100 Ω. En el módulo, V_OL ≤ 0,1 × V_DD = 0,34 V (ESP32-S3 tabla 5-4) + 1,55 mA × 100 Ω = 0,49 V frente a V_IL del TCA9535 = 0,3 × V_CC = 0,96 V con 3,20 V (p. 6): **margen 0,47 V**;
+  - responde el módulo: V_OL del TCA9535 ≤ 0,4 V a 3 mA (p. 7). El pin del ESP32 es entrada y no circula corriente por la de 100 Ω, así que ve 0,4 V frente a V_IL = 0,25 × V_DD = 0,80 V (tabla 5-4): **margen 0,40 V**. Si los *pull-ups* se pusieran en el lado del MCU, la corriente pasaría por la de 100 Ω y el margen bajaría a 0,80 − 0,555 = 0,25 V: SPEC-0031 los deja en el lado del conector;
+  - los 29 mV de desplazamiento de masa de §2.2 caben en los dos.
+- **4.º módulo (ADS1115 con ADDR = SDA):** el ADS1115 exige entonces SDA bajo ≥ 100 ns después de la bajada de SCL (SBAS444E p. 20). Con 3 módulos (ADDR a GND, VDD y SCL) no hay condición. El 4.º se admite solo si el prototipo comprueba ese tiempo de mantenimiento con el controlador I²C del ESP32-S3; si no, el máximo es 3 × 8 canales.
 - **Extensor:** no hace falta hasta 3 m. Para más distancia, un par de P82B715 (§3) en adaptadores, ninguno en la placa principal.
 
 ### 10.5 ESD
@@ -307,7 +311,7 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 | U_EXP1, U_EXP2 | ESD, 2 líneas + VBUS | SOT-23-6 | ST USBLC6-2SC6 | C7519 · Extended (línea de U6) · 39 134 | Semtech SRV05-4 (C13612), las 4 líneas en uno |
 | U_A, U_B | Interruptor con límite de corriente, 5 V y 3,3 V | SOT-23-6 | TI TPS2553DBVR | C55266 · Extended · 48 302 | — (la variante -1 se enclava; no se quiere) |
 | R_ILIM_A | 68 kΩ 1 % | 0603 | 0603WAF6802T5E | C23231 · Basic | — |
-| R_ILIM_B | 200 kΩ 1 % | 0603 | 0603WAF2003T5E | C25811 · Basic | — |
+| R_ILIM_B | 220 kΩ 1 % | 0603 | 0603WAF2203T5E | C22961 · Basic | 232 kΩ C22913 (Extended) |
 | C (×2) | C_IN de U_A y U_B, 100 nF | 0603 | CC0603KRX7R9BB104 | C14663 · Basic | — |
 | C | C_OUT de U_A, 4,7 µF | 0603 | CL10A475KO8NNNC | C19666 · Basic (línea de C26) | — |
 | C | C_OUT de U_B, 1 µF | 0603 | CL10A105KB8NNNC | C15849 · Basic | — |
@@ -318,14 +322,20 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 | R | *Pull-down* de EXP_EN, 100 kΩ | 0603 | 0603WAF1003T5E | C25803 · Basic | — |
 
 - **Coste añadido a la placa:** ≈ 1,4 $ en piezas más 3,07 $ por pedido de la línea TPS2553: ≈ 2,0 $ por placa con 5 y ≈ 1,7 $ con 10.
-- **Cambios que SPEC-0031 lleva a `mcu.md`:** §9.2, columna «Elemento externo» de GPIO35, 36, 47 y 48 con esta tabla; GPIO36 pasa a EXP_EN, salida; §14.2 se cierra. El presupuesto de §8.2 no cambia.
+- **Conexiones de los TPS2553 en la hoja:** EN de U_A y U_B (activo alto en el TPS2553, p. 4) unido a su IN: siempre habilitados, sin GPIO. FAULT de U_A y U_B (drenador abierto) unidos a EXP_INT en el **lado del MCU** de la de 470 Ω, en el mismo nodo que el *pull-up* de 10 kΩ; así no pasan por la ESD ni por el cable.
+- **Cambios que SPEC-0031 lleva a `mcu.md`:**
+  - §9.2: columna «Elemento externo» de GPIO35, 36, 47 y 48 con esta tabla; GPIO36 pasa a EXP_EN, salida activa alta;
+  - §10.1: EXP_EN entra en la tabla de estado seguro junto a IN1–6, OUT_DEN y LIM_EN (Z en el reset y el flasheo; en OTA y `esp_restart()` lo cubre el firmware) y es la barrera del módulo;
+  - §10.2: fila nueva «EXP_EN | R_PD = 100 kΩ 1 % (C25803) del GPIO a GND, en el lado del MCU de la de 470 Ω | Conectores | Pin en Z: 50 nA × 100 kΩ = 5 mV < 0,8 V; con el GPIO alto y 4 módulos de 22 kΩ, 2,43 V en el módulo ≥ 2,0 V (§10.2 de este informe)»;
+  - Anexo B: EXP_EN como `output` con `restore_mode: ALWAYS_OFF`, a bajo en `on_boot` (prioridad alta), `ota: on_begin` y `on_shutdown`, igual que LIM_EN. Antes de un OTA o de un reinicio, escribir 0 en las salidas del TCA9535 (o del 74HC595) y después bajar EXP_EN; al arrancar, escribir 0 en el expansor antes de subir EXP_EN. Con EXP_EN alto tras un reset de CPU, el TCA9535 conservaría sus salidas y el limitador del módulo seguiría habilitado;
+  - §14.2 se cierra. El presupuesto de §8.2 no cambia.
 
 ### 10.7 Restricciones de layout (para `restricciones.csv`, fase 4)
 
 | Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas |
 |---|---|---|---|---|---|
 | +5V_EXP | 0,44 A (límite) | 0,3 mm | 0,2 mm | U_A junto a J_EXP | `Default` vale (FAB-03) |
-| +3V3_EXP | 0,16 A (límite) | 0,25 mm | 0,2 mm | U_B junto a J_EXP | — |
+| +3V3_EXP | 0,15 A (límite) | 0,25 mm | 0,2 mm | U_B junto a J_EXP | — |
 | I2C_EXP_SDA / SCL | 3 mA | 0,2 mm | ≥ 0,5 mm a redes de 24 V | U_EXP1 a ≤ 5 mm de J_EXP; pistas cortas sobre plano de GND continuo | Lejos de `Salidas` y de los nodos conmutados del buck |
 | EXP_INT / EXP_EN | < 1 mA | 0,2 mm | 0,2 mm | U_EXP2 a ≤ 5 mm de J_EXP | — |
 | GND de J_EXP | 0,35 A | — | — | Cada pin GND con su vía al plano | Retorno de la lógica, no de potencia |
@@ -343,6 +353,7 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 1. **Fuente propia del módulo:** requisito nuevo (PENDIENTE 1). Sin él, la arquitectura no cumple ALI-12 con una sola fuente de 5 A.
 2. **Corriente de las válvulas** (DEC-0011): fija R_ILIM y la fuente del módulo (§2.3).
 3. **TCA9535 en ESPHome:** «debería funcionar» (registros iguales que el PCA9535 probado). El primer prototipo lo comprueba; si falla, PCA9535PWR en la misma huella.
-4. **Capacidad del pin del ESP32-S3 y del ADS1115:** supuestas (10 pF). Con el doble (20 pF cada una), el caso de 4 módulos y 3 m sube a 326 pF y 614 ns, todavía ≤ 1000 ns.
-5. **TLV1117LV con el cable en corto:** 121 °C en el peor caso (§10.3), margen de 4 K.
-6. **Stock:** fusible 0451010.MRL a 0 en JLCPCB (afecta también a F1 de la placa); TPS26632 baja de 1 631 a 1 240; BTT6050 1 624.
+4. **4.º módulo:** depende del tiempo de mantenimiento de SDA con ADDR = SDA (§10.4).
+5. **Capacidad del pin del ESP32-S3 y del ADS1115:** supuestas (10 pF). Con el doble (20 pF cada una), el caso de 4 módulos y 3 m sube a 326 pF y 614 ns, todavía ≤ 1000 ns.
+6. **TLV1117LV con el cable en corto:** 122,9 °C con USB a 5,25 V (§10.3), margen de 2,1 K, solo en fallo.
+7. **Stock:** fusible 0451010.MRL a 0 en JLCPCB (afecta también a F1 de la placa); TPS26632 baja de 1 631 a 1 240; BTT6050 1 624.
