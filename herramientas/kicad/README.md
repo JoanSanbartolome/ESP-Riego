@@ -12,7 +12,7 @@ Reglas comunes:
 
 | Herramienta | Qué hace | Ejemplo |
 |---|---|---|
-| `jlc.py` | Tipo (Basic/Extended), stock y precio de N códigos LCSC en una llamada; tabla con fecha y CSV | `python herramientas/kicad/jlc.py --de docs/diseno/salidas.md --csv stock.csv` |
+| `jlc.py` | Tipo (Basic/Extended), stock y precio de N códigos LCSC en una llamada; tabla con fecha y CSV. Con `--buscar`, hasta 25 resultados por MPN o texto (código, tipo, stock, precio del tramo de `--cantidad`, encapsulado) | `python herramientas/kicad/jlc.py --de docs/diseno/salidas.md --csv stock.csv` · `python herramientas/kicad/jlc.py --buscar TCA9535 --cantidad 10 --detalle lista.txt` |
 | `campos.py revisar` | Campos que faltan, misma pieza con campos distintos entre hojas, DNP y diferencias con `hardware/componentes/campos-<hoja>.csv` | `python herramientas/kicad/campos.py revisar hardware/v2` |
 | `campos.py aplicar` | Copia los campos y el DNP de la tabla a los símbolos de una hoja | `python herramientas/kicad/campos.py aplicar hardware/componentes/campos-salidas.csv <copia>/v2/salidas.kicad_sch -o <copia>/v2/salidas.kicad_sch` |
 | `hoja.py pines` | Pines de un símbolo de librería, con coordenadas y lado | `python herramientas/kicad/hoja.py pines esp-riego:BTT6050-1ERA --proyecto hardware/v2` |

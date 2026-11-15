@@ -4,6 +4,7 @@ Uso:
     python herramientas/kicad/jlc.py C534868 C8465 C25804
     python herramientas/kicad/jlc.py --de docs/diseno/salidas.md --csv stock.csv
     python herramientas/kicad/jlc.py --de hardware/v2/mcu.kicad_sch --cantidad 10
+    python herramientas/kicad/jlc.py --buscar TCA9555 --buscar "ADS1115" --cantidad 10 --detalle lista.txt
 
 Los códigos se dan sueltos o se sacan de cualquier archivo de texto con --de (todo lo que
 tenga forma de «C» + 3 a 9 cifras). La tabla lleva la fecha de la consulta; --csv guarda
@@ -53,18 +54,50 @@ def interpretar(codigo, respuesta, cantidad=1):
             "encapsulado": pieza.get("componentSpecificationEn") or ""}
 
 
-def consultar(codigo, cantidad=1, intentos=2):
-    cuerpo = json.dumps({"keyword": codigo, "currentPage": 1, "pageSize": 25}).encode()
+def pedir(palabra, intentos=2):
+    """JSON de la API para una palabra clave (código LCSC, MPN o texto libre)."""
+    cuerpo = json.dumps({"keyword": palabra, "currentPage": 1, "pageSize": 25}).encode()
     peticion = urllib.request.Request(URL, data=cuerpo, headers={"Content-Type": "application/json",
                                                                  "User-Agent": "Mozilla/5.0"})
     error = None
     for _ in range(intentos):
         try:
             with urllib.request.urlopen(peticion, timeout=30) as r:
-                return interpretar(codigo, json.load(r), cantidad)
+                return json.load(r)
         except Exception as e:  # red, JSON o límite de la API: se reintenta una vez
             error = e
-    return {"codigo": codigo, "error": f"{type(error).__name__}: {error}"}
+    raise error
+
+
+def consultar(codigo, cantidad=1, intentos=2):
+    try:
+        return interpretar(codigo, pedir(codigo, intentos), cantidad)
+    except Exception as e:
+        return {"codigo": codigo, "error": f"{type(e).__name__}: {e}"}
+
+
+def resultados(respuesta, cantidad=1):
+    """Todas las piezas de una respuesta de búsqueda, como filas de `interpretar`, de más a menos stock."""
+    lista = (((respuesta.get("data") or {}).get("componentPageInfo") or {}).get("list")) or []
+    filas = [interpretar(p.get("componentCode"), respuesta, cantidad) for p in lista if p.get("componentCode")]
+    return sorted((f for f in filas if f), key=lambda f: -f["stock"])
+
+
+def buscar(palabras, cantidad, fecha):
+    """Modo --buscar: hasta 25 resultados por palabra clave, con tipo, stock, precio y encapsulado."""
+    lineas = [f"JLCPCB · {fecha} · búsqueda · precio en USD para {cantidad} ud."]
+    for palabra in palabras:
+        try:
+            filas = resultados(pedir(palabra), cantidad)
+        except Exception as e:
+            lineas.append(f"«{palabra}»: {type(e).__name__}: {e}")
+            continue
+        lineas.append(f"«{palabra}»: {len(filas)} resultados")
+        for f in filas:
+            precio = "" if f["precio"] is None else f"{f['precio']:.4f}"
+            lineas.append(f"  {f['codigo']:<10} {f['tipo']:<10.10} {f['stock']:>9} {precio:>8}  "
+                          f"{f['mpn']} · {f['fabricante']} · {f['encapsulado']}"[:130])
+    return lineas
 
 
 def main():
@@ -73,7 +106,15 @@ def main():
     ap.add_argument("--de", action="append", default=[], metavar="ARCHIVO", help="saca los códigos de un archivo de texto")
     ap.add_argument("--cantidad", type=int, default=1, help="unidades, para elegir el tramo de precio")
     ap.add_argument("--csv", metavar="ARCHIVO", help="guarda todas las filas en CSV, con la fecha")
+    ap.add_argument("--buscar", action="append", default=[], metavar="TEXTO",
+                    help="busca por palabra clave (MPN o texto) y lista hasta 25 resultados; se puede repetir")
+    ap.add_argument("--detalle", metavar="ARCHIVO", help="con --buscar, guarda la lista completa")
     args = ap.parse_args()
+
+    if args.buscar:
+        emitir(buscar(args.buscar, args.cantidad, datetime.date.today().isoformat()),
+               maximo=400 if args.detalle else 30, detalle=args.detalle)
+        return 0
 
     codigos = list(args.codigos)
     for archivo in args.de:

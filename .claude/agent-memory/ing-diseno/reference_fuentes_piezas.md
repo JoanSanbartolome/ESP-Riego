@@ -35,3 +35,9 @@ Lo que funcionó en SPEC-0017 (2026-11-05):
 - **Modelos 3D que faltan en KiCad 10.0:** `SW_Push_1P1T_XKB_TS-1187A` (la huella sí está).
 - **`dataManualUrl` de LCSC (`www.lcsc.com/datasheet/...pdf`) devuelve HTML a curl** (2026-11-07): el PDF real es el `pdfUrl` del JSON de `wmsc.lcsc.com` (`datasheet.lcsc.com/...`). El `dataManualUrl` sí vale como campo `Datasheet`.
 - **USBLC6-2SC6 de UMW (C2687116) descartado** como sustituto del de ST (SPEC-0022): V_RWM 5 V < 5,25 V de VBUS, sin condiciones de medida ni esquema interno. Mejor capacidad y V_CL, pero no demuestra equivalencia (DEC-0007).
+
+SPEC-0006 (2026-11-15):
+- Búsqueda por MPN o texto en JLCPCB: `jlc.py --buscar X --cantidad N --detalle f.txt` (lista código, tipo, stock, precio del tramo). Sustituye a buscar códigos C con WebSearch.
+- ti.com y la copia de LCSC descargan bien con curl; nxp.com y mouser.com no (el clasificador bloquea insistir en nxp.com). Para fórmulas de *pull-up* de I²C sirve la sección «Pull-Up Resistor Calculation» de cualquier expansor de TI (TCA9535 p. 27).
+- Los PDF de TI dan las tablas desordenadas con `pdftotext`; para leer una tabla de límites, renderizar la página con PyMuPDF (`clip`) y mirarla.
+- Coste de un pedido por arquitectura: un script de una vez en el scratchpad (`s06_costes.py`, BOM por bloques → `jlc.consultar(código, cantidad)` → cargos de Economic PCBA). Las «Extended (preferida)» no pagan los 3,07 $.
