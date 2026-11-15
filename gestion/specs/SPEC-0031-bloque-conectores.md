@@ -2,15 +2,15 @@
 id: SPEC-0031
 titulo: Bloque de conectores, expansión y pulsadores
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0031-bloque-conectores
 requisitos: [EXP-02, EXP-03, AMB-03, FAB-07, KIC-02]
 depende_de: [SPEC-0006, SPEC-0030]
 creada: 2026-11-13
-cerrada:
-validacion:
+cerrada: 2026-11-15
+validacion: VAL-0031-02
 ---
 
 # SPEC-0031 · Bloque de conectores, expansión y pulsadores
@@ -88,4 +88,5 @@ Nivel **completo**. Se reproduce de forma independiente: el mapeo de pines de J1
 | 2026-11-15 | ing-diseno | hoja de conectores (J10, U14–U18, SW3–SW8), mcu.md y hoja MCU con EXP_EN y BTN_INT, sin PULSE_IN; PCB sincronizada | 03-ing-diseno | 251491 | 107 | 29 |
 | 2026-11-15 | ing-validacion | Validación completa: 2 M y 4 B | VAL-0031-01 | 238187 | 47 | 14 |
 | 2026-11-15 | ing-diseno | correcciones de VAL-0031-01 (01 a 05) | 03-ing-diseno | 10153 | 7 | 3 |
-| 2026-11-15 | ing-validacion | Revalidación: 01 a 05 resueltos | VAL-0031-02 | 13297 | 51 | 19 |
+| 2026-11-15 | ing-validacion | Revalidación: 01 a 05 resueltos | VAL-0031-02 | 13297 | 4 | 2 |
+| 2026-11-15 | coordinador | Cierra la spec | VAL-0031-02 (APROBADO) |  |  |  |
