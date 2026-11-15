@@ -16,3 +16,4 @@ C50,4.7uF,Capacitor_SMD:C_0603_1608Metric,C19666,CL10A475KO8NNNC,Samsung Electro
 C51,1u,Capacitor_SMD:C_0603_1608Metric,C15849,CL10A105KB8NNNC,Samsung Electro-Mechanics,https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A105KB8NNNC_C15849.pdf,MLCC 1 µF 50 V X5R 0603: C_OUT de U15 (+3V3_EXP),no
 C52,100n,Capacitor_SMD:C_0603_1608Metric,C14663,CC0603KRX7R9BB104,YAGEO,https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf,MLCC 100 nF 50 V X7R 0603: desacoplo de VCC de U18,no
 SW3-SW8,SW_Push,esp-riego:SW_Push_1P1T_XKB_TS-1187A,C318884,TS-1187A-B-A-B,XKB Connection,https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_XKB-Connection-TS-1187A-B-A-B_C318884.pdf,"Pulsador SMD 5,1 × 5,1, 160 gf, H 1,5 mm: manual de la salida 1-6 (SW3 = salida 1 … SW8 = salida 6)",no
+H1-H4,MountingHole,MountingHole:MountingHole_3.2mm_M3_Pad_Via,,,,,Mounting Hole without connection,no

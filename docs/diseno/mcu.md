@@ -1,7 +1,7 @@
 # Bloque MCU: módulo, USB-C, arranque, UART, LED y tabla de GPIO (SPEC-0020)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B). **Rev. VAL-0022-01** (2026-11-07): I_mín de D5 en el peor caso (§7) y ficha y polaridad del KT-0603R (§11, Anexo A).
-**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación del TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-01, EXP-02 (pines).
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B). **Rev. VAL-0022-01** (2026-11-07): I_mín de D5 en el peor caso (§7) y ficha y polaridad del KT-0603R (§11, Anexo A). **Rev. SPEC-0031** (2026-11-15): EXP-01 retirado (DEC-0011; GPIO37 libre); GPIO36 pasa a EXP_EN, salida con *pull-down* (`viabilidad-expansion.md` §10.6); GPIO39 pasa a BTN_INT, INT del expansor de los pulsadores (DEC-0013); bus de la placa a 100 kHz.
+**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación del TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-02 y EXP-03 (pines).
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`); C2913198 y los cambios de compra de DEC-0007 revisados el 2026-11-06. Tipo Basic/Extended y stock de JLCPCB: SPEC-0021 (2026-11-06) y API de JLCPCB (2026-11-07) para C2286, C15849 y C2687116.
 
 > Datasheets (las páginas son las impresas en el documento):
@@ -28,7 +28,7 @@
 
 Resultados clave:
 
-- **GPIO (MCU-05):** caben las 8 entradas analógicas en ADC1 (VIN_SENSE, LIM_IMON e IS1–IS6), sin usar GPIO3. Las salidas van solo en pines sin *pull-up* ni pulso alto en el arranque. Hay **un DEN común** a los 6 canales (§9.2, fijado por DEC-0007) y quedan 3 pines libres. La variante con un DEN por canal (§9.3) queda descartada: ocupa los 28 pines.
+- **GPIO (MCU-05):** caben las 8 entradas analógicas en ADC1 (VIN_SENSE, LIM_IMON e IS1–IS6), sin usar GPIO3. Las salidas van solo en pines sin *pull-up* ni pulso alto en el arranque. Hay **un DEN común** a los 6 canales (§9.2, fijado por DEC-0007). Quedan **3 pines libres: GPIO10, 18 y 37**; GPIO39 lleva el INT de los pulsadores (DEC-0013). La variante con un DEN por canal (§9.3) queda descartada: ocupa los 28 pines.
 - **REL-04:** con el *chip* en reset, en el arranque y en el modo de descarga, los pines de IN, DEN y LIM_EN están en alta impedancia o a nivel bajo. Las resistencias de *pull-down* fijan el nivel bajo (≤ 5 mV frente a V_IN(L) ≤ 0,8 V). El OTA y los reinicios por software se cubren desde el firmware (§10).
 - **EN:** con la rampa más lenta del raíl de 3,3 V (*soft-start* del buck de 6 ms y τ mínimo), EN está a ≤ 0,16·VDD (0,159 con C15849) cuando VDD llega a 3,0 V: el *chip* sigue en reset hasta que el raíl es estable (§5).
 - **3,3 V (ALI-07):** 0,43 A de pico (0,45 A de diseño), con 1 A de capacidad. La caída es ≤ 0,70 V, y el margen es de 0,88 V con el buck y de 0,37 V con USB a 4,40 V. T_J = 109 °C a 60 °C de ambiente. Pico de Wi-Fi: ≈ 40 mV de caída. **El TLV1117LV de `alimentacion.md` vale; no se cambia** (§8).
@@ -43,13 +43,14 @@ Resultados clave:
 | Ambiente del módulo | 50 °C + 10 °C dentro de la caja = **60 °C** | §5 de `docs/02`, checklist de esquema |
 | Pines que pide alimentación | VIN_SENSE, LIM_IMON (ADC1, 6 dB), LIM_EN (salida, R5 de 10 kΩ a GND), LIM_FLT (entrada, R6 de 10 kΩ a +3V3) | `alimentacion.md` §6 |
 | Pines de las salidas | 6 × IN, DEN, 6 × IS a ADC1 con R_SENSE de 10 kΩ; R_IN = R_DEN = 10 kΩ | `estudio-salidas.md` S7, §11.5; BTT §6.4, p. 19 |
-| Expansión | I²C, ≥ 2 GPIO (uno de interrupción), 3V3 y GND; detalle pendiente de SPEC-0006 | EXP-02 |
+| Expansión | I²C, EXP_INT, EXP_EN, +3V3_EXP, +5V_EXP y GND en J10 | EXP-02; `viabilidad-expansion.md` §10 y `conectores.md` §2 |
+| Pulsadores | 6 pulsadores leídos por un TCA9554 en el bus de la placa, INT en GPIO39 | EXP-03; DEC-0013 y `conectores.md` §3 |
 
 ## 2. Módulo (MCU-01)
 
 - **ESP32-S3-WROOM-1-N8:** flash de 8 MB *quad*, sin PSRAM (WROOM-1 tabla 1-1, p. 3).
   - Temperatura: −40…85 °C. Las variantes R8/R16V solo llegan a 65 °C (p. 3): margen de 25 °C sobre los 60 °C de la caja, frente a 5 °C con ellas.
-  - Sin PSRAM octal, GPIO35–37 quedan libres (tabla 3-1, nota b, p. 12) y se usan (§9). **La placa no admite variantes R8 ni R16V.**
+  - Sin PSRAM octal, GPIO35–37 quedan libres (tabla 3-1, nota b, p. 12): GPIO35 y 36 se usan y GPIO37 queda libre (§9). **La placa no admite variantes R8 ni R16V.**
   - 8 MB bastan para ESPHome con OTA (dos particiones de aplicación de ≤ 3 MB cada una).
 - Alimentación: 3,0–3,6 V, con una fuente de ≥ 0,5 A (tabla 6-2, p. 27). El TLV1117LV da 1 A (§8).
 - C2913198 (Extended): stock 2 776 en JLCPCB (2026-11-06). 4,93 $ (1–9 uds.) y 4,25 $ (10–29 uds.).
@@ -222,7 +223,7 @@ Datos: S tabla 2-1 (pp. 16-17), tabla 2-2 (pp. 18-19) y §4.2.2.1 (p. 59); HDG t
    - **GPIO40** (MTDO), que la ROM pone a nivel alto en el modo de descarga USB-OTG (HDG tabla 12, p. 19);
    - **GPIO43** (TXD0), activo en el arranque, y **GPIO44** (RXD0), con *pull-up*.
 3. **GPIO1–17:** solo tienen pulsos **bajos** de 60 µs (S tabla 2-2), que no activan nada con lógica activa a nivel alto.
-4. **GPIO19/20:** reservados al USB (MCU-03). GPIO35–37 se usan porque no hay PSRAM octal (§2).
+4. **GPIO19/20:** reservados al USB (MCU-03). GPIO35–37 están disponibles porque no hay PSRAM octal (§2).
 5. **Pines restringidos (18, 39, 40):** solo como entradas, señales de drenador abierto con *pull-up* o el LED (§7).
 
 Pines disponibles: hay 36 GPIO (0–21 y 35–48). Sin los 8 reservados (0, 3, 19, 20, 43, 44, 45 y 46) quedan **28**. Se usan **25**.
@@ -255,27 +256,28 @@ Estado: **Z** = alta impedancia, sin *pull* interno · **WPU/WPD** = *pull-up* o
 | 19 | 13 | USB_D− | MCU | E/S | — | Z, pulsos | USB activo | R21 22 Ω, U6 |
 | 20 | 14 | USB_D+ | MCU | E/S | — | *pull-up* del USB, pulsos | USB activo | R20 22 Ω, U6 |
 | 21 | 23 | LIM_EN | Alimentación | S, activa alta | — | Z | Entrada (RCV) | **R5 10 kΩ** a GND |
-| 35 | 28 | EXP_INT | Conectores | E (interrupción) | — | Z | Z | Según SPEC-0006 |
-| 36 | 29 | EXP_IO2 | Conectores | E/S | — | Z | Z | Según SPEC-0006 |
-| 37 | 30 | PULSE_IN | Conectores (EXP-01) | E (contador PCNT) | — | Z | Z | Acondicionamiento de EXP-01 (salida de 3,3 V) |
+| 35 | 28 | EXP_INT | Conectores (EXP-02) | E, activa baja (drenador abierto) | — | Z | Z | R77 10 kΩ a +3V3 y FAULT de U14/U15 en el lado del MCU de R75 (470 Ω) → U17 → J10-9 (`conectores.md` §2) |
+| 36 | 29 | EXP_EN | Conectores (EXP-02) | S, activa alta (habilita el limitador de los módulos) | — | Z | Z | **R78 100 kΩ** a GND en el lado del MCU de R76 (470 Ω) → U17 → J10-10 (REL-04, §10.2) |
+| 37 | 30 | — (libre; vale para salidas) | — | — | — | Z | Z | — |
 | 38 | 31 | OUT_DEN (común a los 6 canales) | Salidas | S, activa alta | — | Z | **Bajo** (VMO) | 6 × R_DEN 10 kΩ + **R_PD 100 kΩ** a GND |
-| 39 | 32 | — (libre; solo entrada o drenador abierto) | — | — | — | Z → WPU | Bajo (VPO) | — |
+| 39 | 32 | BTN_INT | Conectores (EXP-03) | E, activa baja (INT de drenador abierto de U18) | — | Z → WPU | Bajo (VPO) | R79 10 kΩ a +3V3 (`conectores.md` §3; DEC-0013) |
 | 40 | 33 | LED_STATUS | MCU | S | — | Z | **Alto** (OEN): LED encendido | R23 1 kΩ, D5 (rojo) |
-| 41 | 34 | I2C_SDA (placa: SHT4x) | Sensores | E/S (drenador abierto) | — | Z | Entrada | R24 4,7 kΩ a +3V3 |
+| 41 | 34 | I2C_SDA (placa: SHT40 0x44 y TCA9554 0x20) | Sensores, Conectores | E/S (drenador abierto) | — | Z | Entrada | R24 4,7 kΩ a +3V3 |
 | 42 | 35 | I2C_SCL (placa) | Sensores | S (drenador abierto) | — | Z | Entrada | R25 4,7 kΩ a +3V3 |
 | 43 | 37 | UART_TX (TXD0) | MCU | S | — | WPU; mensajes de la ROM | TX activo | R22 470 Ω → J3-2 |
 | 44 | 36 | UART_RX (RXD0) | MCU | E | — | WPU | RX activo | J3-3 |
 | 45 | 26 | — (arranque VDD_SPI, sin conectar) | — | — | — | WPD | WPD | Ninguno; sin pistas |
 | 46 | 16 | — (arranque, sin conectar) | — | — | — | WPD | WPD | Ninguno |
-| 47 | 24 | I2C_EXP_SDA | Conectores | E/S (drenador abierto) | — | Z | Z | *Pull-up* y ESD según SPEC-0006 (2,2 kΩ provisional) |
-| 48 | 25 | I2C_EXP_SCL | Conectores | S (drenador abierto) | — | Z | Z | ídem |
+| 47 | 24 | I2C_EXP_SDA | Conectores | E/S (drenador abierto) | — | Z | Z | R73 100 Ω en serie; R71 2,2 kΩ a +3V3_EXP en el lado del conector; U16 → J10-5 |
+| 48 | 25 | I2C_EXP_SCL | Conectores | S (drenador abierto) | — | Z | Z | R74 100 Ω; R72 2,2 kΩ a +3V3_EXP; U16 → J10-7 |
 
 - Analógicas: 8 de los 9 canales de ADC1 sin GPIO3. Queda de reserva GPIO10 (ADC1_CH9).
-- Libres: GPIO10 (cualquier uso), GPIO18 (solo entrada) y GPIO39 (entrada o drenador abierto).
+- Libres: GPIO10 (cualquier uso; ADC1_CH9), GPIO18 (solo entrada) y GPIO37 (cualquier uso, también salida). GPIO39 lleva BTN_INT (DEC-0013).
 - Atenuación del ADC: VIN_SENSE y LIM_IMON a 6 dB (`alimentacion.md`). IS1–IS6 también a 6 dB (`salidas.md` §3.2): V_ADC ≤ 2,32 V a 30 V en fallo (≤ 3,1 V, REL-10), acotado por el divisor R_SENSE/R_IS sin diodo; a 6 dB el fallo satura la lectura (4095). Máximo del pin: VDD + 0,3 V (S tabla 5-4).
 - **Dos buses I²C** (el ESP32-S3 tiene dos controladores):
   - un fallo, un corto o la capacidad del cable de expansión no bloquea el SHT4x (AMB-01);
-  - cada bus lleva sus propias resistencias de *pull-up*.
+  - cada bus lleva sus propias resistencias de *pull-up*;
+  - los dos van a **100 kHz**: el de la placa porque el TCA9554 de los pulsadores alarga la pista hasta el centro (t_r ≈ 0,28 µs con ≈ 70 pF, `conectores.md` §3.3; DEC-0013) y el de expansión por el cable (`viabilidad-expansion.md` §10.4).
 - **Los números de GPIO de esta tabla son fijos para SPEC-0022 y para el YAML.** Si el layout pide permutarlos, se cambia antes este documento.
 
 **Por qué un DEN común (DEC-0007 cambia el «IN, DEN e IS por canal» de la spec por «IN e IS por canal, DEN común»):**
@@ -283,7 +285,7 @@ Estado: **Z** = alta impedancia, sin *pull* interno · **WPU/WPD** = *pull-up* o
 - Con un IS por canal en su propio ADC1, el DEN por canal no aporta diagnóstico. El BTT6050 deja IS en alta impedancia con DEN bajo y da la corriente del canal o I_IS(FAULT) con DEN alto (BTT §7.2, tabla 8, p. 24). Con todos los DEN altos, cada ADC lee su canal sin interferencias.
 - La carga abierta en OFF (con R_OL y el bus habilitado) se lee igual canal a canal.
 - El reinicio tras un enclavamiento térmico lo hace IN, no DEN (BTT §6.5.2, p. 21: «*Only the IN pin signal toggling can re-activate the power stage*»).
-- Ahorra 5 GPIO y deja 3 libres para EXP-02, que SPEC-0006 todavía no ha cerrado. Con un DEN por canal no queda ninguno (§9.3).
+- Ahorra 5 GPIO: con ellos caben EXP-02 en sus 4 pines (35, 36, 47 y 48) y el INT de los pulsadores (39), y quedan 3 libres (10, 18 y 37). Con un DEN por canal no queda ninguno (§9.3).
 - Carga del GPIO38: 6 × I_DEN(H) ≤ 25 µA (BTT tabla 10, p. 34) + 33 µA de R_PD = 183 µA. La caída de V_OH es despreciable (I_OH típ. 40 mA con V_OH ≥ 2,64 V). V_DEN ≥ 2,64 − 25 µA × 10 kΩ = 2,39 V ≥ V_DEN(H) mín. 2,0 V ✔.
 - Con la segunda fuente BTT6030-2ERA (DEN por *chip*, DSEL e IS compartidos por pareja; `estudio-salidas.md` §11.4), el DEN común sigue valiendo. Basta un **DSEL común** a los 3 *chips* (1 GPIO) y quedan 3 ADC1 libres (`salidas.md` §10); es otro *routing* (otra spec).
 
@@ -305,11 +307,11 @@ Coste: 5 × R_PD y 5 × R_DEN más, el bus I²C de la placa expuesto al cable de
 
 ### 10.1 Pines de control
 
-| Fase | Estado de IN1–6, OUT_DEN y LIM_EN | Fuente |
+| Fase | Estado de IN1–6, OUT_DEN, LIM_EN y EXP_EN | Fuente |
 |---|---|---|
 | Sin 3,3 V, o 3,3 V subiendo con EN bajo | *Chip* apagado; pines sin excitar. Los fija la R_PD | §5.1 |
 | Reset (EN bajo, pulsador o RC) | Z sin *pull* (columna «*At Reset*») | S tabla 2-1, pp. 16-17 |
-| Encendido | GPIO11–17: pulso **bajo** de 60 µs; GPIO21 y 38: sin pulsos | S tabla 2-2, pp. 18-19 |
+| Encendido | GPIO11–17: pulso **bajo** de 60 µs; GPIO21, 36 y 38: sin pulsos | S tabla 2-2, pp. 18-19 |
 | ROM y muestreo de los pines de arranque (t_H 3 ms) | Z («*After Reset*»: solo IE) | S tabla 2-1 |
 | Flasheo (descarga por USB o UART) | La ROM no configura estos pines. Con USB-OTG: GPIO38 **bajo**, GPIO21 entrada | HDG tabla 12, p. 19 |
 | *Bootloader* y arranque de ESPHome | Z hasta que ESPHome los configura con `restore_mode: ALWAYS_OFF` | Anexo B |
@@ -317,6 +319,8 @@ Coste: 5 × R_PD y 5 × R_DEN más, el bus I²C de la placa expuesto al cable de
 | OTA y `esp_restart()` (reset de CPU) | **Los registros de GPIO pueden conservar el nivel hasta que la aplicación los reconfigura.** Lo cubre el firmware: todo a bajo en `ota: on_begin` y en `on_shutdown` (Anexo B) | Interpretación del autor; se comprueba en el prototipo |
 
 Hay dos barreras independientes. Con LIM_EN bajo, el bus de las salidas está apagado aunque un IN subiera. Con JP1 cerrado (sin limitador, DEC-0006) solo queda la R_PD de cada IN (`alimentacion.md` §3.13.9).
+
+**EXP_EN (GPIO36) es la barrera de los módulos de expansión** (`viabilidad-expansion.md` §10.6): con EXP_EN bajo, el limitador de cada módulo está apagado aunque su TCA9535 tuviera alguna salida alta. GPIO36 está en Z en el reset y el flasheo, sin pulsos altos (S tablas 2-1 y 2-2), y R78 lo fija a nivel bajo. En OTA y `esp_restart()` lo cubre el firmware (Anexo B).
 
 ### 10.2 *Pull-downs* que exige REL-04
 
@@ -327,6 +331,7 @@ Van en el bloque que corresponde. Aquí se fijan el valor y la condición.
 | IN1…IN6 | R_PD = 100 kΩ 1 % (C25803) del GPIO a GND, en el lado del GPIO de R_IN (10 kΩ) | Salidas | Pin en Z: fuga del GPIO ≤ 50 nA (S tabla 5-4) × 100 kΩ = **5 mV** ≪ V_IN(L) 0,8 V (BTT tabla 10, p. 34). El BTT añade una corriente interna a GND de ≥ 1 µA. Con el GPIO alto: V_IN ≥ 2,64 − 25 µA × 10 kΩ = **2,39 V** ≥ V_IN(H) 2,0 V (margen 0,39 V; con VDD = 3,211 V: 2,32 V) |
 | OUT_DEN | R_PD = 100 kΩ, una sola | Salidas | ídem; 2,39 V con 6 entradas DEN (§9.2) |
 | LIM_EN | R5 = 10 kΩ (existente) | Alimentación | 0,1 V con los 10 µA de SHDN < 0,8 V (`alimentacion.md` §3.13.5) |
+| EXP_EN | R78 = 100 kΩ 1 % (C25803) del GPIO a GND, en el lado del MCU de R76 (470 Ω) | Conectores | Pin en Z: 50 nA × 100 kΩ = 5 mV < 0,8 V. Con el GPIO alto y 4 módulos de ≥ 22 kΩ a GND: 2,43 V en el módulo ≥ 2,0 V (`viabilidad-expansion.md` §10.2) |
 
 - Ninguna de estas redes va a un pin con *pull-up* interno ni con pulso alto (§9.1). Con el WPU de 45 kΩ de GPIO39 y 100 kΩ a GND quedarían 2,28 V > 2,0 V: por eso se excluye GPIO39.
 
@@ -358,11 +363,12 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 - **Referencias *extended* del bloque:** U5, J2, U6 y J3 (4; eran 6 antes de pasar C23 y D5 a Basic).
 - **Fuera de esta hoja, pero fijadas aquí:**
   - R_PD de 100 kΩ (C25803) en IN1…6 y OUT_DEN: bloque de salidas (§10.2);
-  - *pull-ups* del I²C de expansión (2,2 kΩ, C4190, provisional), ESD y *pull-up* de EXP_INT: bloque de conectores, tras SPEC-0006.
+  - *pull-ups* del I²C de expansión (R71/R72 2,2 kΩ, C4190), ESD (U16, U17), *pull-up* de EXP_INT (R77), *pull-down* de EXP_EN (R78) y *pull-up* de BTN_INT (R79): bloque de conectores (`conectores.md`, SPEC-0031).
 - **Cálculo de los *pull-ups* del I²C de la placa:**
   - R ≥ (3,3 − 0,4 V)/3 mA = 0,97 kΩ;
-  - con C_bus ≤ 50 pF (pista hasta el borde del SHT4x), t_r = 0,8473 × 4,7 k × 50 pF = 0,20 µs ≤ 0,3 µs (I²C rápido, 400 kHz) ✔.
-- **Expansión (provisional):** 2,2 kΩ admiten hasta C ≤ 1 µs/(0,8473 × 2,2 k) = 536 pF a 100 kHz, con I_OL = 1,5 mA ≤ 3 mA ✔.
+  - con C_bus ≤ 50 pF (pista hasta el borde del SHT4x), t_r = 0,8473 × 4,7 k × 50 pF = 0,20 µs ≤ 0,3 µs (I²C rápido, 400 kHz) ✔;
+  - con el TCA9554 de los pulsadores (DEC-0013), C_bus ≈ 70 pF y t_r ≈ 0,28 µs: el bus se configura a 100 kHz (≤ 1 µs, margen 3,6×; `conectores.md` §3.3).
+- **Expansión:** 2,2 kΩ (definitivos, `viabilidad-expansion.md` §10.4) admiten hasta C ≤ 1 µs/(0,8473 × 2,2 k) = 536 pF a 100 kHz, con I_OL = 1,5 mA ≤ 3 mA ✔.
 - **Piezas nuevas:** ninguna pendiente. SPEC-0021 hizo las huellas `esp-riego:` de U5, SW1/SW2 y J2, el 3D del TS-1187A y las fichas TS-1187A-B-A-B, KT-0603YG y B-2100S04P-A110 (y actualizó ESP32-S3-WROOM-1 y TYPE-C-31-M-12). El KT-0603R (D4, D5 y D6–D11) tiene ficha propia en `hardware/componentes/KT-0603R.md` (V_F, I_F, P_d y polaridad; jr-conformidad, VAL-0022-01-01). **Polaridad:** la numeración del datasheet es la inversa de la de KiCad: ② del datasheet = cátodo («−», marca verde en la vista superior) = pad 1 de `LED_0603_1608Metric`; ① = ánodo = pad 2 (PDF de LCSC C2286, p. 2). No se aplica la regla de la «T» del KT-0603YG.
 - **Coste orientativo** (primer tramo de JLCPCB del 2026-11-06/07, sin los cargos de montaje de piezas *extended*):
   - **5,62 $ por placa con 5 placas** (módulo 4,93 $);
@@ -386,8 +392,9 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | UART (TXD0/RXD0 → J3) | mA | 0,25 mm | 0,2 mm | R22 junto al módulo; J3 lejos de la antena (HDG p. 28) | Rodeadas de GND con vías (HDG §1.4.6) |
 | VIN_SENSE, LIM_IMON, IS1–IS6 | µA | 0,25 mm | 0,2 mm (≥ 0,6 mm en el lado de 24 V de los divisores) | Condensadores del ADC junto al pin del módulo | Lejos de SW, L1 y las salidas; sin cortes del plano debajo (FAB-04) |
 | IN1–IN6, OUT_DEN, LIM_EN | µA | 0,25 mm | 0,2 mm | R_PD en el lado del GPIO; R_IN y R_DEN junto al *high-side* (BTT §6.4, p. 19) | Sin restricciones de impedancia |
-| I2C_SDA/SCL (placa) | mA | 0,25 mm | 0,2 mm | R24/R25 junto al módulo; pista hasta el SHT4x por el puente entre las ranuras de AMB-02 | Pistas estrechas por el puente térmico (AMB-02) |
-| I2C_EXP, EXP_INT, EXP_IO2, PULSE_IN | mA | 0,25 mm | 0,2 mm | Hasta el borde inferior (FAB-07); ESD junto al conector (bloque de conectores) | — |
+| I2C_SDA/SCL (placa) | mA | 0,25 mm | 0,2 mm | R24/R25 junto al módulo; pista hasta el SHT4x por el puente entre las ranuras de AMB-02 y rama hasta U18, en el centro (`conectores.md` §5) | Pistas estrechas por el puente térmico (AMB-02); C_bus ≤ 70 pF |
+| I2C_EXP_SDA/SCL, EXP_INT, EXP_EN | mA | 0,25 mm | 0,2 mm | Hasta J10, en el borde inferior (FAB-07); R73–R76 junto a la ESD (U16, U17), a ≤ 5 mm de J10 (`conectores.md` §5) | — |
+| BTN_INT | µA | 0,25 mm | 0,2 mm | R79 junto a U18 o al módulo | — |
 | LED_STATUS (R23, D5) | ≤ 1,8 mA | 0,25 mm | 0,2 mm | D5 visible desde la cara superior | Serigrafía «STATUS» junto a D5: es rojo como D4 y los LED de canal (§7) |
 | GPIO3, 45 y 46 | — | — | — | Sin pistas ni piezas | Pines de arranque sin conectar (§5.2) |
 
@@ -399,18 +406,18 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | MCU-02 | Antena fuera del borde lateral, en una esquina; zona libre de la HDG Fig. 26; objetivo de ≥ 15 mm del buck y de las salidas (no es requisito de la HDG) | §3, §12 |
 | MCU-03 | J2 + U6 USBLC6-2SC6 + R18/R19 5,1 kΩ; GPIO19/20 | §4 |
 | MCU-04 | SW1 + R16/C23 (10 kΩ / 1 µF C15849; EN ≤ 0,159·VDD con el raíl a 3,0 V); SW2 + R17 en GPIO0 | §5 |
-| MCU-05 | Tabla de GPIO: 8 analógicas en ADC1 sin GPIO3; ninguna salida en los pines de arranque, en GPIO18/39/40/43/44 ni en GPIO19/20; GPIO35–37 en uso porque no hay PSRAM octal | §9 |
+| MCU-05 | Tabla de GPIO: 8 analógicas en ADC1 sin GPIO3; ninguna salida en los pines de arranque, en GPIO18/39/40/43/44 ni en GPIO19/20; GPIO35–36 en uso porque no hay PSRAM octal; GPIO39 solo como entrada (BTN_INT) | §9 |
 | MCU-06 | J3 (3V3, TX, RX, GND) + R22 | §6 |
 | MCU-07 | D5 (KT-0603R, rojo) + R23 en GPIO40; serigrafía «STATUS» | §7, §12 |
 | ALI-07 | TLV1117LV: 0,45 A / 1 A; margen de caída ≥ 0,37 V; T_J 109 °C; caída del pico de Wi-Fi ≈ 40 mV | §8 |
-| REL-04 | Pines de control en Z o a nivel bajo en todas las fases; R_PD de 100 kΩ (≤ 5 mV); OTA y reinicios por firmware | §10 |
+| REL-04 | Pines de control en Z o a nivel bajo en todas las fases; R_PD de 100 kΩ (≤ 5 mV), también en EXP_EN (R78); OTA y reinicios por firmware | §10 |
 | REL-10 (pines) | IS1–IS6 en ADC1_CH3–CH8 con DEN común | §9.2 |
-| AMB-01, EXP-01, EXP-02 (pines) | I²C de la placa (41/42); I²C de expansión (47/48), EXP_INT (35), EXP_IO2 (36); PULSE_IN (37) | §9.2 |
+| AMB-01, EXP-02, EXP-03 (pines) | I²C de la placa (41/42, a 100 kHz); I²C de expansión (47/48), EXP_INT (35), EXP_EN (36); BTN_INT (39) | §9.2 |
 
 ## 14. Riesgos y puntos abiertos
 
 1. **DEN común:** cerrado por DEC-0007 (§9.2). La variante B (§9.3) queda descartada.
-2. **EXP-02:** la tabla reserva I²C, EXP_INT y EXP_IO2, más 3 pines libres. SPEC-0006 puede pedir otros. Los *pull-ups* y la ESD de la expansión son provisionales.
+2. **EXP-02: cerrado** (SPEC-0031). SPEC-0006 fijó el conector con los cuatro pines reservados (`viabilidad-expansion.md` §10): EXP_IO2 pasa a EXP_EN, salida con R78 de 100 kΩ a GND; los *pull-ups* (2,2 kΩ) y la ESD (U16, U17) son definitivos (`conectores.md` §2). Los pulsadores de EXP-03 toman GPIO39 (DEC-0013) y quedan libres GPIO10, 18 y 37.
 3. **GPIO tras `esp_restart()` y OTA:** pueden conservar su nivel hasta que la aplicación los reconfigura. Se cubre en el firmware (Anexo B) y se prueba en §6 («Salidas… desactivados durante el reset y el flasheo»), haciendo también un OTA con un canal activo.
 4. **Arranque con alimentación lenta o con cortes rápidos (§5.1):** sin supervisor. Prueba en el prototipo: cortar y reponer la fuente en < 50 ms, 20 veces; la placa tiene que arrancar siempre. Si falla, C23 = 2,2 µF o un supervisor de 2,9–3,0 V.
 5. **Antena:** el lado del punto de alimentación y las cotas «Max 1/Max 2» se confirman con el modelo 3D y la Fig. 26. El módulo puede asomar ≈ 6 mm frente a FAB-08 (decisión D5, caja).
@@ -426,21 +433,23 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | TS-1187A-B-A-B | TS-1187A-B-A-B · XKB Connection | C318884 (alt. C318887) | PDF de LCSC (C318884) | 4 pines: 1-2 y 3-4 unidos de dos en dos; SPST, 12 V, 50 mA, 160 gf, altura 1,5 mm | `Switch:SW_Push` / `esp-riego:SW_Push_1P1T_XKB_TS-1187A` / 3D propio (`../libraries/3d/`, SPEC-0021). Alternativa C318887: 2,5 mm de alto y 260 gf |
 | KT-0603YG | KT-0603YG · Hubei KENTO | C2289 (alt. C2287) | PDF de LCSC (C2289) | Cátodo en el lado de la barra ancha de la «T» (pad 1); V_F 2,0–2,2 V | `Device:LED` / `LED_0603_1608Metric` / oficial. Desde SPEC-0022 es la **alternativa** de D5 (la principal es KT-0603R, ficha en `hardware/componentes/KT-0603R.md`) |
 | B-2100S04P-A110 | B-2100S04P-A110 · Ckmtw | C124378 (alt. C2337) | PDF de LCSC (C124378) | 4 pines a 2,54 mm | `Conn_01x04` / `PinHeader_1x04_P2.54mm_Vertical` / oficial |
-| ESP32-S3-WROOM-1 (actualizada) | Variante **N8** fija (C2913198); stock 2 776 a 2026-11-06 | — | WROOM-1 v1.8 | — | Antena según §3; GPIO35–37 en uso (no admite R8/R16V); huella `esp-riego:ESP32-S3-WROOM-1` |
+| ESP32-S3-WROOM-1 (actualizada) | Variante **N8** fija (C2913198); stock 2 776 a 2026-11-06 | — | WROOM-1 v1.8 | — | Antena según §3; GPIO35–36 en uso (no admite R8/R16V); huella `esp-riego:ESP32-S3-WROOM-1` |
 
 ## Anexo B. Notas para el firmware (FW-01…FW-04)
 
 - Pines: tabla de §9.2. Cuando la hoja exista, el YAML se deriva del esquema (FW-02).
 - **REL-04:**
-  - IN1–6, OUT_DEN y LIM_EN como `output` con `restore_mode: ALWAYS_OFF`;
+  - IN1–6, OUT_DEN, LIM_EN y EXP_EN (GPIO36) como `output` con `restore_mode: ALWAYS_OFF`;
   - `on_boot` con prioridad alta que los fije a bajo;
-  - `ota: on_begin` y `on_shutdown`: apagar IN1–6, OUT_DEN y LIM_EN.
+  - `ota: on_begin` y `on_shutdown`: apagar IN1–6, OUT_DEN y LIM_EN; escribir 0 en las salidas del TCA9535 de cada módulo y después bajar EXP_EN;
+  - al arrancar, escribir 0 en los expansores de los módulos antes de subir EXP_EN: con EXP_EN alto tras un reset de CPU, el TCA9535 conservaría sus salidas y el limitador del módulo seguiría habilitado (`viabilidad-expansion.md` §10.6).
 - **ADC:**
   - VIN_SENSE y LIM_IMON a 6 dB (`alimentacion.md` Anexo B);
   - IS1–IS6 (GPIO4–9) a 6 dB, media de ≥ 16 muestras: I_L = V_ADC / 820 Ω × 1500 (k_ILIS; 1600 por debajo de 0,1 A). Leer con OUT_DEN alto (≥ 1 ms). Umbrales y secuencias en `salidas.md` §12;
   - todos en ADC1, válidos con el Wi-Fi activo.
-- **I²C:** `i2c` con dos buses: `bus_placa` (SDA 41, SCL 42, 400 kHz) para el SHT4x y `bus_exp` (SDA 47, SCL 48, 100 kHz). Calentador del SHT4x apagado.
-- **Contadores:** `pulse_counter` en GPIO37 (EXP-01). EXP_INT en GPIO35, como `binary_sensor` o como interrupción del expansor.
+- **I²C:** `i2c` con dos buses: `bus_placa` (SDA 41, SCL 42, **100 kHz**) para el SHT40 (0x44) y el TCA9554 de los pulsadores (0x20), y `bus_exp` (SDA 47, SCL 48, 100 kHz). Calentador del SHT4x apagado.
+- **Pulsadores (EXP-03, DEC-0013):** componente `pca9554` en `bus_placa` con `address: 0x20` e `interrupt_pin: GPIO39` (BTN_INT); un `binary_sensor` por pulsador (P0–P5 = salidas 1–6, `inverted: true`, antirrebote) que conmuta el *switch* de su canal, con el tiempo máximo de FW-04 (`conectores.md` §3.4).
+- **EXP_INT** (GPIO35): `binary_sensor` activo bajo o interrupción del expansor del módulo; ignorarlo el primer segundo (filtro de FAULT de U14/U15, `viabilidad-expansion.md` §10.3).
 - `status_led` en GPIO40 (LED rojo, activo alto).
 - Con VIN_SENSE < 5 V, la placa está alimentada solo por USB: avisar y no accionar salidas (ALI-08).
 
@@ -454,9 +463,12 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | IN1…IN6, OUT_DEN | Salida | Salidas |
 | IS1…IS6 | Entrada | Salidas |
 | I2C_SDA, I2C_SCL | Bidireccional | Sensores |
-| I2C_EXP_SDA, I2C_EXP_SCL, EXP_INT, EXP_IO2, PULSE_IN | Bidireccional / entrada | Conectores |
+| I2C_SDA, I2C_SCL | Bidireccional | Sensores y Conectores (U18) |
+| I2C_EXP_SDA, I2C_EXP_SCL | Bidireccional | Conectores |
+| EXP_INT, BTN_INT | Entrada | Conectores |
+| EXP_EN | Salida | Conectores |
 | +3V3, GND | Símbolos de alimentación | Global |
 
-Implementación en SPEC-0022:
-- En la hoja: una etiqueta jerárquica por red en el pin del módulo (VBUS en U6-5). Formas: `input` para VIN_SENSE, LIM_IMON, LIM_FLT, IS1–IS6, EXP_INT y PULSE_IN; `output` para VBUS, LIM_EN, IN1–IN6 y OUT_DEN; `bidirectional` para I2C_SDA/SCL, I2C_EXP_SDA/SCL y EXP_IO2.
-- En la raíz: la hoja MCU tiene los 25 pines. VBUS, VIN_SENSE, LIM_IMON, LIM_FLT y LIM_EN se unen con los de Alimentacion por etiquetas locales. Los 20 restantes llevan una marca de no conexión **provisional** hasta que existan las hojas Salidas, Sensores y Conectores: la spec que dibuje cada una la quita. BUS_24V de Alimentacion sigue con la suya (Salidas).
+Implementación (SPEC-0022, cambiada en SPEC-0031):
+- En la hoja: una etiqueta jerárquica por red en el pin del módulo (VBUS en U6-5). Formas: `input` para VIN_SENSE, LIM_IMON, LIM_FLT, IS1–IS6, EXP_INT y BTN_INT; `output` para VBUS, LIM_EN, IN1–IN6, OUT_DEN y EXP_EN; `bidirectional` para I2C_SDA/SCL e I2C_EXP_SDA/SCL. GPIO37 queda sin conectar.
+- En la raíz: la hoja MCU tiene 25 pines, todos unidos por etiquetas locales con los de Alimentacion, Salidas, Sensores y Conectores; ya no queda ninguna no conexión provisional.

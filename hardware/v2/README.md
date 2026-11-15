@@ -12,9 +12,9 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 | `MCU` · `mcu.kicad_sch` (A3) | ESP32-S3-WROOM-1, USB-C, BOOT/RESET, UART | MCU-01 … MCU-07, FW-02 | **Bloque de la v2** (SPEC-0022): U5, U6, J2, J3, SW1, SW2, D5 y pasivos, según `docs/diseno/mcu.md`. 25 pines de hoja (Anexo C de `mcu.md`) |
 | `Salidas` · `salidas.kicad_sch` | 6 *high-side* BTT6050 con diagnóstico y sus bornes | REL-01 … REL-10 | Texto del bloque pendiente |
 | `Sensores` · `sensores.kicad_sch` | Temperatura y humedad del aire de la caseta | AMB-01, AMB-02 | **Bloque de la v2** (SPEC-0029): U13 SHT40-AD1B (I²C 0x44) y C47, según `docs/diseno/sensores.md`. Pines de hoja: `I2C_SDA` e `I2C_SCL`, unidos a la hoja MCU (R24/R25 en MCU) |
-| `Conectores` · `conectores.kicad_sch` | Entrada de pulsos, expansión, reparto de bornes | EXP-01 … EXP-04, FAB-07, FAB-08 | Texto del bloque pendiente y H1–H4 (taladros M3, FAB-08) |
+| `Conectores` · `conectores.kicad_sch` (A3) | Conector de expansión, pulsadores manuales, reparto de bornes | EXP-02 … EXP-04, AMB-03, FAB-07, FAB-08 | **Bloque de la v2** (SPEC-0031): J10, U14–U18, SW3–SW8, R69–R79, C48–C52 y H1–H4, según `docs/diseno/conectores.md`. Pines de hoja: `I2C_SDA`, `I2C_SCL`, `BTN_INT`, `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT` y `EXP_EN` |
 
-Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022), e `I2C_SDA`/`I2C_SCL` unen MCU y Sensores (SPEC-0029). Los pines sin hoja de destino llevan una marca de no conexión **provisional** (desde SPEC-0029, solo `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT`, `EXP_IO2` y `PULSE_IN` de MCU): la spec de Conectores la quita. +5V, +3V3 y GND son símbolos de alimentación globales.
+Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022); `I2C_SDA`/`I2C_SCL` unen MCU, Sensores (SPEC-0029) y Conectores; `BTN_INT`, `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT` y `EXP_EN` unen MCU y Conectores (SPEC-0031). Ya no queda ninguna marca de no conexión provisional en los pines de hoja. +5V, +3V3 y GND son símbolos de alimentación globales.
 
 ## Puente JP1 del limitador (DEC-0006)
 

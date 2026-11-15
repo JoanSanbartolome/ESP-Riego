@@ -13,7 +13,7 @@
 > - **S3 · Corte general (ALI-13):** la habilitación del limitador desde un GPIO con *pull-down*. Sustituye al relé o al BTT6030-2ERA por borde.
 > - **S4 · Corriente total (ALI-12, ALI-13, DEC-0004):** la impone el limitador, con una banda de 3,5–4,9 A (≈ 4,2 A ± 16 %) y una carga instalada máxima de 3,5 A. Sustituye a N2 («≈ 4 A en total») y a la vigilancia de los 4 A con la suma de IS (k_ILIS ± 25 %, VAL-0005-01-04); la medida del total es la IMON del limitador, si la tiene.
 > - **S5 · Pistas y clases (REL-05, FAB-03):** `OUT_n` y su retorno GND, ≈ 1,2 mm (4,9 A con ΔT ≤ 40 °C, IPC-2221); bus de las salidas hasta cada *high-side* en `Power_In` (5,1 A).
-> - **S6 · Bornes (FAB-07):** 2 polos por canal (OUT_n y GND), 6 por borde; en el inferior, además, la entrada, la entrada de pulsos (EXP-01) y la expansión.
+> - **S6 · Bornes (FAB-07):** 2 polos por canal (OUT_n y GND), 6 por borde; en el inferior, además, la entrada y la expansión (longitud de cada borde con los taladros M3: `conectores.md` §4).
 > - **S7 · Diagnóstico (REL-10):** IS a un ADC1 con R_SENSE en serie y tensión ≤ 3,1 V también en fallo; carga abierta en OFF con un *pull-up* R_OL (fuga ≤ 1 mA) y el bus habilitado.
 
 ### Datos de entrada añadidos durante el estudio
@@ -232,9 +232,9 @@ Fórmulas: I_F,mín = (3,20 − V_F,máx − 0,01) / (1,01·R) e I_F,máx = (3,4
 | A + C seleccionable (puente de soldadura por canal) | Puente cerrado: RET_n → +24 V del bus. Puente abierto: contacto libre | 2 + COM | 7 | 35,6 mm |
 | V3 *latch* (ampliación) | Puente H común (±9 V) entre la barra LATCH y COM_L; el interruptor del canal selecciona la válvula | 2 + COM_L | 7 | 35,6 mm |
 
-Todas caben en 100 mm de ancho. En el borde inferior hay que añadir la entrada (2 polos, 10,2 mm), la entrada de pulsos EXP-01 (2 polos, 10,2 mm) y el conector de expansión (≈ 15 mm). Con A + C quedan ≈ 71 mm más los huecos, dentro de los ≈ 86 mm útiles. El COM y la entrada llevan hasta 4–5 A; el WJ500V está especificado para 18 A.
+Todas caben en 100 mm de ancho. En el borde inferior hay que añadir la entrada (2 polos, 10,2 mm) y el conector de expansión. La longitud de cada borde con los taladros M3 está en `conectores.md` §4 (SPEC-0031). El COM y la entrada llevan hasta 4–5 A; el WJ500V está especificado para 18 A.
 
-*Vigente (S6, FAB-07):* 2 polos por canal, 6 por borde (30,5 mm); con la entrada, EXP-01 y la expansión, el borde inferior suma ≈ 66–71 mm (DEC-0003).
+*Vigente (S6, FAB-07):* 2 polos por canal, 6 por borde (30,5 mm; DEC-0003). **Aviso:** la longitud de cada borde, con la entrada, el conector de expansión J10 y los taladros M3, la justifica `conectores.md` §4 (borde inferior: 71 de 84 mm útiles).
 
 ---
 

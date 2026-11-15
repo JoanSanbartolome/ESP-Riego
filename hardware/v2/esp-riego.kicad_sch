@@ -473,7 +473,7 @@
 				(justify left)
 			)
 		)
-		(pin "EXP_IO2" bidirectional
+		(pin "EXP_EN" output
 			(at 50.8 55.88 180)
 			(uuid "af553c72-fbdd-485f-9f8a-bb72bf2f9bf2")
 			(effects
@@ -483,7 +483,7 @@
 				(justify left)
 			)
 		)
-		(pin "PULSE_IN" input
+		(pin "BTN_INT" input
 			(at 50.8 58.42 180)
 			(uuid "35e17922-5a6f-464d-b35f-e22306b12f0e")
 			(effects
@@ -645,8 +645,78 @@
 				)
 			)
 		)
+		(pin "I2C_SDA" bidirectional
+			(at 190.5 88.9 180)
+			(uuid "f2709952-da0d-4471-ab3d-afbeeaafc61b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C_SCL" input
+			(at 190.5 91.44 180)
+			(uuid "c65ac444-b7e3-4e82-9e23-60cf52e3ff47")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "BTN_INT" output
+			(at 190.5 93.98 180)
+			(uuid "983df143-a3cc-4278-9d2f-ec4d723ec99d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C_EXP_SDA" bidirectional
+			(at 190.5 99.06 180)
+			(uuid "0647d284-59d8-4923-98c0-a42e95a85efd")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C_EXP_SCL" bidirectional
+			(at 190.5 101.6 180)
+			(uuid "212ff566-18af-4697-a1b8-87637a89bb16")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EXP_INT" output
+			(at 190.5 104.14 180)
+			(uuid "4c599565-e121-48e4-9d5a-7e10804f17f6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EXP_EN" input
+			(at 190.5 106.68 180)
+			(uuid "8bbd1d83-82fa-447f-ae47-fb2ee6b391c4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 	)
-	(text "Esqueleto limpio de la v2 (SPEC-0014). Los bloques llegan cada uno con su spec:\n- Alimentacion: ALI-01 … ALI-13\n- MCU: MCU-01 … MCU-07\n- Salidas: REL-01 … REL-10\n- Conectores: EXP-01 … EXP-04, FAB-07 y FAB-08\n- Sensores: AMB-01 y AMB-02 (SPEC-0029)"
+	(text "Esqueleto limpio de la v2 (SPEC-0014). Los bloques llegan cada uno con su spec:\n- Alimentacion: ALI-01 … ALI-13\n- MCU: MCU-01 … MCU-07\n- Salidas: REL-01 … REL-10\n- Conectores: EXP-02 … EXP-04, FAB-07 y FAB-08 (SPEC-0031)\n- Sensores: AMB-01 y AMB-02 (SPEC-0029)"
 		(exclude_from_sim no)
 		(at 109.22 142.24 0)
 		(effects
@@ -656,6 +726,126 @@
 			(justify left bottom)
 		)
 		(uuid "9367ea63-67d7-4068-b849-40bdb137238b")
+	)
+	(label "I2C_EXP_SDA"
+		(at 50.8 48.26 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "4828b780-9262-4411-b359-af3c0623c17f")
+	)
+	(label "I2C_EXP_SCL"
+		(at 50.8 50.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2a8a1932-9528-4c0a-b74d-cbee73024465")
+	)
+	(label "EXP_INT"
+		(at 50.8 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "b00a9f27-d841-4ed1-b060-49738e1f7ec7")
+	)
+	(label "EXP_EN"
+		(at 50.8 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7f69df38-ea99-463a-b02c-753b02137837")
+	)
+	(label "BTN_INT"
+		(at 50.8 58.42 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5b1242bf-3440-44d3-811b-d1482839323d")
+	)
+	(label "I2C_SDA"
+		(at 190.5 88.9 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "371bd1e9-bf50-4963-98bd-c512554a1022")
+	)
+	(label "I2C_SCL"
+		(at 190.5 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2c1c7b32-7a68-4c6c-bff2-6e254fadae3d")
+	)
+	(label "BTN_INT"
+		(at 190.5 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "03107c64-21b1-42fe-acfd-ed643ef3b5b7")
+	)
+	(label "I2C_EXP_SDA"
+		(at 190.5 99.06 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "5f172dd1-fc83-4180-a0db-628c2fd23892")
+	)
+	(label "I2C_EXP_SCL"
+		(at 190.5 101.6 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "6f4e6ef0-10f2-4093-ad2f-83bac0215c5f")
+	)
+	(label "EXP_INT"
+		(at 190.5 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ad24fbbb-2071-40f7-ab0b-74585e4c00f2")
+	)
+	(label "EXP_EN"
+		(at 190.5 106.68 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "3c7f8133-5a33-41d8-9fd7-e6c191b27c45")
 	)
 	(label "LIM_EN"
 		(at 109.22 95.25 180)
@@ -756,26 +946,6 @@
 			(justify left bottom)
 		)
 		(uuid "560f533a-fb87-4231-8b07-fd08c18ebf47")
-	)
-	(no_connect
-		(at 50.8 48.26)
-		(uuid "0cb8297e-54e0-4ca2-a21b-a3cf926a0908")
-	)
-	(no_connect
-		(at 50.8 50.8)
-		(uuid "9cd653b0-3cc1-4710-b90b-9398d1bdaebd")
-	)
-	(no_connect
-		(at 50.8 53.34)
-		(uuid "24f25a72-835e-426f-9481-95216ace3e60")
-	)
-	(no_connect
-		(at 50.8 55.88)
-		(uuid "1ca453b9-d468-4a57-879c-1b7e3ed3790d")
-	)
-	(no_connect
-		(at 50.8 58.42)
-		(uuid "b3593611-383c-445f-8e0b-8bd1d5f1c334")
 	)
 	(label "BUS_24V"
 		(at 140.97 90.17 0)

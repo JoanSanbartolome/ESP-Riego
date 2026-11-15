@@ -66,7 +66,7 @@ Tabla completa en el datasheet, Tabla 3-1 (pp. 11-12). Las restricciones de uso 
 ## Variante y restricciones del proyecto
 
 - **Variante fija: N8** (C2913198): 8 MB de flash *quad*, sin PSRAM, −40…85 °C (tabla 1-1, p. 3). Alternativa: N16 (C2913199), misma huella y pines.
-- **La placa no admite R8 ni R16V**: GPIO35–37 están en uso (EXP_INT, EXP_IO2, PULSE_IN) y esas variantes los ocupan con la PSRAM octal (tabla 3-1, nota b, p. 12); además solo llegan a 65 °C. N4 no cumple MCU-01.
+- **La placa no admite R8 ni R16V**: GPIO35–36 están en uso (EXP_INT, EXP_EN; SPEC-0031) y esas variantes los ocupan con la PSRAM octal (tabla 3-1, nota b, p. 12); además solo llegan a 65 °C. N4 no cumple MCU-01.
 - **Antena** (`mcu.md` §3; HDG §1.4.7, pp. 28-31, Fig. 24 y 26): módulo en una esquina con la antena sobresaliendo del borde lateral y el punto de alimentación hacia la esquina; si no sobresale, zona libre de 6 mm × ≥ 15 mm recortando la placa. La huella `esp-riego:ESP32-S3-WROOM-1` conserva el *keepout* de 21 × 48 mm en todas las capas de cobre (sin pistas, vías, pads, relleno ni huellas). ≥ 15 mm libres en la caja alrededor de la antena (HDG p. 30).
 - **Huella propia (FAB-02):** igual que la oficial salvo el taladro de las 12 vías del EPAD (pad 41): 0,3 mm en vez de 0,2 (pad 0,6, máscara frontal abierta como en la oficial). Se conservan las 12 vías (≥ 9 que pide `mcu.md` §12). Poca pasta en el EPAD (§9, p. 41).
 
