@@ -40,4 +40,6 @@ SPEC-0006 (2026-11-15):
 - Búsqueda por MPN o texto en JLCPCB: `jlc.py --buscar X --cantidad N --detalle f.txt` (lista código, tipo, stock, precio del tramo). Sustituye a buscar códigos C con WebSearch.
 - ti.com y la copia de LCSC descargan bien con curl; nxp.com y mouser.com no (el clasificador bloquea insistir en nxp.com). Para fórmulas de *pull-up* de I²C sirve la sección «Pull-Up Resistor Calculation» de cualquier expansor de TI (TCA9535 p. 27).
 - Los PDF de TI dan las tablas desordenadas con `pdftotext`; para leer una tabla de límites, renderizar la página con PyMuPDF (`clip`) y mirarla.
+- Documentación de ESPHome (SPEC-0031): WebFetch puede fallar por límite de uso; `curl -sL https://esphome.io/components/<x>/` y quedarse con el `<main>` del HTML. Los expansores (`pca9554`, `pcf8574`, `mcp23008`, `tca9555`) tienen `interrupt_pin` desde 2026.10.
+- Búsquedas por fuerza bruta de valores (escaleras de resistencias): limitar a ~13 valores por tramo; 25^5 combinaciones no terminan en 5 min.
 - Coste de un pedido por arquitectura: un script de una vez en el scratchpad (`s06_costes.py`, BOM por bloques → `jlc.consultar(código, cantidad)` → cargos de Economic PCBA). Las «Extended (preferida)» no pagan los 3,07 $.

@@ -83,3 +83,4 @@ Nivel **completo**. Se reproduce de forma independiente: el mapeo de pines de J1
 | 2026-11-13 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-13 | coordinador | Añade la lista de restos de EXP-01 y `PULSE_IN` | SPEC-0030 · DEC-0011 |  |  |  |
 | 2026-11-15 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-15 | ing-diseno | conectores.md §1, comparación de la lectura de los 6 pulsadores | 01-ing-diseno | 155251 | 22 | 296 |
