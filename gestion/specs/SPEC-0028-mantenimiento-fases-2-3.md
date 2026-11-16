@@ -109,3 +109,4 @@ Una validación, al final. Nivel **completo** para `hardware/` y `herramientas/k
 | 2026-11-11 | coordinador | Recoge las observaciones de los diarios del 2026-11-07 y del 2026-11-10 | DEC-0009 |  |  |  |
 | 2026-11-12 | coordinador | Recoge lo pendiente de SPEC-0027 | VAL-0027-02 |  |  |  |
 | 2026-11-16 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-16 | jr-conformidad | campos unificados, fichas, U13 a SHT40-AD1B-R2 y alternativa de F1 | 01-jr-conformidad | 152230 | 56 | 10 |
