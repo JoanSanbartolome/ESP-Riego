@@ -32,8 +32,7 @@ Hoja entera por script (SPEC-0022, 2026-11-07, 21 piezas; ERC 0 al primer intent
 - Unir hojas con etiquetas locales en la raíz renombra las redes (`/Alimentacion/X` → `/X`): la paridad da `net_conflict` en los pads ya sincronizados hasta que layout resincroniza. Es esperado: anotarlo en el log.
 
 Hoja con `hoja.py` (SPEC-0031, 2026-11-15):
-- Los símbolos de alimentación salen siempre a 0°: varios GND en pines seguidos a 2,54 mm se pisan. Solución: pines con `""` y cables entre los extremos con un script de la carpeta temporal (`s31_cables.py`), un solo `P:GND` en el último; girar la pieza (J10 a 180°) para que ese pin quede abajo. Tras añadir cables, regenerar pide `--forzar` y volver a poner los cables.
-- EN unido a IN: pin `""` y cable, mejor que dos símbolos +5V a 5 mm (se pisan los textos).
+- Pines seguidos en un lateral con la misma alimentación (GND 2-4-6-8 de un IDC, A0–A2, EN e IN): `P:GND:270` / `P:+5V:90` (desde SPEC-0028) en cada pin, girado hacia fuera; nada de cables (VAL-0031-01-06). Si el Value girado pisa una pieza vecina, mover la pieza.
 - Símbolo propio con pines abajo: dejar ≥ 10 mm entre los nombres laterales y los de abajo (ILIM tapaba FAULT).
 - Archivos de `hardware/v2` en CRLF en el árbol de trabajo: los parches por script convierten a LF y vuelven a CRLF.
 - Texto largo para un `.md`: escribirlo con Write en la carpeta temporal y `cat >>`; un heredoc con `''` dentro falló («unexpected EOF»).

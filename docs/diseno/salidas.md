@@ -1,7 +1,7 @@
 # Bloque de salidas: 6 canales *high-side* BTT6050-1ERA y bornes (SPEC-0023)
 
 **Estado:** revisado tras VAL-0023-01 (M-01, M-02, B-03…B-06); actualizado en SPEC-0025 (cambios propuestos en SPEC-0024 y DEC-0008). **Autor:** ing-esquematicos; ing-diseno (SPEC-0025) · **Fecha:** 2026-11-07; 2026-11-13.
-**Requisitos:** REL-01, REL-03…REL-10; además ALI-01, ALI-12, ALI-13, FAB-03, FAB-07, FAB-09 y §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006, DEC-0007, DEC-0008.
+**Requisitos:** REL-01, REL-03…REL-10; además ALI-01, ALI-12, ALI-13, FAB-03, FAB-07, FAB-09 y §6 de `docs/02` v0.5; DEC-0003, DEC-0004, DEC-0006, DEC-0007, DEC-0008.
 **Precios y stock:** API de JLCPCB (`selectSmtComponentList`), consulta del 2026-11-06. El tipo Basic/Extended y los códigos LCSC definitivos fueron confirmados por jr-conformidad el 2026-11-10 (SPEC-0024). Stock de §9 del 2026-11-12 (`hardware/componentes/stock-salidas.csv`, SPEC-0025).
 
 > Datasheets (páginas del PDF):

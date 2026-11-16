@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "ESP-Riego v2")
-		(date "2026-11-15")
+		(date "2026-11-16")
 		(rev "2.0-dev")
 		(company "Joan San Bartolomé Ferri")
 		(comment 1 "Conectores: expansión, pulsadores y taladros M3")
@@ -2441,6 +2441,16 @@
 		(at 81.28 218.44)
 		(uuid "b9d9dccd-4753-42e1-b41f-4f8b3a45941b")
 	)
+	(label "EXP_INT"
+		(at 71.12 73.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "04a65398-0ac0-4857-b782-9992219087d8")
+	)
 	(label "ILIM_5V"
 		(at 66.04 83.82 270)
 		(effects
@@ -2460,16 +2470,6 @@
 			(justify left bottom)
 		)
 		(uuid "29f51eed-9afe-4063-9df3-4a518e62dd8f")
-	)
-	(label "EXP_INT"
-		(at 71.12 73.66 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "04a65398-0ac0-4857-b782-9992219087d8")
 	)
 	(label "ILIM_5V"
 		(at 76.2 82.55 90)
@@ -2491,6 +2491,16 @@
 		)
 		(uuid "5008edbe-f9fa-425f-b9a0-f3e3929142c4")
 	)
+	(label "EXP_INT"
+		(at 71.12 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e263bb14-14a2-4a63-83be-97e343ab80b5")
+	)
 	(label "ILIM_3V3"
 		(at 66.04 139.7 270)
 		(effects
@@ -2510,16 +2520,6 @@
 			(justify left bottom)
 		)
 		(uuid "64ce4aa5-487e-462f-8175-bedc506c34d0")
-	)
-	(label "EXP_INT"
-		(at 71.12 129.54 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "e263bb14-14a2-4a63-83be-97e343ab80b5")
 	)
 	(label "ILIM_3V3"
 		(at 76.2 138.43 90)
@@ -2611,16 +2611,6 @@
 		)
 		(uuid "65de9f06-ebba-415d-b9cd-b6c28c6f0635")
 	)
-	(label "EXP_SDA_J"
-		(at 228.6 66.04 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "d67bc2b9-3faa-42f8-9471-b579296e2132")
-	)
 	(label "EXP_SCL_J"
 		(at 218.44 68.58 180)
 		(effects
@@ -2650,6 +2640,16 @@
 			(justify left bottom)
 		)
 		(uuid "270b471c-549c-492a-9b91-c3644e5fda2f")
+	)
+	(label "EXP_SDA_J"
+		(at 228.6 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d67bc2b9-3faa-42f8-9471-b579296e2132")
 	)
 	(label "+5V_EXP"
 		(at 284.48 76.2 0)
@@ -2761,16 +2761,6 @@
 		)
 		(uuid "f821f58e-9260-407f-b1b7-8ade0691c137")
 	)
-	(label "EXP_INT_J"
-		(at 228.6 132.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "f25c4192-00f3-4ea6-983d-1ab1826732ee")
-	)
 	(label "EXP_EN_J"
 		(at 218.44 134.62 180)
 		(effects
@@ -2800,6 +2790,16 @@
 			(justify left bottom)
 		)
 		(uuid "66ba9e02-24b9-4609-aa71-c15b8a8c5fca")
+	)
+	(label "EXP_INT_J"
+		(at 228.6 132.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f25c4192-00f3-4ea6-983d-1ab1826732ee")
 	)
 	(label "BTN1"
 		(at 81.28 200.66 0)
@@ -2975,6 +2975,17 @@
 		)
 		(uuid "15c88bba-ee98-49e3-ac72-00297519bec3")
 	)
+	(hierarchical_label "BTN_INT"
+		(shape output)
+		(at 60.96 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1d690238-ef8f-4d58-a214-bfcfef78464e")
+	)
 	(hierarchical_label "I2C_SCL"
 		(shape input)
 		(at 60.96 200.66 180)
@@ -2996,17 +3007,6 @@
 			(justify right)
 		)
 		(uuid "8e89f633-8000-4ba5-a630-65c1d48612ae")
-	)
-	(hierarchical_label "BTN_INT"
-		(shape output)
-		(at 60.96 205.74 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1d690238-ef8f-4d58-a214-bfcfef78464e")
 	)
 	(text "Conectores: expansión EXP-02, pulsadores manuales EXP-03 y taladros M3 (FAB-08)"
 		(exclude_from_sim no)
@@ -3103,7 +3103,7 @@
 		)
 		(uuid "9d8540d5-bbcf-446f-962c-4209c5dbc752")
 	)
-	(text "Notas (docs/diseno/conectores.md):\n- J10 pin a pin según §2.2 (viabilidad-expansion.md §10.2): 1 +5V_EXP, 3 +3V3_EXP, 5 SDA, 7 SCL, 9 EXP_INT, 10 EXP_EN; 2, 4, 6 y 8 GND.\n- U14: R69 68 kΩ → límite 343–440 mA (≥ 0,30 A); U15: R70 220 kΩ → 104–146 mA (≥ 50 mA), con R al 1 %. SLVS841G p. 16. EN unido a IN: siempre habilitados.\n- FAULT de U14 y U15 y R77 (10 kΩ a +3V3) en EXP_INT, lado del MCU de R75. R78 (100 kΩ a GND) en EXP_EN, lado del MCU de R76 (REL-04).\n- R71/R72 (2,2 kΩ a +3V3_EXP) en el lado del conector de R73/R74; bus de expansión a 100 kHz. U16 y U17 a ≤ 5 mm de J10.\n- U18: A2–A0 a GND (0x20; SHT40 en 0x44); P0–P5 con pull-up interno de 100 kΩ (SCPS233E p. 16): sin pull-ups externos. INT → BTN_INT (GPIO39), R79 10 kΩ.\n- Bus de la placa (GPIO41/42) a 100 kHz; pull-ups R24/R25 en la hoja MCU. Fila SW3–SW8 en el centro de la placa, U18 junto a ella (FAB-07)."
+	(text "Notas (docs/diseno/conectores.md):\n- J10 pin a pin según §2.2 (viabilidad-expansion.md §10.2): 1 +5V_EXP, 3 +3V3_EXP, 5 SDA, 7 SCL, 9 EXP_INT, 10 EXP_EN; 2, 4, 6 y 8 GND.\n- U14: R69 68 kΩ → límite 343–440 mA (≥ 0,30 A); U15: R70 220 kΩ → 104–146 mA (≥ 50 mA), con R al 1 %. SLVS841G pp. 16–17. EN unido a IN: siempre habilitados.\n- FAULT de U14 y U15 y R77 (10 kΩ a +3V3) en EXP_INT, lado del MCU de R75. R78 (100 kΩ a GND) en EXP_EN, lado del MCU de R76 (REL-04).\n- R71/R72 (2,2 kΩ a +3V3_EXP) en el lado del conector de R73/R74; bus de expansión a 100 kHz. U16 y U17 a ≤ 5 mm de J10.\n- U18: A2–A0 a GND (0x20; SHT40 en 0x44); P0–P5 con pull-up interno de 100 kΩ (SCPS233E p. 16): sin pull-ups externos. INT → BTN_INT (GPIO39), R79 10 kΩ.\n- Bus de la placa (GPIO41/42) a 100 kHz; pull-ups R24/R25 en la hoja MCU. Fila SW3–SW8 en el centro de la placa, U18 junto a ella (FAB-07)."
 		(exclude_from_sim no)
 		(at 20.32 269.24 0)
 		(effects
@@ -3112,7 +3112,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "638fed0b-671a-4888-bdb5-80889e6d9e8c")
+		(uuid "6e70d856-fac9-4ee6-b40d-f0dc41b98d49")
 	)
 	(symbol
 		(lib_id "esp-riego:TPS2553DBVR")
@@ -3356,7 +3356,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 40.64 76.2 0)
+		(at 33.02 76.2 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3366,7 +3366,7 @@
 		(dnp no)
 		(uuid "9f87d32c-36c8-402f-9984-afdf34c8c9af")
 		(property "Reference" "C48"
-			(at 43.18 74.93 0)
+			(at 35.56 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3377,7 +3377,7 @@
 			)
 		)
 		(property "Value" "100n"
-			(at 43.18 77.47 0)
+			(at 35.56 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3388,7 +3388,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3399,7 +3399,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3410,7 +3410,7 @@
 			)
 		)
 		(property "Description" "MLCC 100 nF 50 V X7R 0603: C_IN de U14 y de U15"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3421,7 +3421,7 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3432,7 +3432,7 @@
 			)
 		)
 		(property "MPN" "CC0603KRX7R9BB104"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3443,7 +3443,7 @@
 			)
 		)
 		(property "Fabricante" "YAGEO"
-			(at 40.64 76.2 0)
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3824,7 +3824,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 40.64 132.08 0)
+		(at 33.02 132.08 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3834,7 +3834,7 @@
 		(dnp no)
 		(uuid "e19d9dc7-4614-4ea6-a4cf-fe62d003e2ed")
 		(property "Reference" "C49"
-			(at 43.18 130.81 0)
+			(at 35.56 130.81 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3845,7 +3845,7 @@
 			)
 		)
 		(property "Value" "100n"
-			(at 43.18 133.35 0)
+			(at 35.56 133.35 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3856,7 +3856,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3867,7 +3867,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3878,7 +3878,7 @@
 			)
 		)
 		(property "Description" "MLCC 100 nF 50 V X7R 0603: C_IN de U14 y de U15"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3889,7 +3889,7 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3900,7 +3900,7 @@
 			)
 		)
 		(property "MPN" "CC0603KRX7R9BB104"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3911,7 +3911,7 @@
 			)
 		)
 		(property "Fabricante" "YAGEO"
-			(at 40.64 132.08 0)
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6758,7 +6758,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 50.8 68.58 0)
+		(at 50.8 68.58 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6768,7 +6768,7 @@
 		(dnp no)
 		(uuid "3fee43c2-1ce0-4bb8-af96-b432b49741c6")
 		(property "Reference" "#PWR094"
-			(at 50.8 72.39 0)
+			(at 54.61 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6779,13 +6779,14 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 50.8 65.024 0)
+			(at 47.244 68.58 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -6911,6 +6912,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+5V")
+		(at 50.8 73.66 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c8833529-b6f3-4220-992e-5c8c024c5a67")
+		(property "Reference" "#PWR095"
+			(at 54.61 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+5V"
+			(at 47.244 73.66 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 50.8 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 50.8 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8bbcfe82-11cd-4367-90bd-645f808deade")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR095")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 76.2 90.17 0)
 		(unit 1)
@@ -6989,7 +7068,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 40.64 72.39 0)
+		(at 33.02 72.39 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6997,9 +7076,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "360b1f61-434b-45c4-b4c3-016cc02a9358")
-		(property "Reference" "#PWR100"
-			(at 40.64 76.2 0)
+		(uuid "ac50fbce-c8c4-49e5-b8ce-c922cd1f35d7")
+		(property "Reference" "#PWR140"
+			(at 33.02 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7010,7 +7089,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 40.64 68.834 0)
+			(at 33.02 68.834 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7020,7 +7099,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 72.39 0)
+			(at 33.02 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7031,7 +7110,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 72.39 0)
+			(at 33.02 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7042,7 +7121,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 40.64 72.39 0)
+			(at 33.02 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7053,12 +7132,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "1adca60c-8bb5-447e-b5c2-0bd745bcedfa")
+			(uuid "46facf25-e0e4-4d3e-9b19-c9614f82bc9a")
 		)
 		(instances
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
-					(reference "#PWR100")
+					(reference "#PWR140")
 					(unit 1)
 				)
 			)
@@ -7066,7 +7145,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 40.64 80.01 0)
+		(at 33.02 80.01 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7074,9 +7153,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "b84786c5-e4e1-44c8-b04a-ad7e7fb9f21c")
-		(property "Reference" "#PWR101"
-			(at 40.64 86.36 0)
+		(uuid "8857206f-8199-43a3-b738-a1c9faa86c43")
+		(property "Reference" "#PWR147"
+			(at 33.02 86.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7087,7 +7166,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 40.64 83.82 0)
+			(at 33.02 83.82 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7097,7 +7176,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 80.01 0)
+			(at 33.02 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7108,7 +7187,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 80.01 0)
+			(at 33.02 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7119,7 +7198,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 40.64 80.01 0)
+			(at 33.02 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7130,12 +7209,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "358cf502-920f-4e65-b481-2de970fbf60f")
+			(uuid "ea8d46f0-0308-4791-9cd7-d43ed94040f2")
 		)
 		(instances
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
-					(reference "#PWR101")
+					(reference "#PWR147")
 					(unit 1)
 				)
 			)
@@ -7220,7 +7299,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 50.8 124.46 0)
+		(at 50.8 124.46 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7230,7 +7309,7 @@
 		(dnp no)
 		(uuid "428df531-57f9-46c4-b9af-1336694696e9")
 		(property "Reference" "#PWR103"
-			(at 50.8 128.27 0)
+			(at 54.61 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7241,13 +7320,14 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 50.8 120.904 0)
+			(at 47.244 124.46 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -7373,6 +7453,84 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+3V3")
+		(at 50.8 129.54 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "33792363-e4df-403f-9bc7-d09751a53d64")
+		(property "Reference" "#PWR104"
+			(at 54.61 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 47.244 129.54 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 50.8 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 50.8 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fe5d6520-41ff-49f6-bd29-f5bb1a71579e")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR104")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 76.2 146.05 0)
 		(unit 1)
@@ -7451,7 +7609,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 40.64 128.27 0)
+		(at 33.02 128.27 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7459,9 +7617,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6c400abf-362c-4df1-b40b-91b6ff7fbe9a")
-		(property "Reference" "#PWR106"
-			(at 40.64 132.08 0)
+		(uuid "6e14394e-fc04-4cd7-8d01-c2f7e301a9e4")
+		(property "Reference" "#PWR148"
+			(at 33.02 132.08 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7472,7 +7630,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 40.64 124.714 0)
+			(at 33.02 124.714 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7482,7 +7640,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 128.27 0)
+			(at 33.02 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7493,7 +7651,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 128.27 0)
+			(at 33.02 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7504,7 +7662,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 40.64 128.27 0)
+			(at 33.02 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7515,12 +7673,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "910b591b-7b61-4e23-875c-ae3b041c021d")
+			(uuid "eeb46f8b-7e03-41b9-bf0e-a9ffe51a4f19")
 		)
 		(instances
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
-					(reference "#PWR106")
+					(reference "#PWR148")
 					(unit 1)
 				)
 			)
@@ -7528,7 +7686,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 40.64 135.89 0)
+		(at 33.02 135.89 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7536,9 +7694,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8570f0b4-fa4d-459e-aa1d-0f1de61e4d8e")
-		(property "Reference" "#PWR108"
-			(at 40.64 142.24 0)
+		(uuid "71748a4d-91d8-44c5-bf61-d4d50797269e")
+		(property "Reference" "#PWR155"
+			(at 33.02 142.24 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7549,7 +7707,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 40.64 139.7 0)
+			(at 33.02 139.7 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7559,7 +7717,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 135.89 0)
+			(at 33.02 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7570,7 +7728,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 135.89 0)
+			(at 33.02 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7581,7 +7739,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 40.64 135.89 0)
+			(at 33.02 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7592,12 +7750,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a8fa3710-d617-4332-a400-59d65282dd07")
+			(uuid "63b845af-06ec-4ed7-93ca-e01c9092cbc1")
 		)
 		(instances
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
-					(reference "#PWR108")
+					(reference "#PWR155")
 					(unit 1)
 				)
 			)
@@ -7759,7 +7917,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 271.78 76.2 0)
+		(at 271.78 76.2 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7769,7 +7927,7 @@
 		(dnp no)
 		(uuid "1d6b30f5-fc47-4d8d-88a4-83ccb4600be1")
 		(property "Reference" "#PWR111"
-			(at 271.78 82.55 0)
+			(at 265.43 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7780,13 +7938,14 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 271.78 80.01 0)
+			(at 267.97 76.2 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -7829,6 +7988,240 @@
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
 					(reference "#PWR111")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 271.78 73.66 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "09098b72-4a9d-463d-b9d6-f99a179b7df5")
+		(property "Reference" "#PWR131"
+			(at 265.43 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 267.97 73.66 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 271.78 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 271.78 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 271.78 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5d3b27a2-2b6e-49e5-b880-477a48b39f8a")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR131")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 271.78 71.12 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "aca3559c-bed0-4997-92fd-f69bacdc1db6")
+		(property "Reference" "#PWR132"
+			(at 265.43 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 267.97 71.12 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 271.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 271.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 271.78 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9b8f032e-2c9d-454f-a85e-fc3450c0c680")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR132")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 271.78 68.58 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a703a990-350f-430d-8d72-7c82ff514e4a")
+		(property "Reference" "#PWR133"
+			(at 265.43 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 267.97 68.58 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 271.78 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 271.78 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 271.78 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "1b3ab58b-53c2-4b03-afdd-0c6abc28c546")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR133")
 					(unit 1)
 				)
 			)
@@ -8067,7 +8460,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 60.96 218.44 0)
+		(at 60.96 213.36 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8075,9 +8468,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "83c3732e-7f44-423a-b5df-3da191a5d1ac")
-		(property "Reference" "#PWR115"
-			(at 60.96 224.79 0)
+		(uuid "97ebe935-691a-4ce4-b2d0-575c2fb64dc3")
+		(property "Reference" "#PWR134"
+			(at 54.61 213.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8088,13 +8481,170 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 60.96 222.25 0)
+			(at 57.15 213.36 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 60.96 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 60.96 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 60.96 213.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "23e5aeb1-d30c-46cb-8a66-8ad2e634f7c0")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR134")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 60.96 215.9 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2400129e-3d03-42f0-9317-377891fb3b8b")
+		(property "Reference" "#PWR139"
+			(at 54.61 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 57.15 215.9 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" ""
+			(at 60.96 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 60.96 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 60.96 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2f210e71-95c3-43cd-a573-3ae8b9db8c3f")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR139")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 60.96 218.44 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "83c3732e-7f44-423a-b5df-3da191a5d1ac")
+		(property "Reference" "#PWR115"
+			(at 54.61 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 57.15 218.44 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -8137,83 +8687,6 @@
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
 					(reference "#PWR115")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 71.12 195.58 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "93b687c2-9aa2-42a9-932a-f104a4dede04")
-		(property "Reference" "#PWR117"
-			(at 71.12 199.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 71.12 192.024 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 71.12 195.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 71.12 195.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 71.12 195.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "457a8807-3692-4a65-a03f-f131f36b1711")
-		)
-		(instances
-			(project "esp-riego"
-				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
-					(reference "#PWR117")
 					(unit 1)
 				)
 			)
@@ -8291,6 +8764,83 @@
 			(project "esp-riego"
 				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
 					(reference "#PWR118")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 71.12 195.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "93b687c2-9aa2-42a9-932a-f104a4dede04")
+		(property "Reference" "#PWR117"
+			(at 71.12 199.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 71.12 192.024 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 71.12 195.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "457a8807-3692-4a65-a03f-f131f36b1711")
+		)
+		(instances
+			(project "esp-riego"
+				(path "/9e23570d-5da0-4182-a100-ea5c7854afa1/f35208bc-3074-4a95-9125-8cc49111e506"
+					(reference "#PWR117")
 					(unit 1)
 				)
 			)
@@ -8988,75 +9538,5 @@
 				)
 			)
 		)
-	)
-	(wire
-		(pts
-			(xy 50.8 73.66) (xy 50.8 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "39704101-e55c-4618-b861-809147c55b1a")
-	)
-	(wire
-		(pts
-			(xy 50.8 129.54) (xy 50.8 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "96536571-7391-40a1-9e95-df4f539c464a")
-	)
-	(wire
-		(pts
-			(xy 271.78 68.58) (xy 271.78 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7bf06c4f-6722-4a0c-b66a-d04ce2d8b3c8")
-	)
-	(wire
-		(pts
-			(xy 271.78 71.12) (xy 271.78 73.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0ed00ecf-7874-4bc2-b995-e4b82af2d09d")
-	)
-	(wire
-		(pts
-			(xy 271.78 73.66) (xy 271.78 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "23abaad7-3efd-4bfb-aeaf-0982d8258e2a")
-	)
-	(wire
-		(pts
-			(xy 60.96 213.36) (xy 60.96 215.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a4af10f6-ace4-4303-8b2d-7f354d50b801")
-	)
-	(wire
-		(pts
-			(xy 60.96 215.9) (xy 60.96 218.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7528852d-8ad9-4187-8510-5730516ad5ff")
 	)
 )

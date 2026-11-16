@@ -14,7 +14,7 @@
 > - **S4 · Corriente total (ALI-12, ALI-13, DEC-0004):** la impone el limitador, con una banda de 3,5–4,9 A (≈ 4,2 A ± 16 %) y una carga instalada máxima de 3,5 A. Sustituye a N2 («≈ 4 A en total») y a la vigilancia de los 4 A con la suma de IS (k_ILIS ± 25 %, VAL-0005-01-04); la medida del total es la IMON del limitador, si la tiene.
 > - **S5 · Pistas y clases (REL-05, FAB-03):** `OUT_n` y su retorno GND, ≈ 1,2 mm (4,9 A con ΔT ≤ 40 °C, IPC-2221); bus de las salidas hasta cada *high-side* en `Power_In` (5,1 A).
 > - **S6 · Bornes (FAB-07):** 2 polos por canal (OUT_n y GND), 6 por borde; en el inferior, además, la entrada y la expansión (longitud de cada borde con los taladros M3: `conectores.md` §4).
-> - **S7 · Diagnóstico (REL-10):** IS a un ADC1 con R_SENSE en serie y tensión ≤ 3,1 V también en fallo; carga abierta en OFF con un *pull-up* R_OL (fuga ≤ 1 mA) y el bus habilitado.
+> - **S7 · Diagnóstico (REL-10):** IS a un ADC1 con R_SENSE en serie y tensión ≤ 3,1 V también en fallo; carga abierta en OFF con un *pull-up* R_OL (fuga ≤ 1 mA) y el bus habilitado. Resuelto en `salidas.md` §3 (R_SENSE 10 kΩ, R_IS 820 Ω, R_OL 47 kΩ).
 
 ### Datos de entrada añadidos durante el estudio
 
