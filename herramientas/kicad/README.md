@@ -65,12 +65,12 @@ Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `
 | esquema | 17 | La huella asignada existe | `esquema.huellas` |
 | esquema | 18 | Huellas con vías según FAB-02 | `esquema.vias` |
 | esquema | 19 | No montados marcados como DNP | `esquema.dnp` (hoja = tabla de campos = PCB; texto «DNP / no montar» sin marca) |
-| layout | 12 | Zonas rellenadas | `layout.zonas` (relleno guardado en cada capa de cada zona; que esté al día lo ve el DRC con relleno previo) |
-| layout | 14 | Sin `embedded_files` | `layout.incrustados` |
-| layout | 15 | `outputdirectory` | `layout.salida` (vacío, o relativo y dentro de `<repo>/fabricacion/<versión>`) |
-| layout | 30 (y 24, 31) | Anchos según la tabla de restricciones | `layout.restricciones` (`restricciones.py`; N/A mientras no exista la tabla). Compara la PCB con la tabla: que la tabla cumpla la corriente y el ΔT (l. 24 y 31) y los retornos por zonas no los mira (VAL-0027-01-01) |
-| layout | 44 | SMD solo en la cara superior | `layout.smd_cara` (por los pads, no por el atributo) |
-| layout | 49 | Modelo 3D en todos los componentes | `layout.3d` |
+| layout | 13 | Zonas rellenadas | `layout.zonas` (relleno guardado en cada capa de cada zona; que esté al día lo ve el DRC con relleno previo) |
+| layout | 15 | Sin `embedded_files` | `layout.incrustados` |
+| layout | 16 | `outputdirectory` | `layout.salida` (vacío, o relativo y dentro de `<repo>/fabricacion/<versión>`) |
+| layout | 31 (y 25, 32) | Anchos según la tabla de restricciones | `layout.restricciones` (`restricciones.py`; N/A mientras no exista la tabla). Compara la PCB con la tabla: que la tabla cumpla la corriente y el ΔT (l. 25 y 32) y los retornos por zonas no los mira (VAL-0027-01-01) |
+| layout | 45 | SMD solo en la cara superior | `layout.smd_cara` (por los pads, no por el atributo) |
+| layout | 50 | Modelo 3D en todos los componentes | `layout.3d` |
 | librerías | 10 | Formato nativo | `librerias.formato` |
 | librerías | 14 | Tablas con `${KIPRJMOD}` | `librerias.rutas` |
 | librerías | 22 | Campos del símbolo | `librerias.campos` (símbolos de las librerías del `sym-lib-table`) |
@@ -79,7 +79,7 @@ Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `
 | librerías | 33 | Modelo 3D presente, en `.step`, y existe | `librerias.3d` (alineado, l. 34, es `[juicio]`: `vista.py huella --3d`). Un modelo oficial que no existe vale si `libraries/3d` tiene uno con el mismo nombre (respaldo que enlaza `sincronizar.py`; `_comun.modelo_de_respaldo`) |
 | librerías | 35 | Atributo `smd` / `through_hole` coherente con los pads | `librerias.attr` (huellas propias y huellas de la PCB) |
 | librerías | 37 | Extensiones 3D como `binary` | `librerias.gitattributes` |
-| librerías | 45 | Ficha del componente | `librerias.fichas` (campo `lcsc:` de una ficha de pieza o columna `LCSC` de una ficha de bloque; ver «Formatos») |
+| librerías | 47 | Ficha del componente | `librerias.fichas` (campo `lcsc:` de una ficha de pieza o columna `LCSC` de una ficha de bloque; ver «Formatos») |
 
 Sin cubrir: `requisitos.md` (IDs citados) y los ocho puntos de `fabricacion.md`, que van con el paquete de fabricación (fase 5).
 

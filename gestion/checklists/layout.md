@@ -1,6 +1,6 @@
 # Checklist de revisión de layout
 
-**Versión:** v8 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v9 (2026-11-16). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `layout.restricciones` compara la PCB con la tabla, no calcula anchos, y no aplica hasta que exista la tabla de restricciones (`docs/diseno/restricciones.csv`, fase 4). `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -9,6 +9,7 @@
 - [ ] [juicio] `.kicad_dru` y clases de red según FAB-02, FAB-03 y KIC-04.
 - [ ] [auto: verificar.py] DRC sin errores y sin elementos sin conectar.
 - [ ] [auto: verificar.py] Paridad esquema↔PCB sin incidencias (KIC-03, H1).
+- [ ] [juicio] Si la PCB se sincroniza con un script (`sincronizar.py`) en lugar del actualizador de KiCad, se cruza la red de cada pad con la netlist de `kicad-cli` (VAL-0019-02). `sync_schematic_to_board` del MCP no sirve en proyectos jerárquicos.
 - [ ] [auto: comprobar.py layout.zonas] Zonas con relleno en cada una de sus capas; `verificar.py` las rellena antes del DRC.
 - [ ] [juicio] Cajetín comprobado en el PDF exportado (`kicad-cli pcb export pdf --include-border-title`, sobre una copia).
 - [ ] [auto: comprobar.py layout.incrustados] La PCB no lleva `embedded_files` con hojas de dibujo u otros archivos ajenos al diseño actual.
@@ -61,3 +62,4 @@
 | v6 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v7 | 2026-11-12 | SPEC-0027: los ocho `[auto: pendiente]` pasan a `comprobar.py`; los tres de anchos y corriente dependen de la tabla de restricciones |
 | v8 | 2026-11-12 | VAL-0027-01-01 y -03: la corriente y el ΔT de las pistas vuelven a `[juicio]` (el script solo compara con la tabla); zonas con relleno en cada capa |
+| v9 | 2026-11-16 | SPEC-0028: cruce pad ↔ netlist cuando se sincroniza por script (VAL-0019-02) |

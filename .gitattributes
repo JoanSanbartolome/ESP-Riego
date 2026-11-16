@@ -7,6 +7,7 @@
 *.step binary
 *.stp binary
 *.wrl binary
+*.WRL binary
 *.STEP binary
 *.STP binary
 *.igs binary
