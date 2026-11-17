@@ -70,3 +70,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 | 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-17 | coordinador | Abre la spec y hace el paso 0 (docs/02 v0.8, esquema.md v13) |  |  |  |  |
 | 2026-11-17 | ing-diseno | Pasos 1–2: herramientas de estilo y hoja piloto Sensores | 01-ing-diseno | 351199 | 135 | 58 |
+| 2026-11-17 | usuario | Aprueba el estilo de la hoja piloto Sensores (imagen de `vista.py hoja`) |  |  |  |  |
