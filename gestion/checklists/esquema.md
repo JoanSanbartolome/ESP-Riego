@@ -24,7 +24,7 @@
 - [ ] [juicio] Recalculado de forma independiente por el revisor; desviación explicada si la hay.
 - [ ] [juicio] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] [juicio] Condensadores cerámicos con *derating* por tensión DC y temperatura.
-- [ ] [juicio] La rueda libre de cada salida (REL-03) soporta con margen la corriente de la salida al apagar, hasta la limitación del *high-side*, y la tensión del bus, y su fuga en caliente cabe en el presupuesto de la carga abierta (REL-10).
+- [ ] [juicio] La rueda libre de cada salida (REL-03) soporta con margen la tensión del bus y la corriente media de la carga en uso (REL-05), y el pico de un corto con su I_FSM frente a la corriente y la duración que deja pasar el *high-side*. Su fuga en caliente cabe en el presupuesto de la carga abierta (REL-10).
 - [ ] [juicio] Los límites de uso de las salidas (REL-11) tienen valor, origen y consecuencia de superarlos, y son coherentes con REL-05, ALI-12, ALI-13 y REL-10; ningún cálculo de las salidas usa una válvula concreta como dato de diseño (DEC-0014).
 - [ ] [juicio] Si se calcula una autonomía (*hold-up*), va desde la VIN mínima (ALI-01) menos las caídas hasta el umbral de **bajada** del UVLO (ALI-06), con la potencia de pico de la lógica y la tolerancia del condensador.
 - [ ] [juicio] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5) más el calentamiento interno de la caja (≥ 10 °C, o el valor estimado en `docs/diseno/`).

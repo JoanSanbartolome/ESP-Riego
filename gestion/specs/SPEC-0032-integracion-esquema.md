@@ -29,7 +29,7 @@ El esquema v2 queda cerrado para el layout: raíz completa, ERC 0, campos comple
   - raíz: todas las hojas unidas, sin no conexiones provisionales;
   - `docs/04-arquitectura.md`: diagrama de bloques, presupuesto de potencia por raíl con todos los bloques (ALI-12) y tabla de GPIO contrastada con la netlist (base de FW-02);
   - revisión global de la fase 3 del plan: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo y test points;
-  - `docs/diseno/salidas.md` con el dato medido de la válvula instalada (DEC-0011); sin ese dato no se propone la etiqueta; con él, también el aviso de vigencia de la cabecera de `estudio-salidas.md` y la memoria `.claude/agent-memory/ing-diseno/project_salidas_d8.md`, que aún dicen «válvulas de 24 V DC» (VAL-0030-01-04);
+  - salidas con los límites de uso de SPEC-0034 (DEC-0014), que ya actualiza `salidas.md`, `estudio-salidas.md` y la memoria de ing-diseno: aquí solo se comprueba que la hoja integrada los conserva. La etiqueta no depende de medir la válvula;
   - BOM preliminar con coste y stock (`jr-conformidad`) y PDF del esquema;
   - casillas de las fases 2 y 3 de `docs/03-plan-de-diseno.md` (coordinador);
   - las 5 B de VAL-0028-01: casos de `test_kicad.py` que no detectan su mutación, orden de `jlc.resultados` (-01) y `is_file` de `_comun.modelo_de_respaldo` (-02), de `ing-diseno` (la batería la lleva el coordinador a `herramientas/pruebas/`); notación de los condensadores entre tablas, `4.7uF`/`22uF` frente a `4.7u`/`22u` (-03), y `verificado_por` de `BTT6050-1ERA.md` con VAL-0028-01 por la pasta del EP (-04), de `jr-conformidad` con la BOM; I²t del TA10 igual en `alimentacion.md` §3.2 y en `0451010.MRL.md` (-05).

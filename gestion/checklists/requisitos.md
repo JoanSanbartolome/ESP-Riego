@@ -1,6 +1,6 @@
 # Checklist de revisión de requisitos
 
-**Versión:** v5 (2026-11-12). Para las specs que cambian `docs/02-especificaciones-v2.md`. Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v6 (2026-11-17). Para las specs que cambian `docs/02-especificaciones-v2.md`. Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `[auto: pendiente]`: todavía sin script; se repasa. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -37,6 +37,7 @@
 - [ ] [juicio] Los umbrales de UVLO se acotan en los dos sentidos (arranque y bajada) según las pruebas de §6 que se hacen con la placa en marcha.
 - [ ] [juicio] Cada límite nuevo de consumo tiene reparto, prueba en §6 y llega a las specs que lo consumen.
 - [ ] [juicio] El margen de cada prueba de §6 respecto a su umbral supera la precisión fijada para la medida.
+- [ ] [juicio] Cuando un dato de diseño pasa a ser un límite de uso, el requisito dice qué mecanismo lo hace cumplir (limitador, firmware o instalación) y en qué banda actúa, y tiene su prueba en §6. Un limitador no «impone» un valor que está por debajo de su banda.
 
 ## Términos obsoletos
 
@@ -58,3 +59,4 @@
 | v3 | 2026-11-05 | Propuestas de VAL-0007-01 y VAL-0011-01: umbrales como bandas, protecciones escalonadas, parámetros de equipos externos, cifras de la DEC frente a docs/02, búsqueda en las memorias y estudios sustituidos, protecciones en % de potencia, carga a tensión máxima y en frío, límites de consumo con reparto y prueba, margen de las pruebas, condición de las corrientes de diseño y UVLO en los dos sentidos. Se ajustó antes del merge de SPEC-0011 (VAL-0011-01 y VAL-0011-02) |
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v5 | 2026-11-12 | SPEC-0027: el `[auto: pendiente]` de esta checklist sigue sin script |
+| v6 | 2026-11-17 | Propuesta de VAL-0033-01: mecanismo, banda y prueba de los límites de uso |

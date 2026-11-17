@@ -48,11 +48,13 @@ El bloque de salidas queda dimensionado sin una válvula de referencia (DEC-0014
 
 - `docs/diseno/salidas.md`: §0, §1, §3, §4, §5, §6, §9, §12, §13 y §14 (válvula Bermad de 156 Ω, válvula genérica de 0,25 A, 1–2 válvulas por canal, E_AS con el *clamp*, D12–D17 DNP).
 - `docs/diseno/estudio-salidas.md`: aviso en la cabecera (histórico).
-- `docs/diseno/viabilidad-expansion.md` §1 (tabla de datos, válvulas instaladas) y §2.3: el dato abierto de la corriente de las válvulas se resuelve con los límites de uso (DEC-0014, EXP-05).
+- `docs/diseno/viabilidad-expansion.md` §0 (aviso sobre la corriente de las válvulas), §1 (tabla de datos, válvulas instaladas), §2.3 y el punto abierto «Corriente de las válvulas» del final: el dato abierto se resuelve con los límites de uso (DEC-0014, EXP-05).
+- `docs/diseno/alimentacion.md` §1, fila «Carga de salidas» («instalados máx., bobinas a −10 °C»): pasa a límite de uso de la suma (ALI-12 v0.7).
 - `docs/diseno/sensores.md` §0, §6 y §7: el calentamiento con «6 salidas a 0,25 A» se recalcula con la suma de 3,5 A de ALI-12 como caso de carga, o se deja como ejemplo y se añade ese caso.
 - `hardware/componentes/M7.md` (función y uso: DNP → montado) y `bloque-salidas.md` (fila de D12–D17): `jr-conformidad`.
 - `hardware/v2` y `campos-salidas.csv`: D12–D17 sin DNP.
-- Memorias: `.claude/agent-memory/ing-diseno/project_salidas_d8.md` (válvulas, E_AS y DNP) y `jr-conformidad/piezas-salidas-trucos.md` (D12–D17 DNP), cada agente la suya. La de `ing-validacion` la actualiza ing-validacion al validar.
+- Memorias: `.claude/agent-memory/ing-diseno/project_salidas_d8.md` (válvulas, E_AS y DNP) y su línea del índice `MEMORY.md`, y `jr-conformidad/piezas-salidas-trucos.md` (D12–D17 DNP), cada agente la suya. La de `ing-validacion` la actualiza ing-validacion al validar.
+- Fuera de SPEC-0034, los cambia el coordinador: `gestion/specs/SPEC-0032-integracion-esquema.md` (el punto «`salidas.md` con el dato medido de la válvula» pasa a depender de SPEC-0034, no de una medida), y `gestion/ESTADO.md` («Siguiente», «Pendiente del usuario» y «Para el layout»), al cerrar SPEC-0033.
 
 ## Entregables
 
