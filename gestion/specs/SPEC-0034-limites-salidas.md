@@ -2,15 +2,15 @@
 id: SPEC-0034
 titulo: Límites de uso de las salidas
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0034-limites-salidas
 requisitos: [REL-03, REL-05, REL-10, REL-11, ALI-12]
 depende_de: [SPEC-0033]
 creada: 2026-11-17
-cerrada:
-validacion:
+cerrada: 2026-11-17
+validacion: VAL-0034-02
 ---
 
 # SPEC-0034 · Límites de uso de las salidas
@@ -92,3 +92,4 @@ Nivel **completo** (cálculos y esquema; DEC-0005), con `esquema.md` v11 y `libr
 | 2026-11-17 | ing-validacion | VAL-0034-01 APROBADO_CON_OBSERVACIONES (1 M, 5 B) | VAL-0034-01 | 199624 | 47 | 10 |
 | 2026-11-17 | ing-diseno | Corrige VAL-0034-01 | 03-ing-diseno | 318788 | 14 | 2 |
 | 2026-11-17 | ing-validacion | VAL-0034-02 APROBADO | VAL-0034-02 | 66202 | 9 | 1 |
+| 2026-11-17 | coordinador | Cierra la spec | VAL-0034-02 (APROBADO) |  |  |  |
