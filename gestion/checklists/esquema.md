@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v10 (2026-11-13). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v11 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -24,7 +24,8 @@
 - [ ] [juicio] Recalculado de forma independiente por el revisor; desviación explicada si la hay.
 - [ ] [juicio] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] [juicio] Condensadores cerámicos con *derating* por tensión DC y temperatura.
-- [ ] [juicio] La energía de desmagnetización de cada salida se calcula con el número máximo de cargas por canal y la ecuación del fabricante, y se compara con la curva E_AS(I_L), no con el E_AS a corriente nominal (REL-03).
+- [ ] [juicio] La rueda libre de cada salida (REL-03) soporta con margen la corriente de la salida al apagar, hasta la limitación del *high-side*, y la tensión del bus, y su fuga en caliente cabe en el presupuesto de la carga abierta (REL-10).
+- [ ] [juicio] Los límites de uso de las salidas (REL-11) tienen valor, origen y consecuencia de superarlos, y son coherentes con REL-05, ALI-12, ALI-13 y REL-10; ningún cálculo de las salidas usa una válvula concreta como dato de diseño (DEC-0014).
 - [ ] [juicio] Si se calcula una autonomía (*hold-up*), va desde la VIN mínima (ALI-01) menos las caídas hasta el umbral de **bajada** del UVLO (ALI-06), con la potencia de pico de la lógica y la tolerancia del condensador.
 - [ ] [juicio] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5) más el calentamiento interno de la caja (≥ 10 °C, o el valor estimado en `docs/diseno/`).
 
@@ -52,7 +53,7 @@
 ## Salidas e interfaces de campo
 
 - [ ] [juicio] Salidas desactivadas durante el reset y el flasheo (REL-04).
-- [ ] [juicio] Protección de la carga inductiva según REL-03: desmagnetización en el *high-side* (DEC-0003) dentro de su curva E_AS.
+- [ ] [juicio] Protección de la carga inductiva según REL-03: rueda libre montada en cada salida, de GND a la salida (DEC-0014).
 - [ ] [juicio] Corriente por canal y total según REL-05 y ALI-12; pistas, bornes y retornos GND de salida para la corriente máxima del limitador, sin protección por canal (REL-05, FAB-03, DEC-0004).
 - [ ] [juicio] Cálculo térmico del *high-side* a 4,9 A y comportamiento ante su apagado térmico con enclavamiento (REL-08).
 - [ ] [juicio] El LED de cada canal no enmascara la carga abierta en OFF (REL-10).
@@ -80,3 +81,4 @@
 | v8 | 2026-11-12 | SPEC-0027: los cinco `[auto: pendiente]` pasan a `comprobar.py` |
 | v9 | 2026-11-12 | VAL-0027-01-10: excepción de lo que va fuera del BOM en los campos |
 | v10 | 2026-11-13 | SPEC-0030: sin EXP-01, retirado en los requisitos v0.6 (DEC-0011) |
+| v11 | 2026-11-17 | SPEC-0033: requisitos v0.7 (DEC-0014). Rueda libre montada en lugar de la curva E_AS; límites de uso de las salidas (REL-11) |

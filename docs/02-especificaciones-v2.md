@@ -1,6 +1,6 @@
 # Especificaciones de la PCB v2
 
-**Estado:** borrador v0.6 (2026-11-13). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) y en el [historial](#10-historial).
+**Estado:** borrador v0.7 (2026-11-17). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md), [DEC-0012](../gestion/decisiones/DEC-0012-expansion-i2c.md), [DEC-0014](../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md) y en el [historial](#10-historial).
 
 Decisiones de partida:
 
@@ -15,8 +15,8 @@ Decisiones de partida:
 
 Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la placa e integración en Home Assistant mediante ESPHome. Se alimenta de una fuente de 24 V DC y se monta en interior, en una caja ventilada a la pared.
 
-- Las salidas alimentan en continua, a 24 V DC, las electroválvulas, con un *high-side* inteligente por canal, con protección y diagnóstico (D8, DEC-0003), detrás de un limitador común del bus de salidas.
-- Las válvulas instaladas son Bermad S-390-3-D, con bobina de 24 V AC (0,2 A y 3,5 W en AC según su etiqueta). Hoy funcionan las seis a la vez con la fuente de 24 V DC; falta medir su corriente en continua (DEC-0011, REL-03).
+- Las salidas alimentan en continua, a la tensión de entrada, una electroválvula cada una, con un *high-side* inteligente por canal, con protección y diagnóstico (D8, DEC-0003), detrás de un limitador común del bus de salidas. No se diseñan para una válvula concreta: la carga admitida la fijan los límites de uso de la placa (REL-11, DEC-0014).
+- Las válvulas instaladas (Bermad S-390-3-D, con bobina de 24 V AC alimentada en continua; DEC-0011) son un ejemplo de carga: se comprueba que caben en los límites de uso, sin que condicionen el diseño (DEC-0014).
 - 6 pulsadores manuales en la placa, uno por salida, que lee el firmware (EXP-03).
 - El número de canales se puede ampliar con un módulo de expansión (D9).
 - La v2 corrige los hallazgos de [01-analisis-v1.md](01-analisis-v1.md) y se monta en JLCPCB.
@@ -28,7 +28,7 @@ Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la p
 |---|---|---|
 | MCU | Wemos S2 Mini enchufable | ESP32-S3-WROOM-1 soldado, USB-C propio |
 | Alimentación | 12 V DC por jack, sin protecciones | 24 V DC de una fuente LED de 5 A, por borne, con protección de polaridad, fusible y TVS |
-| Salidas | 4 relés, opto + BC817 | 6 salidas alimentadas de 24 V DC con *high-side* inteligente (BTT6050-1ERA) y limitador común; las válvulas instaladas son de 24 V AC alimentadas en continua (DEC-0011) |
+| Salidas | 4 relés, opto + BC817 | 6 salidas alimentadas de 24 V DC con *high-side* inteligente (BTT6050-1ERA) y limitador común; una válvula por salida, dentro de los límites de uso de la placa (DEC-0014) |
 | Nivel | 4–20 mA alimentado a 12 V | Eliminado |
 | Temperatura / humedad | DHT11 en placa | Sensor I²C en placa (SHT4x o similar), aislado térmicamente, que mide el aire de la caseta |
 | Accionamiento manual | Hoja `Panel_Control` sin conectar (H9) | 6 pulsadores en la placa, uno por salida, leídos por el firmware |
@@ -80,7 +80,7 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 | ALI-09 | S | Medida de VIN con divisor en un canal ADC1, para avisar en Home Assistant de subtensión (por debajo de 17 V, entre el UVLO y el mínimo de ALI-01; la placa arranca en frío desde 17 V) o sobretensión (por encima de 31 V, entre el máximo de ALI-01 y la VRWM de la TVS). Precisión de la medida ≤ ± 3 % en todo el rango. El corte total de la fuente se ve como la placa «no disponible»; no se añade reserva de energía (decisión del usuario). |
 | ALI-10 | S | LED de alimentación. |
 | ALI-11 | S | Test points en VIN, 5 V, 3,3 V y GND. |
-| ALI-12 | M | Presupuesto de potencia: fuente LED de 24 V DC y 5 A (120 W) en su ajuste de fábrica (ALI-01), con protección de sobrecarga desde el 105 % de la potencia (≥ 5,14 A a 24,5 V, DEC-0004). Las 6 salidas pueden estar activas a la vez; su corriente total la limita el limitador común (ALI-13), por encima de la carga instalada máxima: 3,5 A (12 válvulas de 0,25 A a 24 V y 20 °C; a 24,5 V y con la bobina a −10 °C, 3,47 A). La lógica, incluido el 5 V de la expansión, consume ≤ 4,8 W en la entrada (≤ 0,2 A a 24 V). Fusible, protección de polaridad, bus de las salidas y pistas de entrada (`Power_In`) dimensionados para la corriente máxima de entrada (5,1 A: límite superior del limitador más la lógica), continua y a 50 °C, sin actuar. |
+| ALI-12 | M | Presupuesto de potencia: fuente LED de 24 V DC y 5 A (120 W) en su ajuste de fábrica (ALI-01), con protección de sobrecarga desde el 105 % de la potencia (≥ 5,14 A a 24,5 V, DEC-0004). Las 6 salidas pueden estar activas a la vez; su corriente total la limita el limitador común (ALI-13), por encima de la carga instalada máxima: 3,5 A, que es el límite de uso de la suma de las salidas activas a la vez (REL-11, DEC-0014). La lógica, incluido el 5 V de la expansión, consume ≤ 4,8 W en la entrada (≤ 0,2 A a 24 V). Fusible, protección de polaridad, bus de las salidas y pistas de entrada (`Power_In`) dimensionados para la corriente máxima de entrada (5,1 A: límite superior del limitador más la lógica), continua y a 50 °C, sin actuar. |
 | ALI-13 | M | Limitador común del bus de las salidas (eFuse o controlador *hot-swap*), entre las protecciones de entrada y los *high-side*; el buck se alimenta antes del limitador. Tensión nominal según ALI-05 (≥ 60 V). Umbral de corriente dentro de la banda 3,5–4,9 A con su tolerancia incluida (≈ 4,2 A ± 16 %): no actúa con la carga instalada máxima de ALI-12 (3,5 A) y, sumado a la lógica (≤ 0,2 A), queda por debajo de los 5,14 A a los que puede actuar la fuente (DEC-0004). Corte por fallo (temporizador o térmico) lo bastante rápido para que la entrada del buck no baje del UVLO (ALI-06): la lógica no depende de una retención (*hold-up*). Habilitación desde un GPIO con *pull-down* (corte general: el firmware habilita el bus mientras algún canal riega y durante la comprobación de carga abierta de REL-10) e indicación de fallo a un GPIO. Deseable: medida de la corriente total en un ADC1. |
 
 ### 4.2 Microcontrolador (MCU)
@@ -101,14 +101,15 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 |---|---|---|
 | REL-01 | M | Al menos 6 salidas en la placa (6 en esta versión), ampliables con el módulo de expansión (EXP-04). Cada salida es un *high-side* inteligente de 24 V (D8, DEC-0003). |
 | REL-02 | M | Solo baja tensión en las salidas: las salidas dan la tensión de entrada (≤ 30 V DC, ALI-01) y no admiten fuentes externas ni AC. Nada de 230 V AC. Indicado en la serigrafía. |
-| REL-03 | M | Cada salida usa un *high-side* inteligente de 24 V (BTT6050-1ERA, o BTT6030-2ERA como segunda fuente; DEC-0003), accionado directamente desde GPIO o desde un expansor: entrada activa alta compatible con 3,3 V. Sin optoacoplador ni relé (causa de H5). Carga inductiva con el *clamp* integrado: la energía de desmagnetización con el máximo de válvulas por canal (2), calculada con la ecuación del fabricante, queda por debajo de la curva E_AS(I_L) del datasheet a esa corriente. Las válvulas instaladas son de 24 V AC (Bermad S-390-3-D) alimentadas en continua: su corriente a 24 V DC y su inductancia se miden o se toman del fabricante antes de cerrar el esquema (etiqueta `v2.0-sch`), y con ellas se revisan la energía de desmagnetización, la corriente por canal y la carga instalada (REL-05, ALI-12; DEC-0011). |
+| REL-03 | M | Cada salida usa un *high-side* inteligente de 24 V (BTT6050-1ERA, o BTT6030-2ERA como segunda fuente; DEC-0003), accionado directamente desde GPIO o desde un expansor: entrada activa alta compatible con 3,3 V. Sin optoacoplador ni relé (causa de H5). Carga inductiva: diodo de rueda libre montado en cada salida, de GND (ánodo) a la salida (cátodo), que lleva la energía de desmagnetización a la bobina, sin límite de inductancia de la carga. El diodo soporta con margen la corriente de la salida al apagar (hasta la limitación de corriente del *high-side*) y la tensión del bus, y su fuga en caliente cabe en el presupuesto de la detección de carga abierta (REL-10). Las salidas no se dimensionan para una válvula concreta: la carga admitida la fijan los límites de uso de REL-11 (DEC-0014). |
 | REL-04 | M | Estado seguro: salidas y limitador común (ALI-13) desactivados durante el arranque, el reset y el flasheo (pull-down en la entrada de control, lógica activa a nivel alto). |
-| REL-05 | M | Carga máxima por canal: 1 A continuo, como parámetro de la placa indicado en la serigrafía (carga real de 0,2–0,56 A con una o dos electroválvulas), con soporte de su corriente de arranque. Las 6 salidas pueden estar activas a la vez, con el total de ALI-12 impuesto por el limitador común (ALI-13). Sin protección de sobrecarga por canal (DEC-0004): la pista y el borne de cada salida soportan sin daño la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz, IPC-2221), y con la carga máxima, ΔT ≤ 10 °C (IPC-2152). |
+| REL-05 | M | Una carga (una electroválvula) por salida. Carga máxima por salida: 1 A continuo, como límite de uso de la placa indicado en la serigrafía (REL-11), con soporte de su corriente de arranque. Las 6 salidas pueden estar activas a la vez, con la suma limitada a la de ALI-12 (3,5 A) e impuesta por el limitador común (ALI-13). Sin protección de sobrecarga por canal (DEC-0004): la pista y el borne de cada salida soportan sin daño la corriente máxima del limitador (4,9 A) con ΔT ≤ 40 °C (≈ 1,2 mm con 1 oz, IPC-2221), y con la carga máxima, ΔT ≤ 10 °C (IPC-2152). |
 | REL-06 | M | Mismo orden de pines en los 6 bornes, coherente entre esquema, PCB y serigrafía. |
 | REL-07 | S | LED indicador por canal. |
 | REL-08 | M | Salidas alimentadas desde la entrada de 24 V DC a través del limitador común (ALI-13), sin contacto libre de potencial (D2, DEC-0003). Protección de cada canal: la limitación de corriente y el apagado térmico del *high-side*, más el limitador común; sin fusible ni protección de sobrecarga por canal (REL-05, DEC-0004). Ante un corto en el cable de un canal, la lógica no se reinicia; el bus de las salidas puede cortarse un momento, y el firmware identifica el canal en fallo, lo deja apagado, avisa en Home Assistant y rearma los demás en ≤ 5 s. Si el *high-side* se enclava por temperatura (sobrecarga sin corto), el canal queda apagado hasta que su entrada vuelve a conmutar: el firmware lo detecta (IS, DEN), avisa y no lo reintenta en el mismo riego. |
 | REL-09 | M | Salidas repartidas en dos bordes opuestos: canales 1–3 en el borde superior y canales 4–6 en el inferior. |
-| REL-10 | S | Diagnóstico por canal en Home Assistant: corriente, carga abierta (válvula desconectada o cable cortado) y corto. La salida de medida (IS) llega a un ADC1 a través de una resistencia en serie, con la tensión acotada ≤ 3,1 V también en fallo; la carga abierta se comprueba con el canal apagado y el bus de las salidas habilitado (ALI-13), con un *pull-up* que deja por la válvula una fuga ≤ 1 mA. El firmware avisa, sin cortar, si un canal supera la carga máxima de REL-05. |
+| REL-10 | S | Diagnóstico por canal en Home Assistant: corriente, carga abierta (carga desconectada o cable cortado) y corto. La salida de medida (IS) llega a un ADC1 a través de una resistencia en serie, con la tensión acotada ≤ 3,1 V también en fallo; la carga abierta se comprueba con el canal apagado y el bus de las salidas habilitado (ALI-13), con un *pull-up* que deja por la carga una fuga ≤ 1 mA. La detección de carga abierta vale para las cargas dentro de los límites de uso de REL-11 (corriente mínima con la salida encendida y resistencia máxima en reposo). El firmware avisa, sin cortar, si un canal supera la carga máxima de REL-05 o si la suma de las salidas activas supera la de ALI-12. |
+| REL-11 | M | Límites de uso de las salidas, independientes de la válvula (DEC-0014), en una tabla como la de un manual: tensión de salida (la de entrada, ALI-01; solo DC), tipo de carga (bobina DC; una bobina AC alimentada en continua solo si su corriente en DC cabe en el límite), una carga por salida, corriente continua por salida (1 A, REL-05), suma de las salidas activas a la vez (3,5 A, ALI-12), resistencia mínima de la carga, corriente mínima de la carga para detectar la carga abierta con la salida encendida y resistencia máxima para detectarla en reposo (REL-10), fuga en reposo, y sección y longitud del cable. Cada límite lleva su origen (requisito, cálculo o datasheet) y lo que pasa si se supera. Los valores los fija `docs/diseno/salidas.md` (SPEC-0034); la corriente por salida, la suma y «solo DC» van en la serigrafía. |
 
 ### 4.4 Temperatura y humedad (AMB)
 
@@ -124,7 +125,8 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 |---|---|---|
 | EXP-02 | M | Conector de expansión con ESD: I²C, alimentación, al menos 2 GPIO (una de interrupción), 3V3 y GND. SPEC-0006 fija sus pines, tensiones, tipo y ESD junto con el informe de viabilidad (EXP-04), antes de cerrar el esquema (DEC-0011). |
 | EXP-03 | S | 6 pulsadores de accionamiento manual en la placa, uno por salida, en fila en el centro de la placa (solo se alcanzan con la caja abierta). Los lee el firmware con antirrebote; no actúan directamente sobre la salida, y el accionamiento manual mantiene las protecciones del firmware (REL-08, FW-04). Retoma la hoja `Panel_Control` del TFG (DEC-0011). |
-| EXP-04 | M | Ampliación de canales con un módulo de expansión. SPEC-0006 hace un informe de viabilidad con arquitecturas, componentes y costes y, con él, fija el conector EXP-02; el usuario decide D9 con ese informe (DEC-0011). |
+| EXP-04 | M | Ampliación de canales con un módulo de expansión. El informe de viabilidad de SPEC-0006 (`docs/diseno/viabilidad-expansion.md`) compara arquitecturas, componentes y costes y fija el conector EXP-02 (DEC-0011). D9 decidida: arquitectura 1, I²C con TCA9535 y ADS1115 (DEC-0012). |
+| EXP-05 | M | El módulo de expansión tiene su propia entrada de 24 V DC y su propio limitador para sus salidas. EXP-02 no lleva 24 V: la placa solo le da la lógica (5 V y 3,3 V, cada uno con su TPS2553; DEC-0012, VAL-0006-01 punto a). ALI-01, ALI-12 y ALI-13 no cambian. |
 
 ### 4.6 PCB y fabricación (FAB)
 
@@ -179,7 +181,7 @@ Amplían las pruebas del pliego del TFG.
 | Arranque en frío a 17 V | La placa arranca con la entrada a 17 V (ALI-06) |
 | Consumo de la lógica | Potencia de entrada ≤ 4,8 W (≤ 0,2 A a 24 V) con las salidas apagadas, el Wi-Fi transmitiendo y el 5 V de la expansión a su carga máxima (ALI-12) |
 | Corte total de la fuente | La placa aparece como no disponible en Home Assistant; al volver la tensión, arranca con las salidas desactivadas (REL-04) |
-| Salidas | Los 6 canales conmutan una de las electroválvulas instaladas (24 V AC, alimentada a 24 V DC; DEC-0011) y la corriente de REL-05; ellos y el limitador común quedan desactivados durante el reset y el flasheo (REL-04) |
+| Salidas | Cada uno de los 6 canales conmuta una carga en cada extremo de los límites de uso de REL-11 (la resistencia mínima, que da la corriente de REL-05, y la carga mínima que detecta el diagnóstico) y, como ejemplo, una de las electroválvulas instaladas (DEC-0014); los canales y el limitador común quedan desactivados durante el reset y el flasheo (REL-04) |
 | Pulsadores manuales | Cada pulsador enciende y apaga solo su canal a través del firmware, con un cambio por pulsación, sin rebotes (EXP-03) |
 | Wi-Fi / Home Assistant | Conexión, OTA e integración correctas |
 | Temperatura / humedad | Tras calibrar la corrección de AMB-02, lectura coherente (±0,5 °C, ±3 % HR) con una referencia situada en la caseta, fuera de la caja, en reposo y tras 1 h con las 6 salidas activas, aplicando en cada estado la corrección de AMB-02 que le corresponde (fija, o según las salidas activas) |
@@ -201,7 +203,7 @@ Amplían las pruebas del pliego del TFG.
 | D6 | Cobre de 1 oz o 2 oz | Por defecto, 1 oz; se revisa en el layout con `Power_In` a 5 A y las salidas a 4,9 A (REL-05) |
 | D7 | ADC interno o ADS1115 para el 4–20 mA | **Sin objeto:** se elimina el sensor de nivel (DEC-0002) |
 | D8 | Tecnología de las salidas (REL-01, REL-03, REL-05) | **Cerrada:** *high-side* inteligente BTT6050-1ERA, con limitador común (DEC-0003) |
-| D9 | Arquitectura del módulo de expansión (EXP-02, EXP-04) | Pendiente: la decide el usuario con el informe de SPEC-0006, que fija también el conector EXP-02 (DEC-0011) |
+| D9 | Arquitectura del módulo de expansión (EXP-02, EXP-04) | **Cerrada:** arquitectura 1, I²C con TCA9535 y ADS1115; el módulo, con 24 V y limitador propios (EXP-05; DEC-0012) |
 
 ## 8. Trazabilidad con los hallazgos v1
 
@@ -269,6 +271,16 @@ En la v0.6 (SPEC-0030, DEC-0011):
 - FAB-07: sin el borne de la entrada de pulsos; los pulsadores, en el centro.
 - REL-03, §1, §2 y §6: las válvulas instaladas son de 24 V AC alimentadas en continua, con la corriente a 24 V DC pendiente de medir. Las cifras de REL-05, ALI-12 y ALI-13 no cambian hasta tener la medida.
 
+En la v0.7 (SPEC-0033, DEC-0014, DEC-0012):
+
+- REL-03: la carga inductiva la absorbe la rueda libre montada en cada salida, sin límite de inductancia. Ya no hay comprobación de E_AS con el *clamp* integrado ni medida de la válvula antes de `v2.0-sch` (DEC-0014, que sustituye el punto 2 de DEC-0008).
+- REL-05: una carga por salida, con 1 A como límite de uso, sin «la carga real de una o dos electroválvulas». Pista y borne, sin cambios.
+- ALI-12: 3,5 A como límite de uso de la suma de las salidas activas, sin «12 válvulas de 0,25 A». Las demás cifras de ALI-12 y las de ALI-13 no cambian.
+- REL-10: la carga abierta, para las cargas dentro de los límites de REL-11; aviso del firmware cuando la suma pasa de la de ALI-12.
+- EXP-04: D9 decidida (DEC-0012).
+- §1, §2 y §6: la válvula instalada es un ejemplo de carga dentro de los límites, no un dato de diseño.
+- Nuevos: REL-11 (M) y EXP-05 (M).
+
 ## 10. Historial
 
 | Versión | Fecha | Cambios | Spec · decisión |
@@ -279,3 +291,4 @@ En la v0.6 (SPEC-0030, DEC-0011):
 | v0.4 | 2026-11-05 | Fuente LED de 24 V y 5 A supuesta, en su ajuste de fábrica; banda del limitador 3,5–4,9 A sobre una carga instalada máxima de 3,5 A; carga máxima por canal de 1 A sin protección por canal, con pistas, bornes y retornos para la corriente del limitador; avisos de VIN a 17 V y 31 V; observaciones de VAL-0007-01, VAL-0011-01 y VAL-0011-02 | SPEC-0011 · DEC-0004 |
 | v0.5 | 2026-11-08 | FAB-03: separación de `Salidas` de 0,6 mm dentro de las huellas del *high-side*, R_OL y C_OUT (IPC-2221 B2 hasta 100 V; ≥ 0,2 mm de FAB-02) | SPEC-0023 · DEC-0008 |
 | v0.6 | 2026-11-13 | EXP-01 retirado (sin entrada de pulsos ni de lluvia, D3 cerrada); EXP-03 con 6 pulsadores en la placa leídos por el firmware (D4 cerrada, prioridad S); conector EXP-02 fijado con el informe de SPEC-0006; válvulas instaladas de 24 V AC alimentadas en continua, con la medida pendiente | SPEC-0030 · DEC-0011 |
+| v0.7 | 2026-11-17 | Salidas con límites de uso propios de la placa (REL-11), sin válvula de referencia: una carga por salida, 1 A por salida y 3,5 A en total como límites, rueda libre montada en cada salida (REL-03); D9 cerrada y módulo de expansión con 24 V y limitador propios (EXP-05) | SPEC-0033 · DEC-0014, DEC-0012 |

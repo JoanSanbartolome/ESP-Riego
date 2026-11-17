@@ -6,7 +6,7 @@ estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0033-requisitos-v07
-requisitos: [REL-03, REL-05, REL-10, ALI-12, EXP-04]
+requisitos: [REL-03, REL-05, REL-10, REL-11, ALI-12, EXP-04, EXP-05]
 depende_de: [SPEC-0030]
 creada: 2026-11-17
 cerrada:
@@ -47,6 +47,7 @@ validacion:
 ## Entregables
 
 - `docs/02-especificaciones-v2.md` v0.7.
+- `gestion/checklists/esquema.md` v11: los puntos de E_AS pasan a la rueda libre y a los límites de uso.
 - `gestion/specs/SPEC-0034-limites-salidas.md`: lista de lo que queda por cambiar fuera de `docs/02`.
 
 ## Criterios de aceptación
