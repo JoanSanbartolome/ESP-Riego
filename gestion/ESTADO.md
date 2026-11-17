@@ -44,6 +44,5 @@ Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloq
 
 - `verificar.py hardware/v2`: ERC 0, DRC 0 con 448 sin conectar, paridad 0 y ningún `[auto]` en FALLA; `campos.py revisar`: sin diferencias.
 - Posible, sin spec: campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas (SPEC-0028).
-- `hardware/v1-tfg/Control_De_Riego.kicad_pro`, reescrito por KiCad 10 al abrirlo el 2026-11-16: pierde una exclusión de DRC y el cajetín. Sin versionar, a decidir por el usuario.
 - La guarda no se endurece (DEC-0009): las dos líneas de VAL-0026-02 siguen en «Límites conocidos» de `README.md`.
 - FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6. El calentador del SHT4x no se usa: con él, +5V pasaría de ALI-12 (`mcu.md` §8.2).
