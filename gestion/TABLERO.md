@@ -2,15 +2,20 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 3 · abierta 0 · cerrada 29 · descartada 4.
+Specs por estado: propuesta 2 · abierta 1 · cerrada 29 · descartada 4.
 
-## Propuestas (3)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
-| [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | — | 2026-11-17 | — |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | Esquema legible | 3 | ing-diseno | `spec/SPEC-0035-esquema-legible` | — | 2026-11-17 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | — | 2026-11-17 | — |
 
 ## Cerradas (29)
 
