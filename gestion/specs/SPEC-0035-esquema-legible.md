@@ -2,7 +2,7 @@
 id: SPEC-0035
 titulo: Esquema legible
 fase: 3
-estado: propuesta
+estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0035-esquema-legible
@@ -66,3 +66,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` y su versión con estil
 | Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
 |---|---|---|---|---|---|---|
 | 2026-11-17 | coordinador | Crea la spec (propuesta) | | | | |
+| 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
