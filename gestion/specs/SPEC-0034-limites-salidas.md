@@ -68,7 +68,7 @@ El bloque de salidas queda dimensionado sin una válvula de referencia (DEC-0014
 - [ ] `salidas.md` no usa los datos de una válvula concreta como dato de diseño; la válvula instalada aparece, como mucho, como ejemplo dentro de los límites.
 - [ ] Tabla de límites de uso con al menos los límites del alcance, cada uno con valor, origen (requisito, cálculo con su fórmula o datasheet con página) y consecuencia de superarlo.
 - [ ] Los límites son coherentes con REL-05 (1 A), ALI-12 (3,5 A en total), ALI-13 (banda 3,5–4,9 A), REL-10 (fuga ≤ 1 mA) y ALI-01 (18–30 V).
-- [ ] §5 con la rueda libre montada: corriente y tensión del M7 con margen, fuga en caliente dentro del presupuesto de R_OL, tiempo de cierre en función de L/R.
+- [ ] §5 con la rueda libre montada: tensión del M7 con margen; corriente media de 1 A (REL-05); I_FSM del M7 (30 A) frente al pico y la duración del corto que deja pasar el BTT6050 hasta cortar (limitación de ≈ 38 A, `salidas.md` §4); fuga en caliente dentro del presupuesto de R_OL; tiempo de cierre en función de L/R (REL-03 v0.7, VAL-0033-02).
 - [ ] D12–D17 sin DNP en el esquema, en la BOM y en `campos-salidas.csv`; `verificar.py hardware/v2` con ERC 0 y paridad 0.
 - [ ] Stock y precio de C95872 con fecha.
 - [ ] Texto de serigrafía de los límites esenciales y notas de firmware actualizadas.
