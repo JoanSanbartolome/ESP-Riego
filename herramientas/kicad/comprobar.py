@@ -20,7 +20,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _comun import (Fallo, dentro, emitir, es_pieza, hijos, hojas, leer, modelo_de_respaldo, parse,  # noqa: E402
-                    principal, proyecto, raiz_repo, ruta_huella, simbolos_hoja, tabla_libs, trozos, uno, val)
+                    por_instancia, principal, proyecto, raiz_repo, ruta_huella, simbolos_hoja, tabla_libs, trozos,
+                    uno, val)
+import _estilo  # noqa: E402
 import campos as _campos  # noqa: E402
 import huella as _huella  # noqa: E402
 import restricciones as _restricciones  # noqa: E402
@@ -54,7 +56,7 @@ class Proyecto:
             for h in self.hojas():
                 if h["archivo"].is_file() and h["archivo"] not in vistos:
                     vistos.add(h["archivo"])
-                    self._piezas += [(h["archivo"], s) for s in simbolos_hoja(leer(h["archivo"])) if es_pieza(s)]
+                    self._piezas += [(h["archivo"], s) for s in por_instancia(simbolos_hoja(leer(h["archivo"]))) if es_pieza(s)]
         return self._piezas
 
     def huellas_pcb(self):
@@ -142,6 +144,118 @@ def esquema_dnp(p):
             malas.append(f"{s['ref']}: el texto dice que no se monta y no está marcado DNP")
     dnp = [s["ref"] for _, s in p.piezas() if s["dnp"]]
     return ("FALLA" if malas else "OK"), malas or [f"{len(dnp)} DNP ({_campos.rangos(dnp) or '—'}); tablas de campos: {len(tablas)}"]
+
+
+# ------------------------------------------------------------------ esquema: estilo (KIC-06, DEC-0015)
+
+PENDIENTES = "estilo-pendiente.txt"
+
+
+def hojas_estilo(p):
+    """([(nombre del archivo, análisis)], [pendientes]) de las hojas a las que se aplica el estilo: todas las del
+    proyecto (cada archivo una vez, sin la raíz) menos las que lista `<proyecto>/estilo-pendiente.txt` (transición)."""
+    lista = p.carpeta / PENDIENTES
+    pendientes = set()
+    if lista.is_file():
+        pendientes = {l.strip() for l in lista.read_text(encoding="utf-8").splitlines() if l.strip() and not l.startswith("#")}
+    if getattr(p, "_estilo", None) is None:
+        vistos, p._estilo = set(), []
+        for h in p.hojas()[1:]:
+            if h["archivo"].is_file() and h["archivo"] not in vistos:
+                vistos.add(h["archivo"])
+                p._estilo.append((h["archivo"].name, _estilo.analizar(h["archivo"])))
+    return [(n, a) for n, a in p._estilo if n not in pendientes], sorted(pendientes)
+
+
+def _punto_estilo(p, funcion, que):
+    if not p.sch.is_file():
+        return NA, ["no hay esquema"]
+    hs, pendientes = hojas_estilo(p)
+    if not hs:
+        return NA, [f"todas las hojas están en {PENDIENTES}"]
+    malas = [f"{n}: {m}" for n, a in hs for m in funcion(a)]
+    nota = f"; pendientes ({PENDIENTES}): {', '.join(pendientes)}" if pendientes else ""
+    return ("FALLA" if malas else "OK"), malas or [f"{len(hs)} hojas sin {que}{nota}"]
+
+
+def esquema_cruces(p):
+    return _punto_estilo(p, _estilo.cruces, "cables que crucen símbolos o textos ni textos solapados")
+
+
+def esquema_sueltas(p):
+    return _punto_estilo(p, _estilo.sueltas, "etiquetas sueltas")
+
+
+def esquema_recuadros(p):
+    return _punto_estilo(p, _estilo.fuera_de_recuadro, "piezas fuera de un recuadro con título")
+
+
+def esquema_etiquetas(p):
+    return _punto_estilo(p, _estilo.etiquetas_repetidas, "etiquetas repetidas dentro de un recuadro")
+
+
+def _git(raiz, *args):
+    import subprocess
+    r = subprocess.run(["git", "-C", str(raiz), *args], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    return r.stdout if r.returncode == 0 else None
+
+
+def pcb_de_referencia(p):
+    """(texto de la PCB en `main`, rama actual), o None si no hay repositorio, se está en main o la PCB no está en main."""
+    raiz = raiz_repo(p.carpeta)
+    if raiz is None or not p.pcb.is_file() or not dentro(p.pcb, raiz):
+        return None
+    rama = (_git(raiz, "branch", "--show-current") or "").strip()
+    if not rama or rama == "main":
+        return None
+    texto = _git(raiz, "show", f"main:{p.pcb.resolve().relative_to(raiz).as_posix()}")
+    return (texto, rama) if texto else None
+
+
+def textos_de_la_spec(p, rama):
+    """Texto de la SPEC de la rama (`spec/SPEC-NNNN-…`) y de sus partes; '' si no se encuentra."""
+    m = re.search(r"SPEC-\d{4}", rama)
+    raiz = raiz_repo(p.carpeta)
+    if not m or raiz is None:
+        return ""
+    archivos = sorted((raiz / "gestion" / "specs").glob(f"{m.group(0)}*.md")) + sorted((raiz / "gestion" / "logs" / m.group(0)).glob("*.md"))
+    return "\n".join(f.read_text(encoding="utf-8", errors="replace") for f in archivos)
+
+
+def refs_citadas(texto):
+    """Referencias que cita un texto, con los rangos expandidos («U7–U12», «D12-D17»)."""
+    refs = set()
+    for m in re.finditer(r"\b([A-Z]{1,3})(\d+)(?:\s*[–-]\s*(?:\1)?(\d+))?\b", texto):
+        a = int(m.group(2))
+        b = int(m.group(3)) if m.group(3) and int(m.group(3)) >= a and int(m.group(3)) - a < 100 else a
+        refs |= {f"{m.group(1)}{n}" for n in range(a, b + 1)}
+    return refs
+
+
+def _huellas_por_ref(texto):
+    salida = {}
+    for nombre, i, j in trozos(texto):
+        if nombre == "footprint":
+            m = re.search(r'\(property\s+"Reference"\s+"((?:\\.|[^"\\])*)"', texto[i:j])
+            salida[m.group(1) if m else f"?{i}"] = " ".join(texto[i:j].split())
+    return salida
+
+
+def esquema_pcb_main(p):
+    """Huellas de la PCB que cambian frente a `main`: cada una citada en la spec de la rama o en sus partes."""
+    ref = pcb_de_referencia(p)
+    if ref is None:
+        return NA, ["sin repositorio, en main o sin la PCB en main"]
+    texto_main, rama = ref
+    a, b = _huellas_por_ref(texto_main), _huellas_por_ref(leer(p.pcb))
+    cambiadas = sorted((r for r in set(a) | set(b) if a.get(r) != b.get(r)), key=_campos.clave_ref)
+    if not cambiadas:
+        return "OK", ["ninguna huella cambia frente a main"]
+    citadas = refs_citadas(textos_de_la_spec(p, rama))
+    malas = [f"{r}: huella {'nueva' if r not in a else 'borrada' if r not in b else 'cambiada'} frente a main y no citada "
+             "en la spec ni en sus partes" for r in cambiadas if r not in citadas]
+    return ("FALLA" if malas else "OK"), malas or [f"{len(cambiadas)} huellas cambian frente a main, todas citadas: "
+                                                   f"{_campos.rangos(cambiadas)}"]
 
 
 # ------------------------------------------------------------------ layout
@@ -464,6 +578,11 @@ LISTA = [
     ("esquema.huellas", esquema_huellas, "la huella asignada existe (librerías del proyecto u oficiales de KiCad 10)"),
     ("esquema.vias", esquema_vias, "las huellas con vías cumplen FAB-02 (taladro ≥ 0,3, corona ≥ 0,6)"),
     ("esquema.dnp", esquema_dnp, "DNP igual en la hoja, en la tabla de campos y en la PCB; texto «no montar» con DNP"),
+    ("esquema.cruces", esquema_cruces, "ningún cable cruza un símbolo, un pin o un texto; ningún texto se solapa (KIC-06)"),
+    ("esquema.sueltas", esquema_sueltas, "cada etiqueta o símbolo de alimentación, en un pin o sobre un cable (KIC-06)"),
+    ("esquema.recuadros", esquema_recuadros, "cada pieza, dentro de un recuadro de trazo y punto con título (KIC-06)"),
+    ("esquema.etiquetas", esquema_etiquetas, "ninguna etiqueta repetida dentro de un recuadro: ahí se usan cables (KIC-06)"),
+    ("esquema.pcb_main", esquema_pcb_main, "huellas que cambian frente a main, citadas en la spec o en sus partes"),
     ("layout.zonas", layout_zonas, "cada zona de cobre tiene relleno guardado en cada una de sus capas"),
     ("layout.incrustados", layout_incrustados, "la PCB no lleva archivos incrustados"),
     ("layout.salida", layout_salida, "`outputdirectory` vacío o relativo y dentro de <repo>/fabricacion/<versión>"),

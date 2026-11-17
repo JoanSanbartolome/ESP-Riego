@@ -30,3 +30,10 @@ SPEC-0034 (2026-11-17):
 - Quitar un DNP: `sincronizar.py` quita `dnp` y `exclude_from_bom` de la huella, pero conserva `exclude_from_pos_files` (avisa): hay que quitarlo a mano de esas huellas y comprobar con `kicad-cli pcb export pos --exclude-dnp`.
 - `verificar.py` da «CON INCIDENCIAS» mientras la placa no está rutada (448 sin conectar): no es un fallo de la entrega.
 - Un heredoc largo con texto en Markdown falló con «unexpected EOF»: escribir el texto con Write y aplicarlo con un script.
+
+SPEC-0035 (2026-11-17):
+- Rutas `/c/Users/...` dentro de `python -c` o de un heredoc de Python: Windows las lee como `C:\c\Users\...` y escribe allí (fuera de la zona; no se puede borrar). En Python, rutas `C:/Users/...`.
+- La guarda no resuelve `$(cygpath …)` (bloquea como «fuera de tu zona») y salta con «git» seguido de paréntesis también dentro de texto (README): esos parches, con Write + script.
+- Hoja piloto en ~1 h con `hoja.py` (cables, `W`, `etiquetas`, `recuadros`): plantilla en el JSON de `hoja.py extraer hardware/v2/sensores.kicad_sch`. Revisar con `comprobar.py <copia> --punto esquema.cruces` antes de mirar la imagen.
+- `hoja.py generar` escribe en LF: pasar a CRLF (Python en binario) antes de llevar la hoja al repositorio.
+- Cifras junto a la pieza: texto con `"justify": "left"` (centrado en vertical) a 2,54 mm bajo el Value, como un campo más. Con `left bottom` el superíndice («I²C») tocaba el Value y `esquema.cruces` no lo veía (caja aproximada): mirar siempre la imagen con `--zona`.

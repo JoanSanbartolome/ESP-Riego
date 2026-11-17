@@ -201,14 +201,29 @@ def simbolos_hoja(texto):
             continue
         props = {p[1]: (p[2] if len(p) > 2 and isinstance(p[2], str) else "") for p in hijos(n, "property")}
         at = uno(n, "at", ["at", "0", "0", "0"])
+        instancias = [(pa[1], val(pa, "reference"))
+                      for pr in hijos(uno(n, "instances", []), "project") for pa in hijos(pr, "path")]
         salida.append({
             "ref": props.get("Reference", "?"), "lib_id": val(n, "lib_id"), "props": props,
             "x": float(at[1]), "y": float(at[2]), "giro": int(float(at[3])) if len(at) > 3 else 0,
             "espejo": val(n, "mirror", None), "unidad": int(val(n, "unit", "1")),
             "dnp": val(n, "dnp", "no") == "yes", "in_bom": val(n, "in_bom", "yes") == "yes",
             "on_board": val(n, "on_board", "yes") == "yes", "uuid": val(n, "uuid"),
-            "nodo": n, "i": i, "j": j,
+            "instancias": instancias, "nodo": n, "i": i, "j": j,
         })
+    return salida
+
+
+def por_instancia(simbolos):
+    """Un símbolo por referencia de instancia: una subhoja repetida (varias rutas con referencias distintas)
+    da una copia del símbolo por cada referencia; el resto queda igual."""
+    salida = []
+    for s in simbolos:
+        refs = list(dict.fromkeys(r for _, r in s.get("instancias", []) if r))
+        if len(refs) > 1:
+            salida += [dict(s, ref=r) for r in refs]
+        else:
+            salida.append(s)
     return salida
 
 
@@ -377,8 +392,8 @@ def exportar_netlist(carpeta, nombre, destino):
     return leer_netlist(destino)
 
 
-def comparar_netlists(a, b, hoja=None):
-    """Diferencias entre dos netlists (piezas, huella, valor y nodos de cada red)."""
+def _comparar_piezas(a, b, hoja=None):
+    """(diferencias de piezas, huella, valor y campos; refs comunes) entre dos netlists."""
     dif = []
 
     def de_hoja(net):
@@ -396,6 +411,39 @@ def comparar_netlists(a, b, hoja=None):
         for k in sorted(set(ca["campos"]) | set(cb["campos"])):
             if ca["campos"].get(k, "") != cb["campos"].get(k, ""):
                 dif.append(f"{r}: campo {k} «{ca['campos'].get(k, '')}» ≠ «{cb['campos'].get(k, '')}»")
+    return dif, ra, rb
+
+
+def comparar_grupos(a, b, hoja=None):
+    """Como comparar_netlists, pero las redes se comparan por grupos de pines y no por nombre: dos pines
+    van juntos en A si y solo si van juntos en B (los nombres de las redes pueden cambiar)."""
+    dif, ra, rb = _comparar_piezas(a, b, hoja)
+    refs = ra & rb
+
+    def grupos(net):
+        g = {}
+        for nombre, ns in net["redes"].items():
+            s = frozenset(n for n in ns if n[0] in refs)
+            if s:
+                g[s] = nombre
+        return g
+
+    ga, gb = grupos(a), grupos(b)
+    red_b = {n: nombre for s, nombre in gb.items() for n in s}
+
+    def texto(s):
+        return ", ".join(f"{r}-{p}" for r, p in sorted(s))[:120]
+
+    for s in sorted(set(ga) - set(gb), key=texto):
+        dif.append(f"A «{ga[s]}» {{{texto(s)}}}: en B repartida en {', '.join(sorted({red_b.get(n, '—') for n in s}))}"[:200])
+    for s in sorted(set(gb) - set(ga), key=texto):
+        dif.append(f"B «{gb[s]}» {{{texto(s)}}}: no está en A con esos pines"[:200])
+    return dif
+
+
+def comparar_netlists(a, b, hoja=None):
+    """Diferencias entre dos netlists (piezas, huella, valor y nodos de cada red)."""
+    dif, ra, rb = _comparar_piezas(a, b, hoja)
 
     def nodos(net, refs):
         return {(ref, pin): nombre for nombre, ns in net["redes"].items() for ref, pin in ns if ref in refs}

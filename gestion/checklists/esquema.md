@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v13 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v14 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -66,13 +66,13 @@
 
 ## Estilo (KIC-06, DEC-0015)
 
-Los `[auto: pendiente]` pasan a `comprobar.py` en SPEC-0035; hasta entonces se repasan sobre la imagen de la hoja.
+Los cuatro primeros puntos no se aplican a las hojas que lista `hardware/v2/estilo-pendiente.txt` (transición de SPEC-0035, que lo borra al terminar); esas se repasan sobre su imagen.
 
-- [ ] [auto: pendiente] Ningún cable cruza un símbolo ni un texto, y ningún texto (referencia, valor, etiqueta, nota) se solapa con otro ni con un símbolo.
-- [ ] [auto: pendiente] Ninguna etiqueta suelta: cada etiqueta está en el extremo de un cable o en un pin.
-- [ ] [auto: pendiente] Toda pieza está dentro de un recuadro de bloque (rectángulo de trazo y punto con su título).
-- [ ] [auto: pendiente] Dentro de un recuadro no hay etiquetas locales que unan piezas del mismo bloque: se unen con cables. Las globales y jerárquicas, solo para las señales que salen del bloque o de la hoja.
-- [ ] [auto: pendiente] El diff de la PCB frente a `main` solo toca las huellas de las referencias que la spec cambia; si toca otras, el parte las lista (VAL-0034-01).
+- [ ] [auto: comprobar.py esquema.cruces] Ningún cable cruza un símbolo ni un texto, y ningún texto (referencia, valor, etiqueta, nota) se solapa con otro ni con un símbolo.
+- [ ] [auto: comprobar.py esquema.sueltas] Ninguna etiqueta suelta: cada etiqueta está en el extremo de un cable o en un pin.
+- [ ] [auto: comprobar.py esquema.recuadros] Toda pieza está dentro de un recuadro de bloque (rectángulo de trazo y punto con su título).
+- [ ] [auto: comprobar.py esquema.etiquetas] Dentro de un recuadro no hay etiquetas locales que unan piezas del mismo bloque: se unen con cables. Las globales y jerárquicas, solo para las señales que salen del bloque o de la hoja.
+- [ ] [auto: comprobar.py esquema.pcb_main] El diff de la PCB frente a `main` solo toca las huellas de las referencias que la spec cambia; si toca otras, el parte las lista (VAL-0034-01).
 - [ ] [juicio] Título de cada recuadro arriba a la izquierda con el nombre del bloque, sus referencias principales y sus IDs de requisito.
 - [ ] [juicio] Alimentación con símbolos `power` unidos al pin por un cable corto (tensiones hacia arriba, GND hacia abajo), y el circuito leído de izquierda a derecha.
 - [ ] [juicio] Cifras clave junto a la pieza (frecuencia de corte, corriente, umbral) y como mucho 2 o 3 líneas de nota por bloque; el detalle, en `docs/diseno/`.
@@ -99,3 +99,4 @@ Los `[auto: pendiente]` pasan a `comprobar.py` en SPEC-0035; hasta entonces se r
 | v11 | 2026-11-17 | SPEC-0033: requisitos v0.7 (DEC-0014). Rueda libre montada en lugar de la curva E_AS; límites de uso de las salidas (REL-11) |
 | v12 | 2026-11-17 | SPEC-0034 (VAL-0034-01): consecuencia de cada uso prohibido en REL-11; cálculos sobre protecciones de un CI con su página |
 | v13 | 2026-11-17 | SPEC-0035: sección «Estilo» (KIC-06, DEC-0015) y diff de la PCB limitado a las referencias de la spec (VAL-0034-01) |
+| v14 | 2026-11-17 | SPEC-0035 (paso 1): los cinco `[auto: pendiente]` de «Estilo» pasan a `comprobar.py`; transición con `estilo-pendiente.txt` |

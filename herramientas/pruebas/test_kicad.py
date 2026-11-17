@@ -113,7 +113,7 @@ class Generales(unittest.TestCase):
         ordenes = [
             ("campos", "revisar", v2), ("comprobar", v2), ("comprobar", "--lista"), ("huella", mod), ("huella", mod, "--json"),
             ("hoja", "pines", "RF_Module:ESP32-S3-WROOM-1"), ("hoja", "extraer", v2 / "mcu.kicad_sch", "-o", TMP / "nm.json"),
-            ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, "--plan", plan),
+            ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, v2, "--grupos"), ("hoja", "netlist", v2, "--plan", plan),
             ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
             ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"),
@@ -379,17 +379,117 @@ class Hoja(unittest.TestCase):
         self.assertEqual(r["erc"]["total"], 0, r["erc"])
         self.assertEqual(r["paridad"]["total"], 0, r["paridad"])
 
-    def test_no_sustituye_una_hoja_con_cables(self):
-        codigo, salida, _ = correr("hoja", "extraer", BASE / "v2" / "alimentacion.kicad_sch", "-o", TMP / "ali.json")
+    def test_no_sustituye_lo_que_no_representa(self):
+        """Una hoja con un elemento que hoja.py no sabe dibujar (polilínea): extraer no escribe y generar no la sustituye."""
+        ali = TMP / "ali_poly.kicad_sch"
+        texto = _comun.leer(BASE / "v2" / "alimentacion.kicad_sch").rstrip()
+        _comun.escribir(ali, texto[:-1] + '\t(polyline (pts (xy 0 0) (xy 10 0)) (stroke (width 0) (type default)) (uuid "p1"))\n)\n')
+        codigo, salida, _ = correr("hoja", "extraer", ali, "-o", TMP / "ali.json")
         self.assertEqual(codigo, 1)
-        self.assertIn("wire", salida)
+        self.assertIn("polyline", salida)
         self.assertFalse((TMP / "ali.json").exists())
         desc = TMP / "vacia.json"
         desc.write_text('{"piezas": []}', encoding="utf-8")
         codigo, _, error = correr("hoja", "generar", desc, "--proyecto", BASE / "v2", "--como", "alimentacion.kicad_sch",
-                                  "-o", TMP / "ali.kicad_sch")
+                                  "--base", ali, "-o", TMP / "ali.kicad_sch")
         self.assertEqual(codigo, 2)
         self.assertIn("--forzar", error)
+
+    def test_regenera_alimentacion_con_cables(self):
+        """extraer + generar reproduce una hoja con cables y etiquetas fuera de los pines (Alimentación)."""
+        proy = copia("v2_ali")
+        desc = TMP / "ali_cables.json"
+        codigo, salida, error = correr("hoja", "extraer", BASE / "v2" / "alimentacion.kicad_sch", "-o", desc)
+        self.assertEqual(codigo, 0, salida + error)
+        d = json.loads(desc.read_text(encoding="utf-8"))
+        self.assertEqual(len(d["cables"]), 1)
+        self.assertIn({"x": 66.04, "y": 254.0, "con": "L:+5V_BUCK", "lado": "D"}, d["etiquetas"])
+        codigo, salida, error = correr("hoja", "generar", desc, "--proyecto", proy, "-o", proy / "alimentacion.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("55 piezas (55 con su UUID)", salida)
+        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", proy)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn(": 0 diferencias", salida)
+
+    def test_tramos_y_uniones(self):
+        """Los cables se parten donde llega otro extremo o un pin; unión con 3 o más extremos; un cruce no une."""
+        tramos, uniones, grado = hoja.tramos_y_uniones(
+            [[[0, 0], [10, 0]], [[5, 0], [5, 5]], [[0, 10], [10, 10]], [[5, 8], [5, 12]], [[20, 0], [30, 0]]],
+            pines=[(10, 0), (25, 0)])
+        self.assertEqual(uniones, [(5.0, 0.0), (25.0, 0.0)])          # T y pin en mitad de un cable
+        self.assertIn(((0.0, 0.0), (5.0, 0.0)), tramos)
+        self.assertIn(((20.0, 0.0), (25.0, 0.0)), tramos)
+        self.assertEqual(grado[(10.0, 0.0)], 2)                         # cable que acaba en un pin: sin unión
+        self.assertNotIn((5.0, 10.0), grado)                            # cruce sin extremos: no se une
+        self.assertTrue(hoja.toca((7, 0), tramos))
+        self.assertFalse(hoja.toca((7, 1), tramos))
+
+    def test_comparar_grupos(self):
+        """netlist --grupos: una red renombrada no es una diferencia; una red partida sí."""
+        c = {"value": "1k", "footprint": "F", "campos": {}, "nombres": "/"}
+        a = {"comps": {"R1": c, "R2": c}, "redes": {"/X": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2"), ("R2", "2")}}}
+        b = {"comps": {"R1": c, "R2": c}, "redes": {"/Y": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2"), ("R2", "2")}}}
+        self.assertEqual(_comun.comparar_grupos(a, b), [])
+        self.assertNotEqual(_comun.comparar_netlists(a, b), [])
+        partida = {"comps": a["comps"], "redes": {"/X": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2")}, "N": {("R2", "2")}}}
+        dif = _comun.comparar_grupos(a, partida)
+        self.assertTrue(any("GND" in d and "repartida" in d for d in dif), dif)
+
+    def test_cables_recuadros_y_subhojas(self):
+        """Cables con uniones automáticas, recuadro con título y una subhoja repetida (dos instancias, refs propias)."""
+        proy = copia("v2_cables")
+        d, perdidos = hoja.extraer(BASE / "v2" / "sensores.kicad_sch")     # la hoja piloto (SPEC-0035)
+        self.assertEqual(perdidos, [])
+        self.assertEqual(d["piezas"][0]["pines"] if d["piezas"][0]["ref"] == "U13" else d["piezas"][1]["pines"],
+                         {"1": "W", "2": "W", "3": "W", "4": "W"})
+        self.assertEqual(len(d["recuadros"]), 1)
+        d["hojas"] = [{"nombre": n, "archivo": "canal.kicad_sch", "x": 198.12, "y": y, "ancho": 25.4, "alto": 12.7,
+                       "pines": [{"nombre": "ENT", "forma": "input", "lado": "L", "y": y + 5.08}]}
+                      for n, y in (("CanalA", 76.2), ("CanalB", 96.52))]
+        d["cables"] += [[[167.64, 88.9], [180.34, 88.9], [180.34, 81.28], [198.12, 81.28]],
+                        [[180.34, 88.9], [180.34, 101.6], [198.12, 101.6]]]
+        archivo = TMP / "cables.json"
+        archivo.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "generar", archivo, "--proyecto", proy, "-o", proy / "sensores.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("3 uniones, 1 recuadros, 2 subhojas", salida)
+        canal = {"papel": "A4", "piezas": [{"refs": {"Sensores/CanalA": "R901", "Sensores/CanalB": "R902"}, "simbolo": "Device:R",
+                                            "x": 101.6, "y": 101.6, "giro": 0,
+                                            "campos": {"Value": "1k", "Footprint": "Resistor_SMD:R_0603_1608Metric", "MPN": "X",
+                                                       "Fabricante": "X", "Datasheet": "http://x", "Description": "x",
+                                                       "LCSC Part#": "C21190"},
+                                            "pines": {"1": "H:ENT:input", "2": "P:GND"}}]}
+        (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", proy / "canal.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("2 instancias de la hoja", salida)
+        red = _comun.exportar_netlist(proy, "esp-riego", TMP / "cables.net")
+        self.assertEqual(red["comps"]["R901"]["nombres"], "/Sensores/CanalA/")
+        self.assertEqual(red["comps"]["R902"]["nombres"], "/Sensores/CanalB/")
+        self.assertTrue({("U13", "3"), ("C47", "1"), ("R901", "1"), ("R902", "1")} <= red["redes"]["+3V3"])
+        r = verificar(proy)
+        self.assertEqual(r["erc"]["errores"], 0, r["erc"])
+        puntos = {x["punto"]: x for x in comprobar.resumen(proy)["puntos"]}
+        self.assertIn("199 piezas", puntos["esquema.campos"]["detalle"][0])          # una pieza por instancia
+        self.assertEqual(puntos["esquema.cruces"]["estado"], "OK", puntos["esquema.cruces"])
+        self.assertIn("canal.kicad_sch: R901 fuera de un recuadro", puntos["esquema.recuadros"]["detalle"])
+        # extraer conserva las refs de cada instancia y las subhojas; generar desde ahí da la misma netlist
+        otra, _ = hoja.extraer(proy / "canal.kicad_sch")
+        self.assertEqual(otra["piezas"][0]["refs"], {"Sensores/CanalA": "R901", "Sensores/CanalB": "R902"})
+        sens, _ = hoja.extraer(proy / "sensores.kicad_sch")
+        self.assertEqual([h["nombre"] for h in sens["hojas"]], ["CanalA", "CanalB"])
+        # errores: pin «W» sin cable y pieza de una hoja repetida sin las refs de cada instancia
+        d["cables"] = [c for c in d["cables"] if [142.24, 93.98] not in c]      # sin cable en U13.3 (VDD)
+        archivo.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        codigo, _, error = correr("hoja", "generar", archivo, "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "sensores.kicad_sch")
+        self.assertEqual(codigo, 2)
+        self.assertIn("sin cable", error)
+        canal["piezas"][0]["refs"].pop("Sensores/CanalB")
+        (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
+        codigo, _, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "canal.kicad_sch")
+        self.assertEqual(codigo, 2)
+        self.assertIn("faltan las referencias de Sensores/CanalB", error)
+        self.assertFalse((TMP / "no.kicad_sch").exists())
 
     def test_hoja_nueva_desde_cero(self):
         proy = copia("v2_nueva")
@@ -649,11 +749,13 @@ class Comprobar(unittest.TestCase):
 
     def test_proyecto_actual(self):
         puntos, r = self.estados(BASE / "v2")
-        self.assertEqual(len(puntos), 20)
+        self.assertEqual(len(puntos), 25)
         self.assertLessEqual(len(r["lineas"]), 30)
         for punto in ("esquema.hojas", "esquema.huellas", "esquema.vias", "layout.incrustados", "layout.salida",
-                      "layout.smd_cara", "librerias.formato", "librerias.rutas", "librerias.serigrafia"):
+                      "layout.smd_cara", "librerias.formato", "librerias.rutas", "librerias.serigrafia",
+                      "esquema.cruces", "esquema.sueltas", "esquema.recuadros", "esquema.etiquetas"):
             self.assertEqual(puntos[punto]["estado"], "OK", puntos[punto])
+        self.assertEqual(puntos["esquema.pcb_main"]["estado"], "N/A")      # la copia no está en el repositorio
         self.assertNotIn("ERROR", {x["estado"] for x in puntos.values()})
 
     def test_detecta_lo_que_se_rompe(self):
@@ -952,6 +1054,52 @@ class Mutaciones(unittest.TestCase):
         # una alternativa entre paréntesis en el campo lcsc tampoco cuenta como ficha
         self.assertEqual(comprobar.codigos_lcsc("C44479 (alternativa TLC TA10, C2998199)"), ["C44479"])
         self.assertEqual(comprobar.codigos_lcsc("C1858395 (FADDAR) · C2879422 (ADDAR)"), ["C1858395", "C2879422"])
+
+    def anadir(self, ruta, bloque_):
+        """Añade un elemento al final de una hoja (antes del paréntesis que la cierra)."""
+        self.guardar(ruta)
+        texto = _comun.leer(ruta).rstrip()
+        _comun.escribir(ruta, texto[:-1] + bloque_ + "\n)\n")
+
+    def test_esquema_estilo(self):
+        """Puntos de KIC-06 sobre la hoja piloto (Sensores) y la lista de hojas pendientes."""
+        sens, pend = self.v2 / "sensores.kicad_sch", self.v2 / "estilo-pendiente.txt"
+        for punto in ("esquema.cruces", "esquema.sueltas", "esquema.recuadros", "esquema.etiquetas"):
+            self.assertEqual(self.punto(punto)[0], "OK", punto)
+        self.anadir(sens, '\t(wire (pts (xy 134.62 101.6) (xy 149.86 101.6)) (stroke (width 0) (type default)) (uuid "m1"))\n'
+                          '\t(text "SOLAPE" (at 170.18 100.33 0) (effects (font (size 1.27 1.27))) (uuid "m2"))')
+        self.falla("esquema.cruces", "sensores.kicad_sch: cable (134.62, 101.6)–(149.86, 101.6) cruza U13",
+                   "«SOLAPE» (nota)")
+        self.anadir(sens, '\t(label "SUELTA" (at 50.8 50.8 0) (effects (font (size 1.27 1.27))) (uuid "m3"))\n'
+                          '\t(hierarchical_label "I2C_SDA" (shape bidirectional) (at 125.73 104.14 180)'
+                          ' (effects (font (size 1.27 1.27)) (justify right)) (uuid "m4"))')
+        self.falla("esquema.sueltas", "label «SUELTA» suelta en (50.8, 50.8)")
+        self.falla("esquema.etiquetas", "«I2C_SDA» 2 veces en el recuadro «Temperatura y humedad")
+        sustituir(sens, "(size 86.36 54.61)", "(size 20 20)")
+        self.falla("esquema.recuadros", "sensores.kicad_sch: U13 fuera de un recuadro")
+        # una hoja que sale de la lista de pendientes pasa a comprobarse
+        self.guardar(pend)
+        sustituir(pend, "mcu.kicad_sch", "")
+        self.falla("esquema.recuadros", "mcu.kicad_sch: U5 fuera de un recuadro")
+
+    def test_esquema_pcb_main(self):
+        """Huella que cambia frente a main: falla si ni la spec ni sus partes la citan (rangos incluidos)."""
+        texto = _comun.leer(self.pcb)
+        i, j = bloque(texto, "R16")
+        en_main = texto[:i] + texto[i:j].replace('(property "Value" "', '(property "Value" "X', 1) + texto[j:]
+        antes = comprobar.pcb_de_referencia, comprobar.textos_de_la_spec
+        try:
+            comprobar.pcb_de_referencia = lambda p: (texto, "spec/SPEC-0099-prueba")
+            self.assertEqual(self.punto("esquema.pcb_main")[0], "OK")
+            comprobar.pcb_de_referencia = lambda p: (en_main, "spec/SPEC-0099-prueba")
+            comprobar.textos_de_la_spec = lambda p, rama: "Cambia D12–D17 y R44."
+            self.falla("esquema.pcb_main", "R16: huella cambiada frente a main")
+            comprobar.textos_de_la_spec = lambda p, rama: "El parte lista R14-R16."
+            self.assertEqual(self.punto("esquema.pcb_main")[0], "OK")
+        finally:
+            comprobar.pcb_de_referencia, comprobar.textos_de_la_spec = antes
+        self.assertEqual(comprobar.refs_citadas("U7–U12, D12-D17 y R44; SPEC-0035"),
+                         {"U7", "U8", "U9", "U10", "U11", "U12", "D12", "D13", "D14", "D15", "D16", "D17", "R44"})
 
 
 if __name__ == "__main__":

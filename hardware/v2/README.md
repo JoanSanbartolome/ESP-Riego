@@ -16,6 +16,8 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 
 Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022); `I2C_SDA`/`I2C_SCL` unen MCU, Sensores (SPEC-0029) y Conectores; `BTN_INT`, `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT` y `EXP_EN` unen MCU y Conectores (SPEC-0031). Ya no queda ninguna marca de no conexión provisional en los pines de hoja. +5V, +3V3 y GND son símbolos de alimentación globales.
 
+Estilo (KIC-06, DEC-0015): `Sensores` ya va con recuadro, cables y cifras junto a la pieza (hoja piloto de SPEC-0035). Las demás hojas están en `estilo-pendiente.txt`, que `comprobar.py` excluye de los puntos de estilo hasta que SPEC-0035 las redibuje y borre el archivo.
+
 ## Puente JP1 del limitador (DEC-0006)
 
 JP1 es un puente de soldadura de `VIN_PROT` a `BUS_24V`, en paralelo con U1 (TPS26632). **Va abierto**, con U1 montado. Solo se cierra, con una gota de estaño, si U1 no se monta o falla abierto. Con U1 sano no se cierra: la corriente se lo saltaría. Serigrafía: «JP1: abierto = limitador · cerrado = sin limitador».

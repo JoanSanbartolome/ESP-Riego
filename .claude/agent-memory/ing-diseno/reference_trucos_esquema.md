@@ -32,7 +32,7 @@ Hoja entera por script (SPEC-0022, 2026-11-07, 21 piezas; ERC 0 al primer intent
 - Unir hojas con etiquetas locales en la raíz renombra las redes (`/Alimentacion/X` → `/X`): la paridad da `net_conflict` en los pads ya sincronizados hasta que layout resincroniza. Es esperado: anotarlo en el log.
 
 Hoja con `hoja.py` (SPEC-0031, 2026-11-15):
-- Pines seguidos en un lateral con la misma alimentación (GND 2-4-6-8 de un IDC, A0–A2, EN e IN): `P:GND:270` / `P:+5V:90` (desde SPEC-0028) en cada pin, girado hacia fuera; nada de cables (VAL-0031-01-06). Si el Value girado pisa una pieza vecina, mover la pieza.
+- Pines seguidos en un lateral con la misma alimentación (GND 2-4-6-8 de un IDC, A0–A2, EN e IN): `P:GND:270` / `P:+5V:90` (desde SPEC-0028) en cada pin, girado hacia fuera. Si el Value girado pisa una pieza vecina, mover la pieza. **Desde DEC-0015 (SPEC-0035) el estilo es el del TFG:** recuadros, cables (`W` en el pin + `cables` + `etiquetas`) y etiquetas solo hacia fuera; «nada de cables» de VAL-0031-01-06 ya no vale.
 - Símbolo propio con pines abajo: dejar ≥ 10 mm entre los nombres laterales y los de abajo (ILIM tapaba FAULT).
 - Archivos de `hardware/v2` en CRLF en el árbol de trabajo: los parches por script convierten a LF y vuelven a CRLF.
 - Texto largo para un `.md`: escribirlo con Write en la carpeta temporal y `cat >>`; un heredoc con `''` dentro falló («unexpected EOF»).

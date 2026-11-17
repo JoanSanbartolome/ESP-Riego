@@ -26,8 +26,8 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (CAMPOS, Fallo, emitir, es_pieza, esc, hojas, leer, escribir, principal, proyecto,  # noqa: E402
-                    simbolos_hoja)
+from _comun import (CAMPOS, Fallo, emitir, es_pieza, esc, hojas, leer, escribir, por_instancia,  # noqa: E402
+                    principal, proyecto, simbolos_hoja)
 
 MISMA_PIEZA = ("Value", "Footprint", "MPN", "Fabricante", "Datasheet", "LCSC Part#")
 SIN_PIEZA = ("Value", "Footprint", "Description")  # lo exigible a lo que no va al BOM (TP, JP, taladros)
@@ -99,7 +99,7 @@ def piezas_de(archivos):
     """[(hoja, símbolo)] de todas las piezas de las hojas dadas."""
     salida = []
     for archivo in archivos:
-        for s in simbolos_hoja(leer(archivo)):
+        for s in por_instancia(simbolos_hoja(leer(archivo))):
             if es_pieza(s):
                 salida.append((Path(archivo).name, s))
     return salida
