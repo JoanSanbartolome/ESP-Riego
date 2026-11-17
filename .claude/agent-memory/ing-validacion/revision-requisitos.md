@@ -42,4 +42,6 @@ Para validar una spec de requisitos (`docs/02`), no basta con buscar términos: 
 
 - Requisitos que retiran un ID o liberan un recurso (VAL-0030-01): compruebo cada sección que el historial de §9 dice haber cambiado (§9 afirmaba «§2» y §2 no cambió), y busco los recuentos derivados («3 libres», «GPIO35–37») y no solo el nombre. Los criterios de una spec que piden SPEC-NNNN en cabecera y §9 chocan con la convención de docs/02 (SPEC solo en §10). Un ID retirado en §9 es «conocido» para `gestion.py` y `commit_msg.py` desde SPEC-0030. Si el coordinador cambia el commit durante la revisión (EXP-03 en S), valido contra el último.
 
+- Requisitos que pasan de «dato de la válvula» a «límite de uso» (VAL-0033-01): comprueba que el texto no diga que un limitador «impone» un valor que está por debajo de su banda (ALI-13: 3,5–4,9 A, no actúa a 3,5 A), y que la pieza que nombra la DEC cumple el texto literal (M7: 1 A / I_FSM 30 A frente a «hasta la limitación del high-side», 38 A). La lista de pendientes de la spec se contrasta con Grep también en `gestion/ESTADO.md`, las specs propuestas (SPEC-0032 exigía la medida de la válvula) y los índices `MEMORY.md` de los otros agentes.
+
 Relacionado: [[comprobaciones-utiles]].

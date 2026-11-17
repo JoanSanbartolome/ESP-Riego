@@ -19,7 +19,7 @@ Un estudio comparativo se valida recalculando sus cifras y releyendo cada dato c
 - **Costes:** reconstruyo la lista de materiales por canal hasta cuadrar al céntimo y compruebo que el tramo de precio corresponde a la cantidad real (piezas por placa × placas).
 - **Protección de salidas:** comparo el límite del chip con el de la fuente, qué ve el resto de canales, si el diagnóstico sigue vivo con V_S colapsada (UV), y cuánto tarda el firmware en reaccionar.
 - **Hold-up:** desde la VIN mínima menos el diodo hasta el umbral de bajada del UVLO, con la potencia de pico y C −20 %.
-- **Energía inductiva:** con el número máximo de cargas por canal y la ecuación del fabricante, que incluye la energía de V_S durante el *clamp*. Se compara con la curva E_AS(I_L), no con el E_AS a corriente nominal.
+- **Energía inductiva (histórico desde DEC-0014, 2026-11-17: rueda libre D12–D17 montada, sin curva E_AS; ahora se comprueba el diodo M7, 1 A / I_FSM 30 A):** con el número máximo de cargas por canal y la ecuación del fabricante, que incluye la energía de V_S durante el *clamp*. Se compara con la curva E_AS(I_L), no con el E_AS a corriente nominal.
 - **Salidas analógicas de diagnóstico** (IS) hacia el ADC: tensión en fallo frente al máximo del pin.
 - **Rutas en Bash:** literales, sin `$S/…`, porque la guardia no expande variables y bloquea el `mkdir`.
 
