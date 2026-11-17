@@ -25,7 +25,7 @@ Las cinco hojas de `hardware/v2` tienen el aspecto del esquema del TFG (DEC-0015
 
 - Incluye:
   0. **Coordinador.** `docs/02` v0.8 con KIC-06 (esquema legible según las reglas de DEC-0015) y los puntos de estilo en `gestion/checklists/esquema.md`.
-  1. **`ing-diseno`, herramientas.** `hoja.py` (u otra herramienta de `herramientas/kicad/`) dibuja cables, puntos de unión, recuadros con título y subhojas con varias instancias, con sus pruebas en `test_kicad.py`. `comprobar.py` añade como `[auto]` lo que se puede contar: cables que cruzan símbolos o textos, etiquetas sueltas, textos que se solapan y piezas fuera de un recuadro.
+  1. **`ing-diseno`, herramientas.** `hoja.py` (u otra herramienta de `herramientas/kicad/`) dibuja cables, puntos de unión, recuadros con título y subhojas con varias instancias, con sus pruebas en `test_kicad.py`. `comprobar.py` añade como `[auto]` lo que se puede contar: cables que cruzan símbolos o textos, etiquetas sueltas, textos que se solapan y piezas fuera de un recuadro; y que el diff de la PCB frente a `main` solo toque las huellas de las referencias que la spec cambia, o que el parte liste las demás (propuesta de VAL-0034-01).
   2. **`ing-diseno`, hoja piloto: Sensores.** Se entrega con su imagen y **el usuario aprueba el estilo** antes del paso 3.
   3. **`ing-diseno`, resto de hojas:** Conectores, MCU, Alimentación y Salidas. Salidas, con la subhoja «Canal» repetida 6 veces y las referencias de hoy en cada instancia; lo común (R44, C45, C46), en la hoja Salidas. Cada hoja, con su imagen.
   4. **`ing-diseno`, PCB resincronizada** con paridad 0, sin mover huellas colocadas.

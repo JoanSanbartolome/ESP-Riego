@@ -1,5 +1,7 @@
 # Estudio de la tecnología de las salidas (SPEC-0005 · D8, D2)
 
+> **Documento histórico (aviso de 2026-11-17, SPEC-0034).** Sustituido por [DEC-0014](../../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md) y por `docs/diseno/salidas.md`. Las salidas ya no se dimensionan con una válvula de referencia: la ficha de la Bermad, el valor de 156 Ω (DEC-0002), la válvula genérica de 0,25 A, las «1–2 válvulas por canal» y la energía de desmagnetización con el *clamp* integrado de este estudio no son datos de diseño. Lo vigente son una carga por salida, la rueda libre D12–D17 montada y los límites de uso de `salidas.md` §0 (REL-11, `docs/02` v0.7). Este estudio se conserva solo como registro de la decisión D8.
+
 **Estado:** cerrado. D8 y D2 las decidió el usuario en [DEC-0003](../../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md) (opción 5, BTT6050-1ERA; solo salida alimentada), con la carga máxima de [DEC-0004](../../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md). Los requisitos vigentes están en `docs/02-especificaciones-v2.md` **v0.4**; este estudio no los modifica.
 **Autor:** ing-esquematicos · **Fecha:** 2026-11-04 (correcciones de texto: 2026-11-05, SPEC-0016) · **Precios, stock y tipo JLCPCB consultados el 2026-11-04** (LCSC y `jlcpcb.com/partdetail`).
 **Requisitos:** REL-01, REL-03, REL-05 (y REL-02, REL-04, REL-08, REL-09, ALI-01…ALI-04, FAB-07, FAB-08).

@@ -1,7 +1,7 @@
 # Viabilidad del módulo de expansión de canales y conector EXP-02 (SPEC-0006)
 
 **Estado:** propuesta para la decisión D9 del usuario. **Autor:** ing-diseno · **Fecha:** 2026-11-15. **Rev. VAL-0006-01** (2026-11-15): barreras de REL-04 y conexiones de los TPS2553 para SPEC-0031 (§10.6), lista de piezas por variante, R_ILIM_B = 220 kΩ por el caso del USB (§10.3), OE de la arquitectura 3, márgenes de I²C en los dos sentidos y 4.º módulo (§10.4), precio del Waveshare.
-**Requisitos:** EXP-02, EXP-04; además ALI-12, ALI-13, REL-03…REL-05, REL-10, FAB-07 de `docs/02` v0.6; DEC-0003, DEC-0004, DEC-0011.
+**Requisitos:** EXP-02, EXP-04; además ALI-12, ALI-13, REL-03…REL-05, REL-10, FAB-07 de `docs/02` v0.6; DEC-0003, DEC-0004, DEC-0011. **Rev. SPEC-0034 (2026-11-17):** §0, §1, §2.3 y §12.2, la corriente de las válvulas pasa a los límites de uso (DEC-0014, REL-11 y EXP-05 de `docs/02` v0.7).
 **Precios y stock:** API de JLCPCB (`herramientas/kicad/jlc.py`, también `--buscar`), consulta del **2026-11-15**, en el tramo de la cantidad real del pedido. Todos los precios usados y todos los códigos citados, con cantidad y tramo: `hardware/componentes/stock-expansion.csv`. Lista de piezas de cada arquitectura y variante (código × cantidad por módulo, tipo, uniones y precio de los dos tramos), de la que salen los totales de §8: `hardware/componentes/bom-expansion.csv`. Tarifas de montaje: JLCPCB *Economic PCBA*, artículo actualizado el 2026-10-22 (fuentes, §10).
 
 > Datasheets (páginas del PDF, descargados el 2026-11-15 de ti.com o de la copia de LCSC):
@@ -15,7 +15,7 @@
 
 - **El módulo necesita su propia entrada de 24 V y su propio limitador** (TPS26632, como la placa). Con la fuente de 5 A de la placa no cabe: el limitador de la placa ya llega a 4,57 A y, con la lógica, a 4,77 A frente a los 5,14 A a los que actúa la fuente (ALI-12, ALI-13). Un segundo limitador en la misma fuente pasa de 5,14 A. Por EXP-02 **no pasan 24 V** (§2.2). Es una consecuencia de D9 que hay que escribir en los requisitos (PENDIENTE 1).
 - **La etapa de salida se repite:** BTT6050-1ERA por canal (DEC-0003), las mismas resistencias y la misma medida IS. Esta etapa, la entrada de 24 V y los cargos fijos de JLCPCB son ≈ 90 % del coste del módulo (§8).
-- **La corriente de las válvulas instaladas sigue sin medir (DEC-0011).** Fija cuántas válvulas puede tener encendidas a la vez el módulo con una fuente de 5 A: 12 si toman 0,29 A (válvula de 24 V DC) y solo 5 si son 42 Ω resistivos (0,66 A en frío). No cambia la arquitectura ni el conector; cambia R_ILIM del módulo, la fuente y, quizá, una regla de firmware (§2.3).
+- **La corriente de las válvulas ya no es un dato abierto (DEC-0014, aviso de SPEC-0034).** El módulo hereda los límites de uso de la placa (`salidas.md` §0, REL-11): una carga por salida, ≤ 1 A por salida y, con un limitador como el de la placa y su propia fuente de 5 A, suma de las salidas activas ≤ 3,5 A, vigilada por el firmware. Las 8 salidas pueden ir a la vez con ≤ 0,43 A cada una; con cargas mayores, menos a la vez. Una suma mayor es una variante del módulo (R_ILIM y fuente, §2.3), no una condición. No cambia la arquitectura ni el conector.
 
 | | 1 · I²C (expansor) | 2 · RS-485 / Modbus | 3 · Registros 74HC595 | 4 · Nodo ESP32 propio | 5 · CAN |
 |---|---|---|---|---|---|
@@ -42,7 +42,7 @@
 | Alimentación para la expansión | +3V3 ≤ 50 mA (dentro de los 0,45 A del TLV1117LV) y +5V ≤ 0,30 A (dentro de los 0,75 A del buck); lógica 4,32 W ≤ 4,8 W | `alimentacion.md` §4, `mcu.md` §8.2 |
 | Fuente y limitador de la placa | 24 V, 5 A, sobrecarga desde 5,14 A; limitador 3,86–4,57 A; instalada ≤ 3,5 A | ALI-12, ALI-13, `alimentacion.md` §3.13.2 |
 | Etapa de salida | BTT6050-1ERA por canal, IN activa alta, IS a ADC con R_SENSE 10 kΩ / R_IS 820 Ω | DEC-0003, `salidas.md` §0 |
-| Válvulas instaladas | Bermad S-390-3-D, 24 V AC alimentada en continua; corriente sin medir. 42 Ω a 20 °C según la fila de la ficha (cuenta del coordinador, sin validar) | DEC-0011 |
+| Carga de las salidas | Límites de uso de la placa: una carga por salida, ≤ 1 A, suma de las activas ≤ 3,5 A. La válvula instalada (Bermad S-390-3-D, 24 V AC alimentada en continua; 42 Ω a 20 °C según la ficha, sin medir) es solo un ejemplo | REL-11, DEC-0014, `salidas.md` §0; DEC-0011 |
 | Ambiente | 60 °C dentro de la caja; −10 °C mínimo | §5 de `docs/02` |
 
 ## 2. Lo común a las cinco arquitecturas
@@ -68,17 +68,19 @@ Con IS compartido, cada canal necesita IN y DEN: 16 líneas para 8 canales, just
 - **Masas:** si la fuente del módulo es otra (salida aislada, lo normal en las fuentes LED), el GND de EXP-02 es la única unión y por él solo circula la corriente de la lógica. Si las dos fuentes comparten el negativo, parte del retorno de las válvulas del módulo vuelve por los GND del cable: con 1 m de cable plano (4 × 28 AWG, 0,053 Ω) frente a ≈ 12 mΩ del cable de alimentación, ≈ 16 % de 3,5 A = 0,55 A y 29 mV de desplazamiento, aceptable frente a los 0,5 V de margen de ruido del I²C (§10.4). Recomendación: no unir el negativo del módulo a tierra ni a la otra fuente.
 - **Lógica del módulo por EXP-02:** en las arquitecturas 1 y 3 basta el 3,3 V del conector (§10.3: ≤ 9,5 mA por módulo). Las arquitecturas 2, 4 y 5 hacen su 3,3 V con un buck de 65 V desde su entrada (como la placa, ALI-05) y no toman nada del conector.
 
-### 2.3 Efecto de la corriente de las válvulas (dato abierto, DEC-0011)
+### 2.3 Corriente de las salidas del módulo (límites de uso, DEC-0014)
 
-| Caso | I por válvula a 24,5 V y −10 °C | 8 válvulas (1 por canal) | 16 válvulas (2 por canal) | Válvulas a la vez con instalada ≤ 3,5 A y la banda de la placa |
-|---|---|---|---|---|
-| A · 24 V DC, 0,25 A a 20 °C (diseño) | 3,47 A / 12 = **0,29 A** (ALI-12) | 2,3 A ✔ | 4,6 A ✗ | 12 |
-| B · 42 Ω resistivos (DEC-0011, sin validar) | 42 Ω × (1 − 0,00393 × 30) = 37,0 Ω → 24,5 / 37,0 = **0,66 A** | 5,3 A ✗ | 10,6 A ✗ | **5** |
-| C · bobina AC con rectificador u otra | se mide | — | — | — |
+Revisado en SPEC-0034: la corriente de las válvulas deja de ser un dato abierto. El módulo publica los mismos límites de uso que la placa (`salidas.md` §0): una carga por salida, ≤ 1 A por salida y suma de las salidas activas ≤ 3,5 A con un limitador como el de la placa (R_ILIM 4,30 kΩ, 3,86–4,57 A) y su fuente de 5 A. Cuántas salidas van a la vez lo decide la instalación con esa suma, y el firmware avisa si se supera (REL-10).
 
-- Con el caso A, un módulo de 8 canales con una válvula por canal cabe en una fuente de 5 A con el limitador de la placa (R_ILIM 4,30 kΩ, 3,86–4,57 A).
-- Con el caso B, para 8 válvulas a la vez el TPS26632 tendría que subir a su máximo (R_ILIM 3,0 kΩ: 6 A ± 7 %, 5,58–6,42 A; TPS2663 p. 7), con una fuente de ≥ 7 A (24 V, 10 A) y el fusible y las pistas de entrada del módulo para esa corriente. La otra salida es una regla de firmware (≤ 5 válvulas a la vez en el módulo), que sería un requisito nuevo.
-- En el caso B, dos válvulas por canal (1,32 A) superan el 1 A de REL-05 en el módulo y en la placa. Es la revisión que SPEC-0032 ya tiene pendiente (REL-03, REL-05, ALI-12); el módulo hereda su resultado.
+| Corriente por salida (a la tensión y temperatura de uso) | 8 salidas a la vez | Salidas a la vez con suma ≤ 3,5 A |
+|---|---|---|
+| 1 A (límite de uso por salida) | 8 A ✗ | 3 |
+| ≤ 0,43 A (3,5 A / 8) | ≤ 3,5 A ✔ | 8 |
+| Ejemplo: válvula de 24 V DC de 0,25 A (0,29 A a 24,5 V y −10 °C) | 2,3 A ✔ | 8 |
+| Ejemplo: bobina AC en continua de 42 Ω (DEC-0011, sin medir; 37,0 Ω a −10 °C → 0,66 A a 24,5 V) | 5,3 A ✗ | 5 |
+
+- Para más salidas a la vez (suma > 3,5 A), el TPS26632 del módulo puede subir a su máximo (R_ILIM 3,0 kΩ: 6 A ± 7 %, 5,58–6,42 A; TPS2663 p. 7), con una fuente de ≥ 7 A (24 V, 10 A) y el fusible y las pistas de entrada del módulo para esa corriente. Es una variante del módulo con sus propios límites de uso, no una condición del diseño.
+- Dos válvulas por salida quedan fuera de los límites de uso (una carga por salida, REL-05 v0.7).
 - **Nada de esto cambia el conector EXP-02:** las salidas no se alimentan por él.
 
 ### 2.4 Estado seguro común
@@ -351,7 +353,7 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 ## 12. Riesgos y puntos abiertos
 
 1. **Fuente propia del módulo:** requisito nuevo (PENDIENTE 1). Sin él, la arquitectura no cumple ALI-12 con una sola fuente de 5 A.
-2. **Corriente de las válvulas** (DEC-0011): fija R_ILIM y la fuente del módulo (§2.3).
+2. **Corriente de las válvulas:** resuelto por los límites de uso (DEC-0014, EXP-05; SPEC-0034). El módulo hereda los de la placa; R_ILIM y la fuente solo cambian si se quiere una suma mayor de 3,5 A (§2.3).
 3. **TCA9535 en ESPHome:** «debería funcionar» (registros iguales que el PCA9535 probado). El primer prototipo lo comprueba; si falla, PCA9535PWR en la misma huella.
 4. **4.º módulo:** depende del tiempo de mantenimiento de SDA con ADDR = SDA (§10.4).
 5. **Capacidad del pin del ESP32-S3 y del ADS1115:** supuestas (10 pF). Con el doble (20 pF cada una), el caso de 4 módulos y 3 m sube a 326 pF y 614 ns, todavía ≤ 1000 ns.

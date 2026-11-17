@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR).
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR). **Rev. SPEC-0034:** §1, la carga de salidas pasa a límite de uso de la suma (DEC-0014).
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -47,7 +47,7 @@ Resultados clave:
 |---|---|---|
 | Fuente | LED de tensión constante, 24 V ± 2 % (ajuste de fábrica), 5 A, sobrecarga desde 126 W (≥ 5,14 A a 24,5 V), OVP 28,8–33,6 V (supuestos) | ALI-01, ALI-12, DEC-0004 |
 | Rango en el borne | 18–30 V en funcionamiento | ALI-01 |
-| Carga de salidas | 3,5 A instalados máx. (24,5 V, bobinas a −10 °C) | ALI-12 |
+| Carga de salidas | 3,5 A: límite de uso de la suma de las salidas activas a la vez (1 A por salida); no depende de una válvula concreta | ALI-12 v0.7, REL-11, DEC-0014; `salidas.md` §0 |
 | Lógica | ≤ 4,8 W en la entrada | ALI-12 |
 | Ambiente | −10…+50 °C; +10 °C dentro de la caja → **60 °C** para la térmica | §5, checklist de esquema |
 | TVS | SMBJ33A: V_RWM 33 V; V_BR 36,7–40,6 V; Vc 53,3 V a 11,3 A | SMBJ33A.pdf, tabla p. 2 |

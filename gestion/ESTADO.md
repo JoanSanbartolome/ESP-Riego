@@ -1,17 +1,23 @@
 # Estado
 
-Actualizado el 2026-11-17, al cerrar SPEC-0033. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-17, al cerrar SPEC-0034. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
 Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloque, validadas y sin incidencias conocidas.
 
-1. **SPEC-0034 · Límites de uso de las salidas** (propuesta): `ing-diseno` calcula la tabla de límites de uso (REL-11), monta D12–D17 y limpia los datos de la válvula de `salidas.md` y del resto de documentos (lista en la spec); `jr-conformidad`, el stock y el precio de M7.
-2. **SPEC-0035 · Esquema legible** (propuesta, DEC-0015): las cinco hojas con el aspecto del esquema del TFG (recuadros por bloque, cables, etiquetas solo entre bloques y hojas). Salidas con una subhoja «Canal» repetida 6 veces; títulos con nombre e IDs; cifras junto a la pieza y, como mucho, 2 o 3 líneas de nota por bloque. Netlist idéntica antes y después.
-3. **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`. Lleva además las 5 B de VAL-0028-01. Ya no depende de medir la válvula (DEC-0014).
-4. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
+1. **SPEC-0035 · Esquema legible** (propuesta, DEC-0015): las cinco hojas con el aspecto del esquema del TFG (recuadros por bloque, cables, etiquetas solo entre bloques y hojas). Salidas con una subhoja «Canal» repetida 6 veces; títulos con nombre e IDs; cifras junto a la pieza y, como mucho, 2 o 3 líneas de nota por bloque. Netlist idéntica antes y después. Lleva además el `[auto]` del diff de la PCB (VAL-0034-01).
+2. **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`. Lleva además las 5 B de VAL-0028-01. Ya no depende de medir la válvula (DEC-0014).
+3. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2; validación ligera con `model: sonnet`.
+
+## Límites de uso de las salidas (SPEC-0034)
+
+- `salidas.md` §0: tabla REL-11 (1 A por salida, 3,5 A de suma, carga mínima 80 mA / ≤ 218 Ω, solo bobinas DC, sin PWM ni biestables, aislamiento ≥ 400 kΩ); serigrafía en §8 y avisos de firmware en §12 (suma sobre LIM_IMON > 3,3 A, puede avisar desde ≈ 3,0 A).
+- D12–D17 (M7, C95872, Basic, 0,062 USD por placa) montados en esquema, BOM, CPL y `campos-salidas.csv`.
+- Prueba de prototipo nueva (§13.9): impulsos en el diodo con JP1 cerrado (BTT enclavado; uno por subida de IN y por rearme de subtensión).
+- Checklist `esquema.md` v12. VAL-0034-01 APROBADO_CON_OBSERVACIONES (1 M, 5 B) → VAL-0034-02 APROBADO.
 
 ## Requisitos v0.7 (SPEC-0033)
 
@@ -22,7 +28,7 @@ Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloq
 
 ## Pendiente del usuario
 
-- Nada bloqueante. En el prototipo, comprobar que las válvulas instaladas (Bermad S-390-3-D, 24 V AC alimentadas en continua) caben en los límites de uso de REL-11; ya no condicionan el diseño (DEC-0014).
+- Nada bloqueante. En el prototipo, comprobar que las válvulas instaladas (Bermad S-390-3-D, 24 V AC alimentadas en continua) caben en los límites de uso de REL-11; ya no condicionan el diseño (DEC-0014). En continua disipan 14–16 W a 24 V: que lo admitan es dato de la válvula (`salidas.md` §13.10).
 
 ## Para el layout (fase 4)
 
@@ -31,7 +37,7 @@ Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloq
 - 115 huellas de salidas y conectores sin colocar; D12–D17 se montan (DEC-0014), junto al borne de su canal.
 - Polígono BUS_24V de ≥ 300 mm² bajo cada BTT6050; el pad 15 de B.Cu y las vías ya cuelgan de VS.
 - Vías y pasta del EPAD de U5 (VAL-0021-01-03), serigrafía «STATUS» junto a D5 y antena en el borde.
-- Serigrafía de los límites de uso de las salidas (REL-11; texto en `salidas.md` tras SPEC-0034).
+- Serigrafía de los límites de uso de las salidas (REL-11; texto en `salidas.md` §8).
 - Separación de 0,6 mm dentro de las huellas de salida (DEC-0008).
 - `restricciones.py` compara la PCB con la tabla, no calcula anchos: que la tabla salga de la corriente y del ΔT, y los retornos por zonas, son `[juicio]` (VAL-0027-01-01).
 

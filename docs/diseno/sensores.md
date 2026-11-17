@@ -1,6 +1,6 @@
 # Bloque de sensores: temperatura y humedad del aire de la caseta (SPEC-0029)
 
-**Autor:** ing-diseno · **Fecha:** 2026-11-14. **Rev. SPEC-0028** (2026-11-16): U13 pasa a SHT40-AD1B-R2 (VAL-0029-01-03).
+**Autor:** ing-diseno · **Fecha:** 2026-11-14. **Rev. SPEC-0028** (2026-11-16): U13 pasa a SHT40-AD1B-R2 (VAL-0029-01-03). **Rev. SPEC-0034** (2026-11-17): el caso de carga del calentamiento es la suma de 3,5 A de ALI-12; las 6 salidas a 0,25 A quedan como ejemplo (DEC-0014).
 **Requisitos:** AMB-01, AMB-02, KIC-02; además FAB-02, FAB-03, FAB-07, FW-03 y MCU-05.
 **Stock:** `hardware/componentes/stock-sensores.csv` (JLCPCB, 2026-11-14, paso 1 de SPEC-0029).
 
@@ -32,7 +32,7 @@ Resultados clave:
 - **Dirección:** 0x44, en el bus de la placa (GPIO41/42) junto con U18 TCA9554 en 0x20, el expansor de los pulsadores (DEC-0013; `conectores.md` §3.3); la expansión va en otro bus (GPIO47/48): sin choque (§3).
 - **Consumo:** 0,5 mA máx. midiendo y 2,2 µA de media a 1 medida/s; cuadra con los 0,5 mA de `mcu.md` §8.2. Calentador **sin usar** (§4).
 - **Autocalentamiento:** 2 mK a 1 medida/s; 0,49 K si se midiera sin parar: el firmware mide cada ≥ 10 s (§4.3).
-- **Aislamiento (AMB-02):** isla en el borde lateral, rodeada de ranuras con un solo puente y sin planos. Estimación: la isla sigue al **≈ 30 %** del calentamiento de la placa (frente al ≈ 100 % sin ranuras): **≈ 1,3 K en reposo y ≈ 3 K con las 6 salidas a 0,25 A**. La diferencia (≈ 1,7 K) supera ± 0,5 °C: lo previsible es que haga falta la corrección **según las salidas activas** de AMB-02/FW-03, y **hay que recalcular la HR** con la temperatura corregida (§5, §8).
+- **Aislamiento (AMB-02):** isla en el borde lateral, rodeada de ranuras con un solo puente y sin planos. Estimación: la isla sigue al **≈ 30 %** del calentamiento de la placa (frente al ≈ 100 % sin ranuras): **≈ 1,3 K en reposo y ≈ 7 K con la suma de 3,5 A de ALI-12** (caso de carga; ≈ 3 K, por ejemplo, con 6 salidas a 0,25 A). La diferencia (≈ 5,7 K; ≈ 1,7 K en el ejemplo) supera ± 0,5 °C: lo previsible es que haga falta la corrección **según las salidas activas** de AMB-02/FW-03, y **hay que recalcular la HR** con la temperatura corregida (§5, §8).
 - **Huella sin pad central** (oficial `…_NoCentralPad`); la instancia de la PCB enlaza el modelo 3D de respaldo (`sincronizar.py`, §7).
 - **Referencias:** U13 y **C47**. El paso 1 propuso C46, pero C46 ya existe en la hoja de salidas (4,7 µF a granel): se corrige `campos-sensores.csv`.
 
@@ -117,12 +117,12 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 | Estado | Piezas | Potencia | Fuente |
 |---|---|---|---|
 | Reposo | U5 Wi-Fi conectado (≈ 100 mA × 3,3 V, supuesto) 0,33 W; U4 (5,1 − 3,3) × 0,1 A = 0,18 W; U2 ≈ 0,12 W (0,5 W de salida con η ≈ 80 % a carga baja, supuesto) | **≈ 0,63 W** | `alimentacion.md` §10 |
-| 6 salidas a 0,25 A (1,5 A) | Reposo + 6 × (24 V × 4,7 mA + 0,25² × 0,06 Ω) = 0,69 W en los BTT + U1 ≈ 0,10 W + Q1 1,5² × 0,026 = 0,06 W | **≈ 1,5 W** | `salidas.md` §6; `alimentacion.md` §10 |
-| Ensayo de §6 (1 + 1 + 4 × 0,375 A, 3,5 A) | Reposo + BTT 1,8 W + U1 0,55 W + Q1 0,32 W + F1 0,09 W | ≈ 3,4 W (cota alta) | `salidas.md` §6 |
+| Ejemplo: 6 salidas a 0,25 A (1,5 A) | Reposo + 6 × (24 V × 4,7 mA + 0,25² × 0,06 Ω) = 0,69 W en los BTT + U1 ≈ 0,10 W + Q1 1,5² × 0,026 = 0,06 W | ≈ 1,5 W | `salidas.md` §6; `alimentacion.md` §10 |
+| **Caso de carga: suma de 3,5 A** (ALI-12, límite de uso; reparto del ensayo de §6, 1 + 1 + 4 × 0,375 A) | Reposo + BTT 1,8 W + U1 0,55 W + Q1 0,32 W + F1 0,09 W | **≈ 3,4 W** (cota alta) | `salidas.md` §0 y §6 |
 
 Calentamiento medio de la placa sobre el aire de la caja: ΔT_placa = P / (h · A), con A = 2 × 100 × 70 mm² = 0,014 m² y h = 10 W/m²K (convección natural y radiación; supuesto, rango 7–15) → 7,1 K/W:
 
-- reposo: **≈ 4,5 K**; 6 salidas a 0,25 A: **≈ 10,5 K**; ensayo de §6: ≈ 24 K.
+- reposo: **≈ 4,5 K**; suma de 3,5 A (caso de carga): **≈ 24 K**; ejemplo de 6 salidas a 0,25 A: ≈ 10,5 K.
 - Con planos en las dos caras, el cobre reparte el calor: k·t = 0,3 × 1,6 mm + 2 × 385 × 35 µm = 0,027 W/K y la longitud de reparto es √(k·t / 2h) = √(0,027 / 20) ≈ **37 mm**. En 100 × 70 mm la placa es casi isoterma: **la distancia sola no aísla; lo hacen las ranuras**.
 
 ### 5.2 Isla y puente
@@ -137,14 +137,14 @@ Fracción del calentamiento de la placa que llega a la isla: f = G_puente / (G_p
   - Sin ranuras, el sensor sigue a la placa: f ≈ 1.
   - Isla de 6 × 8 mm: G_isla = 0,96 mW/K → f = 0,50. Por eso se pide ≈ 10 × 12 mm.
 
-Calentamiento previsto de la isla (± 50 %, por h y por el reparto real): **≈ 1,3 K en reposo** y **≈ 3,0 K con 6 salidas a 0,25 A** (≈ 7 K en el ensayo de §6). Error de HR sin recalcular: a 25 °C y 50 % HR, 3 K → 41,9 % HR (§8).
+Calentamiento previsto de la isla (± 50 %, por h y por el reparto real): **≈ 1,3 K en reposo** y **≈ 7 K con la suma de 3,5 A** (caso de carga, ensayo de §6); ≈ 3,0 K en el ejemplo de 6 salidas a 0,25 A. Error de HR sin recalcular: a 25 °C y 50 % HR, 3 K → 41,9 % HR y 7 K → 33,3 % HR (§8).
 
 ### 5.3 Conclusiones para el diseño
 
 - Las cuatro pistas son el 70 % de la fuga: anchura `Default` (0,25 mm), ≥ 20 mm de largo desde el borde del plano y ningún plano en la isla ni en el puente.
 - Un solo puente, de 3 mm (cuatro pistas de 0,25 mm con 0,2 mm entre ellas = 1,6 mm, más 0,5 mm a cada borde de ranura por FAB-02 = 2,6 mm).
 - Ranura ≥ 1,0 mm: el aire de la ranura conduce ≈ 0,026 W/mK, 10 veces menos que el FR-4. Más ancha apenas mejora y quita placa.
-- La diferencia reposo/carga prevista (≈ 1,7 K) supera ± 0,5 °C: la corrección fija probablemente no basta. AMB-02 ya lo admite (según las salidas activas o la temperatura interna del ESP32). Se confirma en el prototipo (§9).
+- La diferencia reposo/carga prevista (≈ 5,7 K con la suma de 3,5 A; ≈ 1,7 K en el ejemplo de 1,5 A) supera ± 0,5 °C: la corrección fija probablemente no basta. AMB-02 ya lo admite (según las salidas activas o la temperatura interna del ESP32). Se confirma en el prototipo (§9).
 
 ## 6. Restricciones de layout: justificación
 
@@ -191,7 +191,7 @@ FAB-07 deja los laterales para la antena (MCU-02), el USB-C y el sensor. La ante
 
 ## 9. Riesgos y puntos abiertos
 
-1. **Estimación térmica (§5):** h, el reparto real y la potencia del módulo son supuestos (± 50 %). Se mide en el prototipo con la prueba de `docs/02` §6. Si el calentamiento de la isla con carga pasa de ≈ 5 K, se alargan las pistas del puente o se agranda la isla.
+1. **Estimación térmica (§5):** h, el reparto real y la potencia del módulo son supuestos (± 50 %). Se mide en el prototipo con la prueba de `docs/02` §6. Si el calentamiento de la isla pasa de lo previsto más el 50 % (≈ 10 K con la suma de 3,5 A; ≈ 5 K con 1,5 A), se alargan las pistas del puente o se agranda la isla.
 2. **Ranura mínima:** ≥ 1,0 mm de fresado no metalizado es lo habitual en JLCPCB estándar. Se confirma con las reglas de fabricación de la fase 5.
 3. **Isla en voladizo:** una isla de 10 × 12 mm sobre un puente de 3 × 1,6 mm de FR-4 aguanta el montaje y el uso normal, pero no golpes. Si la caja o el montaje lo piden, un 2.º puente sin cobre (+0,29 mW/K, f = 0,34).
 4. **Rejilla de la caja:** la posición de la isla depende de la caja (decisión D5).

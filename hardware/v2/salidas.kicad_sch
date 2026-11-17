@@ -6,7 +6,7 @@
 	(paper "A3")
 	(title_block
 		(title "ESP-Riego v2")
-		(date "2026-11-12")
+		(date "2026-11-17")
 		(rev "2.0-dev")
 		(company "Joan San Bartolomé Ferri")
 		(comment 1 "Salidas: 6 high-side BTT6050 y bornes")
@@ -2992,7 +2992,7 @@
 		)
 		(uuid "2ce94d8c-fe2f-421f-b62d-8e556c03793f")
 	)
-	(text "Notas (docs/diseno/salidas.md):\n- IN1–IN6 (GPIO11, 12, 13, 15, 16, 17), OUT_DEN (GPIO38) e IS1–IS6 (GPIO4–9, ADC1 a 6 dB) desde la hoja MCU; BUS_24V desde Alimentación (Anexo B).\n- Pull-down de 100 kΩ en IN_n y en OUT_DEN: salidas apagadas en arranque, reset y flasheo (REL-04, §2.2). El LED del canal cuelga de IN_n (REL-07, §7).\n- IS: R_SENSE 10 kΩ junto al BTT; R_IS 820 Ω y C_IS 100 nF junto al módulo. Sin diodo: el divisor acota V_ADC a ≤ 2,32 V a 30 V (REL-10, §3).\n- R_OL 47 kΩ de BUS_24V a OUT_n: carga abierta en OFF (§3.3). GND del BTT (pin 3) directo al plano, sin R_GND ni diodo (§4.4).\n- D12–D17 (M7) sin montar (DNP, DEC-0008): huella en la placa por si la inductancia medida de la válvula no cumple E_AS (§5).\n- Bornes J4–J9: pin 1 = OUT_n, pin 2 = GND en los seis (REL-06); J4–J6 en el borde superior, J7–J9 en el inferior (REL-09).\n- Tab del BTT (pin 15) = VS = BUS_24V, no GND. Separación de Salidas: 1 mm, 0,6 mm en U7–U12, R57–R62 y C33–C38 (DEC-0008, §11)."
+	(text "Notas (docs/diseno/salidas.md):\n- IN1–IN6 (GPIO11, 12, 13, 15, 16, 17), OUT_DEN (GPIO38) e IS1–IS6 (GPIO4–9, ADC1 a 6 dB) desde la hoja MCU; BUS_24V desde Alimentación (Anexo B).\n- Pull-down de 100 kΩ en IN_n y en OUT_DEN: salidas apagadas en arranque, reset y flasheo (REL-04, §2.2). El LED del canal cuelga de IN_n (REL-07, §7).\n- IS: R_SENSE 10 kΩ junto al BTT; R_IS 820 Ω y C_IS 100 nF junto al módulo. Sin diodo: el divisor acota V_ADC a ≤ 2,32 V a 30 V (REL-10, §3).\n- R_OL 47 kΩ de BUS_24V a OUT_n: carga abierta en OFF (§3.3). GND del BTT (pin 3) directo al plano, sin R_GND ni diodo (§4.4).\n- D12–D17 (M7): rueda libre montada en cada salida (REL-03, DEC-0014); la energía de la bobina no pasa por el BTT (§5).\n- Bornes J4–J9: pin 1 = OUT_n, pin 2 = GND en los seis (REL-06); J4–J6 en el borde superior, J7–J9 en el inferior (REL-09).\n- Tab del BTT (pin 15) = VS = BUS_24V, no GND. Separación de Salidas: 1 mm, 0,6 mm en U7–U12, R57–R62 y C33–C38 (DEC-0008, §11)."
 		(exclude_from_sim no)
 		(at 15.24 248.92 0)
 		(effects
@@ -4416,10 +4416,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "11e3383f-2866-429f-8ba6-b44c8aed1239")
 		(property "Reference" "D12"
 			(at 116.84 74.93 90)
@@ -4465,7 +4465,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 114.3 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -6051,10 +6051,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "53d3a40d-f69e-4b36-b2c4-135b6d3a835b")
 		(property "Reference" "D13"
 			(at 246.38 74.93 90)
@@ -6100,7 +6100,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 243.84 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -7686,10 +7686,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "51e034f3-e615-4b81-ac4d-4571ddf217e0")
 		(property "Reference" "D14"
 			(at 375.92 74.93 90)
@@ -7735,7 +7735,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 373.38 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -9321,10 +9321,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "e91dbcd5-c7cd-4790-baa2-6ff0ab0f53f5")
 		(property "Reference" "D15"
 			(at 116.84 156.21 90)
@@ -9370,7 +9370,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 114.3 157.48 0)
 			(hide yes)
 			(show_name no)
@@ -10956,10 +10956,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "c8bf6b18-318b-4525-b6e3-c47e07a4225e")
 		(property "Reference" "D16"
 			(at 246.38 156.21 90)
@@ -11005,7 +11005,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 243.84 157.48 0)
 			(hide yes)
 			(show_name no)
@@ -12591,10 +12591,10 @@
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(in_pos_files no)
-		(dnp yes)
+		(in_pos_files yes)
+		(dnp no)
 		(uuid "e8a98b55-37a7-4b4f-80ac-71a6c090af8e")
 		(property "Reference" "D17"
 			(at 375.92 156.21 90)
@@ -12640,7 +12640,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 373.38 157.48 0)
 			(hide yes)
 			(show_name no)
