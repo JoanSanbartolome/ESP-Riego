@@ -7,7 +7,7 @@ Actualizado el 2026-11-17, al cerrar SPEC-0033. Lo reescribe el coordinador en c
 Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloque, validadas y sin incidencias conocidas.
 
 1. **SPEC-0034 · Límites de uso de las salidas** (propuesta): `ing-diseno` calcula la tabla de límites de uso (REL-11), monta D12–D17 y limpia los datos de la válvula de `salidas.md` y del resto de documentos (lista en la spec); `jr-conformidad`, el stock y el precio de M7.
-2. **Esquema legible** (DEC-0015, pendiente de redactar): las cinco hojas con el aspecto del esquema del TFG (recuadros por bloque, cables, etiquetas solo entre bloques y hojas). Salidas con una subhoja «Canal» repetida 6 veces; títulos con nombre e IDs; cifras junto a la pieza y, como mucho, 2 o 3 líneas de nota por bloque. Netlist idéntica antes y después.
+2. **SPEC-0035 · Esquema legible** (propuesta, DEC-0015): las cinco hojas con el aspecto del esquema del TFG (recuadros por bloque, cables, etiquetas solo entre bloques y hojas). Salidas con una subhoja «Canal» repetida 6 veces; títulos con nombre e IDs; cifras junto a la pieza y, como mucho, 2 o 3 líneas de nota por bloque. Netlist idéntica antes y después.
 3. **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`. Lleva además las 5 B de VAL-0028-01. Ya no depende de medir la válvula (DEC-0014).
 4. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
