@@ -672,7 +672,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "SHT40-AD1B-R3"
+		(property "Value" "SHT40-AD1B-R2"
 			(at 134.62 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -716,7 +716,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C2848306"
+		(property "LCSC Part#" "C2909890"
 			(at 127 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -727,7 +727,7 @@
 				)
 			)
 		)
-		(property "MPN" "SHT40-AD1B-R3"
+		(property "MPN" "SHT40-AD1B-R2"
 			(at 127 96.52 0)
 			(hide yes)
 			(show_name no)

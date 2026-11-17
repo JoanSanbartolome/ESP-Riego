@@ -192,7 +192,7 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 | 3,3 V del conector de expansión | ≤ 50 mA | `alimentacion.md` §4 |
 | **Total** | **≈ 433 mA** (diseño: 0,45 A) | |
 
-- El calentador del SHT4x (hasta 200 mW / 3,3 V = 61 mA durante ≤ 1 s, ficha p. 13) no se usa (AMB-02). Si se usara, el total subiría a 0,49 A, todavía dentro de 1 A.
+- El calentador del SHT4x (nivel de 200 mW) consume **60 mA típ. y 100 mA máx.** (Tabla 4, p. 9), durante ≤ 1 s y con un ciclo ≤ 10 % (Tabla 9, p. 13). No se usa (AMB-02). Si se usara, el total subiría a 433 + 100 = 533 mA, **0,55 A** con el valor de diseño (0,45 + 0,10 A): dentro de 1 A del TLV1117LV (1,8×; §8.3). En +5V serían 0,75 + 0,10 = 0,85 A durante el pulso, algo más que los 0,835 A que caben en los 4,8 W de ALI-12 (`alimentacion.md` §4); con el ciclo ≤ 10 %, 0,76 A de media. Si se llega a usar, hay que revisarlo en ALI-12.
 
 ### 8.3 Comprobación del TLV1117LV
 

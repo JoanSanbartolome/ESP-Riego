@@ -1,6 +1,6 @@
 # Bloque de sensores: temperatura y humedad del aire de la caseta (SPEC-0029)
 
-**Autor:** ing-diseno · **Fecha:** 2026-11-14.
+**Autor:** ing-diseno · **Fecha:** 2026-11-14. **Rev. SPEC-0028** (2026-11-16): U13 pasa a SHT40-AD1B-R2 (VAL-0029-01-03).
 **Requisitos:** AMB-01, AMB-02, KIC-02; además FAB-02, FAB-03, FAB-07, FW-03 y MCU-05.
 **Stock:** `hardware/componentes/stock-sensores.csv` (JLCPCB, 2026-11-14, paso 1 de SPEC-0029).
 
@@ -22,7 +22,7 @@ GND ─────────────── U13 VSS (4)           I2C_SDA 
 
 | Función | Pieza principal | Alternativa | Requisito |
 |---|---|---|---|
-| Sensor T/HR | U13 Sensirion **SHT40-AD1B-R3**, C2848306 (Extended, 13 207) · I²C **0x44** | SHT40-AD1B-R2, C2909890 (mismo chip, bobina de 2 500); SHT41-AD1B-R2, C7461861 (más exacto, §2) | AMB-01 |
+| Sensor T/HR | U13 Sensirion **SHT40-AD1B-R2**, C2909890 (Extended, 13 899 el 2026-11-16) · I²C **0x44** | SHT40-AD1B-R3, C2848306 (pieza anterior: mismo chip, bobina de 10 000); SHT41-AD1B-R2, C7461861 (más exacto, §2) | AMB-01 |
 | Desacoplo | C47 100 nF 50 V X7R 0603, Yageo CC0603KRX7R9BB104, C14663 (Basic; línea de C25) | Samsung CL10B104KB8NNNC (C1591, Extended) | AMB-01 |
 | *Pull-ups* | R24 y R25 (4,7 kΩ) de la hoja MCU: **no se duplican** | — | AMB-01 |
 
@@ -62,14 +62,14 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 
 | Variante | T máx. (0–65 °C) | HR máx. (10–90 %, 25 °C) | Precio 1–9 (USD) | Stock |
 |---|---|---|---|---|
-| SHT40-AD1B | ± 0,4 °C (Fig. 10, p. 7) | ± 3,5 % HR (Fig. 2, p. 5) | 1,8538 | 13 207 |
+| SHT40-AD1B | ± 0,4 °C (Fig. 10, p. 7) | ± 3,5 % HR (Fig. 2, p. 5) | 1,7493 (R2, 5 uds.; 2026-11-16) | 13 899 (R2) |
 | SHT41-AD1B | ± 0,4 °C (Fig. 11, p. 7) | ± 2,5 % HR (Fig. 3, p. 5) | 3,2592 | 11 244 |
 | SHT45-AD1B | ± 0,3 °C (Fig. 13, p. 7) | ± 2,0 % HR (Fig. 5, p. 5) | 5,7167 | 6 530 |
 
 - Ninguna variante cumple § 6 sin calibrar: la isla se calienta 1–3 K (§5) y el error de temperatura arrastra la HR: dHR/dT = HR · 17,62 · 243,12 / (243,12 + T)² = **2,98 % HR por K** a 25 °C y 50 % HR (Magnus, §8).
 - Con la corrección calibrada contra la referencia (T y, después, HR por Magnus más un *offset* de HR medido en la misma calibración), el error estático del sensor se absorbe: la variante no decide el cumplimiento.
 - Sin *offset* de HR, ni el SHT41 garantiza ± 3 %: 2,5 % HR + 0,5 K × 2,98 = 4,0 % HR.
-- **Se fija SHT40-AD1B-R3** (C2848306), la del paso 1. Si el prototipo no alcanza ± 3 % HR, la mejora directa es el SHT41-AD1B-R2 (C7461861): misma huella, misma dirección y +1,41 $ por placa.
+- **Se fija SHT40-AD1B-R2** (C2909890; SPEC-0028). Antes, SHT40-AD1B-R3 (C2848306, la del paso 1 de SPEC-0029): mismo chip, solo cambia el carrete, 2 500 frente a 10 000 uds. (Tabla 11, p. 21), y el R2 cuesta 1,7493 $ frente a 1,8541 $ a 5 uds. Si el prototipo no alcanza ± 3 % HR, la mejora directa es el SHT41-AD1B-R2 (C7461861): misma huella, misma dirección y +1,51 $ por placa (3,2592 − 1,7493).
 
 ## 3. Dirección I²C
 
@@ -200,11 +200,11 @@ FAB-07 deja los laterales para la antena (MCU-02), el USB-C y el sensor. La ante
 
 | Ref. | Valor / función | Encapsulado | MPN principal | LCSC · tipo · stock (2026-11-14) | Alternativa (LCSC) | Símbolo / huella |
 |---|---|---|---|---|---|---|
-| U13 | Sensor T/HR, I²C 0x44 | DFN-4 1,5 × 1,5 | Sensirion SHT40-AD1B-R3 | C2848306 · Extended · 13 207 | SHT40-AD1B-R2 (C2909890 · 14 052); SHT41-AD1B-R2 (C7461861 · 11 244) | `Sensor_Humidity:SHT4x` / `Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad` |
+| U13 | Sensor T/HR, I²C 0x44 | DFN-4 1,5 × 1,5 | Sensirion SHT40-AD1B-R2 | C2909890 · Extended · 13 899 (2026-11-16) | SHT40-AD1B-R3 (C2848306, pieza anterior · 12 976); SHT41-AD1B-R2 (C7461861 · 11 244) | `Sensor_Humidity:SHT4x` / `Sensor_Humidity:Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad` |
 | C47 | 100 nF 50 V X7R, desacoplo de VDD | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · Basic · 34 639 344 | Samsung CL10B104KB8NNNC (C1591 · Extended) | `Device:C` / `Capacitor_SMD:C_0603_1608Metric` |
 
 - Campos: `hardware/componentes/campos-sensores.csv` (`campos.py revisar`: 0 diferencias).
-- Coste: 1,8538 + 0,0104 = **1,86 $ por placa** (tramo 1–9) y una línea Extended más en el montaje.
+- Coste: 1,7493 + 0,0104 = **1,76 $ por placa** (tramo 1–9, 2026-11-16; con el R3 eran 1,86 $) y una línea Extended más en el montaje.
 
 ## 11. Trazabilidad
 
@@ -219,7 +219,7 @@ FAB-07 deja los laterales para la antena (MCU-02), el USB-C y el sensor. La ante
 
 ## Anexo A. Datos para las fichas
 
-- `SHT4x.md`: la variante queda fijada (SHT40-AD1B-R3) y la instancia enlaza el modelo de respaldo (§7). La ficha no se ha tocado en este paso.
+- `SHT4x.md`: la variante queda fijada (SHT40-AD1B-R2 desde SPEC-0028; antes SHT40-AD1B-R3) y la instancia enlaza el modelo de respaldo (§7). La ficha se actualizó en SPEC-0028.
 - C14663 ya tiene la línea de C25 (`mcu.md` §11) y de C39–C44 (`campos-salidas.csv`).
 
 ## Anexo B. Etiquetas jerárquicas de la hoja de sensores

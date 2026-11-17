@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007.
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR).
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -19,7 +19,7 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 | Función | Pieza principal | Alternativa | Requisito |
 |---|---|---|---|
 | Borne de entrada | WJ500V-5.08-2P (C8465) | — (ficha existente) | ALI-02 |
-| Fusible | Littelfuse 0451010.MRL, 10 A muy rápido, 125 V, 2410 (C44479) | TLC TA10 (C2998199) | ALI-04, ALI-12 |
+| Fusible | Littelfuse 0451010.MRL, 10 A muy rápido, 125 V, 2410 (C44479) | Littelfuse 0453010.MR (C178995); TLC TA10 descartado (§3.2) | ALI-04, ALI-12 |
 | Polaridad | P-MOS SQD50P06-15L, 60 V, 15,5 mΩ, TO-252 (C3281500), con zéner de puerta BZT52C15 | UMW SUD50P06-15 (C7503186) | ALI-03 |
 | TVS | SMBJ33A (C224019), tras Q1 | Ruilon SMBJ33A (C10219) | ALI-04 |
 | Buck 5 V | LMR36520FADDAR, 65 V / 2 A síncrono (C1858395) | LMR36520ADDAR (C2879422) | ALI-05, ALI-06 |
@@ -82,6 +82,7 @@ WJ500V-5.08-2P: 2 polos a 5,08 mm, 15 A (UL) / 18 A (IEC), 300 V (`hardware/comp
 - Arranque en caliente (*hot-plug*), con C = 47 + 2 × 4,7 µF, 30 V y R ≈ 0,1 Ω (cable y ESR): I²t = C·V²/(2R) = 0,25 A²s, frente a I²t de fusión de 26,46 A²s (tabla, p. 2). No actúa.
 - Papel: con la fuente de 5 A (que limita a 5,1–7,5 A), F1 solo actúa con una fuente de más corriente o con un corto franco aguas abajo (Q1 o D2 en corto). En el resto de casos limita primero la fuente o el limitador común.
 - Huella: `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018; VAL-0019-01-03).
+- **Alternativa (SPEC-0028, `hardware/componentes/0451010.MRL.md`):** Littelfuse **0453010.MR** (C178995), de la misma hoja 451/453: 10 × 0,75 × 0,96 = 7,2 A ≥ 5,1 A (pp. 2–3), 125 V DC, I²t de fusión 26,46 A²s (p. 2) y la misma huella (p. 4); cambian solo los casquillos y el carrete. **TLC TA10 (C2998199) se descarta:** solo 125 V AC sin valor en continua, I²t sin dato, ≈ 98 % a 60 °C (p. 6) y otro *pad layout* (8,0 / 3,0 mm, p. 3).
 
 ### 3.3 Protección de polaridad Q1 (ALI-03)
 
@@ -419,9 +420,15 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 
 | Raíl | Carga | Corriente de diseño | Capacidad | Margen |
 |---|---|---|---|---|
-| **24 V (borne)** | Salidas: 3,5 A (carga instalada máx.; tope del limitador 4,57 A) + lógica 0,18 A + U1, divisores y zéner (2,3 mA) | **3,68 A** normal; **4,77 A** con el limitador en su máximo | Fuente: sobrecarga a ≥ 5,14 A · F1: 7,2 A (derating) · Q1: 50 A · J1: 15 A | 0,37 A (7,2 %) sobre la fuente en el peor caso |
+| **24 V (borne)** | Salidas: 3,5 A (carga instalada máx.; tope del limitador 4,57 A) + I_GND de los 6 BTT6050 (≤ 54 mA) + lógica 0,18 A + U1, divisores y zéner (2,3 mA) | **3,74 A** normal; **4,77 A** con el limitador en su máximo | Fuente: sobrecarga a ≥ 5,14 A · F1: 7,2 A (derating) · Q1: 50 A · J1: 15 A | 0,37 A (7,2 %) sobre la fuente en el peor caso |
 | **5 V** (U2 → U3) | 3,3 V: 0,45 A + 5 V de la expansión: 0,30 A | **0,75 A** | U2: 2 A (ALI-05 ≥ 1,5 A) · U3: 2,5 A | 2,7× |
 | **3,3 V** (U4) | ESP32-S3-WROOM-1: 355 mA de pico (802.11b, 20,5 dBm; WROOM-1 v1.8 tabla 6-4, p. 28) + SHT4x, LED, *pull-ups*, LED de estado y de canal (≈ 45 mA) + 3,3 V de la expansión (≤ 50 mA) | **0,45 A** | U4: 1 A (límite ≥ 1,1 A) | 2,2× |
+
+Corriente del bus BUS_24V (SPEC-0028, propuesta de SPEC-0023):
+
+- **I_GND de los *high-side*:** 9 mA máx. por BTT6050 en ON (P_4.2.5, p. 8; `salidas.md` §4.4 y §6) × 6 = **54 mA**. Sale del bus por VS y vuelve a GND por el chip, así que pasa por U1 y cuenta en su umbral.
+- **Normal:** 3,5 A + 0,054 A = **3,554 A** por U1, frente al mínimo de la banda, 3,86 A (§3.13.2): margen **0,31 A (7,9 %)**; U1 no actúa con la carga instalada máxima. En el borne: 3,554 + 0,18 + 0,0023 = **3,74 A**.
+- **Peor caso:** sin cambio. U1 limita la suma (salidas + I_GND) a ≤ 4,57 A; con la lógica a su tope de ALI-12 (4,8 W / 24 V = 0,20 A) son **4,77 A** frente a ≥ 5,14 A de la fuente: **0,37 A (7,2 %)**.
 
 Potencia de la lógica en la entrada (ALI-12, §6):
 
@@ -462,7 +469,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | Ref. | Valor / función | Encapsulado | MPN principal | LCSC · stock | Alternativa (LCSC) | Símbolo / huella |
 |---|---|---|---|---|---|---|
 | J1 | Borne 2P, entrada | THT 5,08 | WJ500V-5.08-2P | C8465 · 274 005 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
-| F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 | TLC TA10 (C2998199) | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018) |
+| F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 (22 932 el 2026-11-16) | Littelfuse 0453010.MR (C178995 · 1 437, 2026-11-16) | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018) |
 | Q1 | P-MOS de polaridad, 60 V | TO-252 | Vishay SQD50P06-15L_GE3 | C3281500 · 5 748 | UMW SUD50P06-15 (C7503186) | `Transistor_FET:SUD50P06-15` (comprobar G-D-S) / `Package_TO_SOT_SMD:TO-252-2` |
 | D1 | Zéner 15 V, puerta de Q1 | SOD-123 | MDD BZT52C15 | C173427 · 148 150 | Diodes BZT52C15-7-F (C177014 · 52 695) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
 | R1 | 100 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1003T5E | C25803 · 7,8 M | Yageo RC0603FR-07100KL | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
@@ -565,7 +572,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 4. **TLV1117LV:** sin deriva térmica máxima publicada (§3.9); ± 2,7 % a 25 °C frente a ± 3 %.
 5. **R8 (24,9 kΩ al 0,1 %):** resuelto por DEC-0007: Yageo C136967 (14 042 en JLCPCB, 2026-11-06).
 6. **Condensadores de salida de U3:** 44 µF nominales frente a los ≈ 100 µF que sugiere el datasheet si hay bloqueo inverso (§3.8).
-7. **Retroalimentación del bus apagado** a través de las entradas IN y DEN de los *high-side* (checklist de esquema): corresponde al bloque de salidas.
+7. **Retroalimentación del bus apagado** a través de las entradas IN y DEN de los *high-side* (checklist de esquema): **cerrado** en `salidas.md` §2.3 (prueba en el prototipo, `salidas.md` §13).
 
 ## Anexo A. Datos para las fichas nuevas (`hardware/componentes/`, fuera de la zona de ing-esquematicos)
 

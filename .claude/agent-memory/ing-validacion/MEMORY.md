@@ -8,5 +8,5 @@
 - [Revisión del bloque MCU](revision-mcu.md): mcu.md; refs duplicadas entre bloques, tablas S3/HDG renderizadas, HDG pág.−3, SimSurfing URL, 15 mm = caja
 - [Revisión de hojas](revision-hojas.md): hojas de esquema v2; netlist de copia frente a un plan, sin conectar esperados, placa de prueba, ThermalVias, diff semántico PCB, polaridad KT-0603R
 - [Revisión de la orquestación](revision-orquestacion.md): agentes/guarda/gestion.py; sondas contra la guarda frente a la versión anterior, abrir/cerrar en copia, herramientas vs servidor MCP
-- [Revisión de herramientas](revision-herramientas.md): herramientas/kicad y puntos [auto]; mutaciones por punto, pcbcmp/netcmp propios, CRLF en .kicad_mod
+- [Revisión de herramientas](revision-herramientas.md): herramientas/kicad y puntos [auto]; mutaciones por punto, pcbcmp/netcmp propios, CRLF en .kicad_mod, repo falso para mutar la batería
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG

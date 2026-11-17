@@ -7,6 +7,7 @@ Localiza la raíz del repositorio buscando CLAUDE.md hacia arriba, copia `hardwa
 sobre esa copia: que su --help y su salida caben en 30 líneas, que no modifica lo que lee y que
 da el resultado esperado. Cada punto de comprobar.py tiene al menos un caso que lo hace fallar
 (clase Mutaciones). No usa la red (jlc.py se prueba con una respuesta guardada).
+También prueba verificar.py (comprobar.py roto, zona sin rellenar) y lo compartido de _comun.
 Se lanza con el Python del sistema; las herramientas que necesitan pcbnew o wx se relanzan
 solas con el Python de KiCad. Necesita KiCad 10 instalado (kicad-cli y su Python).
 """
@@ -36,6 +37,7 @@ sys.path.insert(0, str(KICAD))
 import _comun  # noqa: E402
 import campos  # noqa: E402
 import comprobar  # noqa: E402
+import hoja  # noqa: E402
 import huella  # noqa: E402
 import jlc  # noqa: E402
 import restricciones  # noqa: E402
@@ -105,11 +107,14 @@ class Generales(unittest.TestCase):
     def test_no_modifican_lo_que_leen_y_salida_corta(self):
         tabla = TMP / "restr.csv"
         tabla.write_text("Red;Corriente;Ancho mín.;Separación\nGND;1 A;0,2;0,2\n", encoding="utf-8")
+        plan = TMP / "plan_nm.md"
+        plan.write_text("- `/I2C_SDA` = {U5-34, R24-2, U13-1, U18-15}\n", encoding="utf-8")
         v2, mod = BASE / "v2", BASE / "libraries" / "esp-riego.pretty" / f"{BTT6050}.kicad_mod"
         ordenes = [
             ("campos", "revisar", v2), ("comprobar", v2), ("comprobar", "--lista"), ("huella", mod), ("huella", mod, "--json"),
             ("hoja", "pines", "RF_Module:ESP32-S3-WROOM-1"), ("hoja", "extraer", v2 / "mcu.kicad_sch", "-o", TMP / "nm.json"),
-            ("hoja", "netlist", v2, v2), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
+            ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, "--plan", plan),
+            ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
             ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"),
         ]
@@ -151,6 +156,93 @@ class Jlc(unittest.TestCase):
 
     def test_codigos(self):
         self.assertEqual(jlc.codigos_de("U7 C534868 · CL21A226 y C25804, C12, C534868 (ABC123)"), ["C534868", "C25804"])
+
+    def test_resultados_y_buscar(self):
+        """--buscar (VAL-0006-01-07): todas las piezas de la respuesta, de más a menos stock, sin red."""
+        respuesta = json.loads(json.dumps(self.RESPUESTA))
+        respuesta["data"]["componentPageInfo"]["list"].insert(0, {"componentModelEn": "sin código", "stockCount": 10 ** 9})
+        filas = jlc.resultados(respuesta, cantidad=5000)
+        self.assertEqual([f["codigo"] for f in filas], ["C25804", "C534868"])
+        self.assertEqual((filas[0]["tipo"], filas[0]["precio"]), ("Basic", 0.0011))
+        self.assertEqual((filas[1]["tipo"], filas[1]["stock"], filas[1]["precio"]), ("Extended", 1628, None))
+        self.assertEqual(jlc.resultados({"data": None}), [])
+        original = jlc.pedir
+        try:
+            jlc.pedir = lambda palabra, intentos=2: self.RESPUESTA if palabra == "BTT" else (_ for _ in ()).throw(OSError("sin red"))
+            lineas = jlc.buscar(["BTT", "otra"], 1, "2026-01-01")
+        finally:
+            jlc.pedir = original
+        self.assertEqual(lineas[0], "JLCPCB · 2026-01-01 · búsqueda · precio en USD para 1 ud.")
+        self.assertEqual(lineas[1], "«BTT»: 2 resultados")
+        self.assertTrue(lineas[2].lstrip().startswith("C25804") and "0.0022" in lineas[2], lineas[2])
+        self.assertIn("BTT6050-1ERA · Infineon", lineas[3])
+        self.assertEqual(lineas[4], "«otra»: OSError: sin red")
+
+
+class Comun(unittest.TestCase):
+    def test_modelo_de_respaldo(self):
+        """VAL-0029-01-01 (a): modelo oficial que falta → el de libraries/3d con el mismo nombre; si no, None."""
+        libs3d = TMP / "respaldo3d"
+        libs3d.mkdir(exist_ok=True)
+        (libs3d / "Falta.step").write_text("ISO-10303-21;", encoding="utf-8")
+        f = _comun.modelo_de_respaldo
+        self.assertEqual(f("${KICAD10_3DMODEL_DIR}/NoHay.3dshapes/Falta.step", libs3d), "${KIPRJMOD}/../libraries/3d/Falta.step")
+        self.assertEqual(f("${KICAD9_3DMODEL_DIR}/NoHay.3dshapes/Falta.step", libs3d), "${KIPRJMOD}/../libraries/3d/Falta.step")
+        existe = "${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
+        self.assertTrue((_comun.MODELOS / "Resistor_SMD.3dshapes" / "R_0603_1608Metric.step").is_file())
+        self.assertIsNone(f(existe, libs3d))                                              # el oficial existe
+        self.assertIsNone(f("${KICAD10_3DMODEL_DIR}/NoHay.3dshapes/Otro.step", libs3d))  # sin respaldo
+        self.assertIsNone(f("${KICAD10_3DMODEL_DIR}/NoHay.3dshapes/Falta.step", None))
+        self.assertIsNone(f("${OTRA_VARIABLE}/Falta.step", libs3d))                      # variable que no se resuelve
+
+
+class Verificar(unittest.TestCase):
+    """verificar.py (VAL-0027-02-02): un comprobar.py roto no lo tumba, y el DRC rellena las zonas sin tocar la PCB."""
+
+    def test_comprobar_roto(self):
+        d = TMP / "verif_roto"
+        (d / "herramientas" / "kicad").mkdir(parents=True)
+        (d / "p").mkdir()
+        shutil.copyfile(REPO / "herramientas" / "verificar.py", d / "herramientas" / "verificar.py")
+        (d / "p" / "mini.kicad_sch").write_text(
+            '(kicad_sch (version 20260306) (generator "eeschema") (generator_version "10.0") '
+            '(uuid "0b6e2a4e-0000-4000-8000-000000000001") (paper "A4") (lib_symbols) (sheet_instances (path "/" (page "1"))))\n',
+            encoding="utf-8")
+        (d / "p" / "mini.kicad_pro").write_text("{}", encoding="utf-8")
+        for nombre, cuerpo, texto in (("excepción", 'def para_verificar(c):\n    raise RuntimeError("roto a propósito")\n', "roto a propósito"),
+                                      ("sintaxis", "def para_verificar(c)\n    return {}\n", "comprobar.py, line 1"),
+                                      ("sin la función", "X = 1\n", "para_verificar")):
+            (d / "herramientas" / "kicad" / "comprobar.py").write_text(cuerpo, encoding="utf-8")
+            antes = huella_md5(d / "p")
+            r = subprocess.run([sys.executable, str(d / "herramientas" / "verificar.py"), str(d / "p")], capture_output=True,
+                               text=True, encoding="utf-8", errors="replace")
+            self.assertEqual(r.returncode, 0, f"{nombre}: {r.stdout}{r.stderr}")
+            self.assertIn("Puntos [auto]: no disponibles", r.stdout, nombre)
+            self.assertIn(texto, r.stdout, nombre)
+            self.assertIn("Resultado: LIMPIO", r.stdout, nombre)
+            self.assertEqual(antes, huella_md5(d / "p"), nombre)
+            r = subprocess.run([sys.executable, str(d / "herramientas" / "verificar.py"), str(d / "p"), "--json"],
+                               capture_output=True, text=True, encoding="utf-8", errors="replace")
+            resumen = json.loads(r.stdout)
+            self.assertEqual((resumen["auto"]["fallan"], resumen["limpio"]), (0, True), nombre)
+
+    def test_zona_sin_rellenar(self):
+        proy = copia("v2_zona")
+        pcb = proy / "esp-riego.kicad_pcb"
+        texto = _comun.leer(pcb).rstrip()
+        self.assertIn("(start 100 60)", texto)                  # contorno 100 × 70 mm desde (100, 60)
+        zona = ('\t(zone (net "GND") (layer "F.Cu") (uuid "66666666-6666-6666-6666-666666666666")\n'
+                '\t\t(connect_pads (clearance 0.2))\n\t\t(min_thickness 0.2)\n\t\t(fill (thermal_gap 0.3) (thermal_bridge_width 0.3))\n'
+                '\t\t(polygon (pts (xy 100.5 60.5) (xy 199.5 60.5) (xy 199.5 129.5) (xy 100.5 129.5)))\n\t)\n')
+        _comun.escribir(pcb, texto[:-1] + zona + ")\n")
+        self.assertNotIn("filled_polygon", _comun.leer(pcb))
+        antes = huella_md5(proy)
+        r = verificar(proy)
+        self.assertEqual(antes, huella_md5(proy), "verificar.py ha guardado la PCB rellenada")
+        # sin --refill-zones la zona vacía no da nada; rellenada en memoria, deja islas (isolated_copper)
+        self.assertGreater(r["drc"]["por_tipo"].get("isolated_copper [warning]", 0), 0, r["drc"])
+        self.assertEqual(r["drc"]["errores"], 0, r["drc"])
+        self.assertEqual(r["paridad"]["total"], 0, r["paridad"])
 
 
 class Campos(unittest.TestCase):
@@ -311,7 +403,7 @@ class Hoja(unittest.TestCase):
                      "pines": {"1": "L:NODO", "2": "G:GLOBAL_X:input"}},
                     {"ref": "D901", "simbolo": "Device:LED", "x": 140, "y": 100, "giro": 90, "dnp": True,
                      "campos": dict(campos_, Value="Rojo", Footprint="LED_SMD:LED_0603_1608Metric"),
-                     "pines": {"1": "P:GND", "2": "NC"}},
+                     "pines": {"1": "P:GND:270", "2": "NC"}},
                     {"ref": "U901", "simbolo": "Power_Protection:USBLC6-2SC6", "x": 180, "y": 100,
                      "campos": dict(campos_, Footprint="Package_TO_SOT_SMD:SOT-23-6"),
                      "pines": {"1": "L:NODO", "2": "P:GND", "3": "H:SALE:output", "4": "", "5": "P:+3V3", "6": "NC"}}],
@@ -336,6 +428,12 @@ class Hoja(unittest.TestCase):
         otra = json.loads((TMP / "nueva2.json").read_text(encoding="utf-8"))
         self.assertEqual({p["ref"]: p["pines"] for p in otra["piezas"]}, {p["ref"]: p["pines"] for p in desc["piezas"]})
         self.assertEqual(otra["textos"][0]["texto"], "Dos\nlíneas")
+        # el símbolo de alimentación girado (P:GND:270) sale girado y con el Value horizontal a su izquierda
+        gnd = next(s for s in _comun.simbolos_hoja(_comun.leer(proy / "salidas.kicad_sch"))
+                   if s["lib_id"] == "power:GND" and s["giro"] == 270)
+        valor = next(p for p in _comun.hijos(gnd["nodo"], "property") if p[1] == "Value")
+        self.assertEqual([float(v) for v in _comun.uno(valor, "at")[1:]], [gnd["x"] - 3.81, gnd["y"], 90.0])
+        self.assertEqual(_comun.uno(_comun.uno(valor, "effects"), "justify")[1:], ["right"])
         # falta declarar un pin: error claro y no se escribe
         desc["piezas"][0]["pines"].pop("2")
         archivo.write_text(json.dumps(desc, ensure_ascii=False), encoding="utf-8")
@@ -343,6 +441,77 @@ class Hoja(unittest.TestCase):
         self.assertEqual(codigo, 2)
         self.assertIn("R901: pines sin conexión declarada: 2", error)
         self.assertFalse((TMP / "no.kicad_sch").exists())
+
+    def test_raiz(self):
+        """hoja.py raiz: extraer + escribir reproduce la raíz; un pin cambiado cambia la netlist; errores claros."""
+        proy = copia("v2_raiz")
+        raiz, desc = proy / "esp-riego.kicad_sch", TMP / "raiz.json"
+        codigo, salida, error = correr("hoja", "raiz", "--proyecto", proy, "--extraer", "-o", desc)
+        self.assertEqual(codigo, 0, salida + error)
+        d = json.loads(desc.read_text(encoding="utf-8"))
+        sensores = next(h for h in d["hojas"] if h["nombre"] == "Sensores")
+        self.assertIn({"nombre": "I2C_SCL", "forma": "input", "lado": "R", "y": 45.72, "conexion": "L:I2C_SCL"}, sensores["pines"])
+        _comun.escribir(raiz, _comun.leer(raiz).replace('(pin "I2C_SCL" input', '(pin "I2C_SCL" output', 1))  # la descripción manda
+        codigo, salida, error = correr("hoja", "raiz", desc, "--proyecto", proy, "-o", raiz)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("5 hojas, 54 pines de hoja, 54 etiquetas o NC · avisos 0", salida)
+        self.assertEqual(hoja.extraer_raiz(raiz), d)
+        self.assertEqual(hoja.extraer_raiz(raiz), hoja.extraer_raiz(BASE / "v2" / "esp-riego.kicad_sch"))
+        uuids = set(re.findall(r'\(uuid "([^"]+)"\)', _comun.leer(BASE / "v2" / "esp-riego.kicad_sch")))
+        self.assertEqual(uuids, set(re.findall(r'\(uuid "([^"]+)"\)', _comun.leer(raiz))))   # conserva los UUID
+        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", proy)
+        self.assertEqual(codigo, 0, salida + error)
+        # SCL de Sensores a NC y un pin nuevo en Conectores, sin etiqueta jerárquica en su hoja: se escribe y avisa
+        for p in sensores["pines"]:
+            if p["nombre"] == "I2C_SCL":
+                p["conexion"] = "NC"
+        conectores = next(h for h in d["hojas"] if h["nombre"] == "Conectores")
+        conectores["pines"].append({"nombre": "NUEVO", "forma": "input", "lado": "L", "y": 111.76, "conexion": "L:NUEVO"})
+        desc.write_text(json.dumps(d), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "raiz", desc, "--proyecto", proy, "-o", raiz)
+        self.assertEqual(codigo, 1, salida + error)
+        self.assertIn("Conectores.NUEVO: conectores.kicad_sch no tiene esa etiqueta jerárquica", salida)
+        texto = _comun.leer(raiz)
+        self.assertIn("(no_connect\n\t\t(at 30.48 45.72)", texto.replace("\r\n", "\n"))
+        self.assertIn('(pin "NUEVO" input\n\t\t\t(at 190.5 111.76 180)', texto.replace("\r\n", "\n"))
+        red = _comun.exportar_netlist(proy, "esp-riego", TMP / "raiz.net")
+        self.assertNotIn(("U13", "2"), red["redes"]["/I2C_SCL"])
+        self.assertIn(("U13", "2"), red["redes"]["/Sensores/I2C_SCL"])
+        # errores: hoja que no existe, pin fuera del borde, lado no soportado
+        for cambio, mensaje in ((lambda x: x["hojas"][0].update(nombre="NoHay"), "no tiene ninguna hoja «NoHay»"),
+                                (lambda x: x["hojas"][0]["pines"][0].update(y=500), "fuera del borde"),
+                                (lambda x: x["hojas"][0]["pines"][0].update(lado="U"), "(L o R)")):
+            otra = json.loads(json.dumps(d))
+            cambio(otra)
+            desc.write_text(json.dumps(otra), encoding="utf-8")
+            codigo, _, error = correr("hoja", "raiz", desc, "--proyecto", proy, "-o", TMP / "raiz_no.kicad_sch")
+            self.assertEqual(codigo, 2, error)
+            self.assertIn(mensaje, error)
+            self.assertFalse((TMP / "raiz_no.kicad_sch").exists())
+
+    def test_netlist_plan(self):
+        """hoja.py netlist --plan: cada red del plan, con exactamente esos pines; NC; sección; entradas sin interpretar."""
+        doc = TMP / "plan.md"
+        doc.write_text("# Doc\n\n## Anexo A. Plan\n\n| Red | Pines |\n|---|---|\n| `/I2C_SDA` = {U5-34, R24-2, U13-1, U18-15} | |\n"
+                       "- Internas: ILIM_5V {U14-5, R69-1}; NC {U18-11, U18-12}; BTN1…BTN6 {SWn-1, U18 P0…P5}.\n\n"
+                       "## Otra\n\n- X = {U5-34}\n", encoding="utf-8")
+        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", "--plan", doc, "--seccion", "Anexo A")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("(Anexo A): 3 redes, 8 pines; 0 diferencias; 1 entradas sin interpretar", salida)
+        codigo, salida, _ = correr("hoja", "netlist", BASE / "v2", "--plan", doc)
+        self.assertEqual(codigo, 1)
+        self.assertIn("X: no está en la netlist (sus pines están en /I2C_SDA)", salida)
+        plan, ignoradas = hoja.leer_plan(doc.read_text(encoding="utf-8"), "anexo a")
+        self.assertEqual(plan[0], ("/I2C_SDA", [("U5", "34"), ("R24", "2"), ("U13", "1"), ("U18", "15")]))
+        self.assertEqual(len(ignoradas), 1)
+        net = {"redes": {"/I2C_SDA": {("U5", "34"), ("R24", "2"), ("U18", "15"), ("R99", "1")},
+                         "/Conectores/ILIM_5V": {("U14", "5"), ("R69", "1")}, "/Otra/ILIM_5V": {("R1", "1")},
+                         "unconnected-(U18-P6-Pad11)": {("U18", "11")}, "GND": {("U18", "12"), ("U13", "1")}}}
+        dif = hoja.comparar_plan(net, plan)
+        self.assertEqual(dif, ["/I2C_SDA: falta U13-1 (está en «GND»)", "/I2C_SDA: pines de más R99-1", "NC: U18-12 está en «GND»"])
+        codigo, _, error = correr("hoja", "netlist", BASE / "v2", BASE / "v2", "--plan", doc)
+        self.assertEqual(codigo, 2)
+        self.assertIn("un solo proyecto", error)
 
 
 class Pcb(unittest.TestCase):
@@ -368,12 +537,18 @@ class Pcb(unittest.TestCase):
         antes = verificar(proy)
         self.assertGreater(antes["paridad"]["total"], 0)
         md5 = huella_md5(proy)
-        codigo, salida, error = correr("sincronizar", proy, "-o", TMP / "sync.kicad_pcb", "--actualizar", "U6")
+        codigo, salida, error = correr("sincronizar", proy, "-o", TMP / "sync.kicad_pcb", "--actualizar", "U6,U13")
         self.assertEqual(codigo, 0, salida + error)
-        self.assertIn("nuevas 3 · borradas 1 · recargadas 1", salida)
+        self.assertIn("nuevas 3 · borradas 1 · recargadas 2", salida)
         self.assertIn("Paridad 0", salida)
         self.assertIn("Nuevas (sin colocar): U5 R16 R17", salida)
         self.assertIn("Borradas: R999", salida)
+        # VAL-0029-01-01 (c): U13 (huella oficial sin su STEP en KiCad 10) recargada con el modelo de respaldo
+        self.assertIn("Modelo 3D de respaldo (${KIPRJMOD}/../libraries/3d): U13", salida)
+        nueva = _comun.leer(TMP / "sync.kicad_pcb")
+        i, j = bloque(nueva, "U13")
+        self.assertIn('(model "${KIPRJMOD}/../libraries/3d/Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad.step"', nueva[i:j])
+        self.assertNotIn("KICAD10_3DMODEL_DIR", nueva[i:j])
         self.assertEqual(md5, huella_md5(proy))
         shutil.copyfile(TMP / "sync.kicad_pcb", pcb)
         despues = verificar(proy)
@@ -728,6 +903,21 @@ class Mutaciones(unittest.TestCase):
         shutil.copyfile(self.libs / "3d" / "Infineon_PG-TDSO-14.step", wrl)
         self.falla("librerias.3d", "el modelo no es STEP (.wrl)")
 
+    def test_librerias_3d_respaldo(self):
+        """VAL-0029-01-01 (b): U13 usa una huella oficial cuyo STEP falta en KiCad 10; vale el de libraries/3d."""
+        sht = "Sensirion_DFN-4_1.5x1.5mm_P0.8mm_SHT4x_NoCentralPad"
+        respaldo, fuera = self.libs / "3d" / f"{sht}.step", self.d / f"{sht}.step"
+        self.assertFalse((_comun.MODELOS / "Sensor_Humidity.3dshapes" / f"{sht}.step").is_file(), "KiCad ya trae el STEP")
+        estado, detalle = self.punto("librerias.3d")
+        self.assertEqual(estado, "OK", detalle)
+        self.assertIn(f"respaldo en libraries/3d: Sensor_Humidity:{sht}", detalle)
+        shutil.move(respaldo, fuera)
+        try:
+            self.falla("librerias.3d", f"Sensor_Humidity:{sht}: no existe")
+        finally:
+            shutil.move(fuera, respaldo)
+        self.assertEqual(self.punto("librerias.3d")[0], "OK")
+
     def test_librerias_gitattributes(self):
         d = TMP / "ga"
         (d / "v2").mkdir(parents=True)
@@ -743,21 +933,22 @@ class Mutaciones(unittest.TestCase):
         self.assertEqual(comprobar.resumen(d / "v2", "librerias.gitattributes")["puntos"][0]["estado"], "OK")
 
     def test_librerias_fichas(self):
-        usb, led, esp, bloque_ = (self.comp / n for n in ("USBLC6-2SC6.md", "KT-0603R.md", "ESP32-S3-WROOM-1.md",
-                                                          "bloque-alimentacion.md"))
-        self.guardar(usb, led, esp, bloque_)
+        usb, led, esp, bloque_, bloque_con = (self.comp / n for n in ("USBLC6-2SC6.md", "KT-0603R.md", "ESP32-S3-WROOM-1.md",
+                                                                      "bloque-alimentacion.md", "bloque-conectores.md"))
+        self.guardar(usb, led, esp, bloque_, bloque_con)
         antes = {l.split(" ")[0] for l in self.punto("librerias.fichas")[1].splitlines()}
-        self.assertFalse({"C7519", "C2913198", "C25804"} & antes, antes)
+        self.assertFalse({"C7519", "C2913198", "C23137"} & antes, antes)
         sustituir(usb, "tipo_jlcpcb: extended", "tipo_jlcpcb:")
+        sustituir(bloque_con, "| C7519 | Extended ·", "| C7519 | ·")     # C7519 también está en la ficha de bloque (SPEC-0031)
         # C2913198 sale de su ficha y solo se cita en otra, como alternativa: no cuenta
         sustituir(esp, "lcsc: C2913198", "lcsc: C1")
         _comun.escribir(led, _comun.leer(led) + "\nAlternativa descartada: C2913198.\n")
-        # C25804 (pasivo) está en la columna LCSC de la ficha de bloque; sin tipo en su fila, falla
-        sustituir(bloque_, "| C25804 | Basic ·", "| C25804 | ·")
+        # C23137 (R11) solo está en la columna LCSC de una ficha de bloque; sin tipo en su fila, falla
+        sustituir(bloque_, "| C23137 | Basic ·", "| C23137 | ·")
         lineas = {l.split(" ")[0]: l for l in self.falla("librerias.fichas").splitlines()}
-        self.assertIn("a su ficha (USBLC6-2SC6.md) le falta tipo", lineas["C7519"])
+        self.assertIn("(bloque-conectores.md) le falta tipo", lineas["C7519"])
         self.assertIn("sin ficha", lineas["C2913198"])
-        self.assertIn("(bloque-alimentacion.md) le falta tipo", lineas["C25804"])
+        self.assertIn("(bloque-alimentacion.md) le falta tipo", lineas["C23137"])
         # una alternativa entre paréntesis en el campo lcsc tampoco cuenta como ficha
         self.assertEqual(comprobar.codigos_lcsc("C44479 (alternativa TLC TA10, C2998199)"), ["C44479"])
         self.assertEqual(comprobar.codigos_lcsc("C1858395 (FADDAR) · C2879422 (ADDAR)"), ["C1858395", "C2879422"])

@@ -4328,7 +4328,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100n"
 			(at 269.24 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4556,7 +4556,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1uF"
+		(property "Value" "1u"
 			(at 78.74 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6211,7 +6211,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "Rojo"
 			(at 313.69 113.03 270)
 			(show_name no)
 			(do_not_autoplace no)

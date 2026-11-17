@@ -1,6 +1,6 @@
 # Checklist de revisión de librerías y componentes
 
-**Versión:** v6 (2026-11-12). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v7 (2026-11-16). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -17,7 +17,7 @@
 
 ## Símbolo
 
-- [ ] [juicio] Número y nombre de cada pin coinciden con el datasheet.
+- [ ] [juicio] Número y nombre de cada pin coinciden con el datasheet, citando la página del pinout de cada pieza en el parte o el informe (VAL-0021-01-07).
 - [ ] [juicio] Tipo eléctrico de cada pin correcto (entrada, salida, alimentación, pasivo…).
 - [ ] [auto: comprobar.py librerias.campos] Campos `Value`, `Footprint`, `LCSC Part#`, `MPN`, `Datasheet`, `Description`.
 
@@ -35,6 +35,8 @@
 - [ ] [auto: comprobar.py librerias.attr] Atributo de la huella (`smd` o `through_hole`) coherente con sus pads, en la librería y en la PCB: sin él, `kicad-cli pcb export pos --smd-only` deja la pieza fuera del CPL (VAL-0027-01-02).
 - [ ] [juicio] Antes de llamar artefacto a un pad `custom`, se mide la envolvente de sus primitivas (el `size` del ancla no da el tamaño del cobre).
 - [ ] [auto: comprobar.py librerias.gitattributes] Las extensiones de los modelos 3D, en mayúsculas y en minúsculas, están como `binary` en `.gitattributes`.
+- [ ] [juicio] En huellas con vías dentro de un pad expuesto, cobertura de pasta frente al intervalo del 50–80 % (IPC-7525) y al volumen de los agujeros, con la cifra en el parte (VAL-0024-01-01).
+- [ ] [juicio] En huellas con vías dentro de un pad expuesto, el tratamiento de las vías (abiertas, tapadas por una cara, rellenas y tapadas) está contrastado con las capacidades del fabricante: una vía con apertura de máscara en una cara no se da por «tapada» (VAL-0024-01-02).
 
 ## Mapeo símbolo ↔ huella
 
@@ -46,6 +48,10 @@
 - [ ] [juicio] El datasheet enlazado es el del fabricante, en su revisión vigente; LCSC queda como espejo.
 - [ ] [juicio] Si LCSC no encuentra la pieza, se consulta la API de JLCPCB y se anota que solo está disponible para montaje.
 
+## Documentos
+
+- [ ] [juicio] Al proponer cambios a un documento de diseño por un cambio de pieza, se buscan con Grep todas las menciones del rasgo cambiado (p. ej. «sin vías»), no solo las líneas que cita la spec (VAL-0024-01).
+
 ## Historial
 
 | Versión | Fecha | Cambio |
@@ -56,3 +62,4 @@
 | v4 | 2026-11-11 | DEC-0009: cada punto marcado `[auto]` o `[juicio]` |
 | v5 | 2026-11-12 | SPEC-0027: los `[auto: pendiente]` pasan a `comprobar.py`; el modelo 3D se parte en presente (`[auto]`) y alineado (`[juicio]`); atributo `smd` o `through_hole` de la huella |
 | v6 | 2026-11-12 | VAL-0027-01-02: el atributo de la huella pasa a `[auto: comprobar.py librerias.attr]` |
+| v7 | 2026-11-16 | SPEC-0028: página del pinout citada (VAL-0021-01-07); pasta y tratamiento de las vías en pads expuestos, y Grep de las menciones del rasgo cambiado (VAL-0024-01) |

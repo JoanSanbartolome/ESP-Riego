@@ -2,15 +2,15 @@
 id: SPEC-0028
 titulo: Mantenimiento de las fases 2 y 3
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0028-mantenimiento-fases-2-3
 requisitos: [FAB-05, ALI-04, AMB-02, KIC-01]
 depende_de: []
 creada: 2026-11-11
-cerrada:
-validacion:
+cerrada: 2026-11-17
+validacion: VAL-0028-01
 ---
 
 # SPEC-0028 · Mantenimiento de las fases 2 y 3
@@ -109,3 +109,7 @@ Una validación, al final. Nivel **completo** para `hardware/` y `herramientas/k
 | 2026-11-11 | coordinador | Recoge las observaciones de los diarios del 2026-11-07 y del 2026-11-10 | DEC-0009 |  |  |  |
 | 2026-11-12 | coordinador | Recoge lo pendiente de SPEC-0027 | VAL-0027-02 |  |  |  |
 | 2026-11-16 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-16 | jr-conformidad | campos unificados, fichas, U13 a SHT40-AD1B-R2 y alternativa de F1 | 01-jr-conformidad | 152230 | 56 | 10 |
+| 2026-11-16 | ing-diseno | hoja de conectores sin cables, PCB sincronizada, hoja.py raiz y netlist --plan, batería y documentos | 02-ing-diseno | 333051 | 125 | 33 |
+| 2026-11-17 | ing-validacion | VAL-0028-01: APROBADO_CON_OBSERVACIONES | VAL-0028-01 | 199389 | 66 | 12 |
+| 2026-11-17 | coordinador | Cierra la spec | VAL-0028-01 (APROBADO_CON_OBSERVACIONES) |  |  |  |

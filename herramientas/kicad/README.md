@@ -18,7 +18,8 @@ Reglas comunes:
 | `hoja.py pines` | Pines de un símbolo de librería, con coordenadas y lado | `python herramientas/kicad/hoja.py pines esp-riego:BTT6050-1ERA --proyecto hardware/v2` |
 | `hoja.py extraer` | Descripción JSON de una hoja existente (piezas, campos, conexión de cada pin, textos) | `python herramientas/kicad/hoja.py extraer hardware/v2/mcu.kicad_sch -o mcu.json` |
 | `hoja.py generar` | Escribe la hoja desde la descripción; conserva los UUID de la hoja que sustituye | `python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch` |
-| `hoja.py netlist` | Compara las netlists de dos proyectos (netlist frente al plan o frente a la hoja anterior) | `python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 --hoja MCU` |
+| `hoja.py raiz` | Pines de hoja de la raíz y su etiqueta local, global o NC, desde una descripción; `--extraer` saca la de la raíz actual. Conserva los UUID y no toca las hojas que no están en la descripción | `python herramientas/kicad/hoja.py raiz --proyecto hardware/v2 --extraer -o raiz.json` · `python herramientas/kicad/hoja.py raiz raiz.json --proyecto <copia>/v2 -o <copia>/v2/esp-riego.kicad_sch` |
+| `hoja.py netlist` | Compara las netlists de dos proyectos (frente a la hoja anterior), o la de un proyecto con las redes de un documento de diseño (`--plan`, «Plan de conexiones») | `python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 --hoja MCU` · `python herramientas/kicad/hoja.py netlist hardware/v2 --plan docs/diseno/conectores.md --seccion "Anexo A"` |
 | `sincronizar.py` | Netlist → PCB con `pcbnew`: huellas nuevas sin colocar, redes, campos y atributos; un modelo 3D oficial que falta se enlaza al de `../libraries/3d` con el mismo nombre; da la paridad | `python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb` |
 | `colocar.py` | Aplica una tabla `ref,x,y,giro,cara` a la PCB, o la exporta | `python herramientas/kicad/colocar.py <copia>/v2/esp-riego.kicad_pcb colocacion.csv -o <copia>/v2/esp-riego.kicad_pcb` |
 | `vista.py hoja` | PNG de una hoja o de una zona de ella | `python herramientas/kicad/vista.py hoja hardware/v2 --hoja MCU --zona 150,95,280,190 -o u5.png` |
@@ -39,14 +40,17 @@ Reglas comunes:
   - `piezas`, cada una con `ref`, `simbolo` (`Lib:Nombre`), `x`, `y` y `giro` (mm y grados), `campos` (`{nombre: valor}`, sin `Reference`), `dnp` (por defecto `false`), `en_bom` (por defecto `true`; con `false` la pieza sale del BOM y de los archivos de posición, y solo se le piden `Value`, `Footprint` y `Description`), `pos` (opcional: `{"Reference" | "Value": [x, y, giro, justify]}`, posición absoluta del campo en la hoja; sin ella, el campo va junto al símbolo y horizontal) y `pines` (`{"nº": conexión}`);
   - `banderas` (`[[x, y]]`, PWR_FLAG) y `textos` (`x`, `y`, `tam`, `negrita`, `texto`).
 
-  Cada pin visible lleva su conexión, dibujada en el extremo del pin y sin cables: `L:RED` (local), `H:RED:forma` (jerárquica), `G:RED:forma` (global), con `forma` `input`, `output`, `bidirectional`, `passive` o `tri_state`, `P:GND` (símbolo de `power`), `NC` o `""`. `extraer` produce `en_bom` y `pos` de la hoja que lee, así que `extraer` + `generar` la reproduce.
+  Cada pin visible lleva su conexión, dibujada en el extremo del pin y sin cables: `L:RED` (local), `H:RED:forma` (jerárquica), `G:RED:forma` (global), con `forma` `input`, `output`, `bidirectional`, `passive` o `tri_state`, `P:GND` (símbolo de `power`; `P:GND:270`, girado 90, 180 o 270°, con el Value horizontal y hacia fuera, para pines seguidos en un lateral), `NC` o `""`. `extraer` produce `en_bom` y `pos` de la hoja que lee, así que `extraer` + `generar` la reproduce.
 - **Fichas de componentes** (`comprobar.py librerias.fichas`): cuenta como ficha de un código LCSC la ficha de pieza (`hardware/componentes/<MPN>.md`) que lo lleva en el campo `lcsc:` de su cabecera, con `tipo_jlcpcb` (basic/extended), `stock_consultado` (con fecha) y algún `datasheet*`; o una ficha de bloque (`bloque-<bloque>.md`) que lo lleva en la columna `LCSC` de una tabla, con el tipo en la misma fila, una fecha en la fila o en el archivo y la palabra «datasheet» en el archivo. Lo que va entre paréntesis (alternativas) y las citas en otro sitio no cuentan.
+- **Descripción de la raíz** (`hoja.py raiz`): JSON con `hojas`, cada una con `nombre` (Sheetname), `archivo` (informativo) y `pines`: `nombre`, `forma` (`input`, `output`, `bidirectional`, `tri_state`, `passive`), `lado` (`L` o `R`), `y` (mm, dentro del borde) y `conexion` (`L:RED`, `G:RED:forma`, `NC` o `""`). Avisa (código 1) de los pines sin etiqueta jerárquica en la hoja hija y de las etiquetas sin pin.
+- **Plan de conexiones** (`hoja.py netlist --plan`): en cualquier documento, cada red como `` `RED` = {R1-2, U5-34} `` o `RED {…}` (`REF-PIN` separados por comas); `NC {…}` = pines sin conectar. Sin `/` inicial, la red se busca por su nombre local (`/Conectores/ILIM_5V` vale para `ILIM_5V`). La red tiene que tener exactamente esos pines. Lo que no tiene esa forma (`BTN1…BTN6 {SWn-1}`) se cuenta como «sin interpretar». `--seccion` limita la lectura a la sección cuyo título contiene el texto.
 - **Tabla de colocación** (`colocar.py`): CSV `ref,x,y,giro,cara`, en mm y grados, cara `F` o `B`.
 - **Tabla de restricciones** (`restricciones.py`): `Red | Corriente | Ancho mín. | Separación | Ubicación / keepout | Notas`, con `Vía` (taladro/corona) opcional. `comprobar.py` la busca en `<proyecto>/restricciones.csv` o en `docs/diseno/restricciones.csv`.
 
 ## Límites conocidos
 
-- `hoja.py` no admite símbolos de varias unidades ni espejados, no dibuja cables y no toca los pines de hoja de la raíz. Se niega a sustituir una hoja con cables (`alimentacion.kicad_sch`) salvo con `--forzar`.
+- `hoja.py` no admite símbolos de varias unidades ni espejados y no dibuja cables: las uniones a alimentación van con un símbolo `power` en cada pin (girado si los pines están seguidos). `generar` no toca los pines de hoja de la raíz (eso es `hoja.py raiz`). Se niega a sustituir una hoja con cables (`alimentacion.kicad_sch`) salvo con `--forzar`.
+- `hoja.py raiz` solo admite pines en los bordes izquierdo y derecho, no mueve ni redimensiona las hojas y solo pone etiquetas en el extremo del pin (sin cables). `netlist --plan` no comprueba los pines de la hoja que el plan no cita.
 - `restricciones.py` mide la separación entre pistas y vías; la de pads y zonas la mide el DRC con la clase de red o la regla `.kicad_dru`, que es lo que la herramienta comprueba que existe.
 - `huella.py` mide los pads `custom` por su ancla y trata las ventanas de pasta como rectángulos. Los textos de serigrafía se miden por una caja aproximada (0,8 × alto de letra por carácter, `${CAMPO}` como 5 caracteres, con `justify` y giro): en la PCB, el DRC mide la forma real.
 - Tipo de una huella por sus pads (`huella.py`, `librerias.attr`, `layout.smd_cara`): no cuentan los pads con `pad_prop_heatsink`, `castellated`, `mechanical` o de fiducial, ni las vías térmicas (pasantes con el número de un pad SMD y dentro de él). Solo SMD → `smd`; con pasantes → `through_hole`; las dos cosas (USB-C con patas de la carcasa) → vale cualquiera. Sin atributo solo se acepta con `exclude_from_pos_files` (puntos de prueba, puentes), que tampoco cuenta en `layout.smd_cara`.
@@ -65,12 +69,12 @@ Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `
 | esquema | 17 | La huella asignada existe | `esquema.huellas` |
 | esquema | 18 | Huellas con vías según FAB-02 | `esquema.vias` |
 | esquema | 19 | No montados marcados como DNP | `esquema.dnp` (hoja = tabla de campos = PCB; texto «DNP / no montar» sin marca) |
-| layout | 12 | Zonas rellenadas | `layout.zonas` (relleno guardado en cada capa de cada zona; que esté al día lo ve el DRC con relleno previo) |
-| layout | 14 | Sin `embedded_files` | `layout.incrustados` |
-| layout | 15 | `outputdirectory` | `layout.salida` (vacío, o relativo y dentro de `<repo>/fabricacion/<versión>`) |
-| layout | 30 (y 24, 31) | Anchos según la tabla de restricciones | `layout.restricciones` (`restricciones.py`; N/A mientras no exista la tabla). Compara la PCB con la tabla: que la tabla cumpla la corriente y el ΔT (l. 24 y 31) y los retornos por zonas no los mira (VAL-0027-01-01) |
-| layout | 44 | SMD solo en la cara superior | `layout.smd_cara` (por los pads, no por el atributo) |
-| layout | 49 | Modelo 3D en todos los componentes | `layout.3d` |
+| layout | 13 | Zonas rellenadas | `layout.zonas` (relleno guardado en cada capa de cada zona; que esté al día lo ve el DRC con relleno previo) |
+| layout | 15 | Sin `embedded_files` | `layout.incrustados` |
+| layout | 16 | `outputdirectory` | `layout.salida` (vacío, o relativo y dentro de `<repo>/fabricacion/<versión>`) |
+| layout | 31 (y 25, 32) | Anchos según la tabla de restricciones | `layout.restricciones` (`restricciones.py`; N/A mientras no exista la tabla). Compara la PCB con la tabla: que la tabla cumpla la corriente y el ΔT (l. 25 y 32) y los retornos por zonas no los mira (VAL-0027-01-01) |
+| layout | 45 | SMD solo en la cara superior | `layout.smd_cara` (por los pads, no por el atributo) |
+| layout | 50 | Modelo 3D en todos los componentes | `layout.3d` |
 | librerías | 10 | Formato nativo | `librerias.formato` |
 | librerías | 14 | Tablas con `${KIPRJMOD}` | `librerias.rutas` |
 | librerías | 22 | Campos del símbolo | `librerias.campos` (símbolos de las librerías del `sym-lib-table`) |
@@ -79,7 +83,7 @@ Línea de cada checklist en su versión actual (`gestion/checklists/`). Marca: `
 | librerías | 33 | Modelo 3D presente, en `.step`, y existe | `librerias.3d` (alineado, l. 34, es `[juicio]`: `vista.py huella --3d`). Un modelo oficial que no existe vale si `libraries/3d` tiene uno con el mismo nombre (respaldo que enlaza `sincronizar.py`; `_comun.modelo_de_respaldo`) |
 | librerías | 35 | Atributo `smd` / `through_hole` coherente con los pads | `librerias.attr` (huellas propias y huellas de la PCB) |
 | librerías | 37 | Extensiones 3D como `binary` | `librerias.gitattributes` |
-| librerías | 45 | Ficha del componente | `librerias.fichas` (campo `lcsc:` de una ficha de pieza o columna `LCSC` de una ficha de bloque; ver «Formatos») |
+| librerías | 47 | Ficha del componente | `librerias.fichas` (campo `lcsc:` de una ficha de pieza o columna `LCSC` de una ficha de bloque; ver «Formatos») |
 
 Sin cubrir: `requisitos.md` (IDs citados) y los ocho puntos de `fabricacion.md`, que van con el paquete de fabricación (fase 5).
 
@@ -89,4 +93,4 @@ Sin cubrir: `requisitos.md` (IDs citados) y los ocho puntos de `fabricacion.md`,
 
 ## Pruebas
 
-`python herramientas/pruebas/test_kicad.py` (sin red, unos minutos; necesita KiCad 10). Las clases que no lanzan KiCad van en segundos: `… test_kicad.py Huella Comprobar Mutaciones Restricciones`. Trabaja sobre una copia temporal de `hardware/v2`, `hardware/libraries` y `hardware/componentes`.
+`python herramientas/pruebas/test_kicad.py` (sin red, unos minutos; necesita KiCad 10). Las clases que no lanzan KiCad van en segundos: `… test_kicad.py Huella Jlc Comun Comprobar Mutaciones Restricciones`. Prueba también `verificar.py` (clase `Verificar`: `comprobar.py` roto y zona sin rellenar). Trabaja sobre una copia temporal de `hardware/v2`, `hardware/libraries` y `hardware/componentes`.

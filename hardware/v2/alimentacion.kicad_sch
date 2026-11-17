@@ -5364,7 +5364,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C513710.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
 			(at 66.04 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -5398,6 +5398,17 @@
 			)
 		)
 		(property "LCSC Part#" "C513710"
+			(at 66.04 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 66.04 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -5467,7 +5478,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 340.36 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -5501,6 +5512,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 340.36 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 340.36 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -5613,6 +5635,17 @@
 				)
 			)
 		)
+		(property "Fabricante" "Texas Instruments"
+			(at 104.14 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "04e65cb4-5a6c-417b-bb7b-42f111ad78bb")
 		)
@@ -5693,7 +5726,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C28323.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL21B105KBFNNNE_C28323.pdf"
 			(at 119.38 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -5727,6 +5760,17 @@
 			)
 		)
 		(property "LCSC Part#" "C28323"
+			(at 119.38 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 119.38 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6029,7 +6073,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C19702.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A106KP8NNNC_C19702.pdf"
 			(at 314.96 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6063,6 +6107,17 @@
 			)
 		)
 		(property "LCSC Part#" "C19702"
+			(at 314.96 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 314.96 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6210,7 +6265,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C21190.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010130_UNI-ROYAL-Uniroyal-Elec-0603WAF1001T5E_C21190.pdf"
 			(at 365.76 210.82 0)
 			(hide yes)
 			(show_name no)
@@ -6244,6 +6299,17 @@
 			)
 		)
 		(property "LCSC Part#" "C21190"
+			(at 365.76 210.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 365.76 210.82 0)
 			(hide yes)
 			(show_name no)
@@ -6313,7 +6379,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C19702.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A106KP8NNNC_C19702.pdf"
 			(at 327.66 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6347,6 +6413,17 @@
 			)
 		)
 		(property "LCSC Part#" "C19702"
+			(at 327.66 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 327.66 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6494,7 +6571,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf"
 			(at 337.82 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -6528,6 +6605,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25804"
+			(at 337.82 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 337.82 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -6674,7 +6762,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C23137.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010116_UNI-ROYAL-Uniroyal-Elec-0603WAF3303T5E_C23137.pdf"
 			(at 213.36 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -6708,6 +6796,17 @@
 			)
 		)
 		(property "LCSC Part#" "C23137"
+			(at 213.36 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 213.36 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -7208,7 +7307,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C12891.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL31A226KAHNNNE_C12891.pdf"
 			(at 203.2 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -7242,6 +7341,17 @@
 			)
 		)
 		(property "LCSC Part#" "C12891"
+			(at 203.2 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 203.2 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -7465,7 +7575,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C381466.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_PSA-Prosperity-Dielectrics-FS32X475K101EGG_C381466.pdf"
 			(at 162.56 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -7499,6 +7609,17 @@
 			)
 		)
 		(property "LCSC Part#" "C381466"
+			(at 162.56 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "PSA (Prosperity Dielectrics)"
 			(at 162.56 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -7645,7 +7766,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C12891.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL31A226KAHNNNE_C12891.pdf"
 			(at 264.16 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -7679,6 +7800,17 @@
 			)
 		)
 		(property "LCSC Part#" "C12891"
+			(at 264.16 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 264.16 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -7748,7 +7880,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C513710.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
 			(at 220.98 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -7782,6 +7914,17 @@
 			)
 		)
 		(property "LCSC Part#" "C513710"
+			(at 220.98 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 220.98 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -7851,7 +7994,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C2286.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810231112_Hubei-KENTO-Elec-KT-0603R_C2286.pdf"
 			(at 365.76 226.06 0)
 			(hide yes)
 			(show_name no)
@@ -7885,6 +8028,17 @@
 			)
 		)
 		(property "LCSC Part#" "C2286"
+			(at 365.76 226.06 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Hubei KENTO Elec"
 			(at 365.76 226.06 0)
 			(hide yes)
 			(show_name no)
@@ -7997,6 +8151,17 @@
 				)
 			)
 		)
+		(property "Fabricante" "Texas Instruments"
+			(at 330.2 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "fdd5d14f-a983-4b00-89c3-33c7614b85de")
 		)
@@ -8059,7 +8224,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C136967.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_YAGEO-RT0603BRD0724K9L_C136967.pdf"
 			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -8093,6 +8258,17 @@
 			)
 		)
 		(property "LCSC Part#" "C136967"
+			(at 172.72 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 172.72 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -8162,7 +8338,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C23159.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010116_UNI-ROYAL-Uniroyal-Elec-0603WAF4301T5E_C23159.pdf"
 			(at 299.72 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8196,6 +8372,17 @@
 			)
 		)
 		(property "LCSC Part#" "C23159"
+			(at 299.72 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 299.72 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8302,6 +8489,17 @@
 			)
 		)
 		(property "LCSC Part#" "C3281500"
+			(at 88.9 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Vishay Siliconix"
 			(at 88.9 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -8451,7 +8649,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C12891.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL31A226KAHNNNE_C12891.pdf"
 			(at 279.4 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -8485,6 +8683,17 @@
 			)
 		)
 		(property "LCSC Part#" "C12891"
+			(at 279.4 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 279.4 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -8674,6 +8883,17 @@
 				)
 			)
 		)
+		(property "Fabricante" "Ningbo Kangnex Elec"
+			(at 45.72 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "41b87e2f-239b-4515-9b45-69c6ab6dfa15")
 		)
@@ -8733,7 +8953,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25803.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1003T5E_C25803.pdf"
 			(at 81.28 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -8767,6 +8987,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25803"
+			(at 81.28 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 81.28 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -9024,6 +9255,17 @@
 			)
 		)
 		(property "LCSC Part#" "C224019"
+			(at 132.08 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Littelfuse"
 			(at 132.08 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -9324,7 +9566,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25803.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1003T5E_C25803.pdf"
 			(at 104.14 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -9358,6 +9600,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25803"
+			(at 104.14 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 104.14 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -9427,7 +9680,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C122538.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810241722_YAGEO-RT0603BRD07100KL_C122538.pdf"
 			(at 157.48 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -9461,6 +9714,17 @@
 			)
 		)
 		(property "LCSC Part#" "C122538"
+			(at 157.48 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 157.48 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -9775,6 +10039,17 @@
 				)
 			)
 		)
+		(property "Fabricante" "Littelfuse"
+			(at 66.04 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "d5a5dba1-ef98-4db2-a832-51351e6a7932")
 		)
@@ -9934,7 +10209,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C173427.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407261727_MDD-Microdiode-Semiconductor-BZT52C15_C173427.pdf"
 			(at 116.84 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -9968,6 +10243,17 @@
 			)
 		)
 		(property "LCSC Part#" "C173427"
+			(at 116.84 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "MDD (Microdiode Semiconductor)"
 			(at 116.84 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -10037,7 +10323,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25803.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1003T5E_C25803.pdf"
 			(at 226.06 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -10071,6 +10357,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25803"
+			(at 226.06 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 226.06 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -10140,7 +10437,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C165628.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_SamYoung-Electronics-MVK-63V47-M-8-10_C165628.pdf"
 			(at 147.32 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -10174,6 +10471,17 @@
 			)
 		)
 		(property "LCSC Part#" "C165628"
+			(at 147.32 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "SamYoung Electronics"
 			(at 147.32 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -10243,7 +10551,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C12891.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL31A226KAHNNNE_C12891.pdf"
 			(at 187.96 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -10277,6 +10585,17 @@
 			)
 		)
 		(property "LCSC Part#" "C12891"
+			(at 187.96 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 187.96 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -10423,7 +10742,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 134.62 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -10457,6 +10776,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 134.62 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 134.62 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -10758,7 +11088,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf"
 			(at 220.98 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -10792,6 +11122,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25804"
+			(at 220.98 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 220.98 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -11092,7 +11433,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C381466.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_PSA-Prosperity-Dielectrics-FS32X475K101EGG_C381466.pdf"
 			(at 299.72 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -11126,6 +11467,17 @@
 			)
 		)
 		(property "LCSC Part#" "C381466"
+			(at 299.72 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "PSA (Prosperity Dielectrics)"
 			(at 299.72 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -11658,7 +12010,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C475521.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2404260921_cjiang--Changjiang-Microelectronics-Tech-FXL0650-100-M_C475521.pdf"
 			(at 142.24 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -11692,6 +12044,17 @@
 			)
 		)
 		(property "LCSC Part#" "C475521"
+			(at 142.24 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "cjiang (Changjiang Microelectronics)"
 			(at 142.24 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -11838,7 +12201,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C21122.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10B223KB8NNNC_C21122.pdf"
 			(at 312.42 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -11872,6 +12235,17 @@
 			)
 		)
 		(property "LCSC Part#" "C21122"
+			(at 312.42 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 312.42 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -11941,7 +12315,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C15874.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407101107_MDD-Microdiode-Semiconductor-SS310_C15874.pdf"
 			(at 317.5 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -11975,6 +12349,17 @@
 			)
 		)
 		(property "LCSC Part#" "C15874"
+			(at 317.5 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "MDD (Microdiode Semiconductor)"
 			(at 317.5 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -12044,7 +12429,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf"
 			(at 233.68 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -12078,6 +12463,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25804"
+			(at 233.68 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 233.68 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -12147,7 +12543,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 350.52 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -12181,6 +12577,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 350.52 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 350.52 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -12791,7 +13198,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 393.7 190.5 0)
 			(hide yes)
 			(show_name no)
@@ -12825,6 +13232,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 393.7 190.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 393.7 190.5 0)
 			(hide yes)
 			(show_name no)
@@ -12894,7 +13312,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf"
 			(at 93.98 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -12928,6 +13346,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25804"
+			(at 93.98 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 93.98 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -13031,6 +13460,17 @@
 			)
 		)
 		(property "LCSC Part#" "C3235557"
+			(at 243.84 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Texas Instruments"
 			(at 243.84 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -13990,7 +14430,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C122538.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_1810241722_YAGEO-RT0603BRD07100KL_C122538.pdf"
 			(at 381 172.72 0)
 			(hide yes)
 			(show_name no)
@@ -14024,6 +14464,17 @@
 			)
 		)
 		(property "LCSC Part#" "C122538"
+			(at 381 172.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 381 172.72 0)
 			(hide yes)
 			(show_name no)
@@ -14247,7 +14698,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C15849.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_Samsung-Electro-Mechanics-CL10A105KB8NNNC_C15849.pdf"
 			(at 251.46 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14281,6 +14732,17 @@
 			)
 		)
 		(property "LCSC Part#" "C15849"
+			(at 251.46 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 251.46 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14350,7 +14812,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0603WAF1002T5E_C25804.pdf"
 			(at 325.12 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -14384,6 +14846,17 @@
 			)
 		)
 		(property "LCSC Part#" "C25804"
+			(at 325.12 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "UNI-ROYAL"
 			(at 325.12 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -14453,7 +14926,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 238.76 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14487,6 +14960,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 238.76 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 238.76 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14710,7 +15194,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C381466.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_PSA-Prosperity-Dielectrics-FS32X475K101EGG_C381466.pdf"
 			(at 35.56 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14744,6 +15228,17 @@
 			)
 		)
 		(property "LCSC Part#" "C381466"
+			(at 35.56 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "PSA (Prosperity Dielectrics)"
 			(at 35.56 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14813,7 +15308,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2211101700_YAGEO-CC0603KRX7R9BB104_C14663.pdf"
 			(at 106.68 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14847,6 +15342,17 @@
 			)
 		)
 		(property "LCSC Part#" "C14663"
+			(at 106.68 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 106.68 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -14993,7 +15499,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C381466.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2304140030_PSA-Prosperity-Dielectrics-FS32X475K101EGG_C381466.pdf"
 			(at 50.8 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -15027,6 +15533,17 @@
 			)
 		)
 		(property "LCSC Part#" "C381466"
+			(at 50.8 215.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "PSA (Prosperity Dielectrics)"
 			(at 50.8 215.9 0)
 			(hide yes)
 			(show_name no)
@@ -15096,7 +15613,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/product-detail/C855888.html"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2311211101_YAGEO-AT0603BRD074K87L_C855888.pdf"
 			(at 381 190.5 0)
 			(hide yes)
 			(show_name no)
@@ -15130,6 +15647,17 @@
 			)
 		)
 		(property "LCSC Part#" "C855888"
+			(at 381 190.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "YAGEO"
 			(at 381 190.5 0)
 			(hide yes)
 			(show_name no)
@@ -15233,6 +15761,17 @@
 			)
 		)
 		(property "LCSC Part#" "C1850278"
+			(at 259.08 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "Texas Instruments"
 			(at 259.08 81.28 0)
 			(hide yes)
 			(show_name no)

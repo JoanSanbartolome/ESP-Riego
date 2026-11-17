@@ -4,15 +4,15 @@ Uso:
     python herramientas/kicad/hoja.py pines RF_Module:ESP32-S3-WROOM-1 [--proyecto hardware/v2]
     python herramientas/kicad/hoja.py extraer hardware/v2/mcu.kicad_sch -o mcu.json
     python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch
+    python herramientas/kicad/hoja.py raiz raiz.json --proyecto <copia>/v2 -o <copia>/v2/esp-riego.kicad_sch
     python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 [--hoja MCU]
+    python herramientas/kicad/hoja.py netlist hardware/v2 --plan docs/diseno/conectores.md [--seccion "Anexo A"]
 
-Descripción JSON: formato en herramientas/kicad/README.md («Descripción de hoja»). Conexión de cada
-pin, en su extremo y sin cables: "L:RED" local · "H:RED:forma" jerárquica · "G:RED:forma" global ·
-"P:GND" símbolo de `power` · "NC" · "" nada. Todo pin visible lleva conexión declarada.
-generar escribe solo en -o; si -o (o --base) existe, conserva sus UUID y las referencias #PWR, y
-no sustituye una hoja con cables u otros elementos que no sabe representar (salvo --forzar). Copia
-`lib_symbols` de las librerías, con `extends` aplanado. Sin símbolos de varias unidades ni espejados.
-Los pines de hoja de la raíz no se tocan: si cambian las etiquetas jerárquicas, se actualizan aparte.
+Formatos en herramientas/kicad/README.md. Conexión de cada pin, en su extremo y sin cables: "L:RED" local ·
+"H:RED:forma" jerárquica · "G:RED:forma" global · "P:GND" o "P:GND:270" símbolo de `power` (y su giro) ·
+"NC" · "" nada. generar escribe solo en -o, conserva los UUID y las #PWR de la hoja que sustituye y no
+sustituye una hoja con cables (salvo --forzar). Sin símbolos de varias unidades ni espejados.
+raiz: pines de hoja y sus etiquetas o NC en la raíz (--extraer saca la descripción de la raíz actual).
 """
 import argparse
 import json
@@ -156,7 +156,7 @@ def extraer(archivo, forzar=False):
                 nombre = s["lib_id"].split(":", 1)[1]
                 if s["props"].get("Value", nombre) != nombre:
                     raise Fallo(f"{s['ref']}: símbolo de alimentación con Value distinto de su nombre, no soportado")
-                puntos.setdefault(clave(x, y), []).append(f"P:{nombre}")
+                puntos.setdefault(clave(x, y), []).append(f"P:{nombre}" + (f":{s['giro']}" if s["giro"] else ""))
     piezas, usados = [], set()
     for s in simbolos:
         if s["lib_id"].startswith("power:"):
@@ -290,7 +290,7 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
     simbolos, pwr, etiquetas, jerarquicas, globales, ncs, avisos = [], [], [], [], [], [], []
     puntos = {}
 
-    def alimentacion(nombre, x, y, bandera=False):
+    def alimentacion(nombre, x, y, bandera=False, giro=0):
         spec = f"power:{nombre}"
         _, _, props = lib(spec)
         uid, ref, upin = viejos["pwr"].get((spec,) + clave(x, y), (None, None, None))
@@ -298,13 +298,22 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
 
         def en(nombre_prop, defecto):
             at = uno(props.get(nombre_prop, []), "at", ["at", *defecto])
-            return x + float(at[1]), y - float(at[2])
+            return girar(float(at[1]), float(at[2]), x, y, giro)
 
+        # Value horizontal y alejado del símbolo, como lo deja KiCad al girar (campo a 90° en los giros de 90 y 270;
+        # en los de 90 y 180 KiCad invierte la justificación)
+        vx, vy = en("Value", ("0", "-3.81"))
+        just = None
+        if abs(vx - x) > 0.01:
+            just = "right" if vx < x else "left"
+            if giro in (90, 180):
+                just = {"right": "left", "left": "right"}[just]
         desc_ = props["Description"][2] if "Description" in props else ""
-        ps = [_prop("Reference", ref, *en("Reference", ("0", "-6.35")), oculto=True), _prop("Value", nombre, *en("Value", ("0", "-3.81"))),
+        ps = [_prop("Reference", ref, *en("Reference", ("0", "-6.35")), oculto=True),
+              _prop("Value", nombre, vx, vy, 90 if giro in (90, 270) else 0, just=just),
               _prop("Footprint", "", x, y, oculto=True), _prop("Datasheet", "~" if bandera else "", x, y, oculto=True),
               _prop("Description", desc_, x, y, oculto=True)]
-        pwr.append(_simbolo(spec, ref, x, y, 0, ps, [("1", upin or U())], ruta, nombre_proy, uid or U()))
+        pwr.append(_simbolo(spec, ref, x, y, giro, ps, [("1", upin or U())], ruta, nombre_proy, uid or U()))
 
     refs_vistas = set()
     for pz in desc.get("piezas", []):
@@ -352,8 +361,10 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             if con == "NC":
                 uid = viejos["otros"].get(("no_connect", "") + clave(x, y)) or U()
                 ncs.append(f'\t(no_connect\n\t\t(at {num(x)} {num(y)})\n\t\t(uuid "{uid}")\n\t)\n')
-            elif partes[0] == "P" and len(partes) == 2:
-                alimentacion(partes[1], x, y)
+            elif partes[0] == "P" and len(partes) in (2, 3):
+                if len(partes) == 3 and partes[2] not in ("0", "90", "180", "270"):
+                    raise Fallo(f"{ref}.{numero}: giro «{partes[2]}» del símbolo de alimentación (0, 90, 180 o 270)")
+                alimentacion(partes[1], x, y, giro=int(partes[2]) if len(partes) == 3 else 0)
             elif partes[0] == "L" and len(partes) == 2:
                 uid = viejos["otros"].get(("label", partes[1]) + clave(x, y)) or U()
                 just = "left bottom" if sd in "RU" else "right bottom"
@@ -394,6 +405,197 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
                "nc": len(ncs), "alimentacion": len(pwr), "textos": len(textos), "avisos": avisos,
                "uuid_conservados": sum(1 for pz in desc.get("piezas", []) if pz["ref"] in viejos["sim"])}
     return cab + cuerpo + ")\n", resumen
+
+
+# ------------------------------------------------------------------ raíz: pines de hoja y sus conexiones
+
+LADO_PIN = {"L": (180, "left"), "R": (0, "right")}   # lado → (ángulo del pin y de su etiqueta, justify del pin)
+
+
+def _hojas_raiz(texto):
+    """Hojas de la raíz: nombre → dict con i, j, x, y, ancho, alto, archivo y pines (nombre, forma, x, y, ang, uuid, i, j)."""
+    salida = {}
+    for n, i, j in trozos(texto):
+        if n != "sheet":
+            continue
+        nodo = parse(texto[i:j])
+        props = {p[1]: p[2] for p in hijos(nodo, "property") if len(p) > 2}
+        at, tam = uno(nodo, "at"), uno(nodo, "size")
+        pines = []
+        for n2, a, b in trozos(texto, i):
+            if n2 == "pin":
+                p = parse(texto[a:b])
+                pa = uno(p, "at")
+                pines.append({"nombre": p[1], "forma": p[2], "x": float(pa[1]), "y": float(pa[2]),
+                              "ang": int(float(pa[3])) if len(pa) > 3 else 0, "uuid": val(p, "uuid"), "i": a, "j": b})
+        salida[props.get("Sheetname", "")] = {"i": i, "j": j, "x": float(at[1]), "y": float(at[2]), "ancho": float(tam[1]),
+                                              "alto": float(tam[2]), "archivo": props.get("Sheetfile", ""), "pines": pines}
+    return salida
+
+
+def _conexiones_raiz(texto):
+    """Etiquetas locales y globales y NC de primer nivel de la raíz: punto → lista de (tipo, nombre, forma, uuid, i, j)."""
+    puntos = {}
+    for n, i, j in trozos(texto):
+        if n in ("label", "global_label", "no_connect"):
+            nodo = parse(texto[i:j])
+            at = uno(nodo, "at")
+            nombre = nodo[1] if n != "no_connect" else ""
+            puntos.setdefault(clave(at[1], at[2]), []).append((n, nombre, val(nodo, "shape"), val(nodo, "uuid"), i, j))
+    return puntos
+
+
+def extraer_raiz(archivo):
+    """Descripción de los pines de hoja de la raíz y de lo que hay en cada uno (etiqueta, global, NC o nada)."""
+    texto = leer(archivo)
+    conexiones = _conexiones_raiz(texto)
+    desc = {"hojas": []}
+    for nombre, h in _hojas_raiz(texto).items():
+        pines = []
+        for p in h["pines"]:
+            lado = {180: "L", 0: "R"}.get(p["ang"])
+            if lado is None:
+                raise Fallo(f"{nombre}.{p['nombre']}: pin de hoja arriba o abajo, no soportado")
+            cons = conexiones.get(clave(p["x"], p["y"]), [])
+            if len(cons) > 1:
+                raise Fallo(f"{nombre}.{p['nombre']}: varias conexiones en el mismo punto")
+            con = ""
+            if cons:
+                t, n, forma = cons[0][:3]
+                con = {"label": f"L:{n}", "global_label": f"G:{n}:{forma}", "no_connect": "NC"}[t]
+            pines.append({"nombre": p["nombre"], "forma": p["forma"], "lado": lado, "y": p["y"], "conexion": con})
+        desc["hojas"].append({"nombre": nombre, "archivo": h["archivo"], "pines": pines})
+    return desc
+
+
+def generar_raiz(desc, raiz_sch):
+    """Texto de la raíz con los pines de hoja de `desc` y sus conexiones; las hojas que no están en `desc` no se tocan."""
+    original = leer(raiz_sch)
+    nl = "\r\n" if "\r\n" in original else "\n"
+    texto = original.replace("\r\n", "\n")
+    hojas_ = _hojas_raiz(texto)
+    conexiones = _conexiones_raiz(texto)
+    cortes, insertos, nuevas, avisos, vistas = [], [], [], [], set()
+    for h in desc.get("hojas", []):
+        nombre = h["nombre"]
+        if nombre in vistas:
+            raise Fallo(f"hoja «{nombre}» repetida en la descripción")
+        vistas.add(nombre)
+        if nombre not in hojas_:
+            raise Fallo(f"la raíz no tiene ninguna hoja «{nombre}» (hay: {', '.join(hojas_)})")
+        hj = hojas_[nombre]
+        viejos = {p["nombre"]: p for p in hj["pines"]}
+        for p in hj["pines"]:                       # fuera los pines viejos y lo que había en sus extremos
+            cortes.append((texto.rfind("\n", 0, p["i"]), p["j"]))
+            for c in conexiones.get(clave(p["x"], p["y"]), []):
+                cortes.append((texto.rfind("\n", 0, c[4]), c[5]))
+        hijas = set()
+        archivo = Path(raiz_sch).parent / hj["archivo"]
+        if archivo.is_file():
+            hijas = {parse(leer(archivo)[a:b])[1] for n, a, b in trozos(leer(archivo)) if n == "hierarchical_label"}
+        nombres, puntos, bloque = set(), set(), ""
+        for p in h.get("pines", []):
+            if p["nombre"] in nombres:
+                raise Fallo(f"{nombre}.{p['nombre']}: pin repetido")
+            nombres.add(p["nombre"])
+            if p.get("lado") not in LADO_PIN:
+                raise Fallo(f"{nombre}.{p['nombre']}: lado «{p.get('lado')}» (L o R)")
+            if p.get("forma") not in ("input", "output", "bidirectional", "tri_state", "passive"):
+                raise Fallo(f"{nombre}.{p['nombre']}: forma «{p.get('forma')}» no válida")
+            ang, just = LADO_PIN[p["lado"]]
+            x, y = (hj["x"] if p["lado"] == "L" else hj["x"] + hj["ancho"]), float(p["y"])
+            if not hj["y"] < y < hj["y"] + hj["alto"]:
+                raise Fallo(f"{nombre}.{p['nombre']}: y = {num(y)} fuera del borde de la hoja ({num(hj['y'])}…{num(hj['y'] + hj['alto'])})")
+            if clave(x, y) in puntos:
+                raise Fallo(f"{nombre}.{p['nombre']}: dos pines en el mismo punto")
+            puntos.add(clave(x, y))
+            if hijas and p["nombre"] not in hijas:
+                avisos.append(f"{nombre}.{p['nombre']}: {hj['archivo']} no tiene esa etiqueta jerárquica")
+            uid = viejos[p["nombre"]]["uuid"] if p["nombre"] in viejos else U()
+            bloque += (f'\n\t\t(pin "{esc(p["nombre"])}" {p["forma"]}\n\t\t\t(at {num(x)} {num(y)} {ang})\n\t\t\t(uuid "{uid}")\n'
+                       f"\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t)\n\t\t\t\t(justify {just})\n\t\t\t)\n\t\t)")
+            con, partes = p.get("conexion", ""), p.get("conexion", "").split(":")
+            antiguo = {(c[0], c[1]): c[3] for c in conexiones.get(clave(x, y), [])}
+            if con == "":
+                continue
+            if con == "NC":
+                nuevas.append(f'\t(no_connect\n\t\t(at {num(x)} {num(y)})\n\t\t(uuid "{antiguo.get(("no_connect", "")) or U()}")\n\t)')
+            elif partes[0] == "L" and len(partes) == 2:
+                uid = antiguo.get(("label", partes[1])) or U()
+                nuevas.append(f'\t(label "{esc(partes[1])}"\n\t\t(at {num(x)} {num(y)} {ang})\n\t\t(effects\n\t\t\t(font\n'
+                              f'\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {"right" if ang == 180 else "left"} bottom)\n\t\t)\n'
+                              f'\t\t(uuid "{uid}")\n\t)')
+            elif partes[0] == "G" and len(partes) == 3:
+                uid = antiguo.get(("global_label", partes[1])) or U()
+                nuevas.append(f'\t(global_label "{esc(partes[1])}"\n\t\t(shape {partes[2]})\n\t\t(at {num(x)} {num(y)} {ang})\n'
+                              f'\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {"right" if ang == 180 else "left"})\n'
+                              f'\t\t)\n\t\t(uuid "{uid}")\n\t)')
+            else:
+                raise Fallo(f"{nombre}.{p['nombre']}: conexión «{con}» no reconocida (L:RED, G:RED:forma, NC o \"\")")
+        avisos += [f"{nombre}: la etiqueta jerárquica {e} de {hj['archivo']} no tiene pin" for e in sorted(hijas - nombres)]
+        insertos.append((texto.rfind("\n", hj["i"], hj["j"] - 1), bloque))   # antes del «\t)» que cierra la hoja
+    fin_hojas = texto.index("\n\t(sheet_instances") if "\n\t(sheet_instances" in texto else texto.rstrip().rindex(")")
+    insertos.append((fin_hojas, "".join("\n" + n for n in nuevas)))
+    ediciones = sorted([(i, j, "") for i, j in set(cortes)] + [(k, k, s) for k, s in insertos], key=lambda e: (e[0], e[1]))
+    for i, j, s in reversed(ediciones):
+        texto = texto[:i] + s + texto[j:]
+    resumen = {"hojas": len(vistas), "pines": sum(len(h.get("pines", [])) for h in desc.get("hojas", [])),
+               "conexiones": len(nuevas), "avisos": avisos}
+    return texto.replace("\n", nl), resumen
+
+
+# ------------------------------------------------------------------ netlist frente a un plan de conexiones
+
+_ENTRADA = re.compile(r"`?(?P<red>[^\s`{}=|,;:()]+)`?\s*=?\s*\{(?P<nodos>[^{}]*)\}")
+_NODO = re.compile(r"^([A-Za-z]+\d+)-([A-Za-z0-9_]+)$")
+
+
+def leer_plan(texto, seccion=None):
+    """Redes de un documento de diseño escritas como `RED = {R1-2, U5-34}` o RED {…}; «NC {…}» = sin conectar.
+    Con `seccion`, solo las líneas desde el título que la contiene hasta el siguiente del mismo nivel o superior."""
+    lineas = texto.splitlines()
+    if seccion:
+        ini = next((k for k, l in enumerate(lineas) if l.startswith("#") and seccion.lower() in l.lower()), None)
+        if ini is None:
+            raise Fallo(f"no hay ningún título con «{seccion}»")
+        nivel = len(lineas[ini]) - len(lineas[ini].lstrip("#"))
+        fin = next((k for k in range(ini + 1, len(lineas)) if lineas[k].startswith("#")
+                    and len(lineas[k]) - len(lineas[k].lstrip("#")) <= nivel), len(lineas))
+        lineas = lineas[ini:fin]
+    plan, ignoradas = [], []
+    for m in _ENTRADA.finditer("\n".join(lineas)):
+        nodos = [n.strip() for n in m.group("nodos").split(",") if n.strip()]
+        partes = [_NODO.match(n) for n in nodos]
+        if not nodos or not all(partes):
+            ignoradas.append(m.group(0)[:60])
+            continue
+        plan.append((m.group("red"), [(p.group(1), p.group(2)) for p in partes]))
+    return plan, ignoradas
+
+
+def comparar_plan(net, plan):
+    """Diferencias entre la netlist y el plan: cada red del plan, con exactamente esos pines."""
+    redes = net["redes"]
+    red_de = {nodo: nombre for nombre, nodos in redes.items() for nodo in nodos}
+    dif = []
+    for red, nodos in plan:
+        quiere = set(nodos)
+        if red == "NC":
+            dif += [f"NC: {r}-{p} está en «{red_de[(r, p)]}»" for r, p in nodos
+                    if red_de.get((r, p)) and not red_de[(r, p)].startswith("unconnected-")]
+            continue
+        candidatas = [n for n in redes if n == red or (not red.startswith("/") and n.endswith("/" + red))]
+        if not candidatas:
+            donde = sorted({red_de.get(n, "—") for n in nodos})
+            dif.append(f"{red}: no está en la netlist (sus pines están en {', '.join(donde)})"[:200])
+            continue
+        real = max(candidatas, key=lambda n: (len(redes[n] & quiere), n == red))
+        for r, p in sorted(quiere - redes[real]):
+            dif.append(f"{red}: falta {r}-{p} (está en «{red_de.get((r, p), '—')}»)")
+        sobran = sorted(redes[real] - quiere)
+        if sobran:
+            dif.append(f"{red}: pines de más {', '.join(f'{r}-{p}' for r, p in sobran)}"[:200])
+    return dif
 
 
 # ------------------------------------------------------------------ órdenes
@@ -439,7 +641,43 @@ def orden_generar(args):
     return 0
 
 
+def orden_raiz(args):
+    carpeta, nombre = proyecto(args.proyecto)
+    raiz = carpeta / f"{nombre}.kicad_sch"
+    salida = Path(args.salida)
+    if args.extraer:
+        desc = extraer_raiz(raiz)
+        salida.parent.mkdir(parents=True, exist_ok=True)
+        salida.write_text(json.dumps(desc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        emitir([f"{salida}: {len(desc['hojas'])} hojas, {sum(len(h['pines']) for h in desc['hojas'])} pines de hoja"])
+        return 0
+    if not args.descripcion:
+        raise Fallo("falta la descripción (o --extraer)")
+    texto, r = generar_raiz(json.loads(Path(args.descripcion).read_text(encoding="utf-8")), raiz)
+    escribir(salida, texto)
+    emitir([f"{salida}: {r['hojas']} hojas, {r['pines']} pines de hoja, {r['conexiones']} etiquetas o NC · avisos "
+            f"{len(r['avisos'])}"] + r["avisos"], pista=None)
+    return 1 if r["avisos"] else 0
+
+
 def orden_netlist(args):
+    if args.plan:
+        if args.b:
+            raise Fallo("con --plan se compara un solo proyecto")
+        plan, ignoradas = leer_plan(Path(args.plan).read_text(encoding="utf-8"), args.seccion)
+        if not plan:
+            raise Fallo(f"{args.plan}: ninguna red con la forma `RED = {{REF-PIN, …}}`")
+        with tempfile.TemporaryDirectory(prefix="netlist_") as tmp:
+            carpeta, nombre = proyecto(args.a)
+            net = exportar_netlist(carpeta, nombre, Path(tmp) / "a.net")
+        dif = comparar_plan(net, plan)
+        donde = f" ({args.seccion})" if args.seccion else ""
+        emitir([f"Plan {args.plan}{donde}: {len(plan)} redes, {sum(len(n) for _, n in plan)} pines; {len(dif)} diferencias; "
+                f"{len(ignoradas)} entradas sin interpretar"] + dif + [f"sin interpretar: {e}" for e in ignoradas],
+               detalle=args.detalle)
+        return 1 if dif else 0
+    if not args.b:
+        raise Fallo("faltan los dos proyectos (o --plan DOCUMENTO)")
     with tempfile.TemporaryDirectory(prefix="netlist_") as tmp:
         redes = []
         for k, ruta in enumerate((args.a, args.b)):
@@ -474,9 +712,17 @@ def main():
     g.add_argument("--campos", help="CSV de campos que completa o sustituye los de la descripción")
     g.add_argument("--forzar", action="store_true", help="sustituye aunque la hoja tenga cables u otros elementos")
     g.set_defaults(f=orden_generar)
-    n = sub.add_parser("netlist", help="compara las netlists de dos proyectos")
+    r = sub.add_parser("raiz", help="pines de hoja y sus etiquetas o NC en la raíz, desde una descripción")
+    r.add_argument("descripcion", nargs="?")
+    r.add_argument("--proyecto", required=True, help="proyecto cuya raíz se lee (carpeta o .kicad_pro)")
+    r.add_argument("-o", "--salida", required=True, help="raíz .kicad_sch de destino (o JSON con --extraer)")
+    r.add_argument("--extraer", action="store_true", help="escribe en -o la descripción de la raíz actual")
+    r.set_defaults(f=orden_raiz)
+    n = sub.add_parser("netlist", help="compara la netlist con la de otro proyecto o con un plan")
     n.add_argument("a")
-    n.add_argument("b")
+    n.add_argument("b", nargs="?")
+    n.add_argument("--plan", metavar="DOC", help="documento con las redes como `RED = {REF-PIN, …}`")
+    n.add_argument("--seccion", help="con --plan, solo la sección cuyo título contiene este texto")
     n.add_argument("--hoja", help="solo las piezas de esta hoja (nombre de la hoja, p. ej. MCU)")
     n.add_argument("--detalle", metavar="ARCHIVO")
     n.set_defaults(f=orden_netlist)
