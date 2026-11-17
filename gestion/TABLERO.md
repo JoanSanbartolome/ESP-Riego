@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
+Specs por estado: propuesta 2 · abierta 0 · cerrada 29 · descartada 4.
 
 ## Propuestas (2)
 
@@ -11,13 +11,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | — | 2026-11-17 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | Requisitos v0.7 | 3 | coordinador | `spec/SPEC-0033-requisitos-v07` | — | 2026-11-17 | — |
-
-## Cerradas (28)
+## Cerradas (29)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -49,6 +43,7 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | Bloque de sensores | 3 | ing-diseno | `spec/SPEC-0029-bloque-sensores` | VAL-0029-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | Requisitos v0.6 | 3 | coordinador | `spec/SPEC-0030-requisitos-v06` | VAL-0030-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | VAL-0031-02 (APROBADO) | 2026-11-13 | 2026-11-15 |
+| [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | Requisitos v0.7 | 3 | coordinador | `spec/SPEC-0033-requisitos-v07` | VAL-0033-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 
 ## Descartadas (4)
 
@@ -71,13 +66,14 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | 3 | 462 494 | 132 | 26 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | 2 | 134 812 | 28 | 3 |
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | 6 | 804 144 | 235 | 67 |
+| [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | 2 | 127 583 | — | — |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
 | ing-diseno | 11 | 2 288 007 | 698 | 227 |
-| ing-validacion | 14 | 1 773 995 | 443 | 118 |
+| ing-validacion | 16 | 1 901 578 | 443 | 118 |
 | jr-conformidad | 6 | 449 848 | 138 | 21 |
 
 ## Decisiones
@@ -145,4 +141,6 @@ Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
 | [VAL-0030-02](informes/VAL-0030-02.md) | SPEC-0030 | APROBADO_CON_OBSERVACIONES | `a899307` | 2026-11-14 |
 | [VAL-0031-01](informes/VAL-0031-01.md) | SPEC-0031 | APROBADO_CON_OBSERVACIONES | `a9cfa2d` | 2026-11-15 |
 | [VAL-0031-02](informes/VAL-0031-02.md) | SPEC-0031 | APROBADO | `c947654` | 2026-11-15 |
+| [VAL-0033-01](informes/VAL-0033-01.md) | SPEC-0033 | RECHAZADO | `2b1eea7` | 2026-11-17 |
+| [VAL-0033-02](informes/VAL-0033-02.md) | SPEC-0033 | APROBADO | `0816e1f` | 2026-11-17 |
 
