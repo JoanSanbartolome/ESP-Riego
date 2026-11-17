@@ -2,15 +2,15 @@
 id: SPEC-0033
 titulo: Requisitos v0.7
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0033-requisitos-v07
 requisitos: [REL-03, REL-05, REL-10, REL-11, ALI-12, EXP-04, EXP-05]
 depende_de: [SPEC-0030]
 creada: 2026-11-17
-cerrada:
-validacion:
+cerrada: 2026-11-17
+validacion: VAL-0033-02
 ---
 
 # SPEC-0033 · Requisitos v0.7
@@ -79,3 +79,4 @@ Nivel **ligero** (texto de requisitos; DEC-0005), con `gestion/checklists/requis
 | 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-17 | ing-validacion | VAL-0033-01 RECHAZADO (4 M, 2 B) | VAL-0033-01 | 117667 |  |  |
 | 2026-11-17 | ing-validacion | VAL-0033-02 APROBADO | VAL-0033-02 | 9916 |  |  |
+| 2026-11-17 | coordinador | Cierra la spec | VAL-0033-02 (APROBADO) |  |  |  |
