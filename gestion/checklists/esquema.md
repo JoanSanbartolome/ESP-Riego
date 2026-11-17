@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v11 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v12 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -25,7 +25,8 @@
 - [ ] [juicio] Tensiones nominales de cada pieza ≥ peor caso del nodo, incluido el *clamping* de la TVS (ALI-04, ALI-05).
 - [ ] [juicio] Condensadores cerámicos con *derating* por tensión DC y temperatura.
 - [ ] [juicio] La rueda libre de cada salida (REL-03) soporta con margen la tensión del bus y la corriente media de la carga en uso (REL-05), y el pico de un corto con su I_FSM frente a la corriente y la duración que deja pasar el *high-side*. Su fuga en caliente cabe en el presupuesto de la carga abierta (REL-10).
-- [ ] [juicio] Los límites de uso de las salidas (REL-11) tienen valor, origen y consecuencia de superarlos, y son coherentes con REL-05, ALI-12, ALI-13 y REL-10; ningún cálculo de las salidas usa una válvula concreta como dato de diseño (DEC-0014).
+- [ ] [juicio] Los límites de uso de las salidas (REL-11) tienen valor, origen y consecuencia de superarlos, y son coherentes con REL-05, ALI-12, ALI-13 y REL-10; ningún cálculo de las salidas usa una válvula concreta como dato de diseño (DEC-0014). Cada uso prohibido (AC, fuentes externas, biestables, PWM) lleva también su consecuencia.
+- [ ] [juicio] Un cálculo que se apoya en una protección de un CI (reintento, enclavamiento, apagado térmico, rearme por subtensión) cita la página de su descripción funcional y no contradice otras secciones del documento.
 - [ ] [juicio] Si se calcula una autonomía (*hold-up*), va desde la VIN mínima (ALI-01) menos las caídas hasta el umbral de **bajada** del UVLO (ALI-06), con la potencia de pico de la lógica y la tolerancia del condensador.
 - [ ] [juicio] Disipación de reguladores, resistencias de potencia y etapa de salida dentro de márgenes a +50 °C de ambiente (§5) más el calentamiento interno de la caja (≥ 10 °C, o el valor estimado en `docs/diseno/`).
 
@@ -82,3 +83,4 @@
 | v9 | 2026-11-12 | VAL-0027-01-10: excepción de lo que va fuera del BOM en los campos |
 | v10 | 2026-11-13 | SPEC-0030: sin EXP-01, retirado en los requisitos v0.6 (DEC-0011) |
 | v11 | 2026-11-17 | SPEC-0033: requisitos v0.7 (DEC-0014). Rueda libre montada en lugar de la curva E_AS; límites de uso de las salidas (REL-11) |
+| v12 | 2026-11-17 | SPEC-0034 (VAL-0034-01): consecuencia de cada uso prohibido en REL-11; cálculos sobre protecciones de un CI con su página |
