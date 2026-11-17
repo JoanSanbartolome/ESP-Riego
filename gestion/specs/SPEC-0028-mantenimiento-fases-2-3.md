@@ -111,3 +111,4 @@ Una validación, al final. Nivel **completo** para `hardware/` y `herramientas/k
 | 2026-11-16 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-16 | jr-conformidad | campos unificados, fichas, U13 a SHT40-AD1B-R2 y alternativa de F1 | 01-jr-conformidad | 152230 | 56 | 10 |
 | 2026-11-16 | ing-diseno | hoja de conectores sin cables, PCB sincronizada, hoja.py raiz y netlist --plan, batería y documentos | 02-ing-diseno | 333051 | 125 | 33 |
+| 2026-11-17 | ing-validacion | VAL-0028-01: APROBADO_CON_OBSERVACIONES | VAL-0028-01 | 199389 | 66 | 1167 |

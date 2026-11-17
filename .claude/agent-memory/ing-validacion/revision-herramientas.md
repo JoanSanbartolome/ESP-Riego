@@ -19,4 +19,7 @@ Un punto de checklist que pasa a `[auto]` se valida haciéndolo fallar, no vién
 
 - **Revalidación (VAL-0027-02):** `mutar2.py` reutiliza los helpers de `mutar.py` (exec hasta `CASOS = [`) y comprueba el detalle con «contiene», porque en `hardware/v2` `fichas` y `attr` ya fallan. Para medir falsos positivos de una heurística nueva, se pasa `huella.analizar` sobre una muestra de la librería oficial (0 de 867). La USB-C con patas `pad_prop_mechanical` es `smd` para KiCad: no es mixta. `--refill-zones` se demuestra con una zona real sin rellenar, creada con `pcbnew` (salen `isolated_copper`, md5 intacto).
 
+- **Batería de casos nuevos (VAL-0028-01, ~2 h toda la spec):** para mutar las herramientas, uso un repositorio falso en la carpeta temporal con `CLAUDE.md`, `herramientas/` y `hardware/{v2,libraries,componentes}`. `test_kicad.py` localiza la raíz por `CLAUDE.md`. En `v28\mutar.py`, cada mutación es (archivo, texto, sustituto, casos): se aplica, se corre el caso y se restaura. Sobreviven los casos con datos fijos que ya cumplen la regla, como una lista ya ordenada o un «ya existe» sin el archivo homónimo. No hay que fiarse de «la mutación X falla» del parte: el autor suele invertir, no quitar.
+- `git archive` lo bloquea la guarda: para sacar `main` a la carpeta temporal, `for f in $(git ls-tree --name-only main hardware/v2/); do git show main:$f > …; done`. Un `mkdir` en la misma orden que un heredoc de Python con `sys.argv` también se bloquea: el script, con Write.
+
 Relacionado: [[revision-hojas]], [[revision-piezas]], [[comprobaciones-utiles]].
