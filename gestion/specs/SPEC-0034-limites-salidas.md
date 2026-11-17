@@ -87,3 +87,5 @@ Nivel **completo** (cálculos y esquema; DEC-0005), con `esquema.md` v11 y `libr
 |---|---|---|---|---|---|---|
 | 2026-11-17 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-17 | ing-diseno | Pasos 1–3: límites de uso, D12–D17 montados, documentos | 01-ing-diseno | 302782 | 138 | 25 |
+| 2026-11-17 | jr-conformidad | Paso 4: M7, campos y fichas | 02-jr-conformidad | 55116 | 11 | 2 |
