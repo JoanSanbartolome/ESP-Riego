@@ -1,6 +1,6 @@
 # Especificaciones de la PCB v2
 
-**Estado:** borrador v0.7 (2026-11-17). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md), [DEC-0012](../gestion/decisiones/DEC-0012-expansion-i2c.md), [DEC-0014](../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md) y en el [historial](#10-historial).
+**Estado:** borrador v0.8 (2026-11-17). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md), [DEC-0012](../gestion/decisiones/DEC-0012-expansion-i2c.md), [DEC-0014](../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md), [DEC-0015](../gestion/decisiones/DEC-0015-esquema-legible.md) y en el [historial](#10-historial).
 
 Decisiones de partida:
 
@@ -153,6 +153,7 @@ Prioridad: **M** debe · **S** debería · **C** podría.
 | KIC-03 | M | Antes de fabricar: ERC sin errores, y DRC sin errores ni incidencias de paridad esquema↔PCB. |
 | KIC-04 | S | Reglas en `.kicad_dru` (clases de red, zona de antena, separación de las salidas). |
 | KIC-05 | S | Salidas de fabricación generadas con `kicad-cli`, para que sean reproducibles. |
+| KIC-06 | M | Esquema legible con el aspecto del esquema del TFG, según las reglas de estilo de DEC-0015: un recuadro por bloque con su título (nombre, referencias e IDs), piezas unidas con cables dentro del bloque, etiquetas solo para las señales que salen del bloque o de la hoja, alimentación con símbolos unidos por un cable corto, lectura de izquierda a derecha, cifras clave junto a la pieza y como mucho 2 o 3 líneas de nota por bloque. Sin solapes ni cables que crucen símbolos o textos. |
 
 ### 4.8 Firmware (FW)
 
@@ -282,6 +283,10 @@ En la v0.7 (SPEC-0033, DEC-0014, DEC-0012):
 - §1, §2 y §6: la válvula instalada es un ejemplo de carga dentro de los límites, no un dato de diseño.
 - Nuevos: REL-11 (M) y EXP-05 (M).
 
+En la v0.8 (SPEC-0035, DEC-0015):
+
+- Nuevo: KIC-06 (M), esquema legible con el aspecto del esquema del TFG. No cambia ninguna conexión.
+
 ## 10. Historial
 
 | Versión | Fecha | Cambios | Spec · decisión |
@@ -293,3 +298,4 @@ En la v0.7 (SPEC-0033, DEC-0014, DEC-0012):
 | v0.5 | 2026-11-08 | FAB-03: separación de `Salidas` de 0,6 mm dentro de las huellas del *high-side*, R_OL y C_OUT (IPC-2221 B2 hasta 100 V; ≥ 0,2 mm de FAB-02) | SPEC-0023 · DEC-0008 |
 | v0.6 | 2026-11-13 | EXP-01 retirado (sin entrada de pulsos ni de lluvia, D3 cerrada); EXP-03 con 6 pulsadores en la placa leídos por el firmware (D4 cerrada, prioridad S); conector EXP-02 fijado con el informe de SPEC-0006; válvulas instaladas de 24 V AC alimentadas en continua, con la medida pendiente | SPEC-0030 · DEC-0011 |
 | v0.7 | 2026-11-17 | Salidas con límites de uso propios de la placa (REL-11), sin válvula de referencia: una carga por salida, 1 A por salida y 3,5 A en total como límites, rueda libre montada en cada salida (REL-03); D9 cerrada y módulo de expansión con 24 V y limitador propios (EXP-05) | SPEC-0033 · DEC-0014, DEC-0012 |
+| v0.8 | 2026-11-17 | KIC-06: esquema legible con el aspecto del esquema del TFG (recuadros por bloque, cables dentro del bloque, etiquetas solo entre bloques y hojas, cifras junto a la pieza) | SPEC-0035 · DEC-0015 |

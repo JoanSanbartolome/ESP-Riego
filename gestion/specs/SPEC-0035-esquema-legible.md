@@ -6,7 +6,7 @@ estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0035-esquema-legible
-requisitos: [KIC-02, KIC-03]
+requisitos: [KIC-02, KIC-03, KIC-06]
 depende_de: [SPEC-0034]
 creada: 2026-11-17
 cerrada:
@@ -37,7 +37,8 @@ Las cinco hojas de `hardware/v2` tienen el aspecto del esquema del TFG (DEC-0015
 - Imagen de referencia del usuario: el esquema del TFG, hoja de conectores. Se ve con `vista.py hoja` sobre una **copia** de `C:\Users\josan\proyectos\TFG` fuera de esa carpeta (solo lectura).
 - `herramientas/kicad/README.md` (`hoja.py`, `vista.py`, `comprobar.py`) y sus límites.
 - `docs/diseno/<bloque>.md`: resumen de cada bloque, para las cifras que van junto a cada pieza.
-- `gestion/checklists/esquema.md` (con los puntos de estilo del paso 0).
+- `gestion/checklists/esquema.md` v13, sección «Estilo» (los `[auto: pendiente]` son los que el paso 1 lleva a `comprobar.py`).
+- `docs/02-especificaciones-v2.md` v0.8, KIC-06.
 
 ## Entregables
 
@@ -56,7 +57,7 @@ Las cinco hojas de `hardware/v2` tienen el aspecto del esquema del TFG (DEC-0015
 
 ## Plan de validación
 
-Nivel **completo** (esquema; DEC-0005), con `esquema.md` y su versión con estilo.
+Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 
 - Reproducir de forma independiente: la comparación de netlists por grupos de pines frente a `main`; `verificar.py hardware/v2`; las referencias de cada instancia de «Canal» frente a `campos-salidas.csv` y a la PCB.
 - Por muestreo: tres bloques de hojas distintas, mirando la imagen contra las reglas de DEC-0015, y las cifras junto a la pieza contra `docs/diseno/`.
