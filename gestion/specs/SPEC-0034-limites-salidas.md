@@ -89,3 +89,6 @@ Nivel **completo** (cálculos y esquema; DEC-0005), con `esquema.md` v11 y `libr
 | 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-17 | ing-diseno | Pasos 1–3: límites de uso, D12–D17 montados, documentos | 01-ing-diseno | 302782 | 138 | 25 |
 | 2026-11-17 | jr-conformidad | Paso 4: M7, campos y fichas | 02-jr-conformidad | 55116 | 11 | 2 |
+| 2026-11-17 | ing-validacion | VAL-0034-01 APROBADO_CON_OBSERVACIONES (1 M, 5 B) | VAL-0034-01 | 199624 | 47 | 10 |
+| 2026-11-17 | ing-diseno | Corrige VAL-0034-01 | 03-ing-diseno | 318788 | 14 | 2 |
+| 2026-11-17 | ing-validacion | VAL-0034-02 APROBADO | VAL-0034-02 | 66202 | 9 | 1 |
