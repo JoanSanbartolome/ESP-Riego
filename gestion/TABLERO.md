@@ -2,13 +2,20 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 28 · descartada 4.
+Specs por estado: propuesta 2 · abierta 1 · cerrada 28 · descartada 4.
 
-## Propuestas (1)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
+| [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | — | 2026-11-17 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | Requisitos v0.7 | 3 | coordinador | `spec/SPEC-0033-requisitos-v07` | — | 2026-11-17 | — |
 
 ## Cerradas (28)
 
@@ -90,6 +97,7 @@ Specs por estado: propuesta 1 · abierta 0 · cerrada 28 · descartada 4.
 | [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | aceptada | usuario | 2026-11-13 |
 | [DEC-0012](decisiones/DEC-0012-expansion-i2c.md) | D9, módulo de expansión por I²C con TCA9535 y ADS1115 | aceptada | usuario | 2026-11-15 |
 | [DEC-0013](decisiones/DEC-0013-pulsadores-tca9554.md) | Lectura de los 6 pulsadores con un TCA9554 en el bus I²C de la placa | aceptada | usuario | 2026-11-15 |
+| [DEC-0014](decisiones/DEC-0014-salidas-con-limites-nominales.md) | Salidas con límites de uso propios, una válvula por salida y rueda libre montada | aceptada | usuario | 2026-11-17 |
 
 ## Informes de validación
 

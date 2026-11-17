@@ -7,7 +7,7 @@ responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0032-integracion-esquema
 requisitos: [KIC-02, KIC-03, ALI-12, MCU-05, REL-04, FAB-05]
-depende_de: [SPEC-0028, SPEC-0029, SPEC-0031]
+depende_de: [SPEC-0028, SPEC-0029, SPEC-0031, SPEC-0033, SPEC-0034]
 creada: 2026-11-13
 cerrada:
 validacion:
