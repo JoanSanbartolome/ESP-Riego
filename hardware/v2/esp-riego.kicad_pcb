@@ -406,6 +406,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -639,6 +640,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -2075,6 +2077,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -2259,6 +2262,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -2990,6 +2994,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -3302,6 +3307,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -4173,7 +4179,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -4225,7 +4231,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/e8a98b55-37a7-4b4f-80ac-71a6c090af8e")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -5033,7 +5039,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -5085,7 +5091,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/53d3a40d-f69e-4b36-b2c4-135b6d3a835b")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -5391,6 +5397,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -7206,6 +7213,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -9474,7 +9482,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9526,7 +9534,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/c8bf6b18-318b-4525-b6e3-c47e07a4225e")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -11694,6 +11702,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -11934,6 +11943,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -13372,6 +13382,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -13741,6 +13752,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -15501,6 +15513,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -16963,6 +16976,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -17566,6 +17580,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -18120,6 +18135,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -18304,6 +18320,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -18620,7 +18637,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -18672,7 +18689,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/11e3383f-2866-429f-8ba6-b44c8aed1239")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -19262,6 +19279,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -20291,6 +20309,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -20475,6 +20494,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -21214,6 +21234,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -22070,6 +22091,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -22374,6 +22396,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -23662,6 +23685,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -25748,6 +25772,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -28206,6 +28231,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -30096,6 +30122,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -30412,7 +30439,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -30464,7 +30491,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/51e034f3-e615-4b81-ac4d-4571ddf217e0")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -32672,6 +32699,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -33295,6 +33323,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -33965,6 +33994,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -35565,6 +35595,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -37657,6 +37688,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -37841,6 +37873,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -38025,6 +38058,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -38358,6 +38392,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -38973,6 +39008,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -39958,6 +39994,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -40142,6 +40179,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -40511,6 +40549,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -42224,6 +42263,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -42827,6 +42867,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -43011,6 +43052,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -43565,6 +43607,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -43749,6 +43792,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -43933,6 +43977,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -44064,7 +44109,7 @@
 				)
 			)
 		)
-		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND); DNP (DEC-0008)"
+		(property "Description" "Rectificador 1 kV 1 A SMA: rueda libre del canal n (K = OUTn / A = GND), montado (DEC-0014)"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -44116,7 +44161,7 @@
 		(path "/5cf549fa-cdda-4b60-b3d5-f532cede75fb/e91dbcd5-c7cd-4790-baa2-6ff0ab0f53f5")
 		(sheetname "/Salidas/")
 		(sheetfile "salidas.kicad_sch")
-		(attr smd exclude_from_pos_files exclude_from_bom dnp)
+		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -3.51 -1.65)
@@ -45591,6 +45636,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -46223,6 +46269,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -47430,6 +47477,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -47758,6 +47806,7 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
 				)
 			)
 		)

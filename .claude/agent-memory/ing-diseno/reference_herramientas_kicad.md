@@ -24,3 +24,9 @@ SPEC-0029 (2026-11-14):
 - La terminal Bash (MSYS) convierte `--hoja /` en `C:/Program Files/...`: la raíz con `vista.py hoja … --hoja /` se lanza desde PowerShell. Y la guarda bloquea cualquier comando que contenga la palabra del control de versiones seguida de otra palabra, también en un heredoc de texto.
 - Modelo 3D oficial ausente: `sincronizar.py` enlaza el de `libraries/3d` con el mismo nombre y `librerias.3d` lo acepta (`_comun.modelo_de_respaldo`); no hace falta copiar la huella a `esp-riego`.
 - Las referencias «libres» de la spec pueden estar mal: comprobar el máximo real en las hojas (C46 estaba en uso).
+
+SPEC-0034 (2026-11-17):
+- Los `.kicad_sch` y `.kicad_pcb` de `hardware/v2` están en CRLF: `sed -i` de MSYS los pasa a LF (diff de 35 000 líneas). Parchear con Python en binario o volver a CRLF antes de copiar.
+- Quitar un DNP: `sincronizar.py` quita `dnp` y `exclude_from_bom` de la huella, pero conserva `exclude_from_pos_files` (avisa): hay que quitarlo a mano de esas huellas y comprobar con `kicad-cli pcb export pos --exclude-dnp`.
+- `verificar.py` da «CON INCIDENCIAS» mientras la placa no está rutada (448 sin conectar): no es un fallo de la entrega.
+- Un heredoc largo con texto en Markdown falló con «unexpected EOF»: escribir el texto con Write y aplicarlo con un script.
