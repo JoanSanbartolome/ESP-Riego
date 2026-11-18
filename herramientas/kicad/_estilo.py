@@ -1,21 +1,72 @@
 """Geometría aproximada de una hoja de esquema para los puntos de estilo de comprobar.py (KIC-06, DEC-0015).
 
 Cajas de símbolos (una por primitiva de dibujo, el núcleo entre los extremos interiores de los pines y los pines), de textos (campos visibles, etiquetas, notas, títulos de recuadro y de
-subhoja), cables, recuadros (text_box de trazo y punto) y subhojas. Los textos se miden por una caja
-aproximada: 0,8 × alto por carácter, interlínea 1,6 × alto. Los campos de un símbolo se colocan con su
-ángulo y su justificación y luego se giran con el símbolo, como hace KiCad; las etiquetas y las notas se
-leen siempre de izquierda a derecha o de abajo arriba. Solo lee el archivo.
+subhoja), cables, recuadros (text_box de trazo y punto) y subhojas. Los textos se miden por la tinta de la
+fuente de KiCad (newstroke): avance, tinta y alto de cada glifo, línea base según la justificación y trazo,
+medidos en el SVG de `kicad-cli sch export svg` (KiCad 10.0, SPEC-0035, VAL-0035-01-01). Los campos de un
+símbolo se colocan con su ángulo y su justificación y luego se giran con el símbolo, como hace KiCad; las
+etiquetas y las notas se leen siempre de izquierda a derecha o de abajo arriba. Solo lee el archivo.
 """
 import math
 
 from _comun import hijos, leer, parse, simbolos_hoja, trozos, uno, val
 import hoja as _hoja
 
-LETRA = 0.8            # ancho de un carácter / alto de letra
-INTERLINEA = 1.6       # paso entre líneas / alto de letra
-HOLGURA_TEXTO = 0.15   # cada caja de texto se encoge esto por lado antes de comparar (mm)
+# Glifos de newstroke, en unidades del alto de letra: (avance, borde izquierdo y derecho de la tinta desde el
+# origen del glifo, sin el trazo). Medidos con un texto de 1 y de 10 repeticiones de cada carácter.
+_GLIFOS = {
+    '`': (0.381, 0.174, 0.317), 'j': (0.476, 0.126, 0.365), "!',.:;i": (0.476, 0.269, 0.365), 'í': (0.476, 0.269, 0.412),
+    'I': (0.476, 0.317, 0.317), 'l': (0.524, 0.317, 0.46), '^ft–': (0.571, 0.174, 0.555), 'r': (0.619, 0.317, 0.603),
+    '\\': (0.667, -0.016, 0.841), ')': (0.667, 0.222, 0.507), ']': (0.667, 0.222, 0.46), '}': (0.667, 0.222, 0.555),
+    'º': (0.667, 0.222, 0.603), '{': (0.667, 0.269, 0.603), '(': (0.667, 0.317, 0.603), '[': (0.667, 0.365, 0.603),
+    '~': (0.714, 0.174, 0.65), '_': (0.762, 0.079, 0.841), 'T': (0.762, 0.174, 0.746), '*vy': (0.762, 0.222, 0.698),
+    'J': (0.762, 0.222, 0.603), '"²': (0.762, 0.269, 0.65), '°': (0.762, 0.317, 0.603), '·': (0.762, 0.412, 0.507),
+    'xz': (0.81, 0.222, 0.746), 's': (0.81, 0.269, 0.698), 'L': (0.81, 0.317, 0.793), 'k': (0.81, 0.317, 0.698),
+    'AVY': (0.857, 0.174, 0.841), '?ceé': (0.857, 0.269, 0.746), 'F': (0.857, 0.317, 0.793), '§': (0.857, 0.317, 0.698),
+    'adgqá': (0.905, 0.269, 0.746), 'oó': (0.905, 0.269, 0.793), 'Ebp': (0.905, 0.317, 0.793),
+    'hnuú': (0.905, 0.317, 0.746), '23': (0.952, 0.222, 0.841), '7XZ': (0.952, 0.222, 0.888),
+    '$015689Sτ': (0.952, 0.269, 0.841), '4': (0.952, 0.269, 0.888), '|': (0.952, 0.555, 0.555),
+    '#': (1.0, 0.174, 0.984), 'CG': (1.0, 0.269, 0.888), 'BDKPR': (1.0, 0.317, 0.888), '/': (1.048, 0.174, 1.031),
+    'wØ': (1.048, 0.222, 0.984), 'O': (1.048, 0.269, 0.936), 'Q': (1.048, 0.269, 0.984), 'HNU': (1.048, 0.317, 0.888),
+    'µ': (1.048, 0.317, 0.936), 'W': (1.143, 0.222, 1.079), '%Ω': (1.143, 0.269, 1.031), 'M': (1.143, 0.317, 0.984),
+    '&': (1.238, 0.317, 1.126), '+-<=>±÷→−≈≤≥': (1.238, 0.317, 1.079), '×': (1.238, 0.412, 0.984),
+    '@': (1.286, 0.269, 1.174), 'm': (1.333, 0.317, 1.174), '…': (1.429, 0.269, 1.317),
+}
+GLIFOS = {c: v for cs, v in _GLIFOS.items() for c in cs}
+ESPACIO = 0.762                        # avance de un espacio (sin tinta)
+DESCONOCIDO = (1.25, 0.1, 1.2)         # carácter que no está en la tabla: como el más ancho
+COLA = 0.16             # KiCad justifica con la suma de avances + COLA (el `textLength` del SVG), en alto de letra
+BASE = {"top": 0.844, "center": 0.259, "bottom": -0.326}   # línea base de una línea, desde el ancla, en alto de letra
+# tinta por encima de la altura de las mayúsculas (alto total sobre la línea base) y por debajo de la línea base,
+# en alto de letra; el resto de glifos, entre la línea base y la altura de las mayúsculas
+_SUBEN = {'#[\\]|º': 1.095, '$(){}': 1.143, '/4^`áéíóú': 1.048, '²': 1.286}
+_BAJAN = {'#\\': 0.19, '$,;@§': 0.143, '(){}': 0.381, '/': 0.238, 'Q_': 0.095, '[]gjpqy|µ': 0.333}
+SUBEN = {c: v for cs, v in _SUBEN.items() for c in cs}
+BAJAN = {c: v for cs, v in _BAJAN.items() for c in cs}
+INTERLINEA = 1.61       # paso entre líneas / alto de letra
+TRAZO = 0.1524          # grosor del trazo de un texto de 1,27 mm (negrita: alto / 5)
+HOLGURA_TEXTO = 0.05    # cada caja de tinta se encoge esto por lado antes de comparar (mm)
 HOLGURA_SIMBOLO = 0.05
 NUCLEO = 0.1           # el núcleo entre los extremos interiores de los pines se ensancha esto por lado (mm)
+
+
+def ancho_texto(linea, tam):
+    """Ancho con el que KiCad justifica una línea (mm): suma de avances más la cola."""
+    return (sum(ESPACIO if c == " " else GLIFOS.get(c, DESCONOCIDO)[0] for c in linea) + COLA) * tam
+
+
+def tinta_linea(linea, tam):
+    """(x0, x1) de la tinta de una línea desde su origen, sin el trazo (mm); None si no tiene tinta."""
+    x, x0, x1 = 0.0, None, None
+    for c in linea:
+        if c == " ":
+            x += ESPACIO
+            continue
+        adv, izq, der = GLIFOS.get(c, DESCONOCIDO)
+        x0 = x + izq if x0 is None else x0
+        x1 = x + der
+        x += adv
+    return None if x0 is None else (x0 * tam, x1 * tam)
 
 
 def _rot(dx, dy, ang):
@@ -25,17 +76,34 @@ def _rot(dx, dy, ang):
     return dx * c + dy * s, -dx * s + dy * c
 
 
-def caja_texto(x, y, texto, tam, ang, hj, vj, legible=True, extra=0.0, alto=None, desplazar=0.0):
-    """Caja (x0, y0, x1, y1) de un texto anclado en (x, y). `legible`: etiquetas y notas (ángulo módulo 180).
-    `extra`: largo añadido (forma de una etiqueta global o jerárquica); `alto`: alto de la caja si no es el de
-    las líneas; `desplazar`: separación del texto sobre su ancla (etiquetas locales)."""
+def caja_texto(x, y, texto, tam, ang, hj, vj, legible=True, extra=0.0, alto=None, desplazar=0.0, trazo=TRAZO):
+    """Caja (x0, y0, x1, y1) de la tinta de un texto anclado en (x, y). `legible`: etiquetas y notas (ángulo
+    módulo 180). `extra` y `alto`: etiqueta global o jerárquica, caja de su forma (largo añadido y alto) con el
+    ancho de justificación del texto; `desplazar`: separación del texto sobre su ancla (etiquetas locales)."""
     lineas = str(texto).split("\n") or [""]
-    largo = max(len(l) for l in lineas) * LETRA * tam + extra
-    h = alto if alto is not None else tam * (1 + INTERLINEA * (len(lineas) - 1))
-    x0 = {"left": 0.0, "right": -largo}.get(hj, -largo / 2)
-    y0 = {"top": desplazar, "bottom": -h - desplazar}.get(vj, -h / 2)
+    if alto is not None:
+        largo = max(ancho_texto(l, tam) for l in lineas) + extra
+        x0 = {"left": 0.0, "right": -largo}.get(hj, -largo / 2)
+        cajas = [(x0, -alto / 2, x0 + largo, alto / 2)]
+    else:
+        paso, n = INTERLINEA * tam, len(lineas)
+        base = BASE.get(vj, BASE["center"]) * tam - (n - 1) * paso * {"top": 0, "bottom": 1}.get(vj, 0.5)
+        base += {"top": desplazar, "bottom": -desplazar}.get(vj, 0.0)
+        cajas = []
+        for k, l in enumerate(lineas):
+            t = tinta_linea(l, tam)
+            if t is None:
+                continue
+            w = ancho_texto(l, tam)
+            dx = {"left": 0.0, "right": -w}.get(hj, -w / 2)
+            b = base + k * paso
+            arriba = b - max([1.0] + [SUBEN.get(c, 1.3 if c not in GLIFOS and c != " " else 1.0) for c in l]) * tam
+            abajo = b + max([0.0] + [BAJAN.get(c, 0.4 if c not in GLIFOS and c != " " else 0.0) for c in l]) * tam
+            cajas.append((dx + t[0] - trazo / 2, arriba - trazo / 2, dx + t[1] + trazo / 2, abajo + trazo / 2))
+        if not cajas:
+            return (x, y, x, y)
     ang = ang % 180 if legible else ang % 360
-    pts = [_rot(px, py, ang) for px in (x0, x0 + largo) for py in (y0, y0 + h)]
+    pts = [_rot(px, py, ang) for c in cajas for px in (c[0], c[2]) for py in (c[1], c[3])]
     return (x + min(p[0] for p in pts), y + min(p[1] for p in pts), x + max(p[0] for p in pts), y + max(p[1] for p in pts))
 
 
@@ -49,6 +117,11 @@ def _justify(nodo):
 def _tam(nodo):
     tam = uno(uno(uno(nodo, "effects", []), "font", []), "size")
     return float(tam[1]) if tam else 1.27
+
+
+def _trazo(nodo):
+    fuente = uno(uno(nodo, "effects", []), "font", [])
+    return _tam(nodo) / 5 if val(fuente, "bold") == "yes" or "bold" in fuente else TRAZO
 
 
 def _oculto(prop):
@@ -140,7 +213,7 @@ def analizar(archivo):
             hj, vj = _justify(prop)
             ang = (float(at[3]) if len(at) > 3 else 0) + s["giro"]
             h["textos"].append({"texto": prop[2], "de": s["ref"], "caja": caja_texto(
-                float(at[1]), float(at[2]), prop[2], _tam(prop), ang, hj, vj, legible=False)})
+                float(at[1]), float(at[2]), prop[2], _tam(prop), ang, hj, vj, legible=False, trazo=_trazo(prop))})
     for n, i, j in trozos(texto):
         if n not in ("wire", "label", "global_label", "hierarchical_label", "text", "text_box", "sheet"):
             continue
@@ -153,7 +226,7 @@ def analizar(archivo):
             tam, (hj, vj) = _tam(nodo), _justify(nodo)
             ang = float(at[3]) if len(at) > 3 else 0
             if n == "label":
-                caja = caja_texto(float(at[1]), float(at[2]), nodo[1], tam, ang, hj, vj, desplazar=0.25)
+                caja = caja_texto(float(at[1]), float(at[2]), nodo[1], tam, ang, hj, vj, desplazar=0.1)
             else:
                 caja = caja_texto(float(at[1]), float(at[2]), nodo[1], tam, ang, hj, "center", extra=1.2 * tam, alto=1.4 * tam)
             e = {"tipo": n, "nombre": nodo[1], "pt": pt(at[1], at[2]), "caja": caja}
@@ -162,7 +235,8 @@ def analizar(archivo):
         elif n == "text":
             hj, vj = _justify(nodo)
             h["textos"].append({"texto": nodo[1], "de": "nota", "caja": caja_texto(
-                float(at[1]), float(at[2]), nodo[1], _tam(nodo), float(at[3]) if len(at) > 3 else 0, hj, vj)})
+                float(at[1]), float(at[2]), nodo[1], _tam(nodo), float(at[3]) if len(at) > 3 else 0, hj, vj,
+                trazo=_trazo(nodo))})
         elif n == "text_box":
             tam_box = uno(nodo, "size")
             x, y, w, alto = float(at[1]), float(at[2]), float(tam_box[1]), float(tam_box[2])
@@ -173,7 +247,7 @@ def analizar(archivo):
                                    "trazo": val(uno(nodo, "stroke", []), "type")})
             if titulo:
                 h["textos"].append({"texto": titulo, "de": "recuadro", "caja": caja_texto(
-                    x + mx, y + my, titulo, _tam(nodo), 0, "left", "top")})
+                    x + mx, y + my, titulo, _tam(nodo), 0, "left", "top", trazo=_trazo(nodo))})
         elif n == "sheet":
             tam_box = uno(nodo, "size")
             x, y = float(at[1]), float(at[2])

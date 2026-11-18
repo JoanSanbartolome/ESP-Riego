@@ -41,3 +41,8 @@ SPEC-0035 (2026-11-17):
 SPEC-0035, paso 3b (2026-11-18):
 - Hojas con cables: script en el scratchpad con `dibujo.Dibujo(<hoja original de main>, proyecto=<copia>/v2)` → `guardar()` da las diferencias de conectividad (cazó una R girada) → `hoja.py generar`. Subhoja repetida: primero se genera la hoja madre (con `hojas`), después la hija con `refs` por instancia.
 - La guarda **no** mira lo que escribe un `python` lanzado desde Bash: un parche así cambió `herramientas/pruebas/test_kicad.py` (fuera de zona). Antes de parchear por script, comprobar que la ruta es de mi zona. Las pruebas, siempre en la copia `herramientas/kicad/test_kicad.py`.
+
+SPEC-0035, corrección VAL-0035-01 (2026-11-18):
+- Mover piezas en una hoja con cables: `hoja.py extraer` + script que desplaza pieza, `pos`, puntos de cable, etiquetas **y `uniones`** (extraer las guarda explícitas: si no se mueven quedan puntos de unión sueltos en mitad del cable, sin error ni aviso) + `generar`. Mirar siempre la imagen.
+- Métrica de la fuente: el SVG de `kicad-cli sch export svg` trae por texto un `<text textLength=…>` oculto (ancho de justificación = suma de avances + 0,16 × alto) y un `<g class="stroked-text"><desc>TEXTO</desc>` con los trazos: sirve para medir tinta real. La tabla está en `_estilo.py`.
+- La batería se pasa en un repositorio falso (`CLAUDE.md`, `herramientas/{verificar.py,kicad,pruebas}`, `hardware/{v2,libraries,componentes}`, `gestion/checklists`) copiado al scratchpad: 2 textos iguales en una prueba de SVG se mezclan (usar textos distintos).

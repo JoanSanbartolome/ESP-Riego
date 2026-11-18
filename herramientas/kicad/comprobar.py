@@ -214,6 +214,34 @@ def textos_de_la_spec(p, rama):
     return "\n".join(f.read_text(encoding="utf-8", errors="replace") for f in archivos)
 
 
+MARCA_HUELLAS = re.compile(r"Huellas que cambian frente a `?main`?(?:\s*\([^)\n]*\))?\s*:", re.I)
+
+
+def seccion_huellas(texto):
+    """Lo declarado tras la marca «Huellas que cambian frente a `main`:» (con un paréntesis opcional antes de los dos
+    puntos): el resto de esa línea hasta el primer punto y aparte o, si la marca termina la línea, las líneas siguientes
+    hasta una en blanco o un título. Las referencias citadas en otro contexto no cuentan (VAL-0035-01-06)."""
+    trozos_ = []
+    lineas = texto.splitlines()
+    for k, linea in enumerate(lineas):
+        m = MARCA_HUELLAS.search(linea)
+        if not m:
+            continue
+        resto = linea[m.end():].strip()
+        if resto:
+            trozos_.append(re.split(r"\.(?:\s|$)", resto)[0])
+            continue
+        empezado = False
+        for siguiente in lineas[k + 1:]:
+            if not siguiente.strip() and not empezado:      # líneas en blanco entre la marca y la lista
+                continue
+            if not siguiente.strip() or siguiente.lstrip().startswith("#"):
+                break
+            empezado = True
+            trozos_.append(re.split(r"\.(?:\s|$)", siguiente)[0])
+    return "\n".join(trozos_)
+
+
 def refs_citadas(texto):
     """Referencias que cita un texto, con los rangos expandidos («U7–U12», «D12-D17»)."""
     refs = set()
@@ -234,7 +262,7 @@ def _huellas_por_ref(texto):
 
 
 def esquema_pcb_main(p):
-    """Huellas de la PCB que cambian frente a `main`: cada una citada en la spec de la rama o en sus partes."""
+    """Huellas de la PCB que cambian frente a `main`: cada una declarada tras «Huellas que cambian frente a `main`:»."""
     ref = pcb_de_referencia(p)
     if ref is None:
         return NA, ["sin repositorio, en main o sin la PCB en main"]
@@ -243,10 +271,10 @@ def esquema_pcb_main(p):
     cambiadas = sorted((r for r in set(a) | set(b) if a.get(r) != b.get(r)), key=_campos.clave_ref)
     if not cambiadas:
         return "OK", ["ninguna huella cambia frente a main"]
-    citadas = refs_citadas(textos_de_la_spec(p, rama))
-    malas = [f"{r}: huella {'nueva' if r not in a else 'borrada' if r not in b else 'cambiada'} frente a main y no citada "
-             "en la spec ni en sus partes" for r in cambiadas if r not in citadas]
-    return ("FALLA" if malas else "OK"), malas or [f"{len(cambiadas)} huellas cambian frente a main, todas citadas: "
+    citadas = refs_citadas(seccion_huellas(textos_de_la_spec(p, rama)))
+    malas = [f"{r}: huella {'nueva' if r not in a else 'borrada' if r not in b else 'cambiada'} frente a main y no "
+             "declarada en «Huellas que cambian frente a `main`:» de la spec ni de sus partes" for r in cambiadas if r not in citadas]
+    return ("FALLA" if malas else "OK"), malas or [f"{len(cambiadas)} huellas cambian frente a main, todas declaradas: "
                                                    f"{_campos.rangos(cambiadas)}"]
 
 
@@ -574,7 +602,7 @@ LISTA = [
     ("esquema.sueltas", esquema_sueltas, "cada etiqueta o símbolo de alimentación, en un pin o sobre un cable (KIC-06)"),
     ("esquema.recuadros", esquema_recuadros, "cada pieza, dentro de un recuadro de trazo y punto con título (KIC-06)"),
     ("esquema.etiquetas", esquema_etiquetas, "ninguna etiqueta repetida dentro de un recuadro: ahí se usan cables (KIC-06)"),
-    ("esquema.pcb_main", esquema_pcb_main, "huellas que cambian frente a main, citadas en la spec o en sus partes"),
+    ("esquema.pcb_main", esquema_pcb_main, "huellas que cambian frente a main, declaradas en la sección marcada de los partes"),
     ("layout.zonas", layout_zonas, "cada zona de cobre tiene relleno guardado en cada una de sus capas"),
     ("layout.incrustados", layout_incrustados, "la PCB no lleva archivos incrustados"),
     ("layout.salida", layout_salida, "`outputdirectory` vacío o relativo y dentro de <repo>/fabricacion/<versión>"),

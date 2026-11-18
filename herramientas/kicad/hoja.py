@@ -5,6 +5,7 @@ Uso:
     python herramientas/kicad/hoja.py extraer hardware/v2/mcu.kicad_sch -o mcu.json
     python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch
     python herramientas/kicad/hoja.py raiz raiz.json --proyecto <copia>/v2 -o <copia>/v2/esp-riego.kicad_sch
+    python herramientas/kicad/hoja.py paginas <copia>/v2 [-o <copia>/v2]
     python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 [--hoja MCU] [--grupos]
     python herramientas/kicad/hoja.py netlist hardware/v2 --plan docs/diseno/conectores.md [--seccion "Anexo A"]
 
@@ -12,7 +13,7 @@ Formatos en herramientas/kicad/README.md. Conexión de un pin o de un punto de `
 "H:RED:forma" jerárquica · "G:RED:forma" global · "P:GND[:giro]" símbolo de `power` · "NC" · "W" cable · "".
 Cables, uniones (automáticas), recuadros con título y subhojas, también repetidas (`refs` por instancia).
 generar escribe solo en -o y conserva los UUID y las #PWR de la hoja que sustituye. Sin varias unidades.
-raiz: pines de hoja y sus etiquetas o NC en la raíz (--extraer saca la descripción de la raíz actual).
+raiz: pines de hoja y sus etiquetas o NC en la raíz. paginas: cada hoja seguida de sus subhojas (Id = página).
 """
 import argparse
 import json
@@ -588,7 +589,7 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             avisos.append(f"pines en el mismo punto {k}: {' '.join(quienes)} (quedan unidos)")
 
     # subhojas (también varias instancias de un mismo archivo)
-    hojas_txt, paginas = [], _paginas_usadas(carpeta, nombre_proy, nombre_hoja)
+    hojas_txt, paginas, nuevas = [], _paginas_usadas(carpeta, nombre_proy, nombre_hoja), []
     nombres_h = set()
     for hj in desc.get("hojas", []):
         nombre, archivo_h = hj["nombre"], hj["archivo"]
@@ -615,6 +616,7 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             pagina = viejo.get("paginas", {}).get(ruta)
             if not pagina or int(pagina) in paginas:
                 pagina = str(max(paginas) + 1)
+                nuevas.append(f"{nombre} ({pagina})")
             paginas.add(int(pagina))
             paths += f'\t\t\t\t(path "{ruta}"\n\t\t\t\t\t(page "{pagina}")\n\t\t\t\t)\n'
         hojas_txt.append(
@@ -625,6 +627,9 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             + _prop("Sheetname", nombre, x0, y0 - 0.7116, just="left bottom")
             + _prop("Sheetfile", archivo_h, x0, y0 + alto + 0.5846, just="left top")
             + pines_txt + f'\t\t(instances\n\t\t\t(project "{esc(nombre_proy)}"\n{paths}\t\t\t)\n\t\t)\n\t)\n')
+
+    if nuevas:   # consecutivas entre sí, al final; el orden del árbol lo pone `hoja.py paginas`
+        avisos.append(f"páginas nuevas: {', '.join(nuevas)}; para numerarlas en el orden del árbol, hoja.py paginas")
 
     # cables, uniones automáticas y comprobaciones de conexión
     tramos, uniones, grado = tramos_y_uniones(desc.get("cables", []), pines_pts)
@@ -672,9 +677,60 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
     return cab + cuerpo + ")\n", resumen
 
 
+# ------------------------------------------------------------------ páginas en el orden del árbol
+
+def paginas_en_orden(raiz_sch):
+    """Páginas de las hojas en el orden del árbol (la raíz es la 1; cada hoja, seguida de sus subhojas, también de
+    todas las instancias de una subhoja repetida; entre hermanas, el orden de sus páginas actuales y su posición).
+    Devuelve (cambios [(ruta de nombres, vieja, nueva)], {archivo: texto nuevo} de los archivos que cambian)."""
+    raiz_sch = Path(raiz_sch).resolve()
+    textos, cambios, editar = {}, [], {}
+    cuenta = [1]
+
+    def texto(archivo):
+        if archivo not in textos:
+            textos[archivo] = leer(archivo)
+        return textos[archivo]
+
+    def bajar(archivo, ruta, nombres, vistos):
+        t = texto(archivo)
+        hijas = []
+        for n, i, j in trozos(t):
+            if n != "sheet":
+                continue
+            nodo = parse(t[i:j])
+            props = {p[1]: p[2] for p in hijos(nodo, "property") if len(p) > 2}
+            m = re.search(r'\(path\s+"' + re.escape(ruta) + r'"\s*\(page\s+"([^"]*)"\)', t[i:j])
+            at = uno(nodo, "at")
+            vieja = m.group(1) if m else ""
+            orden = int(vieja) if vieja.isdigit() else 10 ** 9
+            hijas.append((orden, float(at[2]), float(at[1]), props.get("Sheetname", ""), val(nodo, "uuid"),
+                          (archivo.parent / props.get("Sheetfile", "")).resolve(), (i + m.start(1), i + m.end(1)) if m else None,
+                          vieja))
+        for _, _, _, nombre, uid, hija, sitio, vieja in sorted(hijas, key=lambda h: h[:3]):
+            cuenta[0] += 1
+            nueva = str(cuenta[0])
+            if sitio is None:
+                raise Fallo(f"{nombres}{nombre}: la subhoja no tiene página para la instancia {ruta}")
+            if vieja != nueva:
+                cambios.append((nombres + nombre + "/", vieja, nueva))
+                editar.setdefault(archivo, []).append((sitio, nueva))
+            if hija.is_file() and hija not in vistos:
+                bajar(hija, ruta + "/" + uid, nombres + nombre + "/", vistos | {hija})
+
+    bajar(raiz_sch, "/" + val(parse_cabecera(texto(raiz_sch)), "uuid"), "/", {raiz_sch})
+    nuevos = {}
+    for archivo, sitios in editar.items():
+        t = textos[archivo]
+        for (a, b), nueva in sorted(sitios, reverse=True):
+            t = t[:a] + nueva + t[b:]
+        nuevos[archivo] = t
+    return cambios, nuevos
+
+
 # ------------------------------------------------------------------ raíz: pines de hoja y sus conexiones
 
-LADO_PIN = {"L": (180, "left"), "R": (0, "right")}   # lado → (ángulo del pin y de su etiqueta, justify del pin)
+LADO_PIN ={"L": (180, "left"), "R": (0, "right")}   # lado → (ángulo del pin y de su etiqueta, justify del pin)
 
 
 def _hojas_raiz(texto):
@@ -927,6 +983,20 @@ def orden_raiz(args):
     return 1 if r["avisos"] else 0
 
 
+def orden_paginas(args):
+    carpeta, nombre = proyecto(args.proyecto)
+    cambios, nuevos = paginas_en_orden(carpeta / f"{nombre}.kicad_sch")
+    lineas = [f"{r}: {v or '—'} → {n}" for r, v, n in cambios]
+    if not args.salida:
+        emitir([f"{carpeta.name}: {len(cambios)} hojas fuera del orden del árbol"] + lineas, pista=None)
+        return 1 if cambios else 0
+    destino = Path(args.salida).resolve()
+    for archivo, texto in nuevos.items():
+        escribir(destino / archivo.relative_to(carpeta), texto)
+    emitir([f"{destino}: {len(cambios)} páginas renumeradas en {len(nuevos)} archivos"] + lineas, pista=None)
+    return 0
+
+
 def orden_netlist(args):
     if args.plan:
         if args.b:
@@ -979,13 +1049,17 @@ def main():
     g.add_argument("--campos", help="CSV de campos que completa o sustituye los de la descripción")
     g.add_argument("--forzar", action="store_true", help="sustituye aunque la hoja tenga cables u otros elementos")
     g.set_defaults(f=orden_generar)
-    r = sub.add_parser("raiz", help="pines de hoja y sus etiquetas o NC en la raíz, desde una descripción")
+    r = sub.add_parser("raiz", help="pines de hoja de la raíz, desde una descripción")
     r.add_argument("descripcion", nargs="?")
     r.add_argument("--proyecto", required=True, help="proyecto cuya raíz se lee (carpeta o .kicad_pro)")
     r.add_argument("-o", "--salida", required=True, help="raíz .kicad_sch de destino (o JSON con --extraer)")
     r.add_argument("--extraer", action="store_true", help="escribe en -o la descripción de la raíz actual")
     r.set_defaults(f=orden_raiz)
-    n = sub.add_parser("netlist", help="compara la netlist con la de otro proyecto o con un plan")
+    pg = sub.add_parser("paginas", help="páginas en el orden del árbol (-o: renumera)")
+    pg.add_argument("proyecto", help="carpeta del proyecto o .kicad_pro")
+    pg.add_argument("-o", "--salida", help="carpeta donde escribir los .kicad_sch que cambian (la del proyecto o una copia)")
+    pg.set_defaults(f=orden_paginas)
+    n = sub.add_parser("netlist", help="compara la netlist con otro proyecto o un plan")
     n.add_argument("a")
     n.add_argument("b", nargs="?")
     n.add_argument("--plan", metavar="DOC", help="documento con las redes como `RED = {REF-PIN, …}`")

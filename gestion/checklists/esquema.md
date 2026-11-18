@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v16 (2026-11-18). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v17 (2026-11-18). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -71,6 +71,7 @@
 - [ ] [auto: comprobar.py esquema.recuadros] Toda pieza está dentro de un recuadro de bloque (rectángulo de trazo y punto con su título).
 - [ ] [auto: comprobar.py esquema.etiquetas] Dentro de un recuadro no hay etiquetas locales que unan piezas del mismo bloque: se unen con cables. Las globales y jerárquicas, solo para las señales que salen del bloque o de la hoja.
 - [ ] [auto: comprobar.py esquema.pcb_main] El diff de la PCB frente a `main` solo toca las huellas de las referencias que la spec cambia; si toca otras, el parte las lista (VAL-0034-01).
+- [ ] [juicio] Páginas del cajetín en el orden del árbol de hojas, con las instancias de una subhoja seguidas de su madre (`hoja.py paginas` sale con código 0; VAL-0035-01-03).
 - [ ] [juicio] Título de cada recuadro arriba a la izquierda con el nombre del bloque, sus referencias principales y sus IDs de requisito.
 - [ ] [juicio] Alimentación con símbolos `power` unidos al pin por un cable corto (tensiones hacia arriba, GND hacia abajo), y el circuito leído de izquierda a derecha.
 - [ ] [juicio] Cifras clave junto a la pieza (frecuencia de corte, corriente, umbral) y como mucho 2 o 3 líneas de nota por bloque; el detalle, en `docs/diseno/`.
@@ -100,3 +101,4 @@
 | v14 | 2026-11-17 | SPEC-0035 (paso 1): los cinco `[auto: pendiente]` de «Estilo» pasan a `comprobar.py`; transición con `estilo-pendiente.txt` |
 | v15 | 2026-11-18 | SPEC-0035 (paso 3): sin la transición de `estilo-pendiente.txt`; los puntos de estilo se aplican a todas las hojas |
 | v16 | 2026-11-18 | VAL-0035-01-05: etiqueta de nombre de red sobre su cable, como comprueba `esquema.sueltas` |
+| v17 | 2026-11-18 | VAL-0035-01-03: páginas en el orden del árbol (`hoja.py paginas`) |
