@@ -1,6 +1,3 @@
 # Hojas aún sin el estilo de KIC-06 (DEC-0015): comprobar.py no les aplica los puntos de estilo.
 # Se vacía y se borra en SPEC-0035, paso 3.
-alimentacion.kicad_sch
-conectores.kicad_sch
-mcu.kicad_sch
 salidas.kicad_sch

@@ -38,3 +38,11 @@ Hoja con `hoja.py` (SPEC-0031, 2026-11-15):
 - Texto largo para un `.md`: escribirlo con Write en la carpeta temporal y `cat >>`; un heredoc con `''` dentro falló («unexpected EOF»).
 
 Relacionado: [[reference-fuentes-piezas]]
+
+Redibujar hojas con cables (SPEC-0035 paso 3, 2026-11-18; 108 piezas en ~2 h):
+- Generar el JSON con un script que calcule las puntas de pin (`hoja.bloque_libreria` + `pines_y_caja` + `girar`) y una comprobación de conectividad frente al `extraer` original antes de lanzar kicad-cli (ayudante `scratchpad\p3\dib.py`; propuesto para `herramientas/kicad/`).
+- Las redes internas que antes tenían etiqueta pierden el nombre al pasar a cable: poner una etiqueta local sobre el cable (una por recuadro) o cambia la paridad. Comprobar con `hoja.py netlist` **sin** `--grupos`.
+- USBLC6 (pines 1-6 y 3-4 de la misma red): sin cruces solo con un lazo alrededor y la etiqueta de VBUS dentro → recuadro ESD propio.
+- Device:LED: falso «cable cruza D» de `esquema.cruces` en el cátodo (las flechas sobresalen de la caja): GND directo en el pin K.
+- Campos con `pos`: giro 90/270 → ángulo 270/90; giro 180 → ángulo 0 con justify invertido (`right` sale a la izquierda).
+- Pin TOP + pines laterales de la misma red que encierran otra (TPS2116 VIN1/MODE con PR1 en medio): lazo por fuera con la red encerrada (R11/R12 y su GND) dentro.
