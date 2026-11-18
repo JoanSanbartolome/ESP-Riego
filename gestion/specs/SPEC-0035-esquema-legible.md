@@ -2,15 +2,15 @@
 id: SPEC-0035
 titulo: Esquema legible
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0035-esquema-legible
 requisitos: [KIC-02, KIC-03, KIC-06]
 depende_de: [SPEC-0034]
 creada: 2026-11-17
-cerrada:
-validacion:
+cerrada: 2026-11-18
+validacion: VAL-0035-02
 ---
 
 # SPEC-0035 · Esquema legible
@@ -76,3 +76,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 | 2026-11-18 | ing-validacion | VAL-0035-01 APROBADO_CON_OBSERVACIONES (2 M, 4 B) | VAL-0035-01 | 209216 | 71 | 11 |
 | 2026-11-18 | ing-diseno | Corrige VAL-0035-01 (-01, -03, -04, -06) | 04-ing-diseno | 245558 | 118 | 26 |
 | 2026-11-18 | ing-validacion | VAL-0035-02 APROBADO_CON_OBSERVACIONES (-02 fuera por decisión del usuario) | VAL-0035-02 | 102468 | 50 | 6 |
+| 2026-11-18 | coordinador | Cierra la spec | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |
