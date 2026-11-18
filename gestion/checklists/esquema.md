@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v15 (2026-11-18). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v16 (2026-11-18). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -67,7 +67,7 @@
 ## Estilo (KIC-06, DEC-0015)
 
 - [ ] [auto: comprobar.py esquema.cruces] Ningún cable cruza un símbolo ni un texto, y ningún texto (referencia, valor, etiqueta, nota) se solapa con otro ni con un símbolo.
-- [ ] [auto: comprobar.py esquema.sueltas] Ninguna etiqueta suelta: cada etiqueta está en el extremo de un cable o en un pin.
+- [ ] [auto: comprobar.py esquema.sueltas] Ninguna etiqueta suelta: cada etiqueta está en el extremo de un cable, en un pin o, si solo da nombre a la red, sobre su cable (una vez por recuadro).
 - [ ] [auto: comprobar.py esquema.recuadros] Toda pieza está dentro de un recuadro de bloque (rectángulo de trazo y punto con su título).
 - [ ] [auto: comprobar.py esquema.etiquetas] Dentro de un recuadro no hay etiquetas locales que unan piezas del mismo bloque: se unen con cables. Las globales y jerárquicas, solo para las señales que salen del bloque o de la hoja.
 - [ ] [auto: comprobar.py esquema.pcb_main] El diff de la PCB frente a `main` solo toca las huellas de las referencias que la spec cambia; si toca otras, el parte las lista (VAL-0034-01).
@@ -99,3 +99,4 @@
 | v13 | 2026-11-17 | SPEC-0035: sección «Estilo» (KIC-06, DEC-0015) y diff de la PCB limitado a las referencias de la spec (VAL-0034-01) |
 | v14 | 2026-11-17 | SPEC-0035 (paso 1): los cinco `[auto: pendiente]` de «Estilo» pasan a `comprobar.py`; transición con `estilo-pendiente.txt` |
 | v15 | 2026-11-18 | SPEC-0035 (paso 3): sin la transición de `estilo-pendiente.txt`; los puntos de estilo se aplican a todas las hojas |
+| v16 | 2026-11-18 | VAL-0035-01-05: etiqueta de nombre de red sobre su cable, como comprueba `esquema.sueltas` |
