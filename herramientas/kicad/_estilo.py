@@ -1,6 +1,6 @@
 """Geometría aproximada de una hoja de esquema para los puntos de estilo de comprobar.py (KIC-06, DEC-0015).
 
-Cajas de símbolos (cuerpo y pines), de textos (campos visibles, etiquetas, notas, títulos de recuadro y de
+Cajas de símbolos (una por primitiva de dibujo, el núcleo entre los extremos interiores de los pines y los pines), de textos (campos visibles, etiquetas, notas, títulos de recuadro y de
 subhoja), cables, recuadros (text_box de trazo y punto) y subhojas. Los textos se miden por una caja
 aproximada: 0,8 × alto por carácter, interlínea 1,6 × alto. Los campos de un símbolo se colocan con su
 ángulo y su justificación y luego se giran con el símbolo, como hace KiCad; las etiquetas y las notas se
@@ -15,6 +15,7 @@ LETRA = 0.8            # ancho de un carácter / alto de letra
 INTERLINEA = 1.6       # paso entre líneas / alto de letra
 HOLGURA_TEXTO = 0.15   # cada caja de texto se encoge esto por lado antes de comparar (mm)
 HOLGURA_SIMBOLO = 0.05
+NUCLEO = 0.1           # el núcleo entre los extremos interiores de los pines se ensancha esto por lado (mm)
 
 
 def _rot(dx, dy, ang):
@@ -101,12 +102,12 @@ def analizar(archivo):
             for n2, a, b in trozos(texto, i):
                 if n2 == "symbol":
                     nodo = parse(texto[a:b])
-                    libs[nodo[1]] = _hoja.pines_y_caja(nodo) + (_hoja.cuerpo(nodo),)
+                    libs[nodo[1]] = _hoja.pines_y_caja(nodo) + (_hoja.cuerpos(nodo),)
     h = {"simbolos": [], "textos": [], "cables": [], "etiquetas": [], "recuadros": [], "hojas": []}
     for s in simbolos_hoja(texto):
         if s["lib_id"] not in libs:
             continue
-        pines, caja, _, dibujo = libs[s["lib_id"]]
+        pines, caja, _, primitivas = libs[s["lib_id"]]
 
         def a_hoja(c):
             esq = [_hoja.girar(cx, cy, s["x"], s["y"], s["giro"]) for cx in (c[0], c[2]) for cy in (c[1], c[3])]
@@ -120,8 +121,16 @@ def analizar(archivo):
             x0, y0 = p["x"] + 0.1 * dx, p["y"] + 0.1 * dy
             x1, y1 = p["x"] + p["largo"] * dx, p["y"] + p["largo"] * dy
             tramos_pin.append(a_hoja((min(x0, x1) - 0.05, min(y0, y1) - 0.05, max(x0, x1) + 0.05, max(y0, y1) + 0.05)))
+        # cuerpo: una caja por primitiva de dibujo (las flechas de un LED no tapan el cable del cátodo) y el núcleo
+        # entre los extremos interiores de los pines (un cable entre las placas de un condensador cruza el símbolo)
+        cuerpo = [a_hoja(c) for c in primitivas] or [a_hoja(caja)]
+        interiores = [(p["x"] + p["largo"] * dx, p["y"] + p["largo"] * dy) for p in pines
+                      for dx, dy in [{0: (1, 0), 90: (0, 1), 180: (-1, 0), 270: (0, -1)}.get(p["ang"] % 360, (0, 0))]]
+        if len(pines) >= 2 and all(p["largo"] > 0.5 for p in pines):
+            n = (min(x for x, _ in interiores), min(y for _, y in interiores), max(x for x, _ in interiores), max(y for _, y in interiores))
+            cuerpo.append(encoger(a_hoja(n), -NUCLEO))
         sim = {"ref": s["ref"], "lib": s["lib_id"], "pieza": not s["ref"].startswith("#") and not s["lib_id"].startswith("power:"),
-               "caja": a_hoja(dibujo or caja), "total": a_hoja(caja), "tramos_pin": tramos_pin,
+               "cuerpo": cuerpo, "total": a_hoja(caja), "tramos_pin": tramos_pin,
                "pines": [pt(*_hoja.girar(p["x"], p["y"], s["x"], s["y"], s["giro"])) for p in pines]}
         h["simbolos"].append(sim)
         for prop in hijos(s["nodo"], "property"):
@@ -194,7 +203,7 @@ def _p(p):
 def cruces(h):
     """Cables que cruzan símbolos, subhojas o textos; textos que se solapan entre sí o con un símbolo."""
     malas = []
-    obst = [(s["ref"], encoger(s["caja"], HOLGURA_SIMBOLO)) for s in h["simbolos"]]
+    obst = [(s["ref"], encoger(c, HOLGURA_SIMBOLO)) for s in h["simbolos"] for c in s["cuerpo"]]
     obst += [(f"un pin de {s['ref']}", c) for s in h["simbolos"] for c in s["tramos_pin"]]
     obst += [(f"la subhoja {x['nombre']}", encoger(x["caja"], HOLGURA_SIMBOLO)) for x in h["hojas"]]
     textos = [(t, encoger(t["caja"], HOLGURA_TEXTO)) for t in h["textos"]]
@@ -205,7 +214,7 @@ def cruces(h):
         malas += [f"«{_nombre(t)}» ({t['de']}) se solapa con «{_nombre(u)}» ({u['de']})"
                   for u, d in textos[k + 1:] if solapan(c, d)]
         malas += [f"«{_nombre(t)}» ({t['de']}) se solapa con {quien}" for quien, d in obst if solapan(c, d)]
-    return malas
+    return list(dict.fromkeys(malas))
 
 
 def sueltas(h):

@@ -37,3 +37,7 @@ SPEC-0035 (2026-11-17):
 - Hoja piloto en ~1 h con `hoja.py` (cables, `W`, `etiquetas`, `recuadros`): plantilla en el JSON de `hoja.py extraer hardware/v2/sensores.kicad_sch`. Revisar con `comprobar.py <copia> --punto esquema.cruces` antes de mirar la imagen.
 - `hoja.py generar` escribe en LF: pasar a CRLF (Python en binario) antes de llevar la hoja al repositorio.
 - Cifras junto a la pieza: texto con `"justify": "left"` (centrado en vertical) a 2,54 mm bajo el Value, como un campo más. Con `left bottom` el superíndice («I²C») tocaba el Value y `esquema.cruces` no lo veía (caja aproximada): mirar siempre la imagen con `--zona`.
+
+SPEC-0035, paso 3b (2026-11-18):
+- Hojas con cables: script en el scratchpad con `dibujo.Dibujo(<hoja original de main>, proyecto=<copia>/v2)` → `guardar()` da las diferencias de conectividad (cazó una R girada) → `hoja.py generar`. Subhoja repetida: primero se genera la hoja madre (con `hojas`), después la hija con `refs` por instancia.
+- La guarda **no** mira lo que escribe un `python` lanzado desde Bash: un parche así cambió `herramientas/pruebas/test_kicad.py` (fuera de zona). Antes de parchear por script, comprobar que la ruta es de mi zona. Las pruebas, siempre en la copia `herramientas/kicad/test_kicad.py`.

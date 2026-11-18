@@ -149,9 +149,10 @@ def pines_y_caja(nodo):
     return pines, caja, props
 
 
-def cuerpo(nodo):
-    """Caja del dibujo de un símbolo de librería (unidad 1), sin los pines; None si no tiene dibujo."""
-    xs, ys = [], []
+def cuerpos(nodo):
+    """Caja de cada primitiva de dibujo (rectángulo, polilínea, círculo, arco…) de un símbolo de librería (unidad 1),
+    con medio trazo, sin pines ni textos."""
+    cajas = []
     for sub in hijos(nodo, "symbol"):
         m = re.search(r"_(\d+)_(\d+)$", sub[1])
         if m and (int(m.group(1)) > 1 or int(m.group(2)) > 1):
@@ -159,6 +160,7 @@ def cuerpo(nodo):
         for g in sub[2:]:
             if not isinstance(g, list) or g[0] in ("pin", "text"):
                 continue
+            xs, ys = [], []
             r = float(val(g, "radius", "0"))
             w = float(val(uno(g, "stroke", []), "width", "0") or 0) / 2   # medio trazo
             for k in ("start", "end", "center", "mid"):
@@ -169,7 +171,17 @@ def cuerpo(nodo):
             for xy in hijos(uno(g, "pts", []), "xy"):
                 xs += [float(xy[1]) - w, float(xy[1]) + w]
                 ys += [float(xy[2]) - w, float(xy[2]) + w]
-    return (min(xs), min(ys), max(xs), max(ys)) if xs else None
+            if xs:
+                cajas.append((min(xs), min(ys), max(xs), max(ys)))
+    return cajas
+
+
+def cuerpo(nodo):
+    """Caja que engloba el dibujo de un símbolo de librería (unidad 1), sin los pines; None si no tiene dibujo."""
+    cajas = cuerpos(nodo)
+    if not cajas:
+        return None
+    return (min(c[0] for c in cajas), min(c[1] for c in cajas), max(c[2] for c in cajas), max(c[3] for c in cajas))
 
 
 def girar(px, py, X, Y, giro):

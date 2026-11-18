@@ -72,3 +72,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 | 2026-11-17 | ing-diseno | Pasos 1–2: herramientas de estilo y hoja piloto Sensores | 01-ing-diseno | 351199 | 135 | 58 |
 | 2026-11-17 | usuario | Aprueba el estilo de la hoja piloto Sensores (imagen de `vista.py hoja`) |  |  |  |  |
 | 2026-11-18 | ing-diseno | Paso 3a: Conectores, MCU y Alimentación (con un corte por el límite de uso) | 02-ing-diseno | 355860 | 57 | 29 |
+| 2026-11-18 | ing-diseno | Pasos 3b–4: Salidas con «Canal» ×6, dibujo.py, LED con GND por cable, PCB resincronizada | 03-ing-diseno | 338804 | 119 | 27 |

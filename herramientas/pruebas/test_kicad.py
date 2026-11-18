@@ -37,12 +37,14 @@ sys.path.insert(0, str(KICAD))
 import _comun  # noqa: E402
 import campos  # noqa: E402
 import comprobar  # noqa: E402
+import dibujo  # noqa: E402
+import _estilo  # noqa: E402
 import hoja  # noqa: E402
 import huella  # noqa: E402
 import jlc  # noqa: E402
 import restricciones  # noqa: E402
 
-HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar"]
+HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar", "dibujo"]
 BTT6050 = "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
 TMP = BASE = None
 
@@ -116,7 +118,7 @@ class Generales(unittest.TestCase):
             ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, v2, "--grupos"), ("hoja", "netlist", v2, "--plan", plan),
             ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
-            ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"),
+            ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"), ("dibujo", "comprobar", TMP / "nm.json", v2 / "mcu.kicad_sch", "--proyecto", v2),
         ]
         antes = huella_md5(BASE)
         for orden in ordenes:
@@ -402,8 +404,8 @@ class Hoja(unittest.TestCase):
         codigo, salida, error = correr("hoja", "extraer", BASE / "v2" / "alimentacion.kicad_sch", "-o", desc)
         self.assertEqual(codigo, 0, salida + error)
         d = json.loads(desc.read_text(encoding="utf-8"))
-        self.assertEqual(len(d["cables"]), 1)
-        self.assertIn({"x": 66.04, "y": 254.0, "con": "L:+5V_BUCK", "lado": "D"}, d["etiquetas"])
+        self.assertEqual((len(d["cables"]), len(d["recuadros"])), (188, 7))         # redibujada en SPEC-0035
+        self.assertIn({"x": 27.94, "y": 45.72, "con": "L:VIN_RAW", "lado": "R"}, d["etiquetas"])
         codigo, salida, error = correr("hoja", "generar", desc, "--proyecto", proy, "-o", proy / "alimentacion.kicad_sch")
         self.assertEqual(codigo, 0, salida + error)
         self.assertIn("55 piezas (55 con su UUID)", salida)
@@ -435,6 +437,60 @@ class Hoja(unittest.TestCase):
         dif = _comun.comparar_grupos(a, partida)
         self.assertTrue(any("GND" in d and "repartida" in d for d in dif), dif)
 
+    def test_dibujo(self):
+        """dibujo.py: puntas de pin, cables pin a pin, conectividad frente a la hoja original y avisos; con la hoja
+        generada, el cable del cátodo de un LED no cruza el símbolo (primitivas) y uno entre las placas de un
+        condensador sí (núcleo entre los pines)."""
+        proy = copia("v2_dibujo")
+        d = dibujo.Dibujo(BASE / "v2" / "mcu.kicad_sch", proyecto=BASE / "v2")
+        d.pieza("R23", 50.8, 50.8, 90)
+        d.pieza("D5", 63.5, 54.61, 90)
+        d.pieza("C23", 88.9, 55.88, pines={"1": "L:EN", "2": "P:GND"})
+        self.assertEqual((d.p("R23.1"), d.p("D5.2"), d.p("D5.1")), ((46.99, 50.8), (63.5, 50.8), (63.5, 58.42)))
+        d.lab("L:LED_STATUS", (38.1, 50.8), "L")
+        d.w((38.1, 50.8), "R23.1")
+        d.hv("R23.2", "D5.2")
+        d.w("D5.1", (63.5, 62.23))
+        d.pwr("GND", (63.5, 62.23))
+        d.box(25.4, 35.56, 81.28, 38.1, "LED de prueba: D5, R23, C23")
+        desc = TMP / "dibujo.json"
+        self.assertEqual(d.guardar(desc, todas=False), [])
+        with self.assertRaises(_comun.Fallo):
+            d.guardar(TMP / "dibujo_todas.json")                      # faltan piezas de la original
+        codigo, salida, error = correr("dibujo", "comprobar", desc, BASE / "v2" / "mcu.kicad_sch", "--proyecto", BASE / "v2")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("0 diferencias, 0 avisos", salida)
+        # R23 al revés y el cátodo sin cable: diferencias y aviso
+        original = dibujo.cargar(BASE / "v2" / "mcu.kicad_sch")
+        mal = json.loads(desc.read_text(encoding="utf-8"))
+        mal["piezas"][0]["giro"] = 270
+        mal["cables"] = [c for c in mal["cables"] if [63.5, 62.23] not in c]
+        dif, avisos, _ = dibujo.comparar(original, mal, d.pines)
+        self.assertTrue(any(x.startswith("R23.1: con") for x in dif), dif)
+        self.assertIn("D5.1: «W» sin cable en (63.5, 58.42)", avisos)
+        # estilo de la hoja generada
+        hoja_led = TMP / "dibujo.kicad_sch"
+        codigo, salida, error = correr("hoja", "generar", desc, "--proyecto", proy, "--como", "mcu.kicad_sch", "-o", hoja_led)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertEqual(_estilo.cruces(_estilo.analizar(hoja_led)), [])
+        texto = _comun.leer(hoja_led).rstrip()
+        _comun.escribir(hoja_led, texto[:-1] + '\t(wire (pts (xy 85.09 55.88) (xy 92.71 55.88)) (stroke (width 0) (type default)) (uuid "w1"))\n'
+                        '\t(wire (pts (xy 60.96 54.61) (xy 66.04 54.61)) (stroke (width 0) (type default)) (uuid "w2"))\n)\n')
+        malas = _estilo.cruces(_estilo.analizar(hoja_led))
+        self.assertIn("cable (85.09, 55.88)–(92.71, 55.88) cruza C23", malas)
+        self.assertIn("cable (60.96, 54.61)–(66.04, 54.61) cruza D5", malas)
+
+    def test_campos_subhoja(self):
+        """La subhoja «Canal» (6 instancias) usa la tabla de Salidas: sin diferencias, y una de más se detecta."""
+        archivos = campos.archivos_de([BASE / "v2"])
+        tablas = campos.tablas_por_defecto(archivos)
+        self.assertIs(tablas["canal.kicad_sch"], tablas["salidas.kicad_sch"])
+        r = campos.revisar(archivos, tablas)
+        self.assertEqual((r["piezas"], r["tabla"]), (197, []))
+        tablas["salidas.kicad_sch"]["U99"] = {"Value": "X"}
+        r = campos.revisar(archivos, tablas)
+        self.assertEqual(r["tabla"], ["canal.kicad_sch, salidas.kicad_sch: en la tabla y no en la hoja: U99"])
+
     def test_cables_recuadros_y_subhojas(self):
         """Cables con uniones automáticas, recuadro con título y una subhoja repetida (dos instancias, refs propias)."""
         proy = copia("v2_cables")
@@ -443,7 +499,7 @@ class Hoja(unittest.TestCase):
         self.assertEqual(d["piezas"][0]["pines"] if d["piezas"][0]["ref"] == "U13" else d["piezas"][1]["pines"],
                          {"1": "W", "2": "W", "3": "W", "4": "W"})
         self.assertEqual(len(d["recuadros"]), 1)
-        d["hojas"] = [{"nombre": n, "archivo": "canal.kicad_sch", "x": 198.12, "y": y, "ancho": 25.4, "alto": 12.7,
+        d["hojas"] = [{"nombre": n, "archivo": "prueba_canal.kicad_sch", "x": 198.12, "y": y, "ancho": 25.4, "alto": 12.7,
                        "pines": [{"nombre": "ENT", "forma": "input", "lado": "L", "y": y + 5.08}]}
                       for n, y in (("CanalA", 76.2), ("CanalB", 96.52))]
         d["cables"] += [[[167.64, 88.9], [180.34, 88.9], [180.34, 81.28], [198.12, 81.28]],
@@ -460,7 +516,7 @@ class Hoja(unittest.TestCase):
                                                        "LCSC Part#": "C21190"},
                                             "pines": {"1": "H:ENT:input", "2": "P:GND"}}]}
         (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
-        codigo, salida, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", proy / "canal.kicad_sch")
+        codigo, salida, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", proy / "prueba_canal.kicad_sch")
         self.assertEqual(codigo, 0, salida + error)
         self.assertIn("2 instancias de la hoja", salida)
         red = _comun.exportar_netlist(proy, "esp-riego", TMP / "cables.net")
@@ -472,9 +528,9 @@ class Hoja(unittest.TestCase):
         puntos = {x["punto"]: x for x in comprobar.resumen(proy)["puntos"]}
         self.assertIn("199 piezas", puntos["esquema.campos"]["detalle"][0])          # una pieza por instancia
         self.assertEqual(puntos["esquema.cruces"]["estado"], "OK", puntos["esquema.cruces"])
-        self.assertIn("canal.kicad_sch: R901 fuera de un recuadro", puntos["esquema.recuadros"]["detalle"])
+        self.assertIn("prueba_canal.kicad_sch: R901 fuera de un recuadro", puntos["esquema.recuadros"]["detalle"])
         # extraer conserva las refs de cada instancia y las subhojas; generar desde ahí da la misma netlist
-        otra, _ = hoja.extraer(proy / "canal.kicad_sch")
+        otra, _ = hoja.extraer(proy / "prueba_canal.kicad_sch")
         self.assertEqual(otra["piezas"][0]["refs"], {"Sensores/CanalA": "R901", "Sensores/CanalB": "R902"})
         sens, _ = hoja.extraer(proy / "sensores.kicad_sch")
         self.assertEqual([h["nombre"] for h in sens["hojas"]], ["CanalA", "CanalB"])
@@ -486,7 +542,7 @@ class Hoja(unittest.TestCase):
         self.assertIn("sin cable", error)
         canal["piezas"][0]["refs"].pop("Sensores/CanalB")
         (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
-        codigo, _, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "canal.kicad_sch")
+        codigo, _, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "prueba_canal.kicad_sch")
         self.assertEqual(codigo, 2)
         self.assertIn("faltan las referencias de Sensores/CanalB", error)
         self.assertFalse((TMP / "no.kicad_sch").exists())
@@ -1062,8 +1118,8 @@ class Mutaciones(unittest.TestCase):
         _comun.escribir(ruta, texto[:-1] + bloque_ + "\n)\n")
 
     def test_esquema_estilo(self):
-        """Puntos de KIC-06 sobre la hoja piloto (Sensores) y la lista de hojas pendientes."""
-        sens, pend = self.v2 / "sensores.kicad_sch", self.v2 / "estilo-pendiente.txt"
+        """Puntos de KIC-06 sobre la hoja piloto (Sensores); todas las hojas los cumplen."""
+        sens = self.v2 / "sensores.kicad_sch"
         for punto in ("esquema.cruces", "esquema.sueltas", "esquema.recuadros", "esquema.etiquetas"):
             self.assertEqual(self.punto(punto)[0], "OK", punto)
         self.anadir(sens, '\t(wire (pts (xy 134.62 101.6) (xy 149.86 101.6)) (stroke (width 0) (type default)) (uuid "m1"))\n'
@@ -1077,10 +1133,6 @@ class Mutaciones(unittest.TestCase):
         self.falla("esquema.etiquetas", "«I2C_SDA» 2 veces en el recuadro «Temperatura y humedad")
         sustituir(sens, "(size 86.36 54.61)", "(size 20 20)")
         self.falla("esquema.recuadros", "sensores.kicad_sch: U13 fuera de un recuadro")
-        # una hoja que sale de la lista de pendientes pasa a comprobarse
-        self.guardar(pend)
-        sustituir(pend, "mcu.kicad_sch", "")
-        self.falla("esquema.recuadros", "mcu.kicad_sch: U5 fuera de un recuadro")
 
     def test_esquema_pcb_main(self):
         """Huella que cambia frente a main: falla si ni la spec ni sus partes la citan (rangos incluidos)."""

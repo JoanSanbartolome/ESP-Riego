@@ -148,34 +148,26 @@ def esquema_dnp(p):
 
 # ------------------------------------------------------------------ esquema: estilo (KIC-06, DEC-0015)
 
-PENDIENTES = "estilo-pendiente.txt"
-
-
 def hojas_estilo(p):
-    """([(nombre del archivo, análisis)], [pendientes]) de las hojas a las que se aplica el estilo: todas las del
-    proyecto (cada archivo una vez, sin la raíz) menos las que lista `<proyecto>/estilo-pendiente.txt` (transición)."""
-    lista = p.carpeta / PENDIENTES
-    pendientes = set()
-    if lista.is_file():
-        pendientes = {l.strip() for l in lista.read_text(encoding="utf-8").splitlines() if l.strip() and not l.startswith("#")}
+    """[(nombre del archivo, análisis)] de las hojas a las que se aplica el estilo: todas las del proyecto (cada
+    archivo una vez), sin la raíz."""
     if getattr(p, "_estilo", None) is None:
         vistos, p._estilo = set(), []
         for h in p.hojas()[1:]:
             if h["archivo"].is_file() and h["archivo"] not in vistos:
                 vistos.add(h["archivo"])
                 p._estilo.append((h["archivo"].name, _estilo.analizar(h["archivo"])))
-    return [(n, a) for n, a in p._estilo if n not in pendientes], sorted(pendientes)
+    return p._estilo
 
 
 def _punto_estilo(p, funcion, que):
     if not p.sch.is_file():
         return NA, ["no hay esquema"]
-    hs, pendientes = hojas_estilo(p)
+    hs = hojas_estilo(p)
     if not hs:
-        return NA, [f"todas las hojas están en {PENDIENTES}"]
+        return NA, ["no hay hojas bajo la raíz"]
     malas = [f"{n}: {m}" for n, a in hs for m in funcion(a)]
-    nota = f"; pendientes ({PENDIENTES}): {', '.join(pendientes)}" if pendientes else ""
-    return ("FALLA" if malas else "OK"), malas or [f"{len(hs)} hojas sin {que}{nota}"]
+    return ("FALLA" if malas else "OK"), malas or [f"{len(hs)} hojas sin {que}"]
 
 
 def esquema_cruces(p):

@@ -1,6 +1,6 @@
 # Checklist de revisión de esquema
 
-**Versión:** v14 (2026-11-17). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v15 (2026-11-18). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -66,8 +66,6 @@
 
 ## Estilo (KIC-06, DEC-0015)
 
-Los cuatro primeros puntos no se aplican a las hojas que lista `hardware/v2/estilo-pendiente.txt` (transición de SPEC-0035, que lo borra al terminar); esas se repasan sobre su imagen.
-
 - [ ] [auto: comprobar.py esquema.cruces] Ningún cable cruza un símbolo ni un texto, y ningún texto (referencia, valor, etiqueta, nota) se solapa con otro ni con un símbolo.
 - [ ] [auto: comprobar.py esquema.sueltas] Ninguna etiqueta suelta: cada etiqueta está en el extremo de un cable o en un pin.
 - [ ] [auto: comprobar.py esquema.recuadros] Toda pieza está dentro de un recuadro de bloque (rectángulo de trazo y punto con su título).
@@ -100,3 +98,4 @@ Los cuatro primeros puntos no se aplican a las hojas que lista `hardware/v2/esti
 | v12 | 2026-11-17 | SPEC-0034 (VAL-0034-01): consecuencia de cada uso prohibido en REL-11; cálculos sobre protecciones de un CI con su página |
 | v13 | 2026-11-17 | SPEC-0035: sección «Estilo» (KIC-06, DEC-0015) y diff de la PCB limitado a las referencias de la spec (VAL-0034-01) |
 | v14 | 2026-11-17 | SPEC-0035 (paso 1): los cinco `[auto: pendiente]` de «Estilo» pasan a `comprobar.py`; transición con `estilo-pendiente.txt` |
+| v15 | 2026-11-18 | SPEC-0035 (paso 3): sin la transición de `estilo-pendiente.txt`; los puntos de estilo se aplican a todas las hojas |

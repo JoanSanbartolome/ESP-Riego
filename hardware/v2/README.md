@@ -10,13 +10,13 @@ Cajetín: hoja de dibujo `../libraries/ESP-Riego.kicad_wks`, título «ESP-Riego
 |---|---|---|---|
 | `Alimentacion` · `alimentacion.kicad_sch` (A3) | Entrada, protecciones, limitador común, buck, 3,3 V | ALI-01 … ALI-13 | **Bloque de la v2** (SPEC-0019): J1, F1, Q1, D1–D4, U1–U4, L1, JP1, TP1–TP5 y pasivos, según `docs/diseno/alimentacion.md`. Pines de hoja: `BUS_24V`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT`, `LIM_EN` y `VBUS` |
 | `MCU` · `mcu.kicad_sch` (A3) | ESP32-S3-WROOM-1, USB-C, BOOT/RESET, UART | MCU-01 … MCU-07, FW-02 | **Bloque de la v2** (SPEC-0022): U5, U6, J2, J3, SW1, SW2, D5 y pasivos, según `docs/diseno/mcu.md`. 25 pines de hoja (Anexo C de `mcu.md`) |
-| `Salidas` · `salidas.kicad_sch` | 6 *high-side* BTT6050 con diagnóstico y sus bornes | REL-01 … REL-10 | Texto del bloque pendiente |
+| `Salidas` · `salidas.kicad_sch` (A4) y subhoja `Canal` · `canal.kicad_sch` (A4, 6 instancias) | 6 *high-side* BTT6050 con diagnóstico y sus bornes | REL-01 … REL-11 | **Bloque de la v2** (SPEC-0023, SPEC-0034; jerarquía en SPEC-0035): `Canal1`…`Canal6` con U7–U12, J4–J9, D6–D17, R26–R43, R45–R68 y C27–C44 (cada instancia conserva sus referencias); en Salidas, lo común: R44, C45 y C46. Pines de hoja: `BUS_24V`, `IN1`–`IN6`, `OUT_DEN` e `IS1`–`IS6`. Redes internas de cada canal: `/Salidas/CanalN/OUT`, `IN_HS`, `DEN_HS`, `IS_HS` y `LED_A` |
 | `Sensores` · `sensores.kicad_sch` | Temperatura y humedad del aire de la caseta | AMB-01, AMB-02 | **Bloque de la v2** (SPEC-0029): U13 SHT40-AD1B (I²C 0x44) y C47, según `docs/diseno/sensores.md`. Pines de hoja: `I2C_SDA` e `I2C_SCL`, unidos a la hoja MCU (R24/R25 en MCU) |
 | `Conectores` · `conectores.kicad_sch` (A3) | Conector de expansión, pulsadores manuales, reparto de bornes | EXP-02 … EXP-04, AMB-03, FAB-07, FAB-08 | **Bloque de la v2** (SPEC-0031): J10, U14–U18, SW3–SW8, R69–R79, C48–C52 y H1–H4, según `docs/diseno/conectores.md`. Pines de hoja: `I2C_SDA`, `I2C_SCL`, `BTN_INT`, `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT` y `EXP_EN` |
 
 Cada bloque crea sus pines jerárquicos. En la raíz, `VBUS`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` y `LIM_EN` unen MCU y Alimentacion con etiquetas locales (SPEC-0022); `I2C_SDA`/`I2C_SCL` unen MCU, Sensores (SPEC-0029) y Conectores; `BTN_INT`, `I2C_EXP_SDA`, `I2C_EXP_SCL`, `EXP_INT` y `EXP_EN` unen MCU y Conectores (SPEC-0031). Ya no queda ninguna marca de no conexión provisional en los pines de hoja. +5V, +3V3 y GND son símbolos de alimentación globales.
 
-Estilo (KIC-06, DEC-0015): `Sensores` ya va con recuadro, cables y cifras junto a la pieza (hoja piloto de SPEC-0035). Las demás hojas están en `estilo-pendiente.txt`, que `comprobar.py` excluye de los puntos de estilo hasta que SPEC-0035 las redibuje y borre el archivo.
+Estilo (KIC-06, DEC-0015): todas las hojas van con recuadros, cables y cifras junto a la pieza (SPEC-0035; `Sensores` fue la hoja piloto). La raíz conserva el estilo de SPEC-0032.
 
 ## Puente JP1 del limitador (DEC-0006)
 
