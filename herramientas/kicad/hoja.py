@@ -5,14 +5,15 @@ Uso:
     python herramientas/kicad/hoja.py extraer hardware/v2/mcu.kicad_sch -o mcu.json
     python herramientas/kicad/hoja.py generar mcu.json --proyecto <copia>/v2 -o <copia>/v2/mcu.kicad_sch
     python herramientas/kicad/hoja.py raiz raiz.json --proyecto <copia>/v2 -o <copia>/v2/esp-riego.kicad_sch
-    python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 [--hoja MCU]
+    python herramientas/kicad/hoja.py paginas <copia>/v2 [-o <copia>/v2]
+    python herramientas/kicad/hoja.py netlist hardware/v2 <copia>/v2 [--hoja MCU] [--grupos]
     python herramientas/kicad/hoja.py netlist hardware/v2 --plan docs/diseno/conectores.md [--seccion "Anexo A"]
 
-Formatos en herramientas/kicad/README.md. Conexión de cada pin, en su extremo y sin cables: "L:RED" local ·
-"H:RED:forma" jerárquica · "G:RED:forma" global · "P:GND" o "P:GND:270" símbolo de `power` (y su giro) ·
-"NC" · "" nada. generar escribe solo en -o, conserva los UUID y las #PWR de la hoja que sustituye y no
-sustituye una hoja con cables (salvo --forzar). Sin símbolos de varias unidades ni espejados.
-raiz: pines de hoja y sus etiquetas o NC en la raíz (--extraer saca la descripción de la raíz actual).
+Formatos en herramientas/kicad/README.md. Conexión de un pin o de un punto de `etiquetas`: "L:RED" local ·
+"H:RED:forma" jerárquica · "G:RED:forma" global · "P:GND[:giro]" símbolo de `power` · "NC" · "W" cable · "".
+Cables, uniones (automáticas), recuadros con título y subhojas, también repetidas (`refs` por instancia).
+generar escribe solo en -o y conserva los UUID y las #PWR de la hoja que sustituye. Sin varias unidades.
+raiz: pines de hoja y sus etiquetas o NC en la raíz. paginas: cada hoja seguida de sus subhojas (Id = página).
 """
 import argparse
 import json
@@ -24,14 +25,17 @@ import uuid as _uuid
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (CAMPOS, Fallo, comparar_netlists, emitir, esc, escribir, exportar_netlist, hijos, hojas,  # noqa: E402
-                    leer, num, parse, parse_cabecera, principal, proyecto, ruta_simbolos, simbolos_hoja,
-                    trozos, uno, val)
+from _comun import (CAMPOS, Fallo, comparar_grupos, comparar_netlists, emitir, esc, escribir,  # noqa: E402
+                    exportar_netlist, hijos, hojas, leer, num, parse, parse_cabecera, principal, proyecto,
+                    ruta_simbolos, simbolos_hoja, trozos, uno, val)
 import campos as _campos  # noqa: E402
 
-NO_REPRESENTABLE = ("wire", "junction", "bus", "bus_entry", "polyline", "rectangle", "circle", "arc", "text_box",
-                    "netclass_flag", "image", "sheet", "bezier", "rule_area", "table")
+NO_REPRESENTABLE = ("bus", "bus_entry", "polyline", "rectangle", "circle", "arc", "netclass_flag", "image", "bezier",
+                    "rule_area", "table")
 ANGULO = {"R": 0, "U": 90, "L": 180, "D": 270}
+LADO_DE = {0: "R", 90: "U", 180: "L", 270: "D"}
+FORMAS = ("input", "output", "bidirectional", "tri_state", "passive")
+TOL = 1e-3
 
 
 def U():
@@ -40,6 +44,49 @@ def U():
 
 def clave(x, y):
     return (round(float(x), 3), round(float(y), 3))
+
+
+# ------------------------------------------------------------------ cables y uniones
+
+def en_tramo(p, a, b):
+    """El punto p está en el segmento a-b (extremos incluidos)."""
+    (px, py), (ax, ay), (bx, by) = p, a, b
+    largo = math.hypot(bx - ax, by - ay)
+    if largo < TOL or abs((bx - ax) * (py - ay) - (by - ay) * (px - ax)) > TOL * largo:
+        return False
+    return min(ax, bx) - TOL <= px <= max(ax, bx) + TOL and min(ay, by) - TOL <= py <= max(ay, by) + TOL
+
+
+def tramos_y_uniones(cables, pines=()):
+    """Cables (polilíneas [[x, y], …]) → tramos partidos en los extremos de otros tramos y en los pines que caen en
+    su interior (como hace KiCad al guardar), y uniones donde se juntan tres o más extremos (los pines cuentan)."""
+    segs = []
+    for c in cables:
+        if len(c) < 2:
+            raise Fallo(f"cable con menos de dos puntos: {c}")
+        pts = [clave(*p) for p in c]
+        segs += [(pts[k], pts[k + 1]) for k in range(len(pts) - 1) if pts[k] != pts[k + 1]]
+    pin_pts = [clave(*p) for p in pines]
+    interes = {p for s in segs for p in s} | set(pin_pts)
+    tramos = []
+    for a, b in segs:
+        medio = sorted((p for p in interes if p != a and p != b and en_tramo(p, a, b)),
+                       key=lambda p: (p[0] - a[0]) ** 2 + (p[1] - a[1]) ** 2)
+        cadena = [a] + medio + [b]
+        tramos += [tuple(sorted((cadena[k], cadena[k + 1]))) for k in range(len(cadena) - 1)]
+    tramos = list(dict.fromkeys(tramos))
+    grado = {}
+    for t in tramos:
+        for p in t:
+            grado[p] = grado.get(p, 0) + 1
+    for p in pin_pts:
+        if p in grado:
+            grado[p] += 1
+    return tramos, sorted(p for p, g in grado.items() if g >= 3), grado
+
+
+def toca(p, tramos):
+    return any(en_tramo(p, a, b) for a, b in tramos)
 
 
 # ------------------------------------------------------------------ símbolos de librería
@@ -84,6 +131,7 @@ def pines_y_caja(nodo):
             at = uno(p, "at")
             pines.append({"num": val(p, "number"), "nombre": val(p, "name"), "tipo": p[1],
                           "x": float(at[1]), "y": float(at[2]), "ang": int(float(at[3])) if len(at) > 3 else 0,
+                          "largo": float(val(p, "length", "0")),
                           "oculto": val(p, "hide", "no") == "yes" or "hide" in p})
         for g in sub[2:]:
             if not isinstance(g, list):
@@ -102,6 +150,41 @@ def pines_y_caja(nodo):
     return pines, caja, props
 
 
+def cuerpos(nodo):
+    """Caja de cada primitiva de dibujo (rectángulo, polilínea, círculo, arco…) de un símbolo de librería (unidad 1),
+    con medio trazo, sin pines ni textos."""
+    cajas = []
+    for sub in hijos(nodo, "symbol"):
+        m = re.search(r"_(\d+)_(\d+)$", sub[1])
+        if m and (int(m.group(1)) > 1 or int(m.group(2)) > 1):
+            continue
+        for g in sub[2:]:
+            if not isinstance(g, list) or g[0] in ("pin", "text"):
+                continue
+            xs, ys = [], []
+            r = float(val(g, "radius", "0"))
+            w = float(val(uno(g, "stroke", []), "width", "0") or 0) / 2   # medio trazo
+            for k in ("start", "end", "center", "mid"):
+                if uno(g, k):
+                    cx, cy = float(uno(g, k)[1]), float(uno(g, k)[2])
+                    xs += [cx - r - w, cx + r + w]
+                    ys += [cy - r - w, cy + r + w]
+            for xy in hijos(uno(g, "pts", []), "xy"):
+                xs += [float(xy[1]) - w, float(xy[1]) + w]
+                ys += [float(xy[2]) - w, float(xy[2]) + w]
+            if xs:
+                cajas.append((min(xs), min(ys), max(xs), max(ys)))
+    return cajas
+
+
+def cuerpo(nodo):
+    """Caja que engloba el dibujo de un símbolo de librería (unidad 1), sin los pines; None si no tiene dibujo."""
+    cajas = cuerpos(nodo)
+    if not cajas:
+        return None
+    return (min(c[0] for c in cajas), min(c[1] for c in cajas), max(c[2] for c in cajas), max(c[3] for c in cajas))
+
+
 def girar(px, py, X, Y, giro):
     """Punto de librería (y hacia arriba) → hoja (y hacia abajo), con el giro del símbolo."""
     a = math.radians(giro)
@@ -115,6 +198,15 @@ def lado(ang_pin, giro):
 
 # ------------------------------------------------------------------ extraer
 
+def _claves_instancia(archivo):
+    """{ruta de instancia: «Hoja/Subhoja»} del proyecto al que pertenece la hoja (vacío si no se encuentra)."""
+    try:
+        carpeta, nombre = proyecto(archivo)
+        return {h["ruta"]: h["nombres"].strip("/") for h in hojas(carpeta / f"{nombre}.kicad_sch")[1:]}
+    except (Fallo, OSError):
+        return {}
+
+
 def extraer(archivo, forzar=False):
     """Descripción de una hoja existente y lista de lo que no se puede representar."""
     texto = leer(archivo)
@@ -127,23 +219,52 @@ def extraer(archivo, forzar=False):
                     nodo = parse(texto[a:b])
                     libs[nodo[1]] = pines_y_caja(nodo)
     perdidos, puntos, textos, banderas = [], {}, [], []
+    cables, uniones, recuadros, subhojas = [], [], [], []
     for n, i, j in trozos(texto):
         if n in NO_REPRESENTABLE:
             perdidos.append(n)
-        elif n in ("label", "hierarchical_label", "global_label"):
-            nodo = parse(texto[i:j])
-            at = uno(nodo, "at")
+            continue
+        if n not in ("label", "hierarchical_label", "global_label", "no_connect", "text", "wire", "junction",
+                     "text_box", "sheet"):
+            continue
+        nodo = parse(texto[i:j])
+        at = uno(nodo, "at")
+        if n in ("label", "hierarchical_label", "global_label"):
             con = {"label": f"L:{nodo[1]}", "hierarchical_label": f"H:{nodo[1]}:{val(nodo, 'shape')}",
                    "global_label": f"G:{nodo[1]}:{val(nodo, 'shape')}"}[n]
-            puntos.setdefault(clave(at[1], at[2]), []).append(con)
+            lado_ = LADO_DE.get(int(float(at[3])) % 360 if len(at) > 3 else 0, "R")
+            puntos.setdefault(clave(at[1], at[2]), []).append((con, lado_))
         elif n == "no_connect":
-            at = uno(parse(texto[i:j]), "at")
-            puntos.setdefault(clave(at[1], at[2]), []).append("NC")
+            puntos.setdefault(clave(at[1], at[2]), []).append(("NC", None))
         elif n == "text":
-            nodo = parse(texto[i:j])
-            at, fuente = uno(nodo, "at"), uno(uno(nodo, "effects", []), "font", [])
+            fuente = uno(uno(nodo, "effects", []), "font", [])
             textos.append({"x": float(at[1]), "y": float(at[2]), "tam": float(val(fuente, "size", "1.27")),
                            "negrita": val(fuente, "bold", "no") == "yes", "texto": nodo[1]})
+        elif n == "wire":
+            cables.append([[float(p[1]), float(p[2])] for p in hijos(uno(nodo, "pts", []), "xy")])
+        elif n == "junction":
+            uniones.append([float(at[1]), float(at[2])])
+        elif n == "text_box":
+            tam = uno(nodo, "size")
+            if val(uno(nodo, "stroke", []), "type") != "dash_dot":
+                perdidos.append("text_box sin trazo y punto")
+                continue
+            recuadros.append({"x": float(at[1]), "y": float(at[2]), "ancho": float(tam[1]), "alto": float(tam[2]),
+                              "titulo": nodo[1]})
+        elif n == "sheet":
+            tam = uno(nodo, "size")
+            props = {p[1]: p[2] for p in hijos(nodo, "property") if len(p) > 2}
+            pines_h = []
+            for p in hijos(nodo, "pin"):
+                pa = uno(p, "at")
+                lado_ = {180: "L", 0: "R"}.get(int(float(pa[3])) if len(pa) > 3 else 0)
+                if lado_ is None:
+                    perdidos.append(f"pin de hoja {p[1]} arriba o abajo")
+                    continue
+                pines_h.append({"nombre": p[1], "forma": p[2], "lado": lado_, "y": float(pa[2])})
+            subhojas.append({"nombre": props.get("Sheetname", ""), "archivo": props.get("Sheetfile", ""),
+                             "x": float(at[1]), "y": float(at[2]), "ancho": float(tam[1]), "alto": float(tam[2]),
+                             "pines": pines_h})
     simbolos = simbolos_hoja(texto)
     for s in simbolos:
         if s["espejo"]:
@@ -156,7 +277,9 @@ def extraer(archivo, forzar=False):
                 nombre = s["lib_id"].split(":", 1)[1]
                 if s["props"].get("Value", nombre) != nombre:
                     raise Fallo(f"{s['ref']}: símbolo de alimentación con Value distinto de su nombre, no soportado")
-                puntos.setdefault(clave(x, y), []).append(f"P:{nombre}" + (f":{s['giro']}" if s["giro"] else ""))
+                puntos.setdefault(clave(x, y), []).append((f"P:{nombre}" + (f":{s['giro']}" if s["giro"] else ""), None))
+    tramos, _, _ = tramos_y_uniones(cables)
+    rutas = _claves_instancia(archivo)
     piezas, usados = [], set()
     for s in simbolos:
         if s["lib_id"].startswith("power:"):
@@ -168,8 +291,8 @@ def extraer(archivo, forzar=False):
             k = clave(*girar(p["x"], p["y"], s["x"], s["y"], s["giro"]))
             cons = puntos.get(k, [])
             if len(cons) > 1:
-                perdidos.append(f"{s['ref']}.{p['num']}: varias conexiones en el mismo punto {cons}")
-            pines[p["num"]] = cons[0] if cons else ""
+                perdidos.append(f"{s['ref']}.{p['num']}: varias conexiones en el mismo punto {[c for c, _ in cons]}")
+            pines[p["num"]] = cons[0][0] if cons else ("W" if toca(k, tramos) else "")
             usados.add(k)
         pos = {}
         for prop in hijos(s["nodo"], "property"):
@@ -178,15 +301,29 @@ def extraer(archivo, forzar=False):
                 just = uno(uno(prop, "effects", []), "justify")
                 pos[prop[1]] = [float(at[1]), float(at[2]), int(float(at[3])), " ".join(just[1:]) if just else ""]
         campos = {k: v for k, v in s["props"].items() if k != "Reference"}
-        piezas.append({"ref": s["ref"], "simbolo": s["lib_id"], "x": s["x"], "y": s["y"], "giro": s["giro"],
-                       "dnp": s["dnp"], "en_bom": s["in_bom"], "campos": campos, "pos": pos, "pines": pines})
+        pieza = {"ref": s["ref"], "simbolo": s["lib_id"], "x": s["x"], "y": s["y"], "giro": s["giro"],
+                 "dnp": s["dnp"], "en_bom": s["in_bom"], "campos": campos, "pos": pos, "pines": pines}
+        if len({r for _, r in s["instancias"]}) > 1:
+            pieza["refs"] = {rutas.get(ruta, ruta): r for ruta, r in s["instancias"]}
+        piezas.append(pieza)
+    etiquetas = []
     for k, cons in puntos.items():
-        if k not in usados and not any(abs(k[0] - b[0]) < 1e-3 and abs(k[1] - b[1]) < 1e-3 for b in banderas):
-            perdidos.append(f"{cons[0]} suelta en {k}")
+        if k in usados:
+            continue
+        for con, lado_ in cons:
+            if con == "NC":
+                perdidos.append(f"NC suelta en {k}")
+                continue
+            e = {"x": k[0], "y": k[1], "con": con}
+            if lado_:
+                e["lado"] = lado_
+            etiquetas.append(e)
     tb = uno(cab, "title_block", [])
     cajetin = {k: val(tb, k) for k in ("title", "date", "rev", "company") if val(tb, k)}
     cajetin["comment"] = {c[1]: c[2] for c in hijos(tb, "comment")}
-    desc = {"papel": val(cab, "paper", "A4"), "cajetin": cajetin, "piezas": piezas, "banderas": banderas, "textos": textos}
+    desc = {"papel": val(cab, "paper", "A4"), "cajetin": cajetin, "piezas": piezas, "banderas": banderas,
+            "textos": textos, "etiquetas": etiquetas, "cables": cables, "uniones": uniones, "recuadros": recuadros,
+            "hojas": subhojas}
     return desc, perdidos
 
 
@@ -200,20 +337,22 @@ def _prop(nombre, valor, x, y, ang=0, oculto=False, just=None):
             f"\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t){j}\n\t\t\t)\n\t\t)\n")
 
 
-def _simbolo(lib, ref, x, y, giro, props, pines, ruta, nombre_proy, uid, en_bom=True, dnp=False):
+def _simbolo(lib, x, y, giro, props, pines, instancias, nombre_proy, uid, en_bom=True, dnp=False):
+    """Bloque `symbol`; `instancias` = [(ruta, referencia)], una por cada instancia de la hoja."""
     sn = lambda b: "yes" if b else "no"  # noqa: E731
     s = (f'\t(symbol\n\t\t(lib_id "{esc(lib)}")\n\t\t(at {num(x)} {num(y)} {int(giro)})\n\t\t(unit 1)\n\t\t(body_style 1)\n'
          f"\t\t(exclude_from_sim no)\n\t\t(in_bom {sn(en_bom)})\n\t\t(on_board yes)\n\t\t(in_pos_files {sn(en_bom)})\n"
          f'\t\t(dnp {sn(dnp)})\n\t\t(uuid "{uid}")\n') + "".join(props)
     for numero, upin in pines:
         s += f'\t\t(pin "{esc(numero)}"\n\t\t\t(uuid "{upin}")\n\t\t)\n'
-    return s + (f'\t\t(instances\n\t\t\t(project "{esc(nombre_proy)}"\n\t\t\t\t(path "{ruta}"\n'
-                f'\t\t\t\t\t(reference "{esc(ref)}")\n\t\t\t\t\t(unit 1)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n\t)\n')
+    rutas = "".join(f'\t\t\t\t(path "{ruta}"\n\t\t\t\t\t(reference "{esc(ref)}")\n\t\t\t\t\t(unit 1)\n\t\t\t\t)\n'
+                    for ruta, ref in instancias)
+    return s + f'\t\t(instances\n\t\t\t(project "{esc(nombre_proy)}"\n{rutas}\t\t\t)\n\t\t)\n\t)\n'
 
 
 def _viejos(base):
-    """UUID y referencias de la hoja que se sustituye, para conservarlos."""
-    v = {"hoja": None, "sim": {}, "pin": {}, "pwr": {}, "otros": {}, "no_rep": []}
+    """UUID, referencias y páginas de la hoja que se sustituye, para conservarlos."""
+    v = {"hoja": None, "sim": {}, "pin": {}, "pwr": {}, "otros": {}, "hojas": {}, "no_rep": []}
     if not base or not Path(base).is_file():
         return v
     texto = leer(base)
@@ -223,8 +362,9 @@ def _viejos(base):
         if s["lib_id"].startswith("power:"):
             v["pwr"][(s["lib_id"],) + clave(s["x"], s["y"])] = (s["uuid"], s["ref"], pins.get("1"))
         else:
-            v["sim"][s["ref"]] = s["uuid"]
-            v["pin"].update({(s["ref"], n): u for n, u in pins.items()})
+            for ref in {s["ref"]} | {r for _, r in s["instancias"]}:
+                v["sim"][ref] = s["uuid"]
+                v["pin"].update({(ref, n): u for n, u in pins.items()})
     for n, i, j in trozos(texto):
         if n in NO_REPRESENTABLE:
             v["no_rep"].append(n)
@@ -232,6 +372,13 @@ def _viejos(base):
             nodo = parse(texto[i:j])
             at = uno(nodo, "at")
             v["otros"][(n, nodo[1] if n != "no_connect" else "") + clave(at[1], at[2])] = val(nodo, "uuid")
+        elif n == "sheet":
+            nodo = parse(texto[i:j])
+            props = {p[1]: p[2] for p in hijos(nodo, "property") if len(p) > 2}
+            v["hojas"][props.get("Sheetname", "")] = {
+                "uuid": val(nodo, "uuid"), "pines": {p[1]: val(p, "uuid") for p in hijos(nodo, "pin")},
+                "paginas": {pa[1]: val(pa, "page") for pr in hijos(uno(nodo, "instances", []), "project")
+                            for pa in hijos(pr, "path")}}
     return v
 
 
@@ -241,6 +388,14 @@ def _pwr_usados(carpeta, nombre, excluir):
         if h["archivo"].is_file() and h["archivo"].name != excluir:
             usados |= set(re.findall(r'\(reference "(#(?:PWR|FLG)\d+)"\)', leer(h["archivo"])))
     return usados
+
+
+def _paginas_usadas(carpeta, nombre, excluir):
+    usadas = {1}
+    for h in hojas(Path(carpeta) / f"{nombre}.kicad_sch"):
+        if h["archivo"].is_file() and h["archivo"].name != excluir:
+            usadas |= {int(p) for p in re.findall(r'\(page "(\d+)"\)', leer(h["archivo"]))}
+    return usadas
 
 
 def _pos_defecto(X, Y, giro, pines, caja):
@@ -256,16 +411,39 @@ def _pos_defecto(X, Y, giro, pines, caja):
     return {"Reference": [X + 3.81, y0 - 1.27, 0, "left"], "Value": [X + 3.81, y1 + 2.54, 0, "left"]}
 
 
+def _etiqueta(tipo, nombre, forma, x, y, sd, uid):
+    if tipo == "label":
+        just = "left bottom" if sd in "RU" else "right bottom"
+        return (f'\t(label "{esc(nombre)}"\n\t\t(at {num(x)} {num(y)} {ANGULO[sd]})\n\t\t(effects\n\t\t\t(font\n'
+                f'\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {just})\n\t\t)\n\t\t(uuid "{uid}")\n\t)\n')
+    just = "left" if sd in "RU" else "right"
+    return (f'\t({tipo} "{esc(nombre)}"\n\t\t(shape {forma})\n\t\t(at {num(x)} {num(y)} {ANGULO[sd]})\n\t\t(effects\n'
+            f'\t\t\t(font\n\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {just})\n\t\t)\n\t\t(uuid "{uid}")\n\t)\n')
+
+
+def _recuadro(r):
+    for k in ("x", "y", "ancho", "alto", "titulo"):
+        if k not in r:
+            raise Fallo(f"recuadro sin «{k}»: {r}")
+    return (f'\t(text_box "{esc(r["titulo"])}"\n\t\t(exclude_from_sim no)\n\t\t(at {num(r["x"])} {num(r["y"])} 0)\n'
+            f'\t\t(size {num(r["ancho"])} {num(r["alto"])})\n\t\t(margins 0.9525 0.9525 0.9525 0.9525)\n'
+            "\t\t(stroke\n\t\t\t(width 0)\n\t\t\t(type dash_dot)\n\t\t)\n\t\t(fill\n\t\t\t(type none)\n\t\t)\n"
+            "\t\t(effects\n\t\t\t(font\n\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify left top)\n\t\t)\n"
+            f'\t\t(uuid "{U()}")\n\t)\n')
+
+
 def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forzar=False):
     """Texto de la hoja y resumen. `carpeta`/`nombre_proy`: proyecto al que pertenece la hoja."""
     viejos = _viejos(base)
     if viejos["no_rep"] and not forzar:
         raise Fallo(f"la hoja que se sustituye tiene {len(viejos['no_rep'])} elementos que se perderían "
                     f"({', '.join(sorted(set(viejos['no_rep'])))}); usa --forzar si es lo que quieres")
-    hoja = next((h for h in hojas(Path(carpeta) / f"{nombre_proy}.kicad_sch")[1:] if h["archivo"].name == nombre_hoja), None)
-    if hoja is None:
+    instancias = [h for h in hojas(Path(carpeta) / f"{nombre_proy}.kicad_sch")[1:] if h["archivo"].name == nombre_hoja]
+    if not instancias:
         raise Fallo(f"{nombre_hoja} no cuelga de {nombre_proy}.kicad_sch: no se puede saber su ruta de instancia")
-    ruta = hoja["ruta"]
+    rutas = [h["ruta"] for h in instancias]
+    claves_inst = [h["nombres"].strip("/") for h in instancias]
+    varias = len(instancias) > 1
     usados = _pwr_usados(carpeta, nombre_proy, nombre_hoja)
     contador = {"#PWR": 0, "#FLG": 0}
 
@@ -288,13 +466,14 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
     reservadas = {r for (_, r, _) in viejos["pwr"].values()}
     usados |= reservadas
     simbolos, pwr, etiquetas, jerarquicas, globales, ncs, avisos = [], [], [], [], [], [], []
-    puntos = {}
+    puntos, pines_pts, cableados, anclas = {}, [], [], []
 
     def alimentacion(nombre, x, y, bandera=False, giro=0):
         spec = f"power:{nombre}"
         _, _, props = lib(spec)
         uid, ref, upin = viejos["pwr"].get((spec,) + clave(x, y), (None, None, None))
-        ref = ref or ref_nueva("#FLG" if bandera else "#PWR")
+        refs = [ref or ref_nueva("#FLG" if bandera else "#PWR")]
+        refs += [ref_nueva("#FLG" if bandera else "#PWR") for _ in rutas[1:]]
 
         def en(nombre_prop, defecto):
             at = uno(props.get(nombre_prop, []), "at", ["at", *defecto])
@@ -309,18 +488,54 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             if giro in (90, 180):
                 just = {"right": "left", "left": "right"}[just]
         desc_ = props["Description"][2] if "Description" in props else ""
-        ps = [_prop("Reference", ref, *en("Reference", ("0", "-6.35")), oculto=True),
+        ps = [_prop("Reference", refs[0], *en("Reference", ("0", "-6.35")), oculto=True),
               _prop("Value", nombre, vx, vy, 90 if giro in (90, 270) else 0, just=just),
               _prop("Footprint", "", x, y, oculto=True), _prop("Datasheet", "~" if bandera else "", x, y, oculto=True),
               _prop("Description", desc_, x, y, oculto=True)]
-        pwr.append(_simbolo(spec, ref, x, y, giro, ps, [("1", upin or U())], ruta, nombre_proy, uid or U()))
+        pwr.append(_simbolo(spec, x, y, giro, ps, [("1", upin or U())], list(zip(rutas, refs)), nombre_proy, uid or U()))
+        pines_pts.append((x, y))
+
+    def poner(con, x, y, sd, quien):
+        """Dibuja la conexión `con` en (x, y); `sd`: hacia dónde va la etiqueta (R, U, L, D)."""
+        partes = con.split(":")
+        if con in ("", "W"):
+            return
+        if con == "NC":
+            uid = viejos["otros"].get(("no_connect", "") + clave(x, y)) or U()
+            ncs.append(f'\t(no_connect\n\t\t(at {num(x)} {num(y)})\n\t\t(uuid "{uid}")\n\t)\n')
+        elif partes[0] == "P" and len(partes) in (2, 3):
+            if len(partes) == 3 and partes[2] not in ("0", "90", "180", "270"):
+                raise Fallo(f"{quien}: giro «{partes[2]}» del símbolo de alimentación (0, 90, 180 o 270)")
+            alimentacion(partes[1], x, y, giro=int(partes[2]) if len(partes) == 3 else 0)
+        elif partes[0] == "L" and len(partes) == 2:
+            uid = viejos["otros"].get(("label", partes[1]) + clave(x, y)) or U()
+            etiquetas.append(_etiqueta("label", partes[1], None, x, y, sd, uid))
+        elif partes[0] in "HG" and len(partes) == 3:
+            if partes[2] not in FORMAS:
+                raise Fallo(f"{quien}: forma «{partes[2]}» ({', '.join(FORMAS)})")
+            tipo = "hierarchical_label" if partes[0] == "H" else "global_label"
+            uid = viejos["otros"].get((tipo, partes[1]) + clave(x, y)) or U()
+            (jerarquicas if partes[0] == "H" else globales).append(_etiqueta(tipo, partes[1], partes[2], x, y, sd, uid))
+        else:
+            raise Fallo(f"{quien}: conexión «{con}» no reconocida")
 
     refs_vistas = set()
     for pz in desc.get("piezas", []):
-        ref, spec, X, Y, giro = pz["ref"], pz["simbolo"], float(pz["x"]), float(pz["y"]), int(pz.get("giro", 0))
-        if ref in refs_vistas:
-            raise Fallo(f"{ref}: referencia repetida en la descripción")
-        refs_vistas.add(ref)
+        spec, X, Y, giro = pz["simbolo"], float(pz["x"]), float(pz["y"]), int(pz.get("giro", 0))
+        if varias:
+            refs_i = pz.get("refs") or {}
+            faltan = [c for c in claves_inst if c not in refs_i]
+            if faltan:
+                raise Fallo(f"{pz.get('ref', spec)}: la hoja tiene {len(rutas)} instancias y faltan las referencias de "
+                            f"{', '.join(faltan)} en «refs»")
+            inst = [(r, refs_i[c]) for r, c in zip(rutas, claves_inst)]
+        else:
+            inst = [(rutas[0], pz["ref"])]
+        ref = pz.get("ref") or inst[0][1]
+        for _, r in inst:
+            if r in refs_vistas:
+                raise Fallo(f"{r}: referencia repetida en la descripción")
+            refs_vistas.add(r)
         pines, caja, props_lib = lib(spec)
         campos = dict(pz.get("campos", {}))
         fila = (tabla or {}).get(ref, {})
@@ -341,7 +556,7 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
         if faltan:
             avisos.append(f"{ref}: campos vacíos {', '.join(faltan)}")
         upins = [(p["num"], viejos["pin"].get((ref, p["num"])) or U()) for p in pines]
-        simbolos.append(_simbolo(spec, ref, X, Y, giro, ps, upins, ruta, nombre_proy, viejos["sim"].get(ref) or U(),
+        simbolos.append(_simbolo(spec, X, Y, giro, ps, upins, inst, nombre_proy, viejos["sim"].get(ref) or U(),
                                  en_bom=pz.get("en_bom", True), dnp=dnp))
         visibles = {p["num"]: p for p in pines if not p["oculto"]}
         conexiones = pz.get("pines", {})
@@ -354,36 +569,87 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
             p = visibles[numero]
             x, y = girar(p["x"], p["y"], X, Y, giro)
             puntos.setdefault(clave(x, y), []).append(f"{ref}.{numero}")
-            sd = lado(p["ang"], giro)
-            partes = con.split(":")
-            if con == "":
-                continue
-            if con == "NC":
-                uid = viejos["otros"].get(("no_connect", "") + clave(x, y)) or U()
-                ncs.append(f'\t(no_connect\n\t\t(at {num(x)} {num(y)})\n\t\t(uuid "{uid}")\n\t)\n')
-            elif partes[0] == "P" and len(partes) in (2, 3):
-                if len(partes) == 3 and partes[2] not in ("0", "90", "180", "270"):
-                    raise Fallo(f"{ref}.{numero}: giro «{partes[2]}» del símbolo de alimentación (0, 90, 180 o 270)")
-                alimentacion(partes[1], x, y, giro=int(partes[2]) if len(partes) == 3 else 0)
-            elif partes[0] == "L" and len(partes) == 2:
-                uid = viejos["otros"].get(("label", partes[1]) + clave(x, y)) or U()
-                just = "left bottom" if sd in "RU" else "right bottom"
-                etiquetas.append(f'\t(label "{esc(partes[1])}"\n\t\t(at {num(x)} {num(y)} {ANGULO[sd]})\n\t\t(effects\n\t\t\t(font\n'
-                                 f'\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {just})\n\t\t)\n\t\t(uuid "{uid}")\n\t)\n')
-            elif partes[0] in "HG" and len(partes) == 3:
-                tipo = "hierarchical_label" if partes[0] == "H" else "global_label"
-                uid = viejos["otros"].get((tipo, partes[1]) + clave(x, y)) or U()
-                just = "left" if sd in "RU" else "right"
-                (jerarquicas if partes[0] == "H" else globales).append(
-                    f'\t({tipo} "{esc(partes[1])}"\n\t\t(shape {partes[2]})\n\t\t(at {num(x)} {num(y)} {ANGULO[sd]})\n\t\t(effects\n'
-                    f'\t\t\t(font\n\t\t\t\t(size 1.27 1.27)\n\t\t\t)\n\t\t\t(justify {just})\n\t\t)\n\t\t(uuid "{uid}")\n\t)\n')
-            else:
-                raise Fallo(f"{ref}.{numero}: conexión «{con}» no reconocida")
+            pines_pts.append((x, y))
+            if con == "W":
+                cableados.append((f"{ref}.{numero}", clave(x, y)))
+            poner(con, x, y, lado(p["ang"], giro), f"{ref}.{numero}")
     for x, y in desc.get("banderas", []):
         alimentacion("PWR_FLAG", float(x), float(y), bandera=True)
+    for e in desc.get("etiquetas", []):
+        quien = f"etiqueta {e.get('con')} en ({num(e['x'])}, {num(e['y'])})"
+        sd = e.get("lado", "R")
+        if sd not in ANGULO:
+            raise Fallo(f"{quien}: lado «{sd}» (R, U, L o D)")
+        if e.get("con", "") in ("", "W", "NC"):
+            raise Fallo(f"{quien}: en `etiquetas` solo L, H, G o P")
+        poner(e["con"], float(e["x"]), float(e["y"]), sd, quien)
+        anclas.append((quien, clave(e["x"], e["y"])))
     for k, quienes in puntos.items():
         if len(quienes) > 1:
             avisos.append(f"pines en el mismo punto {k}: {' '.join(quienes)} (quedan unidos)")
+
+    # subhojas (también varias instancias de un mismo archivo)
+    hojas_txt, paginas, nuevas = [], _paginas_usadas(carpeta, nombre_proy, nombre_hoja), []
+    nombres_h = set()
+    for hj in desc.get("hojas", []):
+        nombre, archivo_h = hj["nombre"], hj["archivo"]
+        if nombre in nombres_h:
+            raise Fallo(f"subhoja «{nombre}» repetida")
+        nombres_h.add(nombre)
+        x0, y0, ancho, alto = (float(hj[k]) for k in ("x", "y", "ancho", "alto"))
+        viejo = viejos["hojas"].get(nombre, {})
+        pines_txt, vistos = "", set()
+        for p in hj.get("pines", []):
+            if p.get("lado") not in ("L", "R") or p.get("forma") not in FORMAS or p["nombre"] in vistos:
+                raise Fallo(f"{nombre}.{p.get('nombre')}: pin de subhoja repetido o con lado (L o R) o forma no válidos")
+            vistos.add(p["nombre"])
+            px, py = (x0 if p["lado"] == "L" else x0 + ancho), float(p["y"])
+            if not y0 < py < y0 + alto:
+                raise Fallo(f"{nombre}.{p['nombre']}: y = {num(py)} fuera del borde de la subhoja")
+            ang, just = (180, "left") if p["lado"] == "L" else (0, "right")
+            pines_txt += (f'\t\t(pin "{esc(p["nombre"])}" {p["forma"]}\n\t\t\t(at {num(px)} {num(py)} {ang})\n'
+                          f'\t\t\t(uuid "{viejo.get("pines", {}).get(p["nombre"]) or U()}")\n'
+                          f"\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t)\n\t\t\t\t(justify {just})\n\t\t\t)\n\t\t)\n")
+            pines_pts.append((px, py))
+        paths = ""
+        for ruta in rutas:
+            pagina = viejo.get("paginas", {}).get(ruta)
+            if not pagina or int(pagina) in paginas:
+                pagina = str(max(paginas) + 1)
+                nuevas.append(f"{nombre} ({pagina})")
+            paginas.add(int(pagina))
+            paths += f'\t\t\t\t(path "{ruta}"\n\t\t\t\t\t(page "{pagina}")\n\t\t\t\t)\n'
+        hojas_txt.append(
+            f"\t(sheet\n\t\t(at {num(x0)} {num(y0)})\n\t\t(size {num(ancho)} {num(alto)})\n\t\t(exclude_from_sim no)\n"
+            "\t\t(in_bom yes)\n\t\t(on_board yes)\n\t\t(dnp no)\n\t\t(fields_autoplaced yes)\n"
+            "\t\t(stroke\n\t\t\t(width 0.1524)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill\n\t\t\t(color 0 0 0 0.0000)\n\t\t)\n"
+            f'\t\t(uuid "{viejo.get("uuid") or U()}")\n'
+            + _prop("Sheetname", nombre, x0, y0 - 0.7116, just="left bottom")
+            + _prop("Sheetfile", archivo_h, x0, y0 + alto + 0.5846, just="left top")
+            + pines_txt + f'\t\t(instances\n\t\t\t(project "{esc(nombre_proy)}"\n{paths}\t\t\t)\n\t\t)\n\t)\n')
+
+    if nuevas:   # consecutivas entre sí, al final; el orden del árbol lo pone `hoja.py paginas`
+        avisos.append(f"páginas nuevas: {', '.join(nuevas)}; para numerarlas en el orden del árbol, hoja.py paginas")
+
+    # cables, uniones automáticas y comprobaciones de conexión
+    tramos, uniones, grado = tramos_y_uniones(desc.get("cables", []), pines_pts)
+    uniones = sorted(set(uniones) | {clave(*u) for u in desc.get("uniones", [])})
+    for quien, k in cableados:
+        if k not in grado:
+            raise Fallo(f"{quien}: conexión «W» sin cable en ({num(k[0])}, {num(k[1])})")
+    pin_set = {clave(*p) for p in pines_pts}
+    for quien, k in anclas:
+        if k not in pin_set and not toca(k, tramos):
+            avisos.append(f"{quien}: suelta (ni en un pin ni en un cable)")
+    ancla_set = {k for _, k in anclas}
+    sueltos = sorted(p for p, g in grado.items() if g == 1 and p not in pin_set and p not in ancla_set)
+    avisos += [f"extremo de cable suelto en ({num(p[0])}, {num(p[1])})" for p in sueltos]
+    cables_txt = "".join(f"\t(wire\n\t\t(pts\n\t\t\t(xy {num(a[0])} {num(a[1])}) (xy {num(b[0])} {num(b[1])})\n\t\t)\n"
+                         f'\t\t(stroke\n\t\t\t(width 0)\n\t\t\t(type default)\n\t\t)\n\t\t(uuid "{U()}")\n\t)\n'
+                         for a, b in tramos)
+    uniones_txt = "".join(f"\t(junction\n\t\t(at {num(x)} {num(y)})\n\t\t(diameter 0)\n\t\t(color 0 0 0 0)\n"
+                          f'\t\t(uuid "{U()}")\n\t)\n' for x, y in uniones)
+    recuadros_txt = "".join(_recuadro(r) for r in desc.get("recuadros", []))
 
     textos = []
     for t in desc.get("textos", []):
@@ -391,7 +657,8 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
         negrita = "\n\t\t\t\t(bold yes)" if t.get("negrita") else ""
         tam = num(t.get("tam", 1.27))
         textos.append(f'\t(text "{esc(t["texto"])}"\n\t\t(exclude_from_sim no)\n\t\t(at {num(t["x"])} {num(t["y"])} 0)\n\t\t(effects\n'
-                      f'\t\t\t(font\n\t\t\t\t(size {tam} {tam}){negrita}\n\t\t\t)\n\t\t\t(justify left bottom)\n\t\t)\n\t\t(uuid "{uid}")\n\t)\n')
+                      f'\t\t\t(font\n\t\t\t\t(size {tam} {tam}){negrita}\n\t\t\t)\n\t\t\t(justify {t.get("justify", "left bottom")})\n\t\t)\n'
+                      f'\t\t(uuid "{uid}")\n\t)\n')
 
     caj = desc.get("cajetin", {})
     tb = "".join(f'\t\t({k} "{esc(caj[k])}")\n' for k in ("title", "date", "rev", "company") if caj.get(k))
@@ -399,17 +666,71 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
     cab = ('(kicad_sch\n\t(version 20260306)\n\t(generator "eeschema")\n\t(generator_version "10.0")\n'
            f'\t(uuid "{viejos["hoja"] or U()}")\n\t(paper "{desc.get("papel", "A4")}")\n'
            + (f"\t(title_block\n{tb}\t)\n" if tb else ""))
-    cuerpo = ("\t(lib_symbols\n" + "\n".join(libs_txt[k] for k in libs_txt) + "\n\t)\n" + "".join(ncs) + "".join(etiquetas)
-              + "".join(globales) + "".join(jerarquicas) + "".join(textos) + "".join(simbolos) + "".join(pwr))
+    cuerpo = ("\t(lib_symbols\n" + "\n".join(libs_txt[k] for k in libs_txt) + "\n\t)\n" + uniones_txt + "".join(ncs)
+              + cables_txt + "".join(etiquetas) + "".join(globales) + "".join(jerarquicas) + "".join(textos)
+              + recuadros_txt + "".join(simbolos) + "".join(pwr) + "".join(hojas_txt))
     resumen = {"piezas": len(simbolos), "etiquetas": len(etiquetas), "jerarquicas": len(jerarquicas), "globales": len(globales),
-               "nc": len(ncs), "alimentacion": len(pwr), "textos": len(textos), "avisos": avisos,
-               "uuid_conservados": sum(1 for pz in desc.get("piezas", []) if pz["ref"] in viejos["sim"])}
+               "nc": len(ncs), "alimentacion": len(pwr), "textos": len(textos), "cables": len(tramos),
+               "uniones": len(uniones), "recuadros": len(desc.get("recuadros", [])), "hojas": len(hojas_txt),
+               "instancias": len(rutas), "avisos": avisos,
+               "uuid_conservados": sum(1 for pz in desc.get("piezas", []) if (pz.get("ref") or "") in viejos["sim"])}
     return cab + cuerpo + ")\n", resumen
+
+
+# ------------------------------------------------------------------ páginas en el orden del árbol
+
+def paginas_en_orden(raiz_sch):
+    """Páginas de las hojas en el orden del árbol (la raíz es la 1; cada hoja, seguida de sus subhojas, también de
+    todas las instancias de una subhoja repetida; entre hermanas, el orden de sus páginas actuales y su posición).
+    Devuelve (cambios [(ruta de nombres, vieja, nueva)], {archivo: texto nuevo} de los archivos que cambian)."""
+    raiz_sch = Path(raiz_sch).resolve()
+    textos, cambios, editar = {}, [], {}
+    cuenta = [1]
+
+    def texto(archivo):
+        if archivo not in textos:
+            textos[archivo] = leer(archivo)
+        return textos[archivo]
+
+    def bajar(archivo, ruta, nombres, vistos):
+        t = texto(archivo)
+        hijas = []
+        for n, i, j in trozos(t):
+            if n != "sheet":
+                continue
+            nodo = parse(t[i:j])
+            props = {p[1]: p[2] for p in hijos(nodo, "property") if len(p) > 2}
+            m = re.search(r'\(path\s+"' + re.escape(ruta) + r'"\s*\(page\s+"([^"]*)"\)', t[i:j])
+            at = uno(nodo, "at")
+            vieja = m.group(1) if m else ""
+            orden = int(vieja) if vieja.isdigit() else 10 ** 9
+            hijas.append((orden, float(at[2]), float(at[1]), props.get("Sheetname", ""), val(nodo, "uuid"),
+                          (archivo.parent / props.get("Sheetfile", "")).resolve(), (i + m.start(1), i + m.end(1)) if m else None,
+                          vieja))
+        for _, _, _, nombre, uid, hija, sitio, vieja in sorted(hijas, key=lambda h: h[:3]):
+            cuenta[0] += 1
+            nueva = str(cuenta[0])
+            if sitio is None:
+                raise Fallo(f"{nombres}{nombre}: la subhoja no tiene página para la instancia {ruta}")
+            if vieja != nueva:
+                cambios.append((nombres + nombre + "/", vieja, nueva))
+                editar.setdefault(archivo, []).append((sitio, nueva))
+            if hija.is_file() and hija not in vistos:
+                bajar(hija, ruta + "/" + uid, nombres + nombre + "/", vistos | {hija})
+
+    bajar(raiz_sch, "/" + val(parse_cabecera(texto(raiz_sch)), "uuid"), "/", {raiz_sch})
+    nuevos = {}
+    for archivo, sitios in editar.items():
+        t = textos[archivo]
+        for (a, b), nueva in sorted(sitios, reverse=True):
+            t = t[:a] + nueva + t[b:]
+        nuevos[archivo] = t
+    return cambios, nuevos
 
 
 # ------------------------------------------------------------------ raíz: pines de hoja y sus conexiones
 
-LADO_PIN = {"L": (180, "left"), "R": (0, "right")}   # lado → (ángulo del pin y de su etiqueta, justify del pin)
+LADO_PIN ={"L": (180, "left"), "R": (0, "right")}   # lado → (ángulo del pin y de su etiqueta, justify del pin)
 
 
 def _hojas_raiz(texto):
@@ -621,8 +942,9 @@ def orden_extraer(args):
         return 1
     Path(args.salida).parent.mkdir(parents=True, exist_ok=True)
     Path(args.salida).write_text(json.dumps(desc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    emitir([f"{args.salida}: {len(desc['piezas'])} piezas, {len(desc['textos'])} textos, {len(desc['banderas'])} banderas"
-            f" · no representado: {len(perdidos)}"] + sorted(set(perdidos))[:20])
+    emitir([f"{args.salida}: {len(desc['piezas'])} piezas, {len(desc['textos'])} textos, {len(desc['banderas'])} banderas, "
+            f"{len(desc['cables'])} cables, {len(desc['etiquetas'])} etiquetas sueltas de pin, {len(desc['recuadros'])} recuadros, "
+            f"{len(desc['hojas'])} subhojas · no representado: {len(perdidos)}"] + sorted(set(perdidos))[:20])
     return 0
 
 
@@ -637,7 +959,8 @@ def orden_generar(args):
     escribir(salida, texto)
     emitir([f"{salida}: {r['piezas']} piezas ({r['uuid_conservados']} con su UUID), {r['etiquetas']} etiquetas, "
             f"{r['jerarquicas']} jerárquicas, {r['globales']} globales, {r['nc']} NC, {r['alimentacion']} de alimentación, "
-            f"{r['textos']} textos · avisos {len(r['avisos'])}"] + r["avisos"], pista=None)
+            f"{r['textos']} textos, {r['cables']} tramos de cable, {r['uniones']} uniones, {r['recuadros']} recuadros, "
+            f"{r['hojas']} subhojas; {r['instancias']} instancias de la hoja · avisos {len(r['avisos'])}"] + r["avisos"], pista=None)
     return 0
 
 
@@ -658,6 +981,20 @@ def orden_raiz(args):
     emitir([f"{salida}: {r['hojas']} hojas, {r['pines']} pines de hoja, {r['conexiones']} etiquetas o NC · avisos "
             f"{len(r['avisos'])}"] + r["avisos"], pista=None)
     return 1 if r["avisos"] else 0
+
+
+def orden_paginas(args):
+    carpeta, nombre = proyecto(args.proyecto)
+    cambios, nuevos = paginas_en_orden(carpeta / f"{nombre}.kicad_sch")
+    lineas = [f"{r}: {v or '—'} → {n}" for r, v, n in cambios]
+    if not args.salida:
+        emitir([f"{carpeta.name}: {len(cambios)} hojas fuera del orden del árbol"] + lineas, pista=None)
+        return 1 if cambios else 0
+    destino = Path(args.salida).resolve()
+    for archivo, texto in nuevos.items():
+        escribir(destino / archivo.relative_to(carpeta), texto)
+    emitir([f"{destino}: {len(cambios)} páginas renumeradas en {len(nuevos)} archivos"] + lineas, pista=None)
+    return 0
 
 
 def orden_netlist(args):
@@ -683,8 +1020,8 @@ def orden_netlist(args):
         for k, ruta in enumerate((args.a, args.b)):
             carpeta, nombre = proyecto(ruta)
             redes.append(exportar_netlist(carpeta, nombre, Path(tmp) / f"{k}.net"))
-    dif = comparar_netlists(redes[0], redes[1], args.hoja)
-    ambito = f"hoja {args.hoja}" if args.hoja else "proyecto"
+    dif = (comparar_grupos if args.grupos else comparar_netlists)(redes[0], redes[1], args.hoja)
+    ambito = (f"hoja {args.hoja}" if args.hoja else "proyecto") + (", por grupos de pines" if args.grupos else "")
     emitir([f"Netlist A ({len(redes[0]['comps'])} piezas, {len(redes[0]['redes'])} redes) frente a B "
             f"({len(redes[1]['comps'])} piezas, {len(redes[1]['redes'])} redes), {ambito}: {len(dif)} diferencias"] + dif,
            detalle=args.detalle)
@@ -712,18 +1049,23 @@ def main():
     g.add_argument("--campos", help="CSV de campos que completa o sustituye los de la descripción")
     g.add_argument("--forzar", action="store_true", help="sustituye aunque la hoja tenga cables u otros elementos")
     g.set_defaults(f=orden_generar)
-    r = sub.add_parser("raiz", help="pines de hoja y sus etiquetas o NC en la raíz, desde una descripción")
+    r = sub.add_parser("raiz", help="pines de hoja de la raíz, desde una descripción")
     r.add_argument("descripcion", nargs="?")
     r.add_argument("--proyecto", required=True, help="proyecto cuya raíz se lee (carpeta o .kicad_pro)")
     r.add_argument("-o", "--salida", required=True, help="raíz .kicad_sch de destino (o JSON con --extraer)")
     r.add_argument("--extraer", action="store_true", help="escribe en -o la descripción de la raíz actual")
     r.set_defaults(f=orden_raiz)
-    n = sub.add_parser("netlist", help="compara la netlist con la de otro proyecto o con un plan")
+    pg = sub.add_parser("paginas", help="páginas en el orden del árbol (-o: renumera)")
+    pg.add_argument("proyecto", help="carpeta del proyecto o .kicad_pro")
+    pg.add_argument("-o", "--salida", help="carpeta donde escribir los .kicad_sch que cambian (la del proyecto o una copia)")
+    pg.set_defaults(f=orden_paginas)
+    n = sub.add_parser("netlist", help="compara la netlist con otro proyecto o un plan")
     n.add_argument("a")
     n.add_argument("b", nargs="?")
     n.add_argument("--plan", metavar="DOC", help="documento con las redes como `RED = {REF-PIN, …}`")
     n.add_argument("--seccion", help="con --plan, solo la sección cuyo título contiene este texto")
     n.add_argument("--hoja", help="solo las piezas de esta hoja (nombre de la hoja, p. ej. MCU)")
+    n.add_argument("--grupos", action="store_true", help="compara las redes por grupos de pines, no por nombre")
     n.add_argument("--detalle", metavar="ARCHIVO")
     n.set_defaults(f=orden_netlist)
     args = ap.parse_args()

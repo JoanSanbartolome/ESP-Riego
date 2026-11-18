@@ -32,9 +32,17 @@ Hoja entera por script (SPEC-0022, 2026-11-07, 21 piezas; ERC 0 al primer intent
 - Unir hojas con etiquetas locales en la raíz renombra las redes (`/Alimentacion/X` → `/X`): la paridad da `net_conflict` en los pads ya sincronizados hasta que layout resincroniza. Es esperado: anotarlo en el log.
 
 Hoja con `hoja.py` (SPEC-0031, 2026-11-15):
-- Pines seguidos en un lateral con la misma alimentación (GND 2-4-6-8 de un IDC, A0–A2, EN e IN): `P:GND:270` / `P:+5V:90` (desde SPEC-0028) en cada pin, girado hacia fuera; nada de cables (VAL-0031-01-06). Si el Value girado pisa una pieza vecina, mover la pieza.
+- Pines seguidos en un lateral con la misma alimentación (GND 2-4-6-8 de un IDC, A0–A2, EN e IN): `P:GND:270` / `P:+5V:90` (desde SPEC-0028) en cada pin, girado hacia fuera. Si el Value girado pisa una pieza vecina, mover la pieza. **Desde DEC-0015 (SPEC-0035) el estilo es el del TFG:** recuadros, cables (`W` en el pin + `cables` + `etiquetas`) y etiquetas solo hacia fuera; «nada de cables» de VAL-0031-01-06 ya no vale.
 - Símbolo propio con pines abajo: dejar ≥ 10 mm entre los nombres laterales y los de abajo (ILIM tapaba FAULT).
 - Archivos de `hardware/v2` en CRLF en el árbol de trabajo: los parches por script convierten a LF y vuelven a CRLF.
 - Texto largo para un `.md`: escribirlo con Write en la carpeta temporal y `cat >>`; un heredoc con `''` dentro falló («unexpected EOF»).
 
 Relacionado: [[reference-fuentes-piezas]]
+
+Redibujar hojas con cables (SPEC-0035 paso 3, 2026-11-18; 108 piezas en ~2 h):
+- Generar el JSON con un script que calcule las puntas de pin (`hoja.bloque_libreria` + `pines_y_caja` + `girar`) y una comprobación de conectividad frente al `extraer` original antes de lanzar kicad-cli (ayudante `scratchpad\p3\dib.py`; propuesto para `herramientas/kicad/`).
+- Las redes internas que antes tenían etiqueta pierden el nombre al pasar a cable: poner una etiqueta local sobre el cable (una por recuadro) o cambia la paridad. Comprobar con `hoja.py netlist` **sin** `--grupos`.
+- USBLC6 (pines 1-6 y 3-4 de la misma red): sin cruces solo con un lazo alrededor y la etiqueta de VBUS dentro → recuadro ESD propio.
+- Device:LED: falso «cable cruza D» de `esquema.cruces` en el cátodo (las flechas sobresalen de la caja): GND directo en el pin K.
+- Campos con `pos`: giro 90/270 → ángulo 270/90; giro 180 → ángulo 0 con justify invertido (`right` sale a la izquierda).
+- Pin TOP + pines laterales de la misma red que encierran otra (TPS2116 VIN1/MODE con PR1 en medio): lazo por fuera con la red encerrada (R11/R12 y su GND) dentro.

@@ -2,11 +2,11 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Requisitos de `docs/02-especificaciones-v2.md`: 58.
+Requisitos de `docs/02-especificaciones-v2.md`: 59.
 
 | Prioridad | sin cubrir | planificado | en curso | cubierto |
 |---|---|---|---|---|
-| M | 3 | 0 | 0 | 41 |
+| M | 3 | 0 | 0 | 42 |
 | S | 2 | 0 | 0 | 10 |
 | C | 0 | 0 | 0 | 2 |
 
@@ -62,10 +62,11 @@ Requisitos de `docs/02-especificaciones-v2.md`: 58.
 | FAB-10 | C | Barniz conformado si el recinto es húmedo, con los conectores y el… | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | 3: `377dc07`, `b9e0032`, `29ba41e` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES) | cubierto |
 | FAB-11 | M | Modelo 3D de todos los componentes, para comprobar el encaje en la… | [SPEC-0021](specs/SPEC-0021-piezas-mcu.md), [SPEC-0024](specs/SPEC-0024-piezas-salidas.md) | 4: `c2401d6`, `60cec8d`, `73af0ee` | VAL-0021-01 (APROBADO_CON_OBSERVACIONES), VAL-0024-01 (APROBADO_CON_OBSERVACIONES) | cubierto |
 | KIC-01 | M | KiCad 10. Librerías propias dentro del repositorio con rutas `${KIP… | [SPEC-0009](specs/SPEC-0009-importar-v1.md), [SPEC-0010](specs/SPEC-0010-correcciones-importacion-v1.md), [SPEC-0012](specs/SPEC-0012-notas-importacion-v1.md), [SPEC-0013](specs/SPEC-0013-copia-v2.md), [SPEC-0015](specs/SPEC-0015-recopilacion-componentes.md), [SPEC-0016](specs/SPEC-0016-mantenimiento-fases-0-2.md), [SPEC-0018](specs/SPEC-0018-piezas-alimentacion.md), [SPEC-0021](specs/SPEC-0021-piezas-mcu.md), [SPEC-0024](specs/SPEC-0024-piezas-salidas.md), [SPEC-0028](specs/SPEC-0028-mantenimiento-fases-2-3.md) | 52: `0328136`, `59ad3c5`, `c2401d6` | VAL-0009-01 (APROBADO_CON_OBSERVACIONES), VAL-0010-01 (APROBADO_CON_OBSERVACIONES), VAL-0013-02 (APROBADO_CON_OBSERVACIONES), VAL-0015-02 (APROBADO_CON_OBSERVACIONES), VAL-0016-02 (APROBADO), VAL-0018-02 (APROBADO_CON_OBSERVACIONES), VAL-0021-01 (APROBADO_CON_OBSERVACIONES), VAL-0024-01 (APROBADO_CON_OBSERVACIONES), VAL-0028-01 (APROBADO_CON_OBSERVACIONES) | cubierto |
-| KIC-02 | M | Esquema jerárquico por bloques: alimentación, MCU, salidas, sensore… | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md), [SPEC-0013](specs/SPEC-0013-copia-v2.md), [SPEC-0014](specs/SPEC-0014-limpieza-v2.md), [SPEC-0029](specs/SPEC-0029-bloque-sensores.md), [SPEC-0031](specs/SPEC-0031-bloque-conectores.md), [SPEC-0032](specs/SPEC-0032-integracion-esquema.md), [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 19: `a9cfa2d`, `41b72ac`, `3dfec5d` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES), VAL-0013-02 (APROBADO_CON_OBSERVACIONES), VAL-0014-01 (APROBADO_CON_OBSERVACIONES), VAL-0029-01 (APROBADO_CON_OBSERVACIONES), VAL-0031-02 (APROBADO) | cubierto |
-| KIC-03 | M | Antes de fabricar: ERC sin errores, y DRC sin errores ni incidencia… | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md), [SPEC-0032](specs/SPEC-0032-integracion-esquema.md), [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 6: `bf917f9`, `92a7247`, `216aeba` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES) | cubierto |
+| KIC-02 | M | Esquema jerárquico por bloques: alimentación, MCU, salidas, sensore… | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md), [SPEC-0013](specs/SPEC-0013-copia-v2.md), [SPEC-0014](specs/SPEC-0014-limpieza-v2.md), [SPEC-0029](specs/SPEC-0029-bloque-sensores.md), [SPEC-0031](specs/SPEC-0031-bloque-conectores.md), [SPEC-0032](specs/SPEC-0032-integracion-esquema.md), [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 20: `c916203`, `a9cfa2d`, `41b72ac` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES), VAL-0013-02 (APROBADO_CON_OBSERVACIONES), VAL-0014-01 (APROBADO_CON_OBSERVACIONES), VAL-0029-01 (APROBADO_CON_OBSERVACIONES), VAL-0031-02 (APROBADO), VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | cubierto |
+| KIC-03 | M | Antes de fabricar: ERC sin errores, y DRC sin errores ni incidencia… | [SPEC-0014](specs/SPEC-0014-limpieza-v2.md), [SPEC-0032](specs/SPEC-0032-integracion-esquema.md), [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 7: `c916203`, `bf917f9`, `92a7247` | VAL-0014-01 (APROBADO_CON_OBSERVACIONES), VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | cubierto |
 | KIC-04 | S | Reglas en `.kicad_dru` (clases de red, zona de antena, separación d… | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | 2: `377dc07`, `b9e0032` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES) | cubierto |
 | KIC-05 | S | Salidas de fabricación generadas con `kicad-cli`, para que sean rep… | — | — | — | sin cubrir |
+| KIC-06 | M | Esquema legible con el aspecto del esquema del TFG, según las regla… | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | — | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | cubierto |
 | FW-01 | M | Configuración ESPHome en `firmware/`, con las credenciales en `secr… | — | — | — | sin cubrir |
 | FW-02 | M | Pinout del YAML derivado del esquema v2 y comprobado durante la val… | — | — | — | sin cubrir |
 | FW-03 | S | Supervisión de la alimentación (subtensión y sobretensión, ALI-09),… | [SPEC-0004](specs/SPEC-0004-requisitos-v02.md) | 3: `377dc07`, `b9e0032`, `29ba41e` | VAL-0004-02 (APROBADO_CON_OBSERVACIONES) | cubierto |

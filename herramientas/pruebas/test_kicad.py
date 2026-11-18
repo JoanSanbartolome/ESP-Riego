@@ -37,12 +37,14 @@ sys.path.insert(0, str(KICAD))
 import _comun  # noqa: E402
 import campos  # noqa: E402
 import comprobar  # noqa: E402
+import dibujo  # noqa: E402
+import _estilo  # noqa: E402
 import hoja  # noqa: E402
 import huella  # noqa: E402
 import jlc  # noqa: E402
 import restricciones  # noqa: E402
 
-HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar"]
+HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar", "dibujo"]
 BTT6050 = "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
 TMP = BASE = None
 
@@ -113,10 +115,10 @@ class Generales(unittest.TestCase):
         ordenes = [
             ("campos", "revisar", v2), ("comprobar", v2), ("comprobar", "--lista"), ("huella", mod), ("huella", mod, "--json"),
             ("hoja", "pines", "RF_Module:ESP32-S3-WROOM-1"), ("hoja", "extraer", v2 / "mcu.kicad_sch", "-o", TMP / "nm.json"),
-            ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, "--plan", plan),
+            ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, v2, "--grupos"), ("hoja", "netlist", v2, "--plan", plan),
             ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
-            ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"),
+            ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"), ("dibujo", "comprobar", TMP / "nm.json", v2 / "mcu.kicad_sch", "--proyecto", v2),
         ]
         antes = huella_md5(BASE)
         for orden in ordenes:
@@ -125,6 +127,18 @@ class Generales(unittest.TestCase):
             self.assertLessEqual(len(salida.strip().splitlines()), 30, orden[:2])
             self.assertGreater(len(salida.strip()), 0, orden[:2])
         self.assertEqual(antes, huella_md5(BASE), "alguna herramienta ha tocado lo que lee")
+
+    def test_lineas_de_checklist_del_readme(self):
+        """Cada fila de «Puntos de checklist» del README cita una línea que existe en la versión actual de su checklist
+        y lleva la marca `[auto: comprobar.py <punto>]` de esa fila (VAL-0035-01-04)."""
+        readme = (KICAD / "README.md").read_text(encoding="utf-8")
+        archivos = {"esquema": "esquema.md", "layout": "layout.md", "librerías": "librerias.md"}
+        filas = re.findall(r"^\| (esquema|layout|librerías) \| (\d+)[^|]*\|[^|]*\| `([a-z0-9_.]+)`", readme, re.M)
+        self.assertEqual(len(filas), len(comprobar.PUNTOS))
+        for lista, linea, punto in filas:
+            lineas = (REPO / "gestion" / "checklists" / archivos[lista]).read_text(encoding="utf-8").splitlines()
+            donde = [k + 1 for k, l in enumerate(lineas) if f"[auto: comprobar.py {punto}]" in l]
+            self.assertIn(int(linea), donde, f"README: {lista} l. {linea} ({punto}); la marca está en {donde}")
 
     def test_emitir_recorta(self):
         import contextlib
@@ -379,17 +393,241 @@ class Hoja(unittest.TestCase):
         self.assertEqual(r["erc"]["total"], 0, r["erc"])
         self.assertEqual(r["paridad"]["total"], 0, r["paridad"])
 
-    def test_no_sustituye_una_hoja_con_cables(self):
-        codigo, salida, _ = correr("hoja", "extraer", BASE / "v2" / "alimentacion.kicad_sch", "-o", TMP / "ali.json")
+    def test_no_sustituye_lo_que_no_representa(self):
+        """Una hoja con un elemento que hoja.py no sabe dibujar (polilínea): extraer no escribe y generar no la sustituye."""
+        ali = TMP / "ali_poly.kicad_sch"
+        texto = _comun.leer(BASE / "v2" / "alimentacion.kicad_sch").rstrip()
+        _comun.escribir(ali, texto[:-1] + '\t(polyline (pts (xy 0 0) (xy 10 0)) (stroke (width 0) (type default)) (uuid "p1"))\n)\n')
+        codigo, salida, _ = correr("hoja", "extraer", ali, "-o", TMP / "ali.json")
         self.assertEqual(codigo, 1)
-        self.assertIn("wire", salida)
+        self.assertIn("polyline", salida)
         self.assertFalse((TMP / "ali.json").exists())
         desc = TMP / "vacia.json"
         desc.write_text('{"piezas": []}', encoding="utf-8")
         codigo, _, error = correr("hoja", "generar", desc, "--proyecto", BASE / "v2", "--como", "alimentacion.kicad_sch",
-                                  "-o", TMP / "ali.kicad_sch")
+                                  "--base", ali, "-o", TMP / "ali.kicad_sch")
         self.assertEqual(codigo, 2)
         self.assertIn("--forzar", error)
+
+    def test_regenera_alimentacion_con_cables(self):
+        """extraer + generar reproduce una hoja con cables y etiquetas fuera de los pines (Alimentación)."""
+        proy = copia("v2_ali")
+        desc = TMP / "ali_cables.json"
+        codigo, salida, error = correr("hoja", "extraer", BASE / "v2" / "alimentacion.kicad_sch", "-o", desc)
+        self.assertEqual(codigo, 0, salida + error)
+        d = json.loads(desc.read_text(encoding="utf-8"))
+        self.assertEqual((len(d["cables"]), len(d["recuadros"])), (188, 7))         # redibujada en SPEC-0035
+        self.assertIn({"x": 27.94, "y": 45.72, "con": "L:VIN_RAW", "lado": "R"}, d["etiquetas"])
+        codigo, salida, error = correr("hoja", "generar", desc, "--proyecto", proy, "-o", proy / "alimentacion.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("55 piezas (55 con su UUID)", salida)
+        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", proy)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn(": 0 diferencias", salida)
+
+    def test_tramos_y_uniones(self):
+        """Los cables se parten donde llega otro extremo o un pin; unión con 3 o más extremos; un cruce no une."""
+        tramos, uniones, grado = hoja.tramos_y_uniones(
+            [[[0, 0], [10, 0]], [[5, 0], [5, 5]], [[0, 10], [10, 10]], [[5, 8], [5, 12]], [[20, 0], [30, 0]]],
+            pines=[(10, 0), (25, 0)])
+        self.assertEqual(uniones, [(5.0, 0.0), (25.0, 0.0)])          # T y pin en mitad de un cable
+        self.assertIn(((0.0, 0.0), (5.0, 0.0)), tramos)
+        self.assertIn(((20.0, 0.0), (25.0, 0.0)), tramos)
+        self.assertEqual(grado[(10.0, 0.0)], 2)                         # cable que acaba en un pin: sin unión
+        self.assertNotIn((5.0, 10.0), grado)                            # cruce sin extremos: no se une
+        self.assertTrue(hoja.toca((7, 0), tramos))
+        self.assertFalse(hoja.toca((7, 1), tramos))
+
+    def test_comparar_grupos(self):
+        """netlist --grupos: una red renombrada no es una diferencia; una red partida sí."""
+        c = {"value": "1k", "footprint": "F", "campos": {}, "nombres": "/"}
+        a = {"comps": {"R1": c, "R2": c}, "redes": {"/X": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2"), ("R2", "2")}}}
+        b = {"comps": {"R1": c, "R2": c}, "redes": {"/Y": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2"), ("R2", "2")}}}
+        self.assertEqual(_comun.comparar_grupos(a, b), [])
+        self.assertNotEqual(_comun.comparar_netlists(a, b), [])
+        partida = {"comps": a["comps"], "redes": {"/X": {("R1", "1"), ("R2", "1")}, "GND": {("R1", "2")}, "N": {("R2", "2")}}}
+        dif = _comun.comparar_grupos(a, partida)
+        self.assertTrue(any("GND" in d and "repartida" in d for d in dif), dif)
+
+    def test_dibujo(self):
+        """dibujo.py: puntas de pin, cables pin a pin, conectividad frente a la hoja original y avisos; con la hoja
+        generada, el cable del cátodo de un LED no cruza el símbolo (primitivas) y uno entre las placas de un
+        condensador sí (núcleo entre los pines)."""
+        proy = copia("v2_dibujo")
+        d = dibujo.Dibujo(BASE / "v2" / "mcu.kicad_sch", proyecto=BASE / "v2")
+        d.pieza("R23", 50.8, 50.8, 90)
+        d.pieza("D5", 63.5, 54.61, 90)
+        d.pieza("C23", 88.9, 55.88, pines={"1": "L:EN", "2": "P:GND"})
+        self.assertEqual((d.p("R23.1"), d.p("D5.2"), d.p("D5.1")), ((46.99, 50.8), (63.5, 50.8), (63.5, 58.42)))
+        d.lab("L:LED_STATUS", (38.1, 50.8), "L")
+        d.w((38.1, 50.8), "R23.1")
+        d.hv("R23.2", "D5.2")
+        d.w("D5.1", (63.5, 62.23))
+        d.pwr("GND", (63.5, 62.23))
+        d.box(25.4, 35.56, 81.28, 38.1, "LED de prueba: D5, R23, C23")
+        desc = TMP / "dibujo.json"
+        self.assertEqual(d.guardar(desc, todas=False), [])
+        with self.assertRaises(_comun.Fallo):
+            d.guardar(TMP / "dibujo_todas.json")                      # faltan piezas de la original
+        codigo, salida, error = correr("dibujo", "comprobar", desc, BASE / "v2" / "mcu.kicad_sch", "--proyecto", BASE / "v2")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("0 diferencias, 0 avisos", salida)
+        # R23 al revés y el cátodo sin cable: diferencias y aviso
+        original = dibujo.cargar(BASE / "v2" / "mcu.kicad_sch")
+        mal = json.loads(desc.read_text(encoding="utf-8"))
+        mal["piezas"][0]["giro"] = 270
+        mal["cables"] = [c for c in mal["cables"] if [63.5, 62.23] not in c]
+        dif, avisos, _ = dibujo.comparar(original, mal, d.pines)
+        self.assertTrue(any(x.startswith("R23.1: con") for x in dif), dif)
+        self.assertIn("D5.1: «W» sin cable en (63.5, 58.42)", avisos)
+        # estilo de la hoja generada
+        hoja_led = TMP / "dibujo.kicad_sch"
+        codigo, salida, error = correr("hoja", "generar", desc, "--proyecto", proy, "--como", "mcu.kicad_sch", "-o", hoja_led)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertEqual(_estilo.cruces(_estilo.analizar(hoja_led)), [])
+        texto = _comun.leer(hoja_led).rstrip()
+        _comun.escribir(hoja_led, texto[:-1] + '\t(wire (pts (xy 85.09 55.88) (xy 92.71 55.88)) (stroke (width 0) (type default)) (uuid "w1"))\n'
+                        '\t(wire (pts (xy 60.96 54.61) (xy 66.04 54.61)) (stroke (width 0) (type default)) (uuid "w2"))\n)\n')
+        malas = _estilo.cruces(_estilo.analizar(hoja_led))
+        self.assertIn("cable (85.09, 55.88)–(92.71, 55.88) cruza C23", malas)
+        self.assertIn("cable (60.96, 54.61)–(66.04, 54.61) cruza D5", malas)
+
+    def test_campos_subhoja(self):
+        """La subhoja «Canal» (6 instancias) usa la tabla de Salidas: sin diferencias, y una de más se detecta."""
+        archivos = campos.archivos_de([BASE / "v2"])
+        tablas = campos.tablas_por_defecto(archivos)
+        self.assertIs(tablas["canal.kicad_sch"], tablas["salidas.kicad_sch"])
+        r = campos.revisar(archivos, tablas)
+        self.assertEqual((r["piezas"], r["tabla"]), (197, []))
+        tablas["salidas.kicad_sch"]["U99"] = {"Value": "X"}
+        r = campos.revisar(archivos, tablas)
+        self.assertEqual(r["tabla"], ["canal.kicad_sch, salidas.kicad_sch: en la tabla y no en la hoja: U99"])
+
+    def test_cables_recuadros_y_subhojas(self):
+        """Cables con uniones automáticas, recuadro con título y una subhoja repetida (dos instancias, refs propias)."""
+        proy = copia("v2_cables")
+        d, perdidos = hoja.extraer(BASE / "v2" / "sensores.kicad_sch")     # la hoja piloto (SPEC-0035)
+        self.assertEqual(perdidos, [])
+        self.assertEqual(d["piezas"][0]["pines"] if d["piezas"][0]["ref"] == "U13" else d["piezas"][1]["pines"],
+                         {"1": "W", "2": "W", "3": "W", "4": "W"})
+        self.assertEqual(len(d["recuadros"]), 1)
+        d["hojas"] = [{"nombre": n, "archivo": "prueba_canal.kicad_sch", "x": 198.12, "y": y, "ancho": 25.4, "alto": 12.7,
+                       "pines": [{"nombre": "ENT", "forma": "input", "lado": "L", "y": y + 5.08}]}
+                      for n, y in (("CanalA", 76.2), ("CanalB", 96.52))]
+        d["cables"] += [[[167.64, 88.9], [180.34, 88.9], [180.34, 81.28], [198.12, 81.28]],
+                        [[180.34, 88.9], [180.34, 101.6], [198.12, 101.6]]]
+        archivo = TMP / "cables.json"
+        archivo.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "generar", archivo, "--proyecto", proy, "-o", proy / "sensores.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("3 uniones, 1 recuadros, 2 subhojas", salida)
+        canal = {"papel": "A4", "piezas": [{"refs": {"Sensores/CanalA": "R901", "Sensores/CanalB": "R902"}, "simbolo": "Device:R",
+                                            "x": 101.6, "y": 101.6, "giro": 0,
+                                            "campos": {"Value": "1k", "Footprint": "Resistor_SMD:R_0603_1608Metric", "MPN": "X",
+                                                       "Fabricante": "X", "Datasheet": "http://x", "Description": "x",
+                                                       "LCSC Part#": "C21190"},
+                                            "pines": {"1": "H:ENT:input", "2": "P:GND"}}]}
+        (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", proy / "prueba_canal.kicad_sch")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("2 instancias de la hoja", salida)
+        red = _comun.exportar_netlist(proy, "esp-riego", TMP / "cables.net")
+        self.assertEqual(red["comps"]["R901"]["nombres"], "/Sensores/CanalA/")
+        self.assertEqual(red["comps"]["R902"]["nombres"], "/Sensores/CanalB/")
+        self.assertTrue({("U13", "3"), ("C47", "1"), ("R901", "1"), ("R902", "1")} <= red["redes"]["+3V3"])
+        r = verificar(proy)
+        self.assertEqual(r["erc"]["errores"], 0, r["erc"])
+        puntos = {x["punto"]: x for x in comprobar.resumen(proy)["puntos"]}
+        self.assertIn("199 piezas", puntos["esquema.campos"]["detalle"][0])          # una pieza por instancia
+        self.assertEqual(puntos["esquema.cruces"]["estado"], "OK", puntos["esquema.cruces"])
+        self.assertIn("prueba_canal.kicad_sch: R901 fuera de un recuadro", puntos["esquema.recuadros"]["detalle"])
+        # extraer conserva las refs de cada instancia y las subhojas; generar desde ahí da la misma netlist
+        otra, _ = hoja.extraer(proy / "prueba_canal.kicad_sch")
+        self.assertEqual(otra["piezas"][0]["refs"], {"Sensores/CanalA": "R901", "Sensores/CanalB": "R902"})
+        sens, _ = hoja.extraer(proy / "sensores.kicad_sch")
+        self.assertEqual([h["nombre"] for h in sens["hojas"]], ["CanalA", "CanalB"])
+        # errores: pin «W» sin cable y pieza de una hoja repetida sin las refs de cada instancia
+        d["cables"] = [c for c in d["cables"] if [142.24, 93.98] not in c]      # sin cable en U13.3 (VDD)
+        archivo.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        codigo, _, error = correr("hoja", "generar", archivo, "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "sensores.kicad_sch")
+        self.assertEqual(codigo, 2)
+        self.assertIn("sin cable", error)
+        canal["piezas"][0]["refs"].pop("Sensores/CanalB")
+        (TMP / "canal.json").write_text(json.dumps(canal), encoding="utf-8")
+        codigo, _, error = correr("hoja", "generar", TMP / "canal.json", "--proyecto", proy, "-o", TMP / "no.kicad_sch", "--como", "prueba_canal.kicad_sch")
+        self.assertEqual(codigo, 2)
+        self.assertIn("faltan las referencias de Sensores/CanalB", error)
+        self.assertFalse((TMP / "no.kicad_sch").exists())
+
+    def test_paginas_en_orden_del_arbol(self):
+        """`hoja.py paginas`: cada hoja seguida de sus subhojas (VAL-0035-01-03); sin -o solo comprueba."""
+        proy = copia("v2_paginas")
+        codigo, salida, error = correr("hoja", "paginas", proy)
+        self.assertEqual(codigo, 0, salida + error)                     # el proyecto actual ya está en orden
+        raiz, salidas = proy / "esp-riego.kicad_sch", proy / "salidas.kicad_sch"
+        texto = _comun.leer(raiz)
+        i = texto.index('(property "Sheetname" "MCU"')
+        k = texto.index('(page "', i)
+        _comun.escribir(raiz, texto[:k] + '(page "3")' + texto[texto.index(")", k) + 1:])   # MCU detrás de Salidas
+        texto = _comun.leer(salidas)
+        for n in range(1, 7):
+            i = texto.index(f'(property "Sheetname" "Canal{n}"')
+            k = texto.index('(page "', i)
+            texto = texto[:k] + f'(page "{n + 6}")' + texto[texto.index(")", k) + 1:]    # instancias al final
+        _comun.escribir(salidas, texto)
+        antes = huella_md5(proy)
+        codigo, salida, _ = correr("hoja", "paginas", proy)
+        self.assertEqual(codigo, 1)
+        self.assertIn("/MCU/: 3 → 9", salida)
+        self.assertIn("/Salidas/Canal1/: 7 → 3", salida)
+        self.assertEqual(antes, huella_md5(proy), "sin -o no escribe")
+        codigo, salida, error = correr("hoja", "paginas", proy, "-o", proy)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("en 2 archivos", salida)
+        self.assertEqual(correr("hoja", "paginas", proy)[0], 0)
+        paginas = lambda ruta: re.findall(r'"Sheetname" "(\w+)".*?\(page "(\d+)"\)', _comun.leer(ruta), re.S)  # noqa: E731
+        self.assertEqual(paginas(salidas), [(f"Canal{n}", str(n + 2)) for n in range(1, 7)])
+        self.assertEqual(paginas(raiz), [("Salidas", "2"), ("MCU", "9"), ("Alimentacion", "10"), ("Conectores", "11"),
+                                         ("Sensores", "12")])
+        r = verificar(proy)
+        self.assertEqual(r["erc"]["total"], 0, r["erc"])
+        self.assertEqual(r["paridad"]["total"], 0, r["paridad"])
+
+    def test_tinta_frente_al_svg(self):
+        """La caja de cada texto de `_estilo` es la tinta que dibuja KiCad (SVG de kicad-cli), a ±0,03 mm:
+        mayúsculas, minúsculas con descendente, cifras, varias líneas, justificaciones y etiquetas giradas."""
+        casos = [("text", "TLV1117LV33DCYR", 0, "left bottom"), ("text", "TPS26632RGER", 0, "right bottom"),
+                 ("text", "Ag 4.7u 100V", 0, ""), ("text", "ABC\\nDEF\\nGHI", 0, "left top"),
+                 ("text", "≤3 mm de U5-2", 0, "left"), ("label", "LED_STATUS", 0, "left bottom"),
+                 ("label", "VIN_PROT", 180, "right bottom"), ("label", "I2C_SDA", 90, "left bottom"),
+                 ("label", "BTN_INT", 270, "right bottom")]
+        cuerpo = ""
+        for k, (tipo, t, ang, j) in enumerate(casos):
+            jj = f" (justify {j})" if j else ""
+            extra = " (exclude_from_sim no)" if tipo == "text" else ""
+            cuerpo += (f'\t({tipo} "{t}"{extra} (at 50 {30 + 25 * k} {ang}) (effects (font (size 1.27 1.27)){jj}) '
+                       f'(uuid "00000000-0000-4000-8000-{k:012d}"))\n')
+        d = TMP / "tinta"
+        d.mkdir()
+        sch = d / "tinta.kicad_sch"
+        _comun.escribir(sch, '(kicad_sch (version 20260306) (generator "eeschema") (generator_version "10.0") '
+                             '(uuid "00000000-0000-4000-8000-0000000000ff") (paper "User" 150 280)\n' + cuerpo + ")\n")
+        _comun.cli("sch", "export", "svg", "--exclude-drawing-sheet", "-o", d, sch, comprobar=d / "tinta.svg")
+        svg = (d / "tinta.svg").read_text(encoding="utf-8")
+        import html
+        puntos = {}
+        for desc, trazos in re.findall(r'<g class="stroked-text"><desc>(.*?)</desc>(.*?)</g>', svg, re.S):
+            puntos.setdefault(html.unescape(desc).strip(), []).extend(
+                (float(a), float(b)) for a, b in re.findall(r"[ML]([\d.]+) ([\d.]+)", trazos))
+        h = _estilo.analizar(sch)
+        self.assertEqual(len(h["textos"]), len(casos))
+        medio = _estilo.TRAZO / 2
+        for t in h["textos"]:
+            pts = puntos.get(t["texto"].strip()) or [p for linea in t["texto"].split("\n") for p in puntos[linea]]
+            tinta = (min(p[0] for p in pts) - medio, min(p[1] for p in pts) - medio,
+                     max(p[0] for p in pts) + medio, max(p[1] for p in pts) + medio)
+            for a, b in zip(t["caja"], tinta):
+                self.assertAlmostEqual(a, b, delta=0.03, msg=f"{t['texto']!r}: caja {t['caja']} frente a tinta {tinta}")
 
     def test_hoja_nueva_desde_cero(self):
         proy = copia("v2_nueva")
@@ -649,11 +887,13 @@ class Comprobar(unittest.TestCase):
 
     def test_proyecto_actual(self):
         puntos, r = self.estados(BASE / "v2")
-        self.assertEqual(len(puntos), 20)
+        self.assertEqual(len(puntos), 25)
         self.assertLessEqual(len(r["lineas"]), 30)
         for punto in ("esquema.hojas", "esquema.huellas", "esquema.vias", "layout.incrustados", "layout.salida",
-                      "layout.smd_cara", "librerias.formato", "librerias.rutas", "librerias.serigrafia"):
+                      "layout.smd_cara", "librerias.formato", "librerias.rutas", "librerias.serigrafia",
+                      "esquema.cruces", "esquema.sueltas", "esquema.recuadros", "esquema.etiquetas"):
             self.assertEqual(puntos[punto]["estado"], "OK", puntos[punto])
+        self.assertEqual(puntos["esquema.pcb_main"]["estado"], "N/A")      # la copia no está en el repositorio
         self.assertNotIn("ERROR", {x["estado"] for x in puntos.values()})
 
     def test_detecta_lo_que_se_rompe(self):
@@ -952,6 +1192,72 @@ class Mutaciones(unittest.TestCase):
         # una alternativa entre paréntesis en el campo lcsc tampoco cuenta como ficha
         self.assertEqual(comprobar.codigos_lcsc("C44479 (alternativa TLC TA10, C2998199)"), ["C44479"])
         self.assertEqual(comprobar.codigos_lcsc("C1858395 (FADDAR) · C2879422 (ADDAR)"), ["C1858395", "C2879422"])
+
+    def anadir(self, ruta, bloque_):
+        """Añade un elemento al final de una hoja (antes del paréntesis que la cierra)."""
+        self.guardar(ruta)
+        texto = _comun.leer(ruta).rstrip()
+        _comun.escribir(ruta, texto[:-1] + bloque_ + "\n)\n")
+
+    def test_esquema_estilo(self):
+        """Puntos de KIC-06 sobre la hoja piloto (Sensores); todas las hojas los cumplen."""
+        sens = self.v2 / "sensores.kicad_sch"
+        for punto in ("esquema.cruces", "esquema.sueltas", "esquema.recuadros", "esquema.etiquetas"):
+            self.assertEqual(self.punto(punto)[0], "OK", punto)
+        self.anadir(sens, '\t(wire (pts (xy 134.62 101.6) (xy 149.86 101.6)) (stroke (width 0) (type default)) (uuid "m1"))\n'
+                          '\t(text "SOLAPE" (at 170.18 100.33 0) (effects (font (size 1.27 1.27))) (uuid "m2"))')
+        self.falla("esquema.cruces", "sensores.kicad_sch: cable (134.62, 101.6)–(149.86, 101.6) cruza U13",
+                   "«SOLAPE» (nota)")
+        self.anadir(sens, '\t(label "SUELTA" (at 50.8 50.8 0) (effects (font (size 1.27 1.27))) (uuid "m3"))\n'
+                          '\t(hierarchical_label "I2C_SDA" (shape bidirectional) (at 125.73 104.14 180)'
+                          ' (effects (font (size 1.27 1.27)) (justify right)) (uuid "m4"))')
+        self.falla("esquema.sueltas", "label «SUELTA» suelta en (50.8, 50.8)")
+        self.falla("esquema.etiquetas", "«I2C_SDA» 2 veces en el recuadro «Temperatura y humedad")
+        sustituir(sens, "(size 86.36 54.61)", "(size 20 20)")
+        self.falla("esquema.recuadros", "sensores.kicad_sch: U13 fuera de un recuadro")
+
+    def test_esquema_cruces_texto_largo(self):
+        """Un cable a menos de 2 mm del final de un texto largo en mayúsculas lo cruza (VAL-0035-01-01): la caja
+        es la tinta real de la fuente (17,29 mm para «TLV1117LV33DCYR» a 1,27 mm; con 0,8 × alto salían 15,2)."""
+        sens = self.v2 / "sensores.kicad_sch"
+        texto = '\t(text "TLV1117LV33DCYR" (at 25.4 40.64 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "m5"))'
+        self.anadir(sens, texto + '\n\t(wire (pts (xy 42.164 36.83) (xy 42.164 41.91)) (stroke (width 0) (type default)) (uuid "m6"))')
+        self.falla("esquema.cruces", "cruza el texto «TLV1117LV33DCYR»")        # 0,5 mm antes del final de la «R»
+        _comun.escribir(sens, self.guardados[sens])
+        self.anadir(sens, texto + '\n\t(wire (pts (xy 42.926 36.83) (xy 42.926 41.91)) (stroke (width 0) (type default)) (uuid "m6"))')
+        self.assertEqual(self.punto("esquema.cruces")[0], "OK")                 # 0,24 mm después de la tinta: no cruza
+        caja = _estilo.caja_texto(0, 0, "TLV1117LV33DCYR", 1.27, 0, "left", "bottom")
+        self.assertAlmostEqual(caja[2], 17.29, delta=0.02)
+        self.assertAlmostEqual(caja[1], -1.76, delta=0.02)                       # mayúsculas por encima del ancla
+        self.assertGreater(_estilo.caja_texto(0, 0, "IIII", 1.27, 0, "left", "bottom")[2], 2.0)
+        self.assertLess(_estilo.caja_texto(0, 0, "IIII", 1.27, 0, "left", "bottom")[2], 2.6)   # glifo estrecho
+
+    def test_esquema_pcb_main(self):
+        """Huella que cambia frente a main: falla si ni la spec ni sus partes la citan (rangos incluidos)."""
+        texto = _comun.leer(self.pcb)
+        i, j = bloque(texto, "R16")
+        en_main = texto[:i] + texto[i:j].replace('(property "Value" "', '(property "Value" "X', 1) + texto[j:]
+        antes = comprobar.pcb_de_referencia, comprobar.textos_de_la_spec
+        try:
+            comprobar.pcb_de_referencia = lambda p: (texto, "spec/SPEC-0099-prueba")
+            self.assertEqual(self.punto("esquema.pcb_main")[0], "OK")
+            comprobar.pcb_de_referencia = lambda p: (en_main, "spec/SPEC-0099-prueba")
+            comprobar.textos_de_la_spec = lambda p, rama: "Huellas que cambian frente a `main`: D12–D17 y R44."
+            self.falla("esquema.pcb_main", "R16: huella cambiada frente a main")
+            # citada fuera de la sección marcada: no cuenta (VAL-0035-01-06)
+            comprobar.textos_de_la_spec = lambda p, rama: ("- R16 girada en la hoja.\n"
+                                                           "- Huellas que cambian frente a `main` (ruta): D12–D17. R16 no cambia.")
+            self.falla("esquema.pcb_main", "R16: huella cambiada frente a main")
+            comprobar.textos_de_la_spec = lambda p, rama: "- Huellas que cambian frente a `main`: R14-R16 y U7."
+            self.assertEqual(self.punto("esquema.pcb_main")[0], "OK")
+        finally:
+            comprobar.pcb_de_referencia, comprobar.textos_de_la_spec = antes
+        self.assertEqual(comprobar.refs_citadas("U7–U12, D12-D17 y R44; SPEC-0035"),
+                         {"U7", "U8", "U9", "U10", "U11", "U12", "D12", "D13", "D14", "D15", "D16", "D17", "R44"})
+        lista = "## Huellas que cambian frente a main:\n\n- U7–U12\n- R44 (valor)\n\nD4 y D5 se citan por otra cosa.\n"
+        self.assertEqual(comprobar.refs_citadas(comprobar.seccion_huellas(lista)),
+                         {"U7", "U8", "U9", "U10", "U11", "U12", "R44"})
+        self.assertEqual(comprobar.seccion_huellas("Cambian D4 y U6 por el estilo."), "")
 
 
 if __name__ == "__main__":

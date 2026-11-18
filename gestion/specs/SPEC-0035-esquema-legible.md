@@ -2,15 +2,15 @@
 id: SPEC-0035
 titulo: Esquema legible
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0035-esquema-legible
-requisitos: [KIC-02, KIC-03]
+requisitos: [KIC-02, KIC-03, KIC-06]
 depende_de: [SPEC-0034]
 creada: 2026-11-17
-cerrada:
-validacion:
+cerrada: 2026-11-18
+validacion: VAL-0035-02
 ---
 
 # SPEC-0035 · Esquema legible
@@ -37,7 +37,8 @@ Las cinco hojas de `hardware/v2` tienen el aspecto del esquema del TFG (DEC-0015
 - Imagen de referencia del usuario: el esquema del TFG, hoja de conectores. Se ve con `vista.py hoja` sobre una **copia** de `C:\Users\josan\proyectos\TFG` fuera de esa carpeta (solo lectura).
 - `herramientas/kicad/README.md` (`hoja.py`, `vista.py`, `comprobar.py`) y sus límites.
 - `docs/diseno/<bloque>.md`: resumen de cada bloque, para las cifras que van junto a cada pieza.
-- `gestion/checklists/esquema.md` (con los puntos de estilo del paso 0).
+- `gestion/checklists/esquema.md` v13, sección «Estilo» (los `[auto: pendiente]` son los que el paso 1 lleva a `comprobar.py`).
+- `docs/02-especificaciones-v2.md` v0.8, KIC-06.
 
 ## Entregables
 
@@ -56,7 +57,7 @@ Las cinco hojas de `hardware/v2` tienen el aspecto del esquema del TFG (DEC-0015
 
 ## Plan de validación
 
-Nivel **completo** (esquema; DEC-0005), con `esquema.md` y su versión con estilo.
+Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 
 - Reproducir de forma independiente: la comparación de netlists por grupos de pines frente a `main`; `verificar.py hardware/v2`; las referencias de cada instancia de «Canal» frente a `campos-salidas.csv` y a la PCB.
 - Por muestreo: tres bloques de hojas distintas, mirando la imagen contra las reglas de DEC-0015, y las cifras junto a la pieza contra `docs/diseno/`.
@@ -67,3 +68,12 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` y su versión con estil
 |---|---|---|---|---|---|---|
 | 2026-11-17 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-17 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-17 | coordinador | Abre la spec y hace el paso 0 (docs/02 v0.8, esquema.md v13) |  |  |  |  |
+| 2026-11-17 | ing-diseno | Pasos 1–2: herramientas de estilo y hoja piloto Sensores | 01-ing-diseno | 351199 | 135 | 58 |
+| 2026-11-17 | usuario | Aprueba el estilo de la hoja piloto Sensores (imagen de `vista.py hoja`) |  |  |  |  |
+| 2026-11-18 | ing-diseno | Paso 3a: Conectores, MCU y Alimentación (con un corte por el límite de uso) | 02-ing-diseno | 355860 | 57 | 29 |
+| 2026-11-18 | ing-diseno | Pasos 3b–4: Salidas con «Canal» ×6, dibujo.py, LED con GND por cable, PCB resincronizada | 03-ing-diseno | 338804 | 119 | 27 |
+| 2026-11-18 | ing-validacion | VAL-0035-01 APROBADO_CON_OBSERVACIONES (2 M, 4 B) | VAL-0035-01 | 209216 | 71 | 11 |
+| 2026-11-18 | ing-diseno | Corrige VAL-0035-01 (-01, -03, -04, -06) | 04-ing-diseno | 245558 | 118 | 26 |
+| 2026-11-18 | ing-validacion | VAL-0035-02 APROBADO_CON_OBSERVACIONES (-02 fuera por decisión del usuario) | VAL-0035-02 | 102468 | 50 | 6 |
+| 2026-11-18 | coordinador | Cierra la spec | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |

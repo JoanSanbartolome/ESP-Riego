@@ -1,16 +1,22 @@
 # Estado
 
-Actualizado el 2026-11-17, al cerrar SPEC-0034. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-18, al cerrar SPEC-0035. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
-Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloque, validadas y sin incidencias conocidas.
+Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas y la subhoja «Canal» con el estilo de DEC-0015, validadas y sin incidencias conocidas.
 
-1. **SPEC-0035 · Esquema legible** (propuesta, DEC-0015): las cinco hojas con el aspecto del esquema del TFG (recuadros por bloque, cables, etiquetas solo entre bloques y hojas). Salidas con una subhoja «Canal» repetida 6 veces; títulos con nombre e IDs; cifras junto a la pieza y, como mucho, 2 o 3 líneas de nota por bloque. Netlist idéntica antes y después. Lleva además el `[auto]` del diff de la PCB (VAL-0034-01).
-2. **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`. Lleva además las 5 B de VAL-0028-01. Ya no depende de medir la válvula (DEC-0014).
-3. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
+1. **SPEC-0032 · Integración y revisión global**, que lleva a la etiqueta `v2.0-sch`. La raíz, con el estilo de DEC-0015 (`esquema.md` v17). Lleva además las 5 B de VAL-0028-01. Ya no depende de medir la válvula (DEC-0014).
+2. Después, el desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2; validación ligera con `model: sonnet`.
+
+## Esquema legible (SPEC-0035)
+
+- KIC-06 (docs/02 v0.8, DEC-0015): recuadros por bloque, cables dentro, etiquetas solo hacia fuera, cifras junto a la pieza. Salidas con `canal.kicad_sch` ×6 y las referencias de siempre; netlist idéntica a la anterior salvo 30 redes internas renombradas (`/Salidas/CanalN/…`).
+- Herramientas: `hoja.py` dibuja cables, recuadros y subhojas con instancias; `dibujo.py`; `comprobar.py` con `esquema.cruces`, `sueltas`, `recuadros`, `etiquetas` y `pcb_main` (sección «Huellas que cambian frente a `main`:» del parte); `hoja.py paginas`. 54 pruebas en `herramientas/pruebas/test_kicad.py`.
+- Checklist `esquema.md` v17. VAL-0035-01 APROBADO_CON_OBSERVACIONES (2 M, 4 B) → VAL-0035-02 APROBADO_CON_OBSERVACIONES: solo queda -02 (la guarda no ve escrituras de `python` en línea), que el usuario decidió no corregir (DEC-0009, `gestion/README.md`).
+- Desviaciones aceptadas: GND laterales de PGTH y PLIM de U1; recuadro ESD propio para U6/U16/U17.
 
 ## Límites de uso de las salidas (SPEC-0034)
 
@@ -51,5 +57,6 @@ Una spec cada vez (comparten carpeta). El esquema tiene sus cinco hojas con bloq
 
 - `verificar.py hardware/v2`: ERC 0, DRC 0 con 448 sin conectar, paridad 0 y ningún `[auto]` en FALLA; `campos.py revisar`: sin diferencias.
 - Posible, sin spec: campo de tipo *Basic*/*Extended* en los símbolos de todas las hojas (SPEC-0028).
-- La guarda no se endurece (DEC-0009): las dos líneas de VAL-0026-02 siguen en «Límites conocidos» de `README.md`.
+- La guarda no se endurece (DEC-0009): las dos líneas de VAL-0026-02 y el caso de VAL-0035-01-02 siguen en «Límites conocidos» de `gestion/README.md`.
+- Posible, sin spec: `hoja.py paginas` como `[auto: comprobar.py esquema.paginas]` (propuesta de VAL-0035-02); hoy es `[juicio]`.
 - FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6; incluye los avisos de REL-10 por la suma de 3,5 A. El calentador del SHT4x no se usa: con él, +5V pasaría de ALI-12 (`mcu.md` §8.2).

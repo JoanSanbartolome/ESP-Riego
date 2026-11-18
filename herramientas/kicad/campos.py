@@ -8,7 +8,8 @@ Uso:
 revisar: lista (1) campos que faltan (Value, Footprint, MPN, Fabricante, Datasheet, Description,
 LCSC Part#; a lo que está fuera del BOM solo se le pide Value, Footprint y Description), (2) la misma pieza (mismo LCSC o MPN) con campos distintos, también entre hojas,
 (3) los DNP y (4) las diferencias con la tabla. Sin --tabla busca
-`../componentes/campos-<hoja>.csv` junto a la carpeta del proyecto. Sale con 1 si hay incidencias.
+`../componentes/campos-<hoja>.csv` junto a la carpeta del proyecto (una subhoja sin tabla propia usa la de la
+hoja que la contiene). Sale con 1 si hay incidencias.
 
 aplicar: escribe en -o una copia de la hoja con los campos y el DNP de la tabla. No toca la hoja
 de origen (salvo que -o sea la misma ruta).
@@ -26,8 +27,8 @@ from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comun import (CAMPOS, Fallo, emitir, es_pieza, esc, hojas, leer, escribir, principal, proyecto,  # noqa: E402
-                    simbolos_hoja)
+from _comun import (CAMPOS, Fallo, emitir, es_pieza, esc, hojas, leer, escribir, por_instancia,  # noqa: E402
+                    principal, proyecto, simbolos_hoja)
 
 MISMA_PIEZA = ("Value", "Footprint", "MPN", "Fabricante", "Datasheet", "LCSC Part#")
 SIN_PIEZA = ("Value", "Footprint", "Description")  # lo exigible a lo que no va al BOM (TP, JP, taladros)
@@ -99,7 +100,7 @@ def piezas_de(archivos):
     """[(hoja, símbolo)] de todas las piezas de las hojas dadas."""
     salida = []
     for archivo in archivos:
-        for s in simbolos_hoja(leer(archivo)):
+        for s in por_instancia(simbolos_hoja(leer(archivo))):
             if es_pieza(s):
                 salida.append((Path(archivo).name, s))
     return salida
@@ -146,11 +147,16 @@ def revisar(archivos, tablas=None):
                     de_tabla.append(f"{s['ref']}: DNP {'sí' if s['dnp'] else 'no'} en la hoja y {'sí' if valor else 'no'} en la tabla")
             elif s["props"].get(campo, "") != valor:
                 de_tabla.append(f"{s['ref']}: {campo} «{s['props'].get(campo, '')}» ≠ tabla «{valor}»")
-    for hoja, tabla in (tablas or {}).items():
-        refs = {s["ref"] for h, s in piezas if h == hoja}
+    vistas = []
+    for hoja, tabla in (tablas or {}).items():     # una tabla compartida (hoja y subhoja) se mira una vez
+        if any(tabla is t for t in vistas):
+            continue
+        vistas.append(tabla)
+        comparten = sorted(h for h, t in tablas.items() if t is tabla)
+        refs = {s["ref"] for h, s in piezas if h in comparten}
         sobran = [r for r in tabla if r not in refs]
         if sobran:
-            de_tabla.append(f"{hoja}: en la tabla y no en la hoja: {rangos(sobran)}")
+            de_tabla.append(f"{', '.join(comparten)}: en la tabla y no en la hoja: {rangos(sobran)}")
     return {"piezas": len(piezas), "faltan": {f"{h}|{c}": rangos(r) for (h, c), r in sorted(faltan.items())},
             "n_faltan": sum(len(r) for r in faltan.values()), "distintos": distintos, "dnp": dnp, "tabla": de_tabla}
 
@@ -218,11 +224,19 @@ def aplicar(texto, tabla):
 
 
 def tablas_por_defecto(archivos):
+    """{hoja: tabla} con `../componentes/campos-<hoja>.csv`. Una subhoja sin tabla propia usa la de la hoja que la
+    contiene (la subhoja «Canal» de Salidas usa `campos-salidas.csv`): las dos comparten el mismo objeto."""
     tablas = {}
     for a in archivos:
         csv_ = Path(a).resolve().parent.parent / "componentes" / f"campos-{Path(a).stem}.csv"
         if csv_.is_file():
             tablas[Path(a).name] = leer_tabla(csv_)
+    for a in archivos:
+        nombre = Path(a).name
+        patron = re.compile(r'\(property\s+"Sheetfile"\s+"' + re.escape(nombre) + '"')
+        for b in archivos:
+            if nombre not in tablas and Path(b).name in tablas and Path(b).is_file() and patron.search(leer(b)):
+                tablas[nombre] = tablas[Path(b).name]
     return tablas
 
 
