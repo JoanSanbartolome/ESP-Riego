@@ -75,3 +75,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v13.
 | 2026-11-18 | ing-diseno | Pasos 3b–4: Salidas con «Canal» ×6, dibujo.py, LED con GND por cable, PCB resincronizada | 03-ing-diseno | 338804 | 119 | 27 |
 | 2026-11-18 | ing-validacion | VAL-0035-01 APROBADO_CON_OBSERVACIONES (2 M, 4 B) | VAL-0035-01 | 209216 | 71 | 11 |
 | 2026-11-18 | ing-diseno | Corrige VAL-0035-01 (-01, -03, -04, -06) | 04-ing-diseno | 245558 | 118 | 26 |
+| 2026-11-18 | ing-validacion | VAL-0035-02 APROBADO_CON_OBSERVACIONES (-02 fuera por decisión del usuario) | VAL-0035-02 | 102468 | 50 | 6 |
