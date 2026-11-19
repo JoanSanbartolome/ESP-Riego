@@ -174,6 +174,7 @@ class Jlc(unittest.TestCase):
     def test_resultados_y_buscar(self):
         """--buscar (VAL-0006-01-07): todas las piezas de la respuesta, de más a menos stock, sin red."""
         respuesta = json.loads(json.dumps(self.RESPUESTA))
+        respuesta["data"]["componentPageInfo"]["list"].reverse()      # la de menos stock primero (VAL-0028-01-01)
         respuesta["data"]["componentPageInfo"]["list"].insert(0, {"componentModelEn": "sin código", "stockCount": 10 ** 9})
         filas = jlc.resultados(respuesta, cantidad=5000)
         self.assertEqual([f["codigo"] for f in filas], ["C25804", "C534868"])
@@ -182,7 +183,7 @@ class Jlc(unittest.TestCase):
         self.assertEqual(jlc.resultados({"data": None}), [])
         original = jlc.pedir
         try:
-            jlc.pedir = lambda palabra, intentos=2: self.RESPUESTA if palabra == "BTT" else (_ for _ in ()).throw(OSError("sin red"))
+            jlc.pedir = lambda palabra, intentos=2: respuesta if palabra == "BTT" else (_ for _ in ()).throw(OSError("sin red"))
             lineas = jlc.buscar(["BTT", "otra"], 1, "2026-01-01")
         finally:
             jlc.pedir = original
@@ -204,7 +205,8 @@ class Comun(unittest.TestCase):
         self.assertEqual(f("${KICAD9_3DMODEL_DIR}/NoHay.3dshapes/Falta.step", libs3d), "${KIPRJMOD}/../libraries/3d/Falta.step")
         existe = "${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step"
         self.assertTrue((_comun.MODELOS / "Resistor_SMD.3dshapes" / "R_0603_1608Metric.step").is_file())
-        self.assertIsNone(f(existe, libs3d))                                              # el oficial existe
+        (libs3d / "R_0603_1608Metric.step").write_text("ISO-10303-21;", encoding="utf-8")  # VAL-0028-01-02: hay respaldo
+        self.assertIsNone(f(existe, libs3d))                                              # el oficial existe y manda
         self.assertIsNone(f("${KICAD10_3DMODEL_DIR}/NoHay.3dshapes/Otro.step", libs3d))  # sin respaldo
         self.assertIsNone(f("${KICAD10_3DMODEL_DIR}/NoHay.3dshapes/Falta.step", None))
         self.assertIsNone(f("${OTRA_VARIABLE}/Falta.step", libs3d))                      # variable que no se resuelve
@@ -681,37 +683,58 @@ class Hoja(unittest.TestCase):
         self.assertFalse((TMP / "no.kicad_sch").exists())
 
     def test_raiz(self):
-        """hoja.py raiz: extraer + escribir reproduce la raíz; un pin cambiado cambia la netlist; errores claros."""
+        """hoja.py generar escribe la raíz (SPEC-0032) y hoja.py raiz pone etiquetas en sus pines de hoja: extraer + escribir
+        la reproduce; un pin cambiado cambia la netlist; errores claros. La raíz del proyecto va con cables (DEC-0015): la
+        prueba la regenera sin cables ni etiquetas y le pone en cada pin una etiqueta con su nombre."""
         proy = copia("v2_raiz")
-        raiz, desc = proy / "esp-riego.kicad_sch", TMP / "raiz.json"
+        raiz, desc, gen = proy / "esp-riego.kicad_sch", TMP / "raiz.json", TMP / "raiz_generar.json"
+        codigo, salida, error = correr("hoja", "extraer", raiz, "-o", gen)
+        self.assertEqual(codigo, 0, salida + error)
+        g = json.loads(gen.read_text(encoding="utf-8"))
+        self.assertEqual(len(g["hojas"]), 5)
+        g.update(cables=[], etiquetas=[], uniones=[])
+        gen.write_text(json.dumps(g), encoding="utf-8")
+        codigo, salida, error = correr("hoja", "generar", gen, "--proyecto", proy, "-o", raiz)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("0 tramos de cable", salida)
+        self.assertIn('(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")', _comun.leer(raiz).replace("\r\n", "\n"))
+        cab = lambda ruta: _comun.val(_comun.parse_cabecera(_comun.leer(ruta)), "uuid")  # noqa: E731
+        pines = lambda ruta: {(n, p["nombre"]): p["uuid"] for n, h in hoja._hojas_raiz(_comun.leer(ruta)).items()  # noqa: E731
+                              for p in h["pines"]}
+        self.assertEqual(cab(raiz), cab(BASE / "v2" / "esp-riego.kicad_sch"))             # conserva los UUID de la raíz
+        self.assertEqual(pines(raiz), pines(BASE / "v2" / "esp-riego.kicad_sch"))         # y de los pines de hoja
+        self.assertEqual(correr("hoja", "paginas", proy)[0], 0)                           # y las páginas
         codigo, salida, error = correr("hoja", "raiz", "--proyecto", proy, "--extraer", "-o", desc)
         self.assertEqual(codigo, 0, salida + error)
         d = json.loads(desc.read_text(encoding="utf-8"))
+        self.assertEqual({p["conexion"] for h in d["hojas"] for p in h["pines"]}, {""})
+        for h in d["hojas"]:
+            for p in h["pines"]:
+                p["conexion"] = "L:" + p["nombre"]
+        desc.write_text(json.dumps(d), encoding="utf-8")
         sensores = next(h for h in d["hojas"] if h["nombre"] == "Sensores")
-        self.assertIn({"nombre": "I2C_SCL", "forma": "input", "lado": "R", "y": 45.72, "conexion": "L:I2C_SCL"}, sensores["pines"])
+        self.assertIn({"nombre": "I2C_SCL", "forma": "input", "lado": "R", "y": 93.98, "conexion": "L:I2C_SCL"}, sensores["pines"])
         _comun.escribir(raiz, _comun.leer(raiz).replace('(pin "I2C_SCL" input', '(pin "I2C_SCL" output', 1))  # la descripción manda
         codigo, salida, error = correr("hoja", "raiz", desc, "--proyecto", proy, "-o", raiz)
         self.assertEqual(codigo, 0, salida + error)
         self.assertIn("5 hojas, 54 pines de hoja, 54 etiquetas o NC · avisos 0", salida)
         self.assertEqual(hoja.extraer_raiz(raiz), d)
-        self.assertEqual(hoja.extraer_raiz(raiz), hoja.extraer_raiz(BASE / "v2" / "esp-riego.kicad_sch"))
-        uuids = set(re.findall(r'\(uuid "([^"]+)"\)', _comun.leer(BASE / "v2" / "esp-riego.kicad_sch")))
-        self.assertEqual(uuids, set(re.findall(r'\(uuid "([^"]+)"\)', _comun.leer(raiz))))   # conserva los UUID
-        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", proy)
+        self.assertEqual(pines(raiz), pines(BASE / "v2" / "esp-riego.kicad_sch"))
+        codigo, salida, error = correr("hoja", "netlist", BASE / "v2", proy)              # mismas redes, con sus nombres
         self.assertEqual(codigo, 0, salida + error)
         # SCL de Sensores a NC y un pin nuevo en Conectores, sin etiqueta jerárquica en su hoja: se escribe y avisa
         for p in sensores["pines"]:
             if p["nombre"] == "I2C_SCL":
                 p["conexion"] = "NC"
         conectores = next(h for h in d["hojas"] if h["nombre"] == "Conectores")
-        conectores["pines"].append({"nombre": "NUEVO", "forma": "input", "lado": "L", "y": 111.76, "conexion": "L:NUEVO"})
+        conectores["pines"].append({"nombre": "NUEVO", "forma": "input", "lado": "L", "y": 78.74, "conexion": "L:NUEVO"})
         desc.write_text(json.dumps(d), encoding="utf-8")
         codigo, salida, error = correr("hoja", "raiz", desc, "--proyecto", proy, "-o", raiz)
         self.assertEqual(codigo, 1, salida + error)
         self.assertIn("Conectores.NUEVO: conectores.kicad_sch no tiene esa etiqueta jerárquica", salida)
         texto = _comun.leer(raiz)
-        self.assertIn("(no_connect\n\t\t(at 30.48 45.72)", texto.replace("\r\n", "\n"))
-        self.assertIn('(pin "NUEVO" input\n\t\t\t(at 190.5 111.76 180)', texto.replace("\r\n", "\n"))
+        self.assertIn("(no_connect\n\t\t(at 55.88 93.98)", texto.replace("\r\n", "\n"))
+        self.assertIn('(pin "NUEVO" input\n\t\t\t(at 30.48 78.74 180)', texto.replace("\r\n", "\n"))
         red = _comun.exportar_netlist(proy, "esp-riego", TMP / "raiz.net")
         self.assertNotIn(("U13", "2"), red["redes"]["/I2C_SCL"])
         self.assertIn(("U13", "2"), red["redes"]["/Sensores/I2C_SCL"])
