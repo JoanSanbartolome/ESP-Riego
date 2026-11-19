@@ -89,3 +89,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v17.
 | 2026-11-13 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-19 | ing-diseno | raíz con estilo DEC-0015, arquitectura.md y revisión global | 01-ing-diseno | 306515 | 93 | 22 |
+| 2026-11-19 | jr-conformidad | BOM preliminar con coste y stock, PDF y VAL-0028-01-03/-04 | 02-jr-conformidad | 78541 | 19 | 3 |
