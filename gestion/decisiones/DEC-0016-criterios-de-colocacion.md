@@ -28,6 +28,11 @@ El usuario elige la 2 (2026-11-19). Criterios, por orden de prioridad:
 3. **Diseño térmico en la distribución.** Espacio para el cobre de los pads expuestos y de las piezas que disipan (U1, U2, U4, U7–U12, L1, Q1, D3, F1). Fuentes de calor repartidas y no apiladas, lejos del SHT40 (AMB-02) y de la antena (MCU-02), con su disipación estimada en las reglas.
 4. **Tamaño de la placa como variable de la iteración.** Hasta 100 × 100 mm no cambia el precio de la PCB en JLCPCB; dentro de ese límite, el alto de FAB-08 (≈ 70 mm) se puede subir. Por encima de 100 mm en cualquier lado, la herramienta da el sobrecoste con su fuente, y el coordinador consulta al usuario antes de adoptarlo.
 
+Precisiones del usuario (2026-11-19, tras el paso 3):
+
+- La antena de U5 va completamente dentro de la PCB, en el borde lateral y con su zona libre de cobre (MCU-02); no sobresale.
+- Distancia del cuerpo de cada pieza al borde ≥ 2,5 mm (Términos de JLCPCB §2.3), para todas las piezas. Los bornes siguen en su borde (FAB-07), a esa distancia.
+
 ## Consecuencias
 
 - SPEC-0037 añade el paso 3 (mejorar `colocacion.py` y las reglas) y el paso 4 (repetir el brazo B con el tamaño como variable). Todo, sobre copias.
