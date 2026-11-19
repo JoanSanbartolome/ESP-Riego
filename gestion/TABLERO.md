@@ -2,9 +2,9 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 31 · descartada 4.
+Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
 
-## Propuestas (1)
+## Abiertas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|

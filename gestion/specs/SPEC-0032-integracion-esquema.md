@@ -2,7 +2,7 @@
 id: SPEC-0032
 titulo: Integración y revisión global del esquema
 fase: 3
-estado: propuesta
+estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0032-integracion-esquema
@@ -87,3 +87,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v17.
 | Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
 |---|---|---|---|---|---|---|
 | 2026-11-13 | coordinador | Crea la spec (propuesta) | | | | |
+| 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
