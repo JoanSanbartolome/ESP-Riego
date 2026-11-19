@@ -35,7 +35,7 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 - [ ] Fuente real: comprobar en su etiqueta o su modelo que es de tensión constante y que sus protecciones cuadran con las supuestas en DEC-0004, antes de elegir el limitador.
 - [x] Limitador común (ALI-13): pieza cuya banda de corriente, con la tolerancia, cabe en 3,5–4,9 A (DEC-0004).
 - [x] Presupuesto de longitud de cada borde (FAB-07) con los taladros M3 y las pistas de salida de ≈ 1,2 mm (REL-05).
-- [x] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
+- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores. Falta la alternativa de U1 (VAL-0032-01-01, SPEC-0036).
 - [x] Tabla de asignación de GPIO según MCU-05.
 - [x] Cálculos: TVS y tensiones nominales del nodo de entrada, UVLO, divisor de VIN, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
 - [x] Documentar todo en `docs/diseno/arquitectura.md` (SPEC-0032) y en el documento de cada bloque.
