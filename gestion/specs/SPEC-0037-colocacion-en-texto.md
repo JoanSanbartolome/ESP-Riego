@@ -67,3 +67,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 |---|---|---|---|---|---|---|
 | 2026-11-19 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-19 | ing-diseno | colocacion.py (extraer, evaluar) y reglas de colocación | 01-ing-diseno | 296093 | 86 | 26 |

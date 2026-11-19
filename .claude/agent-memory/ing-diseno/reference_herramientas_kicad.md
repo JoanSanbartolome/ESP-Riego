@@ -52,3 +52,8 @@ SPEC-0032 (2026-11-19):
 - Cablear la raíz renombra las redes entre hojas (`/VBUS` → `/Alimentacion/VBUS`): una etiqueta local por red sobre su cable conserva el nombre y la paridad.
 - Mantener el orden de los `(sheet` en la raíz: `hoja.py paginas` sigue el orden del archivo y `test_paginas_en_orden_del_arbol` lo comprueba.
 - `Hoja.test_raiz` depende de la geometría de la raíz (coordenadas de pines): si se mueve, hay que parchear la prueba.
+
+SPEC-0037 (2026-11-19), `colocacion.py`:
+- pcbnew de KiCad 10: `board.GetBoardPolygonOutlines(poly, False)` (el 2.º argumento es obligatorio); `SHAPE_POLY_SET.BooleanIntersection/Subtract(otro)` sin modo; `poly.Area()` en nm²; `pad.GetFPRelativePosition()` = posición sin girar; `fp.BuildCourtyardCaches()` tras mover. Las ventanas de pasta de un EP son pads sin número: saltarlas.
+- `fp.GetSheetname()` devuelve la ruta de nombres (`/Salidas/Canal1/`), no el nombre de la hoja.
+- El patio de `esp-riego:ESP32-S3-WROOM-1` incluye la zona prohibida de la antena (48 × 21 mm): medir solapes con el patio menos la zona. Entrada del cable del WJ500V en −Y; ranura del IDC oficial en −X; boca del USB-C HRO en +Y.

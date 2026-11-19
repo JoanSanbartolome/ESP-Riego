@@ -46,6 +46,32 @@ def leer_tabla(ruta):
     return filas
 
 
+def aplicar(board, filas, bloquear=False):
+    """Coloca en `board` (pcbnew) las filas de `leer_tabla`. Devuelve (movidas, referencias que faltan, vueltas).
+    La usa también colocacion.py evaluar, para medir exactamente lo que dejaría este script."""
+    import pcbnew
+    huellas = {fp.GetReference(): fp for fp in board.GetFootprints()}
+    movidas, faltan, vueltas = 0, [], 0
+    for d in filas:
+        fp = huellas.get(d["ref"])
+        if fp is None:
+            faltan.append(d["ref"])
+            continue
+        if d["cara"] and (d["cara"] == "B") != fp.IsFlipped():
+            fp.SetLayerAndFlip(pcbnew.B_Cu if d["cara"] == "B" else pcbnew.F_Cu)
+            vueltas += 1
+        if d["giro"] is not None:
+            fp.SetOrientationDegrees(d["giro"])
+        pos = fp.GetPosition()
+        x = pcbnew.FromMM(d["x"]) if d["x"] is not None else pos.x
+        y = pcbnew.FromMM(d["y"]) if d["y"] is not None else pos.y
+        fp.SetPosition(pcbnew.VECTOR2I(x, y))
+        if bloquear:
+            fp.SetLocked(True)
+        movidas += 1
+    return movidas, faltan, vueltas
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("pcb", help=".kicad_pcb de origen")
@@ -79,24 +105,7 @@ def main():
             emitir([f"{args.exportar}: {len(huellas)} huellas"])
             return 0
 
-        movidas, faltan, vueltas = 0, [], 0
-        for d in filas:
-            fp = huellas.get(d["ref"])
-            if fp is None:
-                faltan.append(d["ref"])
-                continue
-            if d["cara"] and (d["cara"] == "B") != fp.IsFlipped():
-                fp.SetLayerAndFlip(pcbnew.B_Cu if d["cara"] == "B" else pcbnew.F_Cu)
-                vueltas += 1
-            if d["giro"] is not None:
-                fp.SetOrientationDegrees(d["giro"])
-            pos = fp.GetPosition()
-            x = pcbnew.FromMM(d["x"]) if d["x"] is not None else pos.x
-            y = pcbnew.FromMM(d["y"]) if d["y"] is not None else pos.y
-            fp.SetPosition(pcbnew.VECTOR2I(x, y))
-            if args.bloquear:
-                fp.SetLocked(True)
-            movidas += 1
+        movidas, faltan, vueltas = aplicar(board, filas, args.bloquear)
         borde = board.GetBoardEdgesBoundingBox()
         fuera = []
         for d in filas:
