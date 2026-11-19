@@ -27,7 +27,7 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
   - paso 1 (`ing-diseno`): herramienta en `herramientas/kicad/` con `extraer` (por huella: referencia, cara, giro, patio, pads con su red y bloque, en un formato compacto) y `evaluar` (colocación CSV de `colocar.py` → informe en texto de pocas líneas: solapes de patio, piezas fuera del contorno o en una zona prohibida, reglas de colocación incumplidas, longitud de las conexiones sin rutar, total y por clase de red, y una puntuación);
   - tabla de reglas de colocación sacada de REL-09, FAB-07, MCU-02, AMB-02, EXP-03, `conectores.md` §4–§5, `sensores.md` y `arquitectura.md` §0 (columna «Ubicación / keepout»), con el contorno actual de la PCB;
   - paso 2 (brazo B, instancia nueva de `ing-diseno`): colocar sobre una copia solo con la herramienta en texto, hasta que `evaluar` no dé incumplimientos o hasta 30 iteraciones; una imagen al final con `vista.py placa`;
-  - paso 3 (brazo A, otra instancia nueva): la misma colocación de partida y las mismas reglas, solo con KiCad (MCP o `colocar.py`) y `vista.py`, sin `evaluar` mientras itera, hasta que dé la colocación por buena o gaste el doble de tokens que el brazo B; después se le pasa `evaluar`;
+  - paso 3, opcional (lo decide el usuario al ver el resultado del paso 2; 2026-11-19: «probar con una herramienta en texto»): brazo A, otra instancia nueva, la misma colocación de partida y las mismas reglas, solo con KiCad (MCP o `colocar.py`) y `vista.py`, sin `evaluar` mientras itera, hasta que dé la colocación por buena o gaste el doble de tokens que el brazo B; después se le pasa `evaluar`;
   - comparación (coordinador): tokens, iteraciones, minutos y resultado de `evaluar` de cada brazo, con la recomendación para la fase 4.
 - Excluye: escribir en `hardware/v2` (los dos brazos trabajan sobre copias), el rutado, la tabla de restricciones por red (`restricciones.csv`, otra spec), cambiar el contorno o la caja (D5) y la aprobación del *floorplan*, que se hace en la spec de colocación con la imagen.
 
@@ -42,7 +42,7 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
 ## Entregables
 
 - Paso 1: `herramientas/kicad/<nombre>.py` y su fila en el README; reglas en `docs/diseno/colocacion-reglas.csv`; casos de prueba como parche en la carpeta temporal (los aplica el coordinador en `herramientas/pruebas/`); parte `01-ing-diseno.md`.
-- Pasos 2 y 3: la colocación de cada brazo (`docs/diseno/colocacion-b.csv` y `colocacion-a.csv`), su imagen (ruta en el parte), la salida de `evaluar` y el número de iteraciones; partes `02-` y `03-ing-diseno.md`.
+- Paso 2 (y el 3, si se hace): la colocación de cada brazo (`docs/diseno/colocacion-b.csv` y, en su caso, `colocacion-a.csv`), su imagen (ruta en el parte), la salida de `evaluar` y el número de iteraciones; partes `02-` y `03-ing-diseno.md`.
 - Coordinador: `docs/diseno/experimento-colocacion.md` con la tabla comparativa y la recomendación.
 
 ## Criterios de aceptación
@@ -51,14 +51,14 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
 - [ ] `evaluar` detecta, en los casos de prueba, un solape de patio, una pieza fuera del contorno, una pieza en la zona prohibida de la antena, un borne en el borde equivocado y el SHT40 lejos del borde; su informe ocupa ≤ 30 líneas.
 - [ ] Cada regla de la tabla cita su origen (requisito o sección de un documento de diseño).
 - [ ] La ida y vuelta `colocar.py` exportar → `evaluar` → `colocar.py` aplicar deja en la PCB las posiciones del CSV.
-- [ ] Los dos brazos parten de la misma colocación y las mismas reglas, con instancias nuevas, y los tokens salen del resultado del agente y de la auditoría.
+- [ ] Los tokens, iteraciones y minutos del brazo B salen del resultado del agente y de la auditoría; si se hace el brazo A, parte de la misma colocación y las mismas reglas, con una instancia nueva.
 - [ ] `hardware/v2` sin cambios; `test_kicad.py` en verde con los casos nuevos.
 
 ## Plan de validación
 
 Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005), con `checklists/layout.md` en lo que aplique.
 
-- Reproducir de forma independiente: `evaluar` sobre las dos colocaciones entregadas y sobre una colocación con cinco fallos sembrados (uno de cada tipo del criterio); el recuento de huellas de `extraer` frente a la PCB; la ida y vuelta con `colocar.py`; los tokens de la tabla comparativa frente al registro y la auditoría.
+- Reproducir de forma independiente: `evaluar` sobre las colocaciones entregadas y sobre una colocación con cinco fallos sembrados (uno de cada tipo del criterio); el recuento de huellas de `extraer` frente a la PCB; la ida y vuelta con `colocar.py`; los tokens de la tabla comparativa frente al registro y la auditoría.
 - Por muestreo: cinco reglas de la tabla frente a su origen; la imagen de cada brazo frente a su informe de `evaluar`.
 
 ## Registro
