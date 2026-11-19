@@ -4,4 +4,5 @@
 - [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004/0014: BTT6050, limitador, sin válvula de diseño, límites de uso REL-11, M7 montado; descartes, IS, LED
 - [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG
 - [Trucos de esquema y cajetín](reference_trucos_esquema.md) — límites del MCP, hoja por script, cajetín, PDF; redibujar con cables: nombres de red, ESD, LED, ángulos de campo (SPEC-0035)
+- [Colocación en texto](project_colocacion_texto.md): generador + evaluar, patio en T de U5 (106,75, 78,5, giro 90), giros por pieza; 0 incumplimientos en 6 iteraciones
 - [Efectos del MCP de KiCad en la PCB](mcp-efectos-secundarios.md) — open/close reescribe .kicad_pro y deja .kicad_prl/.mcp-backups; sync no copia campos ni sirve en jerárquicos (usar netlist + pcbnew)
