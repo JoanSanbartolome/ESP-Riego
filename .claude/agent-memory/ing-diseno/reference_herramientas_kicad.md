@@ -57,3 +57,9 @@ SPEC-0037 (2026-11-19), `colocacion.py`:
 - pcbnew de KiCad 10: `board.GetBoardPolygonOutlines(poly, False)` (el 2.º argumento es obligatorio); `SHAPE_POLY_SET.BooleanIntersection/Subtract(otro)` sin modo; `poly.Area()` en nm²; `pad.GetFPRelativePosition()` = posición sin girar; `fp.BuildCourtyardCaches()` tras mover. Las ventanas de pasta de un EP son pads sin número: saltarlas.
 - `fp.GetSheetname()` devuelve la ruta de nombres (`/Salidas/Canal1/`), no el nombre de la hoja.
 - El patio de `esp-riego:ESP32-S3-WROOM-1` incluye la zona prohibida de la antena (48 × 21 mm): medir solapes con el patio menos la zona. Entrada del cable del WJ500V en −Y; ranura del IDC oficial en −X; boca del USB-C HRO en +Y.
+
+SPEC-0037 paso 3 (2026-11-19), pcbnew de KiCad 10:
+- Tinta de un texto: `t.TransformTextToPolySet(poly, 0, FromMM(0.01), ERROR_INSIDE)` + `poly.BBox()` (la `GetBoundingBox()` del texto lleva ≈ 0,25 mm de relleno). `SHAPE_POLY_SET.Inflate(int, CORNER_STRATEGY_ROUND_ALL_CORNERS, int maxError)`. `pad.GetSolderMaskExpansion(F_Mask)` pide la capa.
+- Girar la huella gira también la referencia (ángulo absoluto); `SetTextAngleDegrees` después del giro de la huella.
+- Comparaciones de distancias en informes que se prueban con ida y vuelta (`colocar.py --exportar` redondea a 4 decimales): redondear antes de comparar y recorrer los índices en orden fijo, o los empates cambian entre ejecuciones.
+- Una fila del CSV de reglas con `; ` dentro de una nota parte la fila: usar comas.

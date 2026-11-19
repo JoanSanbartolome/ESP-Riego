@@ -75,3 +75,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
 | 2026-11-19 | ing-diseno | colocacion.py (extraer, evaluar) y reglas de colocación | 01-ing-diseno | 296093 | 86 | 26 |
 | 2026-11-19 | ing-diseno | brazo B: colocación en texto, 6 iteraciones, 0 incumplimientos | 02-ing-diseno | 173296 | 25 | 18 |
+| 2026-11-19 | ing-diseno | colocacion.py con los criterios de DEC-0016 (JLCPCB, serigrafía, térmico, tamaño) | 04-ing-diseno | 329532 | 109 | 47 |
