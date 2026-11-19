@@ -2,15 +2,15 @@
 id: SPEC-0032
 titulo: Integración y revisión global del esquema
 fase: 3
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0032-integracion-esquema
 requisitos: [KIC-02, KIC-03, ALI-12, MCU-05, REL-04, FAB-05]
 depende_de: [SPEC-0028, SPEC-0029, SPEC-0031, SPEC-0033, SPEC-0034, SPEC-0035]
 creada: 2026-11-13
-cerrada:
-validacion:
+cerrada: 2026-11-19
+validacion: VAL-0032-01
 ---
 
 # SPEC-0032 · Integración y revisión global del esquema
@@ -91,3 +91,4 @@ Nivel **completo** (esquema; DEC-0005), con `esquema.md` v17.
 | 2026-11-19 | ing-diseno | raíz con estilo DEC-0015, arquitectura.md y revisión global | 01-ing-diseno | 306515 | 93 | 22 |
 | 2026-11-19 | jr-conformidad | BOM preliminar con coste y stock, PDF y VAL-0028-01-03/-04 | 02-jr-conformidad | 78541 | 19 | 3 |
 | 2026-11-19 | ing-validacion | VAL-0032-01 APROBADO_CON_OBSERVACIONES | VAL-0032-01 | 218228 | 53 | 12 |
+| 2026-11-19 | coordinador | Cierra la spec | VAL-0032-01 (APROBADO_CON_OBSERVACIONES) |  |  |  |
