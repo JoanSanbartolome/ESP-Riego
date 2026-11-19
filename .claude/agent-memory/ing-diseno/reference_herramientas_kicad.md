@@ -46,3 +46,9 @@ SPEC-0035, corrección VAL-0035-01 (2026-11-18):
 - Mover piezas en una hoja con cables: `hoja.py extraer` + script que desplaza pieza, `pos`, puntos de cable, etiquetas **y `uniones`** (extraer las guarda explícitas: si no se mueven quedan puntos de unión sueltos en mitad del cable, sin error ni aviso) + `generar`. Mirar siempre la imagen.
 - Métrica de la fuente: el SVG de `kicad-cli sch export svg` trae por texto un `<text textLength=…>` oculto (ancho de justificación = suma de avances + 0,16 × alto) y un `<g class="stroked-text"><desc>TEXTO</desc>` con los trazos: sirve para medir tinta real. La tabla está en `_estilo.py`.
 - La batería se pasa en un repositorio falso (`CLAUDE.md`, `herramientas/{verificar.py,kicad,pruebas}`, `hardware/{v2,libraries,componentes}`, `gestion/checklists`) copiado al scratchpad: 2 textos iguales en una prueba de SVG se mezclan (usar textos distintos).
+
+SPEC-0032 (2026-11-19):
+- La raíz se escribe con `hoja.py extraer esp-riego.kicad_sch` + `generar -o <copia>/v2/esp-riego.kicad_sch` (desde SPEC-0032); `hoja.py raiz` ya solo vale para raíces sin cables. Script de la raíz: `scratchpad\raiz_gen.py` de la sesión ad4da10c.
+- Cablear la raíz renombra las redes entre hojas (`/VBUS` → `/Alimentacion/VBUS`): una etiqueta local por red sobre su cable conserva el nombre y la paridad.
+- Mantener el orden de los `(sheet` en la raíz: `hoja.py paginas` sigue el orden del archivo y `test_paginas_en_orden_del_arbol` lo comprueba.
+- `Hoja.test_raiz` depende de la geometría de la raíz (coordenadas de pines): si se mueve, hay que parchear la prueba.

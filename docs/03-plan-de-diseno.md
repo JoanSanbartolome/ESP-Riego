@@ -30,23 +30,23 @@ La v1 se conserva **tal como se fabricó**: solo se arreglan las rutas de librer
 
 > Forma de trabajo acordada con el usuario (2026-11-05): la v2 parte de una copia de trabajo de la v1 (`hardware/v2`, SPEC-0013) y se avanza **bloque a bloque**. Cada bloque (entrada y limitador, MCU, salidas, sensores, conectores) es una spec que hace su parte de esta fase (selección y cálculos) y sustituye su hoja en el esquema (fase 3). Las tareas de esta fase que afectan a toda la placa (presupuesto de potencia, GPIO, bordes) se cierran a medida que llegan los bloques.
 
-- [ ] Cerrar las decisiones abiertas D3–D6 y D9; D9 (módulo de expansión) con el informe de SPEC-0006. D2 y D8 ya están cerradas (DEC-0003: salidas alimentadas con *high-side* inteligente y limitador común).
-- [ ] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
+- [ ] Cerrar las decisiones abiertas D3–D6 y D9 (cerradas D3, D4 y D9; D5 queda pendiente y D6 se revisa en el layout); D9 (módulo de expansión) con el informe de SPEC-0006. D2 y D8 ya están cerradas (DEC-0003: salidas alimentadas con *high-side* inteligente y limitador común).
+- [x] Diagrama de bloques definitivo y presupuesto de potencia por raíl (24 V, 5 V, 3,3 V) con las 6 salidas activas (ALI-12).
 - [ ] Fuente real: comprobar en su etiqueta o su modelo que es de tensión constante y que sus protecciones cuadran con las supuestas en DEC-0004, antes de elegir el limitador.
-- [ ] Limitador común (ALI-13): pieza cuya banda de corriente, con la tolerancia, cabe en 3,5–4,9 A (DEC-0004).
-- [ ] Presupuesto de longitud de cada borde (FAB-07) con los taladros M3 y las pistas de salida de ≈ 1,2 mm (REL-05).
-- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores.
-- [ ] Tabla de asignación de GPIO según MCU-05.
-- [ ] Cálculos: TVS y tensiones nominales del nodo de entrada, UVLO, divisor de VIN, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
-- [ ] Documentar todo en `docs/04-arquitectura.md`.
+- [x] Limitador común (ALI-13): pieza cuya banda de corriente, con la tolerancia, cabe en 3,5–4,9 A (DEC-0004).
+- [x] Presupuesto de longitud de cada borde (FAB-07) con los taladros M3 y las pistas de salida de ≈ 1,2 mm (REL-05).
+- [ ] Seleccionar componentes con disponibilidad en JLCPCB/LCSC y una alternativa para cada pieza crítica: protecciones de entrada, buck, LDO, etapa de salida, sensor de temperatura y humedad, y conectores. Falta la alternativa de U1 (VAL-0032-01-01, SPEC-0036).
+- [x] Tabla de asignación de GPIO según MCU-05.
+- [x] Cálculos: TVS y tensiones nominales del nodo de entrada, UVLO, divisor de VIN, protección de las salidas, corriente de los LED y anchura de pistas (IPC-2152).
+- [x] Documentar todo en `docs/diseno/arquitectura.md` (SPEC-0032) y en el documento de cada bloque.
 
 ## Fase 3: esquema v2
 
-- [ ] Copia de trabajo `hardware/v2/` (proyecto `esp-riego`) a partir de `v1.1-tfg`, con las hojas `alimentacion`, `mcu`, `salidas` y `conectores` (SPEC-0013); `sensores` llega con su bloque.
-- [ ] Sustituir cada hoja por el bloque de la v2, una spec por bloque.
-- [ ] Campos en cada símbolo: `Value`, `Footprint`, `LCSC Part#`, `MPN` y `Datasheet`.
-- [ ] ERC sin errores.
-- [ ] Revisión: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo, test points.
+- [x] Copia de trabajo `hardware/v2/` (proyecto `esp-riego`) a partir de `v1.1-tfg`, con las hojas `alimentacion`, `mcu`, `salidas` y `conectores` (SPEC-0013); `sensores` llega con su bloque.
+- [x] Sustituir cada hoja por el bloque de la v2, una spec por bloque.
+- [x] Campos en cada símbolo: `Value`, `Footprint`, `LCSC Part#`, `MPN` y `Datasheet`.
+- [x] ERC sin errores.
+- [x] Revisión: pines de arranque, estado de las salidas en el reset, polaridades, ESD en todos los conectores de campo, test points.
 
 ## Fase 4: layout v2
 

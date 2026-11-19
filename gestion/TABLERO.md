@@ -2,15 +2,15 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
+Specs por estado: propuesta 1 · abierta 0 · cerrada 32 · descartada 4.
 
-## Abiertas (1)
+## Propuestas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
-| [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | — | 2026-11-13 | — |
+| [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
 
-## Cerradas (31)
+## Cerradas (32)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -42,6 +42,7 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | Bloque de sensores | 3 | ing-diseno | `spec/SPEC-0029-bloque-sensores` | VAL-0029-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | Requisitos v0.6 | 3 | coordinador | `spec/SPEC-0030-requisitos-v06` | VAL-0030-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-14 |
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | Bloque de conectores, expansión y pulsadores | 3 | ing-diseno | `spec/SPEC-0031-bloque-conectores` | VAL-0031-02 (APROBADO) | 2026-11-13 | 2026-11-15 |
+| [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | Integración y revisión global del esquema | 3 | ing-diseno | `spec/SPEC-0032-integracion-esquema` | VAL-0032-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-13 | 2026-11-19 |
 | [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | Requisitos v0.7 | 3 | coordinador | `spec/SPEC-0033-requisitos-v07` | VAL-0033-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | VAL-0034-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | Esquema legible | 3 | ing-diseno | `spec/SPEC-0035-esquema-legible` | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-17 | 2026-11-18 |
@@ -67,6 +68,7 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
 | [SPEC-0029](specs/SPEC-0029-bloque-sensores.md) | 3 | 462 494 | 132 | 26 |
 | [SPEC-0030](specs/SPEC-0030-requisitos-v06.md) | 2 | 134 812 | 28 | 3 |
 | [SPEC-0031](specs/SPEC-0031-bloque-conectores.md) | 6 | 804 144 | 235 | 67 |
+| [SPEC-0032](specs/SPEC-0032-integracion-esquema.md) | 3 | 603 284 | 165 | 37 |
 | [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | 2 | 127 583 | — | — |
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | 5 | 942 512 | 219 | 40 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 6 | 1 603 105 | 550 | 157 |
@@ -75,9 +77,9 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 17 | 4 200 998 | 1 279 | 394 |
-| ing-validacion | 20 | 2 479 088 | 620 | 146 |
-| jr-conformidad | 7 | 504 964 | 149 | 23 |
+| ing-diseno | 18 | 4 507 513 | 1 372 | 416 |
+| ing-validacion | 21 | 2 697 316 | 673 | 158 |
+| jr-conformidad | 8 | 583 505 | 168 | 26 |
 
 ## Decisiones
 
@@ -145,6 +147,7 @@ Specs por estado: propuesta 0 · abierta 1 · cerrada 31 · descartada 4.
 | [VAL-0030-02](informes/VAL-0030-02.md) | SPEC-0030 | APROBADO_CON_OBSERVACIONES | `a899307` | 2026-11-14 |
 | [VAL-0031-01](informes/VAL-0031-01.md) | SPEC-0031 | APROBADO_CON_OBSERVACIONES | `a9cfa2d` | 2026-11-15 |
 | [VAL-0031-02](informes/VAL-0031-02.md) | SPEC-0031 | APROBADO | `c947654` | 2026-11-15 |
+| [VAL-0032-01](informes/VAL-0032-01.md) | SPEC-0032 | APROBADO_CON_OBSERVACIONES | `d0705a7` | 2026-11-19 |
 | [VAL-0033-01](informes/VAL-0033-01.md) | SPEC-0033 | RECHAZADO | `2b1eea7` | 2026-11-17 |
 | [VAL-0033-02](informes/VAL-0033-02.md) | SPEC-0033 | APROBADO | `0816e1f` | 2026-11-17 |
 | [VAL-0034-01](informes/VAL-0034-01.md) | SPEC-0034 | APROBADO_CON_OBSERVACIONES | `11e26d4` | 2026-11-17 |

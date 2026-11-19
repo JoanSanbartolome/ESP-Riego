@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR). **Rev. SPEC-0034:** §1, la carga de salidas pasa a límite de uso de la suma (DEC-0014).
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR). **Rev. SPEC-0034:** §1, la carga de salidas pasa a límite de uso de la suma (DEC-0014). **Rev. SPEC-0032:** §3.2, I²t del TA10 como en la ficha (VAL-0028-01-05); presupuesto de toda la placa en `arquitectura.md` §2.
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -82,7 +82,7 @@ WJ500V-5.08-2P: 2 polos a 5,08 mm, 15 A (UL) / 18 A (IEC), 300 V (`hardware/comp
 - Arranque en caliente (*hot-plug*), con C = 47 + 2 × 4,7 µF, 30 V y R ≈ 0,1 Ω (cable y ESR): I²t = C·V²/(2R) = 0,25 A²s, frente a I²t de fusión de 26,46 A²s (tabla, p. 2). No actúa.
 - Papel: con la fuente de 5 A (que limita a 5,1–7,5 A), F1 solo actúa con una fuente de más corriente o con un corto franco aguas abajo (Q1 o D2 en corto). En el resto de casos limita primero la fuente o el limitador común.
 - Huella: `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018; VAL-0019-01-03).
-- **Alternativa (SPEC-0028, `hardware/componentes/0451010.MRL.md`):** Littelfuse **0453010.MR** (C178995), de la misma hoja 451/453: 10 × 0,75 × 0,96 = 7,2 A ≥ 5,1 A (pp. 2–3), 125 V DC, I²t de fusión 26,46 A²s (p. 2) y la misma huella (p. 4); cambian solo los casquillos y el carrete. **TLC TA10 (C2998199) se descarta:** solo 125 V AC sin valor en continua, I²t sin dato, ≈ 98 % a 60 °C (p. 6) y otro *pad layout* (8,0 / 3,0 mm, p. 3).
+- **Alternativa (SPEC-0028, `hardware/componentes/0451010.MRL.md`):** Littelfuse **0453010.MR** (C178995), de la misma hoja 451/453: 10 × 0,75 × 0,96 = 7,2 A ≥ 5,1 A (pp. 2–3), 125 V DC, I²t de fusión 26,46 A²s (p. 2) y la misma huella (p. 4); cambian solo los casquillos y el carrete. **TLC TA10 (C2998199) se descarta:** solo 125 V AC sin valor en continua, I²t 284 A²s, provisional según TLC (*pending*, p. 3), ≈ 98 % a 60 °C (p. 6) y otro *pad layout* (8,0 / 3,0 mm, p. 3).
 
 ### 3.3 Protección de polaridad Q1 (ALI-03)
 

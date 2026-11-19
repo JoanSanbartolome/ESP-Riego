@@ -1,5 +1,5 @@
 - **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
-- [Herramientas de KiCad](reference_herramientas_kicad.md) — batería 4,5 min, `\` en heredocs, CRLF, rutas /c/ en Python → C:\c\, dibujo.py para hojas con cables; Python desde Bash escapa a la guarda
+- [Herramientas de KiCad](reference_herramientas_kicad.md) — batería 4,5 min, `\` en heredocs, CRLF, rutas /c/ en Python → C:\c\, dibujo.py para hojas con cables; raíz con generar; Python desde Bash escapa a la guarda
 - [Fuentes de datos de piezas](reference_fuentes_piezas.md) — jlc.py --buscar, JSON de LCSC, PDFs de ti.com (nxp no), tablas de TI a imagen, scratchpad compartido
 - [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004/0014: BTT6050, limitador, sin válvula de diseño, límites de uso REL-11, M7 montado; descartes, IS, LED
 - [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG

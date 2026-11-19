@@ -4806,7 +4806,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "4.7u"
 			(at 91.44 62.23 0)
 			(show_name no)
 			(do_not_autoplace no)

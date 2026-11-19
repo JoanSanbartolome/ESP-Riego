@@ -12,7 +12,7 @@ simbolo: esp-riego:BTT6050-1ERA
 huella: esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm
 modelo_3d: ${KIPRJMOD}/../libraries/3d/Infineon_PG-TDSO-14.step
 origen_assets: creado
-verificado_por: VAL-0015-02 (símbolo y huella), VAL-0024-01 (huella con las vías del EP, símbolo 15/15 y ficha)
+verificado_por: VAL-0015-02 (símbolo y huella), VAL-0024-01 (huella con las vías del EP, símbolo 15/15 y ficha), VAL-0028-01 (pasta corregida del EP)
 ---
 
 # BTT6050-1ERA · *high-side* 1 canal

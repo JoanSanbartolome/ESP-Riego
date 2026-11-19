@@ -10,3 +10,5 @@ metadata:
 - Una tabla de campos se genera agrupando por (Value, Footprint, LCSC, MPN, Fabricante, Datasheet, Description, DNP); Fabricante y Datasheet por código LCSC salen de las tablas existentes y, si no, de `dataManualUrl` de la API.
 - `dataManualFileAccessIdUrl` baja el PDF real (LCSC bloquea curl); hojas TLC/Littelfuse en pdftotext con `-layout`; la curva de derating hay que verla en PNG (`pdftoppm -png -r 70`).
 - `verificar.py` no admite `--detalle`; solo `--json` y `--salida`.
+- Cambiar solo un campo (`Value`) y sincronizar la PCB hace FALLAR `esquema.pcb_main`: declarar en el parte «Huellas que cambian frente a `main`: C24, C26, C50 (…)» y repetir `comprobar.py --punto esquema.pcb_main`.
+- BOM con coste (SPEC-0032): `kicad-cli sch export bom` sobre la copia con `--group-by 'LCSC Part#,Value' --exclude-dnp` y un script que llama a `jlc.consultar(codigo, qty*5)`; `in_bom no` (H, TP, puente) ya sale solo. Recargo JLCPCB: 3 USD por código Extended no «preferida».
