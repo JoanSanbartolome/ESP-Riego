@@ -2,13 +2,19 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 32 · descartada 4.
+Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 
 ## Propuestas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | Colocación iterada en texto (experimento M10) | 4 | ing-diseno | `spec/SPEC-0037-colocacion-en-texto` | — | 2026-11-19 | — |
 
 ## Cerradas (32)
 

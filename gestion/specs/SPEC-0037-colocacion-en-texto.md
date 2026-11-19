@@ -2,7 +2,7 @@
 id: SPEC-0037
 titulo: Colocación iterada en texto (experimento M10)
 fase: 4
-estado: propuesta
+estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0037-colocacion-en-texto
@@ -66,3 +66,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
 |---|---|---|---|---|---|---|
 | 2026-11-19 | coordinador | Crea la spec (propuesta) | | | | |
+| 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
