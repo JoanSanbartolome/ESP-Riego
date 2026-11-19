@@ -33,6 +33,11 @@ Precisiones del usuario (2026-11-19, tras el paso 3):
 - La antena de U5 va completamente dentro de la PCB, en el borde lateral y con su zona libre de cobre (MCU-02); no sobresale.
 - Distancia del cuerpo de cada pieza al borde ≥ 2,5 mm (Términos de JLCPCB §2.3), para todas las piezas. Los bornes siguen en su borde (FAB-07), a esa distancia.
 
+Tras el paso 4 (2026-11-19):
+
+- Excepciones a los 2,5 mm: J2 (USB-C) al ras del borde, para que entre la clavija, y U5 con el extremo de la antena al ras del borde lateral, para que la zona libre de cobre ocupe lo mínimo dentro de la placa; sin sobresalir. Si JLCPCB exige bordes auxiliares (*edge rails*) por estas piezas, la herramienta da su coste.
+- Placa de 100 × 100 mm aceptada como tamaño de trabajo, mientras quepa todo (sigue a la espera de la caja, D5).
+
 ## Consecuencias
 
 - SPEC-0037 añade el paso 3 (mejorar `colocacion.py` y las reglas) y el paso 4 (repetir el brazo B con el tamaño como variable). Todo, sobre copias.

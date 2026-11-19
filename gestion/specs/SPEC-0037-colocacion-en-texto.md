@@ -30,6 +30,7 @@ Con los criterios de DEC-0016, saber qué cuesta menos en tokens para iterar la 
   - paso 3, opcional (lo decide el usuario al ver el resultado del paso 2; 2026-11-19: «probar con una herramienta en texto»): brazo A, otra instancia nueva, la misma colocación de partida y las mismas reglas, solo con KiCad (MCP o `colocar.py`) y `vista.py`, sin `evaluar` mientras itera, hasta que dé la colocación por buena o gaste el doble de tokens que el brazo B; después se le pasa `evaluar`;
   - paso 3 (`ing-diseno`, instancia nueva; DEC-0016): `colocacion.py` y las reglas con los criterios de DEC-0016, por orden: (1) fabricación de la clase más barata de JLCPCB (PCB de 2 capas y PCBA, con página y fecha de las capacidades), incluida la separación entre piezas y a borde; (2) serigrafía: posición de las referencias, sin solapes con textos, pads, máscara abierta, contorno ni otras piezas, altura y trazo mínimos, referencia junto a su pieza; (3) térmico: espacio para el cobre de las piezas que disipan, fuentes de calor repartidas, lejos del SHT40 y de la antena, con su disipación estimada; (4) tamaño de la placa como variable (contorno y taladros M3 que se mueven con él), con el sobrecoste de JLCPCB por encima de 100 × 100 mm; más las propuestas del paso 2 (desacoplos `cerca`, LED visibles y la clase de red en `--detalle`);
   - paso 4 (brazo B', instancia nueva): repetir el paso 2 con la herramienta del paso 3, iterando también el tamaño, primero dentro de 100 × 100 mm;
+  - paso 5 (`ing-diseno`, instancia nueva): excepciones de borde de DEC-0016 (J2 y U5 al ras), reglas nuevas para lo que el paso 4 dejó mal (lazos de potencia de la entrada y del buck, longitud del USB, pasillos de rutado, margen del cobre de disipación, regla de la antena reescrita) y las mejoras de `colocacion.py` que propone el parte 05; después, recolocar desde `colocacion-b2.csv` hasta 0 obligatorias;
   - comparación (coordinador): tokens, iteraciones, minutos y resultado de `evaluar` de cada brazo, con la recomendación para la fase 4.
 - Excluye: escribir en `hardware/v2` (los dos brazos trabajan sobre copias), el rutado, la tabla de restricciones por red (`restricciones.csv`, otra spec), cambiar el contorno o la caja (D5) y la aprobación del *floorplan*, que se hace en la spec de colocación con la imagen.
 
@@ -47,6 +48,7 @@ Con los criterios de DEC-0016, saber qué cuesta menos en tokens para iterar la 
 - Paso 2 (y el 3, si se hace): la colocación de cada brazo (`docs/diseno/colocacion-b.csv` y, en su caso, `colocacion-a.csv`), su imagen (ruta en el parte), la salida de `evaluar` y el número de iteraciones; partes `02-` y `03-ing-diseno.md`.
 - Paso 3: `colocacion.py`, reglas y README al día, casos de prueba como parche; parte `04-ing-diseno.md`.
 - Paso 4: `docs/diseno/colocacion-b2.csv` con su tamaño de placa, imagen y salida de `evaluar`; parte `05-ing-diseno.md`.
+- Paso 5: `docs/diseno/colocacion-b3.csv`, imagen, salida de `evaluar`, herramienta y reglas al día, casos de prueba como parche; parte `06-ing-diseno.md`.
 - Coordinador: `docs/diseno/experimento-colocacion.md` con la tabla comparativa y la recomendación.
 
 ## Criterios de aceptación
