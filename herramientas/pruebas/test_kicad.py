@@ -36,6 +36,7 @@ KICAD = REPO / "herramientas" / "kicad"
 sys.path.insert(0, str(KICAD))
 import _comun  # noqa: E402
 import campos  # noqa: E402
+import colocacion  # noqa: E402
 import comprobar  # noqa: E402
 import dibujo  # noqa: E402
 import _estilo  # noqa: E402
@@ -44,7 +45,8 @@ import huella  # noqa: E402
 import jlc  # noqa: E402
 import restricciones  # noqa: E402
 
-HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar", "dibujo"]
+HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "colocacion", "vista", "huella", "restricciones", "comprobar",
+                "dibujo"]
 BTT6050 = "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
 TMP = BASE = None
 
@@ -118,6 +120,8 @@ class Generales(unittest.TestCase):
             ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, v2, "--grupos"), ("hoja", "netlist", v2, "--plan", plan),
             ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
+            ("colocacion", "extraer", v2, "-o", TMP / "nm_col.txt"), ("colocacion", "extraer", v2, "--refs", "U5"),
+            ("colocacion", "evaluar", v2, "--detalle", TMP / "nm_col_ev.txt"),
             ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"), ("dibujo", "comprobar", TMP / "nm.json", v2 / "mcu.kicad_sch", "--proyecto", v2),
         ]
         antes = huella_md5(BASE)
@@ -848,6 +852,137 @@ class Pcb(unittest.TestCase):
         codigo, _, error = correr("vista", "hoja", v2, "--hoja", "noexiste", "-o", TMP / "n.png")
         self.assertEqual(codigo, 2)
         self.assertIn("no hay ninguna hoja", error)
+
+
+class Colocacion(unittest.TestCase):
+    """colocacion.py (SPEC-0037): extraer cubre todas las huellas en ≤ 8 k tokens; evaluar detecta los cinco fallos del
+    criterio (solape, fuera del contorno, zona de la antena, borne en el borde equivocado, SHT40 lejos del borde)
+    y puntúa igual una tabla que la PCB que deja colocar.py con ella (ida y vuelta)."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    # Colocación de control: U5 con la antena saliendo 6 mm por la izquierda, J4–J6 arriba (entrada hacia fuera),
+    # J1, J10 y J7–J9 abajo, J2 y U13 en el lateral derecho. Contorno de 100 × 70 mm, de (100, 60) a (200, 130).
+    BIEN = ("U5,106.8,95,90,F\nJ4,120,66,0,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,197,95,0,F\nJ2,195.7,110,90,F\n"
+            "J1,117,124,180,F\nJ10,135,126,90,F\nJ7,165,124,180,F\nJ8,177,124,180,F\nJ9,189,124,180,F\n"
+            "R16,150,100,0,F\nR17,160,100,0,F\nC24,150,90,0,F\n")
+    # Los cinco fallos: R17 sobre R18; C24 fuera (x 210); R16 en la zona de la antena (U5 sale solo 2,8 mm y deja
+    # su zona dentro de la placa); J4 en el borde inferior; U13 en el centro.
+    MAL = ("U5,110,95,90,F\nJ4,120,124,180,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,150,95,0,F\n"
+           "R16,101.5,110,0,F\nR17,150,100,0,F\nR18,150.5,100,0,F\nC24,210,95,0,F\n")
+
+    def evaluar(self, *args):
+        detalle = TMP / f"col_{len(list(TMP.glob('col_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", *args, "--reglas", self.REGLAS, "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.expandir("J4-J6 U5.2 U7-U9.6 U5/antena"),
+                         [("J4", None, None), ("J5", None, None), ("J6", None, None), ("U5", "2", None), ("U7", "6", None),
+                          ("U8", "6", None), ("U9", "6", None), ("U5", None, "antena")])
+        cuadro = [[(0, 0), (2, 0), (2, 1), (0, 1)]]
+        self.assertAlmostEqual(colocacion.distancia(cuadro, [[(5, 0), (6, 0), (6, 1), (5, 1)]]), 3)
+        self.assertEqual(colocacion.distancia(cuadro, [[(1, 0.5)]]), 0)
+        self.assertEqual(colocacion.distancia(cuadro, [[(1, -1), (1.5, -1), (1.5, 3), (1, 3)]]), 0)   # se cruzan
+        x, y = colocacion.girar((0, -1), 90)      # −Y de la huella con giro 90 (antihorario en pantalla) → izquierda
+        self.assertAlmostEqual(x, -1)
+        self.assertAlmostEqual(y, 0)
+        self.assertEqual(colocacion.a_borde(cuadro, (0, 0, 10, 10), "lateral"), (0, "izq"))
+        self.assertAlmostEqual(colocacion.arbol_minimo([(0, 0), (3, 0), (3, 4), (0, 4)]), 10)
+        self.assertEqual(colocacion.alias_redes(["/A/OUT", "/B/OUT", "/VBUS"]), {"/A/OUT": "A/OUT", "/B/OUT": "B/OUT", "/VBUS": "VBUS"})
+        self.assertEqual(colocacion.rangos(["1", "2", "3", "7", "EP"]), "1-3,7,EP")
+        mala = TMP / "reglas_malas.csv"
+        mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\nX1;borde;J4;arriba;1;obligatoria;REL-09;\n", encoding="utf-8")
+        with self.assertRaises(_comun.Fallo):
+            colocacion.leer_reglas(mala)
+        mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\nX1;borde;J4;sup;1;obligatoria;;\n", encoding="utf-8")
+        with self.assertRaises(_comun.Fallo):   # sin origen
+            colocacion.leer_reglas(mala)
+
+    def test_reglas_del_repositorio(self):
+        reglas, clases = colocacion.leer_reglas(self.REGLAS)
+        ids = [r["id"] for r in reglas + clases]
+        self.assertEqual(len(ids), len(set(ids)))
+        for r in reglas + clases:
+            self.assertRegex(r["origen"], r"[A-Z]{3}-\d\d|\.md §|DEC-\d{4}|\.md\b", r["id"])
+        self.assertTrue({"borde", "hacia", "cerca_par", "lejos", "fila", "zona", "sale", "libre"} <= {r["tipo"] for r in reglas})
+        self.assertEqual(colocacion.clase_de("/Alimentacion/VIN_PROT", clases), ("Power_In", 3))
+        self.assertEqual(colocacion.clase_de("/Salidas/Canal1/OUT", clases), ("Salidas", 3))
+        self.assertEqual(colocacion.clase_de("GND", clases), ("GND", 0))
+        self.assertEqual(colocacion.clase_de("/MCU/EN", clases), ("Default", 1.0))
+
+    def test_extraer(self):
+        v2 = BASE / "v2"
+        n = _comun.leer(v2 / "esp-riego.kicad_pcb").count("\n\t(footprint ")
+        self.assertGreater(n, 150)
+        codigo, salida, error = correr("colocacion", "extraer", v2, "-o", TMP / "huellas.txt")
+        self.assertEqual(codigo, 0, error)
+        texto = (TMP / "huellas.txt").read_text(encoding="utf-8")
+        filas = [l for l in texto.splitlines() if l and not l.startswith("#")]
+        self.assertEqual(len(filas), n)
+        self.assertEqual(len({l.split()[0] for l in filas}), n)
+        self.assertLessEqual(colocacion.estimar_tokens(texto), 8000)
+        self.assertLessEqual(len(texto), 32000)          # ≤ 8 k tokens aunque fueran 4 caracteres por token
+        self.assertIn(f"{n} huellas", salida)
+        u5 = next(l for l in filas if l.startswith("U5 "))
+        self.assertRegex(u5, r" zona -24,-27\.8,24,-6\.8 .*GND:1,40,41 \+3V3:2 EN:3")
+        codigo, salida, error = correr("colocacion", "extraer", v2, "--refs", "J4,U13")
+        self.assertEqual(codigo, 0, error)
+        self.assertEqual(len(salida.strip().splitlines()), 2)
+        self.assertIn("1(0,0)Canal1/OUT 2(5.08,0)GND", salida)
+        codigo, _, error = correr("colocacion", "extraer", v2)
+        self.assertEqual(codigo, 2)
+        codigo, _, error = correr("colocacion", "extraer", v2, "--refs", "ZZ9")
+        self.assertEqual(codigo, 2)
+        self.assertIn("ZZ9", error)
+
+    def test_cinco_fallos(self):
+        bien, mal = TMP / "col_bien.csv", TMP / "col_mal.csv"
+        bien.write_text("ref,x,y,giro,cara\n" + self.BIEN, encoding="utf-8")
+        mal.write_text("ref,x,y,giro,cara\n" + self.MAL, encoding="utf-8")
+        salida, det = self.evaluar(BASE / "v2", bien)
+        patron = (r"\tsolape\t\t\tR1[678]/|\tfuera\t\t\t(U5|J[124-9]|J10|U13|R16|R17|C24) |\tzona\t|\tB0[1-9]\t|\tB1[0-3]\t"
+                  r"|\tA0[12]\t|\tS01\t")
+        self.assertEqual([l for l in det.splitlines() if re.search(patron, l)], [])
+        salida, det = self.evaluar(BASE / "v2", mal)
+        self.assertRegex(det, r"obligatoria\tsolape\t\t\tR17/R18 [\d.]+ mm²")
+        self.assertRegex(det, r"obligatoria\tfuera\t\t\tC24 11\.7 mm")
+        self.assertRegex(det, r"obligatoria\tzona\t\t\tR16 en U5/zona [\d.]+ mm²")
+        self.assertRegex(det, r"obligatoria\tregla\tB01\t[^\t]*\tJ4 59\.3")
+        self.assertRegex(det, r"obligatoria\tregla\tB05\t[^\t]*\tJ4 giro 180")
+        self.assertRegex(det, r"obligatoria\tregla\tS01\t[^\t]*\tU13 48\.8")
+        self.assertNotRegex(det, r"\tfuera\t\t\tU5 ")          # la antena puede salir (regla «sale»)
+        self.assertRegex(salida, r"Solapes de patio: 1 · R17/R18")
+        self.assertRegex(salida, r"En zona prohibida: 1 · R16 en U5/zona")
+        self.assertIn("! B01 borde sup ≤ 1: J4 59.3", salida)
+        self.assertIn("! S01 borde lateral ≤ 6: U13 48.8 (izq)", salida)
+
+    def test_ida_y_vuelta(self):
+        origen = BASE / "v2" / "esp-riego.kicad_pcb"
+        todo, tabla = TMP / "col_todo.csv", TMP / "col_tabla.csv"
+        codigo, _, error = correr("colocar", origen, "--exportar", todo)
+        self.assertEqual(codigo, 0, error)
+        filas = todo.read_text(encoding="utf-8").splitlines()
+        nuevas = {l.split(",")[0]: l for l in self.BIEN.splitlines()}
+        filas = [filas[0]] + [nuevas.get(l.split(",")[0], l) for l in filas[1:]]
+        tabla.write_text("\n".join(filas) + "\n", encoding="utf-8")
+        antes = origen.read_bytes()
+        s1, d1 = self.evaluar(BASE / "v2", tabla)
+        self.assertEqual(antes, origen.read_bytes())
+        self.assertIn(f"({len(filas) - 1} filas, {len(filas) - 1} aplicadas)", s1)
+        proy = copia("v2_colocacion")
+        codigo, salida, error = correr("colocar", origen, tabla, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        vuelta = TMP / "col_vuelta.csv"
+        correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta)
+        def norm(texto):
+            return {l.split(",")[0]: [round(float(c), 3) if c[0] in "-0123456789" else c for c in l.split(",")[1:]]
+                    for l in texto.splitlines()[1:]}
+        self.assertEqual(norm(vuelta.read_text(encoding="utf-8")), norm(tabla.read_text(encoding="utf-8")))
+        s2, d2 = self.evaluar(proy)
+        quitar = lambda s: [l for l in s.splitlines() if not l.startswith("evaluar:")]   # noqa: E731
+        self.assertEqual(quitar(s1), quitar(s2))
+        self.assertEqual(sorted(quitar(d1)), sorted(quitar(d2)))
 
 
 class Restricciones(unittest.TestCase):
