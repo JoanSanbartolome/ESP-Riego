@@ -12,7 +12,7 @@ Uso:
 Formatos en herramientas/kicad/README.md. Conexión de un pin o de un punto de `etiquetas`: "L:RED" local ·
 "H:RED:forma" jerárquica · "G:RED:forma" global · "P:GND[:giro]" símbolo de `power` · "NC" · "W" cable · "".
 Cables, uniones (automáticas), recuadros con título y subhojas, también repetidas (`refs` por instancia).
-generar escribe solo en -o y conserva los UUID y las #PWR de la hoja que sustituye. Sin varias unidades.
+generar escribe solo en -o y conserva los UUID y las #PWR de la hoja que sustituye (también la raíz). Sin varias unidades.
 raiz: pines de hoja y sus etiquetas o NC en la raíz. paginas: cada hoja seguida de sus subhojas (Id = página).
 """
 import argparse
@@ -438,7 +438,9 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
     if viejos["no_rep"] and not forzar:
         raise Fallo(f"la hoja que se sustituye tiene {len(viejos['no_rep'])} elementos que se perderían "
                     f"({', '.join(sorted(set(viejos['no_rep'])))}); usa --forzar si es lo que quieres")
-    instancias = [h for h in hojas(Path(carpeta) / f"{nombre_proy}.kicad_sch")[1:] if h["archivo"].name == nombre_hoja]
+    arbol = hojas(Path(carpeta) / f"{nombre_proy}.kicad_sch")
+    es_raiz = nombre_hoja == f"{nombre_proy}.kicad_sch"   # la raíz: una instancia, la "/" (página 1)
+    instancias = arbol[:1] if es_raiz else [h for h in arbol[1:] if h["archivo"].name == nombre_hoja]
     if not instancias:
         raise Fallo(f"{nombre_hoja} no cuelga de {nombre_proy}.kicad_sch: no se puede saber su ruta de instancia")
     rutas = [h["ruta"] for h in instancias]
@@ -668,7 +670,8 @@ def generar(desc, carpeta, nombre_proy, nombre_hoja, base=None, tabla=None, forz
            + (f"\t(title_block\n{tb}\t)\n" if tb else ""))
     cuerpo = ("\t(lib_symbols\n" + "\n".join(libs_txt[k] for k in libs_txt) + "\n\t)\n" + uniones_txt + "".join(ncs)
               + cables_txt + "".join(etiquetas) + "".join(globales) + "".join(jerarquicas) + "".join(textos)
-              + recuadros_txt + "".join(simbolos) + "".join(pwr) + "".join(hojas_txt))
+              + recuadros_txt + "".join(simbolos) + "".join(pwr) + "".join(hojas_txt)
+              + ('\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)\n' if es_raiz else ""))
     resumen = {"piezas": len(simbolos), "etiquetas": len(etiquetas), "jerarquicas": len(jerarquicas), "globales": len(globales),
                "nc": len(ncs), "alimentacion": len(pwr), "textos": len(textos), "cables": len(tramos),
                "uniones": len(uniones), "recuadros": len(desc.get("recuadros", [])), "hojas": len(hojas_txt),
