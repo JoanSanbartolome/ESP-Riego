@@ -122,6 +122,7 @@ class Generales(unittest.TestCase):
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
             ("colocacion", "extraer", v2, "-o", TMP / "nm_col.txt"), ("colocacion", "extraer", v2, "--refs", "U5"),
             ("colocacion", "evaluar", v2, "--detalle", TMP / "nm_col_ev.txt"),
+            ("colocacion", "referencias", v2, "-o", TMP / "nm_col_refs.csv"),
             ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"), ("dibujo", "comprobar", TMP / "nm.json", v2 / "mcu.kicad_sch", "--proyecto", v2),
         ]
         antes = huella_md5(BASE)
@@ -983,6 +984,146 @@ class Colocacion(unittest.TestCase):
         quitar = lambda s: [l for l in s.splitlines() if not l.startswith("evaluar:")]   # noqa: E731
         self.assertEqual(quitar(s1), quitar(s2))
         self.assertEqual(sorted(quitar(d1)), sorted(quitar(d2)))
+
+
+class ColocacionCriterios(unittest.TestCase):
+    """colocacion.py con los criterios de DEC-0016 (SPEC-0037, paso 3): evaluar detecta los seis fallos sembrados
+    (separación de JLCPCB, dos textos solapados, texto sobre un pad, referencia lejos de su pieza, dos fuentes de calor
+    juntas y placa de más de 100 mm con su aviso de coste); --placa mueve los taladros; referencias coloca las
+    referencias sin fallos donde hay sitio y colocar.py las aplica (ida y vuelta)."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    CAB = "ref,x,y,giro,cara,rx,ry,rgiro,ralto,rtrazo\n"
+    # Contorno de 100 × 70 mm, de (100, 60) a (200, 130); el resto de huellas está fuera, lejos.
+    # Control: R17/R18 a 2 mm, referencias en su sitio de la librería, U7 y U8 a 12,7 mm.
+    BIEN = ("R17,150,100,0,F\nR18,155,100,0,F\nR16,150,90,0,F\nC24,160,90,0,F\nC25,170,90,0,F\nR20,180,90,0,F\n"
+            "U7,130,115,0,F\nU8,150,115,0,F\n")
+    # Fallos: R18 a 0,05 mm de R17 (patio 2,96 mm); la referencia de C24 encima de la de R16; la de C25 sobre su
+    # pad 1; la de R20 a 4 mm; U8 a 1 mm de U7 (patio 7,3 mm). La placa de 110 mm va con --placa.
+    MAL = ("R17,150,100,0,F\nR18,153.01,100,0,F\nR16,150,90,0,F\nC24,160,90,0,F,-10,-1.43\nC25,170,90,0,F,-0.78,0\n"
+           "R20,180,90,0,F,0,-4\nU7,130,115,0,F\nU8,138.3,115,0,F\n")
+
+    def evaluar(self, tabla, *args, pcb=None):
+        detalle = TMP / f"colc_{len(list(TMP.glob('colc_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", pcb or BASE / "v2", *([tabla] if tabla else []), *args,
+                                       "--reglas", self.REGLAS, "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.excluidas("* !U5 !J4-J5"), {"U5", "J4", "J5"})
+        self.assertEqual(colocacion.expandir("* !U5 J2"), [("J2", None, None)])
+        self.assertEqual(colocacion.tam_placa("100x85,5"), (100, 85.5))
+        self.assertIsNone(colocacion.tam_placa("100"))
+        self.assertAlmostEqual(colocacion.dist_cajas((0, 0, 1, 1), (4, 5, 6, 6)), 5)
+        self.assertEqual(colocacion.dist_cajas((0, 0, 2, 2), (1, 1, 3, 3)), 0)
+        self.assertAlmostEqual(colocacion.a_caja_interior((1, 2, 9, 9.5), (0, 0, 10, 10)), 0.5)
+        rej = colocacion.Rejilla()
+        rej.poner("a", (0, 0, 1, 1), "A")
+        rej.poner("b", (20, 20, 21, 21), "B")
+        self.assertEqual([c for c, _, _ in rej.cerca((1.5, 0, 2, 1), 0.6)], ["a"])
+        rej.quitar("a")
+        self.assertEqual(list(rej.cerca((1.5, 0, 2, 1), 0.6)), [])
+        cand = colocacion.candidatos((0, 0, 4, 2), {0: (-1, -0.5, 1, 0.5), 90: (-0.5, -1, 0.5, 1)})
+        self.assertEqual(len(cand), 3 * 2 * 4 * 3)
+        orden, giro, ancla, caja = cand[0]
+        self.assertEqual((giro, [round(v, 6) for v in caja]), (0, [1, -1.15, 3, -0.15]))   # encima, centrada, a 0,15 mm
+        self.assertEqual([round(v, 6) for v in ancla], [2, -0.65])
+        mala = TMP / "reglas_malas2.csv"
+        for fila in ("X1;serigrafia;*;color;1;obligatoria;DEC-0016;", "X1;precio;grande;5;2;objetivo;DEC-0016;",
+                     "X1;calor;U7;mucho;0.3;obligatoria;DEC-0016;"):
+            mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\n" + fila + "\n", encoding="utf-8")
+            with self.assertRaises(_comun.Fallo, msg=fila):
+                colocacion.leer_reglas(mala)
+
+    def test_reglas_de_dec_0016(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        tipos = {r["tipo"] for r in reglas}
+        self.assertTrue({"separacion", "borde_min", "cobre_borde", "serigrafia", "calor", "reparto", "precio"} <= tipos)
+        for r in reglas:
+            if "JLCPCB" in r["origen"]:           # cada regla de JLCPCB cita la página (URL) y la fecha de consulta
+                self.assertRegex(r["origen"], r"https://jlcpcb\.com/\S+", r["id"])
+                self.assertRegex(r["origen"], r"(consultado|actualizado|20\d\d-\d\d-\d\d)", r["id"])
+                self.assertRegex(r["origen"], r"20\d\d-\d\d-\d\d", r["id"])
+        p = colocacion.param_serigrafia(reglas)
+        self.assertGreaterEqual(p["alto"], 1.0)                    # JLCPCB: 1,0 mm de alto mínimo
+        self.assertGreaterEqual(p["trazo_ref"], max(0.15, p["alto"] / 6))   # 0,15 mm y 1:6
+        calor = {o[0]: r["mm"] for r in reglas if r["tipo"] == "calor" for o in colocacion.expandir(r["piezas"])}
+        self.assertTrue({"U1", "U2", "U4", "U7", "U12", "L1", "Q1", "D3", "F1"} <= set(calor))   # DEC-0016 (3)
+        self.assertTrue(any(r["tipo"] == "precio" and r["tam"] == (100, 100) for r in reglas))
+
+    def test_seis_fallos(self):
+        bien, mal = TMP / "colc_bien.csv", TMP / "colc_mal.csv"
+        bien.write_text(self.CAB + self.BIEN, encoding="utf-8")
+        mal.write_text(self.CAB + self.MAL, encoding="utf-8")
+        s_bien, d_bien = self.evaluar(bien)
+        s_mal, d_mal = self.evaluar(mal, "--placa", "110x70")
+        casos = [  # (regla, patrón del item en el detalle)
+            ("F01", r"R17/R18 0\.0[4-6]"),                   # separación de JLCPCB (IPC-7351B + FAB-02) incumplida
+            ("T05", r"(C24/R16|R16/C24) 0"),                 # dos textos de serigrafía solapados
+            ("T06", r"C25 0 de C25\.1"),                     # texto sobre un pad
+            ("T11", r"R20 [23](\.\d)?$"),                    # referencia lejos de su pieza
+            ("Q10", r"U7/U8 (0\.9|1|1\.1)$"),               # dos fuentes de calor demasiado juntas
+            ("Z01", r"placa 110×70 > 100x100"),              # placa de más de 100 mm: aviso de coste
+        ]
+        for regla, item in casos:
+            self.assertRegex(d_mal, rf"(?m)\tregla\t{regla}\t[^\t]*\t{item}", regla)
+            self.assertNotRegex(d_bien, rf"(?m)\tregla\t{regla}\t[^\t]*\t{item.split(' ')[0]}", regla)
+        self.assertRegex(d_mal, r"(?m)^obligatoria\tregla\tT07\t[^\t]*\tC25 sobre C25\.1")   # y sobre la máscara
+        self.assertIn("AVISO", s_mal.splitlines()[2])
+        self.assertIn("taladros movidos: H1 H2", s_mal)
+        self.assertNotIn("AVISO", s_bien)
+        self.assertRegex(s_bien.splitlines()[2], r"^Placa 100×70 mm · PCB 2 \$ por 5 uds")
+        self.assertRegex(s_mal, r"Serigrafía \(\d+ referencias\): .*texto-texto")
+        self.assertRegex(s_mal, r"Térmico: [\d.]+ W en \d+ fuentes")
+        self.assertRegex(d_mal, r"(?m)^precio\t110x70\tsin tarifa\t.*https://jlcpcb\.com/")
+        self.assertRegex(d_mal, r"(?m)^red\t/BUS_24V\tPower_In\t")    # clase de las reglas en --detalle
+
+    def test_placa_y_taladros(self):
+        tabla = TMP / "colc_placa.csv"
+        tabla.write_text(self.CAB + "PLACA,90,80,,\n" + self.BIEN, encoding="utf-8")
+        salida, det = self.evaluar(tabla)
+        self.assertRegex(salida, r"(?m)^Placa 90×80 mm \(taladros movidos: (H\d ?){3}\) · PCB 2 \$")
+        self.assertNotRegex(det, r"\t(G03|bloqueada)\t")             # los taladros se mueven con su esquina
+        proy = copia("v2_placa")
+        codigo, salida, error = correr("colocar", proy / "esp-riego.kicad_pcb", tabla, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("Placa 90 × 80 mm", salida)
+        texto = _comun.leer(proy / "esp-riego.kicad_pcb")
+        self.assertRegex(texto, r"\(gr_rect\s+\(start 100 60\)\s+\(end 190 140\)")
+        vuelta = TMP / "colc_placa_vuelta.csv"
+        correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta)
+        pos = {l.split(",")[0]: l.split(",")[1:3] for l in vuelta.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(sorted(tuple(map(float, pos[h])) for h in ("H1", "H2", "H3", "H4")),
+                         [(104, 64), (104, 136), (186, 64), (186, 136)])
+
+    def test_referencias_y_vuelta(self):
+        bien, con = TMP / "colc_bien_r.csv", TMP / "colc_con_refs.csv"
+        bien.write_text(self.CAB + self.BIEN, encoding="utf-8")
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", bien, "-o", con, "--reglas", self.REGLAS)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        filas = {l.split(",")[0]: l.split(",") for l in con.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(filas["R17"][1:5], ["150", "100", "0", "F"])
+        self.assertEqual(filas["R17"][8:10], ["1", "0.18"])          # alto y trazo de T01–T03
+        self.assertNotRegex(salida.splitlines()[1], r"\b(R1[678]|R20|C2[45]|U[78]) \(")   # con sitio, sin fallos
+        s, det = self.evaluar(con)
+        for ref in ("R16", "R17", "R18", "R20", "C24", "C25", "U7", "U8"):
+            self.assertNotRegex(det, rf"(?m)\tregla\tT(0[1-9]|1[0-3])\t[^\t]*\t{ref}\b", ref)
+        proy = copia("v2_refs")
+        codigo, salida, error = correr("colocar", proy / "esp-riego.kicad_pcb", con, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        vuelta = TMP / "colc_refs_vuelta.csv"
+        codigo, _, error = correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta, "--con-referencias")
+        self.assertEqual(codigo, 0, error)
+        cabecera, *resto = vuelta.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(cabecera, self.CAB.strip())
+        atras = {l.split(",")[0]: [round(float(c), 3) for c in l.split(",")[5:]] for l in resto}
+        for ref in ("R17", "C25", "U7"):
+            self.assertEqual(atras[ref], [round(float(c), 3) for c in filas[ref][5:]], ref)
+        s2, det2 = self.evaluar(None, pcb=proy / "esp-riego.kicad_pcb")
+        quitar = lambda t: sorted(l for l in t.splitlines() if l.startswith(("obligatoria", "objetivo")))   # noqa: E731
+        self.assertEqual(quitar(det), quitar(det2))
 
 
 class Restricciones(unittest.TestCase):
