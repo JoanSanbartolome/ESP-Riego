@@ -860,14 +860,15 @@ class Colocacion(unittest.TestCase):
     criterio (solape, fuera del contorno, zona de la antena, borne en el borde equivocado, SHT40 lejos del borde)
     y puntúa igual una tabla que la PCB que deja colocar.py con ella (ida y vuelta)."""
     REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
-    # Colocación de control: U5 con la antena saliendo 6 mm por la izquierda, J4–J6 arriba (entrada hacia fuera),
-    # J1, J10 y J7–J9 abajo, J2 y U13 en el lateral derecho. Contorno de 100 × 70 mm, de (100, 60) a (200, 130).
-    BIEN = ("U5,106.8,95,90,F\nJ4,120,66,0,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,197,95,0,F\nJ2,195.7,110,90,F\n"
+    # Colocación de control: U5 con el extremo de la antena al ras del borde izquierdo (x 100,2), J4–J6 arriba (entrada
+    # hacia fuera), J1, J10 y J7–J9 abajo, J2 al ras del lateral derecho y U13 en él. Contorno de 100 × 70 mm, de
+    # (100, 60) a (200, 130).
+    BIEN = ("U5,112.95,95,90,F\nJ4,120,66,0,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,197,95,0,F\nJ2,196.1,110,90,F\n"
             "J1,117,124,180,F\nJ10,135,126,90,F\nJ7,165,124,180,F\nJ8,177,124,180,F\nJ9,189,124,180,F\n"
             "R16,150,100,0,F\nR17,160,100,0,F\nC24,150,90,0,F\n")
-    # Los cinco fallos: R17 sobre R18; C24 fuera (x 210); R16 en la zona de la antena (U5 sale solo 2,8 mm y deja
-    # su zona dentro de la placa); J4 en el borde inferior; U13 en el centro.
-    MAL = ("U5,110,95,90,F\nJ4,120,124,180,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,150,95,0,F\n"
+    # Los cinco fallos: R17 sobre R18; C24 fuera (x 210); R16 en la parte de la zona de la antena que queda dentro
+    # de la placa; J4 en el borde inferior; U13 en el centro.
+    MAL = ("U5,113,95,90,F\nJ4,120,124,180,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,150,95,0,F\n"
            "R16,101.5,110,0,F\nR17,150,100,0,F\nR18,150.5,100,0,F\nC24,210,95,0,F\n")
 
     def evaluar(self, *args):
@@ -952,10 +953,10 @@ class Colocacion(unittest.TestCase):
         self.assertRegex(det, r"obligatoria\tregla\tB01\t[^\t]*\tJ4 59\.3")
         self.assertRegex(det, r"obligatoria\tregla\tB05\t[^\t]*\tJ4 giro 180")
         self.assertRegex(det, r"obligatoria\tregla\tS01\t[^\t]*\tU13 48\.8")
-        self.assertNotRegex(det, r"\tfuera\t\t\tU5 ")          # la antena puede salir (regla «sale»)
+        self.assertNotRegex(det, r"\tfuera\t\t\tU5 ")          # la zona de la antena puede salir (regla «sale»)
         self.assertRegex(salida, r"Solapes de patio: 1 · R17/R18")
         self.assertRegex(salida, r"En zona prohibida: 1 · R16 en U5/zona")
-        self.assertIn("! B01 borde sup ≤ 1: J4 59.3", salida)
+        self.assertIn("! B01 borde sup ≤ 3: J4 59.3", salida)
         self.assertIn("! S01 borde lateral ≤ 6: U13 48.8 (izq)", salida)
 
     def test_ida_y_vuelta(self):
@@ -1124,6 +1125,93 @@ class ColocacionCriterios(unittest.TestCase):
         s2, det2 = self.evaluar(None, pcb=proy / "esp-riego.kicad_pcb")
         quitar = lambda t: sorted(l for l in t.splitlines() if l.startswith(("obligatoria", "objetivo")))   # noqa: E731
         self.assertEqual(quitar(det), quitar(det2))
+
+
+class ColocacionPaso5(unittest.TestCase):
+    """colocacion.py del paso 5 de SPEC-0037 (DEC-0016, tras el paso 4): J2 y la antena de U5 al ras, rieles de JLCPCB
+    con su coste, lazos de potencia, longitud del USB, pasillos entre bloques y capacidad de los pasillos, margen del
+    cobre de disipación con lo que ocupa cada anillo, cifras que incumplen por redondeo y referencias con vuelta atrás.
+    Usa las colocaciones entregadas: colocacion-b2.csv (paso 4) incumple las reglas nuevas y colocacion-b3.csv no."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    B2 = REPO / "docs" / "diseno" / "colocacion-b2.csv"
+    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+
+    def evaluar(self, tabla, *args):
+        detalle = TMP / f"colp5_{len(list(TMP.glob('colp5_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", tabla, *args, "--reglas", self.REGLAS,
+                                       "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return codigo, salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.cifra(299.6, 300, True, 0), "299.6")      # incumple: no se escribe «300»
+        self.assertEqual(colocacion.cifra(300.4, 300, True, 0), "300")
+        self.assertEqual(colocacion.cifra(8.04, 8, False, 1), "8.04")
+        self.assertEqual(colocacion.cifra(7.96, 8, False, 1), "8")
+        self.assertEqual(sorted(tuple(sorted(a)) for a in colocacion.aristas_minimas([(0, 0), (3, 0), (3, 4)])),
+                         [(0, 1), (1, 2)])
+        self.assertEqual(colocacion.huecos_pista([1.0, 0.1, 0.2]), 4)        # 1,0 mm: 3 pistas; 0,2: 1; 0,1: ninguna
+        mala = TMP / "reglas_malas_p5.csv"
+        for fila in ("X1;lazo;U2 C8;;12;obligatoria;DEC-0016;",              # un lazo pide pads
+                     "X1;ras;J2;arriba;0.5;obligatoria;DEC-0016;",           # borde desconocido
+                     "X1;corte;*;largo;1;obligatoria;DEC-0016;"):           # tramo no numérico
+            mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\n" + fila + "\n", encoding="utf-8")
+            with self.assertRaises(_comun.Fallo, msg=fila):
+                colocacion.leer_reglas(mala)
+
+    def test_reglas_del_paso5(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        por_id = {r["id"]: r for r in reglas}
+        self.assertTrue({"ras", "rieles", "lazo", "largo", "pasillo", "corte", "margen"} <= {r["tipo"] for r in reglas})
+        self.assertEqual((por_id["A01"]["tipo"], por_id["A01"]["piezas"]), ("ras", "U5/antena"))
+        self.assertRegex(por_id["A01"]["origen"], r"HDG §1\.4\.7, p\. 30")
+        self.assertEqual((por_id["B12"]["tipo"], por_id["B12"]["piezas"]), ("ras", "J2"))
+        self.assertIn("!J2", por_id["F03"]["piezas"].split())
+        self.assertEqual(por_id["A06"]["tipo"], "sale")
+        self.assertEqual(por_id["U01"]["mm"], 40)                             # mcu.md §12: USB ≤ 40 mm
+        self.assertGreater(por_id["Q13"]["mm"], 1)
+        self.assertRegex(por_id["R01"]["origen"], r"https://jlcpcb\.com/help/article/\S*edge-rails")
+
+    def test_b2_incumple_y_b3_cumple(self):
+        c2, s2, d2 = self.evaluar(self.B2)
+        self.assertEqual(c2, 1)
+        casos = [  # (regla, patrón del item en el detalle de colocacion-b2.csv)
+            ("A01", r"U5/antena 1[45](\.\d+)? \(izq\)"),                  # antena dentro, lejos del borde
+            ("B12", r"J2 2\.\d+ \(izq\)"),                                   # USB-C a 2,75 mm, no al ras
+            ("W01", r"C1 \d+"),                                               # C1 lejos de U1
+            ("W03", r"(D1|R1) \d+"),                                          # R1/D1 lejos de la puerta de Q1
+            ("W07", r"\d+(\.\d+)? \(tramo más largo C11\.2→U2\.9"),      # lazo de salida del buck
+            ("U01", r"USB_DP\+USB_DP_C \d+"),                               # USB de J2 a U5 > 40 mm
+            ("N01", r"\w+/\w+ 0\.\d+"),                                      # pasillo entre bloques < 1 mm
+            ("N02", r"[xy] [\d.]+ [xy] [\d.]+…[\d.]+: [\d.]+ pistas, caben \d+"),   # pasillo sin capacidad
+            ("Q13", r"U11 \d+(\.\d+)?/330"),                                  # cobre sin el margen de +10 %
+        ]
+        for regla, item in casos:
+            self.assertRegex(d2, rf"(?m)^obligatoria\tregla\t{regla}\t[^\t]*\t{item}", regla)
+        self.assertRegex(d2, r"(?m)^calor\tU11\t.*\tanillo \d+ mm², ocupan: .*½ U1[02] \d+")   # qué ocupa el anillo
+        self.assertRegex(s2, r"En zona prohibida: 0 · zona dentro de la placa: U5 1008 mm²")
+        c3, s3, d3 = self.evaluar(self.B3)
+        self.assertEqual(c3, 0, s3)
+        self.assertNotRegex(d3, r"(?m)^obligatoria\t")
+        self.assertRegex(s3, r"(?m)^Placa 100×100 mm .*rieles \(izq: J2 0\.2, U5 0\.2\): panel 110×100, sin tarifa")
+        self.assertRegex(d3, r"(?m)^objetivo\tregla\tR01\t")               # el coste de los rieles, a la vista
+        self.assertRegex(s3, r"zona dentro de la placa: U5 29\d mm²")         # antena al ras: 48 × 6 mm
+        _, s4, d4 = self.evaluar(self.B3, "--omitir", "serigrafia")
+        self.assertNotRegex(d4, r"(?m)\tregla\tT\d\d\t")
+        self.assertEqual(correr("colocacion", "evaluar", BASE / "v2", self.B3, "--omitir", "nada")[0], 2)
+
+    def test_referencias_con_vuelta_atras(self):
+        con, sin = TMP / "colp5_con.csv", TMP / "colp5_sin.csv"
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", con, "--todas",
+                                       "--reglas", self.REGLAS)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertRegex(salida, r"vuelta atrás: [1-9]\d* recolocadas")
+        self.assertIn("Sin sitio que cumpla todo (0)", salida)
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", sin, "--todas",
+                                       "--sin-vuelta", "--reglas", self.REGLAS)
+        self.assertEqual(codigo, 1, salida + error)                           # la pasada voraz deja alguna sin sitio
+        self.assertIn("vuelta atrás: 0 recolocadas", salida)
 
 
 class Restricciones(unittest.TestCase):
