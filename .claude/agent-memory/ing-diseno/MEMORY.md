@@ -5,5 +5,5 @@
 - [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG
 - [Trucos de esquema y cajetín](reference_trucos_esquema.md) — límites del MCP, hoja por script, cajetín, PDF; redibujar con cables: nombres de red, ESD, LED, ángulos de campo (SPEC-0035)
 - [Reglas de JLCPCB](reference_jlcpcb_reglas.md) — URL de capacidades, Economic (0,3 mm a borde), Términos (2,5 mm), sin tarifa > 102×102; cifras en colocacion-reglas.csv
-- [Colocación en texto](project_colocacion_texto.md): generador + evaluar, patio en T de U5 (106,75, 78,5, giro 90), giros por pieza; 0 incumplimientos en 6 iteraciones
+- [Colocación en texto](project_colocacion_texto.md): generador + evaluar --omitir; plano de b3 (antena al ras); cobre térmico +10 % es el máximo en 100×100
 - [Efectos del MCP de KiCad en la PCB](mcp-efectos-secundarios.md) — open/close reescribe .kicad_pro y deja .kicad_prl/.mcp-backups; sync no copia campos ni sirve en jerárquicos (usar netlist + pcbnew)

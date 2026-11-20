@@ -1,19 +1,15 @@
 """Colocación en texto: extrae las huellas de la PCB en formato compacto, puntúa una colocación y coloca las referencias.
 
 Uso:
-    python herramientas/kicad/colocacion.py extraer hardware/v2 -o huellas.txt
-    python herramientas/kicad/colocacion.py extraer hardware/v2 --refs U5,J4      (con pads; en pantalla)
+    python herramientas/kicad/colocacion.py extraer hardware/v2 -o huellas.txt [--refs U5,J4]
     python herramientas/kicad/colocacion.py evaluar hardware/v2 colocacion.csv [--placa 100x80] [--detalle informe.txt]
     python herramientas/kicad/colocacion.py referencias hardware/v2 colocacion.csv -o con_refs.csv [--todas]
 
 extraer: por huella y bloque, ref, valor, x, y, giro, patio sin girar y redes de los pads (--refs: con pads).
-evaluar: aplica la tabla de colocar.py (con la referencia rx,ry,rgiro,ralto,rtrazo y la fila PLACA, o
-  --placa, que mueve los taladros) a una copia de la PCB y da, en ≤ 30 líneas: placa y precio, solapes,
-  fuera del contorno, zona prohibida, serigrafía, térmico, reglas incumplidas (--reglas; por defecto
-  docs/diseno/colocacion-reglas.csv) y longitud sin rutar por clase. PUNTOS = 1000 × obligatorias +
-  100 × objetivos + longitud ponderada / 10 (menor es mejor). Código 1 si queda algo obligatorio.
-referencias: coloca cada referencia de serigrafía (sin rx en la tabla, o todas con --todas) junto a su
-  patio, con el alto y el trazo de las reglas, y escribe la tabla con rx,ry,rgiro,ralto,rtrazo.
+evaluar: aplica la tabla de colocar.py (referencias rx,ry,rgiro,ralto,rtrazo y fila PLACA o --placa) a una
+  copia de la PCB y da, en ≤ 30 líneas, placa y precio, solapes, contorno, zonas, serigrafía, térmico, reglas
+  incumplidas y longitud sin rutar. PUNTOS = 1000 × obligatorias + 100 × objetivos + longitud / 10.
+referencias: coloca las referencias junto a su patio, con vuelta atrás (--sin-vuelta: solo la pasada voraz).
 Formato de la tabla y de las reglas, en herramientas/kicad/README.md.
 """
 import argparse
@@ -34,9 +30,12 @@ LADOS = {"sup", "inf", "izq", "der", "lateral", "largo"}
 DIRECCIONES = {"+x": (1, 0), "-x": (-1, 0), "+y": (0, 1), "-y": (0, -1)}
 TIPOS = {"cara", "fija", "borde", "hacia", "orden", "entre", "fila", "zona", "cerca", "cerca_par", "lejos",
          "libre", "opuesto", "sale", "clase", "separacion", "borde_min", "cobre_borde", "serigrafia", "calor",
-         "reparto", "precio"}
+         "reparto", "precio", "ras", "rieles", "lazo", "largo", "pasillo", "corte", "margen"}
 NUMERICOS = {"borde", "fila", "zona", "cerca", "cerca_par", "lejos", "libre", "clase", "separacion", "borde_min",
-             "cobre_borde", "serigrafia", "calor", "reparto", "precio"}
+             "cobre_borde", "serigrafia", "calor", "reparto", "precio", "ras", "rieles", "lazo", "largo", "pasillo",
+             "corte", "margen"}
+PASO_PISTA = 0.4  # mm: pista de 0,2 + separación de 0,2 (FAB-02), para la capacidad de los pasillos (`corte`)
+RODEO = 0.5  # mm: una pista que rodea una pieza pasa a esta distancia de su patio (`corte`)
 SERIGRAFIA = {"alto", "trazo", "proporcion", "alto_textos", "texto", "pad", "mascara", "contorno", "pieza", "silk",
               "junto", "ambigua", "visible"}
 PESO_OBLIGATORIA, PESO_OBJETIVO, DIVISOR_LONGITUD = 1000, 100, 10
@@ -125,7 +124,7 @@ def leer_reglas(ruta):
         r = {"id": fila.get("id") or f"L{n}", "tipo": tipo, "piezas": fila.get("piezas", ""),
              "objetivo": fila.get("objetivo", ""), "valor": fila.get("valor", ""), "nivel": nivel,
              "origen": fila["origen"], "nota": fila.get("nota", "")}
-        if tipo in ("borde", "hacia") and r["objetivo"] not in LADOS:
+        if tipo in ("borde", "hacia", "ras") and r["objetivo"] not in LADOS:
             raise Fallo(f"{ruta}: regla {r['id']}: borde «{r['objetivo']}» ({', '.join(sorted(LADOS))})")
         if tipo == "hacia" and r["valor"] not in DIRECCIONES:
             raise Fallo(f"{ruta}: regla {r['id']}: dirección «{r['valor']}» ({', '.join(DIRECCIONES)})")
@@ -138,7 +137,9 @@ def leer_reglas(ruta):
                 r["mm"] = numero(r["valor"])
             except ValueError:
                 raise Fallo(f"{ruta}: regla {r['id']}: valor «{r['valor']}» no es un número")
-        if tipo in ("calor", "reparto"):
+        if tipo == "lazo" and any(p is None for _, p, _ in expandir(r["piezas"])):
+            raise Fallo(f"{ruta}: regla {r['id']}: un lazo es una lista de pads (REF.PAD), en orden")
+        if tipo in ("calor", "reparto", "rieles", "corte"):
             try:
                 r["aux"] = numero(r["objetivo"] or 0)
             except ValueError:
@@ -191,6 +192,20 @@ def f(x, dec=2):
     s = "%.*f" % (dec, x)
     s = s.rstrip("0").rstrip(".") if "." in s else s
     return "0" if s in ("-0", "") else s
+
+
+def cifra(v, lim, minimo=True, dec=1):
+    """v con los decimales justos para que se vea de qué lado del límite queda: si incumple (v < lim con
+    minimo, v > lim sin él), la cifra que se muestra no puede ser igual al límite (300 → 299.6)."""
+    cumple = v >= lim - 1e-6 if minimo else v <= lim + 1e-6
+    for d in range(dec, 5):
+        s = f(v, d)
+        x = float(s)
+        if cumple and (x >= lim - 1e-9 if minimo else x <= lim + 1e-9):
+            return s
+        if not cumple and (x < lim - 1e-9 if minimo else x > lim + 1e-9):
+            return s
+    return f(v, 6)
 
 
 # ------------------------------------------------------------------ geometría (anillos de puntos en mm)
@@ -732,6 +747,125 @@ def _area(poly):
     return poly.Area() / 1e12
 
 
+def caja_fisica(h):
+    """Caja del cuerpo visible (F.Fab) unida a la de los pads: lo que de verdad no puede salir de la placa."""
+    cajas = [h["caja_cuerpo"]] + [p["caja"] for p in h["pads"] if p["caja"]]
+    return (min(c[0] for c in cajas), min(c[1] for c in cajas), max(c[2] for c in cajas), max(c[3] for c in cajas))
+
+
+def centro_pad(o):
+    """Centro de un operando de pad (media de los centros de los pads con ese número, p. ej. un EP con vías)."""
+    cs = [((min(p[0] for p in a) + max(p[0] for p in a)) / 2, (min(p[1] for p in a) + max(p[1] for p in a)) / 2)
+          for a in o.anillos]
+    return sum(c[0] for c in cs) / len(cs), sum(c[1] for c in cs) / len(cs)
+
+
+def aristas_minimas(puntos):
+    """Aristas (i, j) del árbol de expansión mínimo (Prim) entre puntos (x, y)."""
+    if len(puntos) < 2:
+        return []
+    dist, padre = [math.inf] * len(puntos), [0] * len(puntos)
+    dentro, actual, salida = [False] * len(puntos), 0, []
+    dentro[0] = True
+    for _ in range(len(puntos) - 1):
+        px, py = puntos[actual]
+        mejor, k = math.inf, -1
+        for i, (x, y) in enumerate(puntos):
+            if dentro[i]:
+                continue
+            d = math.hypot(x - px, y - py)
+            if d < dist[i]:
+                dist[i], padre[i] = d, actual
+            if dist[i] < mejor:
+                mejor, k = dist[i], i
+        dentro[k], actual = True, k
+        salida.append((padre[k], k))
+    return salida
+
+
+def huecos_pista(libres):
+    """Pistas de 0,2 mm con 0,2 de separación que caben en una lista de tramos libres (mm)."""
+    return sum(int((L + 0.2 + 1e-9) / PASO_PISTA) for L in libres if L > 0)
+
+
+def medir_cortes(modelo, refs, clases, tramo):
+    """Capacidad de los pasillos: líneas de corte cada 1 mm en x y en y, en tramos de `tramo` mm (paso la mitad).
+    Demanda de un tramo = suma de los pesos de clase de las aristas del árbol mínimo de cada red (sin GND) que lo
+    cruzan; oferta = pistas que caben en lo que el tramo no pisa de patios (sin zonas) ni zonas prohibidas, en la cara
+    superior. Una arista que cruza el corte por dentro de otra pieza cuenta en el borde más cercano de esa pieza (la
+    pista la rodea). Devuelve [(eje, c, s0, s1, demanda, oferta, redes)] de los tramos con demanda."""
+    H = modelo["huellas"]
+    X0, Y0, X1, Y1 = modelo["caja"]
+    obst = [(caja_de(H[r]["cuerpo"]), r) for r in refs]
+    obst += [(caja_de([a]), h["ref"]) for h in H.values() for a in h["zonas"]]
+    aristas = []
+    for red, nodos in modelo["redes"].items():
+        if len(nodos) < 2:
+            continue
+        _, peso = clase_de(red, clases)
+        if peso <= 0:
+            continue
+        claves = list(nodos)
+        pts = [nodos[k] for k in claves]
+        aristas += [(pts[i], pts[j], peso, red, {claves[i][0], claves[j][0]}) for i, j in aristas_minimas(pts)]
+    salida = []
+    for eje in ("x", "y"):
+        a, b = (0, 1) if eje == "x" else (1, 0)  # a: coordenada del corte; b: a lo largo del corte
+        lo, hi = (X0, X1) if eje == "x" else (Y0, Y1)
+        lo_b, hi_b = (Y0, Y1) if eje == "x" else (X0, X1)
+        c = math.floor(lo) + 1.0
+        while c < hi - 0.5:
+            tapan = sorted((o[b], o[b + 2], r) for o, r in obst if o[a] < c < o[a + 2])
+            grupos = []  # lo que tapa, con los huecos de menos de 2 × RODEO cerrados (una pista larga no los enhebra)
+            for t0, t1, _r in tapan:
+                if grupos and t0 - grupos[-1][1] < 2 * RODEO:
+                    grupos[-1][1] = max(grupos[-1][1], t1)
+                else:
+                    grupos.append([t0, t1])
+            cruces = []
+            for p, q, peso, red, suyas in aristas:
+                if (p[a] - c) * (q[a] - c) < 0:
+                    u = (c - p[a]) / (q[a] - p[a])
+                    s = p[b] + u * (q[b] - p[b])
+                    # la salida de una pista por el patio de su propia pieza no gasta pasillo
+                    if any(t0 <= s <= t1 and r in suyas for t0, t1, r in tapan):
+                        continue
+                    # la pista que cruza otra pieza la rodea: el cruce pasa al borde más cercano de lo que tapa
+                    for _ in range(8):
+                        tapa = next(((t0, t1) for t0, t1 in grupos if t0 < s < t1), None)
+                        if not tapa:
+                            break
+                        bordes = [x for x in (tapa[0] - RODEO, tapa[1] + RODEO) if lo_b < x < hi_b]
+                        if not bordes:
+                            break
+                        s = min(bordes, key=lambda x: abs(x - s))
+                    cruces.append((s, peso, red))
+            s0 = lo_b
+            while s0 < hi_b - 1e-6:
+                s1 = min(s0 + tramo, hi_b)
+                dentro = [x for x in cruces if s0 <= x[0] < s1]
+                if dentro:
+                    # oferta: lo libre del tramo, alargado RODEO × 2 por cada lado (un hueco que el borde del
+                    # tramo corta por la mitad sigue sirviendo a las pistas que lo cruzan)
+                    e0, e1 = max(lo_b, s0 - 2 * RODEO), min(hi_b, s1 + 2 * RODEO)
+                    libres, pos = [], e0
+                    for t0, t1, _ in tapan:
+                        if t1 <= e0 or t0 >= e1:
+                            continue
+                        if t0 > pos:
+                            libres.append(t0 - pos)
+                        pos = max(pos, t1)
+                    if pos < e1:
+                        libres.append(e1 - pos)
+                    salida.append((eje, c, s0, s1, sum(x[1] for x in dentro), huecos_pista(libres),
+                                   sorted({x[2] for x in dentro})))
+                if s1 >= hi_b:
+                    break
+                s0 += tramo / 2
+            c += 1.0
+    return salida
+
+
 def medir_calor(modelo, reglas, errores):
     """Fuentes de calor de las reglas `calor`: P (W), cobre necesario A (mm²) y cobre libre medido (mm²): zona a
     √A/2 del patio, dentro de la placa, sin patios ni zonas prohibidas, y la parte que comparte con otra fuente,
@@ -752,12 +886,33 @@ def medir_calor(modelo, reglas, errores):
             ocupado.BooleanAdd(h["zonas_poly"])
     con_area = [f_ for f_ in fuentes if f_["A"] > 0]
     for f_ in con_area:
-        reg = pcbnew.SHAPE_POLY_SET(H[f_["ref"]]["cuerpo_poly"])
+        yo = H[f_["ref"]]
+        reg = pcbnew.SHAPE_POLY_SET(yo["cuerpo_poly"])
         reg.Inflate(pcbnew.FromMM(math.sqrt(f_["A"]) / 2), pcbnew.CORNER_STRATEGY_ROUND_ALL_CORNERS, pcbnew.FromMM(0.05))
+        anillo = pcbnew.SHAPE_POLY_SET(reg)
+        anillo.BooleanSubtract(yo["cuerpo_poly"])
+        bruto = _area(anillo)
         reg.BooleanIntersection(modelo["contorno_poly"])
+        anillo.BooleanIntersection(modelo["contorno_poly"])
+        # qué ocupa el anillo (para --detalle): fuera de la placa, patios y zonas prohibidas de otras piezas
+        ocupan = [("borde", bruto - _area(anillo))]
+        cr = _caja_bb(anillo.BBox(), pcbnew) if anillo.OutlineCount() else None
+        for r2, h2 in H.items():
+            if r2 == f_["ref"] or cr is None:
+                continue
+            for poly in (h2["cuerpo_poly"], h2["zonas_poly"]):
+                if not poly.OutlineCount() or dist_cajas(_caja_bb(poly.BBox(), pcbnew), cr) > 0:
+                    continue
+                s = pcbnew.SHAPE_POLY_SET(anillo)
+                s.BooleanIntersection(poly)
+                a = _area(s)
+                if a > 0.5:
+                    ocupan.append((r2 if poly is h2["cuerpo_poly"] else f"{r2}/zona", a))
         reg.BooleanSubtract(ocupado)
         f_["region"] = reg
         f_["libre"] = _area(reg)
+        f_["anillo"] = bruto
+        f_["ocupan"] = ocupan
     for i, a in enumerate(con_area):
         for b in con_area[i + 1:]:
             s = pcbnew.SHAPE_POLY_SET(a["region"])
@@ -765,6 +920,9 @@ def medir_calor(modelo, reglas, errores):
             comun = _area(s)
             a["libre"] -= comun / 2
             b["libre"] -= comun / 2
+            if comun > 0.5:
+                a["ocupan"].append((f"½ {b['ref']}", comun / 2))
+                b["ocupan"].append((f"½ {a['ref']}", comun / 2))
     return fuentes
 
 
@@ -789,10 +947,12 @@ def evaluar(modelo, reglas, clases):
         inc.append({"clase": clase, "nivel": nivel, "item": item, "regla": regla, "exceso": exceso, "cab": cab,
                     "grupo": grupo})
 
-    salen = set()
+    salen, al_ras = set(), set()
     for r in reglas:
         if r["tipo"] == "sale":
             salen |= {o[0] for o in expandir(r["piezas"])}
+        if r["tipo"] == "ras":
+            al_ras |= {o[0] for o in expandir(r["piezas"])}
 
     refs = sorted(H, key=_clave_ref)
     cajas = {r: caja_de(H[r]["patio"]) for r in refs}
@@ -815,6 +975,11 @@ def evaluar(modelo, reglas, clases):
     X0, Y0, X1, Y1 = caja
     for r in refs:
         h = H[r]
+        if r in al_ras:  # al ras del borde: cuenta el cuerpo (F.Fab) con los pads, no el exceso del patio
+            m = a_caja_interior(caja_fisica(h), caja)
+            if m < -0.01:
+                anota("fuera", "obligatoria", f"{r} {f(-m, 2)} mm (cuerpo)", exceso=-m)
+            continue
         s = pcbnew.SHAPE_POLY_SET(h["patio_poly"])
         s.BooleanSubtract(modelo["contorno_poly"])
         if r in salen and h["zonas_poly"].OutlineCount():
@@ -853,11 +1018,9 @@ def evaluar(modelo, reglas, clases):
     modelo["calor"] = medir_calor(modelo, reglas, errores)
     for r in reglas:
         t, nivel, rid, lim = r["tipo"], r["nivel"], r["id"], r.get("mm")
-        if t in ("sale", "calor"):
+        if t in ("sale", "calor", "precio", "margen", "rieles"):
             continue
-        if t == "precio":
-            continue
-        piezas = _operandos(modelo, r["piezas"], errores, r) if t not in ("reparto",) else []
+        piezas = _operandos(modelo, r["piezas"], errores, r) if t not in ("reparto", "largo") else []
         destino = (_operandos(modelo, r["objetivo"], errores, r)
                    if t in ("cerca", "cerca_par", "lejos", "entre", "opuesto") or (t == "separacion" and r["objetivo"])
                    else [])
@@ -881,7 +1044,7 @@ def evaluar(modelo, reglas, clases):
                 if not en_placa(o.anillos):
                     mal(f"{o.nombre} fuera de la placa", 100.0, cab)
                 elif d > lim + 1e-6:
-                    mal(f"{o.nombre} {f(d, 1)}" + (f" ({lado})" if lado != r["objetivo"] else ""), d - lim, cab)
+                    mal(f"{o.nombre} {cifra(d, lim, False)}" + (f" ({lado})" if lado != r["objetivo"] else ""), d - lim, cab)
         elif t == "hacia":
             v = DIRECCIONES[r["valor"]]
             cab = f"{rid} {r['valor']} hacia {r['objetivo']}"
@@ -929,9 +1092,9 @@ def evaluar(modelo, reglas, clases):
             for o in piezas:
                 d = distancia(o.anillos, [a for dd in destino if dd.h is not o.h for a in dd.anillos])
                 if t == "cerca" and d > lim + 1e-6:
-                    mal(f"{o.nombre} {f(d, 1)}", d - lim, cab)
+                    mal(f"{o.nombre} {cifra(d, lim, False)}", d - lim, cab)
                 if t == "lejos" and d < lim - 1e-6:
-                    mal(f"{o.nombre} {f(d, 1)}", lim - d, cab)
+                    mal(f"{o.nombre} {cifra(d, lim, True)}", lim - d, cab)
         elif t == "cerca_par":
             if len(piezas) != len(destino):
                 errores.append(f"{rid}: {len(piezas)} piezas y {len(destino)} objetivos (cerca_par los empareja)")
@@ -939,7 +1102,7 @@ def evaluar(modelo, reglas, clases):
             for o, d in zip(piezas, destino):
                 dd = distancia(o.anillos, d.anillos)
                 if dd > lim + 1e-6:
-                    mal(f"{o.nombre}–{d.nombre} {f(dd, 1)}", dd - lim, cab)
+                    mal(f"{o.nombre}–{d.nombre} {cifra(dd, lim, False)}", dd - lim, cab)
         elif t == "libre":
             cab = f"{rid} Ø {f(2 * lim)} libre en {r['piezas']}"
             for o in piezas:
@@ -948,7 +1111,7 @@ def evaluar(modelo, reglas, clases):
                     if otro != o.h["ref"]:
                         d = distancia([[c]], H[otro]["patio"])
                         if d < lim - 1e-6:
-                            mal(f"{otro} a {f(d, 1)} de {o.nombre}", lim - d, cab)
+                            mal(f"{otro} a {cifra(d, lim, True)} de {o.nombre}", lim - d, cab)
         elif t == "opuesto":
             medio = (caja[0] + caja[2]) / 2
             for o in piezas:
@@ -971,13 +1134,13 @@ def evaluar(modelo, reglas, clases):
                         continue
                     d = distancia(H[a]["cuerpo"], H[b]["cuerpo"])
                     if d < lim - 1e-6:
-                        mal(f"{par[0]}/{par[1]} {f(d, 2)}", lim - d, cab)
+                        mal(f"{par[0]}/{par[1]} {cifra(d, lim, True, 2)}", lim - d, cab)
         elif t == "borde_min":
             cab = f"{rid} cuerpo a borde ≥ {f(lim)}"
             for o in piezas:
                 d = a_caja_interior(o.h["caja_borde"], caja)
                 if d < lim - 1e-6:
-                    mal(f"{o.nombre} {f(d, 2 if abs(d) < 1 else 1)}", lim - d, cab)
+                    mal(f"{o.nombre} {cifra(d, lim, True, 2 if abs(d) < 1 else 1)}", lim - d, cab)
         elif t == "cobre_borde":
             cab = f"{rid} pad a borde ≥ {f(lim)}"
             for o in piezas:
@@ -986,7 +1149,7 @@ def evaluar(modelo, reglas, clases):
                     p = min(cp, key=lambda p: a_caja_interior(p["caja"], caja))
                     d = a_caja_interior(p["caja"], caja)
                     if d < lim - 1e-6:
-                        mal(f"{o.nombre}.{p['num']} {f(d, 2 if abs(d) < 1 else 1)}", lim - d, cab)
+                        mal(f"{o.nombre}.{p['num']} {cifra(d, lim, True, 2 if abs(d) < 1 else 1)}", lim - d, cab)
         elif t == "reparto":
             cab = f"{rid} fuentes de ≥ {f(r['aux'])} W a ≥ {f(lim)} (patio)"
             fu = [x for x in modelo["calor"] if x["P"] >= r["aux"] - 1e-9]
@@ -996,7 +1159,67 @@ def evaluar(modelo, reglas, clases):
                         continue
                     d = distancia(H[a["ref"]]["cuerpo"], H[b["ref"]]["cuerpo"])
                     if d < lim - 1e-6:
-                        mal(f"{a['ref']}/{b['ref']} {f(d, 1)}", lim - d, cab)
+                        mal(f"{a['ref']}/{b['ref']} {cifra(d, lim, True)}", lim - d, cab)
+        elif t == "ras":
+            cab = f"{rid} al ras del borde {r['objetivo']} (0…{f(lim)}, sin salir)"
+            for o in piezas:
+                an = o.anillos if (o.nombre.count("/") or o.nombre.count(".")) else [anillo_caja(o.h["caja_cuerpo"])]
+                d, lado = a_borde(an, caja, r["objetivo"])
+                if d < -1e-6:
+                    mal(f"{o.nombre} sale {cifra(-d, 0, False, 2)} ({lado})", -d, cab)
+                elif d > lim + 1e-6:
+                    mal(f"{o.nombre} {cifra(d, lim, False, 2)} ({lado})", d - lim, cab)
+        elif t == "lazo":
+            cab = f"{rid} lazo {r['piezas']} ≤ {f(lim)} (centro a centro)"
+            if len(piezas) >= 2:
+                cs = [centro_pad(o) for o in piezas]
+                tramos = [(math.hypot(cs[i][0] - cs[i - 1][0], cs[i][1] - cs[i - 1][1]), piezas[i - 1].nombre,
+                           piezas[i].nombre) for i in range(len(cs))]
+                largo = sum(t_[0] for t_ in tramos)
+                if largo > lim + 1e-6:
+                    peor = max(tramos)
+                    mal(f"{cifra(largo, lim, False)} (tramo más largo {peor[1]}→{peor[2]} {f(peor[0], 1)})", largo - lim, cab)
+        elif t == "largo":
+            patrones = r["piezas"].split()
+            cab = f"{rid} {'+'.join(patrones)} sin rutar ≤ {f(lim)}"
+            total, vistas = 0.0, []
+            for red, nodos in sorted(modelo["redes"].items()):
+                nombres = {red, red.lstrip("/"), red.rstrip("/").split("/")[-1]}
+                if any(fnmatch.fnmatchcase(n, p) for p in patrones for n in nombres):
+                    total += arbol_minimo(list(nodos.values()))
+                    vistas.append(red)
+            if not vistas:
+                errores.append(f"{rid}: ninguna red casa con «{r['piezas']}»")
+            elif total > lim + 1e-6:
+                mal(f"{'+'.join(alias_redes(vistas).values())} {cifra(total, lim, False)}", total - lim, cab)
+        elif t == "pasillo":
+            cab = f"{rid} patio a patio entre bloques ≥ {f(lim)}"
+            refs_p = [o.h["ref"] for o in piezas]
+            for i, a in enumerate(refs_p):
+                for b in refs_p[i + 1:]:
+                    if H[a]["bloque"] == H[b]["bloque"] or H[a]["cara"] != H[b]["cara"]:
+                        continue
+                    if dist_cajas(ccuerpo[a], ccuerpo[b]) >= lim:
+                        continue
+                    d = distancia(H[a]["cuerpo"], H[b]["cuerpo"])
+                    if d < lim - 1e-6:
+                        par = sorted((a, b), key=_clave_ref)
+                        mal(f"{par[0]}/{par[1]} {cifra(d, lim, True, 2)}", lim - d, cab)
+        elif t == "corte":
+            cab = f"{rid} pasillos: pistas que caben ≥ {f(lim)} × las que cruzan, en tramos de {f(r['aux'])} mm"
+            refs_c = [o.h["ref"] for o in piezas]
+            malos = sorted((x for x in medir_cortes(modelo, refs_c, clases, r["aux"]) if x[5] < lim * x[4] - 1e-6),
+                           key=lambda x: (-(lim * x[4] - x[5]), x[0], x[1], x[2]))
+            focos = []
+            for x in malos:
+                if any(x[0] == y[0] and abs(x[1] - y[1]) < r["aux"] and abs(x[2] - y[2]) < r["aux"] for y in focos):
+                    continue
+                focos.append(x)
+            nombres = alias_redes(sorted(modelo["redes"]))
+            for eje, c, s0, s1, dem, of, redes in focos:
+                otro = "y" if eje == "x" else "x"
+                mal(f"{eje} {f(c)} {otro} {f(s0)}…{f(s1)}: {f(dem)} pistas, caben {of} "
+                    f"({' '.join(nombres.get(n, n) for n in redes[:4])}{' …' if len(redes) > 4 else ''})", lim * dem - of, cab)
         elif t == "serigrafia":
             k = r["objetivo"]
             if medidas is None:
@@ -1055,8 +1278,55 @@ def evaluar(modelo, reglas, clases):
     for x in modelo["calor"]:
         if x["libre"] is not None and x["libre"] < x["A"] - 1e-6:
             r = x["regla"]
-            anota("regla", r["nivel"], f"{x['ref']} {f(x['libre'], 0)}/{f(x['A'], 0)}", r["id"], x["A"] - x["libre"],
-                  f"{r['id']} cobre libre a √A/2 (mm², libre/necesario)", "calor")
+            anota("regla", r["nivel"], f"{x['ref']} {cifra(x['libre'], x['A'], True, 0)}/{f(x['A'], 0)}", r["id"],
+                  x["A"] - x["libre"], f"{r['id']} cobre libre a √A/2 (mm², libre/necesario)", "calor")
+    # margen del cobre: libre ≥ factor × necesario (las pistas y las vías se comen parte del cobre libre)
+    for r in reglas:
+        if r["tipo"] != "margen":
+            continue
+        quien = {o.h["ref"] for o in _operandos(modelo, r["piezas"], errores, r)}
+        for x in modelo["calor"]:
+            if x["ref"] in quien and x["libre"] is not None and x["A"] > 0:
+                pide = x["A"] * r["mm"]
+                if x["libre"] < pide - 1e-6:
+                    anota("regla", r["nivel"], f"{x['ref']} {cifra(x['libre'], pide, True, 0)}/{f(pide, 0)}", r["id"],
+                          pide - x["libre"], f"{r['id']} cobre libre ≥ {f(r['mm'])} × necesario (mm²)", "calor")
+    # zona prohibida dentro de la placa (lo que la antena quita de placa)
+    zonas_dentro = {}
+    for z in refs:
+        if H[z]["zonas_poly"].OutlineCount():
+            s = pcbnew.SHAPE_POLY_SET(H[z]["zonas_poly"])
+            s.BooleanIntersection(modelo["contorno_poly"])
+            zonas_dentro[z] = _area(s)
+    modelo["zonas_dentro"] = zonas_dentro
+    # bordes auxiliares (edge rails) de JLCPCB por piezas a menos de la distancia de montaje del borde
+    modelo["rieles"] = None
+    for r in reglas:
+        if r["tipo"] != "rieles":
+            continue
+        lados = {}
+        for o in _operandos(modelo, r["piezas"], errores, r):
+            c = caja_fisica(o.h)
+            if c[2] < X0 or c[0] > X1 or c[3] < Y0 or c[1] > Y1:
+                continue  # fuera de la placa: no cuenta para los rieles
+            for lado, d in (("izq", c[0] - X0), ("sup", c[1] - Y0), ("der", X1 - c[2]), ("inf", Y1 - c[3])):
+                if d < r["aux"] - 1e-6:
+                    lados.setdefault(lado, []).append(f"{o.h['ref']} {f(max(d, 0), 1)}")
+        if not lados:
+            continue
+        ancho = (X1 - X0) + (2 * r["mm"] if {"izq", "der"} & set(lados) else 0)
+        alto = (Y1 - Y0) + (2 * r["mm"] if {"sup", "inf"} & set(lados) else 0)
+        w0, h0, casa0, base = medir_precio({"caja": (0, 0, X1 - X0, Y1 - Y0)}, reglas)
+        _, _, casa, _ = medir_precio({"caja": (0, 0, ancho, alto)}, reglas)
+        quien = " · ".join(f"{lado}: {', '.join(v)}" for lado, v in sorted(lados.items()))
+        if casa:
+            coste = f"{f(casa['mm'])} $ ({casa['id']})" + (f", +{f(casa['mm'] - casa0['mm'])} $" if casa0 and casa is not casa0 else "")
+        else:
+            coste = f"sin tarifa publicada por encima de {base['piezas']} ({base['id']}): presupuesto" if base else "sin tarifa"
+        modelo["rieles"] = (ancho, alto, quien, coste, r)
+        if not casa0 or casa is not casa0:
+            anota("regla", r["nivel"], f"panel {f(ancho, 1)}×{f(alto, 1)} con rieles de {f(r['mm'])} mm ({quien}): {coste}",
+                  r["id"], max(ancho, alto) - max(w0, h0), f"{r['id']} rieles de JLCPCB por piezas a < {f(r['aux'])} mm del borde")
     # precio de la PCB
     w, hh, casa, base = medir_precio(modelo, reglas)
     modelo["precio"] = (w, hh, casa, base)
@@ -1128,10 +1398,16 @@ def informe(modelo, info, reglas, ruta_reglas, inc, errores, por_clase, por_red)
             placa += f" · AVISO: +{f(casa['mm'] - base['mm'])} $ sobre ≤ {base['piezas']}, consultar al usuario"
     elif base:
         placa += f" · AVISO: > {base['piezas']}, sobrecoste de JLCPCB sin tarifa publicada ({base['id']}): presupuesto y OK del usuario"
+    rieles = modelo.get("rieles")
+    if rieles:
+        placa += f" · rieles ({rieles[2]}): panel {f(rieles[0], 1)}×{f(rieles[1], 1)}, {rieles[3]}"
     lineas.append(placa)
     for clase, titulo in (("solape", "Solapes de patio"), ("fuera", "Fuera del contorno"), ("zona", "En zona prohibida")):
         items = de(clase)
-        lineas.append(f"{titulo}: {len(items)}" + (" · " + _lista(items) if items else ""))
+        extra = ""
+        if clase == "zona" and modelo.get("zonas_dentro"):
+            extra = " · zona dentro de la placa: " + " ".join(f"{z} {f(a, 0)} mm²" for z, a in modelo["zonas_dentro"].items())
+        lineas.append(f"{titulo}: {len(items)}" + (" · " + _lista(items) if items else "") + extra)
     seri = {}
     for i in inc:
         if i["grupo"] in NOMBRES_SERIGRAFIA:
@@ -1143,7 +1419,7 @@ def informe(modelo, info, reglas, ruta_reglas, inc, errores, por_clase, por_red)
     if cal:
         peores = sorted((x for x in cal if x["libre"] is not None), key=lambda x: x["libre"] / x["A"])
         lineas.append(f"Térmico: {f(sum(x['P'] for x in cal), 2)} W en {len(cal)} fuentes · cobre libre/necesario (mm²): "
-                      + _lista([f"{x['ref']} {f(x['libre'], 0)}/{f(x['A'], 0)}" for x in peores], 6, 110))
+                      + _lista([f"{x['ref']} {cifra(x['libre'], x['A'], True, 0)}/{f(x['A'], 0)}" for x in peores], 6, 110))
     lineas.append(f"Sin rutar {f(total, 0)} mm (longitud × peso): " + " · ".join(
         f"{c} {f(v[0], 0)}×{f(v[1], 1)}" for c, v in sorted(por_clase.items(), key=lambda kv: (-kv[1][0] * kv[1][1], -kv[1][0]))))
     nombres = alias_redes(sorted(por_red))
@@ -1169,8 +1445,12 @@ def informe(modelo, info, reglas, ruta_reglas, inc, errores, por_clase, por_red)
         lineas.append(f"{'~' if clave[0] else '!'} {items[0]['cab']}: " + _lista([i["item"] for i in items], 6, 120))
     completo = [f"{i['nivel']}\t{i['clase']}\t{i['regla']}\t{i['cab']}\t{i['item']}" for i in inc]
     completo += [f"error\t{e}" for e in fallos]
-    completo += [f"calor\t{x['ref']}\t{f(x['P'], 2)} W\t" + (f"libre {f(x['libre'], 0)} / {f(x['A'], 0)} mm²" if x["libre"] is not None else "sin cobre pedido")
-                 + f"\t{x['regla']['id']}" for x in cal]
+    completo += [f"calor\t{x['ref']}\t{f(x['P'], 2)} W\t" + (f"libre {cifra(x['libre'], x['A'], True, 0)} / {f(x['A'], 0)} mm²"
+                                                             if x["libre"] is not None else "sin cobre pedido")
+                 + f"\t{x['regla']['id']}"
+                 + (f"\tanillo {f(x['anillo'], 0)} mm², ocupan: " + " · ".join(f"{q} {f(a, 0)}" for q, a in
+                                                                               sorted(x["ocupan"], key=lambda t: -t[1]) if a >= 0.5)
+                    if x.get("ocupan") is not None else "") for x in cal]
     if base:
         completo.append(f"precio\t{f(w, 1)}x{f(hh, 1)}\t" + (f"{casa['id']} {f(casa['mm'])} $ / {casa['objetivo']} uds\t{casa['origen']}"
                                                             if casa else f"sin tarifa\t{base['origen']}"))
@@ -1208,8 +1488,9 @@ def candidatos(cp, ofs, gaps=(0.15, 0.35, 0.7)):
     return salida
 
 
-def colocar_referencias(modelo, ofs, reglas, fijas):
-    """Elige la posición de las referencias que no están en `fijas`. Devuelve ({ref: (giro, ancla, caja)}, sin_sitio)."""
+def colocar_referencias(modelo, ofs, reglas, fijas, vuelta_atras=3):
+    """Elige la posición de las referencias que no están en `fijas`, con `vuelta_atras` pasadas que deshacen las vecinas
+    de las que no tienen sitio. Devuelve ({ref: (giro, ancla, caja)}, sin_sitio, referencias recolocadas)."""
     p = param_serigrafia(reglas)
     H = modelo["huellas"]
     idx = Indices(modelo)
@@ -1228,10 +1509,7 @@ def colocar_referencias(modelo, ofs, reglas, fijas):
         malos = fallos_caja(m, p)
         return len(malos), m["junto"] + c[0] * 0.001, malos
 
-    # primero las más rodeadas (patios a ≤ 1,5 mm): son las que tienen menos sitio
-    vecinas = {r: sum(1 for x in idx.patio.cerca(caja_de(H[r]["cuerpo"]), 1.5) if x[2][0] != r) for r in pendientes}
-    salida, sin_sitio = {}, []
-    for r in sorted(pendientes, key=lambda r: (-vecinas[r], _clave_ref(r))):
+    def elegir(r):
         mejor, valor = None, None
         for c in cand[r]:  # en orden de preferencia: la primera sin fallos es la más cercana
             n, d, malos = coste(r, c)
@@ -1239,14 +1517,57 @@ def colocar_referencias(modelo, ofs, reglas, fijas):
                 mejor, valor = c, (n, d, malos)
             if n == 0:
                 break
-        n, _, malos = valor
-        if n:
-            sin_sitio.append(f"{r} ({', '.join(NOMBRES_SERIGRAFIA[k] for k in malos)})")
-        salida[r] = (mejor[1], mejor[2], mejor[3])
+        return mejor, valor[2]
+
+    def poner(r, c):
         t = modelo["textos"][claves_ref[r][1]]
-        t.update({"caja": mejor[3], "visible": True})
-        idx.textos.poner(claves_ref[r], mejor[3], t)
-    return salida, sin_sitio
+        t.update({"caja": c[3], "visible": True})
+        idx.textos.poner(claves_ref[r], c[3], t)
+
+    # primero las más rodeadas (patios a ≤ 1,5 mm): son las que tienen menos sitio
+    vecinas = {r: sum(1 for x in idx.patio.cerca(caja_de(H[r]["cuerpo"]), 1.5) if x[2][0] != r) for r in pendientes}
+    elegida, fallos = {}, {}
+    for r in sorted(pendientes, key=lambda r: (-vecinas[r], _clave_ref(r))):
+        elegida[r], fallos[r] = elegir(r)
+        poner(r, elegida[r])
+
+    # vuelta atrás: cada referencia sin sitio quita las de sus vecinas (a ≤ 2 mm de su patio), se coloca primero
+    # y las vuelve a colocar; se queda el cambio si bajan los fallos del grupo
+    recolocadas = 0
+    for _ in range(vuelta_atras):
+        cambio = False
+        for r in sorted((r for r in elegida if fallos[r]), key=_clave_ref):
+            if not fallos[r]:
+                continue
+            cp = caja_de(H[r]["cuerpo"])
+            grupo = [r] + sorted((v for v in elegida if v != r and dist_cajas(elegida[v][3], cp) <= 2.0),
+                                 key=lambda v: (-vecinas[v], _clave_ref(v)))[:6]
+            antes = {}
+            for v in grupo:
+                antes[v] = (elegida[v], fallos_caja(medir_caja(modelo, idx, elegida[v][3], v, claves_ref[v]), p))
+            for v in grupo:
+                idx.textos.quitar(claves_ref[v])
+            nuevo = {}
+            for v in grupo:
+                nuevo[v] = elegir(v)
+                poner(v, nuevo[v][0])
+            if sum(len(m) for _, m in nuevo.values()) < sum(len(m) for _, m in antes.values()):
+                for v in grupo:
+                    elegida[v], fallos[v] = nuevo[v]
+                recolocadas += len(grupo)
+                cambio = True
+            else:
+                for v in grupo:
+                    idx.textos.quitar(claves_ref[v])
+                for v in grupo:
+                    elegida[v], fallos[v] = antes[v]
+                    poner(v, elegida[v])
+        if not cambio:
+            break
+    salida = {r: (c[1], c[2], c[3]) for r, c in elegida.items()}
+    sin_sitio = [f"{r} ({', '.join(NOMBRES_SERIGRAFIA[k] for k in fallos[r])})"
+                 for r in sorted(elegida, key=_clave_ref) if fallos[r]]
+    return salida, sin_sitio, recolocadas
 
 
 def _desplazamientos(board, pcbnew, alto, trazo, refs):
@@ -1301,6 +1622,7 @@ def main():
     v.add_argument("--reglas", help="CSV de reglas (por defecto docs/diseno/colocacion-reglas.csv)")
     v.add_argument("--placa", metavar="ANCHOxALTO", help="contorno rectangular de ese tamaño (mueve los taladros)")
     v.add_argument("--detalle", metavar="ARCHIVO", help="lista completa de incidencias y longitudes")
+    v.add_argument("--omitir", metavar="TIPOS", help="no evalúa las reglas de estos tipos (p. ej. serigrafia), para iterar")
     rf = sub.add_parser("referencias", help="coloca las referencias de serigrafía y escribe la tabla con rx,ry,rgiro")
     rf.add_argument("pcb", help=".kicad_pcb o carpeta del proyecto")
     rf.add_argument("tabla", nargs="?", help="CSV de colocar.py (sin ella, la PCB tal cual)")
@@ -1308,6 +1630,7 @@ def main():
     rf.add_argument("--reglas", help="CSV de reglas (por defecto docs/diseno/colocacion-reglas.csv)")
     rf.add_argument("--placa", metavar="ANCHOxALTO", help="contorno rectangular de ese tamaño")
     rf.add_argument("--todas", action="store_true", help="recoloca también las que ya traen rx,ry en la tabla")
+    rf.add_argument("--sin-vuelta", action="store_true", help="una sola pasada voraz, sin deshacer vecinas")
     args = ap.parse_args()
 
     if args.orden == "extraer":
@@ -1346,7 +1669,8 @@ def main():
             guardado["ofs"] = _desplazamientos(board, pcbnew, p["alto"], p["trazo_ref"], refs)
 
         modelo, info = cargar(args.pcb, args.tabla, _placa(args), extra)
-        elegidas, sin_sitio = colocar_referencias(modelo, guardado["ofs"], reglas, fijas)
+        elegidas, sin_sitio, recolocadas = colocar_referencias(modelo, guardado["ofs"], reglas, fijas,
+                                                               0 if args.sin_vuelta else 3)
         por_ref = {d["ref"]: d for d in filas}
         H = modelo["huellas"]
         for r in sorted(H, key=_clave_ref):
@@ -1368,10 +1692,15 @@ def main():
                 w.writerow([r] + ["" if d.get(k) is None else (d[k] if k == "cara" else f(d[k], 4))
                                   for k in ("x", "y", "giro", "cara") + colocar.COLUMNAS_REF])
         emitir([f"{salida}: {len(elegidas)} referencias colocadas (alto {f(p['alto'])} mm, trazo {f(p['trazo_ref'], 3)} mm)"
-                f" · {len(fijas)} fijas de la tabla",
+                f" · {len(fijas)} fijas de la tabla · vuelta atrás: {recolocadas} recolocadas",
                 f"Sin sitio que cumpla todo ({len(sin_sitio)}): " + (_lista(sin_sitio, 12, 600) if sin_sitio else "ninguna")])
         return 1 if sin_sitio else 0
 
+    if args.omitir:
+        omitir = {x.strip() for x in args.omitir.split(",")}
+        if omitir - TIPOS:
+            raise Fallo(f"--omitir: tipos desconocidos {', '.join(sorted(omitir - TIPOS))}")
+        reglas = [r for r in reglas if r["tipo"] not in omitir]
     modelo, info = cargar(args.pcb, args.tabla, _placa(args))
     info["tabla"] = Path(args.tabla).name if args.tabla else None
     inc, errores, por_clase, por_red = evaluar(modelo, reglas, clases)

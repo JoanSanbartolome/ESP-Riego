@@ -79,3 +79,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-19 | ing-diseno | brazo B: colocación en texto, 6 iteraciones, 0 incumplimientos | 02-ing-diseno | 173296 | 25 | 18 |
 | 2026-11-19 | ing-diseno | colocacion.py con los criterios de DEC-0016 (JLCPCB, serigrafía, térmico, tamaño) | 04-ing-diseno | 329532 | 109 | 47 |
 | 2026-11-19 | ing-diseno | brazo B': 100 × 100 mm, 0 obligatorias, 25 iteraciones | 05-ing-diseno | 305463 | 83 | 51 |
+| 2026-11-20 | ing-diseno | paso 5: J2 y U5 al ras, 119 reglas, 0 obligatorias en 100 × 100 | 06-ing-diseno | 517342 | 148 | 1137 |

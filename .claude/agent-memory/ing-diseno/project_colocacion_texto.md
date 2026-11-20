@@ -22,3 +22,8 @@ Brazo B' (paso 4, 2026-11-19): 0 obligatorias en 100 × 100 en 25 iteraciones (�
 - "Ambiguas": hace falta ≥ 1,55 mm libres en un lado de cada pieza (0,15 + 1,0 + 0,4). Filas de 0603 a giro 0 con un paso de 3,6 y el texto debajo; columnas con un paso de ≥ 3,25.
 - Cuando `referencias` (voraz) no encuentra hueco, se fija `rx,ry` de las piezas conflictivas en la tabla y el resto se coloca alrededor.
 - Anillo de cobre: un BTT necesita una separación de ≈ 20 mm con su vecino; los BTT junto al borde ganan cobre (la franja de 2,5 mm cuenta).
+
+Paso 5 (2026-11-20): 0 obligatorias en 23 iteraciones con antena y J2 al ras (`colocacion-b3.csv`). Lo que ahorró trabajo:
+- Generador `scratchpad\p5\gen5.py` + `plan.py` (put/mover/CANAL por bloque, añadiendo iteraciones al final) y `ev.sh N [r]` con `OMIT=serigrafia` (`evaluar --omitir`) hasta tener 0 obligatorias; `referencias --todas` solo al final.
+- Cobre térmico: cada BTT necesita ≈ 26 mm de paso con su vecino; con 6 BTT + U1 + U2 + U4 + Q1, +20 % no cabe en 100 × 100 (+10 % sí). U4 solo cabe en el centro (anillo de 10 mm). C1 a ≤ 8 mm de U1 cae en su anillo.
+- Referencias: filas de 0603 con paso ≥ 3,25 mm (texto encima/debajo) o columnas con hueco ≥ 1,8 mm; bloques de 4 × 4 con paso 3,6 × 3,27.
