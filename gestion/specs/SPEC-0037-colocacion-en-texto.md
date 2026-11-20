@@ -6,7 +6,7 @@ estado: abierta
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0037-colocacion-en-texto
-requisitos: [FAB-07, REL-09, AMB-02, MCU-02, EXP-03]
+requisitos: [FAB-07, REL-09, AMB-02, MCU-02, EXP-03, ALI-03]
 depende_de: []
 creada: 2026-11-19
 cerrada:
@@ -31,6 +31,7 @@ Con los criterios de DEC-0016, saber qué cuesta menos en tokens para iterar la 
   - paso 3 (`ing-diseno`, instancia nueva; DEC-0016): `colocacion.py` y las reglas con los criterios de DEC-0016, por orden: (1) fabricación de la clase más barata de JLCPCB (PCB de 2 capas y PCBA, con página y fecha de las capacidades), incluida la separación entre piezas y a borde; (2) serigrafía: posición de las referencias, sin solapes con textos, pads, máscara abierta, contorno ni otras piezas, altura y trazo mínimos, referencia junto a su pieza; (3) térmico: espacio para el cobre de las piezas que disipan, fuentes de calor repartidas, lejos del SHT40 y de la antena, con su disipación estimada; (4) tamaño de la placa como variable (contorno y taladros M3 que se mueven con él), con el sobrecoste de JLCPCB por encima de 100 × 100 mm; más las propuestas del paso 2 (desacoplos `cerca`, LED visibles y la clase de red en `--detalle`);
   - paso 4 (brazo B', instancia nueva): repetir el paso 2 con la herramienta del paso 3, iterando también el tamaño, primero dentro de 100 × 100 mm;
   - paso 5 (`ing-diseno`, instancia nueva): excepciones de borde de DEC-0016 (J2 y U5 al ras), reglas nuevas para lo que el paso 4 dejó mal (lazos de potencia de la entrada y del buck, longitud del USB, pasillos de rutado, margen del cobre de disipación, regla de la antena reescrita) y las mejoras de `colocacion.py` que propone el parte 05; después, recolocar desde `colocacion-b2.csv` hasta 0 obligatorias;
+  - paso 6 (`ing-diseno`, instancia nueva; DEC-0017; usuario 2026-11-20, sin crecer de 100 × 100 mm): estudio de coste efectivo bloque por bloque (alimentación, salidas, microcontrolador, conectores y sensores): coste de BOM y montaje en JLCPCB de cada bloque, simplificaciones del layout con su ahorro y sus riesgos, montaje por una o dos caras y THT en la cara inferior, quitar Q1 (ALI-03) y los fallos abiertos de la colocación; después, J10 horizontal al ras del borde inferior y recolocación desde `colocacion-b3.csv` hasta 0 obligatorias;
   - comparación (coordinador): tokens, iteraciones, minutos y resultado de `evaluar` de cada brazo, con la recomendación para la fase 4.
 - Excluye: escribir en `hardware/v2` (los dos brazos trabajan sobre copias), el rutado, la tabla de restricciones por red (`restricciones.csv`, otra spec), cambiar el contorno o la caja (D5) y la aprobación del *floorplan*, que se hace en la spec de colocación con la imagen.
 
@@ -49,6 +50,7 @@ Con los criterios de DEC-0016, saber qué cuesta menos en tokens para iterar la 
 - Paso 3: `colocacion.py`, reglas y README al día, casos de prueba como parche; parte `04-ing-diseno.md`.
 - Paso 4: `docs/diseno/colocacion-b2.csv` con su tamaño de placa, imagen y salida de `evaluar`; parte `05-ing-diseno.md`.
 - Paso 5: `docs/diseno/colocacion-b3.csv`, imagen, salida de `evaluar`, herramienta y reglas al día, casos de prueba como parche; parte `06-ing-diseno.md`.
+- Paso 6: `docs/diseno/estudio-coste.md` (por bloque: coste, problemas, soluciones, ahorro, riesgo y qué decide el usuario, con fuentes y fecha); `docs/diseno/colocacion-b4.csv`, imagen y salida de `evaluar`; reglas y herramienta al día, casos de prueba como parche si cambia la herramienta; parte `07-ing-diseno.md`.
 - Coordinador: `docs/diseno/experimento-colocacion.md` con la tabla comparativa y la recomendación.
 
 ## Criterios de aceptación
@@ -79,4 +81,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-19 | ing-diseno | brazo B: colocación en texto, 6 iteraciones, 0 incumplimientos | 02-ing-diseno | 173296 | 25 | 18 |
 | 2026-11-19 | ing-diseno | colocacion.py con los criterios de DEC-0016 (JLCPCB, serigrafía, térmico, tamaño) | 04-ing-diseno | 329532 | 109 | 47 |
 | 2026-11-19 | ing-diseno | brazo B': 100 × 100 mm, 0 obligatorias, 25 iteraciones | 05-ing-diseno | 305463 | 83 | 51 |
-| 2026-11-20 | ing-diseno | paso 5: J2 y U5 al ras, 119 reglas, 0 obligatorias en 100 × 100 | 06-ing-diseno | 517342 | 148 | 1137 |
+| 2026-11-20 | ing-diseno | paso 5: J2 y U5 al ras, 119 reglas, 0 obligatorias en 100 × 100 | 06-ing-diseno | 517342 | 148 | 70 |
