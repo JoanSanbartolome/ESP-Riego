@@ -27,3 +27,9 @@ Paso 5 (2026-11-20): 0 obligatorias en 23 iteraciones con antena y J2 al ras (`c
 - Generador `scratchpad\p5\gen5.py` + `plan.py` (put/mover/CANAL por bloque, añadiendo iteraciones al final) y `ev.sh N [r]` con `OMIT=serigrafia` (`evaluar --omitir`) hasta tener 0 obligatorias; `referencias --todas` solo al final.
 - Cobre térmico: cada BTT necesita ≈ 26 mm de paso con su vecino; con 6 BTT + U1 + U2 + U4 + Q1, +20 % no cabe en 100 × 100 (+10 % sí). U4 solo cabe en el centro (anillo de 10 mm). C1 a ≤ 8 mm de U1 cae en su anillo.
 - Referencias: filas de 0603 con paso ≥ 3,25 mm (texto encima/debajo) o columnas con hueco ≥ 1,8 mm; bloques de 4 × 4 con paso 3,6 × 3,27.
+
+Paso 6 (2026-11-20): b4 en 10 iteraciones (J10 horizontal). Lo que ahorró trabajo:
+- Para cambiar una huella en la copia: editar `Footprint`/`Value`/`LCSC Part#` en la hoja de la copia (Python en binario) y `sincronizar.py` (la recarga con la red intacta). Después, `extraer` otra vez para `mapa.py`.
+- `scratchpad\p6\caja.py h.txt tabla.csv x0 y0 x1 y1`: cajas de patio en placa de una zona (giro como KiCad: 90 → (y, −x)). Más rápido que el mapa para huecos de décimas.
+- Anillo de U1: solo admite ≈ 68 mm² ocupados (D3, C6, JP1 ya llenan 58): R2/C4 dentro, el resto fuera. D2 entre U1 y Q1 cabe si queda fuera de y > patio de U1 + 8,66.
+- Cambiar una regla que usan las pruebas (B04/B07) rompe `Colocacion` y `ColocacionPaso5`: dejar parche con reglas filtradas.
