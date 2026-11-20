@@ -41,9 +41,9 @@
 ## Fabricación y montaje
 
 - [ ] [auto: verificar.py] Separación cobre-borde ≥ 0,5 mm (FAB-02).
-- [ ] [juicio] Fiduciales para montaje SMT.
+- [ ] [juicio] Fiduciales si el montaje es Standard (Economic no los pide: JLCPCB *PCB Assembly Capabilities*).
 - [ ] [auto: comprobar.py layout.smd_cara] Componentes SMD solo en la cara superior, salvo justificación.
-- [ ] [juicio] Serigrafía legible (≥ 0,8 mm), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
+- [ ] [juicio] Serigrafía legible (alto ≥ 1,0 mm y trazo ≥ 0,15 mm: JLCPCB *PCB Capabilities*, Legend; DEC-0016), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
 
 ## 3D y mecánica
 

@@ -64,6 +64,16 @@ def tearDownModule():
     shutil.rmtree(TMP, ignore_errors=True)
 
 
+def reglas_sin_j10():
+    """Reglas de colocación sin B04 y B07 (J10 horizontal al ras, DEC-0017): hardware/v2 lleva aún la huella vertical
+    de J10, así que las colocaciones de los pasos 1-5 se evalúan sin esas dos reglas (SPEC-0037, paso 6)."""
+    destino = TMP / "reglas_sin_j10.csv"
+    if not destino.exists():
+        filas = (REPO / "docs" / "diseno" / "colocacion-reglas.csv").read_text(encoding="utf-8").splitlines()
+        destino.write_text("\n".join(f for f in filas if not f.startswith(("B04;", "B07;"))) + "\n", encoding="utf-8")
+    return destino
+
+
 def correr(herramienta, *args):
     r = subprocess.run([sys.executable, str(KICAD / f"{herramienta}.py"), *map(str, args)], capture_output=True,
                        text=True, encoding="utf-8", errors="replace")
@@ -873,7 +883,7 @@ class Colocacion(unittest.TestCase):
 
     def evaluar(self, *args):
         detalle = TMP / f"col_{len(list(TMP.glob('col_*.txt')))}.txt"
-        codigo, salida, error = correr("colocacion", "evaluar", *args, "--reglas", self.REGLAS, "--detalle", detalle)
+        codigo, salida, error = correr("colocacion", "evaluar", *args, "--reglas", reglas_sin_j10(), "--detalle", detalle)
         self.assertIn(codigo, (0, 1), error)
         self.assertLessEqual(len(salida.strip().splitlines()), 30)
         return salida, detalle.read_text(encoding="utf-8")
@@ -1138,7 +1148,7 @@ class ColocacionPaso5(unittest.TestCase):
 
     def evaluar(self, tabla, *args):
         detalle = TMP / f"colp5_{len(list(TMP.glob('colp5_*.txt')))}.txt"
-        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", tabla, *args, "--reglas", self.REGLAS,
+        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", tabla, *args, "--reglas", reglas_sin_j10(),
                                        "--detalle", detalle)
         self.assertIn(codigo, (0, 1), error)
         self.assertLessEqual(len(salida.strip().splitlines()), 30)
@@ -1212,6 +1222,39 @@ class ColocacionPaso5(unittest.TestCase):
                                        "--sin-vuelta", "--reglas", self.REGLAS)
         self.assertEqual(codigo, 1, salida + error)                           # la pasada voraz deja alguna sin sitio
         self.assertIn("vuelta atrás: 0 recolocadas", salida)
+
+
+class ColocacionPaso6(unittest.TestCase):
+    """Reglas del paso 6 de SPEC-0037 (DEC-0017): J10 horizontal al ras del borde inferior, con la boca hacia fuera,
+    fuera de F03 y contado en los rieles; las reglas de altura (P05, E08, L01) siguen contando J10 (8,9 mm).
+    colocacion-b3.csv (J10 vertical a 2,5 mm) incumple B04 y B07; colocacion-b4.csv lleva J10 con giro 270."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+    B4 = REPO / "docs" / "diseno" / "colocacion-b4.csv"
+
+    def test_reglas_del_paso6(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        por_id = {r["id"]: r for r in reglas}
+        self.assertEqual((por_id["B04"]["tipo"], por_id["B04"]["piezas"], por_id["B04"]["nivel"]),
+                         ("ras", "J10", "obligatoria"))
+        self.assertRegex(por_id["B04"]["origen"], r"DEC-0017")
+        self.assertEqual((por_id["B07"]["tipo"], por_id["B07"]["piezas"]), ("hacia", "J10"))
+        self.assertIn("!J10", por_id["F03"]["piezas"].split())
+        self.assertIn("J10", por_id["R01"]["piezas"].split())
+        for i in ("P05", "E08", "L01"):
+            self.assertIn("J4-J10", por_id[i]["objetivo"].split(), i)
+
+    def test_b3_incumple_j10_y_b4_lo_gira(self):
+        detalle = TMP / "colp6_b3.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", self.B3, "--reglas", self.REGLAS,
+                                       "--omitir", "serigrafia", "--detalle", detalle)
+        self.assertEqual(codigo, 1, error)
+        d = detalle.read_text(encoding="utf-8")
+        self.assertRegex(d, r"(?m)^obligatoria\tregla\tB04\t[^\t]*\tJ10 2\.\d+ \(inf\)")
+        self.assertRegex(d, r"(?m)^obligatoria\tregla\tB07\t[^\t]*\tJ10 giro 90")
+        filas = {l.split(",")[0]: l.split(",") for l in self.B4.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(filas["PLACA"][1:3], ["100", "100"])
+        self.assertEqual(float(filas["J10"][3]), 270)
 
 
 class Restricciones(unittest.TestCase):
