@@ -2,13 +2,19 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 33 · descartada 4.
+Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
 
 ## Propuestas (1)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
+
+## Abiertas (1)
+
+| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
+|---|---|---|---|---|---|---|---|
+| [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | Cambios del estudio de coste en hardware/v2 | 4 | ing-diseno | `spec/SPEC-0038-cambios-del-estudio-de-coste-en` | — | 2026-11-23 | — |
 
 ## Cerradas (33)
 
