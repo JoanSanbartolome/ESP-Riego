@@ -25,7 +25,7 @@ El usuario (2026-11-23):
   - **P3**: los 220 nF 100 V (C3, C8 y C27–C38) pasan a 100 nF 100 V Basic (C28233). Se acepta separarse de la Tabla 8-1 del LMR36520 en C8 y una C_VS efectiva de ≈ 85–90 nF;
   - **P4**: U4 pasa a JSMSEMI TLV1117LV33DCYR (C48937499), porque la de TI no tiene stock, después de comprobar la caída y la estabilidad con 22 µF;
   - **P5**: R15 pasa de 4,87 kΩ 0,1 % a 4,7 kΩ 1 % (C23162). El error de ALI-09 queda en 2,91 % ≤ 3 %.
-- Ahorro estimado: ≈ 6,75 $ por placa con 5 uds y ≈ 1,41 $ con 50 (§9).
+- Ahorro estimado de la decisión inicial: ≈ 6,75 $ por placa con 5 uds y ≈ 1,41 $ con 50 (§9). Tras VAL-0037-01 (abajo), P1 + P2 + P3 bajan el coste a 42,02 $ con 5 uds y 24,00 $ con 50; P4, por determinar.
 
 Tras VAL-0037-01 (2026-11-23), el usuario corrige tres de las cinco:
 
@@ -40,4 +40,4 @@ Tras VAL-0037-01 (2026-11-23), el usuario corrige tres de las cinco:
   - recalcula `alimentacion.md` (U4), `salidas.md` §5 y las fichas;
   - actualiza la BOM con los THT marcados «a mano»;
   - incluye J10 BH254R-10P (DEC-0017) y los textos de 1,0 mm de JP1.
-- Validación completa: se comparan las fichas de P1 y P4 con las piezas de ahora, y se reproducen las cifras de P3 y P5.
+- Validación completa: se comparan las fichas de P1 y del LDO de P4 con las piezas de ahora y se reproducen las cifras de P3.
