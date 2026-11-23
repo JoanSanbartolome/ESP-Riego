@@ -85,4 +85,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-20 | ing-diseno | paso 6: estudio de coste por bloques y J10 horizontal al ras, 0 obligatorias | 07-ing-diseno | 375851 | 127 | 35 |
 | 2026-11-23 | ing-validacion | VAL-0037-01 APROBADO_CON_OBSERVACIONES (4 M, 7 B) | VAL-0037-01 | 280471 | 88 | 23 |
 | 2026-11-23 | ing-diseno | corrección VAL-0037-01: P3 sin C8, P4 a elegir, sin P5, regla E09 | 07-ing-diseno | 34774 | 15 | 5 |
-| 2026-11-23 | ing-validacion | VAL-0037-02 APROBADO_CON_OBSERVACIONES (2 B) | VAL-0037-02 | 28588 | 99 | 5 |
+| 2026-11-23 | ing-validacion | VAL-0037-02 APROBADO_CON_OBSERVACIONES (2 B) | VAL-0037-02 | 28588 | 11 | 5 |
