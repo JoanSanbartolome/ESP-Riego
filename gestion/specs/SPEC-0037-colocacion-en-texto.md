@@ -83,3 +83,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-19 | ing-diseno | brazo B': 100 × 100 mm, 0 obligatorias, 25 iteraciones | 05-ing-diseno | 305463 | 83 | 51 |
 | 2026-11-20 | ing-diseno | paso 5: J2 y U5 al ras, 119 reglas, 0 obligatorias en 100 × 100 | 06-ing-diseno | 517342 | 148 | 70 |
 | 2026-11-20 | ing-diseno | paso 6: estudio de coste por bloques y J10 horizontal al ras, 0 obligatorias | 07-ing-diseno | 375851 | 127 | 35 |
+| 2026-11-23 | ing-validacion | VAL-0037-01 APROBADO_CON_OBSERVACIONES (4 M, 7 B) | VAL-0037-01 | 280471 | 88 | 23 |
