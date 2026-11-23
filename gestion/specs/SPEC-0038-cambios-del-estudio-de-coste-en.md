@@ -94,3 +94,4 @@ Nivel **completo** (piezas y esquema; DEC-0005).
 |---|---|---|---|---|---|---|
 | 2026-11-23 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-23 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-23 | ing-diseno | U4 AP2114H-3.3TRG1, C3 y C27-C38 a 100 nF, J10 BH254R-10P, JP1 sin texto de 0,8 mm | 01-ing-diseno | 318758 | 99 | 23 |

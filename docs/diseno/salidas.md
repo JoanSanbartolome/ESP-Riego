@@ -1,6 +1,6 @@
 # Bloque de salidas: 6 canales *high-side* BTT6050-1ERA y bornes (SPEC-0023)
 
-**Estado:** revisado tras VAL-0023-01 (M-01, M-02, B-03…B-06); actualizado en SPEC-0025 (cambios propuestos en SPEC-0024 y DEC-0008); **rehecho en SPEC-0034 sin válvula de referencia (DEC-0014): límites de uso en §0, rueda libre montada en §5**. **Autor:** ing-esquematicos; ing-diseno (SPEC-0025, SPEC-0034) · **Fecha:** 2026-11-07; 2026-11-13; 2026-11-17.
+**Estado:** **SPEC-0038 (DEC-0018 P3): C_VS y C_OUT (C27–C38) pasan a 100 nF 100 V X7R 0805 Basic (C28233), §4.3, §4.4 y §9**. Revisado tras VAL-0023-01 (M-01, M-02, B-03…B-06); actualizado en SPEC-0025 (cambios propuestos en SPEC-0024 y DEC-0008); **rehecho en SPEC-0034 sin válvula de referencia (DEC-0014): límites de uso en §0, rueda libre montada en §5**. **Autor:** ing-esquematicos; ing-diseno (SPEC-0025, SPEC-0034) · **Fecha:** 2026-11-07; 2026-11-13; 2026-11-17.
 **Requisitos:** REL-01, REL-03…REL-11; además ALI-01, ALI-12, ALI-13, FAB-03, FAB-07, FAB-09 y §6 de `docs/02` v0.7; DEC-0003, DEC-0004, DEC-0006, DEC-0007, DEC-0008 (salvo su punto 2), DEC-0014.
 **Precios y stock:** API de JLCPCB (`selectSmtComponentList`), consulta del 2026-11-06. El tipo Basic/Extended y los códigos LCSC definitivos fueron confirmados por jr-conformidad el 2026-11-10 (SPEC-0024). Stock de §9 del 2026-11-12 (`hardware/componentes/stock-salidas.csv`, SPEC-0025).
 
@@ -34,7 +34,7 @@ BTT GND (pin 3) ─ GND directo (sin R_GND ni diodo, §4.4)
 | Carga abierta en OFF | R_OL 47 kΩ 0805 de BUS_24V a OUT_n | 56 kΩ (§3.3) | REL-10 |
 | Entradas | R_IN = R_DEN = 10 kΩ; R_PD 100 kΩ en cada IN y una en OUT_DEN | — | REL-03, REL-04 |
 | LED de canal | KT-0603R (C2286, Basic) + 1 kΩ desde el GPIO IN_n | KT-0603YG (C2289) | REL-07 |
-| Desacoplo | C_VS y C_OUT 220 nF 100 V 0805 (C513710, línea existente); 2 × 4,7 µF 100 V 1210 (C381466, línea existente) | — | — |
+| Desacoplo | C_VS y C_OUT 100 nF 100 V X7R 0805 (Samsung CL21B104KCFNNNE, C28233, Basic; SPEC-0038); 2 × 4,7 µF 100 V 1210 (C381466, línea existente) | — | — |
 | Rueda libre (×6) | MDD M7, C95872 (Basic), **montada** (DEC-0014) | — | REL-03 (§5) |
 
 ### Límites de uso de las salidas (REL-11)
@@ -185,7 +185,7 @@ Umbral: el BTT da I_IS(FAULT) en OFF (DEN alto, IN bajo) cuando V_S − V_OUT < 
 | Carga ausente o cable cortado → aviso | D = I_fuga × R_OL < 4 V ⇔ I_fuga < 4 V/47,47 kΩ = 84,3 µA | Sin diodo, detecta con fugas externas (humedad del cable) equivalentes a R_fuga ≥ 160 kΩ (17,5 V), 237 kΩ (24 V) y 309 kΩ (30 V). **Con D12–D17** (fuga ≤ 50 µA, §5.4): ≥ 394 / 584 / 759 kΩ; con la fuga típica (≤ 1,5 µA a 100 °C), 163 / 242 / 314 kΩ. La fuga del BTT (I_L(OFF) ≤ 0,5 µA a ≤ 85 °C, Tabla 6, p. 15) sale por OUT y ayuda |
 | Disipación | V_S²/R_OL | 12 mW a 24 V; 29 mW a 36,7 V. En la desmagnetización, con la rueda libre, ve V_S + V_F ≤ 38 V (75 V, V_DS(AZ) máx., solo si faltara el diodo). 0805: 125 mW, 150 V ✔ |
 | Consumo de los 6 R_OL | Solo con el bus habilitado y el canal apagado (encendido, R_OL queda en corto) | ≤ 6 × 0,64 = 3,8 mA (115 mW a 30 V) |
-| Asentamiento | τ = R_OL × (C_OUT + cable ≈ 5 nF) = 47 kΩ × 225 nF | 10,6 ms → leer a ≥ 60 ms |
+| Asentamiento | τ = R_OL × (C_OUT + cable ≈ 5 nF) = 47 kΩ × 105 nF (C_OUT de 100 nF, SPEC-0038) | 4,9 ms → leer a ≥ 60 ms (12 τ; con 220 nF eran 10,6 ms) |
 
 - Alternativa: 56 kΩ (0,54 mA a 30 V; detecta con R_fuga ≥ 196 kΩ a 17,5 V). Se elige 47 kΩ por la tolerancia a fugas.
 - Infineon usa R_OL = 1,5 kΩ con un transistor que la conmuta (Tabla 11, p. 47; Fig. 25, p. 28). Aquí ese papel lo hace el limitador común: con LIM_EN bajo, R_OL no consume ni deja tensión en las cargas.
@@ -237,13 +237,13 @@ IPC-2221, capa externa, 1 oz (35 µm): I = 0,048·ΔT^0,44·A^0,725 (A en mil²)
 
 - El BTT especifica la robustez al corto con un cable de 0 o 5 m (V_BAT(SC) 36 V, R 16 mΩ/m, L 1 µH/m; P_4.1.3, p. 6). Con ≥ 10 m se sale de esa condición, pero la corriente de la fuente la corta U1 (≤ 8,4 A): el BTT no llega a su limitación desde la fuente, solo desde los condensadores locales.
 - Energía del cable al disparar U1: ½·L·I² = ½ × 50 µH (50 m) × 8,4² = 1,8 mJ. Si el BTT sigue encendido, recircula por D3 (SS310 en la salida de U1, `alimentacion.md` §3.13.6); si se apaga, por D12–D17 (§5.3).
-- **C_OUT = 220 nF 100 V X7R** en cada OUT, junto al borne: protección frente a ESD y BCI (Tabla 11, p. 48, propone 10 nF). Se usa la línea C513710 (220 nF 100 V), ya presente en el BOM (DEC-0007: una línea menos; ningún dato empeora). OUT va de −V_F (≈ −1 V, con la rueda libre) a +36,7 V; −57 V (V_S − V_DS(AZ) máx. con V_S = 18 V) solo si faltara el diodo: 100 V ✔. Efectos del valor mayor: pico de carga al encender 0,8 V/µs × 0,22 µF = 0,18 A; τ de la carga abierta 10,6 ms (§3.3).
+- **C_OUT = 100 nF 100 V X7R 0805** (Samsung CL21B104KCFNNNE, C28233, Basic; DEC-0018 P3, SPEC-0038) en cada OUT, junto al borne: protección frente a ESD y BCI (Tabla 11, p. 48, propone 10 nF). Hasta SPEC-0037 era 220 nF (C513710). Con 100 nF, el valor se acerca al de Infineon. OUT va de −V_F (≈ −1 V, con la rueda libre) a +36,7 V; −57 V (V_S − V_DS(AZ) máx. con V_S = 18 V) solo si faltara el diodo: 100 V ✔. Efectos del valor (mayor que los 10 nF de Infineon): pico de carga al encender 0,8 V/µs × 0,1 µF = 0,08 A (0,18 A con 220 nF); τ de la carga abierta 4,9 ms (§3.3).
 - El OUT del BTT aguanta ± 4 kV HBM (Tabla 3, p. 7). No se pone TVS en OUT: la rueda libre fija el negativo en −V_F, y el positivo es el del bus, ya protegido por la TVS de entrada.
 
 ### 4.4 VS, GND del chip y sobretensión
 
-- **C_VS = 220 nF 100 V X7R 0805** (C513710) entre VS y GND de cada BTT (Infineon: 100 nF, Tabla 11, p. 48). Efectivo 0,15–0,17 µF a 24–30 V y 60 °C (`alimentacion.md` §3.13.6) ✔. 100 V ≥ 53,3 V con JP1 cerrado ✔.
-- **C45, C46 = 4,7 µF 100 V X7R 1210** (C381466), uno por borde, a la entrada de BUS_24V de cada grupo de 3 canales: desacoplo al final de 50–70 mm de pista `Power_In`. Efectivo ≈ 3,9 µF a 24 V. Suma en el bus: C6 4,7 + 2 × 4,7 + 6 × 0,22 = **15,4 µF nominales**, los ≈ 15 µF supuestos en el arranque suave de U1 (`alimentacion.md` §3.13.6) ✔.
+- **C_VS = 100 nF 100 V X7R 0805** (C28233, Basic; DEC-0018 P3, SPEC-0038) entre VS y GND de cada BTT (Infineon: 100 nF, Tabla 11, p. 48). El valor nominal es el de Infineon. Efectivo: 80 / 73 nF a 24 / 30 V y 60 °C (72 / 66 nF con −10 %; SimSurfing CL21B104KCFNNN: −19,9 % / −27,1 % por tensión, +0,1 % a 60 °C; `bloque-alimentacion.md` §3). DEC-0018 aceptó «≈ 85–90 nF», y la cifra real es menor. Hasta SPEC-0037 era 220 nF C513710 (0,15–0,17 µF efectivos). 100 V ≥ 53,3 V con JP1 cerrado ✔.
+- **C45, C46 = 4,7 µF 100 V X7R 1210** (C381466), uno por borde, a la entrada de BUS_24V de cada grupo de 3 canales: desacoplo al final de 50–70 mm de pista `Power_In`. Efectivo ≈ 3,9 µF a 24 V. Suma en el bus: C6 4,7 + 2 × 4,7 + 6 × 0,1 = **14,7 µF nominales** (15,4 µF con 220 nF), los ≈ 15 µF supuestos en el arranque suave de U1 (`alimentacion.md` §3.13.6): I_INRUSH baja de 33 a 32 mA ✔.
 - **GND del BTT directo al plano, sin R_GND ni diodo** (Infineon: 27 Ω + BAS21 y zéner de 58 V en VS, Tabla 11, p. 48). Motivos:
   - la polaridad inversa la bloquea Q1 (ALI-03), así que no hay −V_S(REV);
   - V_S ≤ 53,3 V (Vc de la TVS), por debajo de V_S(AZ) = 65 V mín. (Tabla 7, p. 22): el zéner interno no conduce y no hace falta limitar su corriente;
@@ -277,7 +277,7 @@ En el BTT queda la conmutación: la corriente sigue entera mientras OUT baja a �
 
 Mientras el BTT conduce, también limitando, OUT ≥ 0 y el diodo está en inverso: la duración del corto no le afecta. Lo que recibe es la corriente del cable en el instante en que el BTT corta (apagado térmico, subtensión del bus tras el disparo de U1 o IN bajo), que se descarga por el lazo cable–corto–diodo con τ_c = L_c/R_c.
 
-- **Pico:** ≤ I_L5(SC) máx. = **56 A** (38–56 A a V_DS = 5 V; 22 A típ. a 28 V, I_L28(SC); Tabla 7, p. 22). Con U1 (JP1 abierto) la energía que puede llegar al cable está acotada además por la de los condensadores del bus (15,4 µF a 30 V: 6,9 mJ, §4.4) más lo que deja pasar U1 hasta su *fast-trip* (≤ 9,1 A × 30 V × 4,5 µs = 1,2 mJ; `alimentacion.md` §3.13.2): ½·L_c·I² ≤ 8,2 mJ → con 10 m de cable (10 µH), ≤ 40 A; con 50 m, ≤ 18 A.
+- **Pico:** ≤ I_L5(SC) máx. = **56 A** (38–56 A a V_DS = 5 V; 22 A típ. a 28 V, I_L28(SC); Tabla 7, p. 22). Con U1 (JP1 abierto) la energía que puede llegar al cable está acotada además por la de los condensadores del bus (14,7 µF a 30 V: 6,6 mJ, §4.4) más lo que deja pasar U1 hasta su *fast-trip* (≤ 9,1 A × 30 V × 4,5 µs = 1,2 mJ; `alimentacion.md` §3.13.2): ½·L_c·I² ≤ 7,8 mJ → con 10 m de cable (10 µH), ≤ 40 A; con 50 m, ≤ 18 A.
 - **Duración:** τ_c = (1 µH/m) / (2·ρ/S) no depende de la longitud y crece con la sección. Con el cable del ensayo de cortocircuito del BTT (16 mΩ/m, 1 µH/m; P_4.1.3, p. 6), **62,5 µs**; con la sección máxima del borne (2,08 mm², 16,8 mΩ/m), 59 µs. V_F acorta la descarga.
 - **I²t del impulso:** I_pk²·τ_c/2 = 56² × 62,5 µs / 2 = **0,098 A²s** (0,051 A²s con 10 m y U1). Capacidad del M7 a partir de la I_FSM: I_FSM²·t/2 = 30² × 8,33 ms / 2 = **3,75 A²s** (p. 1; Fig. 5). **Margen × 38** (× 74). El pico supera I_FSM (56 frente a 30 A), pero dura 1/130 de la semionda; con I²t constante, la capacidad a 62,5 µs sería ≈ 350 A (extrapolación: el fabricante no da I²t) ✔.
 - **Con JP1 cerrado** (sin U1, DEC-0006), el BTT limita hasta su apagado térmico y **queda enclavado**: no reintenta solo, solo lo rearma una nueva subida de IN (§6.5.2, p. 21; §7.3.5, p. 29; Fig. 19 de la Tabla 7, p. 22; igual que §4.1 y §6). Cada subida de IN con el corto presente da, por tanto, un impulso como el anterior (≤ 56 A, ≤ 62,5 µs, ≤ 0,098 A²s, ≤ 3,5 mC). La subtensión sí se rearma sola (§6.2, p. 17): si la fuente hunde el bus por debajo de V_S(UV) = 3–4,1 V (Tabla 4, p. 8), cada recuperación por encima de V_S(OP) vuelve a encender el canal y añade un impulso. El firmware deja IN bajo al leer la IS saturada (≤ 1 s, §12) y no lo reintenta en el mismo riego (REL-08), así que el número de impulsos es pequeño; el que dé la fuente al hundirse no está calculado: punto de prueba (§13.9).
@@ -368,8 +368,8 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 | R51–R56 | R_IS, 820 Ω 1 % | 0603 | 0603WAF8200T5E | C23253 · Basic · 816 705 | Yageo RC0603FR-07820RL (C114638) | `R_0603` |
 | R57–R62 | R_OL, 47 kΩ 1 % 0,125 W 150 V | **0805** | 0805W8F4702T5E | C17713 · Basic · 1,10 M | Yageo RC0805FR-0747KL (C126351 · Extended · 245 933) | `Device:R` / `Resistor_SMD:R_0805_2012Metric` |
 | R63–R68 | R_LED, 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · Basic · 28,8 M | Yageo RC0603FR-071KL (C22548) | `R_0603` |
-| C27–C32 | C_VS, 220 nF 100 V X7R | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · Extended · 26 821 (línea de C3/C8) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
-| C33–C38 | C_OUT, 220 nF 100 V X7R | 0805 | CC0805KKX7R0BB224 | C513710 | C307542 | `C_0805` |
+| C27–C32 | C_VS, 100 nF 100 V X7R (SPEC-0038) | 0805 | Samsung CL21B104KCFNNNE | C28233 · Basic · 2 545 844 (2026-11-23; línea de C3) | — | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
+| C33–C38 | C_OUT, 100 nF 100 V X7R (SPEC-0038) | 0805 | CL21B104KCFNNNE | C28233 | — | `C_0805` |
 | C39–C44 | C_IS, 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · Basic · 36,5 M | Samsung CL10B104KB8NNNC (C1591) | `Device:C` / `Capacitor_SMD:C_0603_1608Metric` |
 | C45, C46 | BUS_24V a granel (C45 borde superior, C46 inferior), 4,7 µF 100 V X7R | 1210 | PSA FS32X475K101EGG | C381466 · Extended · 37 932 (línea de C2/C6/C7/C22) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
 | D6–D11 | LED de canal, rojo | 0603 | Hubei KENTO KT-0603R | C2286 · Basic · 5,99 M (línea de D4) | KT-0603YG (C2289 · Extended) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` |
@@ -378,9 +378,9 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 - **Stock de las alternativas (2026-11-12):** C98220 11,8 M; C14675 10,8 M; C132649 3,33 M; C114638 147 774; C126351 245 933; C22548 13,5 M; C307542 29 234; C1591 2,34 M; C7471274 1 959; C2289 34 078; C534865 10 556.
 - **Totales:** 6 U, 6 J, 43 R, 20 C, 6 LED, 6 diodos.
 - **Líneas nuevas en el BOM:** C534868 (Extended), C17902, C17713, C23253 y C95872 (Basic). El resto, líneas existentes. C23253 (820 Ω, Basic) sustituye a 910 Ω (C23264, Extended) del primer cálculo: cumple igual REL-10 (§3.2) y ahorra una línea Extended (DEC-0007).
-- **Stock para 10 placas (2026-11-12):** BTT6050 60 de 1 628 ✔ (margen limitado; segunda fuente en §10). C513710: 14 por placa (con C3 y C8), 140 de 26 821 ✔. C381466: 6 por placa (con alimentación), 60 de 37 932 ✔. C8465: 7 por placa, 70 de 293 197 ✔.
+- **Stock para 10 placas (2026-11-12):** BTT6050 60 de 1 628 ✔ (margen limitado; segunda fuente en §10). C28233 (SPEC-0038): 13 por placa (con C3), 130 de 2 545 844 el 2026-11-23 ✔; C513710 queda solo para C8. C381466: 6 por placa (con alimentación), 60 de 37 932 ✔. C8465: 7 por placa, 70 de 293 197 ✔.
 - **Piezas nuevas:** ningún símbolo ni huella nuevos; la huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` pasa a llevar 10 vías de 0,3 / 0,6 mm en el EP (SPEC-0024, FAB-02). Fichas en Anexo A.
-- **Coste orientativo** (tramo de la cantidad real; sin cargos de piezas Extended): BTT 6 × 1,0952 $ = 6,57 $ (30 y 60 uds, tramo 30–99); bornes 0,81 $ (5 placas, tramo 1–49 con J1) / 0,65 $ (10, tramo 50–149); C45/C46 0,43 / 0,34 $; C513710 0,27 $; resto (resistencias, C_IS, LED) 0,24 $; D12–D17 6 × 0,0103 $ = 0,06 $ (`M7.md`, 2026-11-17). **≈ 8,4 $ por placa con 5 placas y ≈ 8,1 $ con 10** (el estudio daba 8,33 / 7,86 $).
+- **Coste orientativo** (tramo de la cantidad real; sin cargos de piezas Extended): BTT 6 × 1,0952 $ = 6,57 $ (30 y 60 uds, tramo 30–99); bornes 0,81 $ (5 placas, tramo 1–49 con J1) / 0,65 $ (10, tramo 50–149); C45/C46 0,43 / 0,34 $; C_VS y C_OUT 12 × 0,0159 $ = 0,19 $ (C28233, SPEC-0038; con C513710 eran 0,27 $); resto (resistencias, C_IS, LED) 0,24 $; D12–D17 6 × 0,0103 $ = 0,06 $ (`M7.md`, 2026-11-17). **≈ 8,4 $ por placa con 5 placas y ≈ 8,1 $ con 10** (el estudio daba 8,33 / 7,86 $).
 
 ## 10. Segunda fuente: BTT6030-2ERA (sin diseñarla)
 

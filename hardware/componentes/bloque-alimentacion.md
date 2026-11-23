@@ -16,7 +16,7 @@ Consulta de LCSC/JLCPCB: **2026-11-05**, API `selectSmtComponentList` de JLCPCB 
 | U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías; las vías 0,3/0,6 al EP las pone el layout, SLVSE94G p. 39) | `TPS2663.md` |
 | U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `esp-riego:Texas_DDA0008B_…_Mask2.71x3.4mm` (propia) | `LMR36520.md` |
 | U3 | TPS2116DRLR | TI | C3235557 | Extended · 54 421 | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` | `TPS2116.md` |
-| U4 | TLV1117LV33DCYR | TI | C15578 | Extended · 1 606 | `Regulator_Linear:TLV1117-33` / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `TLV1117LV.md` |
+| U4 | AP2114H-3.3TRG1 (SPEC-0038; antes TI TLV1117LV33DCYR C15578, stock 0 el 2026-11-23) | Diodes | C150716 | Extended · 2 300 (2026-11-23) | `Regulator_Linear:TLV1117-33` (mismo patillaje) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `AP2114H-3.3TRG1.md` |
 | L1 | FXL0650-100-M | cjiang | C475521 | Extended · 38 857 | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` | `FXL0650-100-M.md` |
 | JP1 | — (sin pieza) | — | — | fuera de BOM y CPL | `Jumper:SolderJumper_2_Open` / `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (nueva, sin 3D) | — |
 | TP1–TP5 | — (sin pieza) | — | — | fuera de BOM y CPL | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm`; TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm` (sin 3D) | — |
@@ -39,7 +39,8 @@ Alternativas con stock (consulta 2026-11-05): TLC TA10 C2998199 (1 461); UMW SUD
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R 1210 (C22 nuevo: segundo CIN de U2, con C7) | FS32X475K101EGG | PSA | C381466 | Extended · 54 967 |
 | C4 | 22 nF 50 V X7R 0603 | CL10B223KB8NNNC | Samsung | C21122 | **Basic** · 846 818 |
 | C5, C9, C13, C14, C20, C21 | 100 nF 50 V X7R 0603 (DEC-0007; antes Samsung CL10B104KB8NNNC C1591, Extended) | CC0603KRX7R9BB104 | Yageo | C14663 | **Basic** · 34 750 639 (JLCPCB, 2026-11-06; LCSC 0) |
-| C3, C8 | 220 nF 100 V X7R 0805 (C3 antes 100 nF 0603 C15725) | CC0805KKX7R0BB224 | Yageo | C513710 | Extended · 72 257 |
+| C8 | 220 nF 100 V X7R 0805 | CC0805KKX7R0BB224 | Yageo | C513710 | Extended · 72 257 |
+| C3 | 100 nF 100 V X7R 0805 (SPEC-0038, DEC-0018 P3; antes 220 nF C513710) | CL21B104KCFNNNE | Samsung | C28233 | **Basic** · 2 545 844 (2026-11-23) |
 | C10 | 1 µF 50 V X7R 0805 (antes X5R 0603 C15849) | CL21B105KBFNNNE | Samsung | C28323 | **Basic** · 3 504 368 (LCSC 0) |
 | C15 | 1 µF 50 V X5R 0603 | CL10A105KB8NNNC | Samsung | C15849 | **Basic** · 11 489 595 |
 | C11, C12, C16, C17 | 22 µF 25 V X5R 1206 | CL31A226KAHNNNE | Samsung | C12891 | **Basic** · 1 613 044 |
@@ -64,7 +65,8 @@ Fuente: datos simulados por el fabricante en SimSurfing, `https://product.samsun
 | C10 | CL21B105KBFNNN (1 µF 50 V X7R 0805, C28323) | 5 V | −2,5 % | −1,5 % (TCC) | −3,5 % a 84 °C (TCC) | 0,96 µF · 0,86 µF a 60 °C; 0,94 · 0,85 µF a 85 °C |
 | C18, C19 | CL10A106KP8NNN (10 µF 10 V X5R 0603) | 3,3 V | −55,7 % | −63,4 % | −70,4 % | 3,7 µF · 3,3 µF a 60 °C; 3,0 · 2,7 µF a 85 °C |
 | C2, C6, C7, C22 | **Proxy** Samsung CL32B475KCJZ4N (4,7 µF 100 V X7R 1210; el PSA FS32X475K101EGG no publica curva) | 24 V / 30 V | −24,5 % / −33,4 % | −27,6 % / −36,5 % | −31,2 % / −40,1 % | 3,4 µF / 3,0 µF a 60 °C. Con el proxy KCIZNW: 3,2 / 2,7 µF |
-| C3, C8 | Proxy CL21B224KCFSFN (220 nF 100 V X7R 0805) | 24 V / 30 V | −22,3 % / −31,1 % | −22,8 % / −31,6 % | −25 % / −33,8 % | 0,17 / 0,15 µF a 60 °C |
+| C8 | Proxy CL21B224KCFSFN (220 nF 100 V X7R 0805) | 24 V / 30 V | −22,3 % / −31,1 % | −22,8 % / −31,6 % | −25 % / −33,8 % | 0,17 / 0,15 µF a 60 °C |
+| C3 (y C27–C38 de salidas; SPEC-0038) | CL21B104KCFNNN (100 nF 100 V X7R 0805, C28233; SimSurfing, consulta 2026-11-23) | 24 V / 30 V | −19,9 % / −27,1 % | −19,8 % / −27,0 % (TCC +0,1 % a 60 °C) | −20,7 % / −27,9 % (TCC −0,8 % a 84 °C) | 80 / 73 nF a 60 °C; 72 / 66 nF con −10 % |
 | C5, C9, C13, C14, C20, C21 | CL10B104KB8NNN (100 nF 50 V X7R) | ≤ 5 V | + 0,2 % | −2,7 % | −6,1 % | ≈ 97 nF: sin efecto |
 
 Consecuencias, frente a `docs/diseno/alimentacion.md`:

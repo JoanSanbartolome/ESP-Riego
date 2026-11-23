@@ -21,7 +21,7 @@ GPIO39 BTN_INT ─ R79 10 k a +3V3 ─ INT de U18 · C52 en VDD de U18
 
 | Función | Ref. | Pieza principal (LCSC · tipo) | Alternativa | Requisito |
 |---|---|---|---|---|
-| Conector de expansión | J10 | XFCN BH254V-10P, cabecera IDC 2 × 5 recta (C492442 · Extended, THT) | Würth 61201021621 (C4355000) | EXP-02 |
+| Conector de expansión | J10 | XFCN BH254R-10P, cabecera IDC 2 × 5 en ángulo recto, al ras del borde inferior (C492448 · Extended, THT; DEC-0017, SPEC-0038) | ZHOURI DC3-2.54-10PAL (C5156674; `BH254R-10P.md`) | EXP-02 |
 | Interruptores de 5 V y 3,3 V | U14, U15 | TI TPS2553DBVR (C55266 · Extended) | — (la -1 se enclava) | EXP-02 |
 | R_ILIM | R69, R70 | 68 kΩ (C23231) y 220 kΩ (C22961), Basic | 232 kΩ C22913 (Extended) | EXP-02 |
 | C_IN / C_OUT | C48, C49 / C50, C51 | 100 nF (C14663) / 4,7 µF (C19666) y 1 µF (C15849), Basic | — | EXP-02 |
@@ -63,7 +63,7 @@ Fuentes:
 
 - **TPS:** TI TPS2552/53, SLVS841G (oct. 2026; `hardware/componentes/datasheets/TPS2553.pdf`): pinout p. 4; I_OS pp. 16–17, ec. (1)–(3) (la (1), máximo, en la p. 16; la (2), nominal, y la (3), mínimo, en la p. 17); *layout* p. 25.
 - **TCA:** TI TCA9554, SCPS233E (`datasheets/TCA9554PWR.pdf`): pinout p. 4; *pull-up* interno de 100 kΩ p. 16 («*weak pull-up (100 kΩ typical)*») y p. 25 («*no need for an external pull-up*»); dirección p. 19.
-- **BH:** XFCN BH254V, hoja única (`datasheets/BH254V-10P.pdf`). **USBLC6:** USBLC6-2SC6 (`datasheets/USBLC6-2SC6.pdf`), tabla 2, p. 2.
+- **BH:** XFCN BH254R, hoja única (`datasheets/BH254R-10P.pdf`; ficha `BH254R-10P.md`). Hasta SPEC-0037, BH254V (`datasheets/BH254V-10P.pdf`). **USBLC6:** USBLC6-2SC6 (`datasheets/USBLC6-2SC6.pdf`), tabla 2, p. 2.
 - **S:** ESP32-S3 Series Datasheet v2.2. Tabla 5-6 (p. 66): error total del ADC calibrado de ± 10 mV con ATTEN2 (6 dB), en 0–1600 mV; ± 50 mV con ATTEN3 (12 dB), en 0–2900 mV.
 - **PCA:** TI PCA9554, SCPS128D (mar. 2021):
   - p. 1: INT de drenador abierto, entradas al encender y POR;
@@ -238,7 +238,7 @@ Es la definición de `viabilidad-expansion.md` §10 (arquitectura 1, D9, DEC-001
 
 ### 2.1 Tipo
 
-- **J10: XFCN BH254V-10P** (C492442), cabecera IDC con guía, 2 × 5 a 2,54 mm, recta, THT en la cara superior (FAB-06). 3 A por contacto, −40…105 °C (BH p. 1).
+- **J10: XFCN BH254R-10P** (C492448; DEC-0017, SPEC-0038; antes BH254V-10P recta, C492442), cabecera IDC con guía, 2 × 5 a 2,54 mm, en ángulo recto, THT en la cara superior (FAB-06), con la boca al ras del borde inferior. Huella `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` (cotas frente al dibujo en la ficha). Mismo pinout. 3 A por contacto, −40…105 °C (BH p. 1).
 - Cuerpo de 20,35 ± 0,40 × 8,9 mm; taladro Ø 1,02 ± 0,05 (BH p. 1). Huella oficial `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical`: taladro de 1,0 mm, patio de 9,9 × 21,36 mm, 3D oficial; las cotas cuadran (contraste de jr-conformidad, parte 02).
 - Símbolo `Connector_Generic:Conn_02x05_Odd_Even`: impares en una fila y pares en la otra, como la numeración IDC (pin 1 marcado con el triángulo de la guía).
 - Sin enclavamiento positivo: brida a la caja (`viabilidad-expansion.md` §10.1). Cable plano de 10 hilos, ≤ 3 m.
@@ -384,7 +384,7 @@ La tabla está en §0.
 
 | Requisito | Pieza o cálculo | Sección |
 |---|---|---|
-| EXP-02 | J10 BH254V-10P con I²C (GPIO47/48), EXP_INT (35), EXP_EN (36), +3V3_EXP (U15, ≤ 50 mA), +5V_EXP (U14, ≤ 0,30 A) y GND; ESD U16/U17 | §2 |
+| EXP-02 | J10 BH254R-10P con I²C (GPIO47/48), EXP_INT (35), EXP_EN (36), +3V3_EXP (U15, ≤ 50 mA), +5V_EXP (U14, ≤ 0,30 A) y GND; ESD U16/U17 | §2 |
 | EXP-03 | SW3–SW8 leídos por U18 TCA9554 (0x20) en el bus de la placa, INT en GPIO39 (DEC-0013); fila en el centro | §1, §3, §4 |
 | EXP-04 | Conector fijado con el informe de SPEC-0006 (arquitectura 1, DEC-0012) | §2 |
 | AMB-03 | Sonda externa opcional en el bus de expansión: +3V3_EXP, SDA y SCL en J10 | §2.2 |

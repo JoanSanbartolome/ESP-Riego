@@ -22,7 +22,7 @@
 | Alimentacion | J1, F1 0451010.MRL, Q1 SQD50P06-15L + D1, D2 SMBJ33A, U1 TPS26632RGER + JP1, D3 SS310, U2 LMR36520FADDAR + L1, U3 TPS2116DRLR, U4 TLV1117LV33DCYR, TP1–TP5 | `alimentacion.md` §7 |
 | MCU | U5 ESP32-S3-WROOM-1-N8, J2 USB-C + U6 USBLC6-2SC6, SW1/SW2, J3 UART, D5 | `mcu.md` §11 |
 | Salidas (6 × Canal) | U7–U12 BTT6050-1ERA, J4–J9 WJ500V-5.08-2P, D12–D17 M7 (montados), R_OL, R_SENSE/R_IS/C_IS, R_PD, LED D6–D11 | `salidas.md` §9 |
-| Conectores | J10 BH254V-10P, U14/U15 TPS2553DBVR, U16/U17 USBLC6-2SC6, U18 TCA9554PWR + SW3–SW8, H1–H4 | `conectores.md` §0 |
+| Conectores | J10 BH254R-10P (SPEC-0038), U14/U15 TPS2553DBVR, U16/U17 USBLC6-2SC6, U18 TCA9554PWR + SW3–SW8, H1–H4 | `conectores.md` §0 |
 | Sensores | U13 SHT40-AD1B-R2 | `sensores.md` §10 |
 
 **Restricciones de layout por raíl** (el detalle por red está en el §8 de `alimentacion.md`, el §11 de `salidas.md` y el §12 de `mcu.md`; aquí solo lo que cruza bloques)
@@ -200,7 +200,7 @@ Con JP1 cerrado (sin limitador, DEC-0006) queda solo la R_PD de cada IN (`alimen
 | Conector | Protección (netlist) | Resultado |
 |---|---|---|
 | J1 (24 V) | D2 SMBJ33A tras F1 y Q1 (V_RWM 33 V, `alimentacion.md` §3.4) | ✔ |
-| J4–J9 (salidas) | C_OUT 220 nF 100 V (C33–C38) y D12–D17 en cada OUT_n; OUT del BTT ± 4 kV HBM (BTT tabla 3, p. 7). Sin TVS en OUT por diseño (`salidas.md` §4.3) | ✔ |
+| J4–J9 (salidas) | C_OUT 100 nF 100 V (C33–C38, C28233 desde SPEC-0038) y D12–D17 en cada OUT_n; OUT del BTT ± 4 kV HBM (BTT tabla 3, p. 7). Sin TVS en OUT por diseño (`salidas.md` §4.3) | ✔ |
 | J10 (expansión) | U16 en EXP_SDA_J/EXP_SCL_J (VBUS = +3V3_EXP) y U17 en EXP_INT_J/EXP_EN_J (VBUS = +5V_EXP); R73–R76 en serie; los raíles del conector, a los VBUS de U16/U17 | ✔ |
 | J2 (USB-C) | U6 en D+/D− (I/O1 y I/O2) y VBUS (pin 5); SHIELD a GND | ✔ |
 | J3 (UART) | Sin ESD: conector de servicio interno, no de campo (`mcu.md` §6) | No aplica |

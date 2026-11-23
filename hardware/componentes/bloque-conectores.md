@@ -4,7 +4,7 @@ Consulta de JLCPCB: **2026-11-15**, con `herramientas/kicad/jlc.py` (datos compl
 
 | Refs. | MPN | Fabricante | LCSC | Tipo · stock (2026-11-15) | Ficha |
 |---|---|---|---|---|---|
-| J10 | BH254V-10P | XFCN | C492442 | Extended · 28 789 | `BH254V-10P.md` |
+| J10 | BH254R-10P (DEC-0017, SPEC-0038; antes BH254V-10P C492442) | XFCN | C492448 | Extended · 10 286 (2026-11-23) | `BH254R-10P.md` |
 | U14, U15 | TPS2553DBVR | Texas Instruments | C55266 | Extended · 48 313 | `TPS2553.md` |
 | U16, U17 | USBLC6-2SC6 | STMicroelectronics | C7519 | Extended · 38 741 | `USBLC6-2SC6.md` |
 | U18 | TCA9554PWR | Texas Instruments | C477924 | Extended · 5 455 | `TCA9554PWR.md` |

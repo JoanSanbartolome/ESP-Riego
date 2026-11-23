@@ -2740,7 +2740,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "efc995f5-ae9b-40e3-a6b1-9339525bfe03")
@@ -2751,7 +2751,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2762,7 +2762,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2785,7 +2785,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2797,7 +2797,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2809,7 +2809,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3415,7 +3415,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "215d3c8c-0cf3-442c-885a-375b08579de5")
@@ -3426,7 +3426,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3437,7 +3437,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3460,7 +3460,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3472,7 +3472,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -3484,7 +3484,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8204,7 +8204,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "ec1ee580-005f-4141-b25a-f7add4ed7caa")
@@ -8215,7 +8215,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8226,7 +8226,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8249,7 +8249,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8261,7 +8261,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8273,7 +8273,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8574,7 +8574,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "bc3e36f1-2a64-4c80-a636-5c0af577f329")
@@ -8585,7 +8585,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8596,7 +8596,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8619,7 +8619,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8631,7 +8631,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -8643,7 +8643,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16159,7 +16159,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "7d2efe04-0326-4088-b520-171663668246")
@@ -16170,7 +16170,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16181,7 +16181,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16204,7 +16204,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16216,7 +16216,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16228,7 +16228,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16714,7 +16714,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "124bd739-ee0e-4c1f-9231-c038acae1dc0")
@@ -16725,7 +16725,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16736,7 +16736,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16759,7 +16759,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16771,7 +16771,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -16783,7 +16783,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19862,7 +19862,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "9c9c67dd-be9f-48eb-9021-9d8dc3d24c3f")
@@ -19873,7 +19873,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19884,7 +19884,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19907,7 +19907,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19919,7 +19919,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19931,7 +19931,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20602,7 +20602,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "5dec4d86-a27c-4585-8697-e3eecf441f95")
@@ -20613,7 +20613,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20624,7 +20624,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20647,7 +20647,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20659,7 +20659,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -20671,7 +20671,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25880,7 +25880,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "ece42495-1cb1-47c1-81f6-234af3c24e7e")
@@ -25891,7 +25891,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25902,7 +25902,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25925,7 +25925,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25937,7 +25937,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -25949,7 +25949,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27969,7 +27969,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "d9d22789-0852-4b2f-aa0a-c0cbfa0cedd0")
@@ -27980,7 +27980,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -27991,7 +27991,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28014,7 +28014,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28026,7 +28026,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28038,7 +28038,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -28311,495 +28311,6 @@
 		)
 		(embedded_fonts no)
 		(model "${KICAD10_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0603_1608Metric.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
-	(footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
-		(layer "F.Cu")
-		(uuid "9ece2d76-8892-4aa4-8d02-92ad70379de2")
-		(at 104.714999 293.419999)
-		(descr "Through hole IDC box header, 2x05, 2.54mm pitch, DIN 41651 / IEC 60603-13, double rows, https://docs.google.com/spreadsheets/d/16SsEcesNF15N3Lb4niX7dcUr-NY5_MFPQhobNuNppn4/edit#gid=0")
-		(tags "Through hole vertical IDC box header THT 2x05 2.54mm double row")
-		(property "Reference" "J10"
-			(at 1.27 -6.1 0)
-			(layer "F.SilkS")
-			(uuid "a384fb3d-dee6-4f6f-b4c6-52de8bb6297f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "BH254V-10P"
-			(at 1.27 16.26 0)
-			(layer "F.Fab")
-			(uuid "96bc6bbb-4030-45c6-85b2-36d5330f629a")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_XFCN-BH254V-10P_C492442.pdf"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "4414b9aa-ab9f-44fa-a92b-8684a2637327")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Cabecera de caja 2 × 5 pines, 2,54 mm, recta THT: conector de expansión EXP-02"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "e4a0417a-dfc5-4bae-bc51-0ec2c35c5e86")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6ea7198f-83cc-48a7-b1dd-ba4a05c9f45e")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "LCSC Part#" "C492442"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "d19d7134-f95e-4548-9dda-3dcedf81bff0")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "MPN" "BH254V-10P"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "a92fca6c-96f8-4fbc-aae3-3a797dc9b2ab")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Fabricante" "XFCN"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "994cce5b-5f38-497a-b90d-a6f8ad5daadb")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(path "/f35208bc-3074-4a95-9125-8cc49111e506/509ea0c2-79d7-4570-823d-54219dde41d1")
-		(sheetname "/Conectores/")
-		(sheetfile "conectores.kicad_sch")
-		(attr through_hole)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start -4.68 -0.5)
-			(end -4.68 0.5)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "62d0f9df-276f-45d3-a577-028e396a78e9")
-		)
-		(fp_line
-			(start -4.68 0.5)
-			(end -3.68 0)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "98dc5c8e-caf2-424b-9228-1018ccbe2ee1")
-		)
-		(fp_line
-			(start -3.68 0)
-			(end -4.68 -0.5)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "c8196fa2-47d9-4431-8d0c-84d5c4132f2d")
-		)
-		(fp_line
-			(start -3.29 -5.21)
-			(end 5.83 -5.21)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "902dc760-d544-4363-9200-5451c6e4e3ef")
-		)
-		(fp_line
-			(start -3.29 3.03)
-			(end -1.98 3.03)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "542917a3-84ce-43ac-911a-a954f80630b3")
-		)
-		(fp_line
-			(start -3.29 15.37)
-			(end -3.29 -5.21)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "5b6a48f6-fa52-45ad-a911-9ec8ed54b525")
-		)
-		(fp_line
-			(start -1.98 -3.91)
-			(end 4.52 -3.91)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "3937d786-8e63-44d3-a716-f5997c805ac1")
-		)
-		(fp_line
-			(start -1.98 3.03)
-			(end -1.98 -3.91)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "92af408f-284e-416a-8533-7714b8ee3e5c")
-		)
-		(fp_line
-			(start -1.98 7.13)
-			(end -3.29 7.13)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "2400c6b8-27ff-470e-8d63-3d2817a35dc1")
-		)
-		(fp_line
-			(start -1.98 14.07)
-			(end -1.98 7.13)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "42bf5878-7bd0-4458-b1d5-d82bcf525fc3")
-		)
-		(fp_line
-			(start 4.52 -3.91)
-			(end 4.52 14.07)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "f1af71ba-d5b5-4186-adfe-683d91d65170")
-		)
-		(fp_line
-			(start 4.52 14.07)
-			(end -1.98 14.07)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "27b9795e-c05f-4186-907b-4dd456f32fda")
-		)
-		(fp_line
-			(start 5.83 -5.21)
-			(end 5.83 15.37)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "8969d54a-1407-4ef0-98e1-7dc76260bd7a")
-		)
-		(fp_line
-			(start 5.83 15.37)
-			(end -3.29 15.37)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "6bb730a4-8a89-4ee6-af6a-44fa51e8923e")
-		)
-		(fp_rect
-			(start -3.68 -5.6)
-			(end 6.22 15.76)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "db885b8a-9d97-4028-922a-01a14a50559a")
-		)
-		(fp_line
-			(start -3.18 -4.1)
-			(end -2.18 -5.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "04604fe6-649a-48d0-b6a1-640b701356a5")
-		)
-		(fp_line
-			(start -3.18 3.03)
-			(end -1.98 3.03)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "373c9d5d-633b-47d5-9465-b4c3e9534b7e")
-		)
-		(fp_line
-			(start -3.18 15.26)
-			(end -3.18 -4.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "a9d0e6bd-7ce8-4b14-b386-3447d8d47cfa")
-		)
-		(fp_line
-			(start -2.18 -5.1)
-			(end 5.72 -5.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "414eca55-4125-4b01-8e66-269f67c81529")
-		)
-		(fp_line
-			(start -1.98 -3.91)
-			(end 4.52 -3.91)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "6baf8278-3dee-4311-94f3-456d3afa12e5")
-		)
-		(fp_line
-			(start -1.98 3.03)
-			(end -1.98 -3.91)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "c05bcc99-c743-45dd-9e6b-269735eb92a8")
-		)
-		(fp_line
-			(start -1.98 7.13)
-			(end -3.18 7.13)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "581c191d-f2f9-4956-88de-c603064bef4e")
-		)
-		(fp_line
-			(start -1.98 14.07)
-			(end -1.98 7.13)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "c1affa34-8ab7-4802-892f-ed12ac03b856")
-		)
-		(fp_line
-			(start 4.52 -3.91)
-			(end 4.52 14.07)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "0342e405-fa62-47b3-ac20-cdf568839865")
-		)
-		(fp_line
-			(start 4.52 14.07)
-			(end -1.98 14.07)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "b3a37e96-9e12-4691-9288-81d427dd5427")
-		)
-		(fp_line
-			(start 5.72 -5.1)
-			(end 5.72 15.26)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "b6c7e084-9a30-4f6e-9d99-da266c4c5102")
-		)
-		(fp_line
-			(start 5.72 15.26)
-			(end -3.18 15.26)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "f4915265-699b-400d-87e0-ad5d1de3ff13")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 1.27 5.08 90)
-			(layer "F.Fab")
-			(uuid "38371193-e604-44c2-a13d-d57108e637d0")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(pad "1" thru_hole roundrect
-			(at 0 0)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(roundrect_rratio 0.147059)
-			(net "/Conectores/+5V_EXP")
-			(uuid "9d8a5879-e86c-429b-8003-ffa1dcbaf68b")
-		)
-		(pad "2" thru_hole circle
-			(at 2.54 0)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "566925a4-5e09-4dc4-8c8a-76e87e39ac4d")
-		)
-		(pad "3" thru_hole circle
-			(at 0 2.54)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "/Conectores/+3V3_EXP")
-			(uuid "11426770-5980-479b-bc85-67a4b1c2ca5b")
-		)
-		(pad "4" thru_hole circle
-			(at 2.54 2.54)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "3a8db209-d65c-4ae8-83db-e9fc2a0aa735")
-		)
-		(pad "5" thru_hole circle
-			(at 0 5.08)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "/Conectores/EXP_SDA_J")
-			(uuid "583b270c-6213-4dc9-a63d-7fb270007464")
-		)
-		(pad "6" thru_hole circle
-			(at 2.54 5.08)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "52f69ee4-01da-435c-9554-3d7e6faa942f")
-		)
-		(pad "7" thru_hole circle
-			(at 0 7.62)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "/Conectores/EXP_SCL_J")
-			(uuid "f4fd3402-a6ba-4f93-b7f2-656e57484d8a")
-		)
-		(pad "8" thru_hole circle
-			(at 2.54 7.62)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "12f2578f-61bc-4fa7-bf37-1de98eed7f6c")
-		)
-		(pad "9" thru_hole circle
-			(at 0 10.16)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "/Conectores/EXP_INT_J")
-			(uuid "50ea1674-0228-4df0-86fa-7dda03b6da15")
-		)
-		(pad "10" thru_hole circle
-			(at 2.54 10.16)
-			(size 1.7 1.7)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "/Conectores/EXP_EN_J")
-			(uuid "1223234e-1e19-4303-a130-8c917249d7a2")
-		)
-		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_IDC.3dshapes/IDC-Header_2x05_P2.54mm_Vertical.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -29364,6 +28875,542 @@
 		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../libraries/3d/Infineon_PG-TDSO-14.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
+	(footprint "Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal"
+		(layer "F.Cu")
+		(uuid "a1f47b80-43f9-4389-beac-0b2501ee6c83")
+		(at 104.714999 293.419999)
+		(descr "Through hole IDC box header, 2x05, 2.54mm pitch, DIN 41651 / IEC 60603-13, double rows, https://docs.google.com/spreadsheets/d/16SsEcesNF15N3Lb4niX7dcUr-NY5_MFPQhobNuNppn4/edit#gid=0")
+		(tags "Through hole horizontal IDC box header THT 2x05 2.54mm double row")
+		(property "Reference" "J10"
+			(at 6.215 -6.1 0)
+			(layer "F.SilkS")
+			(uuid "09eb8708-1f77-410a-9b06-f909183bba80")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "BH254R-10P"
+			(at 6.215 16.26 0)
+			(layer "F.Fab")
+			(uuid "70867415-c21f-44ed-ac59-77e429a6a7fd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/233cfef6f5c21db8046559b2286bdc44.pdf?productCode=C492448"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0204eb9e-679d-48e2-8988-04094682d402")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Cabecera de caja 2 × 5 pines, 2,54 mm, en ángulo recto THT, al ras del borde inferior: conector de expansión EXP-02 (DEC-0017)"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "04ef80fc-058c-4022-9bdf-a0c0858a7c4b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "connector/pin_header_socket"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a339d4ca-7a47-4f94-9cea-12bd52e85369")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC Part#" "C492448"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "eabfa9c1-2418-45a1-aa2a-fe7c50703f4d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "BH254R-10P"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "60848b57-25d8-47d2-8cbe-aa8848592f38")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Fabricante" "XFCN"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e4722ceb-ba1f-4349-bb02-97f85cbca0a8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(path "/f35208bc-3074-4a95-9125-8cc49111e506/509ea0c2-79d7-4570-823d-54219dde41d1")
+		(sheetname "/Conectores/")
+		(sheetfile "conectores.kicad_sch")
+		(attr through_hole)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -2.35 -0.5)
+			(end -2.35 0.5)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "7cf68d42-13f4-41db-8328-d9b3bb23b9dd")
+		)
+		(fp_line
+			(start -2.35 0.5)
+			(end -1.35 0)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "12223110-5a73-4463-87ec-fdda7bc46159")
+		)
+		(fp_line
+			(start -1.35 0)
+			(end -2.35 -0.5)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0bd100d1-4a8d-4f1d-8fd6-3c33a95cdc70")
+		)
+		(fp_line
+			(start 4.27 -5.21)
+			(end 13.39 -5.21)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "07cc08c7-30f9-4737-a1f7-ab7b06f8274e")
+		)
+		(fp_line
+			(start 4.27 3.03)
+			(end 13.39 3.03)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "77e8471f-d1d5-4b26-ae87-6f90bf2eda35")
+		)
+		(fp_line
+			(start 4.27 7.13)
+			(end 13.39 7.13)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "85f29853-4a51-46fe-9d27-c14d110004ce")
+		)
+		(fp_line
+			(start 4.27 15.37)
+			(end 4.27 -5.21)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "dbd15fe8-8940-4a5e-8e9b-1d4ceec3e391")
+		)
+		(fp_line
+			(start 13.39 -5.21)
+			(end 13.39 15.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "f33ff7e4-3c94-491b-b6fe-d10cc11abcfb")
+		)
+		(fp_line
+			(start 13.39 15.37)
+			(end 4.27 15.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b43f30f8-e17d-4ef6-a813-42abae72d92b")
+		)
+		(fp_rect
+			(start -1.35 -5.6)
+			(end 13.78 15.76)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "19897173-9513-4e76-8e54-6651a89e6a5c")
+		)
+		(fp_line
+			(start -0.32 -0.32)
+			(end -0.32 0.32)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "cdf64a12-e7ee-4eda-a4d2-f9ce99b4f684")
+		)
+		(fp_line
+			(start -0.32 0.32)
+			(end 4.38 0.32)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "f96ab6b4-428d-426b-bff1-7b603e05a8b3")
+		)
+		(fp_line
+			(start -0.32 2.22)
+			(end -0.32 2.86)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "2214bb89-087d-4469-9540-2ecdb68bc8c6")
+		)
+		(fp_line
+			(start -0.32 2.86)
+			(end 4.38 2.86)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "24d3ca1f-88fa-4219-a224-a764a979b69f")
+		)
+		(fp_line
+			(start -0.32 4.76)
+			(end -0.32 5.4)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "983b1c08-14e8-450b-8c21-078fc0ecf861")
+		)
+		(fp_line
+			(start -0.32 5.4)
+			(end 4.38 5.4)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "80437d9f-d614-406b-aa5c-2e3383b7e59c")
+		)
+		(fp_line
+			(start -0.32 7.3)
+			(end -0.32 7.94)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "b4be9c6a-6055-41c7-b496-ea0f95a0d3ba")
+		)
+		(fp_line
+			(start -0.32 7.94)
+			(end 4.38 7.94)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0eae528a-77ec-41aa-a6ba-39697b371ae4")
+		)
+		(fp_line
+			(start -0.32 9.84)
+			(end -0.32 10.48)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "8907812f-de7a-45b9-b59a-cf4573536d46")
+		)
+		(fp_line
+			(start -0.32 10.48)
+			(end 4.38 10.48)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "782e2fe8-4901-4690-a726-41b641dcb78f")
+		)
+		(fp_line
+			(start 4.38 -4.1)
+			(end 5.38 -5.1)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "f903c06b-ea50-443b-834b-a0fa4239d177")
+		)
+		(fp_line
+			(start 4.38 -0.32)
+			(end -0.32 -0.32)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "9eaaae80-7572-40f3-ac5a-e02fe5740cba")
+		)
+		(fp_line
+			(start 4.38 2.22)
+			(end -0.32 2.22)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "a4f91e62-0983-4965-9135-496c8fa4841e")
+		)
+		(fp_line
+			(start 4.38 3.03)
+			(end 13.28 3.03)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0579d2d7-5f74-48fa-bc44-ef169eb1cf05")
+		)
+		(fp_line
+			(start 4.38 4.76)
+			(end -0.32 4.76)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "79ec84a2-c9e7-4970-be3c-96c34df254bc")
+		)
+		(fp_line
+			(start 4.38 7.13)
+			(end 13.28 7.13)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "9cd2bcae-ffec-4394-bf99-0f60b244253d")
+		)
+		(fp_line
+			(start 4.38 7.3)
+			(end -0.32 7.3)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "794560f3-fb9c-4c8d-8c16-a753f79daa3b")
+		)
+		(fp_line
+			(start 4.38 9.84)
+			(end -0.32 9.84)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "f22393b1-ed35-4d31-8cd9-0f20aabb103f")
+		)
+		(fp_line
+			(start 4.38 15.26)
+			(end 4.38 -4.1)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "a5a153ec-3bad-424a-bcb4-41678a624cdb")
+		)
+		(fp_line
+			(start 5.38 -5.1)
+			(end 13.28 -5.1)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "4f90d9ed-07b6-4d4e-bed7-955919567293")
+		)
+		(fp_line
+			(start 13.28 -5.1)
+			(end 13.28 15.26)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "dbb370b6-7a20-4e4c-8762-2a6bd1cd18cf")
+		)
+		(fp_line
+			(start 13.28 15.26)
+			(end 4.38 15.26)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "217a37ff-e706-4833-a7af-d0d71d3d41ba")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 8.83 5.08 90)
+			(layer "F.Fab")
+			(uuid "349f78d1-20d7-4f26-97ba-6b508f819aa8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole roundrect
+			(at 0 0)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(roundrect_rratio 0.147059)
+			(net "/Conectores/+5V_EXP")
+			(uuid "49b58825-c92c-4696-af2d-d71b66ceb390")
+		)
+		(pad "2" thru_hole circle
+			(at 2.54 0)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "533285d4-b207-4d6e-96ab-f5f62115aec2")
+		)
+		(pad "3" thru_hole circle
+			(at 0 2.54)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Conectores/+3V3_EXP")
+			(uuid "6073d227-7c30-4c5c-914a-9a3f74af368a")
+		)
+		(pad "4" thru_hole circle
+			(at 2.54 2.54)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "02d6f99f-6ea5-4502-89f0-9e7a83c262ab")
+		)
+		(pad "5" thru_hole circle
+			(at 0 5.08)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Conectores/EXP_SDA_J")
+			(uuid "73106240-7622-4f21-ad38-d1283776543e")
+		)
+		(pad "6" thru_hole circle
+			(at 2.54 5.08)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "c0afd0c9-4685-4443-ac26-ca0649304bf7")
+		)
+		(pad "7" thru_hole circle
+			(at 0 7.62)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Conectores/EXP_SCL_J")
+			(uuid "8304903d-e953-4537-b45d-fa0d68691b8c")
+		)
+		(pad "8" thru_hole circle
+			(at 2.54 7.62)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "b8a0777a-c3f4-4e7e-93fd-a2a9a07df315")
+		)
+		(pad "9" thru_hole circle
+			(at 0 10.16)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Conectores/EXP_INT_J")
+			(uuid "8946020c-7488-4e21-b9ab-559903fbe9ec")
+		)
+		(pad "10" thru_hole circle
+			(at 2.54 10.16)
+			(size 1.7 1.7)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Conectores/EXP_EN_J")
+			(uuid "48d15353-a266-4433-a5ca-41d2261a90c9")
+		)
+		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Connector_IDC.3dshapes/IDC-Header_2x05_P2.54mm_Horizontal.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -33254,7 +33301,7 @@
 				)
 			)
 		)
-		(property "Value" "TLV1117LV33DCYR"
+		(property "Value" "AP2114H-3.3TRG1"
 			(at 0 4.5 0)
 			(layer "F.Fab")
 			(uuid "2db82702-c0cd-4ec8-a48e-ba86069f531b")
@@ -33265,7 +33312,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv1117lv.pdf"
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2114.pdf"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -33278,7 +33325,7 @@
 				)
 			)
 		)
-		(property "Description" "LDO 3,3 V 1 A, SOT-223: +3V3 desde +5V"
+		(property "Description" "LDO CMOS 3,3 V 1 A, SOT-223 (1 GND, 2/pestaña OUT, 3 IN): +3V3 desde +5V"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -33291,7 +33338,7 @@
 				)
 			)
 		)
-		(property "MPN" "TLV1117LV33DCYR"
+		(property "MPN" "AP2114H-3.3TRG1"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33303,7 +33350,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C15578"
+		(property "LCSC Part#" "C150716"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -33315,7 +33362,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Texas Instruments"
+		(property "Fabricante" "Diodes Incorporated"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39469,252 +39516,6 @@
 			)
 		)
 	)
-	(footprint "esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm"
-		(layer "F.Cu")
-		(uuid "d4327286-cfd4-469f-8693-8165d45feb7e")
-		(at 53.35 77.45)
-		(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm")
-		(tags "solder jumper open 4.9A")
-		(property "Reference" "JP1"
-			(at 0 -2.9 0)
-			(layer "F.SilkS")
-			(uuid "5d6ceda3-0766-420b-853b-efa9bbd15011")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "Puente U1"
-			(at 0 2.4 0)
-			(layer "F.Fab")
-			(uuid "b26a01f4-f71d-4aa5-8c20-329c6cba9f14")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "7218e1a4-5fde-431f-bb1d-942b1596e37e")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" "Puente de soldadura VIN_PROT–BUS_24V en paralelo con U1: abierto = limitador · cerrado = sin limitador (DEC-0006)"
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "00925100-798a-4397-aea1-bc527078b764")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "MPN" "Sin pieza (puente de soldadura)"
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "d5652cba-9f63-49c5-9e2a-dec59209ad54")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "LCSC Part#" ""
-			(at 0 0 0)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "cffc1df2-7b18-4061-9362-8c7e578f7375")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(path "/98fdbb84-7446-4f29-968c-46df8ec1e517/795501d5-bbe3-4e24-ad9f-13b7e2fd49c2")
-		(sheetname "/Alimentacion/")
-		(sheetfile "alimentacion.kicad_sch")
-		(zone_connect 2)
-		(attr exclude_from_pos_files exclude_from_bom allow_soldermask_bridges)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_rect
-			(start -0.3 -1.5)
-			(end 0.3 1.5)
-			(stroke
-				(width 0)
-				(type default)
-			)
-			(fill yes)
-			(layer "F.Mask")
-			(uuid "edc4b633-f8e5-4d78-b73a-b98782f5c738")
-		)
-		(fp_line
-			(start -1.75 -1.75)
-			(end 1.75 -1.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "c71ec384-5361-4704-8b80-cc3146d9f7e6")
-		)
-		(fp_line
-			(start -1.75 1.75)
-			(end -1.75 -1.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "72980854-9dcf-408f-8d99-a81a43c97402")
-		)
-		(fp_line
-			(start 1.75 -1.75)
-			(end 1.75 1.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "f892d700-7df4-4064-ac5d-b6fc08826f48")
-		)
-		(fp_line
-			(start 1.75 1.75)
-			(end -1.75 1.75)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "9c0b3722-7a91-44e9-97cb-169da5ed599d")
-		)
-		(fp_line
-			(start -2 -2)
-			(end -2 2)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "36bb4bb7-9e2f-4995-84ac-505cb6034db3")
-		)
-		(fp_line
-			(start -2 -2)
-			(end 2 -2)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "331611d9-4229-46bf-b17c-c7352a30985f")
-		)
-		(fp_line
-			(start 2 2)
-			(end -2 2)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "71c6ce7c-6bc3-4aec-b9ed-04a722106dea")
-		)
-		(fp_line
-			(start 2 2)
-			(end 2 -2)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "8d94dda2-6fa8-444a-95db-de4f5dc8af19")
-		)
-		(fp_rect
-			(start -1.5 -1.5)
-			(end -0.3 1.5)
-			(stroke
-				(width 0.1)
-				(type default)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "868c0991-22c5-43b1-8439-2d2b77372349")
-		)
-		(fp_rect
-			(start 0.3 -1.5)
-			(end 1.5 1.5)
-			(stroke
-				(width 0.1)
-				(type default)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "5acea841-3550-4b50-be67-5f5f78de7ed2")
-		)
-		(fp_text user "1"
-			(at -2.4 0 0)
-			(layer "F.SilkS")
-			(uuid "2ec14c31-2039-4beb-9d5f-347f4e613247")
-			(effects
-				(font
-					(size 0.8 0.8)
-					(thickness 0.12)
-				)
-			)
-		)
-		(fp_text user "1"
-			(at -0.9 0 0)
-			(layer "F.Fab")
-			(uuid "2229f37f-536e-4913-b54c-af7c7a465078")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.12)
-				)
-			)
-		)
-		(fp_text user "2"
-			(at 0.9 0 0)
-			(layer "F.Fab")
-			(uuid "7f5e099d-3ab8-4970-bd0a-d6b0714d178b")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.12)
-				)
-			)
-		)
-		(pad "1" smd rect
-			(at -0.9 0)
-			(size 1.2 3)
-			(layers "F.Cu" "F.Mask")
-			(net "/Alimentacion/VIN_PROT")
-			(uuid "2e776cb0-b236-407c-93b2-c987c15601f2")
-		)
-		(pad "2" smd rect
-			(at 0.9 0)
-			(size 1.2 3)
-			(layers "F.Cu" "F.Mask")
-			(net "/BUS_24V")
-			(uuid "7ffe098a-4356-4029-a23e-bc0a9080a98b")
-		)
-		(embedded_fonts no)
-	)
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "d77c3745-4ed3-40ac-8561-39d0cc6336c3")
@@ -39732,7 +39533,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "480a855b-903b-4981-8efa-411e9c69fd8e")
@@ -39743,7 +39544,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39754,7 +39555,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39777,7 +39578,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39789,7 +39590,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -39801,7 +39602,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40102,7 +39903,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "d560de4a-775d-4880-a464-9bdbd409e6f1")
@@ -40113,7 +39914,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40124,7 +39925,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: IN_SYS de U1"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: IN_SYS de U1"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40147,7 +39948,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40159,7 +39960,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40171,7 +39972,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -40824,6 +40625,239 @@
 				(xyz 0 0 0)
 			)
 		)
+	)
+	(footprint "esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm"
+		(layer "F.Cu")
+		(uuid "e145586d-39c9-444d-aaee-26c5468d5961")
+		(at 53.35 77.45)
+		(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm. Sin texto de serigrafia de pines: el puente no tiene polaridad (SPEC-0038)")
+		(tags "solder jumper open 4.9A")
+		(property "Reference" "JP1"
+			(at 0 -2.9 0)
+			(layer "F.SilkS")
+			(uuid "c0b67715-0c6e-4ca0-a936-ed1325dd46b8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "Puente U1"
+			(at 0 2.4 0)
+			(layer "F.Fab")
+			(uuid "acb20d59-2f89-4feb-b932-a52d67e57d7f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dda294fe-246a-4de8-836b-a30604acb34d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" "Puente de soldadura VIN_PROT–BUS_24V en paralelo con U1: abierto = limitador · cerrado = sin limitador (DEC-0006)"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ec50ce98-05b3-4e43-873b-a49569a63972")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "Sin pieza (puente de soldadura)"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3934be0a-087e-4b6a-b2ef-f628378b7478")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part#" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ea3bbff5-c7a0-4ed4-9521-82fb4cfc58e0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(path "/98fdbb84-7446-4f29-968c-46df8ec1e517/795501d5-bbe3-4e24-ad9f-13b7e2fd49c2")
+		(sheetname "/Alimentacion/")
+		(sheetfile "alimentacion.kicad_sch")
+		(zone_connect 2)
+		(attr exclude_from_pos_files exclude_from_bom allow_soldermask_bridges)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_rect
+			(start -0.3 -1.5)
+			(end 0.3 1.5)
+			(stroke
+				(width 0)
+				(type default)
+			)
+			(fill yes)
+			(layer "F.Mask")
+			(uuid "fb9c1930-983d-4063-8419-dcf21711b564")
+		)
+		(fp_line
+			(start -1.75 -1.75)
+			(end 1.75 -1.75)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "d678c082-4c1a-4fe4-86ee-e25e76dd1bfc")
+		)
+		(fp_line
+			(start -1.75 1.75)
+			(end -1.75 -1.75)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "2e312f98-1dd9-47fc-8485-4c0f97291bb0")
+		)
+		(fp_line
+			(start 1.75 -1.75)
+			(end 1.75 1.75)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "102caeec-bc4d-4f65-bbec-15082ab5e2d9")
+		)
+		(fp_line
+			(start 1.75 1.75)
+			(end -1.75 1.75)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "63452772-4dcf-43da-9c46-826aba34eaa6")
+		)
+		(fp_line
+			(start -2 -2)
+			(end -2 2)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "5976d871-e823-4b15-8579-dc25280344d2")
+		)
+		(fp_line
+			(start -2 -2)
+			(end 2 -2)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "316d8d9c-1b53-4b93-9c98-481835f47afb")
+		)
+		(fp_line
+			(start 2 2)
+			(end -2 2)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "26e73c04-bd4f-490c-87a8-b95ac2f233bb")
+		)
+		(fp_line
+			(start 2 2)
+			(end 2 -2)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(layer "F.CrtYd")
+			(uuid "fe42dedc-2f59-4417-b5bd-542046eb38dd")
+		)
+		(fp_rect
+			(start -1.5 -1.5)
+			(end -0.3 1.5)
+			(stroke
+				(width 0.1)
+				(type default)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "097b56dd-d881-4838-be4f-08fc91d5f52f")
+		)
+		(fp_rect
+			(start 0.3 -1.5)
+			(end 1.5 1.5)
+			(stroke
+				(width 0.1)
+				(type default)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "7bb25ebc-5e28-448a-99c1-b9b4624e1a8e")
+		)
+		(fp_text user "1"
+			(at -0.9 0 0)
+			(layer "F.Fab")
+			(uuid "347c5c06-957d-4661-a78f-4463751fb609")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(fp_text user "2"
+			(at 0.9 0 0)
+			(layer "F.Fab")
+			(uuid "7249dbe9-a637-4864-97dd-26abc71129b9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" smd rect
+			(at -0.9 0)
+			(size 1.2 3)
+			(layers "F.Cu" "F.Mask")
+			(net "/Alimentacion/VIN_PROT")
+			(uuid "bd3a64e4-7643-4407-ba8e-3005e17b2ecd")
+		)
+		(pad "2" smd rect
+			(at 0.9 0)
+			(size 1.2 3)
+			(layers "F.Cu" "F.Mask")
+			(net "/BUS_24V")
+			(uuid "4ebc089e-b08f-4353-b117-96193bfeb545")
+		)
+		(embedded_fonts no)
 	)
 	(footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm"
 		(layer "F.Cu")
@@ -43345,7 +43379,7 @@
 				)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 0 1.68 0)
 			(layer "F.Fab")
 			(uuid "f6c03c6a-7cb8-4319-88e5-1e83fa38252a")
@@ -43356,7 +43390,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43367,7 +43401,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43390,7 +43424,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43402,7 +43436,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -43414,7 +43448,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)

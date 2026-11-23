@@ -6651,12 +6651,11 @@
 	)
 	(text "1 A"
 		(exclude_from_sim no)
-		(at 167.64 212.09 0)
+		(at 165.1 220.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
 		)
 		(uuid "16fd97fc-994f-4c33-8abd-71ba2c609580")
 	)
@@ -6671,7 +6670,7 @@
 		)
 		(uuid "5a911a85-699c-4df7-ae09-465647b29f29")
 	)
-	(text "U4 TLV1117LV (§3.9); D4 rojo en +3V3 (§3.11)."
+	(text "U4 AP2114H (§3.9); D4 rojo en +3V3 (§3.11)."
 		(exclude_from_sim no)
 		(at 144.78 227.33 0)
 		(effects
@@ -6784,7 +6783,7 @@
 		)
 		(uuid "b953f03c-55c6-4953-aa4a-ff31a5a4fe6b")
 	)
-	(text_box "3,3 V y LED: U4 TLV1117LV, D4, R13 (ALI-07, ALI-10, ALI-11)"
+	(text_box "3,3 V y LED: U4 AP2114H, D4, R13 (ALI-07, ALI-10, ALI-11)"
 		(exclude_from_sim no)
 		(at 142.24 181.61 0)
 		(size 86.36 48.26)
@@ -8160,7 +8159,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 220.98 60.96 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8182,7 +8181,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8193,7 +8192,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: IN_SYS de U1"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: IN_SYS de U1"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8204,7 +8203,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8215,7 +8214,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8226,7 +8225,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -12029,15 +12028,14 @@
 				)
 			)
 		)
-		(property "Value" "TLV1117LV33DCYR"
-			(at 167.64 209.55 0)
+		(property "Value" "AP2114H-3.3TRG1"
+			(at 165.1 218.44 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
@@ -12051,7 +12049,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv1117lv.pdf"
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2114.pdf"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12062,7 +12060,7 @@
 				)
 			)
 		)
-		(property "Description" "LDO 3,3 V 1 A, SOT-223: +3V3 desde +5V"
+		(property "Description" "LDO CMOS 3,3 V 1 A, SOT-223 (1 GND, 2/pestaña OUT, 3 IN): +3V3 desde +5V"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12073,7 +12071,7 @@
 				)
 			)
 		)
-		(property "MPN" "TLV1117LV33DCYR"
+		(property "MPN" "AP2114H-3.3TRG1"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12084,7 +12082,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C15578"
+		(property "LCSC Part#" "C150716"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12095,7 +12093,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Texas Instruments"
+		(property "Fabricante" "Diodes Incorporated"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
