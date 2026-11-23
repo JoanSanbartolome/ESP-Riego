@@ -1,6 +1,6 @@
 # Bloque de alimentación: entrada, limitador y raíles (SPEC-0017)
 
-**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0038** (DEC-0018): U4 pasa a AP2114H-3.3TRG1 (§3.9) y C3 a 100 nF 100 V C28233 (§3.13.6); C8 sigue en 220 nF. **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR). **Rev. SPEC-0034:** §1, la carga de salidas pasa a límite de uso de la suma (DEC-0014). **Rev. SPEC-0032:** §3.2, I²t del TA10 como en la ficha (VAL-0028-01-05); presupuesto de toda la placa en `arquitectura.md` §2.
+**Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. SPEC-0038** (DEC-0018): U4 pasa a AP2114H-3.3TRG1 (§3.9); C3 y C8 siguen en 220 nF 100 V C513710 (§3.13.6; C3, decisión del usuario del 2026-11-23); D1, D2 y D3 pasan a Hongjiacheng (P1: C19077412, C19077586 y C7420364, mismas huellas). **Rev. SPEC-0018** (VAL-0018-01-03/04/05): CIN de U2 con C22, C10 → C28323, C3 → C513710. **Rev. SPEC-0019:** §7 y §8 con las piezas y huellas de SPEC-0018 (VAL-0018-02-04) y los cambios de compra de DEC-0007. **Rev. SPEC-0028:** I_GND de los BTT en §4, §10.7 cerrado y alternativa de F1 (0453010.MR). **Rev. SPEC-0034:** §1, la carga de salidas pasa a límite de uso de la suma (DEC-0014). **Rev. SPEC-0032:** §3.2, I²t del TA10 como en la ficha (VAL-0028-01-05); presupuesto de toda la placa en `arquitectura.md` §2.
 **Requisitos:** ALI-01…ALI-13, REL-04, REL-08 (parte del limitador), §6 de `docs/02` v0.4; DEC-0003, DEC-0004, DEC-0006 (UVLO a 13,5 V, coste del limitador y puente JP1); estudio de salidas S2–S4.
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`). El tipo Basic/Extended y el stock de montaje los confirma jr-conformidad (SPEC-0018).
 
@@ -21,7 +21,7 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 | Borne de entrada | WJ500V-5.08-2P (C8465) | — (ficha existente) | ALI-02 |
 | Fusible | Littelfuse 0451010.MRL, 10 A muy rápido, 125 V, 2410 (C44479) | Littelfuse 0453010.MR (C178995); TLC TA10 descartado (§3.2) | ALI-04, ALI-12 |
 | Polaridad | P-MOS SQD50P06-15L, 60 V, 15,5 mΩ, TO-252 (C3281500), con zéner de puerta BZT52C15 | UMW SUD50P06-15 (C7503186) | ALI-03 |
-| TVS | SMBJ33A (C224019), tras Q1 | Ruilon SMBJ33A (C10219) | ALI-04 |
+| TVS | SMBJ33A (Hongjiacheng C19077586; antes Littelfuse C224019, DEC-0018 P1), tras Q1 | Littelfuse SMBJ33A (C224019) | ALI-04 |
 | Buck 5 V | LMR36520FADDAR, 65 V / 2 A síncrono (C1858395) | LMR36520ADDAR (C2879422) | ALI-05, ALI-06 |
 | Unión USB / 5 V | Multiplexor TPS2116DRLR, prioridad al buck (C3235557) | — (ver §3.8) | ALI-08 |
 | 3,3 V | LDO CMOS Diodes AP2114H-3.3TRG1, 1 A, SOT-223 (C150716; SPEC-0038) | ST LDL1117S33R (C435835), mismo patillaje | ALI-07 |
@@ -92,12 +92,12 @@ P-MOS con el drenador hacia el borne y la fuente hacia `VIN_PROT`. R1 = 100 kΩ 
 | Comprobación | Cálculo | Resultado |
 |---|---|---|
 | V_DS ≥ Vc + 10 % | V_DS = −60 V (p. 1) ≥ 58,6 V. Con polaridad invertida a 30 V, V_DS = −30 V; en directa, Q1 conduce y V_DS ≈ 0 | Cumple |
-| V_GS ≤ ±20 V (p. 1) | D1: 14,25–15,75 V (LCSC C173427). Por debajo de ≈ 15 V, V_GS = −VIN; a 53,3 V, V_GS ≈ −15,75 V | Cumple (margen 4,25 V) |
+| V_GS ≤ ±20 V (p. 1) | D1: 14,25–15,75 V (Hongjiacheng C19077412, p. 2; la MDD C173427 daba lo mismo). Por debajo de ≈ 15 V, V_GS = −VIN; a 53,3 V, V_GS ≈ −15,75 V | Cumple (margen 4,25 V) |
 | R_DS(on) con V_GS = −10 V | 15,5 mΩ máx. a 25 °C; 26 mΩ máx. a 125 °C (p. 2). Se calcula con 26 mΩ | — |
 | V_GS en el UVLO de bajada | VIN ≥ 12,5 V → V_GS ≤ −12,5 V, más que los −10 V de la especificación | Cumple |
 | Disipación a 5,1 A | 5,1² × 0,026 = 0,68 W; R_thJA = 50 °C/W con 1 in² de cobre (p. 1) → T_J = 60 + 34 = **94 °C** < 175 °C | Cumple |
 | Corriente | I_D = −50 A (encapsulado), I_DM = −200 A (p. 1), frente a 5,1 A continuos y 11,3 A de pulso de la TVS | Cumple |
-| R1, D1 | A 53,3 V: I = (53,3 − 15)/100 k = 0,38 mA; P_R1 = 14,7 mW; P_D1 = 5,7 mW. A 30 V: P_R1 = 2,3 mW | Cumple (0603, 0,1 W, 75 V) |
+| R1, D1 | A 53,3 V: I = (53,3 − 15)/100 k = 0,38 mA; P_R1 = 14,7 mW; P_D1 = 5,7 mW (D1 Hongjiacheng: P_D 350 mW y 357 °C/W, p. 1: +2 °C). A 30 V: P_R1 = 2,3 mW | Cumple (0603, 0,1 W, 75 V; D1 × 61) |
 
 - Limitación aceptada: Q1 no está protegido contra transitorios **negativos** de más de ≈ 36 V en el borne, porque la TVS va detrás (ALI-04). Tiene E_AS = 135 mJ (p. 1).
 - Alternativa: UMW SUD50P06-15 (60 V, 12 mΩ a −10 V según LCSC). Cuesta 0,36 $ a 5 uds., frente a 1,09 $ del Vishay. Hay que verificar su datasheet antes de usarla (SPEC-0018).
@@ -106,8 +106,8 @@ P-MOS con el drenador hacia el borne y la fuente hacia `VIN_PROT`. R1 = 100 kΩ 
 
 - **Unidireccional, después de Q1.** Con polaridad invertida no conduce, porque Q1 está cortado.
 - V_RWM 33 V ≥ 30 V (máximo de ALI-01). V_BR mín. 36,7 V > OVP máx. de la fuente, 33,6 V.
-- Vc 53,3 V a 11,3 A, 600 W 10/1000 µs (SMBJ33A.pdf, p. 1 y tabla de la p. 2).
-- Fuga: 1 µA a V_RWM (despreciable).
+- Vc 53,3 V a 11,3 A, 600 W 10/1000 µs (SMBJ33A.pdf, p. 1 y tabla de la p. 2). La Hongjiacheng de P1 (C19077586) da lo mismo: 53,3 V a 11,26 A (tabla de la p. 3; ficha `SMBJ33A.md`).
+- Fuga: 5 µA máx. a V_RWM con la Hongjiacheng (p. 3; 1 µA la Littelfuse): ≤ 0,2 mW, despreciable.
 - El aviso de sobretensión del firmware (31 V) queda por debajo de V_RWM (ALI-09).
 
 ### 3.5 Tensión nominal de las piezas del nodo de entrada (ALI-05)
@@ -122,7 +122,7 @@ Exigido: ≥ 58,6 V (53,3 V × 1,1).
 | U2 LMR36520 (VIN, EN) | 65 V de funcionamiento; 70 V máx. absoluto | SNVSBF0C §6.3 y §6.1, p. 5 | ✔ |
 | C1 47 µF electrolítico | 63 V | LCSC C165628 | ✔ (7,5 % sobre 58,6 V) |
 | C2, C7, C22 4,7 µF X7R | 100 V | LCSC C381466 | ✔ |
-| C3 100 nF X7R (C28233) y C8 220 nF X7R (C513710) | 100 V | LCSC | ✔ |
+| C3 y C8 220 nF X7R (C513710) | 100 V | LCSC | ✔ |
 | R9, R14, R1 (0603) | 75 V; la tensión que soportan a Vc es ≤ 50,8 V | LCSC | ✔ |
 | J1 | 300 V | ficha | ✔ |
 
@@ -373,11 +373,11 @@ La tolerancia del datasheet está medida con V_IN − V_OUT = 1 V (p. 7). En un 
 - C4 = C_dVdT = 22 nF (≥ 10 nF, §6.3, p. 5). t = 20,8·10³ · V_IN · C (p. 18): 11,0 ms a 24 V y 13,7 ms a 30 V.
   - Con C_BUS ≈ 15 µF (C6 + desacoplo de los *high-side*), I_INRUSH ≈ 33 mA.
   - Disipación: 0,5 × 24 × 0,033 = 0,4 W durante 11 ms (ec. 3, p. 18) ✔.
-- C6 = 4,7 µF 100 V en OUT (≥ 0,1 µF, p. 5). D3 = SS310 (100 V, 3 A), de OUT a GND (cátodo en OUT): transitorios negativos al cortar con cable inductivo (§9.6.1, ficha TPS2663).
+- C6 = 4,7 µF 100 V en OUT (≥ 0,1 µF, p. 5). D3 = SS310 (100 V, 3 A), de OUT a GND (cátodo en OUT): transitorios negativos al cortar con cable inductivo (§9.6.1, ficha TPS2663). D3 es la Hongjiacheng de P1 (C7420364): fuga de 0,05 mA a 25 °C y 10 mA a 100 °C, con V_DC = 100 V (p. 2). Con la cota de 10 mA a 24 V, 0,24 W y +19 °C (R_θJA 80 °C/W, p. 1): D3 solo llegaría a 100 °C con ≥ 81 °C de aire, por encima de los 60 °C de diseño, y no hay embalamiento térmico. A 24 V la curva típica queda muy por debajo (Fig. 4, p. 2; ficha `SS310.md`). La fuga pasa por U1: 10 mA son el 3 % del margen de 0,31 A de §4 y 2,8 mV en LIM_IMON.
 - **PGTH a GND:** desactiva el encendido rápido tras un fallo (p. 19). PGOOD sin conectar.
 - **UVLO a GND:** UVLO interno del bus, 15,1–15,9 V al subir y 14,0–15,1 V al bajar (p. 6). Habilita el bus por encima de 15,9 V (< 17,9 V en `VIN_PROT` con 18 V en el borne ✔).
 - **PLIM a GND:** sin limitación de potencia (p. 25). Con PLIM, a 30 V el límite caería por debajo de 3,5 A.
-- IN_SYS unido a IN, con C3 = 100 nF 100 V X7R 0805 (Samsung CL21B104KCFNNNE, C28233, Basic; DEC-0018 P3, SPEC-0038) junto al pin («0,1 µF o más», p. 27). El valor nominal cumple. Efectivo: 80 / 73 nF a 24 / 30 V y 60 °C (72 / 66 nF con −10 %; SimSurfing, `bloque-alimentacion.md` §3), por debajo de 0,1 µF. Es un poco más que el 100 nF 0603 de 50 V que corrigió VAL-0018-01-05 (62–72 nF). Hasta SPEC-0037 fue 220 nF C513710 (0,15–0,17 µF). Volver a 220 nF costaría 0,014 $/placa con 5 uds, porque la línea C513710 sigue en la BOM por C8 (punto 8 de §10). B_GATE y DRV abiertos (p. 27). NC 19–24 sin conectar.
+- IN_SYS unido a IN, con C3 = 220 nF 100 V X7R 0805 (Yageo CC0805KKX7R0BB224, C513710, como C8) junto al pin («0,1 µF o más», p. 27): 0,15–0,17 µF efectivos a 24–30 V y 60 °C (`bloque-alimentacion.md` §3). DEC-0018 P3 lo bajaba a 100 nF (C28233), pero darían 80 / 73 nF efectivos a 24 / 30 V y 60 °C, por debajo de 0,1 µF; el usuario lo deja en 220 nF (2026-11-23, DEC-0018), +0,014 $/placa con 5 uds, porque la línea C513710 sigue en la BOM por C8. B_GATE y DRV abiertos (p. 27). NC 19–24 sin conectar.
 
 #### 3.13.7 FLT e IMON
 
@@ -487,19 +487,19 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | J1 | Borne 2P, entrada | THT 5,08 | WJ500V-5.08-2P | C8465 · 274 005 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
 | F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 (22 932 el 2026-11-16) | Littelfuse 0453010.MR (C178995 · 1 437, 2026-11-16) | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018) |
 | Q1 | P-MOS de polaridad, 60 V | TO-252 | Vishay SQD50P06-15L_GE3 | C3281500 · 5 748 | UMW SUD50P06-15 (C7503186) | `Transistor_FET:SUD50P06-15` (comprobar G-D-S) / `Package_TO_SOT_SMD:TO-252-2` |
-| D1 | Zéner 15 V, puerta de Q1 | SOD-123 | MDD BZT52C15 | C173427 · 148 150 | Diodes BZT52C15-7-F (C177014 · 52 695) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
+| D1 | Zéner 15 V, puerta de Q1 | SOD-123 | Hongjiacheng BZT52C15 (DEC-0018 P1) | C19077412 · Extended preferida · 474 033 (2026-11-23) | MDD BZT52C15 (C173427 · 127 234) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
 | R1 | 100 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1003T5E | C25803 · 7,8 M | Yageo RC0603FR-07100KL | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
-| D2 | TVS SMBJ33A | SMB | Littelfuse SMBJ33A | C224019 · 9 670 | Ruilon SMBJ33A (C10219 · 10 155); el Brightking C78419 de la ficha tiene stock 0 | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` |
+| D2 | TVS SMBJ33A | SMB | Hongjiacheng SMBJ33A (DEC-0018 P1) | C19077586 · Extended preferida · 49 715 (2026-11-23) | Littelfuse SMBJ33A (C224019 · 21 329) | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` |
 | C1 | 47 µF 63 V electrolítico 105 °C | Ø8 × 10 | SamYoung MVK 63V47 M 8*10 | C165628 · 815 | ACMECON GVZ1J476M0810CN (C22383753) | `Device:C_Polarized` / `Capacitor_SMD:CP_Elec_8x10` (10,5 mm la alternativa) |
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R (C2: nodo de entrada; C6: OUT de U1; C7 + C22: CIN de U2) | 1210 | PSA FS32X475K101EGG | C381466 · 45 835 (JLCPCB Extended · 54 967) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
-| C3 | 100 nF 100 V X7R (IN_SYS) | 0805 | Samsung CL21B104KCFNNNE (SPEC-0038, DEC-0018 P3) | C28233 · Basic · 2 545 844 (2026-11-23) | — | `Device:C` / `C_0805_2012Metric` |
+| C3 | 220 nF 100 V X7R (IN_SYS) | 0805 | Yageo CC0805KKX7R0BB224 (como C8; usuario, 2026-11-23) | C513710 · 67 232 (2026-11-23) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `C_0805_2012Metric` |
 | U1 | eFuse 60 V, limitador común | VQFN-24 4 × 4 | TI TPS26632RGER | C1850278 · 1 631 | TPS26633RGER (C1850275; stock 11, 6,9 $; misma huella, 2× pulso) | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías: la variante `_ThermalVias` lleva 9 vías de 0,2 / 0,5 mm y no cumple FAB-02; las vías del EP las pone el layout, §8; VAL-0019-01-02) |
 | R2 | R_ILIM 4,30 kΩ 1 % 100 ppm | 0603 | 0603WAF4301T5E | C23159 · 113 900 | Yageo RC0603FR-074K3L | `R_0603` |
 | C4 | C_dVdT 22 nF 50 V X7R | 0603 | Samsung CL10B223KB8NNNC | C21122 · 109 250 | — | `C_0603` |
 | R3, R4 | R_IMON y serie al ADC, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 · 4,9 M | — | `R_0603` |
 | C5 | 100 nF 50 V X7R (ADC de IMON) | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · JLCPCB **Basic** · 34 750 639 (2026-11-06; LCSC 0) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
 | R5, R6 | *Pull-down* de SHDN y *pull-up* de FLT, 10 kΩ | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
-| D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | MDD SS310 | C15874 · 348 680 | UMW SS310A (C2988628 · 4 720) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
+| D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | Hongjiacheng SS310 (DEC-0018 P1) | C7420364 · Extended preferida · 387 275 (2026-11-23) | MDD SS310 (C15874 · 243 675) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
 | U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | `esp-riego:LMR36520FADDA` (derivado de `LMR36510ADDA`) / `esp-riego:Texas_DDA0008B_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm` (land pattern de TI, SNVSBF0C pp. 38-40; estarcido de 0,12 mm, VAL-0018-02-05) |
 | C8 | 220 nF 100 V X7R (CIN de AF) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 260 | Samsung CL21B224KCFSFNE (C307542) | `C_0805_2012Metric` |
 | C9 | CBOOT 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 (como C5) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
@@ -592,7 +592,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 5. **R8 (24,9 kΩ al 0,1 %):** resuelto por DEC-0007: Yageo C136967 (14 042 en JLCPCB, 2026-11-06).
 6. **Condensadores de salida de U3:** 44 µF nominales frente a los ≈ 100 µF que sugiere el datasheet si hay bloqueo inverso (§3.8).
 7. **Retroalimentación del bus apagado** a través de las entradas IN y DEN de los *high-side* (checklist de esquema): **cerrado** en `salidas.md` §2.3 (prueba en el prototipo, `salidas.md` §13).
-8. **C3 (SPEC-0038):** 100 nF nominales cumplen el «0,1 µF o más» de la p. 27, pero dan 73–80 nF efectivos (§3.13.6). Propuesta al usuario: dejar C3 en 220 nF (C513710, línea que sigue en la BOM por C8), +0,014 $/placa.
+8. **C3 (SPEC-0038):** cerrado. Se queda en 220 nF (C513710) por decisión del usuario del 2026-11-23 (DEC-0018): con 100 nF serían 73–80 nF efectivos (§3.13.6).
 
 ## Anexo A. Datos para las fichas nuevas (`hardware/componentes/`, fuera de la zona de ing-esquematicos)
 
@@ -605,8 +605,8 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | SQD50P06-15L | SQD50P06-15L_GE3 · Vishay | C3281500 | Vishay doc. 69098 rev. E (copia de LCSC) | p. 1: G-D-S, pestaña = D | `SUD50P06-15` / `TO-252-2` |
 | 0451010.MRL | 0451010.MRL · Littelfuse | C44479 | Serie 451/453, rev. 15/06/17 (copia de LCSC) | 2 terminales | `Device:Fuse` / `Fuse_Littelfuse-NANO2-451_453` |
 | FXL0650-100-M | FXL0650-100-M · Changjiang (cjiang) | C475521 | PDF de LCSC (C475521) | 2 terminales | `Device:L` / `L_Changjiang_FXL0650` |
-| SS310 | SS310 · MDD | C15874 | PDF de LCSC (C15874) | K / A | `D_Schottky` / `D_SMA` |
-| BZT52C15 | BZT52C15 · MDD | C173427 | PDF de LCSC (C173427) | K / A | `D_Zener` / `D_SOD-123` |
+| SS310 | SS310 · Hongjiacheng (antes MDD C15874) | C7420364 | PDF de LCSC (C7420364, Rev. 12.0) | K / A | `D_Schottky` / `D_SMA` |
+| BZT52C15 | BZT52C15 · Hongjiacheng (antes MDD C173427) | C19077412 | PDF de LCSC (C19077412, Rev. 2.1) | K / A | `D_Zener` / `D_SOD-123` |
 | JP1 (sin ficha de compra; huella nueva) | Puente de soldadura · — | — (fuera de BOM y CPL) | — | Pad 1 = VIN_PROT, pad 2 = BUS_24V | `Jumper:SolderJumper_2_Open` / **nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm`: pads 1,2 × 3,0 mm, hueco 0,6 mm, F.Cu y F.Mask sin pasta, máscara común (§3.13.9) |
 
 ## Anexo B. Notas para el firmware (FW-03)

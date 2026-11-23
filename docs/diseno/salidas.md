@@ -368,7 +368,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 | R51–R56 | R_IS, 820 Ω 1 % | 0603 | 0603WAF8200T5E | C23253 · Basic · 816 705 | Yageo RC0603FR-07820RL (C114638) | `R_0603` |
 | R57–R62 | R_OL, 47 kΩ 1 % 0,125 W 150 V | **0805** | 0805W8F4702T5E | C17713 · Basic · 1,10 M | Yageo RC0805FR-0747KL (C126351 · Extended · 245 933) | `Device:R` / `Resistor_SMD:R_0805_2012Metric` |
 | R63–R68 | R_LED, 1 kΩ 1 % | 0603 | 0603WAF1001T5E | C21190 · Basic · 28,8 M | Yageo RC0603FR-071KL (C22548) | `R_0603` |
-| C27–C32 | C_VS, 100 nF 100 V X7R (SPEC-0038) | 0805 | Samsung CL21B104KCFNNNE | C28233 · Basic · 2 545 844 (2026-11-23; línea de C3) | — | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
+| C27–C32 | C_VS, 100 nF 100 V X7R (SPEC-0038) | 0805 | Samsung CL21B104KCFNNNE | C28233 · Basic · 2 545 844 (2026-11-23) | — | `Device:C` / `Capacitor_SMD:C_0805_2012Metric` |
 | C33–C38 | C_OUT, 100 nF 100 V X7R (SPEC-0038) | 0805 | CL21B104KCFNNNE | C28233 | — | `C_0805` |
 | C39–C44 | C_IS, 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · Basic · 36,5 M | Samsung CL10B104KB8NNNC (C1591) | `Device:C` / `Capacitor_SMD:C_0603_1608Metric` |
 | C45, C46 | BUS_24V a granel (C45 borde superior, C46 inferior), 4,7 µF 100 V X7R | 1210 | PSA FS32X475K101EGG | C381466 · Extended · 37 932 (línea de C2/C6/C7/C22) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
@@ -378,7 +378,7 @@ Referencias provisionales: siguen a las de `mcu.md` §11 (U6, R25, C26, D5, J3, 
 - **Stock de las alternativas (2026-11-12):** C98220 11,8 M; C14675 10,8 M; C132649 3,33 M; C114638 147 774; C126351 245 933; C22548 13,5 M; C307542 29 234; C1591 2,34 M; C7471274 1 959; C2289 34 078; C534865 10 556.
 - **Totales:** 6 U, 6 J, 43 R, 20 C, 6 LED, 6 diodos.
 - **Líneas nuevas en el BOM:** C534868 (Extended), C17902, C17713, C23253 y C95872 (Basic). El resto, líneas existentes. C23253 (820 Ω, Basic) sustituye a 910 Ω (C23264, Extended) del primer cálculo: cumple igual REL-10 (§3.2) y ahorra una línea Extended (DEC-0007).
-- **Stock para 10 placas (2026-11-12):** BTT6050 60 de 1 628 ✔ (margen limitado; segunda fuente en §10). C28233 (SPEC-0038): 13 por placa (con C3), 130 de 2 545 844 el 2026-11-23 ✔; C513710 queda solo para C8. C381466: 6 por placa (con alimentación), 60 de 37 932 ✔. C8465: 7 por placa, 70 de 293 197 ✔.
+- **Stock para 10 placas (2026-11-12):** BTT6050 60 de 1 628 ✔ (margen limitado; segunda fuente en §10). C28233 (SPEC-0038): 12 por placa, 120 de 2 545 844 el 2026-11-23 ✔; C513710 queda para C3 y C8 (alimentación). C381466: 6 por placa (con alimentación), 60 de 37 932 ✔. C8465: 7 por placa, 70 de 293 197 ✔.
 - **Piezas nuevas:** ningún símbolo ni huella nuevos; la huella `esp-riego:Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm` pasa a llevar 10 vías de 0,3 / 0,6 mm en el EP (SPEC-0024, FAB-02). Fichas en Anexo A.
 - **Coste orientativo** (tramo de la cantidad real; sin cargos de piezas Extended): BTT 6 × 1,0952 $ = 6,57 $ (30 y 60 uds, tramo 30–99); bornes 0,81 $ (5 placas, tramo 1–49 con J1) / 0,65 $ (10, tramo 50–149); C45/C46 0,43 / 0,34 $; C_VS y C_OUT 12 × 0,0159 $ = 0,19 $ (C28233, SPEC-0038; con C513710 eran 0,27 $); resto (resistencias, C_IS, LED) 0,24 $; D12–D17 6 × 0,0103 $ = 0,06 $ (`M7.md`, 2026-11-17). **≈ 8,4 $ por placa con 5 placas y ≈ 8,1 $ con 10** (el estudio daba 8,33 / 7,86 $).
 
