@@ -27,10 +27,17 @@ El usuario (2026-11-23):
   - **P5**: R15 pasa de 4,87 kΩ 0,1 % a 4,7 kΩ 1 % (C23162). El error de ALI-09 queda en 2,91 % ≤ 3 %.
 - Ahorro estimado: ≈ 6,75 $ por placa con 5 uds y ≈ 1,41 $ con 50 (§9).
 
+Tras VAL-0037-01 (2026-11-23), el usuario corrige tres de las cinco:
+
+- **P3**: C8 sigue en 220 nF 100 V X7R. TI lo exige: «must be used», LMR36520 p. 20 (VAL-0037-01-02). C3 y C27–C38 sí pasan a 100 nF Basic (C28233).
+- **P4**: el JSMSEMI C48937499 es un 1117 clásico con ≈ 1,2 V de caída, así que no vale (VAL-0037-01-01). SPEC-0038 busca un LDO de 3,3 V que cumpla ALI-07 y ALI-08 (caída con los 3,9 V del cambio de U3, estable con cerámico, patillaje de SOT-223 si puede ser), con stock en JLCPCB. Candidatos: Diodes AP2114H-3.3TRG1 (C150716) y TECH PUBLIC TPTLV1117LV33DCYR (C52146079).
+- **P5 se retira**: R15 sigue en 4,87 kΩ al 0,1 %. Con la caída de F1 y Q1, el 1 % deja ALI-09 en 3,68 % (VAL-0037-01-03).
+- Quedan P1, P2, P3 (sin C8) y P4 (con el LDO que salga). El ahorro se recalcula en el estudio.
+
 ## Consecuencias
 
 - La spec que aplique los cambios en `hardware/v2` (SPEC-0038) hace lo siguiente:
-  - recalcula `alimentacion.md` (k del divisor de VIN y error de ALI-09), `salidas.md` §5 y las fichas;
+  - recalcula `alimentacion.md` (U4), `salidas.md` §5 y las fichas;
   - actualiza la BOM con los THT marcados «a mano»;
   - incluye J10 BH254R-10P (DEC-0017) y los textos de 1,0 mm de JP1.
 - Validación completa: se comparan las fichas de P1 y P4 con las piezas de ahora, y se reproducen las cifras de P3 y P5.

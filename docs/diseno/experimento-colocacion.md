@@ -15,7 +15,7 @@ Pregunta (usuario, 2026-11-19): ¿qué cuesta menos en tokens para iterar la col
 | 2 | Brazo B, 100 × 70 | 173 296 | 25 | 18 | 6 | 0 incumplimientos con las 65 reglas |
 | 3 | Criterios de DEC-0016 en la herramienta | 329 532 | 109 | 47 | — | — |
 | 4 | Brazo B', tamaño variable | 305 463 | 83 | 51 | 25 | 100 × 100, 0 obligatorias, 46 objetivos |
-| 5 | J2 y U5 al ras; 119 reglas | 517 342 | 148 | 70 | 23 | 0 obligatorias, 61 objetivos |
+| 5 | J2 y U5 al ras; 116 reglas (dos tandas) | 517 342 | 148 | 91 | 23 | 0 obligatorias, 61 objetivos |
 | 6 | Estudio de coste y J10 horizontal | 375 851 | 127 | 35 | 10 | 0 obligatorias, 58 objetivos |
 
 Solo de colocar (pasos 2, 4 y 6, contando lo que en el paso 5 corresponde a recolocar):
