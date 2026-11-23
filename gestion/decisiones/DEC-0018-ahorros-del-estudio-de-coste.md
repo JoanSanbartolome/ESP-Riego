@@ -34,6 +34,11 @@ Tras VAL-0037-01 (2026-11-23), el usuario corrige tres de las cinco:
 - **P5 se retira**: R15 sigue en 4,87 kΩ al 0,1 %. Con la caída de F1 y Q1, el 1 % deja ALI-09 en 3,68 % (VAL-0037-01-03).
 - Quedan P1, P2, P3 (sin C8) y P4 (con el LDO que salga). El ahorro se recalcula en el estudio.
 
+Tras SPEC-0038, paso 1 (2026-11-23):
+
+- **P4**: U4 pasa a Diodes AP2114H-3.3TRG1 (C150716), con el mismo patillaje (`alimentacion.md` §3.9).
+- **P3**: C3 vuelve a 220 nF 100 V X7R (C513710, como C8). Con 100 nF, su capacidad efectiva baja a 73–80 nF, frente al «0,1 µF o más» del TPS2663 (p. 27); +0,014 $/placa. C27–C38 siguen en 100 nF (C28233); su C_VS efectiva es de 73–80 nF, no de 85–90.
+
 ## Consecuencias
 
 - La spec que aplique los cambios en `hardware/v2` (SPEC-0038) hace lo siguiente:
