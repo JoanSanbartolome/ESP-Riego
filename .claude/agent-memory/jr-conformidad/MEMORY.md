@@ -7,3 +7,4 @@
 - [Derating y 3D](derating-y-3d-trucos.md) — curvas Samsung SimSurfing, búsqueda libre en JLCPCB, 3D del fusible, banco de render
 - [Piezas de conectores](piezas-conectores-trucos.md) — fichas de bloque, símbolos ausentes, TCA9554 con pull-up interno, descargas TI
 - [Mantenimiento de campos](mantenimiento-campos-trucos.md) — tablas desde hojas con cables, PDFs por API, python y rutas en Windows
+- [Zona docs y coste](zona-docs-y-coste.md) — docs/ fuera de zona aunque lo pida el encargo (propuesta en scratchpad); fórmula del coste por placa

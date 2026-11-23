@@ -7228,7 +7228,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407261727_MDD-Microdiode-Semiconductor-BZT52C15_C173427.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2311171118_hongjiacheng-BZT52C15_C19077412.pdf"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7239,7 +7239,7 @@
 				)
 			)
 		)
-		(property "Description" "Zéner 15 V SOD-123: limita V_GS de Q1 (K en la fuente)"
+		(property "Description" "Zéner 15 V 350 mW SOD-123: limita V_GS de Q1 (K en la fuente)"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7261,7 +7261,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C173427"
+		(property "LCSC Part#" "C19077412"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7272,7 +7272,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "MDD (Microdiode Semiconductor)"
+		(property "Fabricante" "Hongjiacheng"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7456,7 +7456,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.littelfuse.com/assets/littelfuse/products/pdf/smbj.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2312280935_hongjiacheng-SMBJ33A_C19077586.pdf"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7489,7 +7489,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C224019"
+		(property "LCSC Part#" "C19077586"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7500,7 +7500,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Littelfuse"
+		(property "Fabricante" "Hongjiacheng"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -8159,7 +8159,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100n 100V"
+		(property "Value" "220n 100V"
 			(at 220.98 60.96 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8181,7 +8181,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8192,7 +8192,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 100 nF 100 V X7R 0805: IN_SYS de U1"
+		(property "Description" "MLCC 220 nF 100 V X7R 0805: IN_SYS de U1"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8203,7 +8203,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL21B104KCFNNNE"
+		(property "MPN" "CC0805KKX7R0BB224"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8214,7 +8214,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C28233"
+		(property "LCSC Part#" "C513710"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8225,7 +8225,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Samsung Electro-Mechanics"
+		(property "Fabricante" "YAGEO"
 			(at 218.44 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -8510,7 +8510,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407101107_MDD-Microdiode-Semiconductor-SS310_C15874.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281515_hongjiacheng-SS310_C7420364.pdf"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -8543,7 +8543,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C15874"
+		(property "LCSC Part#" "C7420364"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -8554,7 +8554,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "MDD (Microdiode Semiconductor)"
+		(property "Fabricante" "Hongjiacheng"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
