@@ -2,15 +2,15 @@
 id: SPEC-0037
 titulo: Colocación iterada en texto (experimento M10)
 fase: 4
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0037-colocacion-en-texto
 requisitos: [FAB-07, REL-09, AMB-02, MCU-02, EXP-03, ALI-03]
 depende_de: []
 creada: 2026-11-19
-cerrada:
-validacion:
+cerrada: 2026-11-23
+validacion: VAL-0037-02
 ---
 
 # SPEC-0037 · Colocación iterada en texto (experimento M10)
@@ -86,3 +86,4 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 | 2026-11-23 | ing-validacion | VAL-0037-01 APROBADO_CON_OBSERVACIONES (4 M, 7 B) | VAL-0037-01 | 280471 | 88 | 23 |
 | 2026-11-23 | ing-diseno | corrección VAL-0037-01: P3 sin C8, P4 a elegir, sin P5, regla E09 | 07-ing-diseno | 34774 | 15 | 5 |
 | 2026-11-23 | ing-validacion | VAL-0037-02 APROBADO_CON_OBSERVACIONES (2 B) | VAL-0037-02 | 28588 | 11 | 5 |
+| 2026-11-23 | coordinador | Cierra la spec | VAL-0037-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |
