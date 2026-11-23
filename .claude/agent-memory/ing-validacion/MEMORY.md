@@ -9,4 +9,5 @@
 - [Revisión de hojas](revision-hojas.md): hojas de esquema v2; netlist de copia frente a un plan, sin conectar esperados, placa de prueba, ThermalVias, diff semántico PCB, polaridad KT-0603R
 - [Revisión de la orquestación](revision-orquestacion.md): agentes/guarda/gestion.py; sondas contra la guarda frente a la versión anterior, abrir/cerrar en copia, herramientas vs servidor MCP
 - [Revisión de herramientas](revision-herramientas.md): herramientas/kicad y puntos [auto]; mutaciones por punto, pcbcmp/netcmp propios, CRLF en .kicad_mod, repo falso para mutar la batería
+- [Revisión de colocación](revision-colocacion.md): colocacion.py y b…b4; reglas del paso, J10 en copia, sembrados con patio real, auditoría sin tokens, clones de LDO
 - [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG

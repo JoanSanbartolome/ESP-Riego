@@ -1,7 +1,9 @@
 - **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
 - [Herramientas de KiCad](reference_herramientas_kicad.md) — batería 4,5 min, `\` en heredocs, CRLF, rutas /c/ en Python → C:\c\, dibujo.py para hojas con cables; raíz con generar; Python desde Bash escapa a la guarda
-- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — jlc.py --buscar, JSON de LCSC, PDFs de ti.com (nxp no), tablas de TI a imagen, scratchpad compartido
+- [Fuentes de datos de piezas](reference_fuentes_piezas.md) — jlc.py --buscar, filtro Basic/preferida en la API, preferidas hongjiacheng, coste Economic, PDFs de ti.com
 - [Salidas D8 vigente](project_salidas_d8.md) — DEC-0003/0004/0014: BTT6050, limitador, sin válvula de diseño, límites de uso REL-11, M7 montado; descartes, IS, LED
 - [Pines del ESP32-S3](reference_esp32s3_pines.md) — GPIO aptos para salidas (reset, glitches, descarga OTG), N8 frente a R8, URLs de HDG
 - [Trucos de esquema y cajetín](reference_trucos_esquema.md) — límites del MCP, hoja por script, cajetín, PDF; redibujar con cables: nombres de red, ESD, LED, ángulos de campo (SPEC-0035)
+- [Reglas de JLCPCB](reference_jlcpcb_reglas.md) — URL de capacidades, Economic (0,3 mm a borde), Términos (2,5 mm), sin tarifa > 102×102; cifras en colocacion-reglas.csv
+- [Colocación en texto](project_colocacion_texto.md): generador + evaluar --omitir; plano de b3 (antena al ras); cobre térmico +10 % es el máximo en 100×100; paso 6: cambiar huella en copia, caja.py, anillo de U1
 - [Efectos del MCP de KiCad en la PCB](mcp-efectos-secundarios.md) — open/close reescribe .kicad_pro y deja .kicad_prl/.mcp-backups; sync no copia campos ni sirve en jerárquicos (usar netlist + pcbnew)

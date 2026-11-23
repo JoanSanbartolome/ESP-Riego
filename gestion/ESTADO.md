@@ -1,50 +1,51 @@
 # Estado
 
-Actualizado el 2026-11-19, al cerrar SPEC-0032. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
+Actualizado el 2026-11-23, al cerrar SPEC-0037. Lo reescribe el coordinador en cada cierre. El histórico está en git, en el registro de cada spec y, hasta el 2026-11-11, en `logs/coordinador/`.
 
 ## Siguiente
 
-Una spec cada vez (comparten carpeta). El esquema v2 está cerrado para el layout (SPEC-0032); la etiqueta `v2.0-sch`, con OK del usuario.
+Una spec cada vez, porque comparten carpeta.
 
-1. El desglose de la fase 4 con la tabla única de restricciones (`docs/diseno/restricciones.csv`) y la prueba de herramientas de layout (DEC-0009, M10).
-2. SPEC-0036 (propuesta): observaciones de VAL-0032-01; la M (alternativa de U1) antes del pedido.
+1. SPEC-0038: aplicar en `hardware/v2` los cambios de DEC-0017 y DEC-0018.
+   - J10 BH254R-10P horizontal;
+   - P1: D1, D2 y D3 a las piezas equivalentes, con fichas que recojan lo de VAL-0037-01-09;
+   - P2: los THT, «a mano» en la BOM;
+   - P3: 100 nF en C3 y C27–C38; C8 se queda en 220 nF;
+   - P4: un LDO para U4 que cumpla (el de TI tiene stock 0);
+   - textos de 1,0 mm en JP1.
+   - Criterio: `evaluar` de `colocacion-b4.csv` sobre `hardware/v2` con 0 obligatorias (`estudio-coste.md` §8.10).
+2. Después, el desglose del resto de la fase 4: aplicar b4 a la PCB con la imagen aprobada por el usuario, `restricciones.csv` con las reglas de JLCPCB de `colocacion-reglas.csv`, y el rutado.
+3. SPEC-0036 (propuesta): observaciones de VAL-0032-01. La M (alternativa de U1) se resuelve antes del pedido; el estudio propone TPS26632RGET.
 
-**Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2; validación ligera con `model: sonnet`.
+**Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2. La validación ligera se lanza con `model: sonnet`.
 
-## Integración del esquema (SPEC-0032)
+## Colocación en texto (SPEC-0037)
 
-- Raíz con el estilo de DEC-0015 (`hoja.py generar` escribe la raíz), páginas 1–12 en el orden del árbol; netlist igual a la de SPEC-0035.
-- `docs/diseno/arquitectura.md`: bloques, presupuesto (lógica 4,32 W ≤ 4,8 W; entrada 4,77 A ≤ 5,1 A), GPIO contra la netlist (base de FW-02) y revisión global sin cambios de circuito.
-- `fabricacion/v2.0-sch/`: BOM preliminar (53 líneas, 187 piezas, 27,46 USD por placa a 5 placas; + ≈ 78 USD por pedido de recargo de 26 Extended) y PDF.
-- VAL-0032-01 APROBADO_CON_OBSERVACIONES (1 M, 2 B) → SPEC-0036. Las 5 B de VAL-0028-01, cerradas.
-
-## Specs anteriores (resumen)
-
-- SPEC-0035: KIC-06 (DEC-0015), Salidas con `canal.kicad_sch` ×6; herramientas `hoja.py`, `dibujo.py`, `comprobar.py` y `hoja.py paginas`; checklist `esquema.md` v17. Desviaciones aceptadas: GND laterales de PGTH y PLIM de U1; recuadro ESD propio para U6/U16/U17.
-- SPEC-0034: REL-11 en `salidas.md` §0 (serigrafía §8, avisos de firmware §12), D12–D17 montados, prueba §13.9.
+- `colocacion.py` (extraer y evaluar, 117 reglas y 4 clases en `colocacion-reglas.csv`). Se itera en texto y se mira una imagen al final; comparativa en `docs/diseno/experimento-colocacion.md`.
+- Criterios de DEC-0016. Placa de **100 × 100 mm** (2 $ / 5 uds), que no crece. J2, la antena de U5 y J10 van al ras (DEC-0016, DEC-0017). Cobre de disipación con +10 % de margen (+5 % en U2): justo, se comprueba al rutar.
+- Colocación de partida: `docs/diseno/colocacion-b4.csv` (0 obligatorias, 58 objetivos, con J10 horizontal en una copia).
+- `docs/diseno/estudio-coste.md`: 47,15 $ por placa con 5 uds y 25,02 $ con 50. Con P1 + P2 + P3, 42,02 $ y 24,00 $. Q1 se mantiene (ALI-03 sin cambios). Montaje Economic por una cara.
 
 ## Pendiente del usuario
 
-- Nada bloqueante. En el prototipo, comprobar que las válvulas instaladas (Bermad S-390-3-D, 24 V AC alimentadas en continua) caben en los límites de uso de REL-11; ya no condicionan el diseño (DEC-0014). En continua disipan 14–16 W a 24 V: que lo admitan es dato de la válvula (`salidas.md` §13.10).
+- Antes del primer pedido, preguntar a JLCPCB si J2, U5 y J10 al ras exigen rieles (`estudio-coste.md` §7).
+- En el prototipo, comprobar que las válvulas instaladas (Bermad S-390-3-D) caben en los límites de REL-11 (`salidas.md` §13.10).
 
 ## Para el layout (fase 4)
 
-- Restricciones de AMB-02 en `sensores.md`, de EXP-02 y de los pulsadores en `conectores.md` §5, y longitud de bordes en `conectores.md` §4 (inferior: 71 de 84 mm útiles), listas para `restricciones.csv`.
-- Fila SW3–SW8 en el centro (EXP-03, FAB-07), con U18 al lado y lejos de las pistas (sin ESD, `arquitectura.md` §4.6); comparte zona con el bus de 24 V (bus por la cara inferior).
-- 115 huellas de salidas y conectores sin colocar; D12–D17 se montan (DEC-0014), junto al borne de su canal.
-- Polígono BUS_24V de ≥ 300 mm² bajo cada BTT6050; el pad 15 de B.Cu y las vías ya cuelgan de VS.
-- Vías y pasta del EPAD de U5 (VAL-0021-01-03), serigrafía «STATUS» junto a D5 y antena en el borde.
-- Serigrafía de REL-11 (`salidas.md` §8); separación de 0,6 mm dentro de las huellas de salida (DEC-0008).
-- `restricciones.py` compara la PCB con la tabla, no calcula anchos: que la tabla salga de la corriente y del ΔT, y los retornos por zonas, son `[juicio]` (VAL-0027-01-01).
+- FAB-08 se reescribe a 100 × 100 mm, con validación, cuando el usuario apruebe la colocación final sobre `hardware/v2` (DEC-0016).
+- Zona prohibida de U5: hoy deja 15 mm a cada lado de la antena. La HDG (Fig. 26, p. 31) pide ≤ 2 mm por el lado de la alimentación y recortar la placa; depende de la caja (D5).
+- Fuera del texto: el rutado y la cara inferior (`corte` es una estimación), la isla y las ranuras del SHT40 en `Edge.Cuts`, la legibilidad con zoom y C46 (O13, `estudio-coste.md` §8.2).
+- Polígono BUS_24V bajo cada BTT6050; vías y pasta del EPAD de U5 (VAL-0021-01-03); serigrafía de REL-11 (`salidas.md` §8) y separación de 0,6 mm dentro de las huellas de salida (DEC-0008).
+- `restricciones.py` compara la PCB con la tabla, no calcula anchos (VAL-0027-01-01).
 
 ## Para la fabricación (fase 5)
 
-- Stock del 2026-11-16: F1 0451010.MRL (C44479) 22 932, alternativa 0453010.MR (C178995) 1 437 (TA10 no vale: sin valor en continua); U13 SHT40-AD1B-R2 13 899. Del 2026-11-15: TCA9554PWR 5 455, TPS2553 48 313, TPS26632 1 240; BTT6050 1 628 el 2026-11-12. Recomprobar antes de pedir, con `jlc.py`. U1 TPS26632RGER: 93, y su alternativa TPS26633RGER, 1 (2026-11-19): resolver antes del pedido (VAL-0032-01-01, SPEC-0036).
-- Comprobar en los Gerber el estado real de las vías del EP (F.Mask y B.Mask). Las vías rellenas y tapadas de JLCPCB encarecen la placa: consulta al usuario. Los ocho `[auto: pendiente]` de `checklists/fabricacion.md` van con el paquete.
+- Recomprobar el stock con `jlc.py` antes de pedir. U4 TLV1117LV33 de TI: 0 (2026-11-23). U1 TPS26632RGER: 131 (2026-11-23).
+- Comprobar en los Gerber las vías del EP (F.Mask y B.Mask); las vías rellenas encarecen la placa y se consultan al usuario.
 
 ## Mantenimiento
 
-- `verificar.py hardware/v2`: ERC 0, DRC 0 con 448 sin conectar, paridad 0 y ningún `[auto]` en FALLA; `campos.py revisar`: sin diferencias.
-- La guarda no se endurece (DEC-0009): las dos líneas de VAL-0026-02 y el caso de VAL-0035-01-02 siguen en «Límites conocidos» de `gestion/README.md`.
-- Posibles, sin spec: campo *Basic*/*Extended* en los símbolos (SPEC-0028); `hoja.py paginas` como `[auto]` (VAL-0035-02).
-- FW-02 (YAML coherente con el pinout): cuando exista `firmware/`, en la fase 6; incluye los avisos de REL-10 por la suma de 3,5 A. El calentador del SHT4x no se usa: con él, +5V pasaría de ALI-12 (`mcu.md` §8.2).
+- `verificar.py hardware/v2`: ERC 0, DRC 0 con 448 sin conectar y paridad 0 (SPEC-0032; `hardware/v2` no ha cambiado desde entonces).
+- Posibles, sin spec: campo *Basic*/*Extended* en los símbolos; `hoja.py paginas` como `[auto]`; que `gestion.py` separe las tandas de un agente continuado (VAL-0037-01-05).
+- FW-02, cuando exista `firmware/` (fase 6).

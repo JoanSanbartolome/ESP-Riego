@@ -43,3 +43,9 @@ SPEC-0006 (2026-11-15):
 - Documentación de ESPHome (SPEC-0031): WebFetch puede fallar por límite de uso; `curl -sL https://esphome.io/components/<x>/` y quedarse con el `<main>` del HTML. Los expansores (`pca9554`, `pcf8574`, `mcp23008`, `tca9555`) tienen `interrupt_pin` desde 2026.10.
 - Búsquedas por fuerza bruta de valores (escaleras de resistencias): limitar a ~13 valores por tramo; 25^5 combinaciones no terminan en 5 min.
 - Coste de un pedido por arquitectura: un script de una vez en el scratchpad (`s06_costes.py`, BOM por bloques → `jlc.consultar(código, cantidad)` → cargos de Economic PCBA). Las «Extended (preferida)» no pagan los 3,07 $.
+
+SPEC-0037 paso 6 (2026-11-20), coste:
+- La API de JLCPCB acepta en el cuerpo `"componentLibraryType":"base"` o `"preferredComponentFlag":true` para filtrar (solo con palabras sueltas o MPN; frases largas dan 0). Script: `scratchpad\p6\bas.py`.
+- Hay «Extended preferidas» de hongjiacheng con el mismo MPN para SMBJ33A/CA, BZT52C15, SS310, SS210, BSS138, 2N7002: no pagan los 3,07 $ de carga.
+- En Economic, con 5 placas, la carga de Extended pesa ≈ 1/3 del total: es la primera palanca de coste. Agrupar valores Basic no ahorra nada.
+- Script de coste por bloque: `scratchpad\p6\coste.py` (BOM de la PCB + campos-*.csv → jlc) y `resumen.py` (escenarios E1/E2/S2).

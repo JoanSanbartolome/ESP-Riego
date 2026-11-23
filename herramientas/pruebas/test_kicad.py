@@ -36,6 +36,7 @@ KICAD = REPO / "herramientas" / "kicad"
 sys.path.insert(0, str(KICAD))
 import _comun  # noqa: E402
 import campos  # noqa: E402
+import colocacion  # noqa: E402
 import comprobar  # noqa: E402
 import dibujo  # noqa: E402
 import _estilo  # noqa: E402
@@ -44,7 +45,8 @@ import huella  # noqa: E402
 import jlc  # noqa: E402
 import restricciones  # noqa: E402
 
-HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "vista", "huella", "restricciones", "comprobar", "dibujo"]
+HERRAMIENTAS = ["jlc", "campos", "hoja", "sincronizar", "colocar", "colocacion", "vista", "huella", "restricciones", "comprobar",
+                "dibujo"]
 BTT6050 = "Infineon_PG-TDSO-14_8.65x3.9mm_P1.27mm_EP2.65x6.4mm"
 TMP = BASE = None
 
@@ -60,6 +62,16 @@ def setUpModule():
 
 def tearDownModule():
     shutil.rmtree(TMP, ignore_errors=True)
+
+
+def reglas_sin_j10():
+    """Reglas de colocación sin B04 y B07 (J10 horizontal al ras, DEC-0017): hardware/v2 lleva aún la huella vertical
+    de J10, así que las colocaciones de los pasos 1-5 se evalúan sin esas dos reglas (SPEC-0037, paso 6)."""
+    destino = TMP / "reglas_sin_j10.csv"
+    if not destino.exists():
+        filas = (REPO / "docs" / "diseno" / "colocacion-reglas.csv").read_text(encoding="utf-8").splitlines()
+        destino.write_text("\n".join(f for f in filas if not f.startswith(("B04;", "B07;"))) + "\n", encoding="utf-8")
+    return destino
 
 
 def correr(herramienta, *args):
@@ -118,6 +130,9 @@ class Generales(unittest.TestCase):
             ("hoja", "netlist", v2, v2), ("hoja", "netlist", v2, v2, "--grupos"), ("hoja", "netlist", v2, "--plan", plan),
             ("hoja", "raiz", "--proyecto", v2, "--extraer", "-o", TMP / "nm_raiz.json"), ("restricciones", v2, tabla), ("vista", "hoja", v2, "--hoja", "MCU", "-o", TMP / "nm1.png"),
             ("vista", "placa", v2, "--todo", "-o", TMP / "nm2.png"), ("colocar", v2 / "esp-riego.kicad_pcb", "--exportar", TMP / "nm.csv"),
+            ("colocacion", "extraer", v2, "-o", TMP / "nm_col.txt"), ("colocacion", "extraer", v2, "--refs", "U5"),
+            ("colocacion", "evaluar", v2, "--detalle", TMP / "nm_col_ev.txt"),
+            ("colocacion", "referencias", v2, "-o", TMP / "nm_col_refs.csv"),
             ("sincronizar", v2, "-o", TMP / "nm.kicad_pcb"), ("dibujo", "comprobar", TMP / "nm.json", v2 / "mcu.kicad_sch", "--proyecto", v2),
         ]
         antes = huella_md5(BASE)
@@ -848,6 +863,398 @@ class Pcb(unittest.TestCase):
         codigo, _, error = correr("vista", "hoja", v2, "--hoja", "noexiste", "-o", TMP / "n.png")
         self.assertEqual(codigo, 2)
         self.assertIn("no hay ninguna hoja", error)
+
+
+class Colocacion(unittest.TestCase):
+    """colocacion.py (SPEC-0037): extraer cubre todas las huellas en ≤ 8 k tokens; evaluar detecta los cinco fallos del
+    criterio (solape, fuera del contorno, zona de la antena, borne en el borde equivocado, SHT40 lejos del borde)
+    y puntúa igual una tabla que la PCB que deja colocar.py con ella (ida y vuelta)."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    # Colocación de control: U5 con el extremo de la antena al ras del borde izquierdo (x 100,2), J4–J6 arriba (entrada
+    # hacia fuera), J1, J10 y J7–J9 abajo, J2 al ras del lateral derecho y U13 en él. Contorno de 100 × 70 mm, de
+    # (100, 60) a (200, 130).
+    BIEN = ("U5,112.95,95,90,F\nJ4,120,66,0,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,197,95,0,F\nJ2,196.1,110,90,F\n"
+            "J1,117,124,180,F\nJ10,135,126,90,F\nJ7,165,124,180,F\nJ8,177,124,180,F\nJ9,189,124,180,F\n"
+            "R16,150,100,0,F\nR17,160,100,0,F\nC24,150,90,0,F\n")
+    # Los cinco fallos: R17 sobre R18; C24 fuera (x 210); R16 en la parte de la zona de la antena que queda dentro
+    # de la placa; J4 en el borde inferior; U13 en el centro.
+    MAL = ("U5,113,95,90,F\nJ4,120,124,180,F\nJ5,132,66,0,F\nJ6,144,66,0,F\nU13,150,95,0,F\n"
+           "R16,101.5,110,0,F\nR17,150,100,0,F\nR18,150.5,100,0,F\nC24,210,95,0,F\n")
+
+    def evaluar(self, *args):
+        detalle = TMP / f"col_{len(list(TMP.glob('col_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", *args, "--reglas", reglas_sin_j10(), "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.expandir("J4-J6 U5.2 U7-U9.6 U5/antena"),
+                         [("J4", None, None), ("J5", None, None), ("J6", None, None), ("U5", "2", None), ("U7", "6", None),
+                          ("U8", "6", None), ("U9", "6", None), ("U5", None, "antena")])
+        cuadro = [[(0, 0), (2, 0), (2, 1), (0, 1)]]
+        self.assertAlmostEqual(colocacion.distancia(cuadro, [[(5, 0), (6, 0), (6, 1), (5, 1)]]), 3)
+        self.assertEqual(colocacion.distancia(cuadro, [[(1, 0.5)]]), 0)
+        self.assertEqual(colocacion.distancia(cuadro, [[(1, -1), (1.5, -1), (1.5, 3), (1, 3)]]), 0)   # se cruzan
+        x, y = colocacion.girar((0, -1), 90)      # −Y de la huella con giro 90 (antihorario en pantalla) → izquierda
+        self.assertAlmostEqual(x, -1)
+        self.assertAlmostEqual(y, 0)
+        self.assertEqual(colocacion.a_borde(cuadro, (0, 0, 10, 10), "lateral"), (0, "izq"))
+        self.assertAlmostEqual(colocacion.arbol_minimo([(0, 0), (3, 0), (3, 4), (0, 4)]), 10)
+        self.assertEqual(colocacion.alias_redes(["/A/OUT", "/B/OUT", "/VBUS"]), {"/A/OUT": "A/OUT", "/B/OUT": "B/OUT", "/VBUS": "VBUS"})
+        self.assertEqual(colocacion.rangos(["1", "2", "3", "7", "EP"]), "1-3,7,EP")
+        mala = TMP / "reglas_malas.csv"
+        mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\nX1;borde;J4;arriba;1;obligatoria;REL-09;\n", encoding="utf-8")
+        with self.assertRaises(_comun.Fallo):
+            colocacion.leer_reglas(mala)
+        mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\nX1;borde;J4;sup;1;obligatoria;;\n", encoding="utf-8")
+        with self.assertRaises(_comun.Fallo):   # sin origen
+            colocacion.leer_reglas(mala)
+
+    def test_reglas_del_repositorio(self):
+        reglas, clases = colocacion.leer_reglas(self.REGLAS)
+        ids = [r["id"] for r in reglas + clases]
+        self.assertEqual(len(ids), len(set(ids)))
+        for r in reglas + clases:
+            self.assertRegex(r["origen"], r"[A-Z]{3}-\d\d|\.md §|DEC-\d{4}|\.md\b", r["id"])
+        self.assertTrue({"borde", "hacia", "cerca_par", "lejos", "fila", "zona", "sale", "libre"} <= {r["tipo"] for r in reglas})
+        self.assertEqual(colocacion.clase_de("/Alimentacion/VIN_PROT", clases), ("Power_In", 3))
+        self.assertEqual(colocacion.clase_de("/Salidas/Canal1/OUT", clases), ("Salidas", 3))
+        self.assertEqual(colocacion.clase_de("GND", clases), ("GND", 0))
+        self.assertEqual(colocacion.clase_de("/MCU/EN", clases), ("Default", 1.0))
+
+    def test_extraer(self):
+        v2 = BASE / "v2"
+        n = _comun.leer(v2 / "esp-riego.kicad_pcb").count("\n\t(footprint ")
+        self.assertGreater(n, 150)
+        codigo, salida, error = correr("colocacion", "extraer", v2, "-o", TMP / "huellas.txt")
+        self.assertEqual(codigo, 0, error)
+        texto = (TMP / "huellas.txt").read_text(encoding="utf-8")
+        filas = [l for l in texto.splitlines() if l and not l.startswith("#")]
+        self.assertEqual(len(filas), n)
+        self.assertEqual(len({l.split()[0] for l in filas}), n)
+        self.assertLessEqual(colocacion.estimar_tokens(texto), 8000)
+        self.assertLessEqual(len(texto), 32000)          # ≤ 8 k tokens aunque fueran 4 caracteres por token
+        self.assertIn(f"{n} huellas", salida)
+        u5 = next(l for l in filas if l.startswith("U5 "))
+        self.assertRegex(u5, r" zona -24,-27\.8,24,-6\.8 .*GND:1,40,41 \+3V3:2 EN:3")
+        codigo, salida, error = correr("colocacion", "extraer", v2, "--refs", "J4,U13")
+        self.assertEqual(codigo, 0, error)
+        self.assertEqual(len(salida.strip().splitlines()), 2)
+        self.assertIn("1(0,0)Canal1/OUT 2(5.08,0)GND", salida)
+        codigo, _, error = correr("colocacion", "extraer", v2)
+        self.assertEqual(codigo, 2)
+        codigo, _, error = correr("colocacion", "extraer", v2, "--refs", "ZZ9")
+        self.assertEqual(codigo, 2)
+        self.assertIn("ZZ9", error)
+
+    def test_cinco_fallos(self):
+        bien, mal = TMP / "col_bien.csv", TMP / "col_mal.csv"
+        bien.write_text("ref,x,y,giro,cara\n" + self.BIEN, encoding="utf-8")
+        mal.write_text("ref,x,y,giro,cara\n" + self.MAL, encoding="utf-8")
+        salida, det = self.evaluar(BASE / "v2", bien)
+        patron = (r"\tsolape\t\t\tR1[678]/|\tfuera\t\t\t(U5|J[124-9]|J10|U13|R16|R17|C24) |\tzona\t|\tB0[1-9]\t|\tB1[0-3]\t"
+                  r"|\tA0[12]\t|\tS01\t")
+        self.assertEqual([l for l in det.splitlines() if re.search(patron, l)], [])
+        salida, det = self.evaluar(BASE / "v2", mal)
+        self.assertRegex(det, r"obligatoria\tsolape\t\t\tR17/R18 [\d.]+ mm²")
+        self.assertRegex(det, r"obligatoria\tfuera\t\t\tC24 11\.7 mm")
+        self.assertRegex(det, r"obligatoria\tzona\t\t\tR16 en U5/zona [\d.]+ mm²")
+        self.assertRegex(det, r"obligatoria\tregla\tB01\t[^\t]*\tJ4 59\.3")
+        self.assertRegex(det, r"obligatoria\tregla\tB05\t[^\t]*\tJ4 giro 180")
+        self.assertRegex(det, r"obligatoria\tregla\tS01\t[^\t]*\tU13 48\.8")
+        self.assertNotRegex(det, r"\tfuera\t\t\tU5 ")          # la zona de la antena puede salir (regla «sale»)
+        self.assertRegex(salida, r"Solapes de patio: 1 · R17/R18")
+        self.assertRegex(salida, r"En zona prohibida: 1 · R16 en U5/zona")
+        self.assertIn("! B01 borde sup ≤ 3: J4 59.3", salida)
+        self.assertIn("! S01 borde lateral ≤ 6: U13 48.8 (izq)", salida)
+
+    def test_ida_y_vuelta(self):
+        origen = BASE / "v2" / "esp-riego.kicad_pcb"
+        todo, tabla = TMP / "col_todo.csv", TMP / "col_tabla.csv"
+        codigo, _, error = correr("colocar", origen, "--exportar", todo)
+        self.assertEqual(codigo, 0, error)
+        filas = todo.read_text(encoding="utf-8").splitlines()
+        nuevas = {l.split(",")[0]: l for l in self.BIEN.splitlines()}
+        filas = [filas[0]] + [nuevas.get(l.split(",")[0], l) for l in filas[1:]]
+        tabla.write_text("\n".join(filas) + "\n", encoding="utf-8")
+        antes = origen.read_bytes()
+        s1, d1 = self.evaluar(BASE / "v2", tabla)
+        self.assertEqual(antes, origen.read_bytes())
+        self.assertIn(f"({len(filas) - 1} filas, {len(filas) - 1} aplicadas)", s1)
+        proy = copia("v2_colocacion")
+        codigo, salida, error = correr("colocar", origen, tabla, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        vuelta = TMP / "col_vuelta.csv"
+        correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta)
+        def norm(texto):
+            return {l.split(",")[0]: [round(float(c), 3) if c[0] in "-0123456789" else c for c in l.split(",")[1:]]
+                    for l in texto.splitlines()[1:]}
+        self.assertEqual(norm(vuelta.read_text(encoding="utf-8")), norm(tabla.read_text(encoding="utf-8")))
+        s2, d2 = self.evaluar(proy)
+        quitar = lambda s: [l for l in s.splitlines() if not l.startswith("evaluar:")]   # noqa: E731
+        self.assertEqual(quitar(s1), quitar(s2))
+        self.assertEqual(sorted(quitar(d1)), sorted(quitar(d2)))
+
+
+class ColocacionCriterios(unittest.TestCase):
+    """colocacion.py con los criterios de DEC-0016 (SPEC-0037, paso 3): evaluar detecta los seis fallos sembrados
+    (separación de JLCPCB, dos textos solapados, texto sobre un pad, referencia lejos de su pieza, dos fuentes de calor
+    juntas y placa de más de 100 mm con su aviso de coste); --placa mueve los taladros; referencias coloca las
+    referencias sin fallos donde hay sitio y colocar.py las aplica (ida y vuelta)."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    CAB = "ref,x,y,giro,cara,rx,ry,rgiro,ralto,rtrazo\n"
+    # Contorno de 100 × 70 mm, de (100, 60) a (200, 130); el resto de huellas está fuera, lejos.
+    # Control: R17/R18 a 2 mm, referencias en su sitio de la librería, U7 y U8 a 12,7 mm.
+    BIEN = ("R17,150,100,0,F\nR18,155,100,0,F\nR16,150,90,0,F\nC24,160,90,0,F\nC25,170,90,0,F\nR20,180,90,0,F\n"
+            "U7,130,115,0,F\nU8,150,115,0,F\n")
+    # Fallos: R18 a 0,05 mm de R17 (patio 2,96 mm); la referencia de C24 encima de la de R16; la de C25 sobre su
+    # pad 1; la de R20 a 4 mm; U8 a 1 mm de U7 (patio 7,3 mm). La placa de 110 mm va con --placa.
+    MAL = ("R17,150,100,0,F\nR18,153.01,100,0,F\nR16,150,90,0,F\nC24,160,90,0,F,-10,-1.43\nC25,170,90,0,F,-0.78,0\n"
+           "R20,180,90,0,F,0,-4\nU7,130,115,0,F\nU8,138.3,115,0,F\n")
+
+    def evaluar(self, tabla, *args, pcb=None):
+        detalle = TMP / f"colc_{len(list(TMP.glob('colc_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", pcb or BASE / "v2", *([tabla] if tabla else []), *args,
+                                       "--reglas", self.REGLAS, "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.excluidas("* !U5 !J4-J5"), {"U5", "J4", "J5"})
+        self.assertEqual(colocacion.expandir("* !U5 J2"), [("J2", None, None)])
+        self.assertEqual(colocacion.tam_placa("100x85,5"), (100, 85.5))
+        self.assertIsNone(colocacion.tam_placa("100"))
+        self.assertAlmostEqual(colocacion.dist_cajas((0, 0, 1, 1), (4, 5, 6, 6)), 5)
+        self.assertEqual(colocacion.dist_cajas((0, 0, 2, 2), (1, 1, 3, 3)), 0)
+        self.assertAlmostEqual(colocacion.a_caja_interior((1, 2, 9, 9.5), (0, 0, 10, 10)), 0.5)
+        rej = colocacion.Rejilla()
+        rej.poner("a", (0, 0, 1, 1), "A")
+        rej.poner("b", (20, 20, 21, 21), "B")
+        self.assertEqual([c for c, _, _ in rej.cerca((1.5, 0, 2, 1), 0.6)], ["a"])
+        rej.quitar("a")
+        self.assertEqual(list(rej.cerca((1.5, 0, 2, 1), 0.6)), [])
+        cand = colocacion.candidatos((0, 0, 4, 2), {0: (-1, -0.5, 1, 0.5), 90: (-0.5, -1, 0.5, 1)})
+        self.assertEqual(len(cand), 3 * 2 * 4 * 3)
+        orden, giro, ancla, caja = cand[0]
+        self.assertEqual((giro, [round(v, 6) for v in caja]), (0, [1, -1.15, 3, -0.15]))   # encima, centrada, a 0,15 mm
+        self.assertEqual([round(v, 6) for v in ancla], [2, -0.65])
+        mala = TMP / "reglas_malas2.csv"
+        for fila in ("X1;serigrafia;*;color;1;obligatoria;DEC-0016;", "X1;precio;grande;5;2;objetivo;DEC-0016;",
+                     "X1;calor;U7;mucho;0.3;obligatoria;DEC-0016;"):
+            mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\n" + fila + "\n", encoding="utf-8")
+            with self.assertRaises(_comun.Fallo, msg=fila):
+                colocacion.leer_reglas(mala)
+
+    def test_reglas_de_dec_0016(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        tipos = {r["tipo"] for r in reglas}
+        self.assertTrue({"separacion", "borde_min", "cobre_borde", "serigrafia", "calor", "reparto", "precio"} <= tipos)
+        for r in reglas:
+            if "JLCPCB" in r["origen"]:           # cada regla de JLCPCB cita la página (URL) y la fecha de consulta
+                self.assertRegex(r["origen"], r"https://jlcpcb\.com/\S+", r["id"])
+                self.assertRegex(r["origen"], r"(consultado|actualizado|20\d\d-\d\d-\d\d)", r["id"])
+                self.assertRegex(r["origen"], r"20\d\d-\d\d-\d\d", r["id"])
+        p = colocacion.param_serigrafia(reglas)
+        self.assertGreaterEqual(p["alto"], 1.0)                    # JLCPCB: 1,0 mm de alto mínimo
+        self.assertGreaterEqual(p["trazo_ref"], max(0.15, p["alto"] / 6))   # 0,15 mm y 1:6
+        calor = {o[0]: r["mm"] for r in reglas if r["tipo"] == "calor" for o in colocacion.expandir(r["piezas"])}
+        self.assertTrue({"U1", "U2", "U4", "U7", "U12", "L1", "Q1", "D3", "F1"} <= set(calor))   # DEC-0016 (3)
+        self.assertTrue(any(r["tipo"] == "precio" and r["tam"] == (100, 100) for r in reglas))
+
+    def test_seis_fallos(self):
+        bien, mal = TMP / "colc_bien.csv", TMP / "colc_mal.csv"
+        bien.write_text(self.CAB + self.BIEN, encoding="utf-8")
+        mal.write_text(self.CAB + self.MAL, encoding="utf-8")
+        s_bien, d_bien = self.evaluar(bien)
+        s_mal, d_mal = self.evaluar(mal, "--placa", "110x70")
+        casos = [  # (regla, patrón del item en el detalle)
+            ("F01", r"R17/R18 0\.0[4-6]"),                   # separación de JLCPCB (IPC-7351B + FAB-02) incumplida
+            ("T05", r"(C24/R16|R16/C24) 0"),                 # dos textos de serigrafía solapados
+            ("T06", r"C25 0 de C25\.1"),                     # texto sobre un pad
+            ("T11", r"R20 [23](\.\d)?$"),                    # referencia lejos de su pieza
+            ("Q10", r"U7/U8 (0\.9|1|1\.1)$"),               # dos fuentes de calor demasiado juntas
+            ("Z01", r"placa 110×70 > 100x100"),              # placa de más de 100 mm: aviso de coste
+        ]
+        for regla, item in casos:
+            self.assertRegex(d_mal, rf"(?m)\tregla\t{regla}\t[^\t]*\t{item}", regla)
+            self.assertNotRegex(d_bien, rf"(?m)\tregla\t{regla}\t[^\t]*\t{item.split(' ')[0]}", regla)
+        self.assertRegex(d_mal, r"(?m)^obligatoria\tregla\tT07\t[^\t]*\tC25 sobre C25\.1")   # y sobre la máscara
+        self.assertIn("AVISO", s_mal.splitlines()[2])
+        self.assertIn("taladros movidos: H1 H2", s_mal)
+        self.assertNotIn("AVISO", s_bien)
+        self.assertRegex(s_bien.splitlines()[2], r"^Placa 100×70 mm · PCB 2 \$ por 5 uds")
+        self.assertRegex(s_mal, r"Serigrafía \(\d+ referencias\): .*texto-texto")
+        self.assertRegex(s_mal, r"Térmico: [\d.]+ W en \d+ fuentes")
+        self.assertRegex(d_mal, r"(?m)^precio\t110x70\tsin tarifa\t.*https://jlcpcb\.com/")
+        self.assertRegex(d_mal, r"(?m)^red\t/BUS_24V\tPower_In\t")    # clase de las reglas en --detalle
+
+    def test_placa_y_taladros(self):
+        tabla = TMP / "colc_placa.csv"
+        tabla.write_text(self.CAB + "PLACA,90,80,,\n" + self.BIEN, encoding="utf-8")
+        salida, det = self.evaluar(tabla)
+        self.assertRegex(salida, r"(?m)^Placa 90×80 mm \(taladros movidos: (H\d ?){3}\) · PCB 2 \$")
+        self.assertNotRegex(det, r"\t(G03|bloqueada)\t")             # los taladros se mueven con su esquina
+        proy = copia("v2_placa")
+        codigo, salida, error = correr("colocar", proy / "esp-riego.kicad_pcb", tabla, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertIn("Placa 90 × 80 mm", salida)
+        texto = _comun.leer(proy / "esp-riego.kicad_pcb")
+        self.assertRegex(texto, r"\(gr_rect\s+\(start 100 60\)\s+\(end 190 140\)")
+        vuelta = TMP / "colc_placa_vuelta.csv"
+        correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta)
+        pos = {l.split(",")[0]: l.split(",")[1:3] for l in vuelta.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(sorted(tuple(map(float, pos[h])) for h in ("H1", "H2", "H3", "H4")),
+                         [(104, 64), (104, 136), (186, 64), (186, 136)])
+
+    def test_referencias_y_vuelta(self):
+        bien, con = TMP / "colc_bien_r.csv", TMP / "colc_con_refs.csv"
+        bien.write_text(self.CAB + self.BIEN, encoding="utf-8")
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", bien, "-o", con, "--reglas", self.REGLAS)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        filas = {l.split(",")[0]: l.split(",") for l in con.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(filas["R17"][1:5], ["150", "100", "0", "F"])
+        self.assertEqual(filas["R17"][8:10], ["1", "0.18"])          # alto y trazo de T01–T03
+        self.assertNotRegex(salida.splitlines()[1], r"\b(R1[678]|R20|C2[45]|U[78]) \(")   # con sitio, sin fallos
+        s, det = self.evaluar(con)
+        for ref in ("R16", "R17", "R18", "R20", "C24", "C25", "U7", "U8"):
+            self.assertNotRegex(det, rf"(?m)\tregla\tT(0[1-9]|1[0-3])\t[^\t]*\t{ref}\b", ref)
+        proy = copia("v2_refs")
+        codigo, salida, error = correr("colocar", proy / "esp-riego.kicad_pcb", con, "-o", proy / "esp-riego.kicad_pcb")
+        self.assertEqual(codigo, 0, salida + error)
+        vuelta = TMP / "colc_refs_vuelta.csv"
+        codigo, _, error = correr("colocar", proy / "esp-riego.kicad_pcb", "--exportar", vuelta, "--con-referencias")
+        self.assertEqual(codigo, 0, error)
+        cabecera, *resto = vuelta.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(cabecera, self.CAB.strip())
+        atras = {l.split(",")[0]: [round(float(c), 3) for c in l.split(",")[5:]] for l in resto}
+        for ref in ("R17", "C25", "U7"):
+            self.assertEqual(atras[ref], [round(float(c), 3) for c in filas[ref][5:]], ref)
+        s2, det2 = self.evaluar(None, pcb=proy / "esp-riego.kicad_pcb")
+        quitar = lambda t: sorted(l for l in t.splitlines() if l.startswith(("obligatoria", "objetivo")))   # noqa: E731
+        self.assertEqual(quitar(det), quitar(det2))
+
+
+class ColocacionPaso5(unittest.TestCase):
+    """colocacion.py del paso 5 de SPEC-0037 (DEC-0016, tras el paso 4): J2 y la antena de U5 al ras, rieles de JLCPCB
+    con su coste, lazos de potencia, longitud del USB, pasillos entre bloques y capacidad de los pasillos, margen del
+    cobre de disipación con lo que ocupa cada anillo, cifras que incumplen por redondeo y referencias con vuelta atrás.
+    Usa las colocaciones entregadas: colocacion-b2.csv (paso 4) incumple las reglas nuevas y colocacion-b3.csv no."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    B2 = REPO / "docs" / "diseno" / "colocacion-b2.csv"
+    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+
+    def evaluar(self, tabla, *args):
+        detalle = TMP / f"colp5_{len(list(TMP.glob('colp5_*.txt')))}.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", tabla, *args, "--reglas", reglas_sin_j10(),
+                                       "--detalle", detalle)
+        self.assertIn(codigo, (0, 1), error)
+        self.assertLessEqual(len(salida.strip().splitlines()), 30)
+        return codigo, salida, detalle.read_text(encoding="utf-8")
+
+    def test_funciones(self):
+        self.assertEqual(colocacion.cifra(299.6, 300, True, 0), "299.6")      # incumple: no se escribe «300»
+        self.assertEqual(colocacion.cifra(300.4, 300, True, 0), "300")
+        self.assertEqual(colocacion.cifra(8.04, 8, False, 1), "8.04")
+        self.assertEqual(colocacion.cifra(7.96, 8, False, 1), "8")
+        self.assertEqual(sorted(tuple(sorted(a)) for a in colocacion.aristas_minimas([(0, 0), (3, 0), (3, 4)])),
+                         [(0, 1), (1, 2)])
+        self.assertEqual(colocacion.huecos_pista([1.0, 0.1, 0.2]), 4)        # 1,0 mm: 3 pistas; 0,2: 1; 0,1: ninguna
+        mala = TMP / "reglas_malas_p5.csv"
+        for fila in ("X1;lazo;U2 C8;;12;obligatoria;DEC-0016;",              # un lazo pide pads
+                     "X1;ras;J2;arriba;0.5;obligatoria;DEC-0016;",           # borde desconocido
+                     "X1;corte;*;largo;1;obligatoria;DEC-0016;"):           # tramo no numérico
+            mala.write_text("id;tipo;piezas;objetivo;valor;nivel;origen;nota\n" + fila + "\n", encoding="utf-8")
+            with self.assertRaises(_comun.Fallo, msg=fila):
+                colocacion.leer_reglas(mala)
+
+    def test_reglas_del_paso5(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        por_id = {r["id"]: r for r in reglas}
+        self.assertTrue({"ras", "rieles", "lazo", "largo", "pasillo", "corte", "margen"} <= {r["tipo"] for r in reglas})
+        self.assertEqual((por_id["A01"]["tipo"], por_id["A01"]["piezas"]), ("ras", "U5/antena"))
+        self.assertRegex(por_id["A01"]["origen"], r"HDG §1\.4\.7, p\. 30")
+        self.assertEqual((por_id["B12"]["tipo"], por_id["B12"]["piezas"]), ("ras", "J2"))
+        self.assertIn("!J2", por_id["F03"]["piezas"].split())
+        self.assertEqual(por_id["A06"]["tipo"], "sale")
+        self.assertEqual(por_id["U01"]["mm"], 40)                             # mcu.md §12: USB ≤ 40 mm
+        self.assertGreater(por_id["Q13"]["mm"], 1)
+        self.assertRegex(por_id["R01"]["origen"], r"https://jlcpcb\.com/help/article/\S*edge-rails")
+
+    def test_b2_incumple_y_b3_cumple(self):
+        c2, s2, d2 = self.evaluar(self.B2)
+        self.assertEqual(c2, 1)
+        casos = [  # (regla, patrón del item en el detalle de colocacion-b2.csv)
+            ("A01", r"U5/antena 1[45](\.\d+)? \(izq\)"),                  # antena dentro, lejos del borde
+            ("B12", r"J2 2\.\d+ \(izq\)"),                                   # USB-C a 2,75 mm, no al ras
+            ("W01", r"C1 \d+"),                                               # C1 lejos de U1
+            ("W03", r"(D1|R1) \d+"),                                          # R1/D1 lejos de la puerta de Q1
+            ("W07", r"\d+(\.\d+)? \(tramo más largo C11\.2→U2\.9"),      # lazo de salida del buck
+            ("U01", r"USB_DP\+USB_DP_C \d+"),                               # USB de J2 a U5 > 40 mm
+            ("N01", r"\w+/\w+ 0\.\d+"),                                      # pasillo entre bloques < 1 mm
+            ("N02", r"[xy] [\d.]+ [xy] [\d.]+…[\d.]+: [\d.]+ pistas, caben \d+"),   # pasillo sin capacidad
+            ("Q13", r"U11 \d+(\.\d+)?/330"),                                  # cobre sin el margen de +10 %
+        ]
+        for regla, item in casos:
+            self.assertRegex(d2, rf"(?m)^obligatoria\tregla\t{regla}\t[^\t]*\t{item}", regla)
+        self.assertRegex(d2, r"(?m)^calor\tU11\t.*\tanillo \d+ mm², ocupan: .*½ U1[02] \d+")   # qué ocupa el anillo
+        self.assertRegex(s2, r"En zona prohibida: 0 · zona dentro de la placa: U5 1008 mm²")
+        c3, s3, d3 = self.evaluar(self.B3)
+        self.assertEqual(c3, 0, s3)
+        self.assertNotRegex(d3, r"(?m)^obligatoria\t")
+        self.assertRegex(s3, r"(?m)^Placa 100×100 mm .*rieles \(izq: J2 0\.2, U5 0\.2\): panel 110×100, sin tarifa")
+        self.assertRegex(d3, r"(?m)^objetivo\tregla\tR01\t")               # el coste de los rieles, a la vista
+        self.assertRegex(s3, r"zona dentro de la placa: U5 29\d mm²")         # antena al ras: 48 × 6 mm
+        _, s4, d4 = self.evaluar(self.B3, "--omitir", "serigrafia")
+        self.assertNotRegex(d4, r"(?m)\tregla\tT\d\d\t")
+        self.assertEqual(correr("colocacion", "evaluar", BASE / "v2", self.B3, "--omitir", "nada")[0], 2)
+
+    def test_referencias_con_vuelta_atras(self):
+        con, sin = TMP / "colp5_con.csv", TMP / "colp5_sin.csv"
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", con, "--todas",
+                                       "--reglas", self.REGLAS)
+        self.assertEqual(codigo, 0, salida + error)
+        self.assertRegex(salida, r"vuelta atrás: [1-9]\d* recolocadas")
+        self.assertIn("Sin sitio que cumpla todo (0)", salida)
+        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", sin, "--todas",
+                                       "--sin-vuelta", "--reglas", self.REGLAS)
+        self.assertEqual(codigo, 1, salida + error)                           # la pasada voraz deja alguna sin sitio
+        self.assertIn("vuelta atrás: 0 recolocadas", salida)
+
+
+class ColocacionPaso6(unittest.TestCase):
+    """Reglas del paso 6 de SPEC-0037 (DEC-0017): J10 horizontal al ras del borde inferior, con la boca hacia fuera,
+    fuera de F03 y contado en los rieles; las reglas de altura (P05, E08, L01) siguen contando J10 (8,9 mm).
+    colocacion-b3.csv (J10 vertical a 2,5 mm) incumple B04 y B07; colocacion-b4.csv lleva J10 con giro 270."""
+    REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
+    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+    B4 = REPO / "docs" / "diseno" / "colocacion-b4.csv"
+
+    def test_reglas_del_paso6(self):
+        reglas, _ = colocacion.leer_reglas(self.REGLAS)
+        por_id = {r["id"]: r for r in reglas}
+        self.assertEqual((por_id["B04"]["tipo"], por_id["B04"]["piezas"], por_id["B04"]["nivel"]),
+                         ("ras", "J10", "obligatoria"))
+        self.assertRegex(por_id["B04"]["origen"], r"DEC-0017")
+        self.assertEqual((por_id["B07"]["tipo"], por_id["B07"]["piezas"]), ("hacia", "J10"))
+        self.assertIn("!J10", por_id["F03"]["piezas"].split())
+        self.assertIn("J10", por_id["R01"]["piezas"].split())
+        for i in ("P05", "E08", "L01"):
+            self.assertIn("J4-J10", por_id[i]["objetivo"].split(), i)
+
+    def test_b3_incumple_j10_y_b4_lo_gira(self):
+        detalle = TMP / "colp6_b3.txt"
+        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", self.B3, "--reglas", self.REGLAS,
+                                       "--omitir", "serigrafia", "--detalle", detalle)
+        self.assertEqual(codigo, 1, error)
+        d = detalle.read_text(encoding="utf-8")
+        self.assertRegex(d, r"(?m)^obligatoria\tregla\tB04\t[^\t]*\tJ10 2\.\d+ \(inf\)")
+        self.assertRegex(d, r"(?m)^obligatoria\tregla\tB07\t[^\t]*\tJ10 giro 90")
+        filas = {l.split(",")[0]: l.split(",") for l in self.B4.read_text(encoding="utf-8").splitlines()[1:]}
+        self.assertEqual(filas["PLACA"][1:3], ["100", "100"])
+        self.assertEqual(float(filas["J10"][3]), 270)
 
 
 class Restricciones(unittest.TestCase):

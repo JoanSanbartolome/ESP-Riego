@@ -1,6 +1,6 @@
 # Checklist de revisión de layout
 
-**Versión:** v9 (2026-11-16). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
+**Versión:** v10 (2026-11-23). Cada informe cita la versión usada. Cualquier cambio sube la versión y se anota en el historial.
 
 `[auto: X]`: lo comprueba X y nadie lo repasa a mano. `comprobar.py <punto>` es un punto de `herramientas/kicad/comprobar.py`, que `verificar.py` añade a su informe. `layout.restricciones` compara la PCB con la tabla, no calcula anchos, y no aplica hasta que exista la tabla de restricciones (`docs/diseno/restricciones.csv`, fase 4). `[juicio]`: lo repasan el autor, antes de entregar, y validación.
 
@@ -41,9 +41,9 @@
 ## Fabricación y montaje
 
 - [ ] [auto: verificar.py] Separación cobre-borde ≥ 0,5 mm (FAB-02).
-- [ ] [juicio] Fiduciales para montaje SMT.
+- [ ] [juicio] Fiduciales si el montaje es Standard (Economic no los pide: JLCPCB *PCB Assembly Capabilities*).
 - [ ] [auto: comprobar.py layout.smd_cara] Componentes SMD solo en la cara superior, salvo justificación.
-- [ ] [juicio] Serigrafía legible (≥ 0,8 mm), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
+- [ ] [juicio] Serigrafía legible (alto ≥ 1,0 mm y trazo ≥ 0,15 mm: JLCPCB *PCB Capabilities*, Legend; DEC-0016), fuera de pads, con función de cada borne, polaridades, tensión máxima, versión y fecha (FAB-09).
 
 ## 3D y mecánica
 
@@ -63,3 +63,4 @@
 | v7 | 2026-11-12 | SPEC-0027: los ocho `[auto: pendiente]` pasan a `comprobar.py`; los tres de anchos y corriente dependen de la tabla de restricciones |
 | v8 | 2026-11-12 | VAL-0027-01-01 y -03: la corriente y el ΔT de las pistas vuelven a `[juicio]` (el script solo compara con la tabla); zonas con relleno en cada capa |
 | v9 | 2026-11-16 | SPEC-0028: cruce pad ↔ netlist cuando se sincroniza por script (VAL-0019-02) |
+| v10 | 2026-11-23 | SPEC-0037: fiduciales solo en montaje Standard y serigrafía ≥ 1,0 mm de alto y 0,15 mm de trazo (JLCPCB; `estudio-coste.md` §8.7) |

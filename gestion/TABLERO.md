@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
+Specs por estado: propuesta 1 · abierta 0 · cerrada 33 · descartada 4.
 
 ## Propuestas (1)
 
@@ -10,13 +10,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | Colocación iterada en texto (experimento M10) | 4 | ing-diseno | `spec/SPEC-0037-colocacion-en-texto` | — | 2026-11-19 | — |
-
-## Cerradas (32)
+## Cerradas (33)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -52,6 +46,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 | [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | Requisitos v0.7 | 3 | coordinador | `spec/SPEC-0033-requisitos-v07` | VAL-0033-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | VAL-0034-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | Esquema legible | 3 | ing-diseno | `spec/SPEC-0035-esquema-legible` | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-17 | 2026-11-18 |
+| [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | Colocación iterada en texto (experimento M10) | 4 | ing-diseno | `spec/SPEC-0037-colocacion-en-texto` | VAL-0037-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-19 | 2026-11-23 |
 
 ## Descartadas (4)
 
@@ -78,13 +73,14 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 | [SPEC-0033](specs/SPEC-0033-requisitos-v07.md) | 2 | 127 583 | — | — |
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | 5 | 942 512 | 219 | 40 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 6 | 1 603 105 | 550 | 157 |
+| [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | 9 | 2 341 410 | 692 | 301 |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 18 | 4 507 513 | 1 372 | 416 |
-| ing-validacion | 21 | 2 697 316 | 673 | 158 |
+| ing-diseno | 25 | 6 539 864 | 1 965 | 689 |
+| ing-validacion | 23 | 3 006 375 | 772 | 186 |
 | jr-conformidad | 8 | 583 505 | 168 | 26 |
 
 ## Decisiones
@@ -106,6 +102,9 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 | [DEC-0013](decisiones/DEC-0013-pulsadores-tca9554.md) | Lectura de los 6 pulsadores con un TCA9554 en el bus I²C de la placa | aceptada | usuario | 2026-11-15 |
 | [DEC-0014](decisiones/DEC-0014-salidas-con-limites-nominales.md) | Salidas con límites de uso propios, una válvula por salida y rueda libre montada | aceptada | usuario | 2026-11-17 |
 | [DEC-0015](decisiones/DEC-0015-esquema-legible.md) | Esquema legible con el aspecto del esquema del TFG | aceptada | usuario | 2026-11-17 |
+| [DEC-0016](decisiones/DEC-0016-criterios-de-colocacion.md) | Criterios de colocación y tamaño de la placa como variable | aceptada | usuario | 2026-11-19 |
+| [DEC-0017](decisiones/DEC-0017-expansion-horizontal-al-borde.md) | Conector de expansión J10 horizontal, al ras del borde inferior | aceptada | usuario | 2026-11-20 |
+| [DEC-0018](decisiones/DEC-0018-ahorros-del-estudio-de-coste.md) | Ahorros del estudio de coste: se mantiene Q1 y se aplican P1–P5 | aceptada | usuario | 2026-11-23 |
 
 ## Informes de validación
 
@@ -160,4 +159,6 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 32 · descartada 4.
 | [VAL-0034-02](informes/VAL-0034-02.md) | SPEC-0034 | APROBADO | `8023a90` | 2026-11-17 |
 | [VAL-0035-01](informes/VAL-0035-01.md) | SPEC-0035 | APROBADO_CON_OBSERVACIONES | `f2d472b` | 2026-11-18 |
 | [VAL-0035-02](informes/VAL-0035-02.md) | SPEC-0035 | APROBADO_CON_OBSERVACIONES | `6a1a6b4` | 2026-11-18 |
+| [VAL-0037-01](informes/VAL-0037-01.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `86ceba5` | 2026-11-23 |
+| [VAL-0037-02](informes/VAL-0037-02.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `adcdf05` | 2026-11-23 |
 

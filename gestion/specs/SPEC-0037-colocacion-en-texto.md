@@ -2,15 +2,15 @@
 id: SPEC-0037
 titulo: Colocación iterada en texto (experimento M10)
 fase: 4
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0037-colocacion-en-texto
-requisitos: [FAB-07, REL-09, AMB-02, MCU-02, EXP-03]
+requisitos: [FAB-07, REL-09, AMB-02, MCU-02, EXP-03, ALI-03]
 depende_de: []
 creada: 2026-11-19
-cerrada:
-validacion:
+cerrada: 2026-11-23
+validacion: VAL-0037-02
 ---
 
 # SPEC-0037 · Colocación iterada en texto (experimento M10)
@@ -19,7 +19,7 @@ validacion:
 
 ## Objetivo
 
-Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágenes o una herramienta en texto que extrae las huellas, puntúa cada colocación y la devuelve a KiCad con `colocar.py`. Es la prueba de herramientas de M10 (DEC-0009) y da un punto de partida de colocación para el *floorplan*.
+Con los criterios de DEC-0016, saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágenes o una herramienta en texto que extrae las huellas, puntúa cada colocación y la devuelve a KiCad con `colocar.py`. Es la prueba de herramientas de M10 (DEC-0009) y da un punto de partida de colocación para el *floorplan*.
 
 ## Alcance
 
@@ -28,6 +28,10 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
   - tabla de reglas de colocación sacada de REL-09, FAB-07, MCU-02, AMB-02, EXP-03, `conectores.md` §4–§5, `sensores.md` y `arquitectura.md` §0 (columna «Ubicación / keepout»), con el contorno actual de la PCB;
   - paso 2 (brazo B, instancia nueva de `ing-diseno`): colocar sobre una copia solo con la herramienta en texto, hasta que `evaluar` no dé incumplimientos o hasta 30 iteraciones; una imagen al final con `vista.py placa`;
   - paso 3, opcional (lo decide el usuario al ver el resultado del paso 2; 2026-11-19: «probar con una herramienta en texto»): brazo A, otra instancia nueva, la misma colocación de partida y las mismas reglas, solo con KiCad (MCP o `colocar.py`) y `vista.py`, sin `evaluar` mientras itera, hasta que dé la colocación por buena o gaste el doble de tokens que el brazo B; después se le pasa `evaluar`;
+  - paso 3 (`ing-diseno`, instancia nueva; DEC-0016): `colocacion.py` y las reglas con los criterios de DEC-0016, por orden: (1) fabricación de la clase más barata de JLCPCB (PCB de 2 capas y PCBA, con página y fecha de las capacidades), incluida la separación entre piezas y a borde; (2) serigrafía: posición de las referencias, sin solapes con textos, pads, máscara abierta, contorno ni otras piezas, altura y trazo mínimos, referencia junto a su pieza; (3) térmico: espacio para el cobre de las piezas que disipan, fuentes de calor repartidas, lejos del SHT40 y de la antena, con su disipación estimada; (4) tamaño de la placa como variable (contorno y taladros M3 que se mueven con él), con el sobrecoste de JLCPCB por encima de 100 × 100 mm; más las propuestas del paso 2 (desacoplos `cerca`, LED visibles y la clase de red en `--detalle`);
+  - paso 4 (brazo B', instancia nueva): repetir el paso 2 con la herramienta del paso 3, iterando también el tamaño, primero dentro de 100 × 100 mm;
+  - paso 5 (`ing-diseno`, instancia nueva): excepciones de borde de DEC-0016 (J2 y U5 al ras), reglas nuevas para lo que el paso 4 dejó mal (lazos de potencia de la entrada y del buck, longitud del USB, pasillos de rutado, margen del cobre de disipación, regla de la antena reescrita) y las mejoras de `colocacion.py` que propone el parte 05; después, recolocar desde `colocacion-b2.csv` hasta 0 obligatorias;
+  - paso 6 (`ing-diseno`, instancia nueva; DEC-0017; usuario 2026-11-20, sin crecer de 100 × 100 mm): estudio de coste efectivo bloque por bloque (alimentación, salidas, microcontrolador, conectores y sensores): coste de BOM y montaje en JLCPCB de cada bloque, simplificaciones del layout con su ahorro y sus riesgos, montaje por una o dos caras y THT en la cara inferior, quitar Q1 (ALI-03) y los fallos abiertos de la colocación; después, J10 horizontal al ras del borde inferior y recolocación desde `colocacion-b3.csv` hasta 0 obligatorias;
   - comparación (coordinador): tokens, iteraciones, minutos y resultado de `evaluar` de cada brazo, con la recomendación para la fase 4.
 - Excluye: escribir en `hardware/v2` (los dos brazos trabajan sobre copias), el rutado, la tabla de restricciones por red (`restricciones.csv`, otra spec), cambiar el contorno o la caja (D5) y la aprobación del *floorplan*, que se hace en la spec de colocación con la imagen.
 
@@ -43,6 +47,10 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
 
 - Paso 1: `herramientas/kicad/<nombre>.py` y su fila en el README; reglas en `docs/diseno/colocacion-reglas.csv`; casos de prueba como parche en la carpeta temporal (los aplica el coordinador en `herramientas/pruebas/`); parte `01-ing-diseno.md`.
 - Paso 2 (y el 3, si se hace): la colocación de cada brazo (`docs/diseno/colocacion-b.csv` y, en su caso, `colocacion-a.csv`), su imagen (ruta en el parte), la salida de `evaluar` y el número de iteraciones; partes `02-` y `03-ing-diseno.md`.
+- Paso 3: `colocacion.py`, reglas y README al día, casos de prueba como parche; parte `04-ing-diseno.md`.
+- Paso 4: `docs/diseno/colocacion-b2.csv` con su tamaño de placa, imagen y salida de `evaluar`; parte `05-ing-diseno.md`.
+- Paso 5: `docs/diseno/colocacion-b3.csv`, imagen, salida de `evaluar`, herramienta y reglas al día, casos de prueba como parche; parte `06-ing-diseno.md`.
+- Paso 6: `docs/diseno/estudio-coste.md` (por bloque: coste, problemas, soluciones, ahorro, riesgo y qué decide el usuario, con fuentes y fecha); `docs/diseno/colocacion-b4.csv`, imagen y salida de `evaluar`; reglas y herramienta al día, casos de prueba como parche si cambia la herramienta; parte `07-ing-diseno.md`.
 - Coordinador: `docs/diseno/experimento-colocacion.md` con la tabla comparativa y la recomendación.
 
 ## Criterios de aceptación
@@ -52,6 +60,8 @@ Saber qué cuesta menos en tokens para iterar la colocación: KiCad con imágene
 - [ ] Cada regla de la tabla cita su origen (requisito o sección de un documento de diseño).
 - [ ] La ida y vuelta `colocar.py` exportar → `evaluar` → `colocar.py` aplicar deja en la PCB las posiciones del CSV.
 - [ ] Los tokens, iteraciones y minutos del brazo B salen del resultado del agente y de la auditoría; si se hace el brazo A, parte de la misma colocación y las mismas reglas, con una instancia nueva.
+- [ ] `evaluar` detecta, en casos sembrados, una separación de JLCPCB incumplida, dos textos de serigrafía solapados, un texto sobre un pad, una referencia lejos de su pieza, dos fuentes de calor demasiado juntas y una placa de más de 100 mm sin aviso de coste; cada regla de JLCPCB cita página y fecha.
+- [ ] La colocación del paso 4 cumple todas las reglas obligatorias, con el tamaño de placa y su precio en JLCPCB en el parte; un tamaño por encima de 100 × 100 mm no se adopta sin el OK del usuario (DEC-0016).
 - [ ] `hardware/v2` sin cambios; `test_kicad.py` en verde con los casos nuevos.
 
 ## Plan de validación
@@ -67,3 +77,13 @@ Nivel **completo** (la herramienta decide la colocación de la fase 4; DEC-0005)
 |---|---|---|---|---|---|---|
 | 2026-11-19 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-19 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-19 | ing-diseno | colocacion.py (extraer, evaluar) y reglas de colocación | 01-ing-diseno | 296093 | 86 | 26 |
+| 2026-11-19 | ing-diseno | brazo B: colocación en texto, 6 iteraciones, 0 incumplimientos | 02-ing-diseno | 173296 | 25 | 18 |
+| 2026-11-19 | ing-diseno | colocacion.py con los criterios de DEC-0016 (JLCPCB, serigrafía, térmico, tamaño) | 04-ing-diseno | 329532 | 109 | 47 |
+| 2026-11-19 | ing-diseno | brazo B': 100 × 100 mm, 0 obligatorias, 25 iteraciones | 05-ing-diseno | 305463 | 83 | 51 |
+| 2026-11-20 | ing-diseno | paso 5: J2 y U5 al ras, 116 reglas, 0 obligatorias en 100 × 100 (dos tandas por el límite de uso) | 06-ing-diseno | 517342 | 148 | 91 |
+| 2026-11-20 | ing-diseno | paso 6: estudio de coste por bloques y J10 horizontal al ras, 0 obligatorias | 07-ing-diseno | 375851 | 127 | 35 |
+| 2026-11-23 | ing-validacion | VAL-0037-01 APROBADO_CON_OBSERVACIONES (4 M, 7 B) | VAL-0037-01 | 280471 | 88 | 23 |
+| 2026-11-23 | ing-diseno | corrección VAL-0037-01: P3 sin C8, P4 a elegir, sin P5, regla E09 | 07-ing-diseno | 34774 | 15 | 5 |
+| 2026-11-23 | ing-validacion | VAL-0037-02 APROBADO_CON_OBSERVACIONES (2 B) | VAL-0037-02 | 28588 | 11 | 5 |
+| 2026-11-23 | coordinador | Cierra la spec | VAL-0037-02 (APROBADO_CON_OBSERVACIONES) |  |  |  |
