@@ -38,3 +38,12 @@ PUNTOS 6251 = 0 obligatorias + 58 objetivos (61 en b3) + 4507/10 de longitud. Pl
 - Usuario: decisiones del estudio §9 (P2 THT a mano, P3, P5, O13, margen +10/+5, rieles: preguntar a JLCPCB, U1 RGET).
 - Coordinador: aplicar el parche de la batería; checklist l. 44 y l. 46 (§8.7); reescritura de objetivos (§8.3).
 - Otra spec: J10 BH254R-10P en `hardware/v2` (DEC-0017), textos de JP1, zona de U5 de un solo lado (Fig. 26, D5), mínimo de 0,3 mm en `ras`.
+
+## Corrección VAL-0037-01 (2026-11-23)
+
+- Estudio: P4 pasa a «LDO a elegir en SPEC-0038», con los requisitos y los candidatos C150716 y C52146079 (-01). P3 sin C8 (cita de la p. 20; la línea C513710 se queda, ahorro de 0,18 / 0,05 $) (-02). P5 retirada (-03). §0 y §9: P1 + P2 + P3 → 42,02 $/placa con 5 uds y 24,00 $ con 50. §8.10: cómo reproducir b4 y el criterio de SPEC-0038 (-04).
+- Recuento de reglas: el parte 06 dice ahora 116 reglas + 4 clases (-06). Con E09 son 117 + 4 clases. Ni este parte ni el README citaban el 119.
+- `BH254R-10P.md`: codo a ≈ 6,0 mm y pinout marcado como inferido; nota de P05 y estudio §5 corregidos (-08).
+- README: la clase `ColocacionPaso6` (-10).
+- Regla E09 (`lejos` R14 R15 de U2 L1 U7-U12, ≥ 5 mm, objetivo, `alimentacion.md` §8) (-11). `evaluar` de b4 (copia con J10 horizontal): 117 reglas, PUNTOS 6251, 0 obligatorias y 58 objetivos; E09 se cumple.
+- `hardware/v2` sin cambios; la batería no cambia (ninguna prueba cuenta las reglas).

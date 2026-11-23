@@ -30,7 +30,7 @@ P01;fila;SW3-SW8;;10.16;obligatoria;EXP-03 (en fila) · conectores.md §0 (salid
 P02;fila;SW3-SW8;;12.7;objetivo;conectores.md §0 y §4 (paso de 12,7 mm);
 P03;zona;SW3-SW8;centro;50;obligatoria;EXP-03, FAB-07 (en el centro, no en los bordes) · conectores.md §4 (franja central entre las bandas de bornes y high-side);Franja central del 50 % de la altura: cifra de esta tabla
 P04;cerca;U18;SW3-SW8;10;obligatoria;conectores.md §0 (U18 a ≤ 10 mm de la fila);
-P05;lejos;SW3-SW8;J1 J3 J4-J10 C1;6;obligatoria;conectores.md §0 y §5 (≥ 6 mm de cada tecla a piezas de más de 5 mm de alto);Altas: bornes 14 mm (WJ500V-5.08-2P.md), J10 8,9 mm de cuerpo y ≈ 7,1 mm en los codos de los pines detrás de él (BH254R-10P.md, DEC-0017: sigue por encima de 5 mm, la cifra no cambia), J3 8,5 mm (B-2100S04P-A110.md), C1 10 mm (CP_Elec_8x10). Patio a patio, más estricto que desde la tecla
+P05;lejos;SW3-SW8;J1 J3 J4-J10 C1;6;obligatoria;conectores.md §0 y §5 (≥ 6 mm de cada tecla a piezas de más de 5 mm de alto);Altas: bornes 14 mm (WJ500V-5.08-2P.md), J10 8,9 mm de cuerpo y ≈ 6,0 mm en los codos de los pines detrás de él (BH254R-10P.md, DEC-0017: sigue por encima de 5 mm, la cifra no cambia), J3 8,5 mm (B-2100S04P-A110.md), C1 10 mm (CP_Elec_8x10). Patio a patio, más estricto que desde la tecla
 O01;cerca_par;U7-U12;J4-J9;15;obligatoria;salidas.md §11 (BTT a ≤ 15 mm de su borne) · arquitectura.md §0;Patio a patio
 O02;cerca_par;D12-D17;J4-J9;5;objetivo;salidas.md §11 (D12–D17 junto al borne) · DEC-0014;«Junto a» sin cifra: 5 mm de esta tabla
 O03;cerca_par;C33-C38;J4-J9.1;5;objetivo;salidas.md §11 (C_OUT junto al pin 1 del borne);«Junto a»: 5 mm
@@ -52,6 +52,7 @@ E05;cerca;C3 R2 C4 R3 R5 D3 C6 JP1;U1;5;objetivo;alimentacion.md §8 (C3, R2, C4
 E06;cerca;R1 D1;Q1;5;objetivo;alimentacion.md §8 (R1 y D1 junto a la puerta);«Junto a»: 5 mm
 E07;cerca;C20 C5;U5;5;objetivo;alimentacion.md §8 (C20 y C5 junto al pin del módulo);«Junto a»: 5 mm
 E08;lejos;JP1;J1 J3 J4-J10 C1;2;obligatoria;alimentacion.md §8 (JP1 accesible al soldador: sin piezas altas a ≤ 2 mm);Mismas piezas altas que P05 (J10 horizontal: 8,9 mm, recalculado en el paso 6 de SPEC-0037, sin cambio)
+E09;lejos;R14 R15;U2 L1 U7-U12;5;objetivo;alimentacion.md §8 (VIN_SENSE: «Lejos de SW, de L1 y de las salidas») · ALI-09 · checklists/layout.md (divisor de VIN alejado del buck y de las salidas) · VAL-0037-01-11;Patio a patio ≥ 5 mm del buck (U2 y L1, nodo SW) y de los BTT6050: unas 3 veces el grueso de la placa (1,6 mm), cifra de esta tabla. El divisor tiene 4,64 kΩ de Thévenin y C20 en el pin del módulo
 M01;cerca;C24 C25;U5.2;3;obligatoria;mcu.md §12 (C24 y C25 a ≤ 3 mm del pin 2);Patio del condensador a pad 2
 M02;cerca;C23 R16;U5.3;5;objetivo;mcu.md §12 (C23 y R16 junto al pin 3);«Junto a»: 5 mm
 M03;cerca;R17 R20 R21 R22 R24 R25;U5;5;objetivo;mcu.md §12 (R17, R20/R21, R22 y R24/R25 junto al módulo);«Junto a»: 5 mm
