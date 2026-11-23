@@ -14,6 +14,7 @@ Cada colocación se evalúa con la herramienta y las reglas **de su paso** (`git
 - Sembrados: `scratchpad\v37\sembrar.py` (cambios por referencia sobre b4, un CSV por caso y lectura del `--detalle`). Para F01, el hueco se mide con el patio real (`pcbnew` `GetCourtyard().BBox()`). `extraer` redondea el patio a 0,1 mm: un 0603 sale 1,5 mm y mide 1,45. Con 0,10 exactos F01 no salta, y es correcto (≥).
 - Ida y vuelta: compararla con un lector propio del texto de la PCB. La referencia está en coordenadas de la huella, así que hay que girarla con el giro de la huella para pasarla a ejes de placa.
 - La auditoría no guarda tokens: solo acciones y marcas de tiempo por `agent_id`. Hay que buscar huecos de más de 10 min, que indican un agente continuado en dos tandas.
+- `gestion.py auditoria_de` cuenta **todo** el `agent_id`: si el coordinador continúa a un agente para una corrección, la fila suma las dos sesiones y el hueco de días (VAL-0037-02: 142 acciones y 4379 min en vez de 15 y 5). Hay que mirar siempre la fila de la corrección.
 - Las alternativas «misma pieza» de JSMSEMI o TECH PUBLIC para TLV1117LV pueden ser un 1117 clásico (caída de 1,2 V y tántalo). Se renderiza el PDF (`pdftoppm`) cuando `pdftotext` sale vacío (fuentes chinas).
 - Cuando un estudio cita una tabla de «valores típicos», hay que buscar en el texto del datasheet un «must». En el LMR36520, p. 20, el de 220 nF a la entrada es obligatorio.
 - Al recalcular el error de una medida, se comprueban los términos que el documento de diseño ya suma (en ALI-09, la caída de F1 + Q1).
