@@ -11,7 +11,7 @@ estado: completado
 ## Hecho
 
 - `superados.csv`: 23 términos (diff de `campos-*.csv` entre `v2.0-sch` y `main`, más DEC-0016 a DEC-0019). La columna `alcance` acota los que siguen vigentes en otras referencias (C513710 y 220n 100V en C3 y C8; C23162 fuera de R15; FAB-08 en `docs/02`).
-- Frontmatter de los 19 DEC (`estado`, `modificada_por`) y `VIGENTES.md` (76 reglas). Plantilla `decision.md`, índice y «Registros» de `gestion/README.md` y `CLAUDE.md` apuntan a `VIGENTES.md`.
+- Frontmatter de los 19 DEC (`estado`, `modificada_por`) y `VIGENTES.md` (78 reglas). Plantilla `decision.md`, índice y «Registros» de `gestion/README.md` y `CLAUDE.md` apuntan a `VIGENTES.md`.
 - `docs/02` v0.9: D5 y D6 según DEC-0019, con su línea en el historial. `docs/03`: fase 4 según DEC-0019, con la colocación en texto y el estudio de coste marcados.
 - `gestion.py`: `integrar` deja el trailer `Agent-Id` y cuenta solo lo posterior a ese commit (también `registrar`); orden `comprobar` (`VIGENTES.md` y memorias). Pruebas G07, G08, K01–K04.
 - `guardia.py`: lee el script de `python`/`node` que se ejecuta y bloquea las escrituras en rutas literales fuera de la zona. Pruebas Z01–Z04 en `test_gestion.py`.
@@ -30,4 +30,4 @@ estado: completado
 
 ## Pendiente
 
-- Usuario: el push de `main` tras cada merge no tiene DEC (nota 1 de `VIGENTES.md`).
+- Ninguno. El push de `main` tras cada merge sigue sin DEC: el usuario no lo considera necesario (2026-11-24).

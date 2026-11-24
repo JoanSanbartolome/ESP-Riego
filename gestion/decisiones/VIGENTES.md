@@ -83,4 +83,4 @@ Una regla por fila, sacada del texto de un DEC o de sus secciones «Tras …», 
 | fabricación | Los THT (J1, J3, J4–J9 y J10) quedan fuera del montaje de JLCPCB: los compra y los suelda el usuario. | DEC-0018 | FAB-06 |
 | fabricación | Sin rieles; para J2 y U5, al ras del borde, se confirma en la revisión DFM antes del pedido. | DEC-0019 | FAB-02 |
 
-**Nota 1.** El push de `main` tras cada merge está autorizado por el manual (`gestion/README.md`, paso 8, desde SPEC-0026) sin un DEC que lo recoja.
+**Nota 1.** El push de `main` tras cada merge está autorizado por el manual (`gestion/README.md`, paso 8, desde SPEC-0026) sin un DEC que lo recoja; el usuario no lo considera necesario (2026-11-24).
