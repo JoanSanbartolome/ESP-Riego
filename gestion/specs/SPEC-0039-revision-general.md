@@ -2,7 +2,7 @@
 id: SPEC-0039
 titulo: Revisión general: documentación, decisiones vigentes, memorias y ruido
 fase: 4
-estado: propuesta
+estado: abierta
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0039-revision-general
@@ -126,3 +126,4 @@ Nivel **completo** en la guarda y en `gestion.py`, porque cambian el control de 
 | Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |
 |---|---|---|---|---|---|---|
 | 2026-11-24 | coordinador | Crea la spec (propuesta) | | | | |
+| 2026-11-24 | coordinador | Abre la spec |  |  |  |  |
