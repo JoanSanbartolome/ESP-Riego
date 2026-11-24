@@ -6,11 +6,15 @@ Actualizado el 2026-11-24, al cerrar SPEC-0038. Lo reescribe el coordinador en c
 
 Una spec cada vez, porque comparten carpeta.
 
-1. Desglose del resto de la fase 4, que se consulta al usuario:
-   - aplicar `colocacion-b4.csv` a la PCB de `hardware/v2` cuando el usuario apruebe la imagen;
-   - `restricciones.csv` con las reglas de JLCPCB de `colocacion-reglas.csv`;
-   - el rutado.
-2. SPEC-0036 (propuesta): observaciones de VAL-0032-01. La M (alternativa de U1) se resuelve antes del pedido; el estudio propone TPS26632RGET.
+**No abrir ninguna spec hasta que el usuario lo pida** (DEC-0019).
+
+1. Desglose de la fase 4, aprobado (DEC-0019):
+   - aplicar b4 a la PCB, con la imagen aprobada antes por el usuario;
+   - clases de red y `.kicad_dru`;
+   - rutado, en una o dos specs;
+   - cierre.
+2. SPEC-0036 (propuesta): observaciones de VAL-0032-01. El usuario quiere una pieza de respaldo para U1; el estudio propone TPS26632RGET.
+3. D5 (caja): se diseña con la PCB terminada. D6: 1 oz, provisional hasta el diseño térmico.
 
 **Modelo de los agentes (DEC-0010):** Opus o inferior, nunca Fable 5.2. La validación ligera se lanza con `model: sonnet`.
 
@@ -28,7 +32,7 @@ Una spec cada vez, porque comparten carpeta.
 
 ## Pendiente del usuario
 
-- Antes del primer pedido, preguntar a JLCPCB si J2, U5 y J10 al ras exigen rieles (`estudio-coste.md` §7).
+- Rieles: el usuario no los cree necesarios (DEC-0019). Para J2 y U5, montadas al ras por JLCPCB, se confirma en la revisión DFM antes del pedido.
 - En el prototipo:
   - comprobar que las válvulas instaladas (Bermad S-390-3-D) caben en los límites de REL-11 (`salidas.md` §13.10);
   - medir T_J de U4: los 60 °C/W con cobre son una suposición, porque el datasheet solo da 128 °C/W sin disipador;
