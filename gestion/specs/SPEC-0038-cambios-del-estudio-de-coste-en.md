@@ -98,4 +98,4 @@ Nivel **completo** (piezas y esquema; DEC-0005).
 | 2026-11-23 | jr-conformidad | C3 a 220 nF, P1 en D1-D3 con fichas, BOM y CPL con THT a mano | 02-jr-conformidad | 174943 | 55 | 12 |
 | 2026-11-23 | ing-diseno | Documentos de coste y alimentación al día con el paso 2 | 03-ing-diseno | 32929 | 16 | 3 |
 | 2026-11-24 | ing-validacion | VAL-0038-01 APROBADO_CON_OBSERVACIONES (1 M, 3 B) | VAL-0038-01 | 243977 | 63 | 13 |
-| 2026-11-24 | ing-diseno | Corrección de VAL-0038-01: U4 AP2114H en docs, margen de 0,145 V y cifras de b4 | 03-ing-diseno | 34775 | 127 | 3 |
+| 2026-11-24 | ing-diseno | Corrección de VAL-0038-01: U4 AP2114H en docs, margen de 0,145 V y cifras de b4 | 03-ing-diseno | 34775 | 12 | 3 |
