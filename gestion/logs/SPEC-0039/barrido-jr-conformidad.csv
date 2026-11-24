@@ -1,0 +1,32 @@
+archivo,línea (antes del barrido),término,clase,acción
+hardware/componentes/BH254V-10P.md,2 5 8 9 11 12 17,BH254V-10P · C492442 · IDC-Header_2x05_P2.54mm_Vertical,histórica,ficha de la pieza vertical: título y `funcion` con «hasta SPEC-0037» y aviso de ficha histórica bajo el título
+hardware/componentes/TLV1117LV.md,2 4 5 7 9 17 50,TLV1117LV · C15578 · C48937499,histórica,ficha del LDO anterior: título y `funcion` con «hasta SPEC-0037» y aviso de ficha histórica bajo el título
+hardware/componentes/BH254R-10P.md,19,BH254V-10P,histórica,«(recta, hasta SPEC-0037)»
+hardware/componentes/AP2114H-3.3TRG1.md,4 38 65,TLV1117LV33DCYR · TLV1117LV,histórica,«hasta SPEC-0037» junto al término
+hardware/componentes/AP2114H-3.3TRG1.md,77,C52146079 · C48937499,histórica,candidatos no elegidos ya rotulados «Descartados (SPEC-0038)»
+hardware/componentes/BZT52C15.md,3 5 7 10 22 24 54,C173427,histórica,«hasta SPEC-0037» en cada mención (la pieza montada era MDD)
+hardware/componentes/SMBJ33A.md,3 5 10 23 25 55 65,C224019,histórica,«hasta SPEC-0037» en cada mención (la pieza montada era Littelfuse)
+hardware/componentes/SS310.md,3 5 7 10 22 24 55,C15874,histórica,«hasta SPEC-0037» en cada mención (la pieza montada era MDD)
+hardware/componentes/bloque-alimentacion.md,12 13 14 19,C173427 · C224019 · C15874 · TLV1117LV33DCYR C15578,histórica,«antes … hasta SPEC-0037»
+hardware/componentes/bloque-alimentacion.md,24,TLV1117LV33DCYR C48937499,histórica,«consulta 2026-11-05, hasta SPEC-0037» y «descartado en SPEC-0038»
+hardware/componentes/bloque-alimentacion.md,42 67 77,220 nF 100 V · C513710 · CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+hardware/componentes/bloque-alimentacion.md,78,TLV1117LV,actualizar,«C18/C19» reescrito frente al AP2114H de U4; el TLV1117LV queda como «hasta SPEC-0037»
+hardware/componentes/bloque-alimentacion.md,86,TLV1117LV,histórica,«hasta SPEC-0037; el AP2114H de U4 tiene el mismo patillaje»
+hardware/componentes/bloque-conectores.md,3,BH254V-10P,actualizar,«ficha propia (BH254R-10P, …)»
+hardware/componentes/bloque-conectores.md,7,BH254V-10P C492442,histórica,«antes … hasta SPEC-0037»
+hardware/componentes/bloque-salidas.md,15,CC0805KKX7R0BB224 C513710,histórica,«antes … hasta SPEC-0037»
+hardware/componentes/BTT6050-1ERA.md,61,C513710,histórica,«antes 220 nF C513710, hasta SPEC-0037»
+hardware/componentes/bloque-mcu.md,7,C23162,no es coincidencia,es R24 o R25 (alcance: solo la pieza de R15)
+hardware/componentes/campos-mcu.csv,17 18,C23162,no es coincidencia,es R24 o R25 (alcance: solo la pieza de R15)
+hardware/componentes/campos-alimentacion.csv,4 9,220n 100V · C513710 · CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+hardware/componentes/LMR36520.md,30,220 nF 100 V,no es coincidencia,recomendación del datasheet (CIN de U2): no es un valor de C27–C38
+hardware/componentes/stock-expansion.csv,106,"47,15 (dentro de «38247,15»)",no es coincidencia,falso positivo de la expresión
+hardware/componentes/stock-expansion.csv,143,BH254V-10P C492442,histórica,nota de la fila: «hasta SPEC-0037: J10 pasó a BH254R-10P C492448» (única fila de la placa principal)
+hardware/componentes/stock-expansion.csv,12 13 16 17 22 23 46 47 118 119 120 121 122 123,TLV1117LV33DCYR · C15874 · C173427 · C224019 · BH254V-10P · C513710,otra placa,costes de los módulos de expansión (§8): su BOM no sigue a la placa principal
+hardware/componentes/bom-expansion.csv,5-279 (46 líneas),C173427 · C224019 · C513710 · C15874 · C492442 · C15578,otra placa,BOM de los módulos de expansión (cinco variantes): no es la placa principal
+hardware/componentes/stock-conectores.csv,2,BH254V-10P C492442,actualizar,fila sustituida por BH254R-10P C492448 (10 246 uds, 0,1478 $, 2026-11-24)
+hardware/componentes/stock-salidas.csv,8,CC0805KKX7R0BB224 C513710,actualizar,fila sustituida por CL21B104KCFNNNE C28233 (Basic; 2 540 935 uds, 0,0158 $, 2026-11-24)
+fabricacion/v2.0-sch/bom.csv,4 13 14 15 22 48,"220n 100V C513710 (C27–C38) · C173427 · C224019 · C15874 · BH254V-10P · TLV1117LV33DCYR",histórica,paquete de la etiqueta v2.0-sch: nuevo `fabricacion/v2.0-sch/README.md` rotulado «(hasta SPEC-0037)» con la tabla de lo vigente
+fabricacion/v2.0-sch/bom.csv,36,C23162,no es coincidencia,es R24 o R25 (alcance: solo la pieza de R15)
+fabricacion/v2.0-prueba/bom.csv,4 37,220n 100V · C513710 · C23162,no es coincidencia,"es C3 y C8 (la línea ya no incluye C27–C38) y R24 o R25"
+fabricacion/v2.0-prueba/bom-jlcpcb.csv,4 34,220n 100V · C513710 · C23162,no es coincidencia,igual que bom.csv

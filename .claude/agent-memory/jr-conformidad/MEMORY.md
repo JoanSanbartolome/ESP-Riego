@@ -1,10 +1,3 @@
-- **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
-- [Trucos de importación del TFG](importar-tfg-trucos.md) — guardia, kicad-cli upgrade, conversión de .lib/EasyEDA, KICAD9→KICAD10
-- [Recopilar componentes](recopilar-componentes-trucos.md) — API JLCPCB para stock/precio, PDFs, 3D ausentes en KiCad 10.0.6, STEP válidos
-- [Datasheets de fabricante](datasheets-fabricante-trucos.md) — URLs Infineon/Sensirion, sitios que bloquean, trucos de guardia
-- [Piezas del bloque MCU](piezas-mcu-trucos.md) — Basic/Extended confirmados, TS-1187A, 3D con SolidCraft, trampas API
-- [Piezas de salidas](piezas-salidas-trucos.md) — códigos LCSC, vías térmicas del EP, banco de render con huellas en línea, --exclude-dnp
-- [Derating y 3D](derating-y-3d-trucos.md) — curvas Samsung SimSurfing, búsqueda libre en JLCPCB, 3D del fusible, banco de render
-- [Piezas de conectores](piezas-conectores-trucos.md) — fichas de bloque, símbolos ausentes, TCA9554 con pull-up interno, descargas TI
-- [Mantenimiento de campos](mantenimiento-campos-trucos.md) — tablas desde hojas con cables, PDFs por API, python y rutas en Windows
-- [Zona docs y coste](zona-docs-y-coste.md) — docs/ fuera de zona aunque lo pida el encargo (propuesta en scratchpad); fórmula del coste por placa
+- [Entorno y herramientas](entorno-y-herramientas.md) — rutas de Windows, heredocs, clasificador del modo automático, verificar.py, esquema.pcb_main, --exclude-dnp
+- [Fuentes y datasheets](fuentes-y-datasheets.md) — URLs de fabricantes, sitios que no responden, PDF difíciles, SimSurfing, stock de LCSC frente a JLCPCB
+- [Librerías y 3D](librerias-y-3d.md) — kicad-cli upgrade, 3D que faltan en KiCad 10.0.6, STEP válidos, SolidCraft, vías térmicas del EP

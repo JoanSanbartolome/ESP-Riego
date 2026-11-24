@@ -1,7 +1,7 @@
 ---
 mpn: TLV1117LV33DCYR
 fabricante: Texas Instruments
-funcion: LDO de 3,3 V y 1 A, entrada de 2 a 5,5 V; raíl +3V3 (U4)
+funcion: LDO de 3,3 V y 1 A, entrada de 2 a 5,5 V; raíl +3V3 (U4, hasta SPEC-0037)
 lcsc: C15578 (alternativa JSMSEMI TLV1117LV33DCYR, C48937499)
 tipo_jlcpcb: extended
 stock_consultado: 2026-11-05 (TI 1 606 · JSMSEMI 76 870)
@@ -14,7 +14,9 @@ origen_assets: kicad-oficial
 verificado_por:
 ---
 
-# TLV1117LV · LDO 3,3 V / 1 A
+# TLV1117LV · LDO 3,3 V / 1 A (hasta SPEC-0037)
+
+> **Ficha histórica (hasta SPEC-0037).** U4 es AP2114H-3.3TRG1 (C150716) desde SPEC-0038, DEC-0018 P4: ver `AP2114H-3.3TRG1.md`. Esta ficha conserva el TLV1117LV33DCYR de TI (C15578, stock 0 el 2026-11-23) y los candidatos descartados (JSMSEMI C48937499, TECH PUBLIC C52146079).
 
 ## Datos clave
 
