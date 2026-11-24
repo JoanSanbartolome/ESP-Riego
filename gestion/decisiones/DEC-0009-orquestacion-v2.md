@@ -2,7 +2,8 @@
 id: DEC-0009
 titulo: Orquestación v2: menos traspasos, menos papel y herramientas versionadas
 fecha: 2026-11-11
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0010, DEC-0019, DEC-0020]
 decide: usuario
 specs: [SPEC-0026]
 requisitos: []

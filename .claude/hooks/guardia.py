@@ -22,10 +22,12 @@ Para resolver las rutas, sustituye en orden las variables que se asignan en el p
 comando (S=/ruta; mkdir $S/x) y no trata como órdenes el cuerpo de un heredoc que reciben
 cat, tee o un intérprete, salvo que la línea lo pase a una shell o que, sin comillas en el
 delimitador, lleve $(...) o `...`. El código en línea de python o node no se analiza,
-igual que el de un script, salvo que el comando toque el TFG (DEC-0009, M9).
+salvo que el comando toque el TFG (DEC-0009, M9). Un script de python o node que se
+ejecuta (`python -I estudio.py`) sí se lee: se bloquea si escribe en una ruta literal
+fuera de la zona, como `Path(r'C:/…/docs/x.md').write_text(…)` (VAL-0038-01-04).
 
-Es una red de seguridad, no un sandbox: lo que escribe un script de Python o de
-PowerShell no se puede analizar desde el comando. Lo que se escape lo detectan
+Es una red de seguridad, no un sandbox: un script que calcula sus rutas, o lo que
+escribe PowerShell, no se puede analizar desde el comando. Lo que se escape lo detectan
 herramientas/revisar_zonas.py, herramientas/integridad_tfg.py y la revisión del
 coordinador. Qué herramientas MCP puede usar cada agente lo fija disallowedTools.
 
@@ -132,6 +134,17 @@ SOLO_LECTURA = {"ls", "dir", "gci", "get-childitem", "cat", "type", "gc", "get-c
                 "where", "which", "tree", "pwd", "realpath", "dirname", "basename",
                 "[", "[[", "test"}
 INTERPRETES = {"python", "python3", "py", "node"}
+# Scripts que se leen antes de ejecutarlos (VAL-0038-01-04) y lo que en ellos escribe.
+EXT_SCRIPT = (".py", ".pyw", ".js", ".mjs", ".cjs")
+CODIGO_EN_LINEA = {"-c", "-m", "-e", "--eval", "-p", "--print", "-"}
+METODOS_ESCRITURA = {"write_text", "write_bytes", "unlink", "rmdir", "mkdir", "touch", "rename",
+                     "replace", "symlink_to", "hardlink_to"}
+FUNCIONES_ESCRITURA = {"os.remove": 0, "os.unlink": 0, "os.rmdir": 0, "os.mkdir": 0, "os.makedirs": 0,
+                       "os.rename": 1, "os.replace": 1, "shutil.copy": 1, "shutil.copy2": 1,
+                       "shutil.copyfile": 1, "shutil.copytree": 1, "shutil.move": 1, "shutil.rmtree": 0}
+NODE_ESCRITURA = re.compile(r"\b(writeFile|appendFile|copyFile|rename|unlink|rmdir|rm|mkdir|cp)(?:Sync)?"
+                            r"\s*\(([^)]*)\)")
+LITERAL_JS = re.compile(r"(['\"`])([^'\"`\n]+)\1")
 # Parámetros de PowerShell que no llevan valor detrás.
 INTERRUPTORES = {"-recurse", "-force", "-confirm", "-whatif", "-passthru", "-nonewline", "-append",
                  "-noclobber", "-container", "-verbose", "-debug", "-raw", "-wait", "-file",
@@ -668,6 +681,133 @@ def orden_interior(nombre, args):
     return None
 
 
+def script_de(args):
+    """Script que ejecuta un intérprete, o None si ejecuta código en línea o un módulo."""
+    for a in args:
+        if a.lower() in CODIGO_EN_LINEA:
+            return None
+        if not a.startswith("-"):
+            return a
+    return None
+
+
+def _nombre_py(nodo):
+    import ast
+    if isinstance(nodo, ast.Name):
+        return nodo.id
+    if isinstance(nodo, ast.Attribute):
+        return f"{_nombre_py(nodo.value)}.{nodo.attr}"
+    return ""
+
+
+def _ruta_py(nodo, variables):
+    """Valor de una expresión de ruta hecha de literales (str, Path(...), /, os.path.join), o None."""
+    import ast
+    if isinstance(nodo, ast.Constant) and isinstance(nodo.value, str):
+        return nodo.value
+    if isinstance(nodo, ast.Name):
+        return variables.get(nodo.id)
+    if isinstance(nodo, ast.BinOp) and isinstance(nodo.op, ast.Div):
+        a, b = _ruta_py(nodo.left, variables), _ruta_py(nodo.right, variables)
+        return f"{a}/{b}" if a is not None and b is not None else None
+    if isinstance(nodo, ast.Call):
+        funcion = _nombre_py(nodo.func)
+        if funcion.split(".")[-1] in ("Path", "PurePath", "WindowsPath", "PosixPath") or funcion == "os.path.join":
+            partes = [_ruta_py(a, variables) for a in nodo.args]
+            return "/".join(partes) if partes and all(p is not None for p in partes) else None
+        if isinstance(nodo.func, ast.Attribute) and nodo.func.attr in ("resolve", "absolute", "expanduser"):
+            return _ruta_py(nodo.func.value, variables)
+    return None
+
+
+def _modo(nodo, posicion):
+    import ast
+    valor = nodo.args[posicion] if len(nodo.args) > posicion else next(
+        (k.value for k in nodo.keywords if k.arg == "mode"), None)
+    return valor.value if isinstance(valor, ast.Constant) and isinstance(valor.value, str) else "r"
+
+
+def escrituras_py(codigo):
+    """Rutas literales en las que escribe un script de Python (open en w/a/x/+, Path.write_text,
+    unlink, os.remove, shutil.copy…). Lo que no se pueda evaluar se ignora."""
+    import ast
+    try:
+        arbol = ast.parse(codigo)
+    except (SyntaxError, ValueError):
+        return []
+    variables, objetos_path = {}, set()
+
+    def es_path(nodo):
+        """¿La expresión es un objeto Path? (str.replace no es Path.replace)"""
+        if isinstance(nodo, ast.Name):
+            return nodo.id in objetos_path
+        if isinstance(nodo, ast.BinOp) and isinstance(nodo.op, ast.Div):
+            return True
+        if isinstance(nodo, ast.Call):
+            funcion = _nombre_py(nodo.func)
+            return funcion.split(".")[-1] in ("Path", "PurePath", "WindowsPath", "PosixPath") or (
+                isinstance(nodo.func, ast.Attribute) and nodo.func.attr in ("resolve", "absolute", "expanduser")
+                and es_path(nodo.func.value))
+        return False
+
+    for _ in range(2):  # dos pasadas: p = RAIZ / 'docs' cuando RAIZ se asigna después en el texto
+        for nodo in ast.walk(arbol):
+            if isinstance(nodo, ast.Assign) and len(nodo.targets) == 1 and isinstance(nodo.targets[0], ast.Name):
+                valor = _ruta_py(nodo.value, variables)
+                if valor is not None:
+                    variables[nodo.targets[0].id] = valor
+                if es_path(nodo.value):
+                    objetos_path.add(nodo.targets[0].id)
+    rutas = []
+    for nodo in ast.walk(arbol):
+        if not isinstance(nodo, ast.Call):
+            continue
+        funcion = _nombre_py(nodo.func)
+        objetivos = []
+        if funcion in ("open", "io.open", "codecs.open") and nodo.args:
+            if re.search(r"[wax+]", _modo(nodo, 1)):
+                objetivos.append(nodo.args[0])
+        elif isinstance(nodo.func, ast.Attribute) and nodo.func.attr == "open" and es_path(nodo.func.value):
+            if re.search(r"[wax+]", _modo(nodo, 0)):
+                objetivos.append(nodo.func.value)
+        elif isinstance(nodo.func, ast.Attribute) and nodo.func.attr in METODOS_ESCRITURA \
+                and funcion not in FUNCIONES_ESCRITURA and es_path(nodo.func.value):
+            objetivos.append(nodo.func.value)
+            if nodo.func.attr in ("rename", "replace") and nodo.args:
+                objetivos.append(nodo.args[0])
+        if funcion in FUNCIONES_ESCRITURA and len(nodo.args) > FUNCIONES_ESCRITURA[funcion]:
+            objetivos.append(nodo.args[FUNCIONES_ESCRITURA[funcion]])
+        rutas += [r for r in (_ruta_py(o, variables) for o in objetivos) if r]
+    return rutas
+
+
+def escrituras_js(codigo):
+    """Rutas literales en las que escribe un script de node (fs.writeFileSync, rmSync…)."""
+    rutas = []
+    for funcion, argumentos in NODE_ESCRITURA.findall(codigo):
+        literales = [m.group(2) for m in LITERAL_JS.finditer(argumentos)]
+        if literales:
+            rutas.append(literales[-1] if funcion in ("copyFile", "rename", "cp") else literales[0])
+    return rutas
+
+
+def motivo_script(agente, ruta, cwd):
+    """Por qué no se puede ejecutar el script `ruta`: escribe fuera de la zona del agente."""
+    if not ruta.endswith(EXT_SCRIPT) or not os.path.isfile(ruta) or os.path.getsize(ruta) > 1_000_000:
+        return None
+    try:
+        codigo = Path(ruta).read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    rutas = escrituras_js(codigo) if ruta.endswith((".js", ".mjs", ".cjs")) else escrituras_py(codigo)
+    for texto in rutas:
+        destino = resolver(texto, cwd)
+        motivo = motivo_destino(agente, destino) if destino else None
+        if motivo:
+            return f"escribe en {texto}: {motivo}"
+    return None
+
+
 def valor_de(args, opciones):
     for i, a in enumerate(args):
         if a in opciones and i + 1 < len(args):
@@ -728,8 +868,9 @@ def analizar(comando, agente, cwd, profundidad=0):
                 return motivo
             continue
         if nombre in INTERPRETES:
-            # El código en línea (-c, heredoc) no se analiza, igual que el de un script: si el
-            # comando toca el TFG ya se ha bloqueado arriba, y lo demás lo ve revisar_zonas.py.
+            # El código en línea (-c, heredoc) no se analiza (DEC-0009, M9): si el comando toca
+            # el TFG ya se ha bloqueado arriba, y lo demás lo ve revisar_zonas.py. Un script sí
+            # se lee, para ver si escribe en una ruta literal fuera de la zona (VAL-0038-01-04).
             posicionales = [a for a in args if not a.startswith("-")]
             if posicionales:
                 escrituras = SCRIPTS_REPO.get(re.split(r"[\\/]", posicionales[0])[-1].lower(), {})
@@ -737,6 +878,11 @@ def analizar(comando, agente, cwd, profundidad=0):
                 motivo = motivo_destino(agente, normal(RAIZ / destino)) if destino else None
                 if motivo:
                     return f"`{posicionales[0]} {posicionales[1]}` escribe en {destino}: {motivo}"
+            script = script_de(args)
+            ruta = resolver(script, cwd) if script else None
+            motivo = motivo_script(agente, ruta, cwd) if ruta else None
+            if motivo:
+                return f"el script {script} {motivo}"
         if nombre == "kicad-cli" or "verificar.py" in segmento:
             rutas = [r for r in (resolver(a, cwd) for a in args) if r]
             if dentro(cwd, TFG) or any(dentro(r, TFG) for r in rutas):

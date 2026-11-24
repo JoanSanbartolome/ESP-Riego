@@ -3,6 +3,7 @@ id: DEC-0006
 titulo: UVLO a 13,5 V y limitador TPS26632 con puente de soldadura
 fecha: 2026-11-05
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0017, SPEC-0018, SPEC-0019]
 requisitos: [ALI-06, ALI-12, ALI-13, REL-04, REL-08]

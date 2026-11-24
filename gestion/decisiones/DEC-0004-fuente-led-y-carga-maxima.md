@@ -2,7 +2,8 @@
 id: DEC-0004
 titulo: Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia
 fecha: 2026-11-05
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0014]
 decide: usuario
 specs: [SPEC-0011]
 requisitos: [ALI-01, ALI-04, ALI-06, ALI-09, ALI-12, ALI-13, REL-03, REL-05, REL-08, REL-10, FAB-01, FAB-03, FAB-09]

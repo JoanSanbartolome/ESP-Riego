@@ -11,6 +11,7 @@ Rediseño (v2) de la PCB de control de riego del TFG de Joan San Bartolomé Ferr
 - **MCP de KiCad:** tiene estado global, así que solo un agente a la vez carga un proyecto (`open_project`), aunque sea para leer; al terminar, guarda y hace `close_project`. Lo que se hace con scripts sobre archivos o con `kicad-cli` sobre una copia no cuenta. Las copias `.mcp-backups/` y `*-backups/` no se versionan.
 - **Buscar texto:** con la herramienta Grep, no con `grep` en la terminal. La guarda trata como orden de git cualquier `git <palabra>` que aparezca en un comando.
 - **Requisitos:** IDs de `docs/02-especificaciones-v2.md` (`ALI-01` … `FW-04`). Hallazgos de la v1: `H1` … `H12` en `docs/01-analisis-v1.md`.
+- **Decisiones:** las reglas vigentes están en `gestion/decisiones/VIGENTES.md`. Los DEC sueltos se leen solo si la spec los cita.
 - **Identificadores:** `SPEC-NNNN`, `VAL-NNNN-NN` y `DEC-NNNN`. Los partes van en `gestion/logs/SPEC-NNNN/NN-<agente>.md`.
 - **Plantillas** en `gestion/plantillas/`; **checklists** en `gestion/checklists/`, con cada punto marcado `[auto]` (lo comprueba un script) o `[juicio]` (lo repasa una persona o un agente).
 - **Git:** solo el coordinador lo usa para escribir.

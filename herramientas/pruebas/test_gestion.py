@@ -9,6 +9,7 @@ que la batería comprueba también que los trailers que escribe gestion.py son l
 integridad_tfg.py se sustituye por uno que siempre da el TFG por intacto. GUARDIA_TEMPORAL
 anula la exención de la carpeta temporal para que las zonas se comprueben de verdad.
 """
+import datetime
 import json
 import os
 import shutil
@@ -176,6 +177,21 @@ def main():
          codigo == 1 and "AUDITORÍA ALTERADA" in salida, salida)
     auditoria.write_text(lineas, encoding="utf-8", newline="\n")
 
+    # --- instancia continuada: integrar solo cuenta la tanda nueva (VAL-0037-01-05)
+    ahora = datetime.datetime.now().astimezone()
+    escribir(tmp, "gestion/logs/auditoria/2026-01-02.jsonl", "".join(json.dumps(
+        {"ts": (ahora + datetime.timedelta(minutes=m)).isoformat(timespec="seconds"), "agente": "ing-diseno",
+         "agent_id": "abc123def", "herramienta": "Bash", "objetivo": "ls", "ok": True}) + "\n" for m in (1, 4)))
+    escribir(tmp, "hardware/v2/otra.md")
+    escribir(tmp, f"gestion/logs/{SPEC}/03-ing-diseno.md", "parte\n")
+    codigo, salida = gestion(tmp, "integrar", SPEC, "--agente", "ing-diseno", "--tipo", "fix", "--resumen", "Corrige",
+                             "--tokens", "1000", "--agent-id", "abc123")
+    texto = ruta_spec.read_text(encoding="utf-8")
+    caso("G07 integrar de una instancia continuada anota solo la tanda nueva: 2 acciones y 3 min, no 4 y 7",
+         codigo == 0 and "| ing-diseno | Corrige | 03-ing-diseno | 1000 | 2 | 3 |" in texto, f"{salida}\n{texto[-300:]}")
+    caso("G08 el commit de integrar lleva el trailer Agent-Id",
+         git(tmp, "log", "-1", "--format=%(trailers:key=Agent-Id,valueonly)").strip() == "abc123")
+
     # --- cerrar
     codigo, salida = gestion(tmp, "cerrar", SPEC)
     caso("C01 cerrar se niega sin informe", codigo != 0 and git(tmp, "branch", "--show-current") == RAMA, salida)
@@ -208,6 +224,63 @@ def main():
          and git(tmp, "status", "--porcelain") == "", git(tmp, "status", "--porcelain"))
     caso("C07 el commit de cierre en la rama precede al merge",
          f"spec({SPEC}): cerrar — VAL-0000-01 APROBADO_CON_OBSERVACIONES" in git(tmp, "log", "--format=%s", "-4"))
+
+    # --- guarda: script en la carpeta temporal que escribe fuera de la zona (VAL-0038-01-04)
+    temporal = tmp / "no-existe"
+    temporal.mkdir()
+
+    def guarda(agente, comando):
+        datos = {"tool_name": "Bash", "tool_input": {"command": comando}, "cwd": str(tmp)}
+        r = subprocess.run([sys.executable, str(tmp / ".claude" / "hooks" / "guardia.py"), agente],
+                           input=json.dumps(datos), capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", env=dict(os.environ, GUARDIA_TEMPORAL=str(temporal),
+                                                      AUDITORIA_DIR=str(tmp / "auditoria-pruebas")))
+        return r.returncode, r.stderr.strip()
+
+    docs = (tmp / "docs" / "diseno" / "x.md").as_posix()
+    escribir(tmp, "no-existe/estudio.py", f"from pathlib import Path\np = Path(r'{docs}')\n"
+                                          "t = p.read_text(encoding='utf-8')\np.write_text(t + 'a', encoding='utf-8')\n")
+    escribir(tmp, "no-existe/lee.py", f"from pathlib import Path\nt = Path(r'{docs}').read_text()\n"
+                                      f"open(r'{(tmp / 'hardware' / 'y.md').as_posix()}', 'w').write(t)\n")
+    comando = f"S={temporal.as_posix()}; cd $S && PYTHONUTF8=1 python -I estudio.py"
+    codigo, salida = guarda("jr-conformidad", comando)
+    caso("Z01 la guarda bloquea a jr-conformidad un script de la carpeta temporal que escribe en docs/ "
+         "(el caso de VAL-0038-01-04)", codigo == 2 and "docs/diseno/x.md" in salida, salida)
+    codigo, salida = guarda("ing-diseno", comando)
+    caso("Z02 el mismo script pasa para ing-diseno, que tiene docs/diseno/ en su zona", codigo == 0, salida)
+    codigo, salida = guarda("jr-conformidad", f"cd {temporal.as_posix()} && python lee.py")
+    caso("Z03 un script que lee docs/ y escribe en hardware/ pasa para jr-conformidad", codigo == 0, salida)
+    codigo, salida = guarda("jr-conformidad", "python - <<'EOF'\nprint(1)\nEOF")
+    caso("Z04 el código en línea sigue sin analizarse (DEC-0009, M9)", codigo == 0, salida)
+
+    # --- comprobar: VIGENTES.md frente a los DEC y forma de las memorias (SPEC-0039)
+    dec = "---\nid: {id}\ntitulo: x\nfecha: 2026-01-01\nestado: {estado}\n{por}---\n# x\n"
+    escribir(tmp, "gestion/decisiones/DEC-0001-a.md", dec.format(id="DEC-0001", estado="modificada",
+                                                                 por="modificada_por: [DEC-0002]\n"))
+    escribir(tmp, "gestion/decisiones/DEC-0002-b.md", dec.format(id="DEC-0002", estado="aceptada", por=""))
+    escribir(tmp, "gestion/decisiones/DEC-0003-c.md", dec.format(id="DEC-0003", estado="sustituida",
+                                                                 por="modificada_por: [DEC-0002]\n"))
+    vigentes = ("# Vigentes\n\n| tema | regla vigente | DEC | requisitos |\n|---|---|---|---|\n"
+                "| orquestación | Una rama por spec. | DEC-0001 | — |\n| alimentación | 24 V. | DEC-0002 | ALI-01 |\n")
+    escribir(tmp, "gestion/decisiones/VIGENTES.md", vigentes)
+    memoria = ".claude/agent-memory/ing-diseno/"
+    escribir(tmp, memoria + "MEMORY.md", "- [A](a.md) — tema a\n")
+    escribir(tmp, memoria + "a.md", "# A\n\n- Un hecho. Por qué: un motivo. Fuente: SPEC-0039.\n")
+    codigo, salida = gestion(tmp, "comprobar")
+    caso("K01 comprobar pasa con VIGENTES.md y una memoria correctos", codigo == 0, salida)
+    escribir(tmp, "gestion/decisiones/VIGENTES.md", vigentes.replace("| alimentación | 24 V. | DEC-0002 | ALI-01 |\n", ""))
+    codigo, salida = gestion(tmp, "comprobar")
+    caso("K02 comprobar avisa de un DEC aceptado que VIGENTES.md no cita", codigo == 1 and "no cita DEC-0002" in salida, salida)
+    escribir(tmp, "gestion/decisiones/VIGENTES.md", vigentes + "| salidas | x. | DEC-0003 | — |\n")
+    codigo, salida = gestion(tmp, "comprobar")
+    caso("K03 comprobar avisa de un DEC sustituido usado como regla vigente",
+         codigo == 1 and "DEC-0003 está sustituida" in salida, salida)
+    escribir(tmp, "gestion/decisiones/VIGENTES.md", vigentes)
+    escribir(tmp, memoria + "b.md", "# B\n\n- Otro hecho sin fuente, de ayer.\n")
+    codigo, salida = gestion(tmp, "comprobar")
+    caso("K04 comprobar avisa de un archivo de memoria que MEMORY.md no enlaza, de la forma y de la fecha relativa",
+         codigo == 1 and "no enlaza b.md" in salida and "b.md l. 3 no tiene la forma" in salida
+         and "fecha relativa" in salida, salida)
 
     shutil.rmtree(tmp, ignore_errors=True)
     print(f"{total - len(fallos)}/{total} casos correctos" + (f"; fallan: {', '.join(f.split()[0] for f in fallos)}" if fallos else ""))

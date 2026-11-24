@@ -3,6 +3,7 @@ id: DEC-0007
 titulo: DEN común a los 6 canales y cambios de compra sin consulta
 fecha: 2026-11-06
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0019, SPEC-0020, SPEC-0021, SPEC-0022]
 requisitos: [MCU-05, REL-04, REL-10, EXP-02]

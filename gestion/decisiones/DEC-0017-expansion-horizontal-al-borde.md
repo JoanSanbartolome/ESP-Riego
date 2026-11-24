@@ -3,6 +3,7 @@ id: DEC-0017
 titulo: Conector de expansión J10 horizontal, al ras del borde inferior
 fecha: 2026-11-20
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0037]
 requisitos: [EXP-03, FAB-07]

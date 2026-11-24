@@ -2,7 +2,8 @@
 id: DEC-0008
 titulo: LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida
 fecha: 2026-11-08
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0014]
 decide: usuario
 specs: [SPEC-0022, SPEC-0024, SPEC-0025]
 requisitos: [MCU-07, REL-03, FAB-02, FAB-03]

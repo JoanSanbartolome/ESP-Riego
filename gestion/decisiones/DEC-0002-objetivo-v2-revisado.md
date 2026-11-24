@@ -2,7 +2,8 @@
 id: DEC-0002
 titulo: Objetivo de la v2 revisado: interior, 24 V DC, 6 salidas, T/HR en placa y sin nivel
 fecha: 2026-11-04
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0003, DEC-0004, DEC-0011, DEC-0014]
 decide: usuario
 specs: [SPEC-0004, SPEC-0005, SPEC-0006]
 requisitos: [ALI-01, ALI-02, ALI-04, ALI-05, ALI-06, ALI-09, ALI-12, REL-01, REL-02, REL-03, REL-05, REL-06, REL-08, REL-09, AMB-01, AMB-02, AMB-03, EXP-01, EXP-02, EXP-04, FAB-03, FAB-07, FAB-08, FAB-10, FW-03]

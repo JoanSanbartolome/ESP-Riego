@@ -2,7 +2,8 @@
 id: DEC-0001
 titulo: Orquestación de agentes para el diseño de la v2
 fecha: 2026-11-03
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0009]
 decide: usuario
 specs: [SPEC-0001]
 requisitos: []

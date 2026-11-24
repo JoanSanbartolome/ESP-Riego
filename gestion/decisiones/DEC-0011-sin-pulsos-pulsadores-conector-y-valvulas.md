@@ -2,7 +2,8 @@
 id: DEC-0011
 titulo: Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas
 fecha: 2026-11-13
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0012, DEC-0013, DEC-0014]
 decide: usuario
 specs: [SPEC-0006, SPEC-0028, SPEC-0030, SPEC-0031, SPEC-0032]
 requisitos: [EXP-01, EXP-02, EXP-03, EXP-04, REL-03, REL-05, ALI-12]

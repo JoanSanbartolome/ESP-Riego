@@ -3,6 +3,7 @@ id: DEC-0014
 titulo: Salidas con límites de uso propios, una válvula por salida y rueda libre montada
 fecha: 2026-11-17
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0033, SPEC-0034, SPEC-0032]
 requisitos: [REL-03, REL-05, REL-10, ALI-12]

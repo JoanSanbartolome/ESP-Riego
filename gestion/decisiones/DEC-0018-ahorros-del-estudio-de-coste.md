@@ -3,6 +3,7 @@ id: DEC-0018
 titulo: Ahorros del estudio de coste: se mantiene Q1 y se aplican P1–P5
 fecha: 2026-11-23
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0037, SPEC-0038]
 requisitos: [ALI-03, ALI-04, ALI-05, ALI-07, ALI-09, FAB-06]

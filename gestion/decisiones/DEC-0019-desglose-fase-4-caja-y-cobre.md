@@ -3,6 +3,7 @@ id: DEC-0019
 titulo: Desglose del resto de la fase 4, caja después de la PCB y cobre de 1 oz provisional
 fecha: 2026-11-24
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: []
 requisitos: [FAB-02, FAB-03, FAB-08, KIC-04, MCU-02, AMB-02, REL-05]

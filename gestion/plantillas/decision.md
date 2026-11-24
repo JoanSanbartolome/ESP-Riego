@@ -2,7 +2,8 @@
 id: DEC-NNNN
 titulo: <título>
 fecha: AAAA-MM-DD
-estado: propuesta | aceptada | sustituida por DEC-NNNN
+estado: aceptada | modificada | sustituida
+modificada_por: []
 decide: usuario | coordinador
 specs: []
 requisitos: []

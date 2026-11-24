@@ -3,6 +3,7 @@ id: DEC-0013
 titulo: Lectura de los 6 pulsadores con un TCA9554 en el bus I²C de la placa
 fecha: 2026-11-15
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0031]
 requisitos: [EXP-03, AMB-01, MCU-05, FW-04]

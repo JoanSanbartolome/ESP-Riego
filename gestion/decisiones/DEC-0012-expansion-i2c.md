@@ -2,7 +2,8 @@
 id: DEC-0012
 titulo: D9, módulo de expansión por I²C con TCA9535 y ADS1115
 fecha: 2026-11-15
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0014, DEC-0017]
 decide: usuario
 specs: [SPEC-0006, SPEC-0031]
 requisitos: [EXP-02, EXP-04, ALI-12, ALI-13, REL-04, REL-10, AMB-03]

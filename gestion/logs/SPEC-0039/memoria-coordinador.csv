@@ -1,0 +1,21 @@
+archivo,n,resumen,clase,comprobación,destino
+user-perfil.md,1,Nombre y correo del usuario,DUPLICADA,"Grep ""Joan San Bartolomé Ferri"" CLAUDE.md → l. 3",borrada; CLAUDE.md
+user-perfil.md,2,TFG con ESP32-S2; 4 relés y sensor 4–20 mA,DUPLICADA,"Grep ""ESP32-S2"" docs/01-analisis-v1.md → coincide",borrada; docs/01-analisis-v1.md
+user-perfil.md,3,Proyecto del TFG de solo lectura en C:\…\TFG,DUPLICADA,"Grep ""Es de solo lectura"" CLAUDE.md → coincide",borrada; CLAUDE.md
+user-perfil.md,4,Rediseña la v2 en ESP-Riego con KiCad 10 y el MCP,DUPLICADA,"Grep ""KiCad 10"" CLAUDE.md → coincide",borrada; CLAUDE.md
+user-perfil.md,5,Se comunica en español,DUPLICADA,"Grep ""Idioma: español"" CLAUDE.md → coincide",borrada; CLAUDE.md
+user-perfil.md,6,Trabaja en Windows 11,VIGENTE,"Grep ""Windows 11"" CLAUDE.md gestion/README.md → 0",user-perfil.md
+user-perfil.md,7,Decide electrónica: ESP32-S3; entrada de 9–30 V; cargas de baja tensión,OBSOLETA,"Grep ""18 y 30 V"" gestion/decisiones/VIGENTES.md → 1 (9–30 V contradice el valor actual)",borrada
+feedback-forma-de-trabajo.md,1,Trabajo por etapas; el usuario revisa antes de la siguiente,VIGENTE,"Grep ""una etapa"" CLAUDE.md gestion/README.md → 0",feedback-forma-de-trabajo.md
+feedback-forma-de-trabajo.md,2,El usuario invita a cuestionar su arquitectura,VIGENTE,"Grep ""cuestionar"" CLAUDE.md gestion/README.md → 0",feedback-forma-de-trabajo.md
+feedback-forma-de-trabajo.md,3,Push de main tras cada merge sin preguntar,DUPLICADA,"Grep ""git push"" CLAUDE.md → «cualquier git push que no sea el de main después de un merge»",borrada; CLAUDE.md y gestion/README.md paso 8
+feedback-forma-de-trabajo.md,4,Las ramas spec/* sin validar quedan en local,DUPLICADA,"Grep ""git push"" CLAUDE.md → se consulta todo push que no sea el de main",borrada; CLAUDE.md
+feedback-forma-de-trabajo.md,5,Etiquetas en local; push solo si lo pide,DUPLICADA,"Grep ""etiquetas de hito"" CLAUDE.md → coincide",borrada; CLAUDE.md
+feedback-forma-de-trabajo.md,6,Coordinador de cuatro subagentes,OBSOLETA,"Grep ""Tres agentes"" gestion/decisiones/VIGENTES.md → 1 (DEC-0009)",borrada
+feedback-forma-de-trabajo.md,7,Respuestas concisas: resultados y decisiones; sin proceso,DUPLICADA,"Grep ""sin explicar el proceso"" CLAUDE.md → coincide",borrada; CLAUDE.md
+feedback-forma-de-trabajo.md,8,Los agentes escriben solo lo que otros necesitan,DUPLICADA,"Grep ""Escribe solo lo que otro necesita"" CLAUDE.md → coincide",borrada; CLAUDE.md
+feedback-forma-de-trabajo.md,9,Recordar sesión nueva o compactar tras cada spec,DUPLICADA,"Grep ""abra sesión nueva o compacte"" gestion/README.md → paso 8",borrada; gestion/README.md
+feedback-forma-de-trabajo.md,10,Cambios de pieza que abaratan sin preguntar,DUPLICADA,"Grep ""Cambios de pieza sin consulta"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0007)
+project-refactor-agnostico-abandonado.md,1,Refactor agnóstico con Antigravity (AGENTS.md; .prompts/) abandonado,OBSOLETA,"Glob AGENTS.md; gestion/agentes; .prompts → 0",borrada
+project-refactor-agnostico-abandonado.md,2,No volver a proponer la orquestación agnóstica,VIGENTE,"Grep ""agnóstic"" CLAUDE.md gestion/README.md → 0",feedback-forma-de-trabajo.md
+project-refactor-agnostico-abandonado.md,3,Ediciones de SPEC-0032/0033 en un git stash,ESTADO,"git stash list → stash@{0} «specs 0032/0033 de la rama sistema_agnostico»",borrada; vive en git
