@@ -2,13 +2,14 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 0 · cerrada 34 · descartada 4.
+Specs por estado: propuesta 2 · abierta 0 · cerrada 34 · descartada 4.
 
-## Propuestas (1)
+## Propuestas (2)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
+| [SPEC-0039](specs/SPEC-0039-revision-general.md) | Revisión general: documentación, decisiones vigentes, memorias y ruido | 4 | coordinador | `spec/SPEC-0039-revision-general` | — | 2026-11-24 | — |
 
 ## Cerradas (34)
 
@@ -107,6 +108,7 @@ Specs por estado: propuesta 1 · abierta 0 · cerrada 34 · descartada 4.
 | [DEC-0016](decisiones/DEC-0016-criterios-de-colocacion.md) | Criterios de colocación y tamaño de la placa como variable | aceptada | usuario | 2026-11-19 |
 | [DEC-0017](decisiones/DEC-0017-expansion-horizontal-al-borde.md) | Conector de expansión J10 horizontal, al ras del borde inferior | aceptada | usuario | 2026-11-20 |
 | [DEC-0018](decisiones/DEC-0018-ahorros-del-estudio-de-coste.md) | Ahorros del estudio de coste: se mantiene Q1 y se aplican P1–P5 | aceptada | usuario | 2026-11-23 |
+| [DEC-0019](decisiones/DEC-0019-desglose-fase-4-caja-y-cobre.md) | Desglose del resto de la fase 4, caja después de la PCB y cobre de 1 oz provisional | aceptada | usuario | 2026-11-24 |
 
 ## Informes de validación
 
