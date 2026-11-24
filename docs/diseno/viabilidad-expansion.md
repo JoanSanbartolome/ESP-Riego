@@ -6,7 +6,7 @@
 
 > Datasheets (páginas del PDF, descargados el 2026-11-15 de ti.com o de la copia de LCSC):
 > - **TCA9535:** SCPS201F (sep. 2026). **TCA9555:** SCPS200E (abr. 2019). **ADS1115:** SBAS444E (dic. 2024). **TPS2553:** SLVS841G (oct. 2026). **P82B715:** SCPS145B (feb. 2016). **PCF8574:** SCPS068K (sep. 2024). **TPIC6B595:** SLIS032D (abr. 2025). **MCP23017:** DS20001952D (LCSC C47023).
-> - **USBLC6:** ST USBLC6-2 Rev 5 (`hardware/componentes/datasheets/USBLC6-2SC6.pdf`). **BH254V:** XFCN BH254V-xxP, rev. A1, 2024-07-19 (LCSC C492442, 1 página). **Cable:** 3M 3365, TS-0080-15 (dic. 2006).
+> - **USBLC6:** ST USBLC6-2 Rev 5 (`hardware/componentes/datasheets/USBLC6-2SC6.pdf`). **BH254V** (J10 hasta SPEC-0037; desde SPEC-0038, BH254R-10P, DEC-0017): XFCN BH254V-xxP, rev. A1, 2024-07-19 (LCSC C492442, 1 página). **Cable:** 3M 3365, TS-0080-15 (dic. 2006).
 > - **BTT:** BTT6050-1ERA Rev. 1.00 (`hardware/componentes/datasheets/`). **TPS2663:** SLVSE94G. `mcu.md` §8–§10 y `alimentacion.md` §3.13 y §4.
 
 ## 0. Resumen para decidir (D9)
@@ -30,7 +30,7 @@
 
 **Recomendación (§9):** arquitectura **1, I²C con TCA9535 + ADS1115**, en la misma caja o en una contigua (≤ 3 m de cable plano), con entrada de 24 V y limitador propios. Es la más barata de las que mantienen el diagnóstico, va entera en el YAML de la placa principal y su estado seguro no depende del firmware. **Alternativa:** arquitectura **4, un nodo ESP32-S3 independiente** (en la práctica, otra placa ESP-Riego con 6 u 8 canales), cuando el módulo esté lejos o no se quiera tender cable. La alternativa no usa EXP-02.
 
-**Conector EXP-02 (§10):** cabecera IDC 2 × 5 a 2,54 mm con guía de polarización (XFCN BH254V-10P, C492442, 28 794 en JLCPCB el 2026-11-15; alternativa Würth 61201021621, C4355000). Pines: 5 V, 3,3 V, I2C_EXP_SDA (GPIO47), I2C_EXP_SCL (GPIO48), EXP_INT (GPIO35), EXP_EN (GPIO36) y cuatro GND intercalados. **No pide GPIO nuevos:** quedan libres GPIO10, 18, 37 y 39 para los pulsadores de EXP-03. **3,3 V ≤ 50 mA y 5 V ≤ 0,30 A, como `alimentacion.md` §4: ALI-12 no cambia.** Cada alimentación sale por un TPS2553 con límite de corriente, para que un corto en el cable no tumbe la lógica de la placa. ESD con dos USBLC6-2SC6 (línea de U6). *Pull-ups* definitivos de 2,2 kΩ a 100 kHz. Sin extensor de bus en la placa. Piezas del lado de la placa: §10.6 (≈ 2 $ por placa); restricciones de layout: §10.7.
+**Conector EXP-02 (§10):** cabecera IDC 2 × 5 a 2,54 mm con guía de polarización (XFCN BH254V-10P, C492442, 28 794 en JLCPCB el 2026-11-15, hasta SPEC-0037; desde SPEC-0038, BH254R-10P horizontal, C492448, DEC-0017; alternativa Würth 61201021621, C4355000). Pines: 5 V, 3,3 V, I2C_EXP_SDA (GPIO47), I2C_EXP_SCL (GPIO48), EXP_INT (GPIO35), EXP_EN (GPIO36) y cuatro GND intercalados. **No pide GPIO nuevos:** quedan libres GPIO10, 18, 37 y 39 para los pulsadores de EXP-03. **3,3 V ≤ 50 mA y 5 V ≤ 0,30 A, como `alimentacion.md` §4: ALI-12 no cambia.** Cada alimentación sale por un TPS2553 con límite de corriente, para que un corto en el cable no tumbe la lógica de la placa. ESD con dos USBLC6-2SC6 (línea de U6). *Pull-ups* definitivos de 2,2 kΩ a 100 kHz. Sin extensor de bus en la placa. Piezas del lado de la placa: §10.6 (≈ 2 $ por placa); restricciones de layout: §10.7.
 
 ## 1. Datos de partida
 
@@ -137,7 +137,7 @@ Revisado en SPEC-0034: la corriente de las válvulas deja de ser un dato abierto
 
 ## 6. Arquitectura 4 · Segundo nodo ESP32 independiente
 
-**Esquema:** una placa con ESP32-S3-WROOM-1-N8, buck de 65 V, TLV1117LV, USB-C, 8 BTT con IS por canal a ADC1 y DEN común, entrada de 24 V y limitador. Es, en la práctica, **otra placa ESP-Riego** (con 6 canales, ya diseñada) o una variante de 8 canales: ADC1 tiene 10 canales en GPIO1–10 (`mcu.md` §9.1).
+**Esquema:** una placa con ESP32-S3-WROOM-1-N8, buck de 65 V, TLV1117LV (U4 hasta SPEC-0037), USB-C, 8 BTT con IS por canal a ADC1 y DEN común, entrada de 24 V y limitador. Es, en la práctica, **otra placa ESP-Riego** (con 6 canales, ya diseñada) o una variante de 8 canales: ADC1 tiene 10 canales en GPIO1–10 (`mcu.md` §9.1).
 
 - **Distancia:** la de la cobertura Wi-Fi; con ESP-NOW (`espnow`, `packet_transport`) los nodos hablan entre sí sin el router.
 - **Módulos:** sin límite técnico; cada nodo es un dispositivo de Home Assistant.
@@ -221,9 +221,9 @@ Descartadas como propuesta: la 3 (sin diagnóstico, bus sin comprobación), la 2
 | Montaje | THT, cara superior (FAB-06), en el borde inferior junto a la entrada y los bornes 4–6 (FAB-07) |
 | Polarización | Guía con ranura de 4,5 mm en el lado largo y triángulo en el pin 1 (BH254V p. 1). La ranura mira hacia el exterior de la placa, para que el cable salga por el borde |
 | Bloqueo | **Sin enclavamiento positivo**: retención por fricción del conector IDC; se fija el cable con una brida a la caja. Las versiones con expulsores (*ejector*) no tienen stock en JLCPCB (Würth 61201021721: 0; BOOMELE C61102: 28). Si el usuario exige enclavamiento, la opción es Molex Micro-Fit 3.0 2 × 5 recta (43045-1012, C277725, 5 955 en JLCPCB), con otra numeración de pines y cable crimpado |
-| Principal | XFCN BH254V-10P · **C492442** · Extended · **28 794** en JLCPCB (2026-11-15) · 0,12 $. 3 A por contacto, −40…105 °C, 600 V AC, PBT UL94 V-0 (BH254V p. 1). Cotas 2 × 5: A = 10,16 mm, B = 20,35 mm, ancho 8,9 mm, alto 9,05 mm, taladro Ø 1,02 mm (p. 1) |
+| Principal | XFCN BH254V-10P (hasta SPEC-0037; BH254R-10P desde SPEC-0038, DEC-0017) · **C492442** · Extended · **28 794** en JLCPCB (2026-11-15) · 0,12 $. 3 A por contacto, −40…105 °C, 600 V AC, PBT UL94 V-0 (BH254V p. 1). Cotas 2 × 5: A = 10,16 mm, B = 20,35 mm, ancho 8,9 mm, alto 9,05 mm, taladro Ø 1,02 mm (p. 1) |
 | Alternativa | Würth 61201021621 (WR-BHD) · C4355000 · 1 243 · 0,64 $ |
-| Huella y símbolo | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` (oficial) y `Connector_Generic:Conn_02x05_Odd_Even`; SPEC-0031 contrasta la huella con la p. 1 |
+| Huella y símbolo | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` (oficial; hasta SPEC-0037, `…_Horizontal` desde SPEC-0038) y `Connector_Generic:Conn_02x05_Odd_Even`; SPEC-0031 contrasta la huella con la p. 1 |
 | Cable | Plano de 10 hilos, 28 AWG (3M 3365/10 o equivalente; G-S-G 47,5 pF/m, TS-0080 p. 1; −20…105 °C), con dos conectores IDC hembra de 10 polos. ≤ 3 m en total |
 
 ### 10.2 Pines
@@ -257,7 +257,7 @@ Orden pensado para el cable plano: cada línea de I²C va entre dos GND y las al
 | Interruptor de 5 V (U_A) | I_OS mín. = 25 230 / (68 × 1,01)^1,016 = 343 mA ≥ 300 mA (+14 %); máx. = 22 980 / (68 × 0,99)^0,94 = 439 mA (ec. 2-3 y la de máximo, pp. 17 y 20; R al 1 %). Caída: 0,15 Ω × 0,3 A = 45 mV (p. 6) | ✔ |
 | Interruptor de 3,3 V (U_B) | R_ILIM 220 kΩ (C22961, Basic): I_OS mín. = 25 230 / (220 × 1,01)^1,016 = 104 mA ≥ 50 mA (2,1×); máx. = 22 980 / (220 × 0,99)^0,94 = 146 mA (210 kΩ da 110–150 mA en la tabla de la p. 7). Dentro de 15–232 kΩ (p. 16). V_IN 3,3 V dentro de 2,5–6,5 V (p. 6); UVLO 2,35 V (p. 7) | ✔ |
 | Corto en el cable (los dos raíles a la vez) | +3V3: 0,40 + 0,146 = 0,546 A; +5V: 0,546 + 0,439 = 0,985 A → 5 × 0,985 / 0,88 + 0,05 = 5,65 W = 0,235 A a 24 V; con el limitador de la placa en su máximo, 4,57 + 0,235 = **4,81 A < 5,14 A** (margen 0,33 A) | ✔ La fuente no actúa; la lógica no se reinicia. La lógica pasa de 4,8 W solo durante el fallo |
-| U4 (TLV1117LV; AP2114H desde SPEC-0038, con la misma R_θJA supuesta) durante el corto, peor caso con USB a 5,25 V (como `mcu.md` §8.3) | (5,25 − 0,03 − 3,3) × 0,546 = 1,05 W × 60 °C/W → T_J = **122,9 °C** < 125 °C (con el buck: 0,99 W → 119,2 °C) | ✔, margen 2,1 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,146 A × 182,6 °C/W = +88 °C → 135 °C, p. 16), así que la media es menor. Con los 200 kΩ de la primera versión salían 124,4 °C; 232 kΩ daría 122,1 °C, pero es Extended (C22913) y gana solo 0,8 K. **Prueba en el prototipo:** corto de +3V3_EXP con USB, temperatura de U4 |
+| U4 (TLV1117LV hasta SPEC-0037; AP2114H desde SPEC-0038, con la misma R_θJA supuesta) durante el corto, peor caso con USB a 5,25 V (como `mcu.md` §8.3) | (5,25 − 0,03 − 3,3) × 0,546 = 1,05 W × 60 °C/W → T_J = **122,9 °C** < 125 °C (con el buck: 0,99 W → 119,2 °C) | ✔, margen 2,1 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,146 A × 182,6 °C/W = +88 °C → 135 °C, p. 16), así que la media es menor. Con los 200 kΩ de la primera versión salían 124,4 °C; 232 kΩ daría 122,1 °C, pero es Extended (C22913) y gana solo 0,8 K. **Prueba en el prototipo:** corto de +3V3_EXP con USB, temperatura de U4 |
 | Sin cable | U_A y U_B con salida en vacío; EXP_INT a nivel alto por su *pull-up*; EXP_EN con 100 kΩ | ✔ |
 
 - Los FAULT de U_A y U_B (drenador abierto, p. 4) se unen a EXP_INT: el firmware distingue el corto en el cable (FAULT con los módulos sin fallo) leyendo el FLT del módulo por I²C. FAULT tiene un filtro de 7,5 ms (p. 7) y puede marcar en el arranque: el firmware ignora EXP_INT el primer segundo.
@@ -309,7 +309,7 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 
 | Ref. | Valor / función | Encapsulado | MPN | LCSC · tipo · stock JLCPCB (2026-11-15) | Alternativa |
 |---|---|---|---|---|---|
-| J_EXP | Cabecera 2 × 5, 2,54 mm, recta | THT | XFCN BH254V-10P | C492442 · Extended · 28 794 | Würth 61201021621 (C4355000) |
+| J_EXP | Cabecera 2 × 5, 2,54 mm, recta | THT | XFCN BH254V-10P (hasta SPEC-0037) | C492442 · Extended · 28 794 | Würth 61201021621 (C4355000) |
 | U_EXP1, U_EXP2 | ESD, 2 líneas + VBUS | SOT-23-6 | ST USBLC6-2SC6 | C7519 · Extended (línea de U6) · 39 134 | Semtech SRV05-4 (C13612), las 4 líneas en uno |
 | U_A, U_B | Interruptor con límite de corriente, 5 V y 3,3 V | SOT-23-6 | TI TPS2553DBVR | C55266 · Extended · 48 302 | — (la variante -1 se enclava; no se quiere) |
 | R_ILIM_A | 68 kΩ 1 % | 0603 | 0603WAF6802T5E | C23231 · Basic | — |

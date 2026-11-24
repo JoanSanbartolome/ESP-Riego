@@ -8,7 +8,7 @@
 
 | Decisión o hallazgo | Cifra | Fuente |
 |---|---|---|
-| Coste por placa del estudio (2026-11-20), Economic a una cara, THT por JLCPCB (E1) | 47,15 $ con 5 uds · 25,02 $ con 50 | §1, §6 |
+| Coste por placa del estudio (2026-11-20, hasta SPEC-0037), Economic a una cara, THT por JLCPCB (E1) | 47,15 $ con 5 uds · 25,02 $ con 50 | §1, §6 |
 | **Coste por placa tras SPEC-0038** (2026-11-23): P1 + P2 (THT a mano, E2) + P3 con C3 en 220 nF + P4 | **41,96 $ con 5 uds · 23,95 $ con 50** (209,79 $ y 1 197,31 $ por pedido; 54 líneas, 20 Extended con cargo). Sin P2 (E1): 44,97 / 24,66 $ | §9; `estudio-coste-bom.csv` |
 | Lo que más pesa con 5 uds: la carga de las 26 líneas Extended | 79,82 $ por pedido = **16,0 $ por placa (34 %)** | JLCPCB *PCB Assembly Price*, 2026-10-22 |
 | Lo que más pesa con 50 uds: las piezas | 21,46 $ por placa (86 %) | `estudio-coste-bom.csv` |
@@ -16,10 +16,10 @@
 | Quitar Q1 (ALI-03) | **No recomendado.** U1 no rechaza la polaridad inversa por sí solo: necesita un N-MOSFET externo en B_GATE (SLVSE94G §8.3.5, pp. 20-21, Fig. 8-7 y 8-8). Sin protección, la entrada invertida pone en corto la fuente a través de la rueda libre M7 y del diodo del BTT6050 | §2.1 |
 | Montaje | **Economic a una cara**; THT a mano por el usuario si acepta el trabajo (−3,02 $/placa con 5 uds). Dos caras (Standard): +18,2 $/placa con 5 uds | §6 |
 | Rieles | Economic no los pide («Edge rails: Not necessary»); preguntar a JLCPCB por J2, U5 y J10 al ras antes del primer pedido | §7 |
-| U4 (TLV1117LV33 de TI, stock 0) | **AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds el 2026-11-23): 0,2386 $ con 5 uds y 0,1899 $ con 50, frente a 0,3967 / 0,2645 $ del de TI (P4, SPEC-0038; `alimentacion.md` §3.9) | §2 |
-| Ahorro de lo aceptado (P1 + P2 + P3 con C3 en 220 nF + P4) | 5,19 $/placa con 5 uds · 1,07 $ con 50 (frente a 47,15 / 25,02 $) | §9 |
+| U4 (TLV1117LV33 de TI hasta SPEC-0037, stock 0) | **AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds el 2026-11-23): 0,2386 $ con 5 uds y 0,1899 $ con 50, frente a 0,3967 / 0,2645 $ del de TI (P4, SPEC-0038; `alimentacion.md` §3.9) | §2 |
+| Ahorro de lo aceptado (P1 + P2 + P3 con C3 en 220 nF + P4) | 5,19 $/placa con 5 uds · 1,07 $ con 50 (frente a 47,15 / 25,02 $, hasta SPEC-0037) | §9 |
 
-Colocación del paso 6: `colocacion-b4.csv`, 0 obligatorias, 57 objetivos y PUNTOS 6151 sobre `hardware/v2` de SPEC-0038 (58 y 6251 en el paso 6, con T04 de JP1 abierto; 61 en b3), J10 horizontal al ras; E02 (D2 junto a Q1) resuelto. §8.
+Colocación del paso 6: `colocacion-b4.csv`, 0 obligatorias, 57 objetivos y PUNTOS 6151 sobre `hardware/v2` de SPEC-0038 (58 y 6251 en el paso 6, hasta SPEC-0037, con T04 de JP1 abierto; 61 en b3, commit `36b804c`), J10 horizontal al ras; E02 (D2 junto a Q1) resuelto. §8.
 
 ## 1. Método y coste por bloque
 
@@ -37,7 +37,7 @@ Colocación del paso 6: `colocacion-b4.csv`, 0 obligatorias, 57 objetivos y PUNT
 | Conectores + expansión | 28 | 15 | 3,67 | 96 / 10 | 2,37 | 2,57 | 4,94 | 10 % | 1,73 | 2,27 | 9 % |
 | Sensores | 2 | 2 | 1,00 | 6 / 0 | 1,31 | 0,62 | 1,93 | 4 % | 0,96 | 1,03 | 4 % |
 | Común (preparación, plantilla, THT, PCB) | — | — | — | — | — | — | 3,06 | 6 % | — | 0,57 | 2 % |
-| **Total** | **187** | **53** | **26** | **585 / 28** | **26,73** | | **47,15** | | **21,46** | **25,02** | |
+| **Total** (hasta SPEC-0037) | **187** | **53** | **26** | **585 / 28** | **26,73** | | **47,15** | | **21,46** | **25,02** | |
 
 Montaje de un bloque = cuota Extended × 3,07 $ / N + juntas SMT × 0,0016 + juntas THT × 0,0164.
 
@@ -45,24 +45,24 @@ Montaje de un bloque = cuota Extended × 3,07 $ / N + juntas SMT × 0,0016 + jun
 
 ## 2. Alimentación (39 % con 5 uds)
 
-**Coste:** 15 líneas Extended de 29: C1, C2/C6/C7/C22 (C381466), C3/C8 (C513710, compartida con salidas), D1, D2, D3, F1, J1, L1, Q1, R7/R14, R8, R15 (0,1 %), U1, U2, U3, U4. Lo caro: U1 3,52 $, U2 1,16 $, Q1 1,09 $ (tramo de 5).
+**Coste:** 15 líneas Extended de 29: C1, C2/C6/C7/C22 (C381466), C3/C8 (C513710; hasta SPEC-0037, compartida con salidas), D1, D2, D3, F1, J1, L1, Q1, R7/R14, R8, R15 (0,1 %), U1, U2, U3, U4. Lo caro: U1 3,52 $, U2 1,16 $, Q1 1,09 $ (tramo de 5).
 
 **Problemas para el layout y la fabricación:**
 - Cuatro fuentes de calor con cobre pedido (U1 300, U2 300, U4 400, Q1 250 mm²); en b4 todas quedan justo en el margen de +10 % (U1 331/330, Q1 276/275, U2 319/315 con +5 %).
 - U1 VQFN-24 de 0,5 mm con EP y vías de 0,3/0,6 (FAB-02; la huella `_ThermalVias` no vale); JP1 a mano junto a U1.
 - C1 electrolítico de 10 mm de alto: cuenta como pieza alta para pulsadores y LED (P05, L01).
-- **Stock:** U4 (C15578) 0 uds, resuelto con P4 (AP2114H, 2 300 uds el 2026-11-23); U1 (C1850278) 93 uds, sin alternativa con stock (VAL-0032-01-01, §8.9).
+- **Stock:** U4 (C15578, hasta SPEC-0037) 0 uds, resuelto con P4 (AP2114H, 2 300 uds el 2026-11-23); U1 (C1850278) 93 uds, sin alternativa con stock (VAL-0032-01-01, §8.9).
 
 **Soluciones:**
 
 | Id | Propuesta | Ahorro $/placa (5 / 50 uds) | Riesgo | Requisito | Decide |
 |---|---|---|---|---|---|
 | P1a | D2 SMBJ33A → misma pieza de hongjiacheng C19077586 (Extended preferida, 50 264 uds; 33 V, 40,6 V, 53,3 V, 600 W, igual que la ficha). **Aplicada en SPEC-0038**; I_R 5 µA (ficha `SMBJ33A.md`) | 0,70 / 0,13 | Bajo: segunda marca; validación compara la ficha | ALI-04 | Sin consulta (DEC-0007) tras validación |
-| P1b | D1 BZT52C15 → hongjiacheng C19077412 (preferida, 481 173 uds; 14,25–15,75 V, como C173427). **Aplicada en SPEC-0038**; P_D 350 mW (ficha `BZT52C15.md`) | 0,61 / 0,06 | Bajo | ALI-03 | DEC-0007 |
+| P1b | D1 BZT52C15 → hongjiacheng C19077412 (preferida, 481 173 uds; 14,25–15,75 V, como C173427, hasta SPEC-0037). **Aplicada en SPEC-0038**; P_D 350 mW (ficha `BZT52C15.md`) | 0,61 / 0,06 | Bajo | ALI-03 | DEC-0007 |
 | P1c | D3 SS310 → hongjiacheng C7420364 (preferida, 390 469 uds; 100 V, 3 A, 850 mV). **Aplicada en SPEC-0038**; I_R 10 mA a 100 °C (ficha `SS310.md`) | 0,61 / 0,06 | Bajo | — | DEC-0007 |
-| P4 | **LDO a elegir en SPEC-0038** (U4 de TI con stock 0). Tiene que cumplir: ALI-07 (≥ 800 mA); mantener 3,3 V con los 3,9 V del cambio de U3 (`alimentacion.md` §3.8), es decir, caída ≤ 0,6 V a 0,45 A en todo el rango de temperatura; estable con los cerámicos de la placa (C19 10 µF); disipar 0,81 W (SOT-223 o mejor, θJA ≈ 60 °C/W); patillaje del SOT-223 (1 GND, 2/pestaña OUT, 3 IN) si puede ser; stock en JLCPCB. **Elegido en SPEC-0038: Diodes AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds; mismo patillaje; `alimentacion.md` §3.9). Descartados: TECH PUBLIC TPTLV1117LV33DCYR (C52146079) y JSMSEMI C48937499, 1117 clásicos con 1,2 V de caída (VAL-0037-01-01). Ahorro = 0,3967 − 0,2386 con 5 uds y 0,2645 − 0,1899 con 50 | **0,16 / 0,07** | Medio: R_θJA con cobre sin publicar (prueba del prototipo) | ALI-07, ALI-08 | Usuario (DEC-0018): aplicada |
+| P4 | **LDO a elegir en SPEC-0038** (U4 de TI con stock 0). Tiene que cumplir: ALI-07 (≥ 800 mA); mantener 3,3 V con los 3,9 V del cambio de U3 (`alimentacion.md` §3.8), es decir, caída ≤ 0,6 V a 0,45 A en todo el rango de temperatura; estable con los cerámicos de la placa (C19 10 µF); disipar 0,81 W (SOT-223 o mejor, θJA ≈ 60 °C/W); patillaje del SOT-223 (1 GND, 2/pestaña OUT, 3 IN) si puede ser; stock en JLCPCB. **Elegido en SPEC-0038: Diodes AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds; mismo patillaje; `alimentacion.md` §3.9). Descartados en SPEC-0038: TECH PUBLIC TPTLV1117LV33DCYR (C52146079) y JSMSEMI C48937499 (P4 hasta SPEC-0037), 1117 clásicos con 1,2 V de caída (VAL-0037-01-01). Ahorro = 0,3967 − 0,2386 con 5 uds y 0,2645 − 0,1899 con 50 | **0,16 / 0,07** | Medio: R_θJA con cobre sin publicar (prueba del prototipo) | ALI-07, ALI-08 | Usuario (DEC-0018): aplicada |
 | ~~P5~~ | **Retirada** (DEC-0018). R15 al 1 % daba 2,91 % a 15,5 V sin contar la caída de F1 + Q1 (0,12 V con 3,7 A, `alimentacion.md` §3.10); con ella, 3,68 % a 15,5 V y 3,49 % a 17 V, por encima del 3 % de ALI-09 (VAL-0037-01-03). R15 sigue en 4,87 kΩ al 0,1 % | 0 | — | ALI-09 | Usuario: retirada |
-| P3 | C27–C38 de salidas 220 nF 100 V C513710 → 100 nF 100 V C28233 (Basic). **C3 se queda en 220 nF** (usuario, 2026-11-23, DEC-0018: con 100 nF serían 73–80 nF efectivos frente al «0,1 µF o más» del TPS2663, p. 27). **C8 se queda en 220 nF 100 V X7R**: TI lo exige, «a small case size 220-nF ceramic capacitor must be used at the input… The 220 nF must also be rated at 100-V with an X7R dielectric» (LMR36520 SNVSBF0C, p. 20; VAL-0037-01-02). La línea C513710 sigue en la BOM por C3 y C8: no se ahorra la cuota Extended. Ahorro (2026-11-23) = 12 × (0,0294 − 0,0159) con 5 uds; con 50, 12 × (0,0200 − 0,0101) menos 0,019 $, porque C3 y C8 solas caen al tramo de 1–199 uds de C513710 (0,0295 $) | **0,16 / 0,10** (12 piezas) | Bajo: C_VS 73–80 nF efectivos frente a los 100 nF de Infineon (aceptado, DEC-0018) | ALI-05, salidas.md §5 | Usuario: aceptada sin C8 (DEC-0018) |
+| P3 | C27–C38 de salidas 220 nF 100 V C513710 (hasta SPEC-0037) → 100 nF 100 V C28233 (Basic). **C3 se queda en 220 nF** (usuario, 2026-11-23, DEC-0018: con 100 nF serían 73–80 nF efectivos frente al «0,1 µF o más» del TPS2663, p. 27). **C8 se queda en 220 nF 100 V X7R**: TI lo exige, «a small case size 220-nF ceramic capacitor must be used at the input… The 220 nF must also be rated at 100-V with an X7R dielectric» (LMR36520 SNVSBF0C, p. 20; VAL-0037-01-02). La línea C513710 sigue en la BOM por C3 y C8: no se ahorra la cuota Extended. Ahorro (2026-11-23) = 12 × (0,0294 − 0,0159) con 5 uds; con 50, 12 × (0,0200 − 0,0101) menos 0,019 $, porque C3 y C8 solas caen al tramo de 1–199 uds de C513710 (0,0295 $) | **0,16 / 0,10** (12 piezas) | Bajo: C_VS 73–80 nF efectivos frente a los 100 nF de Infineon (aceptado, DEC-0018) | ALI-05, salidas.md §5 | Usuario: aceptada sin C8 (DEC-0018) |
 | P7 | U3 TPS2116 → dos Schottky (ALI-08 lo admite) | 0,92 / 0,24 | Alto: +5V cae a ≈ 4,65 V (−7 %), fuera del ± 3 % de §6; no recomendado | ALI-08 | Usuario |
 | P8 | U4 → AMS1117-3.3 C6186 (Basic) | por determinar (frente al LDO de P4) | Alto: caída 1,1 V a 800 mA; con 3,9 V en el cambio de U3 (§3.8) el 3,3 V cae; no recomendado | ALI-07, ALI-08 | Usuario |
 | — | R7/R8 al 1 % | — | VOUT ± 3,1 %, no cumple (`alimentacion.md` §3.6): se quedan al 0,1 % | — | No se propone |
@@ -97,7 +97,7 @@ Montaje de un bloque = cuota Extended × 3,07 $ / N + juntas SMT × 0,0016 + jun
 
 ## 3. Salidas (33 % con 50 uds)
 
-**Coste:** 6 × BTT6050 (1,09 $; 1 604 uds) = 6,55 $ de 8,41 $. Extended: BTT6050, C513710, C381466 (C45/C46) y J4–J9 (C8465, compartida con J1).
+**Coste:** 6 × BTT6050 (1,09 $; 1 604 uds) = 6,55 $ de 8,41 $. Extended: BTT6050, C513710 (hasta SPEC-0037; desde SPEC-0038, C28233 Basic), C381466 (C45/C46) y J4–J9 (C8465, compartida con J1).
 
 **Problemas:**
 - Seis TDSO-14 con EP y 10 vías cada uno, 300 mm² de cobre por canal (+10 %): es lo que llena la placa. En b4, U10 330/330, U11 y U12 332/330: sin margen para pistas o vías nuevas.
@@ -136,7 +136,7 @@ Montaje de un bloque = cuota Extended × 3,07 $ / N + juntas SMT × 0,0016 + jun
 
 ## 5. Conectores con expansión (9–10 %) y sensores (4 %)
 
-**Coste:** TCA9554 0,83 $, 2 × TPS2553 0,46 $, 2 × USBLC6, J10 (pasa de BH254V C492442 a **BH254R-10P C492448**, la misma cuota Extended y 0,116 $ a 50 uds; ficha `hardware/componentes/BH254R-10P.md`), SHT40 1,31 $.
+**Coste:** TCA9554 0,83 $, 2 × TPS2553 0,46 $, 2 × USBLC6, J10 (pasa de BH254V C492442, hasta SPEC-0037, a **BH254R-10P C492448**, la misma cuota Extended y 0,116 $ a 50 uds; ficha `hardware/componentes/BH254R-10P.md`), SHT40 1,31 $.
 
 **Problemas:**
 - J10 horizontal: su patio tiene 15,1 mm de fondo frente a 9,9 del vertical, aunque ya no necesita los 2,5 mm al borde: ocupa ≈ 2,7 mm más hacia dentro. Su altura (8,9 mm de cuerpo, ≈ 6,0 mm en los codos de los pines) sigue por encima de 5 mm: **P05, E08 y L01 no cambian de cifra** (recalculado en las reglas). Lo que sí gana: el cable sale por el borde y la clavija no tapa nada.
@@ -158,8 +158,8 @@ Clases de JLCPCB (*PCB Assembly Capabilities*, https://jlcpcb.com/capabilities/p
 
 | Escenario | Qué incluye | 5 uds: total · por placa | 50 uds: total · por placa |
 |---|---|---|---|
-| **E1** Economic, una cara, SMT + THT por JLCPCB (actual) | 26 Extended; 28 juntas THT | 235,73 $ · **47,15 $** | 1 251,07 $ · **25,02 $** |
-| **E2** Economic, una cara, SMT por JLCPCB; J1, J4–J9, J10 y J3 comprados y soldados por el usuario | 23 Extended (sin C8465, C492442, C124378); sin THT | 220,64 $ · **44,13 $** | 1 215,32 $ · **24,31 $** |
+| **E1** Economic, una cara, SMT + THT por JLCPCB (hasta SPEC-0037) | 26 Extended; 28 juntas THT | 235,73 $ · **47,15 $** | 1 251,07 $ · **25,02 $** |
+| **E2** Economic, una cara, SMT por JLCPCB; J1, J4–J9, J10 y J3 comprados y soldados por el usuario | 23 Extended (sin C8465, C492442 de J10 hasta SPEC-0037, C124378); sin THT | 220,64 $ · **44,13 $** | 1 215,32 $ · **24,31 $** |
 | **S2** Standard a dos caras, THT por JLCPCB | 53 líneas × 1,53 $, preparación y plantilla de dos caras, manipulación, utillaje | 326,68 $ · **65,34 $** | 1 350,23 $ · **27,00 $** |
 
 **Pasar piezas a la cara inferior:**
@@ -184,15 +184,15 @@ Clases de JLCPCB (*PCB Assembly Capabilities*, https://jlcpcb.com/capabilities/p
 | # | Fallo | Solución propuesta | Decide |
 |---|---|---|---|
 | 8.1 | E02: D2 a 27 mm de Q1 | **Resuelto en b4:** D2 entre U1 y Q1, a 0,1 mm del patio de Q1, fuera del anillo de U1; D1 y R1 junto a la puerta de Q1 (W03); R2/C4 bajo U1. E01 (D2, Q1, F1 a ≤ 10 mm del borde inferior) sigue: D2 a 25,6 mm | — |
-| 8.2 | O13: C46 lejos de U10–U12 | Cualquier sitio a ≤ 10 mm de un BTT de abajo cae en su anillo de cobre, y U10–U12 están a 330–332/330: no cabe sin bajar el margen. Propuestas: (a) dejar C46 arriba, junto a TP5/U9, y cambiar O13 a «≤ 10 mm de U7–U12» (la energía de desmagnetización va a la rueda libre M7, no al bus; C_VS local de 220 nF); (b) margen de +5 % para U10–U12 y C46 entre U11 y U12 | Usuario (a recomendada) |
-| 8.3 | 57 objetivos con `hardware/v2` de SPEC-0038 (58 en el paso 6; 61 en b3) | U5 y canales: O10 3 + O11 12 + F02 6 (desacoplos de U5 a 0,11–0,18 mm de su patio): pasar O10/O11 a «≤ 15 mm» y eximir de F02 los pasivos junto al módulo (sus pads están en el borde contrario). Sensor: S02 + S03 + S04 (3): se resuelven con la isla y la caja (D5). Pulsadores: P02 5 (§5, P12). Alimentación: E01 3, E04 2, E05 4 (U1 no admite más piezas en su anillo: Q13 manda), D01/D04/D06 4. Conectores: C02 5, C05 2, C07 1 (R79 junto al MCU por la red INT: reescribir la regla), B10 1 (J10 a la izquierda de J7–J9: `conectores.md` §4 permite cambiar el orden), L01 1 (D9 entre J10 y J7, sin sitio a 3 mm de los dos), O04 1, M05 1, A04 1 (J3 a 9,8 mm de la antena), R01 1 (§7); T04 resuelto en SPEC-0038 (§8.5) | Coordinador (reescritura de reglas) |
+| 8.2 | O13: C46 lejos de U10–U12 | Cualquier sitio a ≤ 10 mm de un BTT de abajo cae en su anillo de cobre, y U10–U12 están a 330–332/330: no cabe sin bajar el margen. Propuestas: (a) dejar C46 arriba, junto a TP5/U9, y cambiar O13 a «≤ 10 mm de U7–U12» (la energía de desmagnetización va a la rueda libre M7, no al bus; C_VS local de 100 nF desde SPEC-0038); (b) margen de +5 % para U10–U12 y C46 entre U11 y U12 | Usuario (a recomendada) |
+| 8.3 | 57 objetivos con `hardware/v2` de SPEC-0038 (58 en el paso 6, hasta SPEC-0037; 61 en b3, commit `36b804c`) | U5 y canales: O10 3 + O11 12 + F02 6 (desacoplos de U5 a 0,11–0,18 mm de su patio): pasar O10/O11 a «≤ 15 mm» y eximir de F02 los pasivos junto al módulo (sus pads están en el borde contrario). Sensor: S02 + S03 + S04 (3): se resuelven con la isla y la caja (D5). Pulsadores: P02 5 (§5, P12). Alimentación: E01 3, E04 2, E05 4 (U1 no admite más piezas en su anillo: Q13 manda), D01/D04/D06 4. Conectores: C02 5, C05 2, C07 1 (R79 junto al MCU por la red INT: reescribir la regla), B10 1 (J10 a la izquierda de J7–J9: `conectores.md` §4 permite cambiar el orden), L01 1 (D9 entre J10 y J7, sin sitio a 3 mm de los dos), O04 1, M05 1, A04 1 (J3 a 9,8 mm de la antena), R01 1 (§7); T04 resuelto en SPEC-0038 (§8.5) | Coordinador (reescritura de reglas) |
 | 8.4 | Zona prohibida de U5: 15 mm a los dos lados de la antena | HDG Fig. 26, p. 31: módulo en una esquina, con el lado del punto de alimentación a ≤ 2 mm del borde, la antena a ≤ 1 mm del otro y ≥ 15 mm libres solo en el lado contrario, recortando la placa (≈ 15 × 6 mm). Cambia la huella (`esp-riego:ESP32-S3-WROOM-1`, zona de un solo lado) y `Edge.Cuts`; J2 sale de debajo de la zona. Ganancia: de 298 mm² de zona dentro de la placa a casi 0. Comprobar el lado del punto de alimentación en el dibujo del módulo | Usuario + otra spec (D5) |
 | 8.5 | Textos «1» y «2» de 0,8 mm en la huella de JP1 (T04) | **Resuelto en SPEC-0038:** el «1» de serigrafía se quita (JP1 no tiene polaridad) y los de F.Fab pasan a 0,15 mm de trazo, en `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` | — |
-| 8.6 | Margen del cobre +10 % / +5 % en lugar de +20 % | En b4 todo está en el límite (U10 330/330, U1 331/330, Q1 276/275, U2 319/315): cualquier vía o pista nueva lo rompe. Opciones: aceptar y comprobar con el rutado; cobre de 2 oz (D6); o una placa mayor (DEC-0016 la descarta) | Usuario |
+| 8.6 | Margen del cobre +10 % / +5 % en lugar de +20 % (encargo del paso 5, hasta SPEC-0037) | En b4 todo está en el límite (U10 330/330, U1 331/330, Q1 276/275, U2 319/315): cualquier vía o pista nueva lo rompe. Opciones: aceptar y comprobar con el rutado; cobre de 2 oz (D6); o una placa mayor (DEC-0016 la descarta) | Usuario |
 | 8.7 | `checklists/layout.md`, l. 44 y l. 46 | l. 46: «Serigrafía legible (≥ 0,8 mm)» → «Serigrafía legible: alto ≥ 1,0 mm y trazo ≥ 0,15 mm (JLCPCB *PCB Capabilities*, Legend; DEC-0016)». l. 44: «Fiduciales para montaje SMT» → «Fiduciales si el montaje es Standard (Economic no los pide: JLCPCB *PCB Assembly Capabilities*)» | Coordinador |
 | 8.8 | Lo que no se comprueba en texto (parte 06) | Rutado real y cara inferior: en la spec de rutado, con KiCad y DRC (`corte` es una estimación en línea recta). Altura e isla del SHT40: añadir las ranuras a `Edge.Cuts` y medirlas. Caja (D5): pendiente. Legibilidad: `vista.py` con zoom. Valores de F.Fab solapados: no se fabrican; ocultarlos o ignorarlos | Coordinador |
 | 8.9 | VAL-0032-01-01: U1 sin alternativa | TPS26632**RGET** (C2862529, 34 uds, 2,72 $): el mismo silicio en bobina de 250; con RGER suman 127. TPS26631RGER (C1850273, 294 uds, 8,46 $): con OVP a GND da el corte fijo de 34,3 V (SLVSE94G §8.3.4, p. 19) en lugar del *clamp* de 35 V, y es la variante de pulso 2× (tabla de comparación, p. 2): cambia la coordinación con la fuente (ALI-13) y +5,8 $/placa. TPS26630RGER (19 uds TI; 30 del clon Tokmas sin datos): descartados. Recomendación: RGET como segunda fuente y reservar stock antes del pedido | Usuario (coste) + validación |
-| 8.10 | b4 solo vale con J10 horizontal (VAL-0037-01-04) | `evaluar` de b4 sobre `hardware/v2` da 13 obligatorias, porque `hardware/v2` lleva aún la huella vertical de J10. Para reproducir b4: copia de `hardware/v2` con `hardware/libraries` al lado; en la copia de `conectores.kicad_sch`, J10 con `Footprint` = `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` (y `Value`, `MPN` y `LCSC Part#` de BH254R-10P, C492448); `python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb` (recarga J10 con sus redes, paridad 0); `python herramientas/kicad/colocacion.py evaluar <copia>/v2 docs/diseno/colocacion-b4.csv` → 0 obligatorias, 58 objetivos, PUNTOS 6251. **Criterio de SPEC-0038, cumplido:** con J10 BH254R-10P y JP1 corregido en `hardware/v2`, `evaluar` de b4 da 0 obligatorias, 57 objetivos y PUNTOS 6151 (parte 01 de SPEC-0038) | Coordinador (SPEC-0038) |
+| 8.10 | b4 solo vale con J10 horizontal (VAL-0037-01-04) | `evaluar` de b4 sobre `hardware/v2` daba 13 obligatorias, porque `hardware/v2` llevaba aún la huella vertical de J10 (hasta SPEC-0037). Para reproducir b4: copia de `hardware/v2` con `hardware/libraries` al lado; en la copia de `conectores.kicad_sch`, J10 con `Footprint` = `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` (y `Value`, `MPN` y `LCSC Part#` de BH254R-10P, C492448); `python herramientas/kicad/sincronizar.py <copia>/v2 -o <copia>/v2/esp-riego.kicad_pcb` (recarga J10 con sus redes, paridad 0); `python herramientas/kicad/colocacion.py evaluar <copia>/v2 docs/diseno/colocacion-b4.csv` → 0 obligatorias, 58 objetivos, PUNTOS 6251 (hasta SPEC-0037). **Criterio de SPEC-0038, cumplido:** con J10 BH254R-10P y JP1 corregido en `hardware/v2`, `evaluar` de b4 da 0 obligatorias, 57 objetivos y PUNTOS 6151 (parte 01 de SPEC-0038) | Coordinador (SPEC-0038) |
 
 ## 9. Resumen de propuestas, por ahorro con 5 uds
 
@@ -212,14 +212,14 @@ Clases de JLCPCB (*PCB Assembly Capabilities*, https://jlcpcb.com/capabilities/p
 | §7 | Rieles (si JLCPCB los exige) | coste sin publicar | — | — | DEC-0016 | Usuario |
 | S2 | Dos caras (Standard) | −18,19 | −1,98 | — | FAB-06 | No se propone |
 
-Estimación del 2026-11-20, con P1 + P2 + P3 sin C8 (lo aceptado en DEC-0018): 47,15 − 1,93 − 3,02 − 0,18 = 42,02 $/placa con 5 uds; con 50 uds, 25,02 − 0,25 − 0,72 − 0,05 = 24,00 $.
+Estimación del 2026-11-20 (hasta SPEC-0037), con P1 + P2 + P3 sin C8 (lo aceptado en DEC-0018): 47,15 − 1,93 − 3,02 − 0,18 = 42,02 $/placa con 5 uds; con 50 uds, 25,02 − 0,25 − 0,72 − 0,05 = 24,00 $.
 
 **Recalculado tras SPEC-0038** (BOM de `hardware/v2`, precios del 2026-11-23, escenario E2, mismo modelo de §1; `estudio-coste-bom.csv`): **41,96 $/placa con 5 uds** (209,79 $ por pedido) y **23,95 $ con 50** (1 197,31 $). 187 piezas, 54 líneas (C28233 entra como línea nueva), 20 Extended con cargo (23 con E1), 585 juntas SMT; 28 THT a mano (J1, J3, J4–J9, J10).
 
-| Diferencia frente a 42,02 / 24,00 $ | 5 uds | 50 uds |
+| Diferencia frente a 42,02 / 24,00 $ (hasta SPEC-0037) | 5 uds | 50 uds |
 |---|---|---|
-| P4: U4 AP2114H (0,2386 / 0,1899 $) frente al TLV1117LV de TI (0,3967 / 0,2645 $) | −0,16 | −0,07 |
-| J10 BH254R-10P C492448 (0,1476 / 0,1164 $) frente al BH254V C492442 (0,1176 / 0,0937 $) | +0,03 | +0,02 |
+| P4: U4 AP2114H (0,2386 / 0,1899 $) frente al TLV1117LV de TI (hasta SPEC-0037; 0,3967 / 0,2645 $) | −0,16 | −0,07 |
+| J10 BH254R-10P C492448 (0,1476 / 0,1164 $) frente al BH254V C492442 (hasta SPEC-0037; 0,1176 / 0,0937 $) | +0,03 | +0,02 |
 | P3 real frente a la estimación: C3 se queda en 220 nF (12 piezas en lugar de 13: +0,014 con 5 uds); con 50, C28233 cae al tramo de 600 uds (0,0101 $ en lugar de 0,0159) y C3 + C8 suben al tramo de 1–199 uds (+0,019) | +0,02 | −0,05 |
 | Precios del 2026-11-20 al 2026-11-23 en el resto (U5 +0,013, BTT6050 6 × +0,003, C15849 +0,014, U1 +0,009, U14/U15 −0,011…) | +0,05 | +0,04 |
-| **Total** (con el redondeo de 47,15 y 25,02) | **−0,06** | **−0,05** |
+| **Total** (con el redondeo de 47,15 y 25,02, hasta SPEC-0037) | **−0,06** | **−0,05** |

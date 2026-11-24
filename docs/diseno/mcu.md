@@ -1,7 +1,7 @@
 # Bloque MCU: módulo, USB-C, arranque, UART, LED y tabla de GPIO (SPEC-0020)
 
 **Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B). **Rev. VAL-0022-01** (2026-11-07): I_mín de D5 en el peor caso (§7) y ficha y polaridad del KT-0603R (§11, Anexo A). **Rev. SPEC-0031** (2026-11-15): EXP-01 retirado (DEC-0011; GPIO37 libre); GPIO36 pasa a EXP_EN, salida con *pull-down* (`viabilidad-expansion.md` §10.6); GPIO39 pasa a BTN_INT, INT del expansor de los pulsadores (DEC-0013); bus de la placa a 100 kHz.
-**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación de U4: AP2114H-3.3TRG1 desde SPEC-0038; antes TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-02 y EXP-03 (pines).
+**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación de U4: AP2114H-3.3TRG1 desde SPEC-0038; TLV1117LV hasta SPEC-0037), REL-04, REL-10 (pines de IS), AMB-01, EXP-02 y EXP-03 (pines).
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`); C2913198 y los cambios de compra de DEC-0007 revisados el 2026-11-06. Tipo Basic/Extended y stock de JLCPCB: SPEC-0021 (2026-11-06) y API de JLCPCB (2026-11-07) para C2286, C15849 y C2687116.
 
 > Datasheets (las páginas son las impresas en el documento):
@@ -72,7 +72,7 @@ Fuente: HDG §1.4.7 (pp. 28-31, Fig. 24 y 26) y WROOM-1 §11.2 (p. 46).
 - **Caja:** ≥ 15 mm libres alrededor de la antena en todas direcciones, dentro de la caja (HDG p. 30). Se comprueba con la decisión D5 (caja).
 - **Lejos de:**
   - el buck (SW, L1), las salidas (*high-side*), el USB, la UART y el SHT4x: **objetivo del autor de ≥ 15 mm** del área de la antena. No es un requisito de la HDG: la HDG da 15 mm solo como zona libre dentro de la caja (p. 30), y para el USB y la UART pide «*as far away from the antenna as possible*» (§1.4.4, p. 28);
-  - en una placa de ≤ 100 × 70 mm puede no ser realizable: el *floorplan* justifica una distancia menor si hace falta.
+  - en la placa de 100 × 100 mm (DEC-0016) puede no ser realizable: el *floorplan* justifica una distancia menor si hace falta.
 - **Tamaño:** si la antena sobresale, el módulo asoma ≈ 6 mm del contorno. Si FAB-08 (≤ 100 mm) cuenta lo que sobresale, el ancho de la placa baja a ≤ 94 mm. Lo decide el *floorplan*, con la decisión D5 (caja).
 - Hay que poner abundante cobre de GND y vías de cosido junto a la antena, pero fuera de la zona libre (HDG p. 30).
 
@@ -128,7 +128,7 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 |---|---|---|---|
 | Escalón (USB ya presente, rearme) | 0 | 0 | 9,9–15,4 ms |
 | VBUS por el TPS2116 (1,7 ms de subida, TPS2116 §8.2.2, p. 15) | 1,55 ms | ≈ 0,10 (escalado desde 0,10 con 7,35 ms) | ≈ 11–16 ms |
-| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde 1,95 V (UVLO del TLV1117LV, p. 5; el AP2114H no publica UVLO y funciona desde 2,5 V, p. 7) | 1,98 / 3,96 ms | 0,084 / **0,159** | 11,3–18,3 ms |
+| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde 1,95 V (UVLO del TLV1117LV, U4 hasta SPEC-0037, p. 5; el AP2114H no publica UVLO y funciona desde 2,5 V, p. 7) | 1,98 / 3,96 ms | 0,084 / **0,159** | 11,3–18,3 ms |
 | Cota pesimista: rampa lineal de 0 a 3,3 V en 6 ms | 5,46 ms | 0,300 | 13,1–18,5 ms |
 
 - **Cumple:** en los casos reales, EN ≤ 0,159·VDD < 0,25·VDD cuando el raíl llega a 3,0 V (margen 0,091·VDD). Con C106248 (τ mín. 7,35 ms) era 0,155: el cambio a C15849 cuesta 0,004·VDD. El *chip* no sale de reset antes de que el raíl sea estable, y lo hace entre 10 y 18 ms después (≫ 50 µs).
@@ -196,7 +196,7 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 
 ### 8.3 Comprobación de U4 (AP2114H-3.3TRG1, SPEC-0038)
 
-U4 pasa del TLV1117LV de TI (stock 0) al AP2114H-3.3TRG1 (DEC-0018 P4). El cálculo completo está en `alimentacion.md` §3.9; aquí, lo que afecta al bloque MCU. V_DO ≤ 0,41 V a 0,45 A y 125 °C (750 mV máx. a 1 A y 25 °C, p. 12, con la deriva de la Fig. 32, p. 21).
+U4 pasa del TLV1117LV de TI (hasta SPEC-0037; stock 0) al AP2114H-3.3TRG1 (DEC-0018 P4). El cálculo completo está en `alimentacion.md` §3.9; aquí, lo que afecta al bloque MCU. V_DO ≤ 0,41 V a 0,45 A y 125 °C (750 mV máx. a 1 A y 25 °C, p. 12, con la deriva de la Fig. 32, p. 21).
 
 | Comprobación | Cálculo | Resultado |
 |---|---|---|
@@ -207,7 +207,7 @@ U4 pasa del TLV1117LV de TI (stock 0) al AP2114H-3.3TRG1 (DEC-0018 P4). El cálc
 | Conmutación del TPS2116 (+5V hasta 3,9 V, `alimentacion.md` §3.8) | 3,9 − 0,045 = 3,855 V frente a 3,3 + 0,41 = 3,71 V | ✔ (transitorio, margen 0,145 V) |
 | Disipación con el buck | (5,107 − 3,3) × 0,45 = 0,81 W; R_θJA ≤ 60 °C/W con ≥ 4 cm² (supuesta: el AP2114 solo publica 128 °C/W sin disipador, p. 7) → T_J = 60 + 49 = **109 °C** | ✔ (< 125 °C; apagado térmico a 160 °C, p. 12) |
 | Disipación con USB a 5,25 V | (5,25 − 0,03 − 3,3) × 0,45 = 0,86 W → T_J = 112 °C | ✔ |
-| Tensión del raíl | ± 2,3 % (`alimentacion.md` §3.9): 3,224–3,376 V. Los cálculos de la placa usan la envolvente de 3,211–3,389 V (± 2,7 %, la del TLV1117LV), que la contiene | ✔ |
+| Tensión del raíl | ± 2,3 % (`alimentacion.md` §3.9): 3,224–3,376 V. Los cálculos de la placa usan la envolvente de 3,211–3,389 V (± 2,7 %, la del TLV1117LV, U4 hasta SPEC-0037), que la contiene | ✔ |
 | Pico de Wi-Fi (95 → 355 mA) | AP2114 Fig. 46 (p. 24): escalón de 0 a 1 A con C_OUT de 4,7 µF, caída ≤ 50 mV (1 división, típica). Aquí el escalón es de 0,26 A y hay ≈ 25 µF | VDD ≥ 3,224 − 0,05 = **3,17 V ≥ 3,0 V** ✔ (margen 0,17 V) |
 
 **Conclusión:** el AP2114H cumple ALI-07 con este bloque. La caída transitoria del pico de Wi-Fi no cuenta en el ± 3 % de §6, que es la regulación en continua.

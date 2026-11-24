@@ -238,8 +238,8 @@ Es la definición de `viabilidad-expansion.md` §10 (arquitectura 1, D9, DEC-001
 
 ### 2.1 Tipo
 
-- **J10: XFCN BH254R-10P** (C492448; DEC-0017, SPEC-0038; antes BH254V-10P recta, C492442), cabecera IDC con guía, 2 × 5 a 2,54 mm, en ángulo recto, THT en la cara superior (FAB-06), con la boca al ras del borde inferior. Huella `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` (cotas frente al dibujo en la ficha). Mismo pinout. 3 A por contacto, −40…105 °C (BH p. 1).
-- Cuerpo de 20,35 ± 0,40 × 8,9 mm; taladro Ø 1,02 ± 0,05 (BH p. 1). Huella oficial `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical`: taladro de 1,0 mm, patio de 9,9 × 21,36 mm, 3D oficial; las cotas cuadran (contraste de jr-conformidad, parte 02).
+- **J10: XFCN BH254R-10P** (C492448; DEC-0017, SPEC-0038; BH254V-10P recta, C492442, hasta SPEC-0037), cabecera IDC con guía, 2 × 5 a 2,54 mm, en ángulo recto, THT en la cara superior (FAB-06), con la boca al ras del borde inferior. Huella `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` (cotas frente al dibujo en la ficha). Mismo pinout. 3 A por contacto, −40…105 °C (BH p. 1).
+- Cuerpo de 20,35 ± 0,25 mm de largo, 8,8 mm de fondo y 8,9 mm de alto; taladro Ø 1,02 ± 0,05 (BH p. 1). Huella oficial `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal`: taladro de 1,0 mm, patio de 15,13 × 21,36 mm, 3D oficial; las cotas cuadran (ficha `BH254R-10P.md`, SPEC-0038).
 - Símbolo `Connector_Generic:Conn_02x05_Odd_Even`: impares en una fila y pares en la otra, como la numeración IDC (pin 1 marcado con el triángulo de la guía).
 - Sin enclavamiento positivo: brida a la caja (`viabilidad-expansion.md` §10.1). Cable plano de 10 hilos, ≤ 3 m.
 
@@ -310,7 +310,7 @@ Ecuaciones (1)–(3) de SLVS841G, pp. 16–17 (la (1), I_OS máx., en la p. 16; 
 
 ## 4. Bordes y taladros M3 (FAB-07, FAB-08)
 
-Datos: placa de 100 × 70 mm (FAB-08; contorno preliminar de `hardware/v2/README.md`). Patios de las huellas medidos con `huella.py`.
+Datos: placa de 100 × 70 mm (hasta SPEC-0037; FAB-08 pasa a 100 × 100 mm con DEC-0016, y la colocación b4, `colocacion-b4.csv`, sustituye este reparto). Patios de las huellas medidos con `huella.py`.
 
 **Esquinas:**
 
@@ -350,7 +350,7 @@ La tabla está en §0.
 | U14, U15 | **`esp-riego:TPS2553DBVR` (nuevo)** | `Package_TO_SOT_SMD:SOT-23-6` | Oficial |
 | U16, U17 | `Power_Protection:USBLC6-2SC6` | `Package_TO_SOT_SMD:SOT-23-6` | Oficial |
 | U18 | `Interface_Expansion:TCA9554PW` | `Package_SO:TSSOP-16_4.4x5mm_P0.65mm` | Oficial |
-| J10 | `Connector_Generic:Conn_02x05_Odd_Even` | `Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical` | Oficial |
+| J10 | `Connector_Generic:Conn_02x05_Odd_Even` | `Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal` | Oficial (SPEC-0038) |
 | SW3–SW8 | `Switch:SW_Push` | `esp-riego:SW_Push_1P1T_XKB_TS-1187A` | Propio (SPEC-0021) |
 | R, C | `Device:R`, `Device:C` | `R_0603_1608Metric`, `C_0603_1608Metric` | Oficial |
 | H1–H4 | `Mechanical:MountingHole` | `MountingHole:MountingHole_3.2mm_M3_Pad_Via` | — (fuera del BOM) |
@@ -378,7 +378,7 @@ La tabla está en §0.
 4. **Capacidades supuestas** (10 pF) del pin del ESP32-S3, del ADS1115 y del TCA9554: con el doble, el caso de 4 módulos y 3 m sigue ≤ 1000 ns (riesgo 5 de aquel documento), y el bus de la placa quedaría en ≈ 90 pF y 0,36 µs, dentro de 1 µs a 100 kHz.
 5. **4.º módulo:** depende del tiempo de mantenimiento de SDA con ADDR = SDA (riesgo 4 de aquel documento).
 6. **J10 sin enclavamiento:** brida a la caja (§2.1).
-7. **Bordes:** las cifras de §4 usan el contorno preliminar de 100 × 70 mm; el *floorplan* las confirma (FAB-08, ± 5 mm de alto).
+7. **Bordes:** las cifras de §4 usan el contorno de 100 × 70 mm (hasta SPEC-0037); la colocación b4 en 100 × 100 mm (`colocacion-b4.csv`, DEC-0016) las sustituye.
 
 ## 8. Trazabilidad
 

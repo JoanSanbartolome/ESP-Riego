@@ -1,0 +1,125 @@
+archivo,línea (antes del barrido),término,clase,acción
+docs/diseno/alimentacion.md,3,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,3,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,8,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,24,C224019,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,95,C173427,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,125,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,151,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,151,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,225,C15578,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,225,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,230,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,231,+20 %,no es coincidencia,"+20 % es la deriva del LDO a 125 °C, no el margen del cobre"
+docs/diseno/alimentacion.md,238,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,245,C52146079,histórica,rotulada «descartado en SPEC-0038»
+docs/diseno/alimentacion.md,245,TLV1117LV,histórica,rotulada «descartado en SPEC-0038»
+docs/diseno/alimentacion.md,246,C48937499,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,246,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,249,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,380,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,380,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,380,CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,490,C173427,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,492,C224019,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,495,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,495,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,495,CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,502,C15874,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,504,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,504,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,504,CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,519,C15578,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,519,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,530,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,535,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,590,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,595,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/alimentacion.md,603,C15578,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,603,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,608,C15874,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/alimentacion.md,609,C173427,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/colocacion-b.csv,126,"47,15 $",no es coincidencia,"falso positivo (R47,156.4); archivo borrado en este paso"
+docs/diseno/colocacion-reglas.csv,80,+20 %,no es coincidencia,"+20 % es el margen del trazo de serigrafía (T02), no del cobre"
+docs/diseno/colocacion-reglas.csv,103,+20 %,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/conectores.md,66,BH254V-10P,histórica,rotulada «Hasta SPEC-0037»
+docs/diseno/conectores.md,186,C23162,no es coincidencia,no es R15 (R24/R25 o escalera de pulsadores): vigente según alcance
+docs/diseno/conectores.md,206,C23162,no es coincidencia,no es R15 (R24/R25 o escalera de pulsadores): vigente según alcance
+docs/diseno/conectores.md,241,BH254V-10P,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/conectores.md,241,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/conectores.md,242,IDC-Header_2x05_P2.54mm_Vertical,actualizar,corregida: huella y patio de la horizontal (ficha BH254R-10P.md)
+docs/diseno/conectores.md,313,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/conectores.md,353,IDC-Header_2x05_P2.54mm_Vertical,actualizar,corregida: huella Horizontal
+docs/diseno/conectores.md,381,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste-bom.csv,17,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,17,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,17,CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,22,220n 100V,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,22,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,22,CC0805KKX7R0BB224,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/estudio-coste-bom.csv,94,C23162,no es coincidencia,no es R15 (R24/R25 o escalera de pulsadores): vigente según alcance
+docs/diseno/estudio-coste-bom.csv,95,C23162,no es coincidencia,no es R15 (R24/R25 o escalera de pulsadores): vigente según alcance
+docs/diseno/estudio-coste.md,11,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,11,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,19,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,20,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,20,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,22,6251,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,40,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,40,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,48,C513710,actualizar,corregida: C513710 ya no se comparte con salidas; rotulado
+docs/diseno/estudio-coste.md,54,C15578,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,61,C173427,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,63,C48937499,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,63,C52146079,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,63,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,65,220n 100V,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,65,C513710,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,100,C513710,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,139,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,161,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,161,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,162,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,187,220 nF (C_VS),actualizar,"C_VS de 100 nF desde SPEC-0038 (no es el literal «220n 100V», mismo dato)"
+docs/diseno/estudio-coste.md,191,+20 %,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,195,58 objetivos,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,195,6251,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,215,"24,00 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,215,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,215,"42,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,215,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,219,"24,00 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,219,"42,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,221,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,222,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,225,"25,02 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-coste.md,225,"47,15 $",histórica,rotulada «hasta SPEC-0037»
+docs/diseno/estudio-salidas.md,1009,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/experimento-colocacion.md,15,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/experimento-colocacion.md,19,58 objetivos,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,4,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,11,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,75,100 × 70,actualizar,corregida: 100 × 100 mm (DEC-0016)
+docs/diseno/mcu.md,131,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,199,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,210,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/mcu.md,363,C23162,no es coincidencia,no es R15 (R24/R25 o escalera de pulsadores): vigente según alcance
+docs/diseno/salidas.md,240,C513710,histórica,rotulada «Hasta SPEC-0037»
+docs/diseno/salidas.md,245,85–90 nF,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/salidas.md,245,C513710,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/salidas.md,381,C513710,no es coincidencia,es C3 o C8 (alcance: solo C27–C38)
+docs/diseno/salidas.md,383,C513710,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/salidas.md,428,C513710,actualizar,"corregida: línea C28233 compartida con C_VS; la antigua, rotulada"
+docs/diseno/sensores.md,57,100 × 70,actualizar,corregida: 100 × 100 mm (DEC-0016)
+docs/diseno/sensores.md,123,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/sensores.md,126,100 × 70,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,9,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,33,BH254V-10P,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,33,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,140,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,224,BH254V-10P,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,224,C492442,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,226,IDC-Header_2x05_P2.54mm_Vertical,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,260,TLV1117LV,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,312,BH254V-10P,histórica,rotulada «hasta SPEC-0037»
+docs/diseno/viabilidad-expansion.md,312,C492442,histórica,rotulada «hasta SPEC-0037»

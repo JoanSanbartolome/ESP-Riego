@@ -12,11 +12,13 @@ Pregunta (usuario, 2026-11-19): ¿qué cuesta menos en tokens para iterar la col
 | Paso | Qué | Tokens | Acciones | Min | Iteraciones | Resultado de `evaluar` |
 |---|---|---|---|---|---|---|
 | 1 | Herramienta (`extraer`, `evaluar`) y 65 reglas | 296 093 | 86 | 26 | — | — |
-| 2 | Brazo B, 100 × 70 | 173 296 | 25 | 18 | 6 | 0 incumplimientos con las 65 reglas |
+| 2 | Brazo B, 100 × 70 (hasta SPEC-0037) | 173 296 | 25 | 18 | 6 | 0 incumplimientos con las 65 reglas |
 | 3 | Criterios de DEC-0016 en la herramienta | 329 532 | 109 | 47 | — | — |
 | 4 | Brazo B', tamaño variable | 305 463 | 83 | 51 | 25 | 100 × 100, 0 obligatorias, 46 objetivos |
 | 5 | J2 y U5 al ras; 116 reglas (dos tandas) | 517 342 | 148 | 91 | 23 | 0 obligatorias, 61 objetivos |
-| 6 | Estudio de coste y J10 horizontal | 375 851 | 127 | 35 | 10 | 0 obligatorias, 58 objetivos |
+| 6 | Estudio de coste y J10 horizontal | 375 851 | 127 | 35 | 10 | 0 obligatorias, 58 objetivos (hasta SPEC-0037; 57 con `hardware/v2` de SPEC-0038) |
+
+Colocaciones de cada paso: b (paso 2) en el commit `abbcc5e`, b2 (paso 4) en `80a7b8f` y b3 (paso 5) en `36b804c`, como `docs/diseno/colocacion-bN.csv` y `.png` (`git show <commit>:<ruta>`); b4 (paso 6), en `colocacion-b4.csv`.
 
 Solo de colocar (pasos 2, 4 y 6, contando lo que en el paso 5 corresponde a recolocar):
 - en los pasos 2 y 4, unos 7–12 k tokens por iteración;

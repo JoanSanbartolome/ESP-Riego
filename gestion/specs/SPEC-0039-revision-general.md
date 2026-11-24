@@ -127,3 +127,4 @@ Nivel **completo** en la guarda y en `gestion.py`, porque cambian el control de 
 |---|---|---|---|---|---|---|
 | 2026-11-24 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-24 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-24 | ing-diseno | paso 2 — barrido de docs/diseno, b/b2/b3 borrados, recetas y memoria | 02-ing-diseno | 382904 | 103 | 65 |

@@ -54,7 +54,7 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 | Raíl +3V3 | 3,211–3,389 V de envolvente (± 2,7 %); U4 AP2114H da 3,224–3,376 V (± 2,3 %, SPEC-0038) | `mcu.md` §1; `alimentacion.md` §3.9 |
 | Bus I²C de la placa | GPIO41 (SDA, pin 34 de U5) y GPIO42 (SCL, pin 35); R24/R25 = 4,7 kΩ a +3V3; **100 kHz**, con U18 TCA9554 (0x20) en el mismo bus (DEC-0013) | `mcu.md` §9.2, §11; `conectores.md` §3.3 |
 | Bus de expansión | GPIO47/48, otro bus (SPEC-0031) | `mcu.md` §9.2 |
-| Placa | 100 × 70 mm (preliminar), 2 capas, 1,6 mm, 1 oz; planos de GND en las dos caras (FAB-04) | FAB-01, FAB-04, FAB-08 |
+| Placa | 100 × 100 mm (DEC-0016), 2 capas, 1,6 mm, 1 oz; planos de GND en las dos caras (FAB-04) | FAB-01, FAB-04, FAB-08 |
 | Ambiente de diseño | +50 °C en la caseta + ≥ 10 °C dentro de la caja | `docs/02` §5; checklist de esquema |
 | Verificación | ± 0,5 °C y ± 3 % HR frente a una referencia en la caseta, en reposo y tras 1 h con las 6 salidas, con la corrección de AMB-02 | `docs/02` §6 |
 
@@ -120,10 +120,10 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 | Ejemplo: 6 salidas a 0,25 A (1,5 A) | Reposo + 6 × (24 V × 4,7 mA + 0,25² × 0,06 Ω) = 0,69 W en los BTT + U1 ≈ 0,10 W + Q1 1,5² × 0,026 = 0,06 W | ≈ 1,5 W | `salidas.md` §6; `alimentacion.md` §10 |
 | **Caso de carga: suma de 3,5 A** (ALI-12, límite de uso; reparto del ensayo de §6, 1 + 1 + 4 × 0,375 A) | Reposo + BTT 1,8 W + U1 0,55 W + Q1 0,32 W + F1 0,09 W | **≈ 3,4 W** (cota alta) | `salidas.md` §0 y §6 |
 
-Calentamiento medio de la placa sobre el aire de la caja: ΔT_placa = P / (h · A), con A = 2 × 100 × 70 mm² = 0,014 m² y h = 10 W/m²K (convección natural y radiación; supuesto, rango 7–15) → 7,1 K/W:
+Calentamiento medio de la placa sobre el aire de la caja: ΔT_placa = P / (h · A), con A = 2 × 100 × 70 mm² = 0,014 m² (contorno hasta SPEC-0037; con los 100 × 100 mm de DEC-0016 son 0,020 m² y 5,0 K/W, así que las cifras de esta sección son una cota alta) y h = 10 W/m²K (convección natural y radiación; supuesto, rango 7–15) → 7,1 K/W:
 
 - reposo: **≈ 4,5 K**; suma de 3,5 A (caso de carga): **≈ 24 K**; ejemplo de 6 salidas a 0,25 A: ≈ 10,5 K.
-- Con planos en las dos caras, el cobre reparte el calor: k·t = 0,3 × 1,6 mm + 2 × 385 × 35 µm = 0,027 W/K y la longitud de reparto es √(k·t / 2h) = √(0,027 / 20) ≈ **37 mm**. En 100 × 70 mm la placa es casi isoterma: **la distancia sola no aísla; lo hacen las ranuras**.
+- Con planos en las dos caras, el cobre reparte el calor: k·t = 0,3 × 1,6 mm + 2 × 385 × 35 µm = 0,027 W/K y la longitud de reparto es √(k·t / 2h) = √(0,027 / 20) ≈ **37 mm**. En 100 × 70 mm (hasta SPEC-0037), y también en 100 × 100 mm, la placa es casi isoterma: **la distancia sola no aísla; lo hacen las ranuras**.
 
 ### 5.2 Isla y puente
 
