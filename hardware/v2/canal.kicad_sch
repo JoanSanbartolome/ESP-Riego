@@ -2953,7 +2953,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 144.78 44.45 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2975,7 +2975,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 142.24 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -2986,7 +2986,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_VS del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_VS del canal n"
 			(at 142.24 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -2997,7 +2997,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 142.24 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -3008,7 +3008,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 142.24 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -3019,7 +3019,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 142.24 43.18 0)
 			(hide yes)
 			(show_name no)
@@ -3221,7 +3221,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "220n 100V"
+		(property "Value" "100n 100V"
 			(at 187.96 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3243,7 +3243,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2004231434_YAGEO-CC0805KKX7R0BB224_C513710.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28233"
 			(at 185.42 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -3254,7 +3254,7 @@
 				)
 			)
 		)
-		(property "Description" "MLCC 220 nF 100 V X7R 0805: C_OUT del canal n"
+		(property "Description" "MLCC 100 nF 100 V X7R 0805: C_OUT del canal n"
 			(at 185.42 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -3265,7 +3265,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C513710"
+		(property "LCSC Part#" "C28233"
 			(at 185.42 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -3276,7 +3276,7 @@
 				)
 			)
 		)
-		(property "MPN" "CC0805KKX7R0BB224"
+		(property "MPN" "CL21B104KCFNNNE"
 			(at 185.42 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -3287,7 +3287,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "YAGEO"
+		(property "Fabricante" "Samsung Electro-Mechanics"
 			(at 185.42 95.25 0)
 			(hide yes)
 			(show_name no)

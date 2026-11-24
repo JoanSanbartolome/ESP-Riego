@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
+Specs por estado: propuesta 1 · abierta 0 · cerrada 34 · descartada 4.
 
 ## Propuestas (1)
 
@@ -10,13 +10,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | Cambios del estudio de coste en hardware/v2 | 4 | ing-diseno | `spec/SPEC-0038-cambios-del-estudio-de-coste-en` | — | 2026-11-23 | — |
-
-## Cerradas (33)
+## Cerradas (34)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -53,6 +47,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | Límites de uso de las salidas | 3 | ing-diseno | `spec/SPEC-0034-limites-salidas` | VAL-0034-02 (APROBADO) | 2026-11-17 | 2026-11-17 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | Esquema legible | 3 | ing-diseno | `spec/SPEC-0035-esquema-legible` | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-17 | 2026-11-18 |
 | [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | Colocación iterada en texto (experimento M10) | 4 | ing-diseno | `spec/SPEC-0037-colocacion-en-texto` | VAL-0037-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-19 | 2026-11-23 |
+| [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | Cambios del estudio de coste en hardware/v2 | 4 | ing-diseno | `spec/SPEC-0038-cambios-del-estudio-de-coste-en` | VAL-0038-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-23 | 2026-11-24 |
 
 ## Descartadas (4)
 
@@ -80,14 +75,15 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
 | [SPEC-0034](specs/SPEC-0034-limites-salidas.md) | 5 | 942 512 | 219 | 40 |
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 6 | 1 603 105 | 550 | 157 |
 | [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | 9 | 2 341 410 | 692 | 301 |
+| [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | 5 | 805 382 | 245 | 54 |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 25 | 6 539 864 | 1 965 | 689 |
-| ing-validacion | 23 | 3 006 375 | 772 | 186 |
-| jr-conformidad | 8 | 583 505 | 168 | 26 |
+| ing-diseno | 28 | 6 926 326 | 2 092 | 718 |
+| ing-validacion | 24 | 3 250 352 | 835 | 199 |
+| jr-conformidad | 9 | 758 448 | 223 | 38 |
 
 ## Decisiones
 
@@ -167,4 +163,5 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 33 · descartada 4.
 | [VAL-0035-02](informes/VAL-0035-02.md) | SPEC-0035 | APROBADO_CON_OBSERVACIONES | `6a1a6b4` | 2026-11-18 |
 | [VAL-0037-01](informes/VAL-0037-01.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `86ceba5` | 2026-11-23 |
 | [VAL-0037-02](informes/VAL-0037-02.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `adcdf05` | 2026-11-23 |
+| [VAL-0038-01](informes/VAL-0038-01.md) | SPEC-0038 | APROBADO_CON_OBSERVACIONES | `41f843b` | 2026-11-24 |
 

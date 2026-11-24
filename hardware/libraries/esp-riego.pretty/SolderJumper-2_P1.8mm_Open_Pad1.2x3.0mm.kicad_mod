@@ -3,7 +3,7 @@
 	(generator "jr-conformidad")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm")
+	(descr "Puente de soldadura de 2 pads, 1,2 x 3,0 mm, hueco 0,6 mm, abierto, sin pasta (DEC-0006; docs/diseno/alimentacion.md 3.13.9). Construccion de SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm. Sin texto de serigrafia de pines: el puente no tiene polaridad (SPEC-0038)")
 	(tags "solder jumper open 4.9A")
 	(property "Reference" "REF**"
 		(at 0 -2.9 0)
@@ -107,17 +107,6 @@
 		(layer "F.SilkS")
 		(uuid "555acdb4-c796-4753-a389-30657147311b")
 	)
-	(fp_text user "1"
-		(at -2.4 0 0)
-		(layer "F.SilkS")
-		(uuid "fe7d7d23-2bb7-4ed4-989f-734bd5226634")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
-			)
-		)
-	)
 	(fp_line
 		(start -2.0 -2.0)
 		(end -2.0 2.0)
@@ -187,7 +176,7 @@
 		(effects
 			(font
 				(size 1.0 1.0)
-				(thickness 0.12)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -198,7 +187,7 @@
 		(effects
 			(font
 				(size 1.0 1.0)
-				(thickness 0.12)
+				(thickness 0.15)
 			)
 		)
 	)

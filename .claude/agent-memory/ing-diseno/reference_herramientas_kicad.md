@@ -63,3 +63,7 @@ SPEC-0037 paso 3 (2026-11-19), pcbnew de KiCad 10:
 - Girar la huella gira también la referencia (ángulo absoluto); `SetTextAngleDegrees` después del giro de la huella.
 - Comparaciones de distancias en informes que se prueban con ida y vuelta (`colocar.py --exportar` redondea a 4 decimales): redondear antes de comparar y recorrer los índices en orden fijo, o los empates cambian entre ejecuciones.
 - Una fila del CSV de reglas con `; ` dentro de una nota parte la fila: usar comas.
+
+SPEC-0038 (2026-11-23), cambio de piezas sin mover nada:
+- Flujo en minutos: editar `campos-*.csv` (copia) → `campos.py aplicar` por hoja (la subhoja «Canal» con `campos-salidas.csv`) → `sincronizar.py --actualizar <REF>` para recargar una huella de librería modificada (JP1). Una huella recargada pierde la posición de su referencia (vuelve a la de la librería): avisarlo en el parte.
+- `esquema.cruces` no vio un Value más largo (MPN) pisando un cable vertical vecino: mirar siempre `vista.py hoja --zona` tras cambiar un Value.

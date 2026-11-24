@@ -19,10 +19,10 @@
 
 | Bloque | Piezas | Documento |
 |---|---|---|
-| Alimentacion | J1, F1 0451010.MRL, Q1 SQD50P06-15L + D1, D2 SMBJ33A, U1 TPS26632RGER + JP1, D3 SS310, U2 LMR36520FADDAR + L1, U3 TPS2116DRLR, U4 TLV1117LV33DCYR, TP1–TP5 | `alimentacion.md` §7 |
+| Alimentacion | J1, F1 0451010.MRL, Q1 SQD50P06-15L + D1, D2 SMBJ33A, U1 TPS26632RGER + JP1, D3 SS310, U2 LMR36520FADDAR + L1, U3 TPS2116DRLR, U4 AP2114H-3.3TRG1 (SPEC-0038), TP1–TP5 | `alimentacion.md` §7 |
 | MCU | U5 ESP32-S3-WROOM-1-N8, J2 USB-C + U6 USBLC6-2SC6, SW1/SW2, J3 UART, D5 | `mcu.md` §11 |
 | Salidas (6 × Canal) | U7–U12 BTT6050-1ERA, J4–J9 WJ500V-5.08-2P, D12–D17 M7 (montados), R_OL, R_SENSE/R_IS/C_IS, R_PD, LED D6–D11 | `salidas.md` §9 |
-| Conectores | J10 BH254V-10P, U14/U15 TPS2553DBVR, U16/U17 USBLC6-2SC6, U18 TCA9554PWR + SW3–SW8, H1–H4 | `conectores.md` §0 |
+| Conectores | J10 BH254R-10P (SPEC-0038), U14/U15 TPS2553DBVR, U16/U17 USBLC6-2SC6, U18 TCA9554PWR + SW3–SW8, H1–H4 | `conectores.md` §0 |
 | Sensores | U13 SHT40-AD1B-R2 | `sensores.md` §10 |
 
 **Restricciones de layout por raíl** (el detalle por red está en el §8 de `alimentacion.md`, el §11 de `salidas.md` y el §12 de `mcu.md`; aquí solo lo que cruza bloques)
@@ -64,7 +64,7 @@ La raíz dibuja lo mismo (imagen en el parte): 26 redes entre hojas y 54 pines d
 
 ## 2. Presupuesto de potencia por raíl (6 salidas activas, ALI-12)
 
-### 2.1 Raíl de 3,3 V (U4 TLV1117LV33)
+### 2.1 Raíl de 3,3 V (U4 AP2114H-3.3TRG1)
 
 | Carga | Corriente | Fuente |
 |---|---|---|
@@ -80,7 +80,7 @@ La raíz dibuja lo mismo (imagen en el parte): 26 redes entre hojas y 54 pines d
 | +3V3_EXP (EXP-02) | 50 mA | `viabilidad-expansion.md` §10.3 |
 | **Total** | **422 mA** (diseño 0,45 A) | |
 
-- Capacidad: 1 A nominal, I_CL ≥ 1,1 A (TLV p. 5) → **2,2×** sobre 0,45 A. Caída, térmica y pico de Wi-Fi en `mcu.md` §8.3 (T_J 109 °C a 60 °C de ambiente).
+- Capacidad: ≥ 1,0 A con VOUT de 3,25 a 3,35 V (AP2114 p. 12) → **2,2×** sobre 0,45 A. Caída, térmica y pico de Wi-Fi en `mcu.md` §8.3 (T_J 109 °C a 60 °C de ambiente).
 - Con el calentador del SHT40 (100 mA máx., no se usa): 0,52 A, 1,9×.
 - R16 y R17 (EN y BOOT) solo consumen con SW1 o SW2 pulsados: fuera del presupuesto.
 
@@ -88,7 +88,7 @@ La raíz dibuja lo mismo (imagen en el parte): 26 redes entre hojas y 54 pines d
 
 | Carga | Corriente | Fuente |
 |---|---|---|
-| U4: carga de 3,3 V + I_Q | 422 + 0,1 mA | §2.1; TLV p. 5 (I_Q ≤ 100 µA) |
+| U4: carga de 3,3 V + I_Q | 422 + 0,1 mA | §2.1; AP2114 p. 12 (I_Q ≤ 90 µA) |
 | +5V_EXP (EXP-02) | 300 mA | `conectores.md` §2.3 |
 | U14 TPS2553 (+5V_EXP), habilitado | ≤ 0,15 mA | SLVS841G p. 6 (R_ILIM = 68 kΩ, entre 20 y 210 kΩ) |
 | U3, divisores de FB (R7/R8) y de PR1 (R11/R12) | 0,06 mA | TPS2116 p. 6; netlist |
@@ -200,7 +200,7 @@ Con JP1 cerrado (sin limitador, DEC-0006) queda solo la R_PD de cada IN (`alimen
 | Conector | Protección (netlist) | Resultado |
 |---|---|---|
 | J1 (24 V) | D2 SMBJ33A tras F1 y Q1 (V_RWM 33 V, `alimentacion.md` §3.4) | ✔ |
-| J4–J9 (salidas) | C_OUT 220 nF 100 V (C33–C38) y D12–D17 en cada OUT_n; OUT del BTT ± 4 kV HBM (BTT tabla 3, p. 7). Sin TVS en OUT por diseño (`salidas.md` §4.3) | ✔ |
+| J4–J9 (salidas) | C_OUT 100 nF 100 V (C33–C38, C28233 desde SPEC-0038) y D12–D17 en cada OUT_n; OUT del BTT ± 4 kV HBM (BTT tabla 3, p. 7). Sin TVS en OUT por diseño (`salidas.md` §4.3) | ✔ |
 | J10 (expansión) | U16 en EXP_SDA_J/EXP_SCL_J (VBUS = +3V3_EXP) y U17 en EXP_INT_J/EXP_EN_J (VBUS = +5V_EXP); R73–R76 en serie; los raíles del conector, a los VBUS de U16/U17 | ✔ |
 | J2 (USB-C) | U6 en D+/D− (I/O1 y I/O2) y VBUS (pin 5); SHIELD a GND | ✔ |
 | J3 (UART) | Sin ESD: conector de servicio interno, no de campo (`mcu.md` §6) | No aplica |

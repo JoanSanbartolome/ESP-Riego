@@ -51,7 +51,7 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 
 | Dato | Valor | Origen |
 |---|---|---|
-| Raíl +3V3 | 3,211–3,389 V (TLV1117LV ± 2,7 %) | `mcu.md` §1; `alimentacion.md` §3.9 |
+| Raíl +3V3 | 3,211–3,389 V de envolvente (± 2,7 %); U4 AP2114H da 3,224–3,376 V (± 2,3 %, SPEC-0038) | `mcu.md` §1; `alimentacion.md` §3.9 |
 | Bus I²C de la placa | GPIO41 (SDA, pin 34 de U5) y GPIO42 (SCL, pin 35); R24/R25 = 4,7 kΩ a +3V3; **100 kHz**, con U18 TCA9554 (0x20) en el mismo bus (DEC-0013) | `mcu.md` §9.2, §11; `conectores.md` §3.3 |
 | Bus de expansión | GPIO47/48, otro bus (SPEC-0031) | `mcu.md` §9.2 |
 | Placa | 100 × 70 mm (preliminar), 2 capas, 1,6 mm, 1 oz; planos de GND en las dos caras (FAB-04) | FAB-01, FAB-04, FAB-08 |
@@ -88,7 +88,7 @@ Restricciones de layout (filas listas para `docs/diseno/restricciones.csv`; just
 | Pendiente de VDD ≤ 20 V/ms (p. 9) | Con 24 V: el buck arranca en t_SS ≥ 3 ms (LMR p. 7) → ≤ 5 V/3 ms = 1,7 V/ms. Con USB: t_SS del TPS2116 1,7 ms típ. a 5 V (TPS p. 7) → ≈ 2,9 V/ms. El LDO sigue a su entrada | ✔ (≥ 6×) |
 | Corriente midiendo | 320 µA típ. / **500 µA máx.** (p. 9) | = 0,5 mA de `mcu.md` §8.2 ✔ |
 | Corriente media | 2,2 µA a 1 medida/s, alta repetibilidad (p. 9); reposo 0,08 µA típ., 1,0 µA máx. a 25 °C | Despreciable |
-| Calentador | 60 mA típ., **100 mA máx.** a «200 mW» (p. 9), ≤ 1 s, ciclo ≤ 10 % (p. 13) | **Sin usar** (§4.3). Si se usara: 0,45 + 0,10 = 0,55 A ≤ 1 A del TLV1117LV. `mcu.md` §8.2 da 61 mA (típico): el máximo es 100 mA |
+| Calentador | 60 mA típ., **100 mA máx.** a «200 mW» (p. 9), ≤ 1 s, ciclo ≤ 10 % (p. 13) | **Sin usar** (§4.3). Si se usara: 0,45 + 0,10 = 0,55 A ≤ 1 A del AP2114H (U4). `mcu.md` §8.2 da 61 mA (típico): el máximo es 100 mA |
 
 ### 4.2 Bus I²C (pull-ups de la hoja MCU)
 

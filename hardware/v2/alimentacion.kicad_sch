@@ -6651,12 +6651,11 @@
 	)
 	(text "1 A"
 		(exclude_from_sim no)
-		(at 167.64 212.09 0)
+		(at 165.1 220.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
 		)
 		(uuid "16fd97fc-994f-4c33-8abd-71ba2c609580")
 	)
@@ -6671,7 +6670,7 @@
 		)
 		(uuid "5a911a85-699c-4df7-ae09-465647b29f29")
 	)
-	(text "U4 TLV1117LV (§3.9); D4 rojo en +3V3 (§3.11)."
+	(text "U4 AP2114H (§3.9); D4 rojo en +3V3 (§3.11)."
 		(exclude_from_sim no)
 		(at 144.78 227.33 0)
 		(effects
@@ -6784,7 +6783,7 @@
 		)
 		(uuid "b953f03c-55c6-4953-aa4a-ff31a5a4fe6b")
 	)
-	(text_box "3,3 V y LED: U4 TLV1117LV, D4, R13 (ALI-07, ALI-10, ALI-11)"
+	(text_box "3,3 V y LED: U4 AP2114H, D4, R13 (ALI-07, ALI-10, ALI-11)"
 		(exclude_from_sim no)
 		(at 142.24 181.61 0)
 		(size 86.36 48.26)
@@ -7229,7 +7228,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407261727_MDD-Microdiode-Semiconductor-BZT52C15_C173427.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2311171118_hongjiacheng-BZT52C15_C19077412.pdf"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7240,7 +7239,7 @@
 				)
 			)
 		)
-		(property "Description" "Zéner 15 V SOD-123: limita V_GS de Q1 (K en la fuente)"
+		(property "Description" "Zéner 15 V 350 mW SOD-123: limita V_GS de Q1 (K en la fuente)"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7262,7 +7261,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C173427"
+		(property "LCSC Part#" "C19077412"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7273,7 +7272,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "MDD (Microdiode Semiconductor)"
+		(property "Fabricante" "Hongjiacheng"
 			(at 73.66 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7457,7 +7456,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.littelfuse.com/assets/littelfuse/products/pdf/smbj.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2312280935_hongjiacheng-SMBJ33A_C19077586.pdf"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7490,7 +7489,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C224019"
+		(property "LCSC Part#" "C19077586"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -7501,7 +7500,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Littelfuse"
+		(property "Fabricante" "Hongjiacheng"
 			(at 91.44 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -8511,7 +8510,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2407101107_MDD-Microdiode-Semiconductor-SS310_C15874.pdf"
+		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281515_hongjiacheng-SS310_C7420364.pdf"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -8544,7 +8543,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C15874"
+		(property "LCSC Part#" "C7420364"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -8555,7 +8554,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "MDD (Microdiode Semiconductor)"
+		(property "Fabricante" "Hongjiacheng"
 			(at 365.76 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -12029,15 +12028,14 @@
 				)
 			)
 		)
-		(property "Value" "TLV1117LV33DCYR"
-			(at 167.64 209.55 0)
+		(property "Value" "AP2114H-3.3TRG1"
+			(at 165.1 218.44 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
@@ -12051,7 +12049,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tlv1117lv.pdf"
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2114.pdf"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12062,7 +12060,7 @@
 				)
 			)
 		)
-		(property "Description" "LDO 3,3 V 1 A, SOT-223: +3V3 desde +5V"
+		(property "Description" "LDO CMOS 3,3 V 1 A, SOT-223 (1 GND, 2/pestaña OUT, 3 IN): +3V3 desde +5V"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12073,7 +12071,7 @@
 				)
 			)
 		)
-		(property "MPN" "TLV1117LV33DCYR"
+		(property "MPN" "AP2114H-3.3TRG1"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12084,7 +12082,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C15578"
+		(property "LCSC Part#" "C150716"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)
@@ -12095,7 +12093,7 @@
 				)
 			)
 		)
-		(property "Fabricante" "Texas Instruments"
+		(property "Fabricante" "Diodes Incorporated"
 			(at 165.1 196.85 0)
 			(hide yes)
 			(show_name no)

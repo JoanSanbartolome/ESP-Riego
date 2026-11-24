@@ -2,15 +2,15 @@
 id: SPEC-0038
 titulo: Cambios del estudio de coste en hardware/v2
 fase: 4
-estado: abierta
+estado: cerrada
 responsable: ing-diseno
 revisor: ing-validacion
 rama: spec/SPEC-0038-cambios-del-estudio-de-coste-en
 requisitos: [ALI-03, ALI-04, ALI-05, ALI-07, ALI-08, FAB-06, EXP-02, EXP-03]
 depende_de: [SPEC-0037]
 creada: 2026-11-23
-cerrada:
-validacion:
+cerrada: 2026-11-24
+validacion: VAL-0038-01
 ---
 
 # SPEC-0038 · Cambios del estudio de coste en hardware/v2
@@ -94,3 +94,9 @@ Nivel **completo** (piezas y esquema; DEC-0005).
 |---|---|---|---|---|---|---|
 | 2026-11-23 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-23 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-23 | ing-diseno | U4 AP2114H-3.3TRG1, C3 y C27-C38 a 100 nF, J10 BH254R-10P, JP1 sin texto de 0,8 mm | 01-ing-diseno | 318758 | 99 | 23 |
+| 2026-11-23 | jr-conformidad | C3 a 220 nF, P1 en D1-D3 con fichas, BOM y CPL con THT a mano | 02-jr-conformidad | 174943 | 55 | 12 |
+| 2026-11-23 | ing-diseno | Documentos de coste y alimentación al día con el paso 2 | 03-ing-diseno | 32929 | 16 | 3 |
+| 2026-11-24 | ing-validacion | VAL-0038-01 APROBADO_CON_OBSERVACIONES (1 M, 3 B) | VAL-0038-01 | 243977 | 63 | 13 |
+| 2026-11-24 | ing-diseno | Corrección de VAL-0038-01: U4 AP2114H en docs, margen de 0,145 V y cifras de b4 | 03-ing-diseno | 34775 | 12 | 3 |
+| 2026-11-24 | coordinador | Cierra la spec | VAL-0038-01 (APROBADO_CON_OBSERVACIONES) |  |  |  |

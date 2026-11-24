@@ -16,4 +16,7 @@ El documento de alimentación (SPEC-0017, VAL-0017-01, 2026-11-05) salió bien e
 - Las extracciones de texto del autor están en el *scratchpad* compartido (`…/scratchpad/dl/*.txt`); sirven para releer el datasheet con Read. La guardia bloquea `python` en línea que escribe: usar Write para un script y `python -I` sobre él.
 - LCSC: JSON de `wmsc.lcsc.com/ftps/wm/product/detail?productCode=Cxxxx` con `productPriceList` (ladder, usdPrice) y `stockNumber`.
 
+- **Cambio de LDO (VAL-0038-01, AP2114H):** en los datasheets antiguos de BCD/Diodes, la tabla sin negrita vale solo a 25 °C (nota 3: «over temperature by design»), así que la caída máx. se escala con la figura de temperatura. Tras un cambio de MPN, buscar el MPN viejo con Grep en **todos** los `docs/diseno/*.md` (mcu.md §8.3, arquitectura §2.1, sensores, conectores): el autor solo rehízo `alimentacion.md`. El margen de 3,9 V del cambio de U3 no restaba la R_ON de U3 (45 mV).
+- Las tablas de Hongjiacheng (R+O) salen desordenadas con `pdftotext`: hay que renderizarlas con `pdftoppm -r 200` y leer la fila.
+
 Relacionado: [[revision-estudios]], [[revision-piezas]].

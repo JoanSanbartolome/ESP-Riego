@@ -4484,7 +4484,7 @@
 		)
 		(uuid "827884f8-6cdc-4308-9727-c11d58dc6deb")
 	)
-	(text_box "Conector de expansión: J10 BH254V-10P (EXP-02)"
+	(text_box "Conector de expansión: J10 BH254R-10P (EXP-02)"
 		(exclude_from_sim no)
 		(at 256.54 27.94 0)
 		(size 53.34 66.04)
@@ -6658,7 +6658,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "BH254V-10P"
+		(property "Value" "BH254R-10P"
 			(at 279.4 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6669,7 +6669,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical"
+		(property "Footprint" "Connector_IDC:IDC-Header_2x05_P2.54mm_Horizontal"
 			(at 284.48 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -6680,7 +6680,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2304140030_XFCN-BH254V-10P_C492442.pdf"
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/233cfef6f5c21db8046559b2286bdc44.pdf?productCode=C492448"
 			(at 284.48 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -6691,7 +6691,7 @@
 				)
 			)
 		)
-		(property "Description" "Cabecera de caja 2 × 5 pines, 2,54 mm, recta THT: conector de expansión EXP-02"
+		(property "Description" "Cabecera de caja 2 × 5 pines, 2,54 mm, en ángulo recto THT, al ras del borde inferior: conector de expansión EXP-02 (DEC-0017)"
 			(at 284.48 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -6702,7 +6702,7 @@
 				)
 			)
 		)
-		(property "LCSC Part#" "C492442"
+		(property "LCSC Part#" "C492448"
 			(at 284.48 63.5 0)
 			(hide yes)
 			(show_name no)
@@ -6713,7 +6713,7 @@
 				)
 			)
 		)
-		(property "MPN" "BH254V-10P"
+		(property "MPN" "BH254R-10P"
 			(at 284.48 63.5 0)
 			(hide yes)
 			(show_name no)
