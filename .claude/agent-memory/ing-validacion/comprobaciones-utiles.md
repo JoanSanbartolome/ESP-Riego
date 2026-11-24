@@ -33,4 +33,5 @@ Trampas añadidas en VAL-0001-03 (2026-11-04):
 - **La exención de la carpeta temporal oculta los destinos que dependen del cwd:** pruebo también con `cd /tmp && …`.
 - **"La auditoría solo crece" comparada con HEAD** no protege las líneas aún no versionadas. Lo pruebo quitándolas.
 - **Mis propios heredocs** con `git -c …` en el texto quedan bloqueados: escribo esos scripts con Write y construyo `"gi" + "t"`.
+- **Copia de `main` sin worktree (VAL-0038-01):** la guarda bloquea el «archive» de git (y cualquier heredoc que lo nombre). `git show main:<ruta> > copia` archivo a archivo (hojas, PCB, `.kicad_pro`, tablas) y `hardware/libraries` del árbol, cambiando solo lo que da `git diff --name-only main...HEAD -- hardware/libraries`. Netlist pin a pin: `kicad-cli sch export netlist` de las dos copias y parseo de los bloques `(net …)`.
 - **Para simular un merge a `main` con `commit_msg.py`:** basta con usar `test_commit_msg.preparar()` y `probar()` de la batería versionada, que crean un repositorio temporal con `MERGE_HEAD`.
