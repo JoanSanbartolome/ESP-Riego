@@ -38,7 +38,7 @@ Resultados clave:
 - **Puente JP1 (DEC-0006):** cortocircuita U1 con estaño si U1 no se monta o falla. Pads de 3,0 mm de ancho para 4,9 A; abierto por defecto (§3.13.9).
 - **Medida de VIN:** error ≤ ± 1,62 % a 17 V y ≤ ± 1,05 % a 31 V (≤ ± 3 %).
 - **Nodo de entrada:** todas las piezas ≥ 60 V (Vc = 53,3 V; +10 % = 58,6 V).
-- **3,3 V (SPEC-0038):** U4 AP2114H, caída ≤ 0,41 V a 0,45 A y 125 °C: mantiene 3,3 V con los 3,9 V del cambio de U3 (margen 0,19 V); estable con C19 de 10 µF cerámico; T_J ≈ 109 °C con 0,81 W y ≥ 4 cm² de cobre (§3.9).
+- **3,3 V (SPEC-0038):** U4 AP2114H, caída ≤ 0,41 V a 0,45 A y 125 °C: mantiene 3,3 V con los 3,9 V del cambio de U3, menos 45 mV de U3 (margen 0,145 V); estable con C19 de 10 µF cerámico; T_J ≈ 109 °C con 0,81 W y ≥ 4 cm² de cobre (§3.9).
 - **Lógica:** 4,32 W en la entrada (≤ 4,8 W), con 0,45 A en 3,3 V y 0,30 A para el 5 V de la expansión.
 - **Piezas propias** (SPEC-0018): símbolos de LMR36520 y SMBJ33A; huellas de U2 (land pattern de TI), JP1 (pads de 3,0 mm, §3.13.9), F1 (3D) y J1. Las demás son oficiales de KiCad 10 (§7). Esquema en `hardware/v2/alimentacion.kicad_sch` (SPEC-0019).
 
@@ -215,7 +215,7 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 - Descartado: **Schottky en las dos ramas.** La caída de 0,3–0,45 V del diodo del buck deja el +5V fuera de ± 3 % (§6) salvo que FB se tome tras el diodo, con el diodo dentro del lazo de un regulador con compensación interna. Un solo Schottky en VBUS retroalimenta la entrada a través del diodo interno del lado alto del buck.
 - **Umbral de PR1:** R11 = 330 kΩ y R12 = 100 kΩ; k = 4,3. V_REF = 0,92–1,08 V (p. 6), así que conmuta con VIN1 entre 3,90 y 4,72 V (incluido el 1 %).
   - Por encima de 4,72 V selecciona el buck: su mínimo es 4,926 V (margen 0,2 V).
-  - Por debajo de 3,90 V pasa a VBUS. Si el buck arranca con el USB conectado, el +5V baja como mucho a 3,9 V durante el cambio, porque el canal no conecta hasta que VOUT < VIN1 (p. 12). El LDO mantiene 3,3 V con 3,9 V a la entrada: el AP2114H necesita ≥ 3,71 V a 0,45 A y 125 °C (caída ≤ 0,41 V, §3.9).
+  - Por debajo de 3,90 V pasa a VBUS. Si el buck arranca con el USB conectado, el +5V baja como mucho a 3,9 V durante el cambio, porque el canal no conecta hasta que VOUT < VIN1 (p. 12). El LDO mantiene 3,3 V: tras la R_ON de U3 (≤ 60 mΩ × 0,75 A = 45 mV, pp. 4-6) le llegan ≥ 3,855 V, y el AP2114H necesita ≥ 3,71 V a 0,45 A y 125 °C (caída ≤ 0,41 V, §3.9).
 - ST (drenador abierto) sin conectar; opcional, a un GPIO para saber si se alimenta del USB.
 - Condensadores: 100 nF en VIN1; 1 µF en VIN2 (el bloque MCU añade el suyo); 2 × 22 µF en VOUT (C16, C17), frente a los ≈ 100 µF que recomienda la p. 11 si hay bloqueo inverso con inductancia en la salida. La salida es una pista corta y la expansión lleva sus propios condensadores. Se considera suficiente; validación puede pedir más.
 - Con solo USB, +5V = VBUS − 0,05 V: lógica sin salidas (ALI-08).
@@ -228,8 +228,8 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 |---|---|---|---|
 | Corriente (ALI-07, ≥ 800 mA) | I_OUT(MAX) ≥ 1,0 A con VOUT de 3,25 a 3,35 V (p. 12) | 1,0 A frente a 0,45 A de diseño (§4) | × 2,2; 25 % sobre ALI-07 ✔ |
 | Entrada | +5V ≤ 5,107 V (buck) o VBUS − 0,05 V ≤ 5,45 V (TPS2116 VIN ≤ 5,5 V, §3.8); recomendado 2,5–6,0 V, máx. absoluto 6,5 V (p. 7) | ≤ 5,45 V | 0,55 V ✔ (el TLV1117LV llegaba a 5,5 V) |
-| Caída a 0,45 A, peor caso | R_DROP = 750 mV máx. / 1 A = 0,75 Ω (p. 12); la caída es proporcional a I (Fig. 32, p. 21): 0,75 Ω × 0,45 A = 0,34 V. Temperatura (Fig. 32): de 0,42 a 0,47 V a 1 A entre 25 y 85 °C, +0,2 %/°C. Hasta T_J = 125 °C, +20 %: 0,34 × 1,20 | **≤ 0,41 V** (0,21 V típ. a 85 °C, Fig. 32) | ≤ 0,6 V exigido (`estudio-coste.md` §2, P4): 0,19 V ✔ |
-| 3,9 V en el cambio de U3 (ALI-08, §3.8) | V_IN mín. regulando = 3,3 + 0,41 | 3,71 V ≤ 3,9 V | 0,19 V: el +3V3 no cae ✔ |
+| Caída a 0,45 A, peor caso | R_DROP = 750 mV máx. / 1 A = 0,75 Ω (p. 12); la caída es proporcional a I (Fig. 32, p. 21): 0,75 Ω × 0,45 A = 0,34 V. El máximo de 750 mV no va en negrita: solo vale a 25 °C (nota 3, p. 12). Temperatura (Fig. 32, típica y a T_A): de 0,42 a 0,47 V a 1 A entre 25 y 85 °C, +0,2 %/°C, que se aplica al máximo y se extrapola a T_J. Hasta T_J = 125 °C, +20 %: 0,34 × 1,20 | **≤ 0,41 V** (0,21 V típ. a 85 °C, Fig. 32) | ≤ 0,6 V exigido (`estudio-coste.md` §2, P4): 0,19 V ✔ (con U3, 0,145 V en la fila siguiente) |
+| 3,9 V en el cambio de U3 (ALI-08, §3.8) | V_IN mín. regulando = 3,3 + 0,41 = 3,71 V, frente a 3,9 V − R_ON de U3 (≤ 60 mΩ × 0,75 A = 45 mV; TPS2116 pp. 4-6) = 3,855 V | 3,71 V ≤ 3,855 V | 0,145 V: el +3V3 no cae ✔ |
 | +5V normal | 4,926 V mín. (§3.6) − 3,3 V | 1,63 V de margen sobre la caída | ✔ |
 | Precisión (§6, ± 3 %) | ± 1,5 % (1–30 mA, p. 12) + carga 1,0 %/A × 0,45 A = 0,45 % + línea 0,1 %/V × (5,107 − 4,3) V = 0,08 % + deriva ± 30 ppm/°C típ. × (109 − 25) °C = 0,25 % | **± 2,3 %** (± 2,03 % sin la deriva) | 0,7 puntos. La deriva solo es típica: riesgo 4 de §10 |
 | Estabilidad (salida) | «Stable with 4.7 µF flexible cap: ceramic…» (p. 1), caracterizado con C_OUT = 4,7 µF cerámico **nominal** (p. 12; Fig. 47, p. 25). C19 10 µF X5R 0603 nominal: 3,3–3,7 µF efectivos a 3,3 V y 60 °C (`bloque-alimentacion.md` §3). Un 4,7 µF X5R a 3,3 V pierde lo mismo en proporción. Además, + C21 100 nF y, en el módulo, C24 22 µF (11,5 µF efectivos, `mcu.md` §8.1) | 10 µF nominales junto a U4 (2,1 × 4,7 µF); ≈ 15 µF efectivos en +3V3 | ✔ Cerámico admitido, sin ESR mínima |

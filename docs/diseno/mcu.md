@@ -1,14 +1,14 @@
 # Bloque MCU: módulo, USB-C, arranque, UART, LED y tabla de GPIO (SPEC-0020)
 
 **Estado:** propuesta para validación. **Autor:** ing-esquematicos · **Fecha:** 2026-11-05. **Rev. VAL-0020-01** (2026-11-06): referencias renumeradas (C23–C26), DEN común fijado por DEC-0007, observaciones 02–07. **Rev. SPEC-0022** (2026-11-07): esquema dibujado (`hardware/v2/mcu.kicad_sch`); huellas `esp-riego:` y stock de SPEC-0021; cambios de compra de DEC-0007 (C23 → C15849, D5 → KT-0603R; U6 se queda en ST, §4); IS de SPEC-0023 (§9.2, Anexo B). **Rev. VAL-0022-01** (2026-11-07): I_mín de D5 en el peor caso (§7) y ficha y polaridad del KT-0603R (§11, Anexo A). **Rev. SPEC-0031** (2026-11-15): EXP-01 retirado (DEC-0011; GPIO37 libre); GPIO36 pasa a EXP_EN, salida con *pull-down* (`viabilidad-expansion.md` §10.6); GPIO39 pasa a BTN_INT, INT del expansor de los pulsadores (DEC-0013); bus de la placa a 100 kHz.
-**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación del TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-02 y EXP-03 (pines).
+**Requisitos:** MCU-01…MCU-07, ALI-07 (comprobación de U4: AP2114H-3.3TRG1 desde SPEC-0038; antes TLV1117LV), REL-04, REL-10 (pines de IS), AMB-01, EXP-02 y EXP-03 (pines).
 **Precios y stock:** LCSC, consulta del 2026-11-05 (`wmsc.lcsc.com/.../product/detail?productCode=…`); C2913198 y los cambios de compra de DEC-0007 revisados el 2026-11-06. Tipo Basic/Extended y stock de JLCPCB: SPEC-0021 (2026-11-06) y API de JLCPCB (2026-11-07) para C2286, C15849 y C2687116.
 
 > Datasheets (las páginas son las impresas en el documento):
 > - **WROOM-1:** ESP32-S3-WROOM-1/1U Datasheet v1.8 (`hardware/componentes/datasheets/ESP32-S3-WROOM-1.pdf`).
 > - **S3:** ESP32-S3 Series Datasheet v2.2 (espressif.com, descargado el 2026-11-05).
 > - **HDG:** ESP32-S3 Hardware Design Guidelines, *release master* (docs.espressif.com, generado el 2026-11-05).
-> - **TLV:** TLV1117LV SBVS160C (ene. 2023). **LMR:** LMR36520 SNVSBF0C (nov. 2025). **TPS2116:** SLVSFG1A (may. 2021).
+> - **AP:** AP2114 Rev. 2.2 (ene. 2013; `hardware/componentes/datasheets/AP2114H-3.3TRG1.pdf`), U4 desde SPEC-0038. **TLV:** TLV1117LV SBVS160C (ene. 2023), U4 hasta SPEC-0037. **LMR:** LMR36520 SNVSBF0C (nov. 2025). **TPS2116:** SLVSFG1A (may. 2021).
 > - **BTT:** BTT6050-1ERA Rev. 1.00 (`hardware/componentes/datasheets/BTT6050-1ERA.pdf`).
 > - **USBLC6:** USBLC6-2SC6 Rev 5 (ficha). **UMW:** UMW USBLC6-2SC6, nov. 2024 (PDF de LCSC, C2687116). **TYPE-C:** TYPE-C-31-M-12 (ficha).
 > - **KT-0603R:** PDF de LCSC (C2286). **CL10A105KB8NNNC:** SimSurfing (curvas DC-bias y TCC; VAL-0021-01).
@@ -31,15 +31,15 @@ Resultados clave:
 - **GPIO (MCU-05):** caben las 8 entradas analógicas en ADC1 (VIN_SENSE, LIM_IMON e IS1–IS6), sin usar GPIO3. Las salidas van solo en pines sin *pull-up* ni pulso alto en el arranque. Hay **un DEN común** a los 6 canales (§9.2, fijado por DEC-0007). Quedan **3 pines libres: GPIO10, 18 y 37**; GPIO39 lleva el INT de los pulsadores (DEC-0013). La variante con un DEN por canal (§9.3) queda descartada: ocupa los 28 pines.
 - **REL-04:** con el *chip* en reset, en el arranque y en el modo de descarga, los pines de IN, DEN y LIM_EN están en alta impedancia o a nivel bajo. Las resistencias de *pull-down* fijan el nivel bajo (≤ 5 mV frente a V_IN(L) ≤ 0,8 V). El OTA y los reinicios por software se cubren desde el firmware (§10).
 - **EN:** con la rampa más lenta del raíl de 3,3 V (*soft-start* del buck de 6 ms y τ mínimo), EN está a ≤ 0,16·VDD (0,159 con C15849) cuando VDD llega a 3,0 V: el *chip* sigue en reset hasta que el raíl es estable (§5).
-- **3,3 V (ALI-07):** 0,43 A de pico (0,45 A de diseño), con 1 A de capacidad. La caída es ≤ 0,70 V, y el margen es de 0,88 V con el buck y de 0,37 V con USB a 4,40 V. T_J = 109 °C a 60 °C de ambiente. Pico de Wi-Fi: ≈ 40 mV de caída. **El TLV1117LV de `alimentacion.md` vale; no se cambia** (§8).
+- **3,3 V (ALI-07):** 0,43 A de pico (0,45 A de diseño), con 1 A de capacidad. Con U4 AP2114H (SPEC-0038), la caída es ≤ 0,41 V, y el margen es de 1,13 V con el buck y de 0,66 V con USB a 4,40 V. T_J = 109 °C a 60 °C de ambiente. Pico de Wi-Fi: ≤ 50 mV de caída. Cumple (§8.3).
 - **Piezas:** símbolos oficiales de KiCad 10; huellas propias `esp-riego:` para U5 (vías del EPAD a 0,3/0,6), SW1/SW2 (3D propio) y J2 (3D de respaldo), hechas en SPEC-0021 (§11).
 
 ## 1. Datos de partida
 
 | Dato | Valor | Origen |
 |---|---|---|
-| Raíl de 3,3 V | TLV1117LV desde +5V; 4,881–5,107 V por el buck y VBUS por el TPS2116 | `alimentacion.md` §3.8 y §3.9 |
-| Precisión de +3V3 | ± 2,7 % a 25 °C → 3,211–3,389 V | `alimentacion.md` §3.9 |
+| Raíl de 3,3 V | U4 AP2114H desde +5V; 4,881–5,107 V por el buck y VBUS por el TPS2116 | `alimentacion.md` §3.8 y §3.9 |
+| Precisión de +3V3 | Envolvente de diseño ± 2,7 % → 3,211–3,389 V; U4 AP2114H da ± 2,3 % → 3,224–3,376 V (SPEC-0038) | `alimentacion.md` §3.9 |
 | Ambiente del módulo | 50 °C + 10 °C dentro de la caja = **60 °C** | §5 de `docs/02`, checklist de esquema |
 | Pines que pide alimentación | VIN_SENSE, LIM_IMON (ADC1, 6 dB), LIM_EN (salida, R5 de 10 kΩ a GND), LIM_FLT (entrada, R6 de 10 kΩ a +3V3) | `alimentacion.md` §6 |
 | Pines de las salidas | 6 × IN, DEN, 6 × IS a ADC1 con R_SENSE de 10 kΩ; R_IN = R_DEN = 10 kΩ | `estudio-salidas.md` S7, §11.5; BTT §6.4, p. 19 |
@@ -52,7 +52,7 @@ Resultados clave:
   - Temperatura: −40…85 °C. Las variantes R8/R16V solo llegan a 65 °C (p. 3): margen de 25 °C sobre los 60 °C de la caja, frente a 5 °C con ellas.
   - Sin PSRAM octal, GPIO35–37 quedan libres (tabla 3-1, nota b, p. 12): GPIO35 y 36 se usan y GPIO37 queda libre (§9). **La placa no admite variantes R8 ni R16V.**
   - 8 MB bastan para ESPHome con OTA (dos particiones de aplicación de ≤ 3 MB cada una).
-- Alimentación: 3,0–3,6 V, con una fuente de ≥ 0,5 A (tabla 6-2, p. 27). El TLV1117LV da 1 A (§8).
+- Alimentación: 3,0–3,6 V, con una fuente de ≥ 0,5 A (tabla 6-2, p. 27). El AP2114H da ≥ 1 A (§8.3).
 - C2913198 (Extended): stock 2 776 en JLCPCB (2026-11-06). 4,93 $ (1–9 uds.) y 4,25 $ (10–29 uds.).
 - Alternativa: N16 (C2913199, stock 2 297, 4,96 / 4,44 $), con la misma huella y los mismos pines. N4 (C2913197) no cumple MCU-01.
 - Símbolo oficial `RF_Module:ESP32-S3-WROOM-1`; huella `esp-riego:ESP32-S3-WROOM-1` (SPEC-0021): la oficial con las 12 vías del EPAD a 0,3/0,6 mm (FAB-02). Conserva la zona de *keepout* de la antena en todas las capas de cobre (§3) y el modelo 3D oficial.
@@ -128,12 +128,12 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 |---|---|---|---|
 | Escalón (USB ya presente, rearme) | 0 | 0 | 9,9–15,4 ms |
 | VBUS por el TPS2116 (1,7 ms de subida, TPS2116 §8.2.2, p. 15) | 1,55 ms | ≈ 0,10 (escalado desde 0,10 con 7,35 ms) | ≈ 11–16 ms |
-| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde su UVLO de 1,95 V (TLV p. 5) | 1,98 / 3,96 ms | 0,084 / **0,159** | 11,3–18,3 ms |
+| Buck con t_SS = 3 / 6 ms (LMR p. 7) y el LDO desde 1,95 V (UVLO del TLV1117LV, p. 5; el AP2114H no publica UVLO y funciona desde 2,5 V, p. 7) | 1,98 / 3,96 ms | 0,084 / **0,159** | 11,3–18,3 ms |
 | Cota pesimista: rampa lineal de 0 a 3,3 V en 6 ms | 5,46 ms | 0,300 | 13,1–18,5 ms |
 
 - **Cumple:** en los casos reales, EN ≤ 0,159·VDD < 0,25·VDD cuando el raíl llega a 3,0 V (margen 0,091·VDD). Con C106248 (τ mín. 7,35 ms) era 0,155: el cambio a C15849 cuesta 0,004·VDD. El *chip* no sale de reset antes de que el raíl sea estable, y lo hace entre 10 y 18 ms después (≫ 50 µs).
   - Con el TPS2116, que solo conecta VIN1 por encima del umbral de PR1 (3,9–4,72 V) y con su *soft-start*, el caso del buck baja a 0,04–0,08: el de la tabla es conservador.
-  - La cota pesimista no es física, porque el TLV1117LV no da salida por debajo de su UVLO; con τ mín. supera el umbral (0,300), así que no es caso de diseño.
+  - La cota pesimista no es física: el +5V no llega al LDO hasta que el TPS2116 conecta VIN1 (≥ 3,9 V) o VBUS (subida de 1,7 ms), así que el arranque de EN no depende del UVLO de U4. Con τ mín. supera el umbral (0,300), y no es caso de diseño.
   - Si el prototipo arranca mal con fuentes lentas, C23 se sube a 2,2 µF (≈ 0,08 en el caso del buck de 6 ms, estimado por escalado).
 - **Reset con el pulsador:** cortocircuita C23. El pulso dura ≫ 50 µs. Al soltar, el *chip* arranca a los 10–15 ms.
 - **Apagado y vuelta rápida:** si la tensión se corta y vuelve en menos de ≈ τ, EN puede no bajar del umbral. El detector de *brown-out* del ESP32-S3 resetea igualmente al caer VDD. La HDG pide un supervisor solo con arranques lentos, ciclos frecuentes o fuentes inestables (p. 9); la fuente LED no está en esos casos. No se añade supervisor: queda como prueba del prototipo (§14).
@@ -153,7 +153,7 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 - J3, tira de 4 pines macho a 2,54 mm, vertical y THT: 1 = +3V3, 2 = TXD0 (GPIO43), 3 = RXD0 (GPIO44), 4 = GND. La serigrafía indica el sentido (TX del módulo).
 - R22 = 470 Ω en serie con TXD0, junto al módulo. La HDG recomienda 499 Ω contra armónicos (§1.3.7, p. 13); se usa el valor más cercano de la serie E12 en la librería básica.
 - **El pin de 3V3 es una referencia:** no sirve para alimentar la placa.
-  - Si un adaptador lo alimenta, carga el raíl y, por el diodo interno del TLV1117LV, el nodo de +5V (TLV §7.3.1: corriente inversa no limitada; el TPS2116 bloquea hacia VIN1).
+  - Si un adaptador lo alimenta, carga el raíl y, por el diodo de cuerpo del PMOS de paso de U4, el nodo de +5V (el AP2114 no limita ni especifica la corriente inversa, bloque funcional de la p. 3; el TPS2116 bloquea hacia VIN1).
   - Serigrafía: «3V3 OUT». Para programar sin fuente se usa el USB-C (ALI-08).
 - Adaptador de 3,3 V: el ESP32-S3 no tolera 5 V (V_IH máx. = VDD + 0,3 V, S tabla 5-4, p. 65).
 - No hay reinicio automático por DTR/RTS: con la UART se usan BOOT y RESET a mano. MCU-06 no lo pide.
@@ -192,22 +192,25 @@ J2 SBU1/SBU2 sin conectar · J2 SHIELD a GND · U6 pin 2 a GND
 | 3,3 V del conector de expansión | ≤ 50 mA | `alimentacion.md` §4 |
 | **Total** | **≈ 433 mA** (diseño: 0,45 A) | |
 
-- El calentador del SHT4x (nivel de 200 mW) consume **60 mA típ. y 100 mA máx.** (Tabla 4, p. 9), durante ≤ 1 s y con un ciclo ≤ 10 % (Tabla 9, p. 13). No se usa (AMB-02). Si se usara, el total subiría a 433 + 100 = 533 mA, **0,55 A** con el valor de diseño (0,45 + 0,10 A): dentro de 1 A del TLV1117LV (1,8×; §8.3). En +5V serían 0,75 + 0,10 = 0,85 A durante el pulso, algo más que los 0,835 A que caben en los 4,8 W de ALI-12 (`alimentacion.md` §4); con el ciclo ≤ 10 %, 0,76 A de media. Si se llega a usar, hay que revisarlo en ALI-12.
+- El calentador del SHT4x (nivel de 200 mW) consume **60 mA típ. y 100 mA máx.** (Tabla 4, p. 9), durante ≤ 1 s y con un ciclo ≤ 10 % (Tabla 9, p. 13). No se usa (AMB-02). Si se usara, el total subiría a 433 + 100 = 533 mA, **0,55 A** con el valor de diseño (0,45 + 0,10 A): dentro de ≥ 1 A del AP2114H (1,8×; §8.3). En +5V serían 0,75 + 0,10 = 0,85 A durante el pulso, algo más que los 0,835 A que caben en los 4,8 W de ALI-12 (`alimentacion.md` §4); con el ciclo ≤ 10 %, 0,76 A de media. Si se llega a usar, hay que revisarlo en ALI-12.
 
-### 8.3 Comprobación del TLV1117LV
+### 8.3 Comprobación de U4 (AP2114H-3.3TRG1, SPEC-0038)
+
+U4 pasa del TLV1117LV de TI (stock 0) al AP2114H-3.3TRG1 (DEC-0018 P4). El cálculo completo está en `alimentacion.md` §3.9; aquí, lo que afecta al bloque MCU. V_DO ≤ 0,41 V a 0,45 A y 125 °C (750 mV máx. a 1 A y 25 °C, p. 12, con la deriva de la Fig. 32, p. 21).
 
 | Comprobación | Cálculo | Resultado |
 |---|---|---|
-| Corriente | 0,45 A ≤ 1 A nominal; I_CL ≥ 1,1 A (TLV p. 5); el módulo pide una fuente de ≥ 0,5 A (WROOM-1 tabla 6-2) | ✔ (2,2×) |
-| Caída con el buck | +5V mín. 4,881 V − 3,3 V − V_DO máx. 0,70 V (1 A, TLV p. 5) | Margen **0,88 V** ✔ |
-| Caída con USB, puerto de 4,75 V | 4,75 − 0,03 (TPS2116, 60 mΩ × 0,5 A) − 3,3 − 0,70 | Margen 0,72 V ✔ |
-| Caída con USB al mínimo de USB 2.0 en el dispositivo (4,40 V) | 4,40 − 0,03 − 3,3 − 0,70 | Margen **0,37 V** ✔ |
-| Conmutación del TPS2116 (+5V hasta 3,9 V, `alimentacion.md` §3.8) | V_DO a 0,45 A ≈ 0,7 Ω × 0,45 = 0,32 V (PMOS resistivo, TLV §7.3.2) → regula con ≥ 3,62 V | ✔ (transitorio) |
-| Disipación con el buck | (5,107 − 3,3) × 0,45 = 0,81 W; R_θJA ≤ 60 °C/W con ≥ 4 cm² → T_J = 60 + 49 = **109 °C** | ✔ (< 125 °C; TSD 165 °C) |
+| Corriente | ≥ 1,0 A con VOUT de 3,25 a 3,35 V (AP2114 p. 12) frente a 0,45 A; el módulo pide una fuente de ≥ 0,5 A (WROOM-1 tabla 6-2) | ✔ (2,2×) |
+| Caída con el buck | +5V mín. 4,881 V − 0,045 (TPS2116, 60 mΩ × 0,75 A) − 3,3 V − 0,41 V | Margen **1,13 V** ✔ |
+| Caída con USB, puerto de 4,75 V | 4,75 − 0,03 (TPS2116, 60 mΩ × 0,5 A) − 3,3 − 0,41 | Margen 1,01 V ✔ |
+| Caída con USB al mínimo de USB 2.0 en el dispositivo (4,40 V) | 4,40 − 0,03 − 3,3 − 0,41 | Margen **0,66 V** ✔ |
+| Conmutación del TPS2116 (+5V hasta 3,9 V, `alimentacion.md` §3.8) | 3,9 − 0,045 = 3,855 V frente a 3,3 + 0,41 = 3,71 V | ✔ (transitorio, margen 0,145 V) |
+| Disipación con el buck | (5,107 − 3,3) × 0,45 = 0,81 W; R_θJA ≤ 60 °C/W con ≥ 4 cm² (supuesta: el AP2114 solo publica 128 °C/W sin disipador, p. 7) → T_J = 60 + 49 = **109 °C** | ✔ (< 125 °C; apagado térmico a 160 °C, p. 12) |
 | Disipación con USB a 5,25 V | (5,25 − 0,03 − 3,3) × 0,45 = 0,86 W → T_J = 112 °C | ✔ |
-| Pico de Wi-Fi (95 → 355 mA) | TLV Fig. 6-16 (1 → 500 mA con 10 µF): caída ≈ 40 mV (lectura de la figura, típica); aquí hay ≈ 25 µF | VDD ≥ 3,211 − 0,04 = **3,17 V ≥ 3,0 V** ✔ (margen 0,17 V) |
+| Tensión del raíl | ± 2,3 % (`alimentacion.md` §3.9): 3,224–3,376 V. Los cálculos de la placa usan la envolvente de 3,211–3,389 V (± 2,7 %, la del TLV1117LV), que la contiene | ✔ |
+| Pico de Wi-Fi (95 → 355 mA) | AP2114 Fig. 46 (p. 24): escalón de 0 a 1 A con C_OUT de 4,7 µF, caída ≤ 50 mV (1 división, típica). Aquí el escalón es de 0,26 A y hay ≈ 25 µF | VDD ≥ 3,224 − 0,05 = **3,17 V ≥ 3,0 V** ✔ (margen 0,17 V) |
 
-**Conclusión:** el TLV1117LV de `alimentacion.md` cumple ALI-07 con este bloque y no se cambia. La caída transitoria del pico de Wi-Fi no cuenta en el ± 3 % de §6, que es la regulación en continua.
+**Conclusión:** el AP2114H cumple ALI-07 con este bloque. La caída transitoria del pico de Wi-Fi no cuenta en el ± 3 % de §6, que es la regulación en continua.
 
 ## 9. Tabla de GPIO de la placa (MCU-05)
 
@@ -409,7 +412,7 @@ Referencias definitivas, las de la hoja `hardware/v2/mcu.kicad_sch` (SPEC-0022);
 | MCU-05 | Tabla de GPIO: 8 analógicas en ADC1 sin GPIO3; ninguna salida en los pines de arranque, en GPIO18/39/40/43/44 ni en GPIO19/20; GPIO35–36 en uso porque no hay PSRAM octal; GPIO39 solo como entrada (BTN_INT) | §9 |
 | MCU-06 | J3 (3V3, TX, RX, GND) + R22 | §6 |
 | MCU-07 | D5 (KT-0603R, rojo) + R23 en GPIO40; serigrafía «STATUS» | §7, §12 |
-| ALI-07 | TLV1117LV: 0,45 A / 1 A; margen de caída ≥ 0,37 V; T_J 109 °C; caída del pico de Wi-Fi ≈ 40 mV | §8 |
+| ALI-07 | U4 AP2114H: 0,45 A / ≥ 1 A; margen de caída ≥ 0,66 V (0,145 V en el cambio de U3); T_J 109 °C; caída del pico de Wi-Fi ≤ 50 mV | §8.3; `alimentacion.md` §3.9 |
 | REL-04 | Pines de control en Z o a nivel bajo en todas las fases; R_PD de 100 kΩ (≤ 5 mV), también en EXP_EN (R78); OTA y reinicios por firmware | §10 |
 | REL-10 (pines) | IS1–IS6 en ADC1_CH3–CH8 con DEN común | §9.2 |
 | AMB-01, EXP-02, EXP-03 (pines) | I²C de la placa (41/42, a 100 kHz); I²C de expansión (47/48), EXP_INT (35), EXP_EN (36); BTN_INT (39) | §9.2 |

@@ -39,7 +39,7 @@
 | Pines reservados | I2C_EXP_SDA GPIO47 y SCL GPIO48 (bus propio, separado del SHT4x), EXP_INT GPIO35 (entrada), EXP_IO2 GPIO36 (E/S). Los cuatro en alta impedancia, sin *pull*, durante el reset y el flasheo | `mcu.md` §9.2 |
 | Pines libres | GPIO10 (ADC1_CH9, cualquier uso), GPIO18 (solo entrada), GPIO37 (libre desde DEC-0011), GPIO39 (entrada o drenador abierto) | `mcu.md` §9.1-9.2, DEC-0011 |
 | Pulsadores EXP-03 | 6, leídos por el firmware: escalera de resistencias en un ADC1 (GPIO10) o expansor en el bus de la placa (SPEC-0031) | DEC-0011 |
-| Alimentación para la expansión | +3V3 ≤ 50 mA (dentro de los 0,45 A del TLV1117LV) y +5V ≤ 0,30 A (dentro de los 0,75 A del buck); lógica 4,32 W ≤ 4,8 W | `alimentacion.md` §4, `mcu.md` §8.2 |
+| Alimentación para la expansión | +3V3 ≤ 50 mA (dentro de los 0,45 A de U4, AP2114H desde SPEC-0038) y +5V ≤ 0,30 A (dentro de los 0,75 A del buck); lógica 4,32 W ≤ 4,8 W | `alimentacion.md` §4, `mcu.md` §8.2 |
 | Fuente y limitador de la placa | 24 V, 5 A, sobrecarga desde 5,14 A; limitador 3,86–4,57 A; instalada ≤ 3,5 A | ALI-12, ALI-13, `alimentacion.md` §3.13.2 |
 | Etapa de salida | BTT6050-1ERA por canal, IN activa alta, IS a ADC con R_SENSE 10 kΩ / R_IS 820 Ω | DEC-0003, `salidas.md` §0 |
 | Carga de las salidas | Límites de uso de la placa: una carga por salida, ≤ 1 A, suma de las activas ≤ 3,5 A. La válvula instalada (Bermad S-390-3-D, 24 V AC alimentada en continua; 42 Ω a 20 °C según la ficha, sin medir) es solo un ejemplo | REL-11, DEC-0014, `salidas.md` §0; DEC-0011 |
@@ -257,7 +257,7 @@ Orden pensado para el cable plano: cada línea de I²C va entre dos GND y las al
 | Interruptor de 5 V (U_A) | I_OS mín. = 25 230 / (68 × 1,01)^1,016 = 343 mA ≥ 300 mA (+14 %); máx. = 22 980 / (68 × 0,99)^0,94 = 439 mA (ec. 2-3 y la de máximo, pp. 17 y 20; R al 1 %). Caída: 0,15 Ω × 0,3 A = 45 mV (p. 6) | ✔ |
 | Interruptor de 3,3 V (U_B) | R_ILIM 220 kΩ (C22961, Basic): I_OS mín. = 25 230 / (220 × 1,01)^1,016 = 104 mA ≥ 50 mA (2,1×); máx. = 22 980 / (220 × 0,99)^0,94 = 146 mA (210 kΩ da 110–150 mA en la tabla de la p. 7). Dentro de 15–232 kΩ (p. 16). V_IN 3,3 V dentro de 2,5–6,5 V (p. 6); UVLO 2,35 V (p. 7) | ✔ |
 | Corto en el cable (los dos raíles a la vez) | +3V3: 0,40 + 0,146 = 0,546 A; +5V: 0,546 + 0,439 = 0,985 A → 5 × 0,985 / 0,88 + 0,05 = 5,65 W = 0,235 A a 24 V; con el limitador de la placa en su máximo, 4,57 + 0,235 = **4,81 A < 5,14 A** (margen 0,33 A) | ✔ La fuente no actúa; la lógica no se reinicia. La lógica pasa de 4,8 W solo durante el fallo |
-| TLV1117LV durante el corto, peor caso con USB a 5,25 V (como `mcu.md` §8.3) | (5,25 − 0,03 − 3,3) × 0,546 = 1,05 W × 60 °C/W → T_J = **122,9 °C** < 125 °C (con el buck: 0,99 W → 119,2 °C) | ✔, margen 2,1 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,146 A × 182,6 °C/W = +88 °C → 135 °C, p. 16), así que la media es menor. Con los 200 kΩ de la primera versión salían 124,4 °C; 232 kΩ daría 122,1 °C, pero es Extended (C22913) y gana solo 0,8 K. **Prueba en el prototipo:** corto de +3V3_EXP con USB, temperatura de U4 |
+| U4 (TLV1117LV; AP2114H desde SPEC-0038, con la misma R_θJA supuesta) durante el corto, peor caso con USB a 5,25 V (como `mcu.md` §8.3) | (5,25 − 0,03 − 3,3) × 0,546 = 1,05 W × 60 °C/W → T_J = **122,9 °C** < 125 °C (con el buck: 0,99 W → 119,2 °C) | ✔, margen 2,1 K, solo en fallo: U_B entra en apagado térmico cíclico (3,3 V × 0,146 A × 182,6 °C/W = +88 °C → 135 °C, p. 16), así que la media es menor. Con los 200 kΩ de la primera versión salían 124,4 °C; 232 kΩ daría 122,1 °C, pero es Extended (C22913) y gana solo 0,8 K. **Prueba en el prototipo:** corto de +3V3_EXP con USB, temperatura de U4 |
 | Sin cable | U_A y U_B con salida en vacío; EXP_INT a nivel alto por su *pull-up*; EXP_EN con 100 kΩ | ✔ |
 
 - Los FAULT de U_A y U_B (drenador abierto, p. 4) se unen a EXP_INT: el firmware distingue el corto en el cable (FAULT con los módulos sin fallo) leyendo el FLT del módulo por I²C. FAULT tiene un filtro de 7,5 ms (p. 7) y puede marcar en el arranque: el firmware ignora EXP_INT el primer segundo.
@@ -357,5 +357,5 @@ Referencias provisionales: SPEC-0031 asigna las definitivas.
 3. **TCA9535 en ESPHome:** «debería funcionar» (registros iguales que el PCA9535 probado). El primer prototipo lo comprueba; si falla, PCA9535PWR en la misma huella.
 4. **4.º módulo:** depende del tiempo de mantenimiento de SDA con ADDR = SDA (§10.4).
 5. **Capacidad del pin del ESP32-S3 y del ADS1115:** supuestas (10 pF). Con el doble (20 pF cada una), el caso de 4 módulos y 3 m sube a 326 pF y 614 ns, todavía ≤ 1000 ns.
-6. **TLV1117LV con el cable en corto:** 122,9 °C con USB a 5,25 V (§10.3), margen de 2,1 K, solo en fallo.
+6. **U4 (AP2114H desde SPEC-0038) con el cable en corto:** 122,9 °C con USB a 5,25 V (§10.3), margen de 2,1 K, solo en fallo.
 7. **Stock:** fusible 0451010.MRL a 0 en JLCPCB (afecta también a F1 de la placa); TPS26632 baja de 1 631 a 1 240; BTT6050 1 624.

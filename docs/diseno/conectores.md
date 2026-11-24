@@ -106,7 +106,7 @@ Fuentes:
 
 **Cálculo:** V_k = V_DD · S_k / (Rp + S_k). Para el peor caso se combinan:
 
-- V_DD de 3,17 V (3,211 V del TLV1117LV menos 40 mV del pico de Wi-Fi, `mcu.md` §8.3) a 3,39 V (`viabilidad-expansion.md` §10);
+- V_DD de 3,17 V (3,224 V de U4 AP2114H menos ≤ 50 mV del pico de Wi-Fi, `mcu.md` §8.3) a 3,39 V (`viabilidad-expansion.md` §10);
 - cada resistencia al ± 1,5 % (± 1 % de tolerancia y 100 ppm/K en 50 K), en el sentido que más aleja el valor;
 - el ADC a ± 10 mV (S tabla 5-6, ATTEN2).
 
@@ -269,7 +269,7 @@ Ecuaciones (1)–(3) de SLVS841G, pp. 16–17 (la (1), I_OS máx., en la p. 16; 
 
 - R dentro de 15–232 kΩ (TPS p. 4). V_IN de 3,3 y 5 V dentro de 2,5–6,5 V. EN activo alto (TPS2553, p. 4) unido a IN: siempre habilitados, sin GPIO.
 - FAULT de drenador abierto (p. 4), con filtro de 7,5 ms: puede marcar al arrancar, así que el firmware ignora EXP_INT el primer segundo (`viabilidad-expansion.md` §10.3).
-- Corto en el cable: los dos raíles juntos suman 0,985 A en +5V; el limitador de la placa queda en 4,81 A < 5,14 A, y el TLV1117LV llega a 122,9 °C con USB a 5,25 V (riesgo 3 de §7). ALI-12 no cambia: `alimentacion.md` §4 ya cuenta 50 mA y 0,30 A.
+- Corto en el cable: los dos raíles juntos suman 0,985 A en +5V; el limitador de la placa queda en 4,81 A < 5,14 A, y U4 llega a 122,9 °C con USB a 5,25 V (riesgo 3 de §7; la misma cifra con el AP2114H, porque se calcula con la misma R_θJA supuesta de 60 °C/W). ALI-12 no cambia: `alimentacion.md` §4 ya cuenta 50 mA y 0,30 A.
 
 ### 2.4 Bus de expansión y ESD
 
@@ -374,7 +374,7 @@ La tabla está en §0.
 
 1. **TCA9554 en ESPHome:** «debería funcionar»; lo comprueba el prototipo. Si falla, PCA9554PWR en la misma huella (DEC-0013).
 2. **Bus de la placa compartido:** un fallo del TCA9554 bloquearía el SHT40 (AMB-01). Riesgo aceptado (DEC-0013).
-3. **TLV1117LV con el cable de expansión en corto:** 122,9 °C con USB a 5,25 V, margen de 2,1 K, solo en fallo (`viabilidad-expansion.md` §12, riesgo 6). Prueba en el prototipo.
+3. **U4 (AP2114H desde SPEC-0038) con el cable de expansión en corto:** 122,9 °C con USB a 5,25 V, margen de 2,1 K, solo en fallo; el apagado térmico del AP2114H es de 160 °C (p. 12) (`viabilidad-expansion.md` §12, riesgo 6). Prueba en el prototipo.
 4. **Capacidades supuestas** (10 pF) del pin del ESP32-S3, del ADS1115 y del TCA9554: con el doble, el caso de 4 módulos y 3 m sigue ≤ 1000 ns (riesgo 5 de aquel documento), y el bus de la placa quedaría en ≈ 90 pF y 0,36 µs, dentro de 1 µs a 100 kHz.
 5. **4.º módulo:** depende del tiempo de mantenimiento de SDA con ADDR = SDA (riesgo 4 de aquel documento).
 6. **J10 sin enclavamiento:** brida a la caja (§2.1).

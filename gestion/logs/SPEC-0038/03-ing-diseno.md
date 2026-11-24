@@ -25,9 +25,16 @@ estado: completado
 - **Coste por placa con el modelo de §1 (E2):**
   - 5 uds: 26,40 + 20 × 3,07 / 5 + 585 × 0,0016 + 9,71 / 5 + 2 / 5 = **41,96 $**;
   - 50 uds: 21,29 + 61,4 / 50 + 0,94 + 9,71 / 50 + 15 / 50 = **23,95 $**;
-  - la tabla de diferencias de §9 cuadra.
-- **`docs/diseno`:** sin menciones de C3 en C28233 ni de los códigos antiguos de D1–D3 como pieza principal. `hardware/v2` no se toca en este paso.
+  - la tabla de diferencias de §9 cuadra. En `docs/diseno` ya no quedan C3 con C28233 ni D1–D3 con sus códigos antiguos; `hardware/v2` no se toca.
 
 ## Para validación
 
 - El ahorro de P4 se mide frente a los precios de TI del 2026-11-20 que trae el CSV (0,3967 / 0,2645 $). Con los del 2026-11-23 (0,3977 / 0,2651 $), con 50 uds sale 0,08 $ en lugar de 0,07; el total no cambia.
+
+## Corrección VAL-0038-01
+
+- **M 01:** U4 pasa al AP2114H-3.3TRG1 en `arquitectura.md` (l. 22 y §2.1), `mcu.md`, `sensores.md` (l. 54 y 91), `conectores.md` (l. 109, 272 y 377) y `viabilidad-expansion.md` (l. 42, 260 y 360). En `mcu.md`:
+  - §8.3 rehecho con las cifras del informe (márgenes de 1,13 / 0,66 / 0,145 V, pico de Wi-Fi ≤ 50 mV por la Fig. 46, 3,224–3,376 V) y traza de ALI-07 a §8.3 y `alimentacion.md` §3.9;
+  - arranque de EN y corriente inversa reescritos sin datos del TLV. La envolvente de 3,211–3,389 V se queda, porque contiene la del AP2114H.
+- **B 02:** `alimentacion.md` §0, §3.8 y §3.9: se resta la R_ON de U3 (45 mV), y el margen queda en 0,145 V. La fila de la caída anota que los 750 mV solo valen a 25 °C (nota 3, p. 12) y que la Fig. 32 es típica y a T_A.
+- **B 03:** `estudio-coste.md` §0 y §8.3: 57 objetivos y PUNTOS 6151. §8.5 (T04) queda resuelto y §8.10, cumplido. Sin tocar, por históricos: `viabilidad-expansion.md` l. 140 y `experimento-colocacion.md` l. 19.
