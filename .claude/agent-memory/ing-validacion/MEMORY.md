@@ -1,4 +1,4 @@
-- [Guarda y gestión](guarda-y-gestion.md) — sondas sin riesgo, auditoría (ok, tokens, huecos), TFG = M, ciclo de gestion.py y commit_msg en copia, herramientas MCP que escriben
+- [Guarda y gestión](guarda-y-gestion.md) — sondas sin riesgo, scripts de la auditoría, lectura de scripts, auditoría (ok, tokens, huecos), TFG = M, ciclo de gestion.py y commit_msg en copia, herramientas MCP que escriben
 - [Copias y comparaciones](copias-y-comparaciones.md) — reglas del commit, patio redondeado, netlist sin propiedades, pinfunction, sin conectar esperados, CRLF, mutaciones, límites de hoja.py
 - [Fuentes y datasheets](fuentes-y-datasheets.md) — render de tablas, python -I, pdfUrl de LCSC, TI, Infineon, SimSurfing, HDG −3, tablas a 25 °C, «must», stock
 - [Piezas y huellas](piezas-y-huellas.md) — polaridad LED, D_TVS bidireccional, oficiales de TI, placa de control, vías de JLCPCB, STEP, DFN, ERC de símbolos, cajetín
