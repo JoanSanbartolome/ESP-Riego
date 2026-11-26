@@ -2,7 +2,8 @@
 id: DEC-0016
 titulo: Criterios de colocación y tamaño de la placa como variable
 fecha: 2026-11-19
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0019]
 decide: usuario
 specs: [SPEC-0037]
 requisitos: [FAB-01, FAB-02, FAB-05, FAB-08, FAB-09, MCU-02, AMB-02]

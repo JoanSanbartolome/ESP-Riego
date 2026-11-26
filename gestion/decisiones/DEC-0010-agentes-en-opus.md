@@ -3,6 +3,7 @@ id: DEC-0010
 titulo: Agentes en Opus o inferior, nunca en Fable 5.2
 fecha: 2026-11-12
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0027]
 requisitos: []

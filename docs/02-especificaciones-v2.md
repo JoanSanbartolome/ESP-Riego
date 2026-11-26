@@ -1,6 +1,6 @@
 # Especificaciones de la PCB v2
 
-**Estado:** borrador v0.8 (2026-11-17). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md), [DEC-0012](../gestion/decisiones/DEC-0012-expansion-i2c.md), [DEC-0014](../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md), [DEC-0015](../gestion/decisiones/DEC-0015-esquema-legible.md) y en el [historial](#10-historial).
+**Estado:** borrador v0.9 (2026-11-24). Los cambios respecto a la v0.1 están en [DEC-0002](../gestion/decisiones/DEC-0002-objetivo-v2-revisado.md), [DEC-0003](../gestion/decisiones/DEC-0003-salidas-high-side-y-limitador.md), [DEC-0004](../gestion/decisiones/DEC-0004-fuente-led-y-carga-maxima.md), [DEC-0008](../gestion/decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md), [DEC-0011](../gestion/decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md), [DEC-0012](../gestion/decisiones/DEC-0012-expansion-i2c.md), [DEC-0014](../gestion/decisiones/DEC-0014-salidas-con-limites-nominales.md), [DEC-0015](../gestion/decisiones/DEC-0015-esquema-legible.md), [DEC-0019](../gestion/decisiones/DEC-0019-desglose-fase-4-caja-y-cobre.md) y en el [historial](#10-historial).
 
 Decisiones de partida:
 
@@ -35,7 +35,7 @@ Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la p
 | Expansión | — | Conector para un módulo de más canales (D9) |
 | Instalación | Caja estanca | Interior, caja ventilada a la pared |
 | Montaje | Todo a mano, 1210 / 0805 | SMT JLCPCB (≥ 0603) + THT a mano |
-| Tamaño | 129 × 96,5 mm | ≈ 100 × 70 mm |
+| Tamaño | 129 × 96,5 mm | ≈ 100 × 70 mm (hasta SPEC-0037; 100 × 100 mm por DEC-0016, se reescribe con FAB-08 al aplicar b4) |
 | Herramienta | KiCad 9 | KiCad 10 |
 
 ## 3. Arquitectura
@@ -201,8 +201,8 @@ Amplían las pruebas del pliego del TFG.
 | D2 | Salida alimentada desde 24 V DC, contacto libre o ambas (REL-08) | **Cerrada:** solo salida alimentada (DEC-0003) |
 | D3 | Entrada de pulsos o de lluvia (EXP-01) | **Cerrada:** no hay entrada de pulsos ni de lluvia; EXP-01 retirado (DEC-0011) |
 | D4 | Pulsadores de forzado manual (EXP-03) | **Cerrada:** 6 en la placa, uno por salida, leídos por el firmware (DEC-0011) |
-| D5 | Modelo de caja ventilada y medidas internas | Pendiente |
-| D6 | Cobre de 1 oz o 2 oz | Por defecto, 1 oz; se revisa en el layout con `Power_In` a 5 A y las salidas a 4,9 A (REL-05) |
+| D5 | Modelo de caja ventilada y medidas internas | **Aplazada:** se diseña cuando la PCB esté terminada; entonces, la revisión en 3D con la caja y el recorte de la zona de U5 que dependa de ella (DEC-0019) |
+| D6 | Cobre de 1 oz o 2 oz | **Provisional:** 1 oz hasta el diseño térmico del rutado, con `Power_In` a 5 A y las salidas a 4,9 A (REL-05); si no basta, se proponen 2 oz con su coste (DEC-0019) |
 | D7 | ADC interno o ADS1115 para el 4–20 mA | **Sin objeto:** se elimina el sensor de nivel (DEC-0002) |
 | D8 | Tecnología de las salidas (REL-01, REL-03, REL-05) | **Cerrada:** *high-side* inteligente BTT6050-1ERA, con limitador común (DEC-0003) |
 | D9 | Arquitectura del módulo de expansión (EXP-02, EXP-04) | **Cerrada:** arquitectura 1, I²C con TCA9535 y ADS1115; el módulo, con 24 V y limitador propios (EXP-05; DEC-0012) |
@@ -287,6 +287,10 @@ En la v0.8 (SPEC-0035, DEC-0015):
 
 - Nuevo: KIC-06 (M), esquema legible con el aspecto del esquema del TFG. No cambia ninguna conexión.
 
+En la v0.9 (SPEC-0039, DEC-0019):
+
+- D5 (caja) se aplaza hasta terminar la PCB y D6 queda en 1 oz provisional. No cambia ningún requisito.
+
 ## 10. Historial
 
 | Versión | Fecha | Cambios | Spec · decisión |
@@ -299,3 +303,4 @@ En la v0.8 (SPEC-0035, DEC-0015):
 | v0.6 | 2026-11-13 | EXP-01 retirado (sin entrada de pulsos ni de lluvia, D3 cerrada); EXP-03 con 6 pulsadores en la placa leídos por el firmware (D4 cerrada, prioridad S); conector EXP-02 fijado con el informe de SPEC-0006; válvulas instaladas de 24 V AC alimentadas en continua, con la medida pendiente | SPEC-0030 · DEC-0011 |
 | v0.7 | 2026-11-17 | Salidas con límites de uso propios de la placa (REL-11), sin válvula de referencia: una carga por salida, 1 A por salida y 3,5 A en total como límites, rueda libre montada en cada salida (REL-03); D9 cerrada y módulo de expansión con 24 V y limitador propios (EXP-05) | SPEC-0033 · DEC-0014, DEC-0012 |
 | v0.8 | 2026-11-17 | KIC-06: esquema legible con el aspecto del esquema del TFG (recuadros por bloque, cables dentro del bloque, etiquetas solo entre bloques y hojas, cifras junto a la pieza) | SPEC-0035 · DEC-0015 |
+| v0.9 | 2026-11-24 | §7: D5 aplazada hasta terminar la PCB y D6 en 1 oz provisional hasta el diseño térmico del rutado. Ningún requisito cambia | SPEC-0039 · DEC-0019 |

@@ -9,19 +9,19 @@ Consulta de LCSC/JLCPCB: **2026-11-05**, API `selectSmtComponentList` de JLCPCB 
 | J1 | WJ500V-5.08-2P | Kangnex | C8465 | Extended · 283 190 | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` (propio) | `WJ500V-5.08-2P.md` |
 | F1 | 0451010.MRL | Littelfuse | C44479 | Extended · 22 770 | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (3D propio) | `0451010.MRL.md` |
 | Q1 | SQD50P06-15L_GE3 | Vishay | C3281500 | Extended · 5 744 | `Transistor_FET:SUD50P06-15` / `Package_TO_SOT_SMD:TO-252-2` (oficial) | `SQD50P06-15L.md` |
-| D1 | BZT52C15 (SPEC-0038, DEC-0018 P1; antes MDD C173427) | Hongjiacheng | C19077412 | Extended preferida · 474 033 (2026-11-23) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` | `BZT52C15.md` |
-| D2 | SMBJ33A (SPEC-0038, DEC-0018 P1; antes Littelfuse C224019) | Hongjiacheng | C19077586 | Extended preferida · 49 715 (2026-11-23) | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
-| D3 | SS310 (SPEC-0038, DEC-0018 P1; antes MDD C15874) | Hongjiacheng | C7420364 | Extended preferida · 387 275 (2026-11-23) | `Device:D_Schottky` / `Diode_SMD:D_SMA` | `SS310.md` |
+| D1 | BZT52C15 (SPEC-0038, DEC-0018 P1; antes MDD C173427, hasta SPEC-0037) | Hongjiacheng | C19077412 | Extended preferida · 474 033 (2026-11-23) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` | `BZT52C15.md` |
+| D2 | SMBJ33A (SPEC-0038, DEC-0018 P1; antes Littelfuse C224019, hasta SPEC-0037) | Hongjiacheng | C19077586 | Extended preferida · 49 715 (2026-11-23) | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` | `SMBJ33A.md` |
+| D3 | SS310 (SPEC-0038, DEC-0018 P1; antes MDD C15874, hasta SPEC-0037) | Hongjiacheng | C7420364 | Extended preferida · 387 275 (2026-11-23) | `Device:D_Schottky` / `Diode_SMD:D_SMA` | `SS310.md` |
 | D4 | KT-0603R | Hubei KENTO | C2286 | **Basic** · 6 273 838 (JLCPCB, 2026-11-10; antes 6 683 182 el 2026-11-05) | `Device:LED` / `LED_SMD:LED_0603_1608Metric` | `KT-0603R.md` |
 | U1 | TPS26632RGER | TI | C1850278 | Extended · 1 631 | `Power_Management:TPS26632RGE` / `Package_DFN_QFN:Texas_RGE0024H_VQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm` (sin vías; las vías 0,3/0,6 al EP las pone el layout, SLVSE94G p. 39) | `TPS2663.md` |
 | U2 | LMR36520FADDAR | TI | C1858395 | Extended · 8 000 | `esp-riego:LMR36520FADDA` (nuevo) / `esp-riego:Texas_DDA0008B_…_Mask2.71x3.4mm` (propia) | `LMR36520.md` |
 | U3 | TPS2116DRLR | TI | C3235557 | Extended · 54 421 | `Power_Management:TPS2116DRL` / `Package_TO_SOT_SMD:SOT-583-8` | `TPS2116.md` |
-| U4 | AP2114H-3.3TRG1 (SPEC-0038; antes TI TLV1117LV33DCYR C15578, stock 0 el 2026-11-23) | Diodes | C150716 | Extended · 2 300 (2026-11-23) | `Regulator_Linear:TLV1117-33` (mismo patillaje) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `AP2114H-3.3TRG1.md` |
+| U4 | AP2114H-3.3TRG1 (SPEC-0038; antes TI TLV1117LV33DCYR C15578, hasta SPEC-0037; stock 0 el 2026-11-23) | Diodes | C150716 | Extended · 2 300 (2026-11-23) | `Regulator_Linear:TLV1117-33` (mismo patillaje) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` | `AP2114H-3.3TRG1.md` |
 | L1 | FXL0650-100-M | cjiang | C475521 | Extended · 38 857 | `Device:L` / `Inductor_SMD:L_Changjiang_FXL0650` | `FXL0650-100-M.md` |
 | JP1 | — (sin pieza) | — | — | fuera de BOM y CPL | `Jumper:SolderJumper_2_Open` / `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (nueva, sin 3D) | — |
 | TP1–TP5 | — (sin pieza) | — | — | fuera de BOM y CPL | `Connector:TestPoint` / `TestPoint:TestPoint_Pad_D2.0mm`; TP4: `TestPoint_THTPad_D2.0mm_Drill1.0mm` (sin 3D) | — |
 
-Alternativas con stock (consulta 2026-11-05): TLC TA10 C2998199 (1 461); UMW SUD50P06-15 C7503186 (51 103); Ruilon SMBJ33A C10219 (11 938); LMR36520ADDAR C2879422 (6 117); JSMSEMI TLV1117LV33DCYR C48937499 (76 870); TPS26633RGER C1850275 (12); XL-1608SURC-06 C965799 (7 479 588); Diodes BZT52C15-7-F C177014 (52 710); UMW SS310A C2988628 (4 731); FXLA0630-100M C5372143 (1 545).
+Alternativas con stock (consulta 2026-11-05, hasta SPEC-0037): TLC TA10 C2998199 (1 461); UMW SUD50P06-15 C7503186 (51 103); Ruilon SMBJ33A C10219 (11 938); LMR36520ADDAR C2879422 (6 117); JSMSEMI TLV1117LV33DCYR C48937499 (76 870; descartado en SPEC-0038); TPS26633RGER C1850275 (12); XL-1608SURC-06 C965799 (7 479 588); Diodes BZT52C15-7-F C177014 (52 710); UMW SS310A C2988628 (4 731); FXLA0630-100M C5372143 (1 545).
 
 ## 2. Pasivos
 
@@ -75,7 +75,7 @@ Consecuencias, frente a `docs/diseno/alimentacion.md`:
 3. **CIN de U2 (resuelto, VAL-0018-01-03):** el datasheet pide ≥ 4,7 µF cerámicos efectivos a la entrada (p. 20 y nota de la p. 17). Un solo C7 da 3,0–3,4 µF a 24–30 V: no llega. Solución de `alimentacion.md` §3.6: **C7 + C22** (2 × 4,7 µF 100 V X7R 1210, C381466) junto a U2 + C8 (Tabla 8-1, p. 18); 5,1–6,8 µF efectivos (peor caso 30 V, 85 °C, −10 %: 5,1 µF). C2 se queda en el nodo de entrada y no cuenta para U2.
 4. **C10 (CVCC, resuelto, VAL-0018-01-04):** pasa de 1 µF X5R 0603 (0,64 µF efectivos) a **C28323**, 1 µF 50 V X7R 0805 (Basic): 0,96 µF a 5 V y 60 °C (0,86 µF con −10 %; 0,85 µF a 85 °C), frente al «1 µF, 16 V» de la p. 21. Aceptado. C15 (VIN2 de U3) sigue en C15849.
 5. **C3 (IN_SYS de U1, resuelto, VAL-0018-01-05):** pasa de 100 nF 0603 (62–72 nF efectivos) a **220 nF 100 V X7R 0805 (C513710, como C8)**: 150–170 nF efectivos a 24–30 V y 60 °C frente a «0,1 µF o más» del datasheet (ficha `TPS2663.md`). DEC-0018 P3 lo bajó a 100 nF (C28233), pero se queda en 220 nF (usuario, 2026-11-23): con 100 nF serían 73–80 nF efectivos.
-6. **C18/C19:** 3,7 µF efectivos a 60 °C frente a > 0,5 µF efectivos que exige el TLV1117LV en la salida (p. 13): cumple con margen 7×.
+6. **C18/C19:** 3,7 µF efectivos a 60 °C por condensador. U4 es el AP2114H desde SPEC-0038: su estabilidad (4,7 µF nominales, p. 1 y 12 del datasheet) se analiza en `docs/diseno/alimentacion.md` §3.9 y en `AP2114H-3.3TRG1.md`. Hasta SPEC-0037 el TLV1117LV pedía > 0,5 µF efectivos en la salida (p. 13) y cumplía con margen 7×.
 7. **C2/C6/C7 en §3.13.4:** 2 × 4,7 µF a 24 V dan 6,4–7,1 µF efectivos a 24 V y 60 °C (no 7,9 µF); no cambia la conclusión de §3.13.4, que no depende de esa cota.
 
 ## 4. Pendientes de SPEC-0017 resueltos
@@ -83,7 +83,7 @@ Consecuencias, frente a `docs/diseno/alimentacion.md`:
 | Pendiente | Resultado |
 |---|---|
 | Pines de SUD50P06-15 frente a SQD50P06-15L | Coinciden: 1 G, 2 D, 3 S (+ pestaña a D); datasheet Vishay p. 1, símbolo, huella `TO-252-2` (pad 2 = pestaña) y datasheet UMW p. 1 |
-| Pines de TLV1117-33 frente a TLV1117LV | Coinciden: 1 GND, 2 y pestaña OUT, 3 IN; datasheet TI p. 3 |
+| Pines de TLV1117-33 frente a TLV1117LV (hasta SPEC-0037; el AP2114H de U4 tiene el mismo patillaje) | Coinciden: 1 GND, 2 y pestaña OUT, 3 IN; datasheet TI p. 3 |
 | Símbolo de LMR36520 | `esp-riego:LMR36520FADDA`, a partir de LMR36510ADDA (pines idénticos a la Tabla 5-1, p. 4) |
 | Stock de R8 | 774 (C4156365). La alternativa Yageo C861775 tiene 21 858, pero es de 50 ppm |
 | Datasheet del UMW SUD50P06-15 | Revisado (`SQD50P06-15L.md`); válido para Q1 |

@@ -21,7 +21,7 @@ borne 10 A    polaridad    D2 SMBJ33A   ├─ U2 LMR36520 (buck 5,0 V) ─ U3 T
 | Borne de entrada | WJ500V-5.08-2P (C8465) | — (ficha existente) | ALI-02 |
 | Fusible | Littelfuse 0451010.MRL, 10 A muy rápido, 125 V, 2410 (C44479) | Littelfuse 0453010.MR (C178995); TLC TA10 descartado (§3.2) | ALI-04, ALI-12 |
 | Polaridad | P-MOS SQD50P06-15L, 60 V, 15,5 mΩ, TO-252 (C3281500), con zéner de puerta BZT52C15 | UMW SUD50P06-15 (C7503186) | ALI-03 |
-| TVS | SMBJ33A (Hongjiacheng C19077586; antes Littelfuse C224019, DEC-0018 P1), tras Q1 | Littelfuse SMBJ33A (C224019) | ALI-04 |
+| TVS | SMBJ33A (Hongjiacheng C19077586; Littelfuse C224019 hasta SPEC-0037, DEC-0018 P1), tras Q1 | Littelfuse SMBJ33A (C224019, principal hasta SPEC-0037) | ALI-04 |
 | Buck 5 V | LMR36520FADDAR, 65 V / 2 A síncrono (C1858395) | LMR36520ADDAR (C2879422) | ALI-05, ALI-06 |
 | Unión USB / 5 V | Multiplexor TPS2116DRLR, prioridad al buck (C3235557) | — (ver §3.8) | ALI-08 |
 | 3,3 V | LDO CMOS Diodes AP2114H-3.3TRG1, 1 A, SOT-223 (C150716; SPEC-0038) | ST LDL1117S33R (C435835), mismo patillaje | ALI-07 |
@@ -92,7 +92,7 @@ P-MOS con el drenador hacia el borne y la fuente hacia `VIN_PROT`. R1 = 100 kΩ 
 | Comprobación | Cálculo | Resultado |
 |---|---|---|
 | V_DS ≥ Vc + 10 % | V_DS = −60 V (p. 1) ≥ 58,6 V. Con polaridad invertida a 30 V, V_DS = −30 V; en directa, Q1 conduce y V_DS ≈ 0 | Cumple |
-| V_GS ≤ ±20 V (p. 1) | D1: 14,25–15,75 V (Hongjiacheng C19077412, p. 2; la MDD C173427 daba lo mismo). Por debajo de ≈ 15 V, V_GS = −VIN; a 53,3 V, V_GS ≈ −15,75 V | Cumple (margen 4,25 V) |
+| V_GS ≤ ±20 V (p. 1) | D1: 14,25–15,75 V (Hongjiacheng C19077412, p. 2; la MDD C173427, D1 hasta SPEC-0037, daba lo mismo). Por debajo de ≈ 15 V, V_GS = −VIN; a 53,3 V, V_GS ≈ −15,75 V | Cumple (margen 4,25 V) |
 | R_DS(on) con V_GS = −10 V | 15,5 mΩ máx. a 25 °C; 26 mΩ máx. a 125 °C (p. 2). Se calcula con 26 mΩ | — |
 | V_GS en el UVLO de bajada | VIN ≥ 12,5 V → V_GS ≤ −12,5 V, más que los −10 V de la especificación | Cumple |
 | Disipación a 5,1 A | 5,1² × 0,026 = 0,68 W; R_thJA = 50 °C/W con 1 in² de cobre (p. 1) → T_J = 60 + 34 = **94 °C** < 175 °C | Cumple |
@@ -222,12 +222,12 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 
 ### 3.9 Raíl de 3,3 V: U4 AP2114H-3.3TRG1 (ALI-07, ALI-08)
 
-**SPEC-0038 (DEC-0018 P4).** El TLV1117LV33DCYR de TI (C15578) tiene stock 0 el 2026-11-23. Se cambia por el LDO CMOS **Diodes AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds, 0,2386 $ con 5 uds y 0,1899 $ con 50; `jlc.py`, 2026-11-23). Tiene el mismo patillaje y usa la misma huella: no cambian el símbolo, la huella ni la PCB. Ficha: `hardware/componentes/AP2114H-3.3TRG1.md`. Páginas del datasheet AP2114 Rev. 2.2 (enero de 2013), versión de 3,3 V.
+**SPEC-0038 (DEC-0018 P4).** El TLV1117LV33DCYR de TI (C15578), U4 hasta SPEC-0037, tenía stock 0 el 2026-11-23. Se cambia por el LDO CMOS **Diodes AP2114H-3.3TRG1** (C150716, Extended, 2 300 uds, 0,2386 $ con 5 uds y 0,1899 $ con 50; `jlc.py`, 2026-11-23). Tiene el mismo patillaje y usa la misma huella: no cambian el símbolo, la huella ni la PCB. Ficha: `hardware/componentes/AP2114H-3.3TRG1.md`. Páginas del datasheet AP2114 Rev. 2.2 (enero de 2013), versión de 3,3 V.
 
 | Comprobación | Fórmula y datos (fuente) | Resultado | Margen |
 |---|---|---|---|
 | Corriente (ALI-07, ≥ 800 mA) | I_OUT(MAX) ≥ 1,0 A con VOUT de 3,25 a 3,35 V (p. 12) | 1,0 A frente a 0,45 A de diseño (§4) | × 2,2; 25 % sobre ALI-07 ✔ |
-| Entrada | +5V ≤ 5,107 V (buck) o VBUS − 0,05 V ≤ 5,45 V (TPS2116 VIN ≤ 5,5 V, §3.8); recomendado 2,5–6,0 V, máx. absoluto 6,5 V (p. 7) | ≤ 5,45 V | 0,55 V ✔ (el TLV1117LV llegaba a 5,5 V) |
+| Entrada | +5V ≤ 5,107 V (buck) o VBUS − 0,05 V ≤ 5,45 V (TPS2116 VIN ≤ 5,5 V, §3.8); recomendado 2,5–6,0 V, máx. absoluto 6,5 V (p. 7) | ≤ 5,45 V | 0,55 V ✔ (el TLV1117LV, U4 hasta SPEC-0037, llegaba a 5,5 V) |
 | Caída a 0,45 A, peor caso | R_DROP = 750 mV máx. / 1 A = 0,75 Ω (p. 12); la caída es proporcional a I (Fig. 32, p. 21): 0,75 Ω × 0,45 A = 0,34 V. El máximo de 750 mV no va en negrita: solo vale a 25 °C (nota 3, p. 12). Temperatura (Fig. 32, típica y a T_A): de 0,42 a 0,47 V a 1 A entre 25 y 85 °C, +0,2 %/°C, que se aplica al máximo y se extrapola a T_J. Hasta T_J = 125 °C, +20 %: 0,34 × 1,20 | **≤ 0,41 V** (0,21 V típ. a 85 °C, Fig. 32) | ≤ 0,6 V exigido (`estudio-coste.md` §2, P4): 0,19 V ✔ (con U3, 0,145 V en la fila siguiente) |
 | 3,9 V en el cambio de U3 (ALI-08, §3.8) | V_IN mín. regulando = 3,3 + 0,41 = 3,71 V, frente a 3,9 V − R_ON de U3 (≤ 60 mΩ × 0,75 A = 45 mV; TPS2116 pp. 4-6) = 3,855 V | 3,71 V ≤ 3,855 V | 0,145 V: el +3V3 no cae ✔ |
 | +5V normal | 4,926 V mín. (§3.6) − 3,3 V | 1,63 V de margen sobre la caída | ✔ |
@@ -235,15 +235,15 @@ La FB se toma a la salida de U2, no tras U3: el multiplexor queda fuera del lazo
 | Estabilidad (salida) | «Stable with 4.7 µF flexible cap: ceramic…» (p. 1), caracterizado con C_OUT = 4,7 µF cerámico **nominal** (p. 12; Fig. 47, p. 25). C19 10 µF X5R 0603 nominal: 3,3–3,7 µF efectivos a 3,3 V y 60 °C (`bloque-alimentacion.md` §3). Un 4,7 µF X5R a 3,3 V pierde lo mismo en proporción. Además, + C21 100 nF y, en el módulo, C24 22 µF (11,5 µF efectivos, `mcu.md` §8.1) | 10 µF nominales junto a U4 (2,1 × 4,7 µF); ≈ 15 µF efectivos en +3V3 | ✔ Cerámico admitido, sin ESR mínima |
 | Estabilidad (entrada) | C_IN = 4,7 µF cerámico (p. 12). C18 10 µF junto a VIN; en el mismo raíl, C16 + C17 dan 26,8 µF efectivos (`bloque-alimentacion.md` §3) | ✔ | — |
 | Disipación | P = (5,107 − 3,3) V × 0,45 A + 5,107 V × 90 µA (I_Q máx., p. 12) | **0,81 W** (0,45 W con 0,25 A) | — |
-| T_J con cobre | T_J = 60 °C + P × R_θJA, con R_θJA ≤ 60 °C/W: SOT-223 con ≥ 4 cm² de cobre y vías en la pestaña (como para el TLV1117LV, JEDEC 62,9 °C/W). El AP2114 solo publica 128 °C/W sin disipador (p. 7) y R_θJC 50,9 °C/W (p. 12), comparable a la R_θJC(top) de 47,2 del TLV1117LV | **109 °C** (87 °C con 0,25 A) | 16 °C hasta los 125 °C de diseño. Hacen falta R_θJA ≤ 80 °C/W: (125 − 60) / 0,81 |
+| T_J con cobre | T_J = 60 °C + P × R_θJA, con R_θJA ≤ 60 °C/W: SOT-223 con ≥ 4 cm² de cobre y vías en la pestaña (como para el TLV1117LV, U4 hasta SPEC-0037, JEDEC 62,9 °C/W). El AP2114 solo publica 128 °C/W sin disipador (p. 7) y R_θJC 50,9 °C/W (p. 12), comparable a la R_θJC(top) de 47,2 del TLV1117LV | **109 °C** (87 °C con 0,25 A) | 16 °C hasta los 125 °C de diseño. Hacen falta R_θJA ≤ 80 °C/W: (125 − 60) / 0,81 |
 | T_J sin cobre | 60 + 0,81 × 128 | 164 °C: apagado térmico a 160 °C (p. 12) | ✘ Por eso el cobre de la pestaña es obligatorio (§8) |
 | Corto y arranque | Limitación con retroceso: 50 mA con VOUT = 0 (p. 12); nota 2: la entrada antes que una carga de corriente constante | Con ≈ 30 µF en +3V3 y ≥ 50 mA, 3,3 V × 30 µF / 50 mA ≈ 2 ms. A baja tensión, las cargas son resistivas: *pull-ups*, LED y el ESP32 en reset; U15 de la expansión está en UVLO | Se comprueba en el prototipo con la expansión conectada (riesgo 4 de §10) |
 
 - **Condensadores:** sin cambios. C18 10 µF a la entrada; C19 10 µF + C21 100 nF a la salida. El módulo lleva además su desacoplo (bloque MCU).
 - **Alternativa:** ST LDL1117S33R (C435835, Extended, 48 610 uds, 0,4877 $ con 5 uds). Mismo patillaje (DocID030319 Rev 3, p. 6). Caída ≤ 600 mV a 1,2 A garantizada en todo el rango de T_J (p. 9), unos 0,23 V a 0,45 A. Estable con 4,7 µF cerámicos (p. 10); R_θJA 120 °C/W (p. 8). Su precisión es de ± 3 % en temperatura (p. 9), así que con la regulación de carga puede pasar del ± 3 % de §6.
 - **Descartados:**
-  - **TECH PUBLIC TPTLV1117LV33DCYR** (C52146079, 1 217 uds): es un 1117 clásico. Caída de 1,18 V típ. y 1,25 V máx. a 500 mA (datasheet de LCSC, p. 2): con 3,9 V deja el +3V3 en 2,65 V;
-  - **JSMSEMI TLV1117LV33DCYR** (C48937499): lo mismo, 1,20–1,30 V máx. (VAL-0037-01-01);
+  - **TECH PUBLIC TPTLV1117LV33DCYR** (C52146079, 1 217 uds; descartado en SPEC-0038): es un 1117 clásico. Caída de 1,18 V típ. y 1,25 V máx. a 500 mA (datasheet de LCSC, p. 2): con 3,9 V deja el +3V3 en 2,65 V;
+  - **JSMSEMI TLV1117LV33DCYR** (C48937499, P4 hasta SPEC-0037): lo mismo, 1,20–1,30 V máx. (VAL-0037-01-01);
   - **AMS1117-3.3:** caída de 1,1–1,3 V y necesita tántalo;
   - **AP7361C-33E:** 3 unidades en LCSC en 2026-11; en JLCPCB, C500795, 3 598 uds a 1,06 $ (2026-11-23), cuatro veces el precio del AP2114H.
 - **TLV1117LV de TI (hasta SPEC-0037):** caída de 230 mV típ. a 500 mA y 700 mV máx. a 1 A (SBVS160C p. 5); R_θJA 62,9 °C/W (p. 4). Se puede volver a él si recupera stock, porque usa el mismo símbolo y la misma huella.
@@ -487,9 +487,9 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | J1 | Borne 2P, entrada | THT 5,08 | WJ500V-5.08-2P | C8465 · 274 005 | — | `Connector:Screw_Terminal_01x02` / `esp-riego:TerminalBlock_Kangnex_WJ500V-5.08-2P_1x02_P5.08mm_Horizontal` |
 | F1 | Fusible 10 A muy rápido | 2410 | Littelfuse 0451010.MRL | C44479 · 22 770 (22 932 el 2026-11-16) | Littelfuse 0453010.MR (C178995 · 1 437, 2026-11-16) | `Device:Fuse` / `esp-riego:Fuse_Littelfuse-NANO2-451_453` (copia de la oficial con 3D propio, SPEC-0018) |
 | Q1 | P-MOS de polaridad, 60 V | TO-252 | Vishay SQD50P06-15L_GE3 | C3281500 · 5 748 | UMW SUD50P06-15 (C7503186) | `Transistor_FET:SUD50P06-15` (comprobar G-D-S) / `Package_TO_SOT_SMD:TO-252-2` |
-| D1 | Zéner 15 V, puerta de Q1 | SOD-123 | Hongjiacheng BZT52C15 (DEC-0018 P1) | C19077412 · Extended preferida · 474 033 (2026-11-23) | MDD BZT52C15 (C173427 · 127 234) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
+| D1 | Zéner 15 V, puerta de Q1 | SOD-123 | Hongjiacheng BZT52C15 (DEC-0018 P1) | C19077412 · Extended preferida · 474 033 (2026-11-23) | MDD BZT52C15 (C173427 · 127 234; principal hasta SPEC-0037) | `Device:D_Zener` / `Diode_SMD:D_SOD-123` |
 | R1 | 100 kΩ 1 % | 0603 | UNI-ROYAL 0603WAF1003T5E | C25803 · 7,8 M | Yageo RC0603FR-07100KL | `Device:R` / `Resistor_SMD:R_0603_1608Metric` |
-| D2 | TVS SMBJ33A | SMB | Hongjiacheng SMBJ33A (DEC-0018 P1) | C19077586 · Extended preferida · 49 715 (2026-11-23) | Littelfuse SMBJ33A (C224019 · 21 329) | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` |
+| D2 | TVS SMBJ33A | SMB | Hongjiacheng SMBJ33A (DEC-0018 P1) | C19077586 · Extended preferida · 49 715 (2026-11-23) | Littelfuse SMBJ33A (C224019 · 21 329; principal hasta SPEC-0037) | `esp-riego:SMBJ33A` (unidireccional, K = pin 1 = pad 1) / `Diode_SMD:D_SMB` |
 | C1 | 47 µF 63 V electrolítico 105 °C | Ø8 × 10 | SamYoung MVK 63V47 M 8*10 | C165628 · 815 | ACMECON GVZ1J476M0810CN (C22383753) | `Device:C_Polarized` / `Capacitor_SMD:CP_Elec_8x10` (10,5 mm la alternativa) |
 | C2, C6, C7, C22 | 4,7 µF 100 V X7R (C2: nodo de entrada; C6: OUT de U1; C7 + C22: CIN de U2) | 1210 | PSA FS32X475K101EGG | C381466 · 45 835 (JLCPCB Extended · 54 967) | Walsin 1210B475K101CT (C7471274) | `Device:C` / `Capacitor_SMD:C_1210_3225Metric` |
 | C3 | 220 nF 100 V X7R (IN_SYS) | 0805 | Yageo CC0805KKX7R0BB224 (como C8; usuario, 2026-11-23) | C513710 · 67 232 (2026-11-23) | Samsung CL21B224KCFSFNE (C307542) | `Device:C` / `C_0805_2012Metric` |
@@ -499,7 +499,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | R3, R4 | R_IMON y serie al ADC, 10 kΩ 1 % | 0603 | 0603WAF1002T5E | C25804 · 4,9 M | — | `R_0603` |
 | C5 | 100 nF 50 V X7R (ADC de IMON) | 0603 | Yageo CC0603KRX7R9BB104 | C14663 · JLCPCB **Basic** · 34 750 639 (2026-11-06; LCSC 0) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
 | R5, R6 | *Pull-down* de SHDN y *pull-up* de FLT, 10 kΩ | 0603 | 0603WAF1002T5E | C25804 | — | `R_0603` |
-| D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | Hongjiacheng SS310 (DEC-0018 P1) | C7420364 · Extended preferida · 387 275 (2026-11-23) | MDD SS310 (C15874 · 243 675) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
+| D3 | Schottky 100 V 3 A (OUT del limitador) | SMA | Hongjiacheng SS310 (DEC-0018 P1) | C7420364 · Extended preferida · 387 275 (2026-11-23) | MDD SS310 (C15874 · 243 675; principal hasta SPEC-0037) | `Device:D_Schottky` / `Diode_SMD:D_SMA` |
 | U2 | Buck 65 V 2 A FPWM | HSOIC-8 PowerPAD | TI LMR36520FADDAR | C1858395 · 7 969 | LMR36520ADDAR (C2879422) | `esp-riego:LMR36520FADDA` (derivado de `LMR36510ADDA`) / `esp-riego:Texas_DDA0008B_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.71x3.4mm` (land pattern de TI, SNVSBF0C pp. 38-40; estarcido de 0,12 mm, VAL-0018-02-05) |
 | C8 | 220 nF 100 V X7R (CIN de AF) | 0805 | Yageo CC0805KKX7R0BB224 | C513710 · 72 260 | Samsung CL21B224KCFSFNE (C307542) | `C_0805_2012Metric` |
 | C9 | CBOOT 100 nF 50 V X7R | 0603 | Yageo CC0603KRX7R9BB104 | C14663 (como C5) | Samsung CL10B104KB8NNNC (C1591) | `C_0603` |
@@ -516,7 +516,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 | R12 | PR1 inferior 100 kΩ 1 % | 0603 | 0603WAF1003T5E | C25803 | — | `R_0603` |
 | C14 | 100 nF 50 V X7R (VIN1) | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | C15 | 1 µF (VIN2) | 0603 | CL10A105KB8NNNC | C15849 | — | `C_0603` |
-| U4 | LDO CMOS 3,3 V 1 A | SOT-223 | Diodes AP2114H-3.3TRG1 (SPEC-0038; el TLV1117LV33DCYR de TI, C15578, tiene stock 0) | C150716 · Extended · 2 300 (2026-11-23) | ST LDL1117S33R (C435835 · 48 610) | `Regulator_Linear:TLV1117-33` (mismo patillaje: 1 GND, 2/pestaña OUT, 3 IN; AP2114 pp. 2-3) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` |
+| U4 | LDO CMOS 3,3 V 1 A | SOT-223 | Diodes AP2114H-3.3TRG1 (SPEC-0038; el TLV1117LV33DCYR de TI, C15578, U4 hasta SPEC-0037, tenía stock 0) | C150716 · Extended · 2 300 (2026-11-23) | ST LDL1117S33R (C435835 · 48 610) | `Regulator_Linear:TLV1117-33` (mismo patillaje: 1 GND, 2/pestaña OUT, 3 IN; AP2114 pp. 2-3) / `Package_TO_SOT_SMD:SOT-223-3_TabPin2` |
 | C18, C19 | 10 µF 10 V X5R | 0603 | Samsung CL10A106KP8NNNC | C19702 · 1,47 M | — | `C_0603` |
 | C21 | 100 nF 50 V X7R (salida del LDO) | 0603 | CC0603KRX7R9BB104 | C14663 | C1591 | `C_0603` |
 | R14 | Divisor de VIN 100 kΩ 0,1 % 25 ppm | 0603 | Yageo RT0603BRD07100KL | C122538 | Viking ARG03BTC1003 (C335088) | `R_0603` |
@@ -532,7 +532,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
   - R8: Yageo RT0603BRD0724K9L (C136967), misma serie, tolerancia (0,1 %) y TCR (25 ppm) que R7: el error de VOUT de §3.6 no cambia. Stock de JLCPCB 14 042 frente a 774 de la Viking.
   - C5, C9, C13, C14, C20 y C21: Yageo CC0603KRX7R9BB104 (C14663), **Basic**, 34 750 639 en JLCPCB el 2026-11-06 (LCSC 0; la orden pedía confirmarlo en JLCPCB). Mismo dieléctrico (X7R), tensión (50 V) y encapsulado que C1591: a ≤ 5 V de polarización y 60 °C la pérdida típica sigue siendo de pocos % (`bloque-alimentacion.md` §3, proxy CL10B104KB8NNN; Yageo no publica curva). Ninguna de estas funciones depende del valor exacto (filtros del ADC, CBOOT, EN y desacoplo). Sale una línea Extended (C1591).
   - Coste igual o menor; ninguna especificación empeora. La ficha `bloque-alimentacion.md` la ajusta jr-conformidad.
-- **Fichas en `hardware/componentes/`:** `AP2114H-3.3TRG1.md` (SPEC-0038); creadas en SPEC-0018 (LMR36520, TPS2116, TLV1117LV (ya sin uso), SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310, BZT52C15; TPS2663 con la variante 26632). Campos de compra del bloque: `bloque-alimentacion.md`.
+- **Fichas en `hardware/componentes/`:** `AP2114H-3.3TRG1.md` (SPEC-0038); creadas en SPEC-0018 (LMR36520, TPS2116, TLV1117LV (U4 hasta SPEC-0037), SQD50P06-15L, 0451010.MRL, FXL0650-100-M, SS310, BZT52C15; TPS2663 con la variante 26632). Campos de compra del bloque: `bloque-alimentacion.md`.
 - **Símbolos y huellas propios** (`hardware/libraries/esp-riego.*`, SPEC-0018): símbolos `LMR36520FADDA` y `SMBJ33A`; huellas `Texas_DDA0008B_…_Mask2.71x3.4mm` (U2), `SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm` (JP1), `Fuse_Littelfuse-NANO2-451_453` (F1, 3D propio) y `TerminalBlock_Kangnex_WJ500V-5.08-2P…` (J1). El resto, oficiales. Pinouts de SUD50P06-15 y TLV1117-33 comprobados (`bloque-alimentacion.md` §4).
 - **Hoja (SPEC-0019):** interfaz con etiquetas jerárquicas `BUS_24V`, `VIN_SENSE`, `LIM_IMON`, `LIM_FLT` (salidas), `LIM_EN` y `VBUS` (entradas); +5V, +3V3 y GND con símbolos de alimentación (globales, como `mcu.md` Anexo C). Redes internas: `VIN_RAW`, `VIN_F`, `VIN_PROT`, `Q1_G`, `EN_BUCK`, `U2_SW`, `U2_BOOT`, `U2_VCC`, `U2_FB`, `+5V_BUCK`, `U3_PR1`, `U1_ILIM`, `U1_DVDT`, `U1_IMON`. Sin conectar (con marca): B_GATE, DRV, MODE (*latch-off*) y PGOOD de U1, PG de U2 y ST de U3.
 - **Coste orientativo del bloque:** ≈ 8,9 $ por placa (5 placas) y ≈ 7,7 $ (10 placas), con los tramos de LCSC de la cantidad real. **Aceptado en DEC-0006**.
@@ -587,7 +587,7 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 3. **Tolerancia de I_OL con V_DS alta** (corto franco): el datasheet la da con 1 V (§3.13.2). Se comprueba en las pruebas de §6.
 4. **U4 AP2114H (SPEC-0038):**
    - la deriva térmica solo es típica (± 30 ppm/°C): ± 2,3 % frente a ± 3 %;
-   - R_θJA con cobre sin publicar: los 60 °C/W son los del SOT-223 con ≥ 4 cm² (como para el TLV1117LV). Se mide T_J en el prototipo con el Wi-Fi al 100 % (prueba de §6);
+   - R_θJA con cobre sin publicar: los 60 °C/W son los del SOT-223 con ≥ 4 cm² (como para el TLV1117LV, U4 hasta SPEC-0037). Se mide T_J en el prototipo con el Wi-Fi al 100 % (prueba de §6);
    - arranque con limitación de retroceso (50 mA en corto, p. 12, nota 2): se comprueba en el prototipo con la expansión conectada.
 5. **R8 (24,9 kΩ al 0,1 %):** resuelto por DEC-0007: Yageo C136967 (14 042 en JLCPCB, 2026-11-06).
 6. **Condensadores de salida de U3:** 44 µF nominales frente a los ≈ 100 µF que sugiere el datasheet si hay bloqueo inverso (§3.8).
@@ -600,13 +600,13 @@ Referencias **definitivas**: las de `hardware/v2/alimentacion.kicad_sch` (SPEC-0
 |---|---|---|---|---|---|
 | LMR36520 | LMR36520FADDAR / ADDAR · TI | C1858395 / C2879422 | ti.com/lit/ds/symlink/lmr36520.pdf (SNVSBF0C) | Tabla 5-1, p. 4: 1 PGND, 2 VIN, 3 EN, 4 PG, 5 FB, 6 VCC, 7 BOOT, 8 SW, EP a PGND | Sin símbolo (usar LMR36510ADDA) / HTSOP-8-1EP 3,9 × 4,9 |
 | TPS2116 | TPS2116DRLR · TI | C3235557 | ti.com/lit/ds/symlink/tps2116.pdf (SLVSFG1A) | Tabla 5-1, p. 3: 1 GND, 2/7 VOUT, 3 VIN1, 4 PR1, 5 MODE, 6 VIN2, 8 ST | `TPS2116DRL` / `SOT-583-8` |
-| TLV1117LV (sin uso desde SPEC-0038) | TLV1117LV33DCYR · TI | C15578 | ti.com/lit/ds/symlink/tlv1117lv.pdf (SBVS160C) | Tabla 5-1, p. 3: 1 GND, 2 y pestaña OUT, 3 IN | `TLV1117-33` (comprobar) / `SOT-223-3_TabPin2` |
+| TLV1117LV (hasta SPEC-0037) | TLV1117LV33DCYR · TI | C15578 | ti.com/lit/ds/symlink/tlv1117lv.pdf (SBVS160C) | Tabla 5-1, p. 3: 1 GND, 2 y pestaña OUT, 3 IN | `TLV1117-33` (comprobar) / `SOT-223-3_TabPin2` |
 | AP2114H-3.3TRG1 (SPEC-0038) | AP2114H-3.3TRG1 · Diodes | C150716 | diodes.com/assets/Datasheets/AP2114.pdf (Rev. 2.2) | Fig. 2, p. 2: 1 GND, 2 y pestaña VOUT, 3 VIN | `TLV1117-33` / `SOT-223-3_TabPin2` |
 | SQD50P06-15L | SQD50P06-15L_GE3 · Vishay | C3281500 | Vishay doc. 69098 rev. E (copia de LCSC) | p. 1: G-D-S, pestaña = D | `SUD50P06-15` / `TO-252-2` |
 | 0451010.MRL | 0451010.MRL · Littelfuse | C44479 | Serie 451/453, rev. 15/06/17 (copia de LCSC) | 2 terminales | `Device:Fuse` / `Fuse_Littelfuse-NANO2-451_453` |
 | FXL0650-100-M | FXL0650-100-M · Changjiang (cjiang) | C475521 | PDF de LCSC (C475521) | 2 terminales | `Device:L` / `L_Changjiang_FXL0650` |
-| SS310 | SS310 · Hongjiacheng (antes MDD C15874) | C7420364 | PDF de LCSC (C7420364, Rev. 12.0) | K / A | `D_Schottky` / `D_SMA` |
-| BZT52C15 | BZT52C15 · Hongjiacheng (antes MDD C173427) | C19077412 | PDF de LCSC (C19077412, Rev. 2.1) | K / A | `D_Zener` / `D_SOD-123` |
+| SS310 | SS310 · Hongjiacheng (MDD C15874 hasta SPEC-0037) | C7420364 | PDF de LCSC (C7420364, Rev. 12.0) | K / A | `D_Schottky` / `D_SMA` |
+| BZT52C15 | BZT52C15 · Hongjiacheng (MDD C173427 hasta SPEC-0037) | C19077412 | PDF de LCSC (C19077412, Rev. 2.1) | K / A | `D_Zener` / `D_SOD-123` |
 | JP1 (sin ficha de compra; huella nueva) | Puente de soldadura · — | — (fuera de BOM y CPL) | — | Pad 1 = VIN_PROT, pad 2 = BUS_24V | `Jumper:SolderJumper_2_Open` / **nueva** `esp-riego:SolderJumper-2_P1.8mm_Open_Pad1.2x3.0mm`: pads 1,2 × 3,0 mm, hueco 0,6 mm, F.Cu y F.Mask sin pasta, máscara común (§3.13.9) |
 
 ## Anexo B. Notas para el firmware (FW-03)

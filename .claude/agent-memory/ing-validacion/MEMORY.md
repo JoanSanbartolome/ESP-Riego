@@ -1,13 +1,5 @@
-- **Guarda desde el 2026-11-11 (DEC-0009):** ya entiende las variables asignadas en el propio comando (`S=…; mkdir $S/x`), los heredocs, el código en línea de Python y `find -exec` con órdenes de lectura. Las notas anteriores que piden rutas literales o scripts escritos con Write por culpa de la guarda ya no aplican. Sigue bloqueando todo lo que no sea leer o copiar hacia fuera cuando el comando menciona el TFG. Antes de escribir un script, mirar si ya está en `herramientas/kicad/`.
-- [Revisión de requisitos](revision-requisitos.md): specs de docs/02; cadena entrada→TVS→buck→UVLO, trazabilidad en memoria, diff de tablas, banda del limitador frente al ajuste de la fuente (OLP en % de potencia)
-- [Revisión de estudios](revision-estudios.md): docs/diseno sin KiCad; LCSC por JSON, PDF → PNG, tramos, hold-up con UVLO, corto vs fuente; viabilidad + conector (TPS2553, USB 5,25 V)
-- [Revisión de importaciones](revision-importaciones.md): migraciones, copias y limpiezas KiCad; diff con mapeo, cajetín en PDF, netlist de la base, lib-tables heredadas, `pcb upgrade` como prueba
-- [Revisión de piezas](revision-piezas.md): símbolos/huellas/3D; land pattern, pin 1 3D, API JLCPCB, DRC con reglas del proyecto + control con la oficial, pasta del EP vs vías (cobertura, volumen de los agujeros, tapado de JLCPCB), polaridad LED
-- [Revisión de alimentación](revision-alimentacion.md): alimentacion.md; qué recalcular (UVLO, I_OL, VIN, JP1), datos puntuales de TPS2663/LMR36520/ESP32 ADC, huecos con Vc
-- [Revisión de salidas](revision-salidas.md): salidas.md; BTT se enclava (p. 21), M7 e I²t, límites REL-11 (80 mA/218 Ω), aviso de suma con ± 7 %, huecos de pads
-- [Revisión del bloque MCU](revision-mcu.md): mcu.md; refs duplicadas entre bloques, tablas S3/HDG renderizadas, HDG pág.−3, SimSurfing URL, 15 mm = caja
-- [Revisión de hojas](revision-hojas.md): hojas de esquema v2; netlist de copia frente a un plan, sin conectar esperados, placa de prueba, ThermalVias, diff semántico PCB, polaridad KT-0603R
-- [Revisión de la orquestación](revision-orquestacion.md): agentes/guarda/gestion.py; sondas contra la guarda frente a la versión anterior, abrir/cerrar en copia, herramientas vs servidor MCP
-- [Revisión de herramientas](revision-herramientas.md): herramientas/kicad y puntos [auto]; mutaciones por punto, pcbcmp/netcmp propios, CRLF en .kicad_mod, repo falso para mutar la batería
-- [Revisión de colocación](revision-colocacion.md): colocacion.py y b…b4; reglas del paso, J10 en copia, sembrados con patio real, auditoría sin tokens, clones de LDO
-- [Comprobaciones útiles](comprobaciones-utiles.md): MCP por parámetros, falsos positivos MCP, listas negras/blancas eludibles (comodines, tuberías), cruce de claves MCP, auditoría vs HEAD, copia del TFG
+- [Guarda y gestión](guarda-y-gestion.md) — sondas sin riesgo, scripts de la auditoría, lectura de scripts, auditoría (ok, tokens, huecos), TFG = M, ciclo de gestion.py y commit_msg en copia, herramientas MCP que escriben
+- [Copias y comparaciones](copias-y-comparaciones.md) — reglas del commit, patio redondeado, netlist sin propiedades, pinfunction, sin conectar esperados, CRLF, mutaciones, límites de hoja.py
+- [Fuentes y datasheets](fuentes-y-datasheets.md) — render de tablas, python -I, pdfUrl de LCSC, TI, Infineon, SimSurfing, HDG −3, tablas a 25 °C, «must», stock
+- [Piezas y huellas](piezas-y-huellas.md) — polaridad LED, D_TVS bidireccional, oficiales de TI, placa de control, vías de JLCPCB, STEP, DFN, ERC de símbolos, cajetín
+- [Revisión de cálculos](revision-calculos.md) — huecos con Vc, tolerancias por puntos, ADC, costes, I²C, HLG, X5R, referencias libres, HEAD final, IDs retirados

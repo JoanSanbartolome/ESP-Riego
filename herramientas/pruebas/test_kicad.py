@@ -74,6 +74,44 @@ def reglas_sin_j10():
     return destino
 
 
+def de_commit(commit, ruta):
+    """Un archivo tal como estaba en un commit: las colocaciones intermedias b2 y b3 se borraron en SPEC-0039 y
+    siguen en sus commits (80a7b8f y 36b804c)."""
+    destino = TMP / f"{commit}-{Path(ruta).name}"
+    if not destino.exists():
+        r = subprocess.run(["git", "-C", str(REPO), "show", f"{commit}:{ruta}"], capture_output=True)
+        if r.returncode:
+            raise RuntimeError(f"git show {commit}:{ruta}: {r.stderr.decode(errors='replace').strip()}")
+        destino.write_bytes(r.stdout)
+    return destino
+
+V2_J10_VERTICAL = "d0705a7"   # último commit de hardware/v2 antes de SPEC-0038 (J10 BH254V-10P, huella vertical)
+
+
+def v2_j10_vertical():
+    """Copia de hardware/v2 tal como estaba en V2_J10_VERTICAL, con las librerías de la copia de la batería al lado:
+    las colocaciones b2 y b3 de SPEC-0037 se hicieron con J10 vertical, y desde SPEC-0038 hardware/v2 lo lleva
+    horizontal (sus patios ya no son los mismos)."""
+    destino = TMP / f"v2-{V2_J10_VERTICAL}" / "v2"
+    if not destino.exists():
+        r = subprocess.run(["git", "-C", str(REPO), "ls-tree", "-r", "--name-only", V2_J10_VERTICAL, "hardware/v2"],
+                           capture_output=True, text=True)
+        if r.returncode or not r.stdout.strip():
+            raise RuntimeError(f"git ls-tree {V2_J10_VERTICAL} hardware/v2: {r.stderr.strip()}")
+        for ruta in r.stdout.split():
+            archivo = destino / Path(ruta).relative_to("hardware/v2")
+            archivo.parent.mkdir(parents=True, exist_ok=True)
+            archivo.write_bytes(de_commit_bytes(V2_J10_VERTICAL, ruta))
+        shutil.copytree(BASE / "libraries", destino.parent / "libraries")
+    return destino
+
+
+def de_commit_bytes(commit, ruta):
+    r = subprocess.run(["git", "-C", str(REPO), "show", f"{commit}:{ruta}"], capture_output=True)
+    if r.returncode:
+        raise RuntimeError(f"git show {commit}:{ruta}: {r.stderr.decode(errors='replace').strip()}")
+    return r.stdout
+
 def correr(herramienta, *args):
     r = subprocess.run([sys.executable, str(KICAD / f"{herramienta}.py"), *map(str, args)], capture_output=True,
                        text=True, encoding="utf-8", errors="replace")
@@ -1141,14 +1179,16 @@ class ColocacionPaso5(unittest.TestCase):
     """colocacion.py del paso 5 de SPEC-0037 (DEC-0016, tras el paso 4): J2 y la antena de U5 al ras, rieles de JLCPCB
     con su coste, lazos de potencia, longitud del USB, pasillos entre bloques y capacidad de los pasillos, margen del
     cobre de disipación con lo que ocupa cada anillo, cifras que incumplen por redondeo y referencias con vuelta atrás.
-    Usa las colocaciones entregadas: colocacion-b2.csv (paso 4) incumple las reglas nuevas y colocacion-b3.csv no."""
+    Usa las colocaciones entregadas, sacadas de su commit: colocacion-b2.csv (paso 4, 80a7b8f) incumple las
+    reglas nuevas y colocacion-b3.csv (paso 5, 36b804c) no."""
+    V2 = property(lambda self: v2_j10_vertical())
     REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
-    B2 = REPO / "docs" / "diseno" / "colocacion-b2.csv"
-    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+    B2 = property(lambda self: de_commit("80a7b8f", "docs/diseno/colocacion-b2.csv"))
+    B3 = property(lambda self: de_commit("36b804c", "docs/diseno/colocacion-b3.csv"))
 
     def evaluar(self, tabla, *args):
         detalle = TMP / f"colp5_{len(list(TMP.glob('colp5_*.txt')))}.txt"
-        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", tabla, *args, "--reglas", reglas_sin_j10(),
+        codigo, salida, error = correr("colocacion", "evaluar", self.V2, tabla, *args, "--reglas", reglas_sin_j10(),
                                        "--detalle", detalle)
         self.assertIn(codigo, (0, 1), error)
         self.assertLessEqual(len(salida.strip().splitlines()), 30)
@@ -1209,16 +1249,16 @@ class ColocacionPaso5(unittest.TestCase):
         self.assertRegex(s3, r"zona dentro de la placa: U5 29\d mm²")         # antena al ras: 48 × 6 mm
         _, s4, d4 = self.evaluar(self.B3, "--omitir", "serigrafia")
         self.assertNotRegex(d4, r"(?m)\tregla\tT\d\d\t")
-        self.assertEqual(correr("colocacion", "evaluar", BASE / "v2", self.B3, "--omitir", "nada")[0], 2)
+        self.assertEqual(correr("colocacion", "evaluar", self.V2, self.B3, "--omitir", "nada")[0], 2)
 
     def test_referencias_con_vuelta_atras(self):
         con, sin = TMP / "colp5_con.csv", TMP / "colp5_sin.csv"
-        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", con, "--todas",
+        codigo, salida, error = correr("colocacion", "referencias", self.V2, self.B3, "-o", con, "--todas",
                                        "--reglas", self.REGLAS)
         self.assertEqual(codigo, 0, salida + error)
         self.assertRegex(salida, r"vuelta atrás: [1-9]\d* recolocadas")
         self.assertIn("Sin sitio que cumpla todo (0)", salida)
-        codigo, salida, error = correr("colocacion", "referencias", BASE / "v2", self.B3, "-o", sin, "--todas",
+        codigo, salida, error = correr("colocacion", "referencias", self.V2, self.B3, "-o", sin, "--todas",
                                        "--sin-vuelta", "--reglas", self.REGLAS)
         self.assertEqual(codigo, 1, salida + error)                           # la pasada voraz deja alguna sin sitio
         self.assertIn("vuelta atrás: 0 recolocadas", salida)
@@ -1227,9 +1267,10 @@ class ColocacionPaso5(unittest.TestCase):
 class ColocacionPaso6(unittest.TestCase):
     """Reglas del paso 6 de SPEC-0037 (DEC-0017): J10 horizontal al ras del borde inferior, con la boca hacia fuera,
     fuera de F03 y contado en los rieles; las reglas de altura (P05, E08, L01) siguen contando J10 (8,9 mm).
-    colocacion-b3.csv (J10 vertical a 2,5 mm) incumple B04 y B07; colocacion-b4.csv lleva J10 con giro 270."""
+    colocacion-b3.csv (36b804c; J10 vertical a 2,5 mm) incumple B04 y B07; colocacion-b4.csv lleva J10 con giro 270."""
+    V2 = property(lambda self: v2_j10_vertical())
     REGLAS = REPO / "docs" / "diseno" / "colocacion-reglas.csv"
-    B3 = REPO / "docs" / "diseno" / "colocacion-b3.csv"
+    B3 = property(lambda self: de_commit("36b804c", "docs/diseno/colocacion-b3.csv"))
     B4 = REPO / "docs" / "diseno" / "colocacion-b4.csv"
 
     def test_reglas_del_paso6(self):
@@ -1246,7 +1287,7 @@ class ColocacionPaso6(unittest.TestCase):
 
     def test_b3_incumple_j10_y_b4_lo_gira(self):
         detalle = TMP / "colp6_b3.txt"
-        codigo, salida, error = correr("colocacion", "evaluar", BASE / "v2", self.B3, "--reglas", self.REGLAS,
+        codigo, salida, error = correr("colocacion", "evaluar", self.V2, self.B3, "--reglas", self.REGLAS,
                                        "--omitir", "serigrafia", "--detalle", detalle)
         self.assertEqual(codigo, 1, error)
         d = detalle.read_text(encoding="utf-8")

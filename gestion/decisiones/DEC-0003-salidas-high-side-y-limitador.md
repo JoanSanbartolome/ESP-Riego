@@ -2,7 +2,8 @@
 id: DEC-0003
 titulo: Salidas con high-side inteligente BTT6050 y limitador común del bus de salidas
 fecha: 2026-11-04
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0004, DEC-0006, DEC-0011, DEC-0016]
 decide: usuario
 specs: [SPEC-0005, SPEC-0007]
 requisitos: [ALI-04, ALI-09, ALI-12, ALI-13, REL-01, REL-02, REL-03, REL-04, REL-05, REL-08, REL-10, AMB-02, FAB-03, FAB-06, FAB-07, FAB-08]

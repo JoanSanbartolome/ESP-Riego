@@ -13,11 +13,14 @@ Uso:
     python herramientas/gestion.py cerrar SPEC-NNNN
     python herramientas/gestion.py tablero
     python herramientas/gestion.py trazabilidad
+    python herramientas/gestion.py comprobar [--memoria <carpeta> ...]
 
 `abrir`, `integrar` y `cerrar` hacen los commits del ciclo con sus trailers; `revisar` resume
 en pocas líneas lo que el coordinador comprueba antes de integrar el trabajo de un agente;
 `integrar --tokens` y `registrar` anotan en el registro de la spec lo que ha costado cada
-arranque (DEC-0009). El tablero, la trazabilidad, ESTADO.md, el diario y las filas de
+arranque (DEC-0009); con una instancia continuada, solo la tanda posterior a su último
+`integrar` (trailer Agent-Id). `comprobar` revisa VIGENTES.md frente a los DEC y la forma de
+las memorias de los agentes (SPEC-0039). El tablero, la trazabilidad, ESTADO.md, el diario y las filas de
 registro de la spec son del coordinador y no cuentan como cambios del agente.
 Ninguna orden hace push. Solo usa la biblioteca estándar. Los archivos generados no se
 editan a mano.
@@ -49,6 +52,13 @@ REGISTRO_ANTIGUO = "| Fecha | Agente | Acción | Referencia |\n|---|---|---|---|
 REGISTRO = "| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |\n|---|---|---|---|---|---|---|\n"
 KICAD = (".kicad_sch", ".kicad_pcb", ".kicad_pro", ".kicad_dru")
 LINEAS_PARTE = 40
+PAUSA_MAX = datetime.timedelta(minutes=10)
+ESTADOS_DEC =("aceptada", "modificada", "sustituida")
+TEMAS_DEC = ("orquestación", "agentes", "requisitos", "alimentación", "salidas", "MCU", "sensores",
+             "conectores", "colocación", "coste", "fabricación")
+LINEAS_MEMORIA_ARCHIVO, LINEAS_MEMORIA = 40, 120
+FECHA_RELATIVA = re.compile(r"\b(?:ayer|anteayer|mañana|hoy|esta semana|la semana (?:pasada|que viene)|"
+                            r"el mes pasado|hace \d+ (?:días|semanas|meses))\b", re.I)
 
 
 def leer_front_matter(ruta):
@@ -252,8 +262,25 @@ def auditoria_nueva():
     return nuevas
 
 
-def auditoria_de(agent_id):
-    """(acciones, minutos) de una instancia de agente según la auditoría."""
+def ultimo_integrar(agent_id):
+    """Fecha del último commit de `integrar` de la misma instancia (trailer Agent-Id), o None.
+    Con una instancia continuada, solo cuenta lo que ha hecho después (VAL-0037-01-05)."""
+    codigo, salida = git("log", "-F", "--grep=Agent-Id:", "--format=%cI%x1f%B%x1e")
+    if codigo != 0:
+        return None
+    for bloque in salida.split("\x1e"):
+        if "\x1f" not in bloque:
+            continue
+        fecha, cuerpo = bloque.strip().split("\x1f", 1)
+        for valor in re.findall(r"(?m)^Agent-Id:\s*(\S+)", cuerpo):
+            if valor.startswith(agent_id) or agent_id.startswith(valor):
+                return datetime.datetime.fromisoformat(fecha)
+    return None
+
+
+def auditoria_de(agent_id, desde=None):
+    """(acciones, minutos) de una instancia de agente según la auditoría; con `desde`, solo
+    las acciones posteriores."""
     marcas = []
     for ruta in sorted(AUDITORIA.glob("*.jsonl")):
         for linea in ruta.read_text(encoding="utf-8").splitlines():
@@ -264,10 +291,17 @@ def auditoria_de(agent_id):
             except ValueError:
                 continue
             if str(registro.get("agent_id", "")).startswith(agent_id):
-                marcas.append(datetime.datetime.fromisoformat(registro["ts"]))
+                marca = datetime.datetime.fromisoformat(registro["ts"])
+                if desde is None or marca > desde:
+                    marcas.append(marca)
     if not marcas:
         return 0, 0
-    return len(marcas), round((max(marcas) - min(marcas)).total_seconds() / 60)
+    # Suma de los intervalos entre acciones seguidas, sin las pausas de más de PAUSA_MAX
+    # (un límite de uso o una espera del usuario no son trabajo; VAL-0039-01-07).
+    marcas.sort()
+    segundos = sum(s for a, b in zip(marcas, marcas[1:])
+                   if (s := (b - a).total_seconds()) <= PAUSA_MAX.total_seconds())
+    return len(marcas), round(segundos / 60)
 
 
 # --- Órdenes del ciclo -----------------------------------------------------------------
@@ -391,10 +425,11 @@ def revisar(args):
 
 def anotar_arranque(ruta, args, accion, referencia):
     """Fila del registro con lo que ha costado un arranque: tokens (los da el resultado del
-    agente) y acciones y minutos (dados, o contados en la auditoría con --agent-id)."""
+    agente) y acciones y minutos (dados, o contados en la auditoría con --agent-id). Con una
+    instancia continuada, cuenta solo la tanda posterior a su último `integrar`."""
     acciones, minutos = args.acciones, args.min
     if args.agent_id:
-        contadas, duracion = auditoria_de(args.agent_id)
+        contadas, duracion = auditoria_de(args.agent_id, ultimo_integrar(args.agent_id))
         acciones = acciones if acciones is not None else contadas
         minutos = minutos if minutos is not None else duracion
     anotar(ruta, args.agente, accion, referencia,
@@ -439,7 +474,7 @@ def integrar(args):
     requisitos = ", ".join(r.strip() for r in args.requisitos.split(",") if r.strip())
     sha = commit(f"{args.tipo}({args.ambito or args.spec}): {args.resumen}",
                  {"Spec": args.spec, "Agente": args.agente, "Requisitos": requisitos,
-                  "Log": partes[-1] if partes else ""}, args.cuerpo)
+                  "Log": partes[-1] if partes else "", "Agent-Id": args.agent_id or ""}, args.cuerpo)
     print(f"{sha} {args.tipo}({args.ambito or args.spec}): {args.resumen}")
 
 
@@ -611,6 +646,99 @@ def trazabilidad(_args):
     escribir(GESTION / "TRAZABILIDAD.md", lineas)
 
 
+# --- Comprobaciones [auto] de decisiones y memorias (SPEC-0039) ------------------------
+
+def comprobar_vigentes():
+    """VIGENTES.md cita cada DEC aceptada o modificada, y nada más; frontmatter coherente."""
+    errores = []
+    ruta = DECISIONES / "VIGENTES.md"
+    if not ruta.exists():
+        return ["VIGENTES: falta gestion/decisiones/VIGENTES.md"]
+    decs = {d["id"]: d for d in cargar(DECISIONES, "DEC-*.md")}
+    for id_dec, d in decs.items():
+        estado = d.get("estado", "")
+        if estado not in ESTADOS_DEC:
+            errores.append(f"VIGENTES: {id_dec} tiene estado «{estado}» (válidos: {', '.join(ESTADOS_DEC)})")
+        por = d.get("modificada_por") or []
+        por = [por] if isinstance(por, str) else por
+        if estado in ("modificada", "sustituida") and not por:
+            errores.append(f"VIGENTES: {id_dec} está {estado} sin `modificada_por`")
+        errores += [f"VIGENTES: {id_dec} cita en `modificada_por` {p}, que no existe" for p in por if p not in decs]
+    conocidos = {r[0] for r in leer_requisitos()}
+    citados, temas = set(), []
+    for n, linea in enumerate(ruta.read_text(encoding="utf-8").splitlines(), 1):
+        celdas = [c.strip() for c in re.split(r"(?<!\\)\|", linea)[1:-1]]
+        if len(celdas) != 4 or celdas[0] in ("tema", "") or set(celdas[0]) <= set("-: "):
+            continue
+        tema, _regla, columna_dec, requisitos = celdas
+        if tema not in TEMAS_DEC:
+            errores.append(f"VIGENTES l. {n}: tema «{tema}» no es uno de {', '.join(TEMAS_DEC)}")
+        else:
+            temas.append(TEMAS_DEC.index(tema))
+        ids = re.findall(r"DEC-\d{4}", columna_dec)
+        if not ids:
+            errores.append(f"VIGENTES l. {n}: la fila no cita ningún DEC")
+        for id_dec in ids:
+            citados.add(id_dec)
+            if id_dec not in decs:
+                errores.append(f"VIGENTES l. {n}: {id_dec} no existe")
+            elif decs[id_dec].get("estado") == "sustituida":
+                errores.append(f"VIGENTES l. {n}: {id_dec} está sustituida y no puede dar una regla vigente")
+        errores += [f"VIGENTES l. {n}: {r} no existe en docs/02" for r in re.findall(r"[A-Z]{2,4}-\d{2}", requisitos)
+                    if r not in conocidos]
+    if temas != sorted(temas):
+        errores.append("VIGENTES: las filas no siguen el orden de los temas")
+    errores += [f"VIGENTES: no cita {i}, que está {d.get('estado')}" for i, d in sorted(decs.items())
+                if d.get("estado") in ("aceptada", "modificada") and i not in citados]
+    return errores
+
+
+def comprobar_memorias(extra=()):
+    """Cada memoria: su MEMORY.md enlaza una vez cada archivo, y nada más; sin archivos `project`;
+    ≤ 40 líneas por archivo y ≤ 120 por memoria; viñetas «… Por qué: … Fuente: …»; sin fechas relativas."""
+    errores = []
+    carpetas = sorted(p for p in (RAIZ / ".claude" / "agent-memory").glob("*") if p.is_dir())
+    for carpeta in [*carpetas, *(Path(e) for e in extra)]:
+        nombre = carpeta.name if carpeta.parent.name == "agent-memory" else str(carpeta)
+        indice = carpeta / "MEMORY.md"
+        if not indice.exists():
+            errores.append(f"memoria {nombre}: falta MEMORY.md")
+            continue
+        enlaces = re.findall(r"\]\(([^)#]+\.md)\)", indice.read_text(encoding="utf-8"))
+        archivos = sorted(p.name for p in carpeta.glob("*.md") if p.name != "MEMORY.md")
+        errores += [f"memoria {nombre}: MEMORY.md no enlaza {a}" for a in archivos if a not in enlaces]
+        errores += [f"memoria {nombre}: MEMORY.md enlaza {e}, que no existe" for e in set(enlaces) if e not in archivos]
+        errores += [f"memoria {nombre}: MEMORY.md enlaza {e} más de una vez" for e, k in Counter(enlaces).items() if k > 1]
+        total = 0
+        for a in archivos:
+            texto = (carpeta / a).read_text(encoding="utf-8")
+            lineas = texto.splitlines()
+            total += len(lineas)
+            tipo = re.search(r"(?m)^\s*type:\s*(\S+)", texto.split("\n---", 1)[0] if texto.startswith("---") else "")
+            if a.lower().startswith("project") or (tipo and tipo.group(1) == "project"):
+                errores.append(f"memoria {nombre}: {a} es de tipo project")
+            if len(lineas) > LINEAS_MEMORIA_ARCHIVO:
+                errores.append(f"memoria {nombre}: {a} tiene {len(lineas)} líneas (máx. {LINEAS_MEMORIA_ARCHIVO})")
+            for k, linea in enumerate(lineas, 1):
+                if linea.startswith("- ") and not ("Por qué:" in linea and "Fuente:" in linea):
+                    errores.append(f"memoria {nombre}: {a} l. {k} no tiene la forma «… Por qué: … Fuente: …»")
+                if FECHA_RELATIVA.search(linea):
+                    errores.append(f"memoria {nombre}: {a} l. {k} tiene una fecha relativa")
+        if total > LINEAS_MEMORIA:
+            errores.append(f"memoria {nombre}: {total} líneas (máx. {LINEAS_MEMORIA}, sin MEMORY.md)")
+    return errores
+
+
+def comprobar(args):
+    errores = comprobar_vigentes() + comprobar_memorias(args.memoria or ())
+    for e in errores[:40]:
+        print(e)
+    if len(errores) > 40:
+        print(f"… y {len(errores) - 40} más")
+    print("Comprobación: todo correcto" if not errores else f"Comprobación: {len(errores)} incidencias")
+    sys.exit(1 if errores else 0)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
@@ -670,6 +798,9 @@ def main():
 
     sub.add_parser("tablero", help="Regenera gestion/TABLERO.md").set_defaults(funcion=tablero)
     sub.add_parser("trazabilidad", help="Regenera gestion/TRAZABILIDAD.md").set_defaults(funcion=trazabilidad)
+    p = sub.add_parser("comprobar", help="Comprueba VIGENTES.md frente a los DEC y la forma de las memorias")
+    p.add_argument("--memoria", nargs="+", help="Carpetas de memoria además de .claude/agent-memory/*")
+    p.set_defaults(funcion=comprobar)
     args = parser.parse_args()
     args.funcion(args)
 

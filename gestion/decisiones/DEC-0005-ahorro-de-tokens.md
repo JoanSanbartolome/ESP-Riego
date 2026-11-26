@@ -2,7 +2,8 @@
 id: DEC-0005
 titulo: Ahorro de tokens en el ciclo de las specs
 fecha: 2026-11-05
-estado: aceptada
+estado: modificada
+modificada_por: [DEC-0009]
 decide: usuario
 specs: []
 requisitos: []

@@ -2,15 +2,15 @@
 id: SPEC-0039
 titulo: Revisión general: documentación, decisiones vigentes, memorias y ruido
 fase: 4
-estado: abierta
+estado: cerrada
 responsable: coordinador
 revisor: ing-validacion
 rama: spec/SPEC-0039-revision-general
 requisitos: []
 depende_de: [SPEC-0038]
 creada: 2026-11-24
-cerrada:
-validacion:
+cerrada: 2026-11-26
+validacion: VAL-0039-02
 ---
 
 # SPEC-0039 · Revisión general: documentación, decisiones vigentes, memorias y ruido
@@ -127,3 +127,9 @@ Nivel **completo** en la guarda y en `gestion.py`, porque cambian el control de 
 |---|---|---|---|---|---|---|
 | 2026-11-24 | coordinador | Crea la spec (propuesta) | | | | |
 | 2026-11-24 | coordinador | Abre la spec |  |  |  |  |
+| 2026-11-24 | ing-diseno | paso 2 — barrido de docs/diseno, b/b2/b3 borrados, recetas y memoria | 02-ing-diseno | 382904 | 103 | 65 |
+| 2026-11-24 | jr-conformidad | paso 3 — barrido de componentes y fabricación, y memoria | 03-jr-conformidad | 193260 | 105 | 11 |
+| 2026-11-26 | ing-validacion | paso 4 — memoria de ing-validacion | 04-ing-validacion | 290312 | 39 |  |
+| 2026-11-26 | ing-validacion | VAL-0039-01 — RECHAZADO | VAL-0039-01 | 232751 | 64 | 19 |
+| 2026-11-26 | ing-validacion | VAL-0039-02 — APROBADO | VAL-0039-02 | 25441 | 11 | 6 |
+| 2026-11-26 | coordinador | Cierra la spec | VAL-0039-02 (APROBADO) |  |  |  |

@@ -1,0 +1,342 @@
+archivo,n,resumen,clase,comprobación,destino
+MEMORY.md,1,Guarda sustituye variables asignadas en el propio comando,DUPLICADA,"Grep ""sustituyendo las variables que se asignan en el propio comando"" gestion/README.md → 1",borrada; gestion/README.md (Guardas)
+MEMORY.md,2,Heredocs y código en línea de Python ya pasan,DUPLICADA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0009)
+MEMORY.md,3,find -exec con órdenes de lectura pasa,DUPLICADA,"Grep ""con las órdenes de escritura conocidas"" gestion/README.md → 1",borrada; gestion/README.md (solo bloquea escrituras)
+MEMORY.md,4,Las notas antiguas de rutas literales ya no aplican,ESTADO,"Grep ""rutas literales"" .claude/agent-memory/ing-validacion → 0; tras la depuración",borrada; esas notas se borran en esta depuración
+MEMORY.md,5,Bloquea lo que no lea o copie del TFG,DUPLICADA,"Grep ""solo puede leer o copiar"" CLAUDE.md → 1",borrada; CLAUDE.md
+MEMORY.md,6,"Antes de un script, mirar herramientas/kicad",DUPLICADA,"Grep ""Antes de escribir un script"" CLAUDE.md → 1",borrada; CLAUDE.md
+comprobaciones-utiles.md,1,"Herramientas MCP se juzgan por parámetros, no por nombre",DUPLICADA,"Grep ""por sus parámetros"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,2,"lint_schematic_cosmetic, lint_offgrid y close_project escriben por defecto",VIGENTE,"Grep ""dryRun"" KiCAD-MCP-Server/src/tools/schematic.ts → 2; Grep ""close_project"" KiCAD-MCP-Server/src/tools/project.ts → 2",guarda-y-gestion.md
+comprobaciones-utiles.md,3,Esquemas zod en KiCAD-MCP-Server/src/tools/*.ts,VIGENTE,"Glob ""C:/Users/josan/proyectos/KiCAD-MCP-Server/src/tools/*.ts"" → 29",guarda-y-gestion.md
+comprobaciones-utiles.md,4,close_project siempre con save: false,DUPLICADA,"Grep ""save: false"" .claude/agents/ing-validacion.md → 1",borrada; agents/ing-validacion.md
+comprobaciones-utiles.md,5,open_project cambia el estado global,DUPLICADA,"Grep ""tiene estado global"" CLAUDE.md → 1",borrada; CLAUDE.md
+comprobaciones-utiles.md,6,Cruzar disallowedTools con el servidor; batch_move_components guarda,VIGENTE,"Grep ""Saves by default"" KiCAD-MCP-Server/src/tools/component.ts → 1",guarda-y-gestion.md
+comprobaciones-utiles.md,7,kicad-cli reescribe .kicad_prl; md5sum antes y después,DUPLICADA,"Grep ""md5sum` antes y después"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,8,verificar.py --salida en una carpeta nueva,VIGENTE,"Grep ""--salida"" herramientas/verificar.py → 4",copias-y-comparaciones.md
+comprobaciones-utiles.md,9,PostToolUse no salta en fallos: PostToolUseFailure,DUPLICADA,"Grep ""PostToolUseFailure"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,10,Probar la guarda con JSON y AUDITORIA_DIR; en vivo git commit --dry-run,VIGENTE,"Grep ""AUDITORIA_DIR"" .claude/hooks/auditoria.py → 2; Grep ""def ejecutar"" herramientas/pruebas/test_guardia.py → 1",guarda-y-gestion.md
+comprobaciones-utiles.md,11,Guardas MCP por forma de ruta: probar llamadas legítimas,DUPLICADA,"Grep ""llamadas MCP de escritura legítimas"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,12,Listas negras se eluden con órdenes no listadas,DUPLICADA,"Grep ""con las órdenes de escritura conocidas"" gestion/README.md → 1",borrada; gestion/README.md (Guardas)
+comprobaciones-utiles.md,13,Redirecciones tras git o bash -c,DUPLICADA,"Grep ""las escrituras por redirección dentro del repositorio"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,14,La guardia no expande variables: rutas literales,OBSOLETA,"Grep ""sustituyendo las variables que se asignan en el propio comando"" gestion/README.md → 1",borrada
+comprobaciones-utiles.md,15,revisar_zonas en copia de %TEMP%: anular la exención,DUPLICADA,"Grep ""GUARDIA_TEMPORAL"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,16,Ejemplo scratchpad/val2/zonas_copia.py,OBSOLETA,"Glob ""scratchpad/val2/zonas_copia.py"" → 0",borrada
+comprobaciones-utiles.md,17,TFG sin commits; el usuario guarda copia,DUPLICADA,"Grep ""El usuario mantiene su propia copia del TFG"" gestion/README.md → 1",borrada; gestion/README.md
+comprobaciones-utiles.md,18,"Huecos del TFG con detección detrás son M, no A",VIGENTE,"Glob ""gestion/tfg-manifiesto.json"" → 1; Grep ""\bM\b.*TFG|TFG.*\bM\b"" gestion/checklists/proceso.md → 0",guarda-y-gestion.md
+comprobaciones-utiles.md,19,La guarda bloquea cualquier git sobre el TFG,DUPLICADA,"Grep ""solo el coordinador lo usa para escribir"" CLAUDE.md → 1",borrada; CLAUDE.md
+comprobaciones-utiles.md,20,Comodines o carpeta padre con -Recurse no nombran el TFG,VIGENTE,"Grep ""comodin"" gestion/checklists/proceso.md → 0",guarda-y-gestion.md
+comprobaciones-utiles.md,21,Tubería hacia Remove-Item o xargs rm,DUPLICADA,"Grep ""en tuberías hacia órdenes que borran"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+comprobaciones-utiles.md,22,"Órdenes de lectura que escriben (uniq, tree -o)",DUPLICADA,"Grep ""`uniq a b`, `tree -o`"" gestion/README.md → 1",borrada; gestion/README.md (Límites)
+comprobaciones-utiles.md,23,Formas --opción=valor y variables de entorno de git,VIGENTE,"Grep ""GIT_CONFIG_PELIGROSA"" .claude/hooks/guardia.py → 2; Grep ""--target-directory"" gestion/checklists/proceso.md → 0",guarda-y-gestion.md
+comprobaciones-utiles.md,24,Destinos MCP por lista de claves; run_drc(reportPath),DUPLICADA,"Grep ""CLAVES_DESTINO"" gestion/README.md → 1",borrada; gestion/README.md (Límites); run_drc pasa a la viñeta de las herramientas MCP
+comprobaciones-utiles.md,25,Script val3/claves_mcp.py,OBSOLETA,"Glob ""scratchpad/val3/claves_mcp.py"" → 0",borrada
+comprobaciones-utiles.md,26,Exención de la temporal oculta destinos según cwd,VIGENTE,"Grep ""cd /tmp"" gestion/checklists/proceso.md → 0",guarda-y-gestion.md
+comprobaciones-utiles.md,27,«La auditoría solo crece» frente a HEAD no ve lo no versionado,VIGENTE,"Grep ""sin versionar"" gestion/checklists/proceso.md → 0",guarda-y-gestion.md
+comprobaciones-utiles.md,28,Heredocs con git -c en el texto se bloquean,DUPLICADA,"Grep ""cualquier `git <palabra>`"" gestion/README.md → 1",borrada; gestion/README.md (Límites)
+comprobaciones-utiles.md,29,"Copia de main sin worktree, archivo a archivo",RECETA,"Grep ""la guarda bloquea `git archive`"" herramientas/kicad/README.md → 1; Grep ""def copia_de_commit"" herramientas/kicad → 0",borrada; propuesta en PENDIENTE (copia de un commit)
+comprobaciones-utiles.md,30,Netlist pin a pin de dos copias,DUPLICADA,"Grep ""Compara las netlists de dos proyectos"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (hoja.py netlist)
+comprobaciones-utiles.md,31,Merge simulado con test_commit_msg.preparar() y probar(),VIGENTE,"Grep ""def (preparar|probar)"" herramientas/pruebas/test_commit_msg.py → 2",guarda-y-gestion.md
+revision-alimentacion.md,1,SPEC-0017 bien en cifras; fallos de coherencia,ESTADO,"Glob ""gestion/informes/VAL-0017-01.md"" → 1",borrada; gestion/informes/VAL-0017-01.md
+revision-alimentacion.md,2,UVLO con k = 1 + R9/R10 y extremos al 1 %,DUPLICADA,"Grep ""12,50–14,56"" docs/diseno/alimentacion.md → 2",borrada; docs/diseno/alimentacion.md
+revision-alimentacion.md,3,Banda de I_OL con deriva de R_ILIM,DUPLICADA,"Grep ""banda del umbral, con su tolerancia"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md; alimentacion.md
+revision-alimentacion.md,4,"Error de VIN: ADC + 0,954 × tolerancia + deriva",DUPLICADA,"Grep ""0,954"" docs/diseno/alimentacion.md → 1",borrada; docs/diseno/alimentacion.md
+revision-alimentacion.md,5,"IPC-2221: fórmula y 5,3 A en 3,0 mm",DUPLICADA,"Grep ""0,048·ΔT"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md
+revision-alimentacion.md,6,"TPS2663: I_OL en 4 puntos de R_ILIM; 18,09/R",DUPLICADA,"Grep ""18,09"" docs/diseno/alimentacion.md → 5",borrada; docs/diseno/alimentacion.md
+revision-alimentacion.md,7,"TPS2663: IMON, R_ON y clamp",DUPLICADA,"Grep ""26,22"" docs/diseno/alimentacion.md → 1",borrada; docs/diseno/alimentacion.md
+revision-alimentacion.md,8,"LMR36520: EN, histéresis típica, I_LS, VFB",DUPLICADA,"Grep ""1,157 / 1,231"" docs/diseno/alimentacion.md → 1",borrada; docs/diseno/alimentacion.md
+revision-alimentacion.md,9,ESP32-S3 tabla 5-6: error del ADC por atenuación,DUPLICADA,"Grep ""[Tt]abla 5-6"" docs/diseno → 7","borrada; docs/diseno/alimentacion.md, conectores.md"
+revision-alimentacion.md,10,"Huecos entre redes con Vc, no con la continua",VIGENTE,"Grep ""hueco.*Vc|Vc.*hueco"" gestion/checklists → 0",revision-calculos.md
+revision-alimentacion.md,11,Tolerancias dadas en puntos de R sin interpolar,VIGENTE,"Grep ""interpol"" gestion/checklists → 0",revision-calculos.md
+revision-alimentacion.md,12,Filtro RC al ADC frente a la condición de medida,VIGENTE,"Grep ""condición de medida"" gestion/checklists → 0",revision-calculos.md
+revision-alimentacion.md,13,Cerámicos sin curva de derating,DUPLICADA,"Grep ""*derating*"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-alimentacion.md,14,Extracciones del autor en scratchpad/dl/*.txt,OBSOLETA,"Glob ""scratchpad/dl/*.txt"" → 0",borrada
+revision-alimentacion.md,15,La guardia bloquea python en línea que escribe,OBSOLETA,"Grep ""puede escribir sin que la guarda lo vea"" gestion/README.md → 1",borrada
+revision-alimentacion.md,16,JSON de LCSC: productPriceList y stockNumber,DUPLICADA,"Grep ""stock y precio de N códigos LCSC"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+revision-alimentacion.md,17,BCD/Diodes: tabla sin negrita solo a 25 °C,VIGENTE,"Glob ""hardware/componentes/datasheets/AP2114H-3.3TRG1.pdf"" → 1",fuentes-y-datasheets.md
+revision-alimentacion.md,18,"Tras cambiar un MPN, Grep del viejo en todo docs/diseno",DUPLICADA,"Grep ""se buscan con Grep todas las menciones"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-alimentacion.md,19,"Margen de 3,9 V sin la R_ON de U3",DUPLICADA,"Grep ""menos 45 mV de U3"" docs/diseno/alimentacion.md → 1",borrada; docs/diseno/alimentacion.md (corregido)
+revision-alimentacion.md,20,Tablas de Hongjiacheng: pdftoppm -r 200,VIGENTE,pdftoppm en el PATH (MiKTeX),fuentes-y-datasheets.md
+revision-colocacion.md,1,Cada colocación con la herramienta y reglas de su commit,VIGENTE,"Grep ""de_commit"" herramientas/pruebas/test_kicad.py → 6",copias-y-comparaciones.md
+revision-colocacion.md,2,b3 y b4: obligatorias según reglas y J10,ESTADO,"Grep ""36b804c"" docs/diseno/experimento-colocacion.md → 1",borrada; VAL-0037-01 y git
+revision-colocacion.md,3,Huella nueva: Footprint en la copia y sincronizar.py,DUPLICADA,"Grep ""Cambiar los campos o la huella de una pieza"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Recetas)
+revision-colocacion.md,4,Sembrados con scratchpad/v37/sembrar.py,OBSOLETA,"Glob ""scratchpad/v37/sembrar.py"" → 0",borrada
+revision-colocacion.md,5,"extraer redondea el patio a 0,1 mm",VIGENTE,"Grep ""f(x1 - x0, 1)"" herramientas/kicad/colocacion.py → 1",copias-y-comparaciones.md
+revision-colocacion.md,6,"F01 con 0,10 exactos no salta (≥)",VIGENTE,"Grep ""^F01;"" docs/diseno/colocacion-reglas.csv → 1",copias-y-comparaciones.md
+revision-colocacion.md,7,Ida y vuelta: girar la referencia con la huella,VIGENTE,"Grep ""en los ejes de la placa"" herramientas/kicad/README.md → 1",copias-y-comparaciones.md
+revision-colocacion.md,8,La auditoría no guarda tokens; huecos de > 10 min,VIGENTE,"Grep ""tokens"" .claude/hooks/auditoria.py → 0",guarda-y-gestion.md
+revision-colocacion.md,9,auditoria_de cuenta todo el agent_id,OBSOLETA,"Grep ""ultimo_integrar"" herramientas/gestion.py → 2",borrada
+revision-colocacion.md,10,Alternativas JSMSEMI/TECH PUBLIC de TLV1117LV,OBSOLETA,"Grep ""TLV1117LV"" gestion/logs/SPEC-0039/superados.csv → 1",borrada
+revision-colocacion.md,11,Renderizar el PDF si pdftotext sale vacío,VIGENTE,"Grep ""PyMuPDF"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md
+revision-colocacion.md,12,Buscar un «must» frente a valores típicos,VIGENTE,"Grep ""must"" gestion/checklists → 0",fuentes-y-datasheets.md
+revision-colocacion.md,13,Error de medida: términos que el documento ya suma,DUPLICADA,"Grep ""para no corregirla dos veces"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-estudios.md,1,Estudio: recalcular cifras y releer el datasheet,DUPLICADA,"Grep ""Recalculado de forma independiente por el revisor"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,2,Hold-up olvidaba el UVLO,DUPLICADA,"Grep ""*hold-up*"" gestion/checklists/esquema.md → 2",borrada; checklists/esquema.md
+revision-estudios.md,3,Sin fusible por canal con high-side de 38 A,DUPLICADA,"Grep ""qué ven el resto de canales"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,4,"BTS428L2 con V_IN(T+) de 3,2 V",ESTADO,"Grep ""BTS428L2"" docs/diseno/estudio-salidas.md → 5",borrada; docs/diseno/estudio-salidas.md
+revision-estudios.md,5,Tramo de 30 uds para comprar 15,DUPLICADA,"Grep ""tramo de precio de la cantidad real"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-estudios.md,6,"JSON de LCSC: MPN, stock y tramos",DUPLICADA,"Grep ""stock y precio de N códigos LCSC"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+revision-estudios.md,7,pdfUrl del JSON de LCSC para el datasheet,VIGENTE,curl del pdfUrl de C150716 → PDF de 32 p.,fuentes-y-datasheets.md
+revision-estudios.md,8,Ficha web dinámica; JLCPCB da Basic/Extended,DUPLICADA,"Grep ""Tipo (Basic/Extended)"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+revision-estudios.md,9,PDF con fuente codificada: renderizar,VIGENTE,"Grep ""BSP752R"" docs/diseno → 8",fuentes-y-datasheets.md
+revision-estudios.md,10,file da mal las páginas; pypdf bien,VIGENTE,sin Grep posible (comportamiento de file),fuentes-y-datasheets.md
+revision-estudios.md,11,Costes: reconstruir la lista hasta el céntimo,VIGENTE,"Grep ""céntimo"" gestion/checklists → 0",revision-calculos.md
+revision-estudios.md,12,Tramo según piezas por placa × placas,DUPLICADA,"Grep ""piezas por placa × placas"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-estudios.md,13,Límite del chip frente a la fuente y otros canales,DUPLICADA,"Grep ""qué ven el resto de canales"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,14,Diagnóstico con V_S colapsada y reacción del firmware,VIGENTE,"Grep ""colaps"" gestion/checklists → 0",revision-calculos.md
+revision-estudios.md,15,Hold-up desde VIN mínima hasta el UVLO de bajada,DUPLICADA,"Grep ""umbral de **bajada** del UVLO"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,16,Energía inductiva con la curva E_AS,OBSOLETA,"Grep ""Rueda libre D12–D17"" gestion/decisiones/VIGENTES.md → 1",borrada
+revision-estudios.md,17,IS al ADC frente al máximo del pin,DUPLICADA,"Grep ""por debajo del máximo del pin"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,18,Rutas literales en Bash por la guardia,OBSOLETA,"Grep ""sustituyendo las variables que se asignan en el propio comando"" gestion/README.md → 1",borrada
+revision-estudios.md,19,jlc.py --buscar para alternativas,DUPLICADA,"Grep ""Con `--buscar`"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+revision-estudios.md,20,Volver a consultar el stock de las piezas citadas,VIGENTE,"Grep ""C44479"" docs/diseno/alimentacion.md → 3",fuentes-y-datasheets.md
+revision-estudios.md,21,Pedir la lista de piezas por variante,VIGENTE,"Grep ""por variante"" gestion/checklists → 0",revision-calculos.md
+revision-estudios.md,22,"TPS2553: ecuaciones, R_ILIM, EN y TSD",DUPLICADA,"Grep ""SLVS841G"" docs/diseno → 6","borrada; docs/diseno/arquitectura.md, conectores.md"
+revision-estudios.md,23,PDF de TI en ti.com/lit/ds/symlink,VIGENTE,"Grep ""ti.com/lit/ds/symlink"" docs/diseno → 6",fuentes-y-datasheets.md
+revision-estudios.md,24,"Térmica en fallo sin el USB a 5,25 V",VIGENTE,"Grep ""5,25"" gestion/checklists → 0",revision-calculos.md
+revision-estudios.md,25,Margen de I²C en un solo sentido,VIGENTE,"Grep ""I²C"" gestion/checklists → 1",revision-calculos.md
+revision-estudios.md,26,Señal activa baja colgada de un pull-down,VIGENTE,"Grep ""74HC595"" docs/diseno/viabilidad-expansion.md → 8",revision-calculos.md
+revision-estudios.md,27,Barreras de firmware de REL-04,DUPLICADA,"Grep ""Salidas desactivadas durante el reset y el flasheo"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-estudios.md,28,"OpenSprinkler 403, KinCony 429, Robotshop responde",VIGENTE,sin Grep posible (servidores externos),fuentes-y-datasheets.md
+revision-estudios.md,29,Caída en R serie de I²C: lado del pull-up,VIGENTE,"Grep ""pull-up"" gestion/checklists → 2",revision-calculos.md
+revision-estudios.md,30,"2N7002 a 2,4 V de puerta no conmuta seguro",VIGENTE,"Grep ""2N7002"" docs/diseno/viabilidad-expansion.md → 1",revision-calculos.md
+revision-herramientas.md,1,Un punto [auto] se valida haciéndolo fallar,DUPLICADA,"Grep ""al menos un caso que lo hace fallar"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-herramientas.md,2,smd_cara dependía de (attr smd),OBSOLETA,"Grep ""por los pads, no por el atributo"" herramientas/kicad/README.md → 1",borrada
+revision-herramientas.md,3,"Scripts val27: mutar.py, pcbcmp.py, netcmp.py",OBSOLETA,"Glob ""scratchpad/val27/*.py"" → 0",borrada
+revision-herramientas.md,4,Comparador de PCB huella a huella,RECETA,"Grep ""pcb_?cmp"" herramientas/kicad → 0",borrada; propuesta en PENDIENTE (comparación de PCB)
+revision-herramientas.md,5,Comparador de netlist kicadxml con propiedades,RECETA,"Grep ""kicadxml"" herramientas/kicad/_comun.py → 0",borrada; propuesta en PENDIENTE (netlist con propiedades)
+revision-herramientas.md,6,hoja.py netlist no compara propiedades,VIGENTE,"Grep ""Diferencias entre dos netlists (piezas, huella, valor y nodos"" herramientas/kicad/_comun.py → 1",copias-y-comparaciones.md
+revision-herramientas.md,7,.kicad_mod propios en CRLF,VIGENTE,Python: 130 de 130 .kicad_mod de hardware/libraries con CRLF,copias-y-comparaciones.md
+revision-herramientas.md,8,"Anclar la sustitución a la instancia, no a lib_symbols",VIGENTE,"Grep ""lib_symbols"" hardware/v2/salidas.kicad_sch → 1",copias-y-comparaciones.md
+revision-herramientas.md,9,"restricciones.py con pistas, arco y vía de pcbnew",VIGENTE,"Grep ""PCB_TRACK"" herramientas/kicad → 0",copias-y-comparaciones.md
+revision-herramientas.md,10,comprobar.py fuera del repo: gitattributes y fichas N/A,VIGENTE,"Grep ""no hay .gitattributes"" herramientas/kicad/comprobar.py → 1; Grep ""no hay carpeta ../componentes"" herramientas/kicad/comprobar.py → 1",copias-y-comparaciones.md
+revision-herramientas.md,11,Contrastar marcas de la checklist con el script,DUPLICADA,"Grep ""solo marca `[auto]` lo que el script cubre entero"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-herramientas.md,12,mutar2.py reutiliza mutar.py,OBSOLETA,"Glob ""scratchpad/val27/mutar2.py"" → 0",borrada
+revision-herramientas.md,13,Falsos positivos de una heurística sobre la librería oficial,VIGENTE,"Grep ""def analizar"" herramientas/kicad/huella.py → 1",copias-y-comparaciones.md
+revision-herramientas.md,14,USB-C con patas mechanical es smd,DUPLICADA,"Grep ""USB-C con patas de la carcasa"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+revision-herramientas.md,15,--refill-zones con una zona real sin rellenar,DUPLICADA,"Grep ""zona sin rellenar"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Pruebas)
+revision-herramientas.md,16,Repositorio falso; test_kicad.py busca CLAUDE.md,DUPLICADA,"Grep ""repositorio falso en la carpeta temporal"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Recetas)
+revision-herramientas.md,17,"Mutación = (archivo, texto, sustituto, casos)",RECETA,"Glob ""scratchpad/v28/mutar.py"" → 0",borrada; propuesta en PENDIENTE (mutaciones de la batería)
+revision-herramientas.md,18,Sobreviven casos con datos fijos que ya cumplen,VIGENTE,sin Grep posible (resultado de VAL-0028-01),copias-y-comparaciones.md
+revision-herramientas.md,19,«La mutación X falla» del parte: el autor invierte,VIGENTE,sin Grep posible (resultado de VAL-0028-01),copias-y-comparaciones.md
+revision-herramientas.md,20,git archive bloqueado: git show archivo a archivo,DUPLICADA,"Grep ""la guarda bloquea `git archive`"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Recetas)
+revision-herramientas.md,21,mkdir con heredoc de Python se bloquea,OBSOLETA,"Grep ""solo se deja sin analizar si lo reciben"" gestion/README.md → 1",borrada
+revision-hojas.md,1,SPEC-0019: hoja bien; PCB sin sincronizar,ESTADO,"Glob ""gestion/informes/VAL-0019-01.md"" → 1",borrada; gestion/informes/VAL-0019-01.md
+revision-hojas.md,2,ing-esquematicos con .kicad_pcb en AJENOS,OBSOLETA,"Glob "".claude/agents/ing-esquematicos.md"" → 0",borrada
+revision-hojas.md,3,Copiar v2 y libraries con rutas literales,OBSOLETA,"Grep ""sustituyendo las variables que se asignan en el propio comando"" gestion/README.md → 1",borrada
+revision-hojas.md,4,verificar.py <copia> --salida <carpeta nueva>,VIGENTE,"Grep ""--salida"" herramientas/verificar.py → 4",copias-y-comparaciones.md
+revision-hojas.md,5,Volcar la netlist kicadxml con ElementTree,RECETA,"Grep ""kicadxml"" herramientas/kicad/_comun.py → 0",borrada; propuesta en PENDIENTE (netlist con propiedades)
+revision-hojas.md,6,Placa de prueba con las huellas y pcb drc,RECETA,"Grep ""(?i)drc"" herramientas/kicad/huella.py → 0",borrada; propuesta en PENDIENTE (placa de prueba con DRC)
+revision-hojas.md,7,ThermalVias de TI incumplen FAB-02,DUPLICADA,"Grep ""*_ThermalVias"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md (esquema.vias)
+revision-hojas.md,8,Paridad: sin colocar = sincronizadas sin posición,VIGENTE,"Grep ""sin colocar"" herramientas/kicad/README.md → 1",copias-y-comparaciones.md
+revision-hojas.md,9,Cada entregable en la zona de su agente,DUPLICADA,"Grep ""Listan los archivos cambiados que el agente no podría escribir"" gestion/README.md → 1",borrada; gestion/README.md
+revision-hojas.md,10,Cajetín: Read del PDF con pages,VIGENTE,"Grep ""comprobado en el PDF exportado"" gestion/checklists/esquema.md → 2",fuentes-y-datasheets.md
+revision-hojas.md,11,python -I necesita reconfigure(utf-8),VIGENTE,"Grep ""PYTHONIOENCODING"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md
+revision-hojas.md,12,ing-layout sincroniza con netlist y pcbnew,OBSOLETA,"Glob "".claude/agents/ing-layout.md"" → 0",borrada
+revision-hojas.md,13,Cruzar la red de cada pad con la netlist,DUPLICADA,"Grep ""se cruza la red de cada pad"" gestion/checklists/layout.md → 1",borrada; checklists/layout.md
+revision-hojas.md,14,Patios fuera del Edge.Cuts; H1–H4 reordenados,ESTADO,"Glob ""gestion/informes/VAL-0019-02.md"" → 1",borrada; gestion/informes/VAL-0019-02.md
+revision-hojas.md,15,Scripts pcb_an.py y cruce.py,OBSOLETA,"Glob ""scratchpad/pcb_an.py"" → 0; Glob ""scratchpad/cruce.py"" → 0",borrada
+revision-hojas.md,16,Símbolos power globales aceptables,DUPLICADA,"Grep ""Alimentación con símbolos `power`"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-hojas.md,17,MCU VAL-0022-01: fallos en la documentación,ESTADO,"Glob ""gestion/informes/VAL-0022-01.md"" → 1",borrada; gestion/informes/VAL-0022-01.md
+revision-hojas.md,18,KT-0603R numera al revés que KiCad,DUPLICADA,"Grep ""numeración del datasheet es la inversa"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+revision-hojas.md,19,"Polaridad con el PDF de cada MPN, no la familia",VIGENTE,"Grep ""polaridad"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-hojas.md,20,PDF bloqueados por LCSC en scratchpad/s22,OBSOLETA,"Glob ""scratchpad/s22/*.pdf"" → 0; curl del pdfUrl de C150716 → PDF",borrada
+revision-hojas.md,21,El clasificador deniega curl con referer a LCSC,VIGENTE,sin Grep posible (clasificador de permisos),fuentes-y-datasheets.md
+revision-hojas.md,22,Diff semántico de la PCB (pcb_cmp.py),RECETA,"Grep ""pcb_?cmp"" herramientas/kicad → 0",borrada; propuesta en PENDIENTE (comparación de PCB)
+revision-hojas.md,23,git diff --patience --numstat,VIGENTE,"Grep ""--patience"" herramientas/kicad/README.md → 0",copias-y-comparaciones.md
+revision-hojas.md,24,find -exec md5sum bloqueado,OBSOLETA,"Grep ""md5sum"" .claude/hooks/guardia.py → 2",borrada
+revision-hojas.md,25,README de hardware/v2 tras el layout,VIGENTE,"Glob ""hardware/v2/README.md"" → 1; Grep ""README"" gestion/checklists/layout.md → 0",revision-calculos.md
+revision-hojas.md,26,Netlist y plan esperado en Python desde el Anexo B,DUPLICADA,"Grep ""--plan"" herramientas/kicad/README.md → 3",borrada; herramientas/kicad/README.md (hoja.py netlist --plan)
+revision-hojas.md,27,pinfunction K_1: comparar el prefijo,VIGENTE,"Grep ""pinfunction"" herramientas/kicad → 0",copias-y-comparaciones.md
+revision-hojas.md,28,dnp y exclude_from_bom como property sin value,VIGENTE,"Grep ""exclude_from_bom"" herramientas/kicad/_comun.py → 0",copias-y-comparaciones.md
+revision-hojas.md,29,Sin conectar esperados: Σ(islas − 1) + pads nuevos,VIGENTE,"Grep ""Σ"" gestion/checklists → 0",copias-y-comparaciones.md
+revision-hojas.md,30,"Raíz unida con etiquetas, sin cables",OBSOLETA,"Grep ""En una raíz con cables"" herramientas/kicad/README.md → 1",borrada
+revision-hojas.md,31,Huellas sin colocar fuera del Edge.Cuts,ESTADO,"Grep ""aplicar b4 a la PCB"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0019) y ESTADO.md
+revision-hojas.md,32,get_jlcpcb_part sin base: jlc.py,DUPLICADA,"Grep ""stock y precio de N códigos LCSC"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+revision-hojas.md,33,Rehacer la PCB con sincronizar.py y comparar,RECETA,"Grep ""pcb_?cmp"" herramientas/kicad → 0",borrada; propuesta en PENDIENTE (comparación de PCB)
+revision-hojas.md,34,(thickness 0.15) es normalización de pcbnew,VIGENTE,"Grep ""thickness 0.15"" hardware/v2/esp-riego.kicad_pcb → 1255",copias-y-comparaciones.md
+revision-hojas.md,35,3D de respaldo con el model absoluto,VIGENTE,"Grep ""vista.py huella"" herramientas/kicad/README.md → 3",piezas-y-huellas.md
+revision-hojas.md,36,Referencias libres de la spec: cruzar con la netlist,VIGENTE,"Grep ""libres"" gestion/checklists/esquema.md → 1",revision-calculos.md
+revision-hojas.md,37,Decisión de bus compartido: Grep en otros docs,DUPLICADA,"Grep ""Búsqueda de los términos retirados en docs/"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-hojas.md,38,Fichas con «símbolo pendiente» no se actualizan,VIGENTE,"Grep ""símbolo pendiente"" gestion/checklists → 0",revision-calculos.md
+revision-hojas.md,39,Deltas de sin conectar base/ahora; desfase constante,VIGENTE,sin Grep posible (método de VAL-0031-01),copias-y-comparaciones.md
+revision-hojas.md,40,extraer delata cables que no representa; P:<red>,VIGENTE,"Grep ""`P:GND`"" herramientas/kicad/README.md → 1",copias-y-comparaciones.md
+revision-hojas.md,41,Netlists main/rama por grupos de pines,DUPLICADA,"Grep ""--grupos"" herramientas/kicad/README.md → 2",borrada; herramientas/kicad/README.md
+revision-hojas.md,42,"PCB normalizando uuid, path y sheetname",RECETA,"Grep ""pcb_?cmp"" herramientas/kicad → 0",borrada; propuesta en PENDIENTE (comparación de PCB)
+revision-hojas.md,43,"PDF de kicad-cli sigue el árbol, no el Id",OBSOLETA,"Grep ""sea la página del PDF"" herramientas/kicad/README.md → 1",borrada
+revision-hojas.md,44,"_estilo.py mide 0,8 × alto",OBSOLETA,"Grep ""miden los textos por su tinta"" herramientas/kicad/README.md → 1",borrada
+revision-hojas.md,45,Mover un Value largo y renderizar con --zona,DUPLICADA,"Grep ""no ve un `Value` más largo"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Recetas)
+revision-hojas.md,46,Auditoría: ok true frente a bloqueado,VIGENTE,"Grep ""ok: false"" gestion/README.md → 1",guarda-y-gestion.md
+revision-hojas.md,47,Copiar con cp y mutar en binario (CRLF),VIGENTE,Python: docs/diseno/salidas.md con CRLF,copias-y-comparaciones.md
+revision-hojas.md,48,hoja.py paginas toma la carpeta,DUPLICADA,"Grep ""hoja.py paginas <copia>/v2"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+revision-hojas.md,49,paginas: intercambiar dos hermanas no falla,VIGENTE,"Grep ""orden del árbol"" herramientas/kicad/README.md → 3",copias-y-comparaciones.md
+revision-hojas.md,50,test_kicad.py tarda minutos: en segundo plano,DUPLICADA,"Grep ""unos minutos"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Pruebas)
+revision-hojas.md,51,seccion_huellas se prueba a mano,VIGENTE,"Grep ""def seccion_huellas"" herramientas/kicad/comprobar.py → 1",copias-y-comparaciones.md
+revision-hojas.md,52,Puntos de estilo no miran la raíz,DUPLICADA,"Grep ""no miran la raíz"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (Límites)
+revision-hojas.md,53,Tabla de GPIO: alias USB_D-/D+/TXD0/RXD0,VIGENTE,"Grep ""TXD0"" docs/diseno/mcu.md → 7",revision-calculos.md
+revision-hojas.md,54,PDF entregado: tokens de get_text() por página,VIGENTE,sin Grep posible (método de VAL-0032-01),copias-y-comparaciones.md
+revision-hojas.md,55,BOM: expandir Refs y cruzar con la netlist,VIGENTE,"Grep ""--cantidad"" herramientas/kicad/README.md → 1",copias-y-comparaciones.md
+revision-hojas.md,56,extraer no lee el justify de los textos,VIGENTE,"Grep """"negrita"": val(fuente, ""bold"", ""no"") == ""yes"", ""texto"": nodo[1]}"" herramientas/kicad/hoja.py → 1",copias-y-comparaciones.md
+revision-hojas.md,57,Cifras de las notas de la raíz frente a docs/diseno,VIGENTE,"Grep ""BUS_24V"" docs/diseno/salidas.md → 16",revision-calculos.md
+revision-importaciones.md,1,Migración: rehacerla y comparar con diff,DUPLICADA,"Grep ""conversión independiente y un `diff`"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,2,VAL-0009-01: tres afirmaciones falsas,DUPLICADA,"Grep ""«no se convierte» o «no resuelve»"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-importaciones.md,3,sch|pcb upgrade --force y diff,DUPLICADA,"Grep ""conversión independiente y un `diff`"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,4,sym/fp upgrade -o y diff sin uuid,DUPLICADA,"Grep ""sin las UUID"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,5,EasyEDA Std sí se convierte,DUPLICADA,"Grep ""fp|sym upgrade -o"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,6,Ángulo del pad absoluto; posición local,VIGENTE,sin Grep posible (formato .kicad_pcb),copias-y-comparaciones.md
+revision-importaciones.md,7,Variables 3D con -D VAR=/inexistente,VIGENTE,"Grep ""KICADn_3DMODEL_DIR"" gestion/checklists/librerias.md → 1",piezas-y-huellas.md
+revision-importaciones.md,8,KiCad 10 resuelve KICAD9; sin .wrl,DUPLICADA,"Grep ""KiCad 10 no instala los `.wrl`"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,9,G: con Llibreries_Kicad,OBSOLETA,"Glob ""G:/Llibreries_Kicad"" → 0",borrada
+revision-importaciones.md,10,Órdenes con proyectos/TFG bloqueadas aunque lean,OBSOLETA,"Grep ""solo puede leer o copiar"" CLAUDE.md → 1",borrada
+revision-importaciones.md,11,git ls-files --eol: .IGS/.STEP como texto,DUPLICADA,"Grep ""en mayúsculas y en minúsculas"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md (librerias.gitattributes)
+revision-importaciones.md,12,fp upgrade -o exige carpeta inexistente,VIGENTE,sin Grep posible (comportamiento de kicad-cli),copias-y-comparaciones.md
+revision-importaciones.md,13,Pads custom de EasyEDA: medir la envolvente,DUPLICADA,"Grep ""envolvente de sus primitivas"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,14,cmp del archivo completo antes de decir que difiere,VIGENTE,"Grep ""cmp"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-importaciones.md,15,Referencias en scratchpad/val9,OBSOLETA,"Glob ""scratchpad/val9/*"" → 0",borrada
+revision-importaciones.md,16,"Comparar DRC con Counter, no set",VIGENTE,"Grep ""Counter"" herramientas/verificar.py → 3",copias-y-comparaciones.md
+revision-importaciones.md,17,Copias: mapeo con sed y diff,DUPLICADA,"Grep ""con los nombres nuevos aplicados"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-importaciones.md,18,Scripts cmp_net.py y cmp_inf.py,OBSOLETA,"Glob ""scratchpad/cmp_net.py"" → 0; Glob ""scratchpad/cmp_inf.py"" → 0",borrada
+revision-importaciones.md,19,Cajetín en el PDF exportado,DUPLICADA,"Grep ""comprobado en el PDF exportado"" gestion/checklists/esquema.md → 2",borrada; checklists/esquema.md y layout.md
+revision-importaciones.md,20,Cajetin_Kicad.kicad_wks con el título del TFG,ESTADO,"Glob ""hardware/libraries/Cajetin_Kicad.kicad_wks"" → 1; Glob ""hardware/libraries/ESP-Riego.kicad_wks"" → 1",borrada; hoja de la v1; la v2 usa ESP-Riego.kicad_wks
+revision-importaciones.md,21,pcbnew usa outputdirectory del .kicad_pcb,DUPLICADA,"Grep ""outputdirectory"" gestion/checklists/layout.md → 1",borrada; checklists/layout.md (layout.salida)
+revision-importaciones.md,22,embedded_files y restos heredados,DUPLICADA,"Grep ""embedded_files"" gestion/checklists/layout.md → 2",borrada; checklists/layout.md (layout.incrustados)
+revision-importaciones.md,23,Inventario con la netlist del estado de partida,DUPLICADA,"Grep ""netlist del estado de partida"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-importaciones.md,24,lib-tables con librerías de la v1,DUPLICADA,"Grep ""sin restos de la versión anterior"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-importaciones.md,25,"Capas, stackup y reglas heredadas",DUPLICADA,"Grep ""lo heredado sin cambios"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-importaciones.md,26,PCB por script: pcb upgrade --force idéntico,VIGENTE,sin Grep posible (comportamiento de kicad-cli),copias-y-comparaciones.md
+revision-importaciones.md,27,Esquema reguardado: solo cambia el orden de textos,VIGENTE,sin Grep posible (comportamiento de kicad-cli),copias-y-comparaciones.md
+revision-importaciones.md,28,F.Fab fuera de (layers) no es hallazgo,VIGENTE,"Grep ""F.Fab"" hardware/v2/esp-riego.kicad_pcb → 2143",copias-y-comparaciones.md
+revision-importaciones.md,29,Scripts val14,OBSOLETA,"Glob ""scratchpad/val14/*"" → 0",borrada
+revision-mcu.md,1,SPEC-0020 bien; fallos de coherencia,ESTADO,"Glob ""gestion/informes/VAL-0020-01.md"" → 1",borrada; gestion/informes/VAL-0020-01.md
+revision-mcu.md,2,C22 duplicada entre bloques,ESTADO,"Glob ""gestion/informes/VAL-0020-01.md"" → 1",borrada; gestion/informes/VAL-0020-01.md
+revision-mcu.md,3,Referencias provisionales frente a otros docs/diseno,VIGENTE,"Grep ""libres"" gestion/checklists/esquema.md → 1",revision-calculos.md
+revision-mcu.md,4,Tabla 2-1 del S3: renderizar,VIGENTE,"Grep ""tabla 2-1"" docs/diseno/mcu.md → 4",fuentes-y-datasheets.md
+revision-mcu.md,5,GPIO39 con WPU tras el reset,DUPLICADA,"Grep ""WPU"" docs/diseno/mcu.md → 7",borrada; docs/diseno/mcu.md
+revision-mcu.md,6,Tabla 2-2: pulso alto en GPIO18–20,DUPLICADA,"Grep ""tabla 2-2"" docs/diseno/mcu.md → 4",borrada; docs/diseno/mcu.md
+revision-mcu.md,7,Pin del módulo: WROOM-1 tabla 3-1,DUPLICADA,"Grep ""tabla 3-1"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+revision-mcu.md,8,HDG: página impresa = física − 3,VIGENTE,"Grep ""física − 3"" docs/diseno → 0",fuentes-y-datasheets.md
+revision-mcu.md,9,HDG tabla 12: pines en descarga USB-OTG,DUPLICADA,"Grep ""HDG tabla 12"" docs/diseno/mcu.md → 3",borrada; docs/diseno/mcu.md
+revision-mcu.md,10,15 mm de la HDG son la caja,DUPLICADA,"Grep ""dentro de la caja (HDG p. 30)"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+revision-mcu.md,11,SimSurfing: URL y JSON graphType,VIGENTE,"Grep ""samsungsem"" docs/diseno → 0",fuentes-y-datasheets.md
+revision-mcu.md,12,X5R ± 20 %: tolerancia además de la polarización,VIGENTE,"Grep ""tolerancia"" gestion/checklists/esquema.md → 2",revision-calculos.md
+revision-mcu.md,13,EN RC: τ con la polarización de C,VIGENTE,"Grep ""Red RC en EN"" gestion/checklists/esquema.md → 1",revision-calculos.md
+revision-mcu.md,14,TPS2116: VIN1 solo sobre PR1,DUPLICADA,"Grep ""umbral de PR1"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+revision-mcu.md,15,USBLC6: V_CL de 12 V y 17 V,DUPLICADA,"Grep ""V_CL de 12 V"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+revision-mcu.md,16,Commits del coordinador durante la revisión: HEAD final,VIGENTE,"Grep ""HEAD"" .claude/agents/ing-validacion.md → 0",revision-calculos.md
+revision-orquestacion.md,1,Sondas de la guarda frente a la versión anterior,DUPLICADA,"Grep ""se compara con la versión anterior"" gestion/checklists/proceso.md → 1",borrada; checklists/proceso.md
+revision-orquestacion.md,2,"Guarda anterior con RAIZ, TEMPORAL y GUARDIA cambiados",RECETA,"Grep ""GUARDIA ="" herramientas/pruebas/test_guardia.py → 1",borrada; propuesta en PENDIENTE (sondas contra la guarda anterior)
+revision-orquestacion.md,3,Salieron heredocs y variables reasignadas,ESTADO,"Glob ""gestion/informes/VAL-0026-01.md"" → 1",borrada; gestion/informes/VAL-0026-01.md; gestion/README.md (Límites)
+revision-orquestacion.md,4,Sondas con la ruta del TFG: Write y TF+G,VIGENTE,"Grep ""no puede llevar bloques de código"" .claude/hooks/guardia.py → 1",guarda-y-gestion.md
+revision-orquestacion.md,5,Ciclo en copia con test_gestion.preparar(),VIGENTE,"Grep ""def (preparar|gestion|escribir)\("" herramientas/pruebas/test_gestion.py → 3",guarda-y-gestion.md
+revision-orquestacion.md,6,"Commits de referencia 60cec8d, ceb209c, ec6a400",VIGENTE,git log -1 de los tres → existen (SPEC-0024),guarda-y-gestion.md
+revision-orquestacion.md,7,"Cruzar mcp__kicad__x con .tool(""x"" del servidor",VIGENTE,"Glob ""C:/Users/josan/proyectos/KiCAD-MCP-Server/src/tools/*.ts"" → 29",guarda-y-gestion.md
+revision-orquestacion.md,8,12 de interfaz: gui-driver.ts + launch_kicad_ui,VIGENTE,"Glob ""C:/Users/josan/proyectos/KiCAD-MCP-Server/src/tools/gui-driver.ts"" → 1",guarda-y-gestion.md
+revision-orquestacion.md,9,Prueba en vivo deja una línea ok:false,VIGENTE,"Grep ""prueba en vivo"" gestion/checklists/proceso.md → 2",guarda-y-gestion.md
+revision-orquestacion.md,10,uniq IN OUT y tree -o pasan,DUPLICADA,"Grep ""`uniq a b`, `tree -o`"" gestion/README.md → 1",borrada; gestion/README.md (Límites)
+revision-orquestacion.md,11,"Revalidación: env -i, busybox, $SHELL…",DUPLICADA,"Grep ""busybox sh"" gestion/README.md → 1",borrada; gestion/README.md (Límites); checklists/proceso.md
+revision-piezas.md,1,Pieza creada: dato del fabricante y prueba en KiCad,DUPLICADA,"Grep ""cotas de huellas frente al datasheet"" .claude/agents/ing-validacion.md → 1",borrada; agents/ing-validacion.md
+revision-piezas.md,2,VAL-0015-01: tres afirmaciones falsas,ESTADO,"Glob ""gestion/informes/VAL-0015-01.md"" → 1",borrada; gestion/informes/VAL-0015-01.md
+revision-piezas.md,3,Land pattern de Infineon en la página del encapsulado,DUPLICADA,"Grep ""infineon.com/package"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,4,Infineon: curl -A Mozilla trae las imágenes,VIGENTE,sin Grep posible (web de Infineon),fuentes-y-datasheets.md
+revision-piezas.md,5,Nombre exacto del encapsulado en distribuidores,VIGENTE,"Grep ""PG-TDSO-14"" hardware/libraries → 12",fuentes-y-datasheets.md
+revision-piezas.md,6,Pin 1 del 3D con pcb render --side top,DUPLICADA,"Grep ""kicad-cli pcb render"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,7,STEP con la Y hacia arriba,DUPLICADA,"Grep ""llevan la Y hacia arriba"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,8,Caja del STEP con CARTESIAN_POINT,VIGENTE,"Grep ""CARTESIAN_POINT"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,9,Esquema de prueba con lib_symbols y sch erc,VIGENTE,"Grep ""sch erc"" herramientas/kicad/README.md → 0",piezas-y-huellas.md
+revision-piezas.md,10,NC y power_out apilados sin pin_to_pin,VIGENTE,sin Grep posible (comportamiento del ERC),piezas-y-huellas.md
+revision-piezas.md,11,sym export svg → PNG para ver el Value,RECETA,"Grep ""simbolo"" herramientas/kicad/vista.py → 0",borrada; propuesta en PENDIENTE (render de símbolos)
+revision-piezas.md,12,Dibujos escaneados: fitz.Pixmap y rotación,VIGENTE,sin Grep posible (método de PyMuPDF),fuentes-y-datasheets.md
+revision-piezas.md,13,La guardia bloquea python -c que escribe,OBSOLETA,"Grep ""puede escribir sin que la guarda lo vea"" gestion/README.md → 1",borrada
+revision-piezas.md,14,THT: patilla en el corte A-A,DUPLICADA,"Grep ""cota del corte"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,15,Taladro frente a la diagonal de la patilla,DUPLICADA,"Grep ""diagonal máxima de la patilla"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,16,"API de JLCPCB: tipo, stock y tramos",DUPLICADA,"Grep ""Tipo (Basic/Extended)"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+revision-piezas.md,17,LCSC null para Sensirion: solo montaje,DUPLICADA,"Grep ""solo está disponible para montaje"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,18,Altura de un DFN en la vista lateral,VIGENTE,"Grep ""SHT4"" hardware/componentes → 27",piezas-y-huellas.md
+revision-piezas.md,19,Scripts v15,OBSOLETA,"Glob ""scratchpad/v15/*"" → 0",borrada
+revision-piezas.md,20,VAL-0015-02 reutiliza v15,OBSOLETA,"Glob ""scratchpad/v15/mk_pcb.py"" → 0",borrada
+revision-piezas.md,21,Perfil del borne con --side left; recortes PIL,VIGENTE,"Grep ""--side"" herramientas/kicad/README.md → 0",piezas-y-huellas.md
+revision-piezas.md,22,mkdir -p $S y 2>&1 junto a .png,OBSOLETA,"Grep ""sustituyendo las variables que se asignan en el propio comando"" gestion/README.md → 1",borrada
+revision-piezas.md,23,Python de Windows no entiende /c/Users,VIGENTE,sin Grep posible (Python de Windows),guarda-y-gestion.md
+revision-piezas.md,24,Cambio de nombre de pin: puede solapar,VIGENTE,"Grep ""nombre"" gestion/checklists/librerias.md → 1",piezas-y-huellas.md
+revision-piezas.md,25,Cajetín .kicad_wks: origen abajo a la derecha,VIGENTE,"Glob ""hardware/libraries/ESP-Riego.kicad_wks"" → 1",piezas-y-huellas.md
+revision-piezas.md,26,Pines frente a pdftotext del datasheet local,VIGENTE,"Glob ""hardware/componentes/datasheets/*.pdf"" → 31",fuentes-y-datasheets.md
+revision-piezas.md,27,Render sin PyMuPDF con Edge headless,RECETA,"Grep ""simbolo"" herramientas/kicad/vista.py → 0",borrada; propuesta en PENDIENTE (render de símbolos)
+revision-piezas.md,28,Diff de pines con regex sobre git show,VIGENTE,sin Grep posible (método),piezas-y-huellas.md
+revision-piezas.md,29,Revisar el símbolo heredado de las fichas viejas,VIGENTE,"Grep ""heredado"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-piezas.md,30,Device:D_TVS bidireccional; SM6T o D_Zener,VIGENTE,"Grep ""Device:D_Zener"" hardware/v2/alimentacion.kicad_sch → 2",piezas-y-huellas.md
+revision-piezas.md,31,Huellas ThermalVias de TI se apartan del land pattern,VIGENTE,"Grep ""Texas_HTSOP"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,32,Mirar zone_connect en huellas de potencia,VIGENTE,"Grep ""zone_connect"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,33,Placa de prueba: pcb drc además del render,RECETA,"Grep ""(?i)drc"" herramientas/kicad/huella.py → 0",borrada; propuesta en PENDIENTE (placa de prueba con DRC)
+revision-piezas.md,34,SimSurfing (repetida en revision-mcu.md),VIGENTE,"Grep ""samsungsem"" docs/diseno → 0",fuentes-y-datasheets.md
+revision-piezas.md,35,Script v18/ss.py,OBSOLETA,"Glob ""scratchpad/v18/ss.py"" → 0",borrada
+revision-piezas.md,36,Capacidades efectivas y tabla de valores típicos,DUPLICADA,"Grep ""**efectivos**"" docs/diseno/alimentacion.md → 1",borrada; docs/diseno/alimentacion.md
+revision-piezas.md,37,python -I con -X utf8,VIGENTE,"Grep ""-X utf8"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md
+revision-piezas.md,38,LCSC bloquea la descarga de PDF por curl,OBSOLETA,curl del pdfUrl de C150716 → PDF de 32 p.,borrada
+revision-piezas.md,39,Placa de prueba con el .kicad_pro del destino,RECETA,"Grep ""(?i)drc"" herramientas/kicad/huella.py → 0",borrada; propuesta en PENDIENTE (placa de prueba con DRC)
+revision-piezas.md,40,Vías tapadas en el Gerber,DUPLICADA,"Grep ""no se da por «tapada»"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,41,Restos de la oficial: Value y ki_fp_filters,VIGENTE,"Grep ""ki_fp_filters"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,42,Script v18r/mk.py,OBSOLETA,"Glob ""scratchpad/v18r/mk.py"" → 0",borrada
+revision-piezas.md,43,"Estarcido 0,10–0,20; pasta del EP según espesor",VIGENTE,"Grep ""estarcido"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,44,Control: placa con la huella oficial,VIGENTE,"Grep ""control"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-piezas.md,45,Pasta del EP en pads sin número de F.Paste,DUPLICADA,"Grep ""cobertura de pasta"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,46,lib_footprint_mismatch en placa de 2 capas: artefacto,VIGENTE,"Grep ""lib_footprint_mismatch"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,47,Polaridad de LED en PDF chinos: barra de la T,VIGENTE,"Grep ""cátodo"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-piezas.md,48,La ficha dice qué extremo es el cátodo,VIGENTE,"Grep ""cátodo"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-piezas.md,49,"Datasheet con URL o KIPRJMOD, no marcadores",VIGENTE,"Grep ""marcador"" gestion/checklists → 0",piezas-y-huellas.md
+revision-piezas.md,50,Vías en un EP propio: placa con cabecera de v2,RECETA,"Grep ""(?i)drc"" herramientas/kicad/huella.py → 0",borrada; propuesta en PENDIENTE (placa de prueba con DRC)
+revision-piezas.md,51,Volumen de los agujeros frente al estaño,DUPLICADA,"Grep ""volumen de los agujeros"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,52,"JLCPCB rellena solo vías sin apertura a ≥ 0,35 mm",VIGENTE,"Grep ""0,35"" gestion/checklists/librerias.md → 0",piezas-y-huellas.md
+revision-piezas.md,53,"Vías-pad: Pad Hole-to-Hole de 0,45 mm",VIGENTE,"Grep ""Hole-to-Hole"" docs/diseno → 0",piezas-y-huellas.md
+revision-piezas.md,54,Imagen de Infineon: JPEG aunque diga png,VIGENTE,sin Grep posible (web de Infineon),fuentes-y-datasheets.md
+revision-piezas.md,55,Propuestas de cambio: Grep de todas las menciones,DUPLICADA,"Grep ""se buscan con Grep todas las menciones"" gestion/checklists/librerias.md → 1",borrada; checklists/librerias.md
+revision-piezas.md,56,Scripts v21,OBSOLETA,"Glob ""scratchpad/v21/*"" → 0",borrada
+revision-requisitos.md,1,Spec de requisitos: recalcular en cadena,DUPLICADA,"Grep ""Cadena de tensiones"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,2,"VAL-0004-01: 24 V AC, SMBJ40A, puente",OBSOLETA,"Grep ""24 V DC"" gestion/decisiones/VIGENTES.md → 1",borrada
+revision-requisitos.md,3,Cadena entrada → VRWM → Vc → piezas; UVLO,DUPLICADA,"Grep ""Cadena de tensiones"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,4,Cada criterio de §6 verificable,DUPLICADA,"Grep ""Cada criterio de §6"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,5,Presupuesto de la fuente frente a cargas,DUPLICADA,"Grep ""Presupuesto de potencia"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,6,trazabilidad en memoria sustituyendo gestion.escribir,VIGENTE,"Grep ""def escribir"" herramientas/gestion.py → 1; Glob ""gestion/TRAZABILIDAD.md"" → 1",guarda-y-gestion.md
+revision-requisitos.md,7,Columna Commits difiere en su commit,VIGENTE,"Grep ""Commits"" gestion/TRAZABILIDAD.md → 1",guarda-y-gestion.md
+revision-requisitos.md,8,Comparar las tablas de main con las actuales,DUPLICADA,"Grep ""comparación de tablas"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,9,Términos obsoletos en agents y specs hijas,DUPLICADA,"Grep ""`.claude/agents/`"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,10,TVS unidireccional sin orden frente a polaridad,DUPLICADA,"Grep ""polaridad invertida frente a TVS unidireccional"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,11,Límite global sin mecanismo ni prueba,DUPLICADA,"Grep ""Cada límite global"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,12,Puntos de prueba fuera de UVLO–VRWM,DUPLICADA,"Grep ""entre el UVLO y la VRWM"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,13,VRWM sin margen frente a la OVP,DUPLICADA,"Grep ""OVP de la fuente"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,14,Prueba térmica repartida sin corriente por canal,DUPLICADA,"Grep ""Corriente por canal y total"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-requisitos.md,15,Umbral con tolerancia: banda muerta,DUPLICADA,"Grep ""se define como una banda"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,16,Límite de la fuente no fijado,DUPLICADA,"Grep ""se fijan como requisito"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,17,Hueco entre canal y protección siguiente,DUPLICADA,"Grep ""aguanta hasta que actúa el siguiente"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,18,Umbral de aviso igual al punto de prueba,DUPLICADA,"Grep ""la prueba de §6 se hace fuera de ella"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,19,Cifras de la DEC distintas de docs/02,DUPLICADA,"Grep ""Las cifras de la DEC coinciden"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,20,OLP en % de potencia en todo el ajuste,DUPLICADA,"Grep ""% de potencia"" gestion/checklists/requisitos.md → 2",borrada; checklists/requisitos.md
+revision-requisitos.md,21,Carga con tensión máxima y bobina fría,DUPLICADA,"Grep ""bobinas frías"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,22,Drivers LED HLG 95–108 % frente a 105 %,VIGENTE,"Grep ""HLG"" docs → 0",revision-calculos.md
+revision-requisitos.md,23,"GND, fusible a 50 °C y enclavamiento del BTT",DUPLICADA,"Grep ""5,1 A continuos a 50 °C"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-requisitos.md,24,Margen de pruebas frente a la precisión,DUPLICADA,"Grep ""supera la precisión"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,25,"En una corrección, recalcular las cifras nuevas",DUPLICADA,"Grep ""lo que tocó la corrección"" .claude/agents/ing-validacion.md → 1",borrada; agents/ing-validacion.md
+revision-requisitos.md,26,Banda estrecha deja fuera piezas (hot-swap ± 12 %),VIGENTE,"Grep ""banda"" gestion/checklists/requisitos.md → 4",revision-calculos.md
+revision-requisitos.md,27,Aviso bajo el arranque: acotar UVLO de bajada,DUPLICADA,"Grep ""en los dos sentidos"" gestion/checklists/requisitos.md → 2",borrada; checklists/requisitos.md
+revision-requisitos.md,28,DEC que sustituye un estudio: aviso,DUPLICADA,"Grep ""llevan un aviso que remite"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,29,Términos obsoletos en otras memorias,DUPLICADA,"Grep ""`.claude/agent-memory/`"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,30,Aclaración del usuario: dato viejo en specs abiertas,DUPLICADA,"Grep ""aclaración del usuario"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,31,python -I ignora PYTHONIOENCODING,VIGENTE,"Grep ""PYTHONIOENCODING"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md
+revision-requisitos.md,32,Retirar un ID: secciones que dice el historial,VIGENTE,"Grep ""## 9. Requisitos retirados"" docs/02-especificaciones-v2.md → 1",revision-calculos.md
+revision-requisitos.md,33,"Recuentos derivados («3 libres», GPIO35–37)",VIGENTE,"Grep ""recuento"" gestion/checklists/requisitos.md → 0",revision-calculos.md
+revision-requisitos.md,34,SPEC-NNNN solo en §10 de docs/02,VIGENTE,"Grep ""## 10. Historial"" docs/02-especificaciones-v2.md → 1",revision-calculos.md
+revision-requisitos.md,35,ID retirado conocido para gestion.py y commit_msg,VIGENTE,"Grep ""def leer_retirados"" herramientas/gestion.py → 1; Grep ""vigente o retirado"" .githooks/commit_msg.py → 1",revision-calculos.md
+revision-requisitos.md,36,Coordinador cambia el commit: validar el último,VIGENTE,"Grep ""HEAD"" .claude/agents/ing-validacion.md → 0",revision-calculos.md
+revision-requisitos.md,37,Un limitador no «impone» un valor bajo su banda,DUPLICADA,"Grep ""no «impone»"" gestion/checklists/requisitos.md → 1",borrada; checklists/requisitos.md
+revision-requisitos.md,38,La pieza de la DEC cumple el texto literal (M7),DUPLICADA,"Grep ""I_FSM frente a la corriente"" gestion/checklists/esquema.md → 1",borrada; checklists/esquema.md
+revision-requisitos.md,39,"Pendientes en ESTADO.md, specs propuestas y MEMORY",DUPLICADA,"Grep ""specs abiertas o propuestas"" gestion/checklists/requisitos.md → 2",borrada; checklists/requisitos.md
+revision-salidas.md,1,Cifras gruesas cuadran; fallos en layout y firmware,ESTADO,"Glob ""gestion/informes/VAL-0034-01.md"" → 1",borrada; gestion/informes/VAL-0023-01.md y VAL-0034-01.md
+revision-salidas.md,2,BTT6050 se enclava tras el apagado térmico,DUPLICADA,"Grep ""enclavamiento"" gestion/checklists/esquema.md → 2; Grep ""enclava"" docs/diseno/salidas.md → 16",borrada; docs/diseno/salidas.md; checklists/esquema.md
+revision-salidas.md,3,"Desde DEC-0014, M7 montados; E_AS no aplica",DUPLICADA,"Grep ""Rueda libre D12–D17"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0014)
+revision-salidas.md,4,"M7: I_FSM, I²t, I_R, R_θJA, Z_th",DUPLICADA,"Grep ""3,75"" docs/diseno/salidas.md → 3",borrada; docs/diseno/salidas.md
+revision-salidas.md,5,Renderizar la p. 2 del M7,VIGENTE,"Glob ""hardware/componentes/datasheets/M7.pdf"" → 1",fuentes-y-datasheets.md
+revision-salidas.md,6,"Límites de REL-11: 79 mA, 218 Ω",DUPLICADA,"Grep ""34,5 µA"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md
+revision-salidas.md,7,Aviso de suma con LIM_IMON ± 7 %,DUPLICADA,"Grep ""36 mA"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md
+revision-salidas.md,8,"BTT p. 30: k_ILIS, V_OL(OFF), I_L(OL); 8 µA",DUPLICADA,"Grep ""k_ILIS = 1600"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md
+revision-salidas.md,9,"Huecos entre pads: 0,735; 0,80; 0,90; 1,5",DUPLICADA,"Grep ""0,735 mm"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md
+revision-salidas.md,10,"Umbrales: bobina caliente a 17,5 V, fría a 30 V",DUPLICADA,"Grep ""17,5 V"" docs/diseno/salidas.md → 10",borrada; docs/diseno/salidas.md
+revision-salidas.md,11,Netlist troceada por (net: polaridad K/A,RECETA,"Grep ""kicadxml"" herramientas/kicad/_comun.py → 0",borrada; propuesta en PENDIENTE (netlist con propiedades)
+revision-salidas.md,12,Clases de red sin mirar los huecos de las huellas,DUPLICADA,"Grep ""Separación de 0,6 mm en la clase `Salidas`"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0008)

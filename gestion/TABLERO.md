@@ -2,7 +2,7 @@
 
 <!-- Generado por herramientas/gestion.py: no editar a mano. -->
 
-Specs por estado: propuesta 1 · abierta 1 · cerrada 34 · descartada 4.
+Specs por estado: propuesta 1 · abierta 0 · cerrada 35 · descartada 4.
 
 ## Propuestas (1)
 
@@ -10,13 +10,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 34 · descartada 4.
 |---|---|---|---|---|---|---|---|
 | [SPEC-0036](specs/SPEC-0036-mantenimiento-v2-sch.md) | Mantenimiento del esquema v2.0-sch | 4 | ing-diseno | `spec/SPEC-0036-mantenimiento-v2-sch` | — | 2026-11-19 | — |
 
-## Abiertas (1)
-
-| Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
-|---|---|---|---|---|---|---|---|
-| [SPEC-0039](specs/SPEC-0039-revision-general.md) | Revisión general: documentación, decisiones vigentes, memorias y ruido | 4 | coordinador | `spec/SPEC-0039-revision-general` | — | 2026-11-24 | — |
-
-## Cerradas (34)
+## Cerradas (35)
 
 | Spec | Título | Fase | Responsable | Rama | Validación | Creada | Cerrada |
 |---|---|---|---|---|---|---|---|
@@ -54,6 +48,7 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 34 · descartada 4.
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | Esquema legible | 3 | ing-diseno | `spec/SPEC-0035-esquema-legible` | VAL-0035-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-17 | 2026-11-18 |
 | [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | Colocación iterada en texto (experimento M10) | 4 | ing-diseno | `spec/SPEC-0037-colocacion-en-texto` | VAL-0037-02 (APROBADO_CON_OBSERVACIONES) | 2026-11-19 | 2026-11-23 |
 | [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | Cambios del estudio de coste en hardware/v2 | 4 | ing-diseno | `spec/SPEC-0038-cambios-del-estudio-de-coste-en` | VAL-0038-01 (APROBADO_CON_OBSERVACIONES) | 2026-11-23 | 2026-11-24 |
+| [SPEC-0039](specs/SPEC-0039-revision-general.md) | Revisión general: documentación, decisiones vigentes, memorias y ruido | 4 | coordinador | `spec/SPEC-0039-revision-general` | VAL-0039-02 (APROBADO) | 2026-11-24 | 2026-11-26 |
 
 ## Descartadas (4)
 
@@ -82,38 +77,40 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 34 · descartada 4.
 | [SPEC-0035](specs/SPEC-0035-esquema-legible.md) | 6 | 1 603 105 | 550 | 157 |
 | [SPEC-0037](specs/SPEC-0037-colocacion-en-texto.md) | 9 | 2 341 410 | 692 | 301 |
 | [SPEC-0038](specs/SPEC-0038-cambios-del-estudio-de-coste-en.md) | 5 | 805 382 | 245 | 54 |
+| [SPEC-0039](specs/SPEC-0039-revision-general.md) | 5 | 1 124 668 | 322 | 101 |
 
 ## Coste por agente
 
 | Agente | Arranques | Tokens | Acciones | Min |
 |---|---|---|---|---|
-| ing-diseno | 28 | 6 926 326 | 2 092 | 718 |
-| ing-validacion | 24 | 3 250 352 | 835 | 199 |
-| jr-conformidad | 9 | 758 448 | 223 | 38 |
+| ing-diseno | 29 | 7 309 230 | 2 195 | 783 |
+| ing-validacion | 27 | 3 798 856 | 949 | 224 |
+| jr-conformidad | 10 | 951 708 | 328 | 49 |
 
 ## Decisiones
 
 | Decisión | Título | Estado | Decide | Fecha |
 |---|---|---|---|---|
-| [DEC-0001](decisiones/DEC-0001-orquestacion-de-agentes.md) | Orquestación de agentes para el diseño de la v2 | aceptada | usuario | 2026-11-03 |
-| [DEC-0002](decisiones/DEC-0002-objetivo-v2-revisado.md) | Objetivo de la v2 revisado: interior, 24 V DC, 6 salidas, T/HR en placa y sin nivel | aceptada | usuario | 2026-11-04 |
-| [DEC-0003](decisiones/DEC-0003-salidas-high-side-y-limitador.md) | Salidas con high-side inteligente BTT6050 y limitador común del bus de salidas | aceptada | usuario | 2026-11-04 |
-| [DEC-0004](decisiones/DEC-0004-fuente-led-y-carga-maxima.md) | Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia | aceptada | usuario | 2026-11-05 |
-| [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | aceptada | usuario | 2026-11-05 |
+| [DEC-0001](decisiones/DEC-0001-orquestacion-de-agentes.md) | Orquestación de agentes para el diseño de la v2 | modificada | usuario | 2026-11-03 |
+| [DEC-0002](decisiones/DEC-0002-objetivo-v2-revisado.md) | Objetivo de la v2 revisado: interior, 24 V DC, 6 salidas, T/HR en placa y sin nivel | modificada | usuario | 2026-11-04 |
+| [DEC-0003](decisiones/DEC-0003-salidas-high-side-y-limitador.md) | Salidas con high-side inteligente BTT6050 y limitador común del bus de salidas | modificada | usuario | 2026-11-04 |
+| [DEC-0004](decisiones/DEC-0004-fuente-led-y-carga-maxima.md) | Fuente LED de 24 V y 5 A como dato de entrada, y carga máxima por canal sin protección propia | modificada | usuario | 2026-11-05 |
+| [DEC-0005](decisiones/DEC-0005-ahorro-de-tokens.md) | Ahorro de tokens en el ciclo de las specs | modificada | usuario | 2026-11-05 |
 | [DEC-0006](decisiones/DEC-0006-uvlo-y-puente-del-limitador.md) | UVLO a 13,5 V y limitador TPS26632 con puente de soldadura | aceptada | usuario | 2026-11-05 |
 | [DEC-0007](decisiones/DEC-0007-den-comun-y-cambios-de-compra.md) | DEN común a los 6 canales y cambios de compra sin consulta | aceptada | usuario | 2026-11-06 |
-| [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | aceptada | usuario | 2026-11-08 |
-| [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | aceptada | usuario | 2026-11-11 |
+| [DEC-0008](decisiones/DEC-0008-led-rojo-rueda-libre-y-separacion-salidas.md) | LED de estado rojo, rueda libre sin montar y separación de 0,6 mm en las huellas de salida | modificada | usuario | 2026-11-08 |
+| [DEC-0009](decisiones/DEC-0009-orquestacion-v2.md) | Orquestación v2: menos traspasos, menos papel y herramientas versionadas | modificada | usuario | 2026-11-11 |
 | [DEC-0010](decisiones/DEC-0010-agentes-en-opus.md) | Agentes en Opus o inferior, nunca en Fable 5.2 | aceptada | usuario | 2026-11-12 |
-| [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | aceptada | usuario | 2026-11-13 |
-| [DEC-0012](decisiones/DEC-0012-expansion-i2c.md) | D9, módulo de expansión por I²C con TCA9535 y ADS1115 | aceptada | usuario | 2026-11-15 |
+| [DEC-0011](decisiones/DEC-0011-sin-pulsos-pulsadores-conector-y-valvulas.md) | Sin entrada de pulsos, pulsadores manuales, conector con SPEC-0006 y válvulas instaladas | modificada | usuario | 2026-11-13 |
+| [DEC-0012](decisiones/DEC-0012-expansion-i2c.md) | D9, módulo de expansión por I²C con TCA9535 y ADS1115 | modificada | usuario | 2026-11-15 |
 | [DEC-0013](decisiones/DEC-0013-pulsadores-tca9554.md) | Lectura de los 6 pulsadores con un TCA9554 en el bus I²C de la placa | aceptada | usuario | 2026-11-15 |
 | [DEC-0014](decisiones/DEC-0014-salidas-con-limites-nominales.md) | Salidas con límites de uso propios, una válvula por salida y rueda libre montada | aceptada | usuario | 2026-11-17 |
 | [DEC-0015](decisiones/DEC-0015-esquema-legible.md) | Esquema legible con el aspecto del esquema del TFG | aceptada | usuario | 2026-11-17 |
-| [DEC-0016](decisiones/DEC-0016-criterios-de-colocacion.md) | Criterios de colocación y tamaño de la placa como variable | aceptada | usuario | 2026-11-19 |
+| [DEC-0016](decisiones/DEC-0016-criterios-de-colocacion.md) | Criterios de colocación y tamaño de la placa como variable | modificada | usuario | 2026-11-19 |
 | [DEC-0017](decisiones/DEC-0017-expansion-horizontal-al-borde.md) | Conector de expansión J10 horizontal, al ras del borde inferior | aceptada | usuario | 2026-11-20 |
 | [DEC-0018](decisiones/DEC-0018-ahorros-del-estudio-de-coste.md) | Ahorros del estudio de coste: se mantiene Q1 y se aplican P1–P5 | aceptada | usuario | 2026-11-23 |
 | [DEC-0019](decisiones/DEC-0019-desglose-fase-4-caja-y-cobre.md) | Desglose del resto de la fase 4, caja después de la PCB y cobre de 1 oz provisional | aceptada | usuario | 2026-11-24 |
+| [DEC-0020](decisiones/DEC-0020-guarda-lee-los-scripts.md) | La guarda lee los scripts de python y node antes de ejecutarlos | aceptada | coordinador | 2026-11-24 |
 
 ## Informes de validación
 
@@ -171,4 +168,6 @@ Specs por estado: propuesta 1 · abierta 1 · cerrada 34 · descartada 4.
 | [VAL-0037-01](informes/VAL-0037-01.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `86ceba5` | 2026-11-23 |
 | [VAL-0037-02](informes/VAL-0037-02.md) | SPEC-0037 | APROBADO_CON_OBSERVACIONES | `adcdf05` | 2026-11-23 |
 | [VAL-0038-01](informes/VAL-0038-01.md) | SPEC-0038 | APROBADO_CON_OBSERVACIONES | `41f843b` | 2026-11-24 |
+| [VAL-0039-01](informes/VAL-0039-01.md) | SPEC-0039 | RECHAZADO | `28b254d` | 2026-11-26 |
+| [VAL-0039-02](informes/VAL-0039-02.md) | SPEC-0039 | APROBADO | `73cf883` | 2026-11-26 |
 

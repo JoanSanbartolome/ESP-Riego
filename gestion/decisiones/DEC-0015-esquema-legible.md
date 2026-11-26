@@ -3,6 +3,7 @@ id: DEC-0015
 titulo: Esquema legible con el aspecto del esquema del TFG
 fecha: 2026-11-17
 estado: aceptada
+modificada_por: []
 decide: usuario
 specs: [SPEC-0035, SPEC-0032]
 requisitos: [KIC-02, KIC-06]

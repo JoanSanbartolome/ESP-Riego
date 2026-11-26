@@ -1,0 +1,75 @@
+archivo,n,resumen,clase,comprobación,destino
+MEMORY.md,1,"La guarda entiende variables, heredocs y código en línea",DUPLICADA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1","borrada; VIGENTES.md (DEC-0009, DEC-0020)"
+MEMORY.md,2,Sigue bloqueando lo que no sea leer o copiar del TFG,DUPLICADA,"Grep ""solo puede leer o copiar"" CLAUDE.md → 1",borrada; CLAUDE.md
+MEMORY.md,3,"Antes de un script, mirar herramientas/kicad",DUPLICADA,"Grep ""Antes de escribir un script"" CLAUDE.md → 1",borrada; CLAUDE.md
+datasheets-fabricante-trucos.md,1,URLs de land pattern y datasheet de Infineon,VIGENTE,"curl infineon.com/package/pg-tdso-14 → 404 (slug inventado; el patrón depende del slug exacto); sin Grep posible (URL externa)",fuentes-y-datasheets.md (con el matiz del slug)
+datasheets-fabricante-trucos.md,2,Sensirion: la URL vigente sale de la página de producto,VIGENTE,"curl sensirion.com/products/catalog/SHT40 → 200; Grep ""HT_DS_Datasheet_SHT4x_V7.3"" hardware/componentes/SHT4x.md → 1",fuentes-y-datasheets.md
+datasheets-fabricante-trucos.md,3,"ST, Littelfuse, HRO y Kangnex no responden",VIGENTE,"Grep ""revisión no confirmada"" hardware/componentes → 1 archivo; sin Grep posible (comportamiento externo)",fuentes-y-datasheets.md
+datasheets-fabricante-trucos.md,4,La guardia confunde variables de shell en mkdir y rm,OBSOLETA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1 (DEC-0009 entiende las variables)",borrada
+datasheets-fabricante-trucos.md,5,.kicad_mod: sangría con tabulación en los hijos directos,VIGENTE,"Grep -P ""^\t\(pad"" hardware/libraries/esp-riego.pretty → 20 en una huella",librerias-y-3d.md
+derating-y-3d-trucos.md,1,SimSurfing: curl de MPN base con JSON embebido,VIGENTE,"curl product.samsungsem.com/mlcc/CL21B104KCFNNN.do → 167799 bytes; con ...NNNE → 21603 (corregido en la memoria: MPN de 14 caracteres)",fuentes-y-datasheets.md (corregida)
+derating-y-3d-trucos.md,2,Proxy de PSA: Samsung CL32B475KCJZ4N,VIGENTE,"Grep ""CL32B475KCJZ4N"" hardware/componentes/bloque-alimentacion.md → 1; curl .../CL32B475KCJZ4N.do → 176968 bytes",fuentes-y-datasheets.md
+derating-y-3d-trucos.md,3,selectSmtComponentList busca por texto libre,DUPLICADA,"Grep ""--buscar"" herramientas/kicad/README.md → 1 (jlc.py)",borrada; herramientas/kicad/README.md
+derating-y-3d-trucos.md,4,Código Basic de 100 nF 50 V 0603: C14663,ESTADO,"Grep ""C14663"" hardware/componentes → 20 archivos (tablas de campos y stock)",borrada; tablas de campos
+derating-y-3d-trucos.md,5,KiCad no trae el STEP del fusible; hay modelo propio,ESTADO,"Glob ""hardware/libraries/3d/Fuse_Littelfuse-NANO2-451_453.step"" → 1","borrada; que KiCad no lo trae pasa a librerias-y-3d.md (3dmodels es un subconjunto)"
+derating-y-3d-trucos.md,6,Huella Texas HTSOP oficial no coincide con DDA0008B,ESTADO,"Glob ""hardware/libraries/esp-riego.pretty/Texas_DDA0008B*"" → 1 (huella propia ya creada); Grep ""Texas_HTSOP-8-1EP"" hardware/v2 → 0",borrada
+derating-y-3d-trucos.md,7,Banco de render con huellas en línea,RECETA,"Repetida en piezas-salidas-trucos.md n=3 y en los pasos de piezas MCU y salidas (SPEC-0021, SPEC-0024); Grep ""render"" herramientas/kicad/README.md → 0 (no hay herramienta)",borrada; PENDIENTE (herramienta propuesta)
+importar-tfg-trucos.md,1,Guardia bloquea comandos del TFG salvo leer o copiar,DUPLICADA,"Grep ""solo puede leer o copiar"" CLAUDE.md → 1",borrada; CLAUDE.md
+importar-tfg-trucos.md,2,verificar.py --salida solo admite rutas de la zona,DUPLICADA,"Grep ""en --salida"" herramientas/verificar.py → 1 (por defecto, carpeta temporal fuera del repositorio)",borrada; herramientas/verificar.py
+importar-tfg-trucos.md,3,Heredocs de Bash pierden las barras invertidas,VIGENTE,"Grep ""unexpected EOF|barras invertidas"" CLAUDE.md herramientas/kicad/README.md gestion/README.md → 0",entorno-y-herramientas.md
+importar-tfg-trucos.md,4,kicad-cli sym upgrade desde .lib lee el .dcm,VIGENTE,"Grep ""sym upgrade"" CLAUDE.md herramientas/kicad/README.md gestion/checklists → 1 (solo para EasyEDA, librerias.md l. 11)",librerias-y-3d.md
+importar-tfg-trucos.md,5,fp upgrade en carpeta vacía da error inocuo,VIGENTE,"Grep ""carpeta vacía"" gestion/checklists herramientas/kicad/README.md → 0",librerias-y-3d.md
+importar-tfg-trucos.md,6,Los JSON de EasyEDA sí se convierten con kicad-cli,DUPLICADA,"Grep ""kicad-cli fp|sym upgrade -o"" gestion/checklists/librerias.md → 1 (l. 11)",borrada; gestion/checklists/librerias.md
+importar-tfg-trucos.md,7,KICAD9_3DMODEL_DIR se resuelve; los .wrl no se ven,OBSOLETA,"Grep ""KICAD9_3DMODEL_DIR"" hardware/libraries hardware/v2 → 0 (la normalización ya está hecha); lo de los .wrl se conserva",".wrl en librerias-y-3d.md; resto borrado"
+importar-tfg-trucos.md,8,upgrade --force migra y deja un .kicad_prl,VIGENTE,"Grep ""upgrade --force"" CLAUDE.md herramientas/kicad/README.md gestion/README.md → 0",librerias-y-3d.md
+mantenimiento-campos-trucos.md,1,Python de Windows no entiende /c/; PYTHONUTF8,VIGENTE,"Grep ""PYTHONUTF8"" CLAUDE.md herramientas/kicad/README.md gestion/README.md → 0",entorno-y-herramientas.md
+mantenimiento-campos-trucos.md,2,hoja.py extraer se niega con alimentacion (cables),OBSOLETA,"Grep ""cables, uniones"" herramientas/kicad/README.md → 1 (l. 19: extraer ya devuelve cables); Grep ""se niega"" herramientas/kicad/hoja.py → 0",borrada
+mantenimiento-campos-trucos.md,3,Tabla de campos agrupada por todos los campos y DNP,VIGENTE,"Grep ""agrupa"" herramientas/kicad/README.md → 0 (solo describe el formato, l. 42)",entorno-y-herramientas.md
+mantenimiento-campos-trucos.md,4,PDF real por API; pdftotext -layout; pdftoppm,VIGENTE,"Grep ""pdftoppm"" CLAUDE.md herramientas/kicad/README.md .claude/agents → 0",fuentes-y-datasheets.md
+mantenimiento-campos-trucos.md,5,verificar.py no admite --detalle,VIGENTE,"Grep ""detalle"" herramientas/verificar.py → 0",entorno-y-herramientas.md
+mantenimiento-campos-trucos.md,6,Cambiar solo Value hace fallar esquema.pcb_main,VIGENTE,"Grep -c ""pcb_main"" herramientas/kicad/comprobar.py → 2; Grep ""Huellas que cambian"" gestion/plantillas .claude/agents → 0",entorno-y-herramientas.md
+mantenimiento-campos-trucos.md,7,BOM con coste: export bom y script con jlc.consultar,RECETA,"Pasos: export bom sobre copia, agrupar, consultar precios; usada en SPEC-0032 y SPEC-0038 (zona-docs n=7); Grep ""bom"" herramientas/kicad/README.md → 0 (no hay herramienta)",borrada; PENDIENTE (herramienta propuesta)
+mantenimiento-campos-trucos.md,8,Recargo de 3 USD por Extended no preferida,DUPLICADA,"Grep ""3,07"" docs/diseno/estudio-coste.md → 4",borrada; docs/diseno/estudio-coste.md
+piezas-conectores-trucos.md,1,Una ficha de bloque cubre pasivos sueltos,DUPLICADA,"Grep ""Fichas de componentes"" herramientas/kicad/README.md → 1 (l. 53); Grep ""ficha de bloque"" herramientas/kicad/comprobar.py → 2",borrada; herramientas/kicad/README.md
+piezas-conectores-trucos.md,2,KiCad 10.0.6 sin símbolo TPS2553; sí TCA9554PW,VIGENTE,"Grep -l ""TPS2553|TPS2552"" share/kicad/symbols → 0; Grep -c ""TCA9554PW"" Interface_Expansion.kicad_sym → 4",librerias-y-3d.md
+piezas-conectores-trucos.md,3,Datasheets TI por URL; URL firmada caduca a 30 min,VIGENTE,"curl ti.com/lit/ds/symlink/tca9554.pdf → 200",fuentes-y-datasheets.md
+piezas-conectores-trucos.md,4,TCA9554 tiene pull-up interno de 100 kΩ,DUPLICADA,"Grep ""pull-ups internos de 100 kΩ"" gestion/decisiones/VIGENTES.md → 1","borrada; VIGENTES.md; la lección (contrastar con el datasheet) pasa a fuentes-y-datasheets.md"
+piezas-conectores-trucos.md,5,Heredoc largo con varias fichas dio unexpected EOF,VIGENTE,"Grep ""unexpected EOF"" CLAUDE.md herramientas/kicad/README.md gestion/README.md → 0",entorno-y-herramientas.md
+piezas-conectores-trucos.md,6,No imprimir la respuesta entera de la API,DUPLICADA,"Grep ""--detalle"" herramientas/kicad/README.md → 2 (jlc.py ya filtra los campos)",borrada; herramientas/kicad/README.md
+piezas-mcu-trucos.md,1,Lista de códigos Basic y Extended confirmados,ESTADO,"Grep ""C14663"" hardware/componentes → 20 archivos; Grep ""C2913198"" hardware/componentes → tablas de campos",borrada; tablas de campos y stock
+piezas-mcu-trucos.md,2,El stock de LCSC no vale para JLCPCB,VIGENTE,"Grep ""stock de LCSC"" CLAUDE.md herramientas/kicad/README.md → 0 (el README dice «JLCPCB» sin avisar)",fuentes-y-datasheets.md
+piezas-mcu-trucos.md,3,Código de pedido XKB TS-1187A: fuerza/altura/tecla,DUPLICADA,"Grep ""fuerza"" hardware/componentes/TS-1187A-B-A-B.md → 1","borrada; ficha TS-1187A-B-A-B.md (hardware/componentes no figura en la lista de la regla: aplicada por analogía)"
+piezas-mcu-trucos.md,4,Los PDF de LCSC pueden ser de otro modelo,VIGENTE,"Grep ""XL-0603QYGC"" hardware/componentes/KT-0603YG.md → 2",fuentes-y-datasheets.md
+piezas-mcu-trucos.md,5,3D propio con SolidCraft: gen_*.py y solidcraft-cli,VIGENTE,"Glob ""hardware/libraries/3d/fuentes-solidcraft/gen_*.py"" → 1 (gen_ts1187a.py); Grep ""sketch.create"" fuentes-solidcraft/README.md → 0",librerias-y-3d.md
+piezas-mcu-trucos.md,6,La guardia no admite $VAR ni cd a rutas inexistentes,OBSOLETA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1 (DEC-0009)",borrada
+piezas-mcu-trucos.md,7,Imprimir la URL firmada satura el contexto,VIGENTE,"Grep ""URL firmada"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md (junto a dataManualFileAccessIdUrl)
+piezas-mcu-trucos.md,8,Sufijo Uniroyal WAF220J: J es multiplicador,VIGENTE,"Grep -c ""WAF220J"" fabricacion/v2.0-sch/bom.csv → 1",fuentes-y-datasheets.md
+piezas-salidas-trucos.md,1,"Códigos JLCPCB de 2026-11-10; C513710 sin equivalente Basic",OBSOLETA,"Grep ""C28233"" hardware/componentes/bloque-salidas.md → 2 (Basic, DEC-0018 P3 contradice «sin equivalente Basic»); el resto es ESTADO (tablas de stock)",borrada
+piezas-salidas-trucos.md,2,Vías térmicas del EP: patrón ThermalVias y 0 2 mm,VIGENTE,"Glob ""C:/Program Files/KiCad/10.0/share/kicad/footprints/Package_SO.pretty/*ThermalVias*"" → 73",librerias-y-3d.md
+piezas-salidas-trucos.md,3,Banco de render: huellas incrustadas en una PCB mínima,RECETA,"Repetida en derating-y-3d-trucos.md n=7 y en SPEC-0024; Grep ""render"" herramientas/kicad/README.md → 0",borrada; PENDIENTE (herramienta propuesta)
+piezas-salidas-trucos.md,3.1,El render no modela vías tapadas ni la polaridad del LED,VIGENTE,"Grep ""tapado"" herramientas/kicad/README.md → 0",librerias-y-3d.md
+piezas-salidas-trucos.md,4,La guardia bloquea Python en línea con ciertos caracteres,OBSOLETA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1; DEC-0020 la cambia a leer los scripts",borrada
+piezas-salidas-trucos.md,4.1,PDF de texto con tablas desordenadas: pdftoppm y mirar,VIGENTE,"Grep ""pdftoppm"" CLAUDE.md herramientas/kicad/README.md .claude/agents → 0",fuentes-y-datasheets.md
+piezas-salidas-trucos.md,5,kicad-cli export bom y pos admiten --exclude-dnp,VIGENTE,"Grep ""exclude-dnp"" CLAUDE.md herramientas/kicad/README.md gestion/checklists .claude/agents → 0",entorno-y-herramientas.md
+piezas-salidas-trucos.md,5.1,D12–D17 montados desde DEC-0014,DUPLICADA,"Grep ""D12–D17"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md
+piezas-salidas-trucos.md,6,Description con coma va entre comillas en campos-*.csv,VIGENTE,"Grep ""comillas"" herramientas/kicad/README.md → 0",entorno-y-herramientas.md
+recopilar-componentes-trucos.md,1,La base local del MCP de JLCPCB está vacía,VIGENTE,"mcp get_jlcpcb_database_stats → 0 piezas",fuentes-y-datasheets.md
+recopilar-componentes-trucos.md,1.1,POST a selectSmtComponentList y sus campos,DUPLICADA,"Grep ""selectSmtComponentList"" herramientas/kicad/jlc.py → 1 (TIPOS base/expand)",borrada; herramientas/kicad/jlc.py
+recopilar-componentes-trucos.md,2,lcsc.com devuelve HTML; st.com no responde; ti.com sí,VIGENTE,"curl ti.com/lit/ds/symlink/tca9554.pdf → 200; Grep ""lcsc.com/datasheet"" herramientas/kicad/README.md → 0",fuentes-y-datasheets.md
+recopilar-componentes-trucos.md,3,La API de EasyEDA da 403,VIGENTE,"Grep ""easyeda.com/api"" CLAUDE.md herramientas gestion/checklists → 0",fuentes-y-datasheets.md
+recopilar-componentes-trucos.md,4,3dmodels de KiCad es un subconjunto: faltan HRO y SHT4x,VIGENTE,"Glob ""C:/Program Files/KiCad/10.0/share/kicad/3dmodels/Connector_USB.3dshapes/*HRO*"" → 0",librerias-y-3d.md
+recopilar-componentes-trucos.md,5,STEP válido: MANIFOLD_SOLID_BREP con ADVANCED_FACE,VIGENTE,"Glob ""hardware/libraries/3d/*.step"" → 8 (los propios cargan)",librerias-y-3d.md
+recopilar-componentes-trucos.md,6,PDF con texto codificado (BSP752R): mirar la imagen,VIGENTE,"Glob ""hardware/componentes/datasheets/BSP752R.pdf"" → 1",fuentes-y-datasheets.md
+recopilar-componentes-trucos.md,7,Símbolos con extends: los pines están en el padre,VIGENTE,"Grep ""extends"" herramientas/kicad/README.md → 0",librerias-y-3d.md
+recopilar-componentes-trucos.md,8,El hook de guardia bloquea Python en línea,OBSOLETA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1",borrada
+zona-docs-y-coste.md,1,docs/ queda fuera de la zona aunque el encargo lo pida,DUPLICADA,"Grep ""Zona de escritura"" .claude/agents/jr-conformidad.md → 1",borrada; .claude/agents/jr-conformidad.md
+zona-docs-y-coste.md,1.1,La guarda no ve un script de Python que escribe en docs/,OBSOLETA,"Grep ""lee los scripts de `python`"" gestion/decisiones/VIGENTES.md → 1 (DEC-0020)",borrada
+zona-docs-y-coste.md,2,En SPEC-0038 escribí tres archivos de docs y los devolví a HEAD,ESTADO,"Grep ""jr-conformidad"" gestion/logs/SPEC-0038 → partes del paso 2",borrada; gestion/logs/SPEC-0038
+zona-docs-y-coste.md,3,Cambios a docs/ al scratchpad y a PENDIENTE,DUPLICADA,"Grep ""van a PENDIENTE"" .claude/agents/jr-conformidad.md → 1",borrada; .claude/agents/jr-conformidad.md
+zona-docs-y-coste.md,4,Fórmula del coste por placa,DUPLICADA,"Grep ""8,18"" docs/diseno/estudio-coste.md → 1 (l. 26) y viabilidad-expansion.md l. 164",borrada; docs/diseno/estudio-coste.md
+zona-docs-y-coste.md,5,En E2 el THT a mano se sigue comprando,ESTADO,"Grep ""E2"" docs/diseno/estudio-coste.md → varias líneas",borrada; docs/diseno/estudio-coste.md
+zona-docs-y-coste.md,6,Las juntas por referencia salen de estudio-coste-bom.csv,DUPLICADA,"Glob ""docs/diseno/estudio-coste-bom.csv"" → 1",borrada; docs/diseno/estudio-coste.md
+zona-docs-y-coste.md,7,Precio con jlc.consultar; C513710 sube de tramo,ESTADO,"Grep ""C513710"" hardware/componentes/campos-alimentacion.csv → 2 (solo C3 y C8)",borrada; estudio-coste.md y bloques
+zona-docs-y-coste.md,8,BOM y CPL con --exclude-dnp sobre una copia,VIGENTE,"misma afirmación que piezas-salidas-trucos.md n=5",entorno-y-herramientas.md (una sola entrada)
+(nueva),1,Un script de Python que escribe en hardware/ lo deniega el clasificador,VIGENTE,"Aprendido en SPEC-0039 paso 3: denegado un script con 48 sustituciones; Edit sí pasó",entorno-y-herramientas.md
+(nueva),2,Contrastar con el datasheet lo que afirme una spec,VIGENTE,"Origen: piezas-conectores-trucos.md n=4 (TCA9554, DEC-0013)",fuentes-y-datasheets.md

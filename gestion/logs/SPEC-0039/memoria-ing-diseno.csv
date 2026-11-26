@@ -1,0 +1,193 @@
+archivo,n,resumen,clase,comprobación,destino
+MEMORY.md,1,"La guarda entiende variables, heredocs y código en línea",DUPLICADA,"Grep ""el código en línea que no toca el TFG pasa"" gestion/decisiones/VIGENTES.md → 1","borrada; VIGENTES.md (DEC-0009, DEC-0020)"
+MEMORY.md,2,La guarda bloquea lo que no sea leer o copiar del TFG,DUPLICADA,"Grep ""solo puede leer o copiar"" CLAUDE.md → 1",borrada; CLAUDE.md
+MEMORY.md,3,"Antes de un script, mirar herramientas/kicad",DUPLICADA,"Grep ""Antes de escribir un script"" CLAUDE.md → 1",borrada; CLAUDE.md
+MEMORY.md,4,Python lanzado desde Bash escapa a la guarda,OBSOLETA,"Grep ""lee los scripts de `python`"" gestion/decisiones/VIGENTES.md → 1",borrada (DEC-0020 lo contradice)
+reference_herramientas_kicad.md,1,"herramientas/kicad sustituye a sync.py, s22_gen.py, render.py…",OBSOLETA,"Glob ""**/s22_gen.py"" → 0; Glob ""**/render.py"" → 0",borrada
+reference_herramientas_kicad.md,2,"Batería de 3–4,5 min; clases sin KiCad en segundos",DUPLICADA,"Grep ""Las clases que no lanzan KiCad van en segundos"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,3,Heredocs: \\ llega como \; editar con Edit o Write,VIGENTE,"Grep ""unexpected EOF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md
+reference_herramientas_kicad.md,4,herramientas/ en CRLF; diff contra LF saca todo,VIGENTE,"Grep ""CRLF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md
+reference_herramientas_kicad.md,5,"Cambiar hardware/v2: copia, herramienta -o, verificar, copiar",DUPLICADA,"Grep ""Para cambiar `hardware/v2`: copia en la carpeta temporal"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,6,Repositorio falso para probar que una prueba detecta el defecto,RECETA,"Grep ""Pasar la batería, o comprobar"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+reference_herramientas_kicad.md,7,"Clase Mutaciones; cada punto nuevo de comprobar.py, su caso",DUPLICADA,"Grep ""Mutaciones"" herramientas/kicad/README.md → 3",borrada; herramientas/kicad/README.md «Pruebas»
+reference_herramientas_kicad.md,8,"Raíz con hoja.py raiz --extraer, editar y raiz",OBSOLETA,"Grep ""En una raíz con cables (la de `hardware/v2` desde SPEC-0032)"" herramientas/kicad/README.md → 1",borrada
+reference_herramientas_kicad.md,9,Netlist frente a un anexo con --plan y --seccion,DUPLICADA,"Grep ""--seccion"" herramientas/kicad/README.md → 2",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,10,"Hoja A3 de 6 canales sin cables, etiqueta en cada pin",OBSOLETA,"Grep ""subhoja «Canal» repetida 6 veces"" gestion/decisiones/VIGENTES.md → 1",borrada
+reference_herramientas_kicad.md,11,generar conserva UUID pero no dibuja cables,OBSOLETA,"Grep ""Escribe la hoja desde la descripción, con cables"" herramientas/kicad/README.md → 1",borrada
+reference_herramientas_kicad.md,12,test_kicad.py fuera de zona: copia en herramientas/kicad,RECETA,"Grep ""la prueba nueva va en una copia"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+reference_herramientas_kicad.md,13,librerias.fichas: mutar un código de una sola ficha,VIGENTE,"Grep ""solo esté en una ficha"" herramientas/kicad/README.md → 0",esquema.md
+reference_herramientas_kicad.md,14,MSYS convierte --hoja / en C:/Program Files,VIGENTE,"Grep ""PowerShell"" herramientas/kicad/README.md → 0",entorno-y-guarda.md
+reference_herramientas_kicad.md,15,"La guarda salta con git y otra palabra, también en heredoc",DUPLICADA,"Grep ""git <palabra>"" CLAUDE.md → 1",borrada; CLAUDE.md
+reference_herramientas_kicad.md,16,3D oficial ausente: sincronizar enlaza el de libraries/3d,DUPLICADA,"Grep ""un modelo 3D oficial que falta se enlaza"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,17,Las referencias libres de la spec pueden estar en uso,VIGENTE,"Grep ""referencias «libres»"" herramientas/kicad/README.md CLAUDE.md .claude/agents/ing-diseno.md → 0",esquema.md
+reference_herramientas_kicad.md,18,hardware/v2 en CRLF; sed -i de MSYS pasa a LF,VIGENTE,"Grep ""CRLF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md (unida a H 4)
+reference_herramientas_kicad.md,19,Quitar un DNP: se conserva exclude_from_pos_files,VIGENTE,"Grep ""se conserva y se avisa"" herramientas/kicad/sincronizar.py → 1",esquema.md
+reference_herramientas_kicad.md,20,verificar.py da incidencias mientras no esté rutada (448),ESTADO,"Grep ""448 sin conectar"" gestion/specs/SPEC-0039-revision-general.md → 1",borrada; vive en la spec y en ESTADO.md
+reference_herramientas_kicad.md,21,Heredoc largo con Markdown: «unexpected EOF»,VIGENTE,"Grep ""unexpected EOF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md (unida a H 3)
+reference_herramientas_kicad.md,22,Rutas /c/Users en python -c se leen C:\c\Users,VIGENTE,"Grep ""C:\c\"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md
+reference_herramientas_kicad.md,23,La guarda no resuelve $(cygpath …),VIGENTE,"Grep ""cygpath"" .claude/hooks/guardia.py → 0",entorno-y-guarda.md
+reference_herramientas_kicad.md,24,La guarda salta con git y paréntesis en un texto,DUPLICADA,"Grep ""git <palabra>"" CLAUDE.md → 1",borrada; CLAUDE.md
+reference_herramientas_kicad.md,25,Hoja piloto con hoja.py: extraer como plantilla y generar,DUPLICADA,"Grep ""`extraer` + `generar` la reproduce"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,26,hoja.py generar escribe en LF,OBSOLETA,"Grep ""nl = ""\r\n"" if ""\r\n"" in original"" herramientas/kicad/hoja.py → 1",borrada (conserva el fin de línea)
+reference_herramientas_kicad.md,27,Cifras junto a la pieza: justify left bajo el Value,VIGENTE,"Grep ""2,54 mm bajo"" herramientas/kicad/README.md → 0",esquema.md
+reference_herramientas_kicad.md,28,Superíndice con left bottom: esquema.cruces no lo veía,OBSOLETA,"Grep ""miden los textos por su tinta"" herramientas/kicad/README.md → 1",borrada
+reference_herramientas_kicad.md,29,"Hojas con cables: dibujo.Dibujo, guardar y generar",DUPLICADA,"Grep ""`comprobar` (o `guardar`) compara la conectividad"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,30,La guarda no mira lo que escribe un python desde Bash,OBSOLETA,"Grep ""lee los scripts de `python`"" gestion/decisiones/VIGENTES.md → 1",borrada (DEC-0020)
+reference_herramientas_kicad.md,31,"Las pruebas, en la copia herramientas/kicad/test_kicad.py",RECETA,"Grep ""la prueba nueva va en una copia"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+reference_herramientas_kicad.md,32,Mover piezas con cables: mover también las uniones,VIGENTE,"Grep ""sueltos"" herramientas/kicad/README.md → 0",esquema.md
+reference_herramientas_kicad.md,33,Métrica de la fuente en el SVG; tabla en _estilo.py,DUPLICADA,"Grep ""medidos en el SVG de `kicad-cli`"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,34,Batería en un repositorio falso: lista de carpetas,RECETA,"Grep ""Pasar la batería, o comprobar"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+reference_herramientas_kicad.md,35,Dos textos iguales en una prueba de SVG se mezclan,VIGENTE,"Grep ""textos iguales"" herramientas/kicad/README.md → 0",esquema.md
+reference_herramientas_kicad.md,36,Raíz con cables: hoja.py extraer + generar,DUPLICADA,"Grep ""`hoja.py extraer` + `generar` de la raíz"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,37,Script raiz_gen.py de la sesión ad4da10c,OBSOLETA,"Glob ""**/raiz_gen.py"" → 0",borrada
+reference_herramientas_kicad.md,38,Cablear la raíz renombra redes; etiqueta local las conserva,VIGENTE,"Grep ""etiqueta local por red"" herramientas/kicad/README.md → 0",esquema.md
+reference_herramientas_kicad.md,39,Orden de los (sheet en la raíz; test_paginas_en_orden_del_arbol,VIGENTE,"Grep ""test_paginas_en_orden_del_arbol"" herramientas/pruebas/test_kicad.py → 1",esquema.md
+reference_herramientas_kicad.md,40,Hoja.test_raiz depende de la geometría de la raíz,VIGENTE,"Grep ""def test_raiz"" herramientas/pruebas/test_kicad.py → 1",esquema.md
+reference_herramientas_kicad.md,41,"pcbnew 10: GetBoardPolygonOutlines, Boolean*, Area, BuildCourtyardCaches",VIGENTE,"Grep ""GetBoardPolygonOutlines"" herramientas/kicad/colocacion.py → 1; Grep ""GetBoardPolygonOutlines"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,42,fp.GetSheetname devuelve la ruta de nombres,VIGENTE,"Grep ""GetSheetname"" herramientas/kicad/colocacion.py → 1; Grep ""GetSheetname"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,43,Patio de U5 con la zona de la antena,DUPLICADA,"Grep ""el patio de una pieza con zona prohibida (U5) sin la zona"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_herramientas_kicad.md,44,WJ500V: cable por −Y; USB-C HRO: boca en +Y,VIGENTE,"Grep ""USB-C HRO"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,45,Ranura del IDC oficial en −X,OBSOLETA,"Grep ""IDC-Header_2x05_P2.54mm_Vertical"" hardware/v2/esp-riego.kicad_pcb → 0",borrada (J10 es horizontal)
+reference_herramientas_kicad.md,46,Tinta: TransformTextToPolySet; Inflate; GetSolderMaskExpansion,VIGENTE,"Grep ""TransformTextToPolySet"" herramientas/kicad/colocacion.py → 1; Grep ""TransformTextToPolySet"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,47,Girar la huella gira la referencia; SetTextAngleDegrees después,VIGENTE,"Grep ""SetTextAngleDegrees"" herramientas/kicad → 2; Grep ""SetTextAngleDegrees"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,48,"Ida y vuelta: redondear antes de comparar, orden fijo",VIGENTE,"Grep ""redondea a 4"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,49,Una nota con «; » parte la fila del CSV de reglas,VIGENTE,"Grep ""parte la fila"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+reference_herramientas_kicad.md,50,Cambio de piezas: campos.py aplicar y sincronizar --actualizar,RECETA,"Grep ""Cambiar los campos o la huella de una pieza"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+reference_herramientas_kicad.md,51,esquema.cruces no vio un Value más largo sobre un cable,RECETA,"Grep ""no ve un `Value` más largo"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas» (paso 4)
+reference_fuentes_piezas.md,1,Base local de JLCPCB del MCP vacía (2026-11-04),ESTADO,"Grep ""| `jlc.py` | Tipo (Basic/Extended), stock y precio"" herramientas/kicad/README.md → 1",borrada; estado de una fecha (la fuente es jlc.py)
+reference_fuentes_piezas.md,2,"Tipo, stock y precio con jlc.py",DUPLICADA,"Grep ""| `jlc.py` | Tipo (Basic/Extended), stock y precio"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_fuentes_piezas.md,3,JSON de wmsc.lcsc.com con pdfUrl; la búsqueda da 403,VIGENTE,"Grep ""wmsc.lcsc.com"" herramientas/kicad → 0",fuentes-datos.md
+reference_fuentes_piezas.md,4,Tipo Basic/Extended en jlcpcb.com/partdetail,DUPLICADA,"Grep ""| `jlc.py` | Tipo (Basic/Extended), stock y precio"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_fuentes_piezas.md,5,Código Cxxxx con WebSearch,OBSOLETA,"Grep ""--buscar"" herramientas/kicad/README.md → 2",borrada (jlc.py --buscar)
+reference_fuentes_piezas.md,6,Tarifas de montaje en pcb-assembly-price,DUPLICADA,"Grep ""pcb-assembly-price"" docs/diseno/estudio-coste.md → 1",borrada; docs/diseno/estudio-coste.md §1
+reference_fuentes_piezas.md,7,WebFetch no lee PDF; pdftotext -layout,VIGENTE,"Grep ""pdftotext"" herramientas/kicad/README.md CLAUDE.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,8,PDF de LCSC de PROFET con la fuente codificada,VIGENTE,"Grep ""BSP752R"" gestion/decisiones/VIGENTES.md → 1",fuentes-datos.md
+reference_fuentes_piezas.md,9,curl baja PDF de datasheet.lcsc.com y el JSON de wmsc,VIGENTE,"Grep ""wmsc.lcsc.com"" herramientas/kicad → 0",fuentes-datos.md
+reference_fuentes_piezas.md,10,st.com no responde a curl; el clasificador bloquea,VIGENTE,"Grep ""st.com"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,11,PyMuPDF con -I: stdout.reconfigure,VIGENTE,"Grep ""PyMuPDF"" herramientas/kicad/README.md CLAUDE.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,12,API selectSmtComponentList: tipo y stockCount,DUPLICADA,"Grep ""| `jlc.py` | Tipo (Basic/Extended), stock y precio"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (jlc.py)
+reference_fuentes_piezas.md,13,Stock de LCSC a 0 con miles en JLCPCB,VIGENTE,"Grep ""stock de LCSC"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,14,"No hay 4,7 µF ≥ 100 V Basic",ESTADO,"Grep ""C381466"" docs/diseno/alimentacion.md → 6","borrada; stock de una fecha, la elección está en alimentacion.md"
+reference_fuentes_piezas.md,15,SimSurfing por curl y Grep en el HTML,VIGENTE,"Grep ""samsungsem"" docs/diseno herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,16,search_parts_registry solo da huellas y símbolos,VIGENTE,"Grep ""sin datos de compra"" CLAUDE.md .claude/agents herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_fuentes_piezas.md,17,Scripts propios lcsc.py y de PDF a PNG,OBSOLETA,"Glob ""**/lcsc.py"" → 0",borrada
+reference_fuentes_piezas.md,18,"ti.com con curl -A Mozilla; la copia de LCSC, en chino",VIGENTE,"Grep ""ti.com/lit"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,19,LCSC da result: null en códigos retirados,VIGENTE,"Grep ""result: null"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,20,ADC del ESP32-S3: ±10 mV a 6 dB,DUPLICADA,"Grep ""6 dB"" docs/diseno/mcu.md → 6",borrada; docs/diseno/mcu.md
+reference_fuentes_piezas.md,21,Carpeta temporal compartida: prefijo de la spec,VIGENTE,"Grep ""prefijo de la spec"" CLAUDE.md herramientas/kicad/README.md → 0",entorno-y-guarda.md
+reference_fuentes_piezas.md,22,La guarda bloquea los worktrees KICAD_mcp-SPEC-NNNN,VIGENTE,"Grep ""worktree"" CLAUDE.md gestion/README.md herramientas/kicad/README.md → 0",entorno-y-guarda.md
+reference_fuentes_piezas.md,23,"Stock a 0 de C15849, C72043, C14663; sustituto C106248",OBSOLETA,"Grep ""C15849"" hardware/componentes/campos-mcu.csv → 2",borrada (C15849 sigue en la BOM)
+reference_fuentes_piezas.md,24,Falta el 3D de SW_Push TS-1187A en KiCad 10,ESTADO,"Glob ""hardware/libraries/3d/SW_Push_1P1T_XKB_TS-1187A.step"" → 1",borrada; resuelto en hardware/libraries/3d
+reference_fuentes_piezas.md,25,dataManualUrl devuelve HTML; el PDF es el pdfUrl,VIGENTE,"Grep ""dataManualUrl"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,26,USBLC6 de UMW C2687116 descartado,DUPLICADA,"Grep ""C2687116"" docs/diseno → 5",borrada; docs/diseno
+reference_fuentes_piezas.md,27,jlc.py --buscar sustituye a WebSearch,DUPLICADA,"Grep ""--buscar"" herramientas/kicad/README.md → 2",borrada; herramientas/kicad/README.md
+reference_fuentes_piezas.md,28,ti.com y LCSC bajan; nxp.com y mouser.com no,VIGENTE,"Grep ""nxp.com"" herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,29,Pull-ups de I²C: «Pull-Up Resistor Calculation» de TI,VIGENTE,"Grep ""Pull-Up Resistor Calculation"" docs/diseno herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,30,Tablas de TI desordenadas: renderizar con PyMuPDF,VIGENTE,"Grep ""PyMuPDF"" herramientas/kicad/README.md CLAUDE.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,31,"Documentación de ESPHome por curl, con el <main>",VIGENTE,"Grep ""curl -sL"" docs/diseno herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,32,Expansores de ESPHome con interrupt_pin desde 2026.10,DUPLICADA,"Grep ""interrupt_pin"" docs/diseno/conectores.md → 3",borrada; docs/diseno/conectores.md §3.4
+reference_fuentes_piezas.md,33,Fuerza bruta de valores: ≤ 13 por tramo,VIGENTE,"Grep ""13 valores"" docs/diseno herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_fuentes_piezas.md,34,Coste por arquitectura con s06_costes.py,OBSOLETA,"Glob ""**/s06_costes.py"" → 0",borrada
+reference_fuentes_piezas.md,35,"Las Extended preferidas no pagan los 3,07 $",DUPLICADA,"Grep ""Extended preferidas"" docs/diseno/estudio-coste.md → 1",borrada; docs/diseno/estudio-coste.md §1
+reference_fuentes_piezas.md,36,API de JLCPCB: filtro base o preferredComponentFlag,VIGENTE,"Grep """"preferredComponentFlag"":true"" herramientas/kicad/jlc.py → 0",fuentes-datos.md
+reference_fuentes_piezas.md,37,Script scratchpad\p6\bas.py,OBSOLETA,"Glob ""**/bas.py"" → 0",borrada
+reference_fuentes_piezas.md,38,"Extended preferidas de hongjiacheng (SMBJ33A, BZT52C15, SS310…)",DUPLICADA,"Grep ""hongjiacheng"" docs/diseno/estudio-coste.md → 3",borrada; docs/diseno/estudio-coste.md
+reference_fuentes_piezas.md,39,"Con 5 placas, la carga Extended pesa ≈ 1/3",DUPLICADA,"Grep ""34 %"" docs/diseno/estudio-coste.md → 1",borrada; docs/diseno/estudio-coste.md §0
+reference_fuentes_piezas.md,40,Scripts coste.py y resumen.py del scratchpad,OBSOLETA,"Glob ""**/resumen.py"" → 0",borrada
+project_salidas_d8.md,1,BTT6050 con segunda fuente y reserva (DEC-0003),DUPLICADA,"Grep ""BTT6050-1ERA (C534868)"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md
+project_salidas_d8.md,2,"Fuente de 24 V 5 A y banda de 3,5–4,9 A",DUPLICADA,"Grep ""3,5–4,9 A"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md
+project_salidas_d8.md,3,"Sin válvula de diseño; 1 A por salida; suma ≤ 3,5 A",DUPLICADA,"Grep ""límites de uso"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md
+project_salidas_d8.md,4,Tabla de límites de uso REL-11 en salidas.md §0,DUPLICADA,"Grep ""REL-11"" docs/diseno/salidas.md → 8",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,5,"Bermad de 156 Ω, histórica; S-390 solo como ejemplo",DUPLICADA,"Grep ""S-390"" docs/diseno/estudio-salidas.md → 9",borrada; docs/diseno/estudio-salidas.md
+project_salidas_d8.md,6,Rueda libre D12–D17 montada,DUPLICADA,"Grep ""Rueda libre D12–D17"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md
+project_salidas_d8.md,7,REL-03: I_FSM frente al pico y la duración del corto,DUPLICADA,"Grep ""I_FSM"" docs/diseno/salidas.md → 9",borrada; docs/diseno/salidas.md §5
+project_salidas_d8.md,8,El usuario cambió las salidas cinco veces,ESTADO,"Grep ""DEC-0014"" gestion/decisiones/VIGENTES.md → 5",borrada; vive en los DEC y en git
+project_salidas_d8.md,9,"Antes de tocar salidas, leer DEC-0014 y docs/02",DUPLICADA,"Grep ""Los agentes leen esta tabla"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md y la definición del agente
+project_salidas_d8.md,10,«Válvula concreta» como dato falla el punto [juicio],DUPLICADA,"Grep ""válvula concreta"" gestion/checklists → 1",borrada; checklist de esquema
+project_salidas_d8.md,11,Piezas descartadas del estudio de SPEC-0005,DUPLICADA,"Grep ""BTS4140N"" docs/diseno/estudio-salidas.md → 4",borrada; docs/diseno/estudio-salidas.md
+project_salidas_d8.md,12,LED de canal desde IN_n; en OUT enmascara la carga abierta,DUPLICADA,"Grep ""enmascara"" docs/diseno/salidas.md → 3",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,13,KT-0603R: ② = cátodo = pad 1,DUPLICADA,"Grep ""KT-0603R"" docs/diseno/salidas.md → 7",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,14,IS: R_SENSE 10 kΩ y R_IS 820 Ω al ADC,DUPLICADA,"Grep ""820 Ω"" docs/diseno/salidas.md → 11",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,15,Errata del BTT6050 p. 30: 8 mA es 8 µA,DUPLICADA,"Grep ""8 µA"" docs/diseno/salidas.md → 4",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,16,"Excepción de separación de 0,6 mm en Salidas",DUPLICADA,"Grep ""0,6 mm"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0008)
+project_salidas_d8.md,17,"k_ILIS: interpolación logarítmica entre 50 mA y 0,5 A",DUPLICADA,"Grep ""k_ILIS"" docs/diseno/salidas.md → 10",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,18,I_L5(SC) en la Tabla 7; cable de 16 mΩ/m y 1 µH/m,DUPLICADA,"Grep ""P_4.1.3"" docs/diseno/salidas.md → 2",borrada; docs/diseno/salidas.md
+project_salidas_d8.md,19,"P_x.y.z no cuadra en pdftotext: citar Tabla N, p. X",VIGENTE,"Grep ""Tabla N, p. X"" herramientas/kicad/README.md CLAUDE.md → 0",fuentes-datos.md
+reference_esp32s3_pines.md,1,Estados de reset en la tabla 2-1,DUPLICADA,"Grep ""tabla 2-1"" docs/diseno/mcu.md → 4",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,2,pdftotext desordena la tabla 2-1: renderizar con PyMuPDF,VIGENTE,"Grep ""PyMuPDF"" herramientas/kicad/README.md CLAUDE.md → 0",fuentes-datos.md
+reference_esp32s3_pines.md,3,"Pull de GPIO0, 39, 45, 46 y UART tras el reset",DUPLICADA,"Grep ""WPU"" docs/diseno/mcu.md → 7",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,4,Pulsos al arrancar: GPIO18 alto (tabla 2-2),DUPLICADA,"Grep ""tabla 2-2"" docs/diseno/mcu.md → 4",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,5,Descarga USB-OTG: MTDO alto,DUPLICADA,"Grep ""MTDO"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,6,GPIO aptos para salidas activas altas,DUPLICADA,"Grep ""GPIO18"" docs/diseno/mcu.md → 3",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,7,R8/R16V solo hasta 65 °C: se usa N8,DUPLICADA,"Grep ""65 °C"" docs/diseno/mcu.md → 1",borrada; docs/diseno/mcu.md
+reference_esp32s3_pines.md,8,URL del HDG y del datasheet del ESP32-S3 en PDF,VIGENTE,"Grep ""esp-hardware-design-guidelines"" docs/diseno herramientas/kicad/README.md → 0",fuentes-datos.md
+reference_esp32s3_pines.md,9,Pie de un borrador en BTT6050.pdf: citar la página del PDF,DUPLICADA,"Grep ""Target Data Sheet"" docs/diseno/salidas.md → 1",borrada; docs/diseno/salidas.md (fuentes)
+reference_trucos_esquema.md,1,"El MCP no borra uniones, NC, flags ni text_box",VIGENTE,"Grep ""no borra"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,2,"add_schematic_text sin open_project; varias líneas, abajo",VIGENTE,"Grep ""add_schematic_text"" herramientas/kicad/README.md CLAUDE.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,3,COMMENT1 del cajetín: unos 50 caracteres,VIGENTE,"Grep ""COMMENT1"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,4,PDF del cajetín: libraries al lado de la copia,DUPLICADA,"Grep ""hardware/libraries` al lado"" .claude/agents/ing-diseno.md → 1",borrada; .claude/agents/ing-diseno.md
+reference_trucos_esquema.md,5,Las llamadas batch del MCP cortan a los 30 s,VIGENTE,"Grep ""lotes"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,6,El MCP embebe lib_symbols antiguos: lib_symbol_mismatch,VIGENTE,"Grep ""lib_symbol_mismatch"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,7,batch_list_symbol_pins da pines de las copias antiguas,VIGENTE,"Grep ""batch_list_symbol_pins"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,8,Alimentación compacta; kicad-cli sch upgrade la normaliza,VIGENTE,"Grep ""sch upgrade"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,9,Etiqueta local y jerárquica del mismo nombre se unen,VIGENTE,"Grep ""se unen"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,10,Pin de hoja sin destino: errores; NC deja ERC 0,VIGENTE,"Grep ""pin_not_connected"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,11,Campos de símbolos girados: ángulo relativo al símbolo,VIGENTE,"Grep ""360 − giro"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,12,Comprobar la hoja: netlist frente al plan e imagen,DUPLICADA,"Grep ""netlist frente al plan"" .claude/agents/ing-diseno.md → 1",borrada; .claude/agents/ing-diseno.md
+reference_trucos_esquema.md,13,edit_schematic_component sin open_project; no toca la caché,VIGENTE,"Grep ""edit_schematic_component"" herramientas/kicad/README.md → 0",mcp-kicad.md
+reference_trucos_esquema.md,14,*_ThermalVias no cumplen FAB-02,DUPLICADA,"Grep ""_ThermalVias"" .claude/agents/ing-diseno.md → 1",borrada; .claude/agents/ing-diseno.md
+reference_trucos_esquema.md,15,"Generador propio: lib_symbols de share, derivados aplanados",DUPLICADA,"Grep ""| `hoja.py generar` | Escribe la hoja desde la descripción"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (hoja.py)
+reference_trucos_esquema.md,16,Etiquetas en el extremo del pin conectan sin cables,DUPLICADA,"Grep ""dibujada en el extremo del pin"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_trucos_esquema.md,17,Transformada pin → hoja (girar y Y − y'),DUPLICADA,"Grep ""puntas de pin"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (dibujo.py)
+reference_trucos_esquema.md,18,Ángulo del campo = (360 − giro) % 360,VIGENTE,"Grep ""360 − giro"" herramientas/kicad/README.md → 0",esquema.md (unida a T 11)
+reference_trucos_esquema.md,19,"Pines de hoja en la raíz: 0 → right, 180 → left",VIGENTE,"Grep ""justify right"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,20,Unir hojas con etiquetas renombra redes: net_conflict,VIGENTE,"Grep ""etiqueta local por red"" herramientas/kicad/README.md → 0",esquema.md (unida a H 38)
+reference_trucos_esquema.md,21,Pines seguidos con la misma alimentación: P:GND:270,DUPLICADA,"Grep ""P:GND:270"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md
+reference_trucos_esquema.md,22,"Desde DEC-0015, estilo con cables",DUPLICADA,"Grep ""cables dentro del bloque"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md (DEC-0015)
+reference_trucos_esquema.md,23,Símbolo con pines abajo: ≥ 10 mm entre nombres,VIGENTE,"Grep ""10 mm entre"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,24,Archivos de hardware/v2 en CRLF,VIGENTE,"Grep ""CRLF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md (unida a H 4)
+reference_trucos_esquema.md,25,Texto largo: Write; heredoc con '' falla,VIGENTE,"Grep ""unexpected EOF"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md (unida a H 3)
+reference_trucos_esquema.md,26,Script de puntas de pin; dib.py propuesto a herramientas,DUPLICADA,"Grep ""dibujo.py"" herramientas/kicad/README.md → 3",borrada; herramientas/kicad/README.md (dibujo.py)
+reference_trucos_esquema.md,27,Redes internas pierden el nombre al pasar a cable,VIGENTE,"Grep ""pierden el nombre"" herramientas/kicad/README.md → 0",esquema.md (unida a H 38)
+reference_trucos_esquema.md,28,USBLC6 sin cruces: lazo y recuadro ESD propio,VIGENTE,"Grep ""USBLC6"" herramientas/kicad/README.md → 0",esquema.md
+reference_trucos_esquema.md,29,Device:LED: falso cruce en el cátodo,OBSOLETA,"Grep ""las flechas de un LED no tapan el cable de su cátodo"" herramientas/kicad/README.md → 1",borrada
+reference_trucos_esquema.md,30,Campos con pos: 90/270 → 270/90; 180 invertido,VIGENTE,"Grep ""360 − giro"" herramientas/kicad/README.md → 0",esquema.md (unida a T 11)
+reference_trucos_esquema.md,31,TPS2116: lazo por fuera con la red encerrada,VIGENTE,"Grep ""USBLC6"" herramientas/kicad/README.md → 0",esquema.md (unida a T 28)
+reference_jlcpcb_reglas.md,1,Fuentes de JLCPCB; cifras en colocacion-reglas.csv,DUPLICADA,"Grep ""consultado 2026-11-19"" docs/diseno/colocacion-reglas.csv → 15",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,2,"pcb-capabilities: pista, serigrafía, cobre a borde",DUPLICADA,"Grep ""pcb-capabilities"" docs/diseno/colocacion-reglas.csv → 10",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,3,"Economic: una cara, 0402, rieles no necesarios",DUPLICADA,"Grep ""pcb-assembly-capabilities"" docs/diseno/estudio-coste.md → 1",borrada; docs/diseno/estudio-coste.md §6
+reference_jlcpcb_reglas.md,4,"FAQ P14: > 0,3 mm del borde en Economic",DUPLICADA,"Grep ""pcb-assembly-faqs-part-2"" docs/diseno/colocacion-reglas.csv → 1",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,5,"Términos §2.3: 2,5 mm del cuerpo al borde",DUPLICADA,"Grep ""terms-and-conditions-of-jlcpcb-assembly-service"" docs/diseno/colocacion-reglas.csv → 3",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,6,Precio especial ≤ 102 × 102; sin tarifa por encima,DUPLICADA,"Grep ""In-what-cases-will-there-be-charged-extra"" docs/diseno/colocacion-reglas.csv → 1",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,7,"Antes de buscar, mirar la tabla de reglas",DUPLICADA,"Grep ""consultado 2026-11-19"" docs/diseno/colocacion-reglas.csv → 15",borrada; docs/diseno/colocacion-reglas.csv
+reference_jlcpcb_reglas.md,8,Ninguna página habla de antenas que sobresalen,OBSOLETA,"Grep ""completamente dentro de la placa"" gestion/decisiones/VIGENTES.md → 1",borrada (la antena ya no sobresale)
+project_colocacion_texto.md,1,Brazo B: PUNTOS 373; colocacion-b.csv,OBSOLETA,"Glob ""docs/diseno/colocacion-b.csv"" → 0",borrada
+project_colocacion_texto.md,2,193 huellas fuera del contorno al empezar,ESTADO,"Grep ""aplicar b4 a la PCB"" gestion/decisiones/VIGENTES.md → 1",borrada; ESTADO.md y VIGENTES.md
+project_colocacion_texto.md,3,Generador por bloques y evaluar --detalle en cada iteración,DUPLICADA,"Grep ""Iterar en texto con `colocacion.py`"" docs/diseno/experimento-colocacion.md → 1",borrada; docs/diseno/experimento-colocacion.md
+project_colocacion_texto.md,4,"U5 con giro 90 en (106,75, 78,5): antena fuera",OBSOLETA,"Grep ""completamente dentro de la placa"" gestion/decisiones/VIGENTES.md → 1",borrada
+project_colocacion_texto.md,5,"Giros: bornes, BTT, J10 a 90, J2 y Q1",OBSOLETA,"Grep ""J10 con giro 270"" herramientas/kicad/README.md → 1",borrada
+project_colocacion_texto.md,6,U5–U1 y U5–J10 pesan más en la longitud,ESTADO,"Grep ""PUNTOS 6151"" docs/diseno/estudio-coste.md → 2",borrada; resultado de b4
+project_colocacion_texto.md,7,Mapa ASCII de patios: scratchpad\b2\mapa.py; overrides,OBSOLETA,"Glob ""**/mapa.py"" → 0",borrada
+project_colocacion_texto.md,8,Primero solapes y cobre sin referencias (5 s),VIGENTE,"Grep ""solo al final"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+project_colocacion_texto.md,9,"Ambiguas: ≥ 1,55 mm libres; filas de 0603 a 3,6",VIGENTE,"Grep ""1,55"" herramientas/kicad/README.md docs/diseno/colocacion-reglas.csv → 0",pcbnew-colocacion.md
+project_colocacion_texto.md,10,"Sin hueco para referencias: fijar rx,ry de las conflictivas",VIGENTE,"Grep ""conflictivas"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md
+project_colocacion_texto.md,11,Un BTT pide ≈ 20 mm con su vecino,ESTADO,"Grep ""+10 %"" gestion/decisiones/VIGENTES.md → 1",borrada; depende del margen vigente y de b4
+project_colocacion_texto.md,12,"Scripts gen5.py, plan.py y ev.sh",OBSOLETA,"Glob ""**/gen5.py"" → 0",borrada
+project_colocacion_texto.md,13,evaluar --omitir serigrafia; referencias --todas al final,VIGENTE,"Grep ""solo al final"" herramientas/kicad/README.md → 0",pcbnew-colocacion.md (unida a C 8)
+project_colocacion_texto.md,14,+20 % de cobre no cabe en 100×100; +10 % sí,DUPLICADA,"Grep ""+10 %"" gestion/decisiones/VIGENTES.md → 1",borrada; VIGENTES.md y estudio-coste.md §8.6
+project_colocacion_texto.md,15,"U4 solo cabe en el centro; C1, en el anillo de U1",ESTADO,"Grep ""U1 331"" docs/diseno/estudio-coste.md → 2",borrada; resultado de b4
+project_colocacion_texto.md,16,"Referencias: filas de 0603 a ≥ 3,25 o columnas de 1,8",VIGENTE,"Grep ""1,55"" herramientas/kicad/README.md docs/diseno/colocacion-reglas.csv → 0",pcbnew-colocacion.md (unida a C 9)
+project_colocacion_texto.md,17,Cambiar una huella en la copia y sincronizar,RECETA,"Grep ""Cambiar los campos o la huella de una pieza"" herramientas/kicad/README.md → 1",herramientas/kicad/README.md «Recetas»
+project_colocacion_texto.md,18,caja.py del scratchpad para huecos,OBSOLETA,"Glob ""**/caja.py"" → 0",borrada
+project_colocacion_texto.md,19,Anillo de U1: ≈ 68 mm²; D2 entre U1 y Q1,ESTADO,"Grep ""U1 331"" docs/diseno/estudio-coste.md → 2",borrada; resultado de b4
+project_colocacion_texto.md,20,Cambiar B04/B07 rompe Colocacion y ColocacionPaso5,DUPLICADA,"Grep ""sin B04 ni B07"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md «Pruebas»
+mcp-efectos-secundarios.md,1,open/close del MCP reescribe .kicad_pro; deja .kicad_prl,VIGENTE,"Grep ""kicad_prl"" CLAUDE.md → 0",mcp-kicad.md
+mcp-efectos-secundarios.md,2,sync_schematic_to_board no copia campos,VIGENTE,"Grep ""sync_schematic_to_board"" herramientas/kicad/README.md CLAUDE.md → 0",mcp-kicad.md
+mcp-efectos-secundarios.md,3,Una PCB con formato de pcbnew sale igual tras el MCP,VIGENTE,"Grep ""byte a byte"" herramientas/kicad/README.md → 0",mcp-kicad.md
+mcp-efectos-secundarios.md,4,"Jerárquico: sync deja (0,0) y redes sin prefijo",VIGENTE,"Grep ""sync_schematic_to_board"" herramientas/kicad/README.md CLAUDE.md → 0",mcp-kicad.md (unida a M 2)
+mcp-efectos-secundarios.md,5,Alternativa: netlist y script de pcbnew,DUPLICADA,"Grep ""Netlist → PCB con `pcbnew`"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (sincronizar.py)
+mcp-efectos-secundarios.md,6,Reasigna redes renombradas; las huérfanas desaparecen,DUPLICADA,"Grep ""Netlist → PCB con `pcbnew`"" herramientas/kicad/README.md → 1",borrada; herramientas/kicad/README.md (sincronizar.py)
+mcp-efectos-secundarios.md,7,Scratchpads antiguos con sync.py,OBSOLETA,"Glob ""**/sync.py"" → 0",borrada
+mcp-efectos-secundarios.md,8,Diff del .kicad_pcb con --patience,VIGENTE,"Grep ""--patience"" herramientas/kicad/README.md CLAUDE.md → 0",entorno-y-guarda.md
+mcp-efectos-secundarios.md,9,"Validación revisa .lck, -backups y .kicad_prl",VIGENTE,"Grep ""kicad_prl"" CLAUDE.md → 0",mcp-kicad.md (Por qué de M 1)
+mcp-efectos-secundarios.md,10,Probar el MCP en una copia y borrar los restos,DUPLICADA,"Grep ""Las copias `.mcp-backups/`"" CLAUDE.md → 1",borrada; CLAUDE.md y .claude/agents/ing-diseno.md
