@@ -131,3 +131,4 @@ Nivel **completo** en la guarda y en `gestion.py`, porque cambian el control de 
 | 2026-11-24 | jr-conformidad | paso 3 — barrido de componentes y fabricación, y memoria | 03-jr-conformidad | 193260 | 105 | 11 |
 | 2026-11-26 | ing-validacion | paso 4 — memoria de ing-validacion | 04-ing-validacion | 290312 | 39 |  |
 | 2026-11-26 | ing-validacion | VAL-0039-01 — RECHAZADO | VAL-0039-01 | 232751 | 64 | 19 |
+| 2026-11-26 | ing-validacion | VAL-0039-02 — APROBADO | VAL-0039-02 | 25441 | 11 | 6 |
