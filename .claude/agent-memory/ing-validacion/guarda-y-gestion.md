@@ -1,0 +1,21 @@
+---
+name: guarda-y-gestion
+description: Cómo sondear la guarda, la auditoría y gestion.py sin riesgo, y qué cruzar del servidor MCP de KiCad al revisar las herramientas de los agentes
+metadata:
+  type: reference
+---
+
+- Sondas sin riesgo: `test_guardia.ejecutar(agente, "Bash", {"command": c}, auditoria)` con `AUDITORIA_DIR` en la carpeta temporal; en vivo, `git commit --dry-run`, que debe bloquearse. Por qué: no deja líneas en la auditoría versionada. Fuente: `herramientas/pruebas/test_guardia.py`, `.claude/hooks/auditoria.py`; VAL-0001-01, VAL-0026-01.
+- Formas que sondear además de las de la checklist: comodines o carpeta padre con `-Recurse` que alcanzan el TFG sin nombrarlo, `--opción=valor` (`cp --target-directory=`, `tar --directory=`), variables de entorno de git (`GIT_EXTERNAL_DIFF`, `GIT_CONFIG_*`) y destinos que dependen del cwd (`cd /tmp && …`). Por qué: las listas por texto y la exención de la carpeta temporal los ocultan. Fuente: VAL-0001-03; `gestion/checklists/proceso.md` no los cita.
+- «La auditoría solo crece» comparada con HEAD no protege las líneas aún sin versionar: se prueba quitándolas. Por qué: `revisar_zonas.py` compara con lo versionado. Fuente: VAL-0001-03.
+- Una prueba en vivo de escritura fuera de zona deja una línea `ok: false` en la auditoría versionada: es inevitable y se anota en el informe. Por qué: el hook escribe siempre en `gestion/logs/auditoria/`. Fuente: VAL-0026-01.
+- `gestion/logs/auditoria/*.jsonl` dice qué dejó pasar la guarda (`"ok": true`) y qué bloqueó: así se comprueba un «la guarda no me paró» de un parte. Por qué: el parte no lo demuestra. Fuente: VAL-0035-01.
+- La auditoría no guarda tokens, solo acciones y marcas de tiempo por `agent_id`; un hueco de más de 10 min indica un agente continuado en dos tandas. Por qué: así se contrasta la fila de registro de la spec. Fuente: VAL-0037-02; `.claude/hooks/auditoria.py`.
+- Un comando que nombra el TFG no puede llevar bloques de código: las sondas con esa ruta van en un script escrito con Write que construye la cadena (`"TF" + "G"`). Por qué: la guarda bloquea el heredoc aunque solo lea. Fuente: `.claude/hooks/guardia.py` (`motivo_tfg`); VAL-0026-01.
+- Los huecos que dejan tocar el TFG con la detección detrás (huella SHA-256) son M, no A. Por qué: el usuario mantiene una copia propia del TFG. Fuente: VAL-0001-03; `gestion/tfg-manifiesto.json`.
+- Ciclo de `gestion.py` en copia: `test_gestion.preparar()` crea el repositorio temporal y `gestion(tmp, …)` y `escribir(tmp, …)` recorren nueva → abrir → integrar → cerrar; los commits se comparan con los reales de SPEC-0024 (abrir `60cec8d`, cerrar `ceb209c`, merge `ec6a400`). Por qué: no hace falta git propio. Fuente: `herramientas/pruebas/test_gestion.py`; VAL-0026-01.
+- Merge a `main` simulado para `commit_msg.py`: `test_commit_msg.preparar()` y `probar()` crean un repositorio con `MERGE_HEAD`. Por qué: no hay que montarlo a mano. Fuente: `herramientas/pruebas/test_commit_msg.py`; VAL-0038-01.
+- `gestion.py trazabilidad` está bloqueada para validación: se ejecuta en memoria (importar `gestion` desde la carpeta temporal y sustituir `gestion.escribir`) y se compara con `gestion/TRAZABILIDAD.md`; la columna *Commits* difiere en el commit que la generó. Por qué: es la forma de reproducirla sin escribir. Fuente: VAL-0004-01; `herramientas/gestion.py` (`escribir`).
+- Herramientas de un agente: cada `mcp__kicad__x` se cruza con `.tool("x"` en `C:\Users\josan\proyectos\KiCAD-MCP-Server\src\tools\*.ts`; un nombre inexistente en `disallowedTools` no protege nada, y las 12 de interfaz son las 11 de `gui-driver.ts` más `launch_kicad_ui`. Por qué: el nombre no dice si escribe. Fuente: VAL-0001-01, VAL-0026-01.
+- Escriben por defecto: `close_project` (`save`), `lint_schematic_cosmetic` (`dryRun` falso), `lint_offgrid` (`fix`), `batch_move_components` («Saves by default») y `run_drc` (`reportPath` a cualquier ruta). Por qué: un rol de solo lectura no debe tenerlas sin control. Fuente: VAL-0001-01, VAL-0001-03; `src/tools/component.ts`, `design-rules.ts`.
+- Python de Windows no entiende `/c/Users/...`: en los scripts, `r"C:\..."` o `C:/...`. Por qué: la ruta se lee como `C:\c\Users`. Fuente: VAL-0015-02.
