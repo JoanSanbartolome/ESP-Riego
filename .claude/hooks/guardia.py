@@ -137,6 +137,9 @@ INTERPRETES = {"python", "python3", "py", "node"}
 # Scripts que se leen antes de ejecutarlos (VAL-0038-01-04) y lo que en ellos escribe.
 EXT_SCRIPT = (".py", ".pyw", ".js", ".mjs", ".cjs")
 CODIGO_EN_LINEA = {"-c", "-m", "-e", "--eval", "-p", "--print", "-"}
+# Opciones que llevan el valor en el argumento siguiente (python -X utf8, -W ignore; node -r m).
+OPCIONES_CON_VALOR_INTERPRETE = {"-X", "-W", "--check-hash-based-pycs", "-r", "--require", "--import",
+                                 "--loader", "--experimental-loader", "--input-type", "--env-file"}
 METODOS_ESCRITURA = {"write_text", "write_bytes", "unlink", "rmdir", "mkdir", "touch", "rename",
                      "replace", "symlink_to", "hardlink_to"}
 FUNCIONES_ESCRITURA = {"os.remove": 0, "os.unlink": 0, "os.rmdir": 0, "os.mkdir": 0, "os.makedirs": 0,
@@ -681,12 +684,35 @@ def orden_interior(nombre, args):
     return None
 
 
+def es_interprete(nombre):
+    """python, python3, python3.12, pythonw, py o node."""
+    return nombre in INTERPRETES or bool(re.fullmatch(r"pythonw?(?:\d+(?:\.\d+)*)?", nombre))
+
+
+def posicionales_interprete(args):
+    """Argumentos de un intérprete que no son opciones ni valores de opción (-X utf8, -W ignore)."""
+    posicionales, saltar = [], False
+    for a in args:
+        if saltar:
+            saltar = False
+        elif a in OPCIONES_CON_VALOR_INTERPRETE:
+            saltar = True
+        elif not a.startswith("-"):
+            posicionales.append(a)
+    return posicionales
+
+
 def script_de(args):
     """Script que ejecuta un intérprete, o None si ejecuta código en línea o un módulo."""
+    saltar = False
     for a in args:
-        if a.lower() in CODIGO_EN_LINEA:
+        if saltar:
+            saltar = False
+        elif a.lower() in CODIGO_EN_LINEA:
             return None
-        if not a.startswith("-"):
+        elif a in OPCIONES_CON_VALOR_INTERPRETE:
+            saltar = True
+        elif not a.startswith("-"):
             return a
     return None
 
@@ -752,21 +778,28 @@ def escrituras_py(codigo):
 
     for _ in range(2):  # dos pasadas: p = RAIZ / 'docs' cuando RAIZ se asigna después en el texto
         for nodo in ast.walk(arbol):
-            if isinstance(nodo, ast.Assign) and len(nodo.targets) == 1 and isinstance(nodo.targets[0], ast.Name):
-                valor = _ruta_py(nodo.value, variables)
+            if isinstance(nodo, ast.Assign) and len(nodo.targets) == 1:
+                destino, origen = nodo.targets[0], nodo.value
+            elif isinstance(nodo, ast.AnnAssign) and nodo.value is not None:
+                destino, origen = nodo.target, nodo.value  # p: Path = Path(...)
+            else:
+                continue
+            if isinstance(destino, ast.Name):
+                valor = _ruta_py(origen, variables)
                 if valor is not None:
-                    variables[nodo.targets[0].id] = valor
-                if es_path(nodo.value):
-                    objetos_path.add(nodo.targets[0].id)
+                    variables[destino.id] = valor
+                if es_path(origen):
+                    objetos_path.add(destino.id)
     rutas = []
     for nodo in ast.walk(arbol):
         if not isinstance(nodo, ast.Call):
             continue
         funcion = _nombre_py(nodo.func)
         objetivos = []
-        if funcion in ("open", "io.open", "codecs.open") and nodo.args:
-            if re.search(r"[wax+]", _modo(nodo, 1)):
-                objetivos.append(nodo.args[0])
+        if funcion in ("open", "io.open", "codecs.open"):
+            archivo = nodo.args[0] if nodo.args else next((k.value for k in nodo.keywords if k.arg == "file"), None)
+            if archivo is not None and re.search(r"[wax+]", _modo(nodo, 1)):
+                objetivos.append(archivo)
         elif isinstance(nodo.func, ast.Attribute) and nodo.func.attr == "open" and es_path(nodo.func.value):
             if re.search(r"[wax+]", _modo(nodo, 0)):
                 objetivos.append(nodo.func.value)
@@ -796,7 +829,7 @@ def motivo_script(agente, ruta, cwd):
     if not ruta.endswith(EXT_SCRIPT) or not os.path.isfile(ruta) or os.path.getsize(ruta) > 1_000_000:
         return None
     try:
-        codigo = Path(ruta).read_text(encoding="utf-8", errors="replace")
+        codigo = Path(ruta).read_text(encoding="utf-8-sig", errors="replace")  # sin el BOM, que rompe ast.parse
     except OSError:
         return None
     rutas = escrituras_js(codigo) if ruta.endswith((".js", ".mjs", ".cjs")) else escrituras_py(codigo)
@@ -867,11 +900,11 @@ def analizar(comando, agente, cwd, profundidad=0):
             if motivo:
                 return motivo
             continue
-        if nombre in INTERPRETES:
+        if es_interprete(nombre):
             # El código en línea (-c, heredoc) no se analiza (DEC-0009, M9): si el comando toca
             # el TFG ya se ha bloqueado arriba, y lo demás lo ve revisar_zonas.py. Un script sí
             # se lee, para ver si escribe en una ruta literal fuera de la zona (VAL-0038-01-04).
-            posicionales = [a for a in args if not a.startswith("-")]
+            posicionales = posicionales_interprete(args)
             if posicionales:
                 escrituras = SCRIPTS_REPO.get(re.split(r"[\\/]", posicionales[0])[-1].lower(), {})
                 destino = escrituras.get(posicionales[1].lower()) if len(posicionales) > 1 else None

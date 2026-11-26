@@ -35,7 +35,7 @@ Controlador de riego de **6 salidas**, con temperatura y humedad medidas en la p
 | Expansión | — | Conector para un módulo de más canales (D9) |
 | Instalación | Caja estanca | Interior, caja ventilada a la pared |
 | Montaje | Todo a mano, 1210 / 0805 | SMT JLCPCB (≥ 0603) + THT a mano |
-| Tamaño | 129 × 96,5 mm | ≈ 100 × 70 mm |
+| Tamaño | 129 × 96,5 mm | ≈ 100 × 70 mm (hasta SPEC-0037; 100 × 100 mm por DEC-0016, se reescribe con FAB-08 al aplicar b4) |
 | Herramienta | KiCad 9 | KiCad 10 |
 
 ## 3. Arquitectura
@@ -285,7 +285,11 @@ En la v0.7 (SPEC-0033, DEC-0014, DEC-0012):
 
 En la v0.8 (SPEC-0035, DEC-0015):
 
-- Nuevo: D5 (caja) se aplaza hasta terminar la PCB y D6 queda en 1 oz provisional (DEC-0019). No cambia ningún requisito.
+- Nuevo: KIC-06 (M), esquema legible con el aspecto del esquema del TFG. No cambia ninguna conexión.
+
+En la v0.9 (SPEC-0039, DEC-0019):
+
+- D5 (caja) se aplaza hasta terminar la PCB y D6 queda en 1 oz provisional. No cambia ningún requisito.
 
 ## 10. Historial
 

@@ -4,7 +4,7 @@ titulo: La guarda lee los scripts de python y node antes de ejecutarlos
 fecha: 2026-11-24
 estado: aceptada
 modificada_por: []
-decide: usuario
+decide: coordinador
 specs: [SPEC-0039]
 requisitos: []
 ---
@@ -23,10 +23,10 @@ DEC-0009 (M9) congeló la guarda: el código en línea y los scripts no se anali
 
 ## Decisión
 
-El usuario elige la 2 al ejecutar SPEC-0039 (2026-11-24). `guardia.py` lee el script de `python` o `node` (`.py`, `.js`) y lo bloquea si abre en escritura, borra, mueve o copia hacia una ruta hecha de literales (`str`, `Path(…)`, `/`, `os.path.join`) fuera de la zona del agente. Lo que el script calcule no se ve. El resto de M9 sigue igual: el código en línea no se analiza, salvo que toque el TFG.
+El coordinador elige la 2, la menor que cumple SPEC-0039, que el usuario mandó ejecutar el 2026-11-24 con su paso de la guarda; la spec no planteaba las opciones (VAL-0039-01-08), y la 3 queda para el usuario. `guardia.py` lee el script de `python` o `node` (`.py`, `.js`) y lo bloquea si abre en escritura (también `open(file=…, mode=…)`, con BOM o con `-X`/`-W` delante), borra, mueve o copia hacia una ruta hecha de literales (`str`, `Path(…)`, `/`, `os.path.join`) fuera de la zona del agente. Lo que el script calcule no se ve. El resto de M9 sigue igual: el código en línea no se analiza, salvo que toque el TFG.
 
 ## Consecuencias
 
-- Prueba Z01–Z04 en `herramientas/pruebas/test_gestion.py`; `test_guardia.py` sigue pasando.
+- Pruebas Z01–Z09 en `herramientas/pruebas/test_gestion.py`; `test_guardia.py` sigue pasando.
 - `gestion/README.md` («Guardas» y «Límites conocidos») recoge el cambio.
 - Si hace falta cerrar también el código en línea (opción 3), es otro DEC.

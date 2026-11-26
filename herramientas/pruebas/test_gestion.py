@@ -191,6 +191,17 @@ def main():
          codigo == 0 and "| ing-diseno | Corrige | 03-ing-diseno | 1000 | 2 | 3 |" in texto, f"{salida}\n{texto[-300:]}")
     caso("G08 el commit de integrar lleva el trailer Agent-Id",
          git(tmp, "log", "-1", "--format=%(trailers:key=Agent-Id,valueonly)").strip() == "abc123")
+    ahora = datetime.datetime.now().astimezone()
+    escribir(tmp, "gestion/logs/auditoria/2026-01-03.jsonl", "".join(json.dumps(
+        {"ts": (ahora + datetime.timedelta(minutes=m)).isoformat(timespec="seconds"), "agente": "ing-diseno",
+         "agent_id": "fff777aaa", "herramienta": "Bash", "objetivo": "ls", "ok": True}) + "\n" for m in (1, 3, 40, 42)))
+    escribir(tmp, "hardware/v2/tercera.md")
+    escribir(tmp, f"gestion/logs/{SPEC}/04-ing-diseno.md", "parte\n")
+    codigo, salida = gestion(tmp, "integrar", SPEC, "--agente", "ing-diseno", "--tipo", "fix", "--resumen", "Sigue",
+                             "--tokens", "2000", "--agent-id", "fff777")
+    texto = ruta_spec.read_text(encoding="utf-8")
+    caso("G09 una pausa de más de 10 min dentro de una tanda no cuenta: 4 acciones y 4 min, no 41 (VAL-0039-01-07)",
+         codigo == 0 and "| ing-diseno | Sigue | 04-ing-diseno | 2000 | 4 | 4 |" in texto, f"{salida}\n{texto[-300:]}")
 
     # --- cerrar
     codigo, salida = gestion(tmp, "cerrar", SPEC)
@@ -252,6 +263,17 @@ def main():
     caso("Z03 un script que lee docs/ y escribe en hardware/ pasa para jr-conformidad", codigo == 0, salida)
     codigo, salida = guarda("jr-conformidad", "python - <<'EOF'\nprint(1)\nEOF")
     caso("Z04 el código en línea sigue sin analizarse (DEC-0009, M9)", codigo == 0, salida)
+    for zid, orden_ in (("Z05", "python -X utf8 estudio.py"), ("Z06", "python -W ignore -I estudio.py"),
+                        ("Z07", "python3.12 estudio.py")):
+        codigo, salida = guarda("jr-conformidad", f"cd {temporal.as_posix()} && {orden_}")
+        caso(f"{zid} `{orden_}` también se bloquea (VAL-0039-01-01)", codigo == 2 and "docs/diseno/x.md" in salida, salida)
+    (temporal / "bom.py").write_text("﻿p: str = r'" + docs + "'\nopen(file=p, mode='w').write('a')\n",
+                                     encoding="utf-8", newline="\n")
+    codigo, salida = guarda("jr-conformidad", f"cd {temporal.as_posix()} && python bom.py")
+    caso("Z08 un script con BOM, asignación anotada y open(file=, mode=) se bloquea (VAL-0039-01-06)",
+         codigo == 2 and "docs/diseno/x.md" in salida, salida)
+    codigo, salida = guarda("ing-validacion", f"python -X utf8 herramientas/gestion.py tablero")
+    caso("Z09 `python -X utf8 gestion.py tablero` sigue bloqueado para ing-validacion", codigo == 2, salida)
 
     # --- comprobar: VIGENTES.md frente a los DEC y forma de las memorias (SPEC-0039)
     dec = "---\nid: {id}\ntitulo: x\nfecha: 2026-01-01\nestado: {estado}\n{por}---\n# x\n"

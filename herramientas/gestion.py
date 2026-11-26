@@ -52,7 +52,8 @@ REGISTRO_ANTIGUO = "| Fecha | Agente | Acción | Referencia |\n|---|---|---|---|
 REGISTRO = "| Fecha | Agente | Acción | Referencia | Tokens | Acciones | Min |\n|---|---|---|---|---|---|---|\n"
 KICAD = (".kicad_sch", ".kicad_pcb", ".kicad_pro", ".kicad_dru")
 LINEAS_PARTE = 40
-ESTADOS_DEC = ("aceptada", "modificada", "sustituida")
+PAUSA_MAX = datetime.timedelta(minutes=10)
+ESTADOS_DEC =("aceptada", "modificada", "sustituida")
 TEMAS_DEC = ("orquestación", "agentes", "requisitos", "alimentación", "salidas", "MCU", "sensores",
              "conectores", "colocación", "coste", "fabricación")
 LINEAS_MEMORIA_ARCHIVO, LINEAS_MEMORIA = 40, 120
@@ -295,7 +296,12 @@ def auditoria_de(agent_id, desde=None):
                     marcas.append(marca)
     if not marcas:
         return 0, 0
-    return len(marcas), round((max(marcas) - min(marcas)).total_seconds() / 60)
+    # Suma de los intervalos entre acciones seguidas, sin las pausas de más de PAUSA_MAX
+    # (un límite de uso o una espera del usuario no son trabajo; VAL-0039-01-07).
+    marcas.sort()
+    segundos = sum(s for a, b in zip(marcas, marcas[1:])
+                   if (s := (b - a).total_seconds()) <= PAUSA_MAX.total_seconds())
+    return len(marcas), round(segundos / 60)
 
 
 # --- Órdenes del ciclo -----------------------------------------------------------------

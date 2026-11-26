@@ -20,7 +20,7 @@ Una regla por fila, sacada del texto de un DEC o de sus secciones «Tras …», 
 | orquestación | Los agentes responden solo con el contrato de salida; el coordinador responde de forma concisa y, al cerrar cada spec, recuerda abrir sesión nueva o compactar. | DEC-0005 | — |
 | orquestación | Las herramientas de diseño están versionadas en `herramientas/kicad/` y las usan igual autores y validación. | DEC-0009 | — |
 | orquestación | Un solo agente carga un proyecto en el MCP a la vez; las escrituras por script sobre archivos y `kicad-cli` sobre copias no cuentan. | DEC-0009 | — |
-| orquestación | La guarda no se endurece más: TFG de solo lectura, git solo para el coordinador y escrituras fuera de zona bloqueadas; la carpeta temporal siempre se puede escribir y el código en línea que no toca el TFG pasa. | DEC-0009 | — |
+| orquestación | La guarda mantiene el TFG de solo lectura, git solo para el coordinador y las escrituras fuera de zona bloqueadas; la carpeta temporal siempre se puede escribir y el código en línea que no toca el TFG pasa. | DEC-0009 | — |
 | orquestación | La guarda lee los scripts de `python` y `node` que se ejecutan y bloquea los que escriben en una ruta literal fuera de la zona del agente. | DEC-0020 | — |
 | orquestación | El `.kicad_pro` se versiona cuando cambia. | DEC-0011 | KIC-01 |
 | agentes | Tres agentes: `ing-diseno` (esquema, layout y piezas), `jr-conformidad` (tipo y stock, fichas, campos, BOM, CPL y paquete de fabricación) e `ing-validacion`. | DEC-0009 | — |

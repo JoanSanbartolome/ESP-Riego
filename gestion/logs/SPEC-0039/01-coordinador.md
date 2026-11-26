@@ -19,7 +19,7 @@ estado: completado
 
 ## Decisiones y desviaciones
 
-- **DEC-0020 (nuevo).** Leer los scripts contradice M9 de DEC-0009 («la guarda no se endurece más») y el «Límites conocidos» del manual, donde el usuario decidió el 2026-11-18 no cambiar la guarda. Lo registro como DEC aceptado por el usuario al mandar ejecutar SPEC-0039; DEC-0009 pasa a `modificada_por: [DEC-0010, DEC-0019, DEC-0020]`. El código en línea sigue sin analizarse (M9).
+- **DEC-0020 (nuevo).** Leer los scripts contradice M9 de DEC-0009 («la guarda no se endurece más») y el «Límites conocidos» del manual, donde el usuario decidió el 2026-11-18 no cambiar la guarda. Lo registro como DEC del coordinador (opción 2, la menor que cumple la spec; VAL-0039-01-08); DEC-0009 pasa a `modificada_por: [DEC-0010, DEC-0019, DEC-0020]`. El código en línea sigue sin analizarse (M9).
 - Caso de VAL-0038-01-04 (auditoría del 2026-11-23, instancia ab5487, 16:42:31): `cd <scratchpad> && PYTHONUTF8=1 python -I estudio.py`, con `Path(r'C:/…/docs/diseno/estudio-coste.md').write_text(…)`.
 - Ningún DEC queda `sustituido`: todos conservan alguna regla. Modificados: 0001, 0002, 0003, 0004, 0005, 0008, 0009, 0011, 0012 y 0016.
 - La forma de las viñetas («… Por qué: … Fuente: …») y la ausencia de fechas relativas también las comprueba `comprobar`.
